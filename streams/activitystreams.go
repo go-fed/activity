@@ -134,6 +134,8 @@ type Resolver struct {
 	TombstoneCallback func(*Tombstone) error
 	// Callback function for the Mention type
 	MentionCallback func(*Mention) error
+	// Callback function for any type that satisfies the vocab.ObjectType interface.
+	AnyObjectCallback func(vocab.ObjectType) error
 }
 
 // dispatch routes the given type to the appropriate Resolver callback.
@@ -678,6 +680,11 @@ func (t *Resolver) dispatch(i interface{}) (handled bool, err error) {
 		}
 	}
 	// End generateResolver for type 'Mention'
+	if obj, ok := i.(vocab.ObjectType); ok {
+		if t.AnyObjectCallback != nil {
+			return true, t.AnyObjectCallback(obj)
+		}
+	}
 	return false, fmt.Errorf("The interface did not match any known types: %T", i)
 
 }
@@ -10351,6 +10358,120 @@ func (t *OrderedCollection) SetOrderedItemsLink(i vocab.LinkType) {
 
 }
 
+// GetCurrent attempts to get this 'current' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetCurrent() (r Resolution, k url.URL) {
+	r = Unresolved
+	handled := false
+	if t.raw.IsCurrentIRI() {
+		k = t.raw.GetCurrentIRI()
+		if handled {
+			r = Resolved
+		}
+	} else if t.raw.IsCurrentOrderedCollectionPage() {
+		r = RawResolutionNeeded
+	} else if t.raw.IsCurrentLink() {
+		r = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasCurrent returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollection) HasCurrent() (p Presence) {
+	p = NoPresence
+	if t.raw.IsCurrentIRI() {
+		p = ConvenientPresence
+	} else if t.raw.IsCurrentOrderedCollectionPage() {
+		p = RawPresence
+	} else if t.raw.IsCurrentLink() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetCurrent sets the value for property 'current'.
+func (t *OrderedCollection) SetCurrent(k url.URL) {
+	t.raw.SetCurrentIRI(k)
+
+}
+
+// GetFirst attempts to get this 'first' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetFirst() (r Resolution, k url.URL) {
+	r = Unresolved
+	handled := false
+	if t.raw.IsFirstIRI() {
+		k = t.raw.GetFirstIRI()
+		if handled {
+			r = Resolved
+		}
+	} else if t.raw.IsFirstOrderedCollectionPage() {
+		r = RawResolutionNeeded
+	} else if t.raw.IsFirstLink() {
+		r = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasFirst returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollection) HasFirst() (p Presence) {
+	p = NoPresence
+	if t.raw.IsFirstIRI() {
+		p = ConvenientPresence
+	} else if t.raw.IsFirstOrderedCollectionPage() {
+		p = RawPresence
+	} else if t.raw.IsFirstLink() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetFirst sets the value for property 'first'.
+func (t *OrderedCollection) SetFirst(k url.URL) {
+	t.raw.SetFirstIRI(k)
+
+}
+
+// GetLast attempts to get this 'last' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetLast() (r Resolution, k url.URL) {
+	r = Unresolved
+	handled := false
+	if t.raw.IsLastIRI() {
+		k = t.raw.GetLastIRI()
+		if handled {
+			r = Resolved
+		}
+	} else if t.raw.IsLastOrderedCollectionPage() {
+		r = RawResolutionNeeded
+	} else if t.raw.IsLastLink() {
+		r = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLast returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollection) HasLast() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLastIRI() {
+		p = ConvenientPresence
+	} else if t.raw.IsLastOrderedCollectionPage() {
+		p = RawPresence
+	} else if t.raw.IsLastLink() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLast sets the value for property 'last'.
+func (t *OrderedCollection) SetLast(k url.URL) {
+	t.raw.SetLastIRI(k)
+
+}
+
 // GetTotalItems attempts to get this 'totalItems' property as a int64. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
 func (t *OrderedCollection) GetTotalItems() (r Resolution, k int64) {
 	r = Unresolved
@@ -10382,173 +10503,6 @@ func (t *OrderedCollection) HasTotalItems() (p Presence) {
 // SetTotalItems sets the value for property 'totalItems'.
 func (t *OrderedCollection) SetTotalItems(k int64) {
 	t.raw.SetTotalItems(k)
-
-}
-
-// GetCurrent attempts to get this 'current' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetCurrent() (r Resolution, k url.URL) {
-	r = Unresolved
-	handled := false
-	if t.raw.IsCurrentIRI() {
-		k = t.raw.GetCurrentIRI()
-		if handled {
-			r = Resolved
-		}
-	} else if t.raw.IsCurrentCollectionPage() {
-		r = RawResolutionNeeded
-	} else if t.raw.IsCurrentLink() {
-		r = RawResolutionNeeded
-	}
-	return
-
-}
-
-// HasCurrent returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
-func (t *OrderedCollection) HasCurrent() (p Presence) {
-	p = NoPresence
-	if t.raw.IsCurrentIRI() {
-		p = ConvenientPresence
-	} else if t.raw.IsCurrentCollectionPage() {
-		p = RawPresence
-	} else if t.raw.IsCurrentLink() {
-		p = RawPresence
-	}
-	return
-
-}
-
-// SetCurrent sets the value for property 'current'.
-func (t *OrderedCollection) SetCurrent(k url.URL) {
-	t.raw.SetCurrentIRI(k)
-
-}
-
-// GetFirst attempts to get this 'first' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetFirst() (r Resolution, k url.URL) {
-	r = Unresolved
-	handled := false
-	if t.raw.IsFirstIRI() {
-		k = t.raw.GetFirstIRI()
-		if handled {
-			r = Resolved
-		}
-	} else if t.raw.IsFirstCollectionPage() {
-		r = RawResolutionNeeded
-	} else if t.raw.IsFirstLink() {
-		r = RawResolutionNeeded
-	}
-	return
-
-}
-
-// HasFirst returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
-func (t *OrderedCollection) HasFirst() (p Presence) {
-	p = NoPresence
-	if t.raw.IsFirstIRI() {
-		p = ConvenientPresence
-	} else if t.raw.IsFirstCollectionPage() {
-		p = RawPresence
-	} else if t.raw.IsFirstLink() {
-		p = RawPresence
-	}
-	return
-
-}
-
-// SetFirst sets the value for property 'first'.
-func (t *OrderedCollection) SetFirst(k url.URL) {
-	t.raw.SetFirstIRI(k)
-
-}
-
-// GetLast attempts to get this 'last' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetLast() (r Resolution, k url.URL) {
-	r = Unresolved
-	handled := false
-	if t.raw.IsLastIRI() {
-		k = t.raw.GetLastIRI()
-		if handled {
-			r = Resolved
-		}
-	} else if t.raw.IsLastCollectionPage() {
-		r = RawResolutionNeeded
-	} else if t.raw.IsLastLink() {
-		r = RawResolutionNeeded
-	}
-	return
-
-}
-
-// HasLast returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
-func (t *OrderedCollection) HasLast() (p Presence) {
-	p = NoPresence
-	if t.raw.IsLastIRI() {
-		p = ConvenientPresence
-	} else if t.raw.IsLastCollectionPage() {
-		p = RawPresence
-	} else if t.raw.IsLastLink() {
-		p = RawPresence
-	}
-	return
-
-}
-
-// SetLast sets the value for property 'last'.
-func (t *OrderedCollection) SetLast(k url.URL) {
-	t.raw.SetLastIRI(k)
-
-}
-
-// LenItems returns the number of values this property contains. Each index be used with HasItems to determine if ResolveItems is safe to call or if raw handling would be needed.%!(EXTRA string=items)
-func (t *OrderedCollection) LenItems() (idx int) {
-	return t.raw.ItemsLen()
-
-}
-
-// ResolveItems passes the actual concrete type to the resolver for handing property items. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
-func (t *OrderedCollection) ResolveItems(r *Resolver, idx int) (s Resolution, err error) {
-	s = Unresolved
-	handled := false
-	if t.raw.IsItemsObject(idx) {
-		handled, err = r.dispatch(t.raw.GetItemsObject(idx))
-		if handled {
-			s = Resolved
-		}
-	} else if t.raw.IsItemsLink(idx) {
-		handled, err = r.dispatch(t.raw.GetItemsLink(idx))
-		if handled {
-			s = Resolved
-		}
-	} else if t.raw.IsItemsIRI(idx) {
-		s = RawResolutionNeeded
-	}
-	return
-
-}
-
-// HasItems returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
-func (t *OrderedCollection) HasItems(idx int) (p Presence) {
-	p = NoPresence
-	if t.raw.IsItemsObject(idx) {
-		p = ConvenientPresence
-	} else if t.raw.IsItemsLink(idx) {
-		p = ConvenientPresence
-	} else if t.raw.IsItemsIRI(idx) {
-		p = RawPresence
-	}
-	return
-
-}
-
-// AddItems adds an 'Object' typed value.
-func (t *OrderedCollection) AddItems(i vocab.ObjectType) {
-	t.raw.AddItemsObject(i)
-
-}
-
-// SetItemsLink adds a 'Link' typed value.
-func (t *OrderedCollection) SetItemsLink(i vocab.LinkType) {
-	t.raw.AddItemsLink(i)
 
 }
 
@@ -14607,6 +14561,82 @@ func (t *OrderedCollectionPage) SetStartIndex(k int64) {
 
 }
 
+// GetNext attempts to get this 'next' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetNext() (r Resolution, k url.URL) {
+	r = Unresolved
+	handled := false
+	if t.raw.IsNextIRI() {
+		k = t.raw.GetNextIRI()
+		if handled {
+			r = Resolved
+		}
+	} else if t.raw.IsNextOrderedCollectionPage() {
+		r = RawResolutionNeeded
+	} else if t.raw.IsNextLink() {
+		r = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasNext returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) HasNext() (p Presence) {
+	p = NoPresence
+	if t.raw.IsNextIRI() {
+		p = ConvenientPresence
+	} else if t.raw.IsNextOrderedCollectionPage() {
+		p = RawPresence
+	} else if t.raw.IsNextLink() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetNext sets the value for property 'next'.
+func (t *OrderedCollectionPage) SetNext(k url.URL) {
+	t.raw.SetNextIRI(k)
+
+}
+
+// GetPrev attempts to get this 'prev' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetPrev() (r Resolution, k url.URL) {
+	r = Unresolved
+	handled := false
+	if t.raw.IsPrevIRI() {
+		k = t.raw.GetPrevIRI()
+		if handled {
+			r = Resolved
+		}
+	} else if t.raw.IsPrevOrderedCollectionPage() {
+		r = RawResolutionNeeded
+	} else if t.raw.IsPrevLink() {
+		r = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasPrev returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) HasPrev() (p Presence) {
+	p = NoPresence
+	if t.raw.IsPrevIRI() {
+		p = ConvenientPresence
+	} else if t.raw.IsPrevOrderedCollectionPage() {
+		p = RawPresence
+	} else if t.raw.IsPrevLink() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetPrev sets the value for property 'prev'.
+func (t *OrderedCollectionPage) SetPrev(k url.URL) {
+	t.raw.SetPrevIRI(k)
+
+}
+
 // LenOrderedItems returns the number of values this property contains. Each index be used with HasOrderedItems to determine if ResolveOrderedItems is safe to call or if raw handling would be needed.%!(EXTRA string=orderedItems)
 func (t *OrderedCollectionPage) LenOrderedItems() (idx int) {
 	return t.raw.OrderedItemsLen()
@@ -14660,6 +14690,120 @@ func (t *OrderedCollectionPage) SetOrderedItemsLink(i vocab.LinkType) {
 
 }
 
+// GetCurrent attempts to get this 'current' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetCurrent() (r Resolution, k url.URL) {
+	r = Unresolved
+	handled := false
+	if t.raw.IsCurrentIRI() {
+		k = t.raw.GetCurrentIRI()
+		if handled {
+			r = Resolved
+		}
+	} else if t.raw.IsCurrentOrderedCollectionPage() {
+		r = RawResolutionNeeded
+	} else if t.raw.IsCurrentLink() {
+		r = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasCurrent returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) HasCurrent() (p Presence) {
+	p = NoPresence
+	if t.raw.IsCurrentIRI() {
+		p = ConvenientPresence
+	} else if t.raw.IsCurrentOrderedCollectionPage() {
+		p = RawPresence
+	} else if t.raw.IsCurrentLink() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetCurrent sets the value for property 'current'.
+func (t *OrderedCollectionPage) SetCurrent(k url.URL) {
+	t.raw.SetCurrentIRI(k)
+
+}
+
+// GetFirst attempts to get this 'first' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetFirst() (r Resolution, k url.URL) {
+	r = Unresolved
+	handled := false
+	if t.raw.IsFirstIRI() {
+		k = t.raw.GetFirstIRI()
+		if handled {
+			r = Resolved
+		}
+	} else if t.raw.IsFirstOrderedCollectionPage() {
+		r = RawResolutionNeeded
+	} else if t.raw.IsFirstLink() {
+		r = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasFirst returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) HasFirst() (p Presence) {
+	p = NoPresence
+	if t.raw.IsFirstIRI() {
+		p = ConvenientPresence
+	} else if t.raw.IsFirstOrderedCollectionPage() {
+		p = RawPresence
+	} else if t.raw.IsFirstLink() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetFirst sets the value for property 'first'.
+func (t *OrderedCollectionPage) SetFirst(k url.URL) {
+	t.raw.SetFirstIRI(k)
+
+}
+
+// GetLast attempts to get this 'last' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetLast() (r Resolution, k url.URL) {
+	r = Unresolved
+	handled := false
+	if t.raw.IsLastIRI() {
+		k = t.raw.GetLastIRI()
+		if handled {
+			r = Resolved
+		}
+	} else if t.raw.IsLastOrderedCollectionPage() {
+		r = RawResolutionNeeded
+	} else if t.raw.IsLastLink() {
+		r = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLast returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) HasLast() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLastIRI() {
+		p = ConvenientPresence
+	} else if t.raw.IsLastOrderedCollectionPage() {
+		p = RawPresence
+	} else if t.raw.IsLastLink() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLast sets the value for property 'last'.
+func (t *OrderedCollectionPage) SetLast(k url.URL) {
+	t.raw.SetLastIRI(k)
+
+}
+
 // GetTotalItems attempts to get this 'totalItems' property as a int64. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
 func (t *OrderedCollectionPage) GetTotalItems() (r Resolution, k int64) {
 	r = Unresolved
@@ -14691,173 +14835,6 @@ func (t *OrderedCollectionPage) HasTotalItems() (p Presence) {
 // SetTotalItems sets the value for property 'totalItems'.
 func (t *OrderedCollectionPage) SetTotalItems(k int64) {
 	t.raw.SetTotalItems(k)
-
-}
-
-// GetCurrent attempts to get this 'current' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetCurrent() (r Resolution, k url.URL) {
-	r = Unresolved
-	handled := false
-	if t.raw.IsCurrentIRI() {
-		k = t.raw.GetCurrentIRI()
-		if handled {
-			r = Resolved
-		}
-	} else if t.raw.IsCurrentCollectionPage() {
-		r = RawResolutionNeeded
-	} else if t.raw.IsCurrentLink() {
-		r = RawResolutionNeeded
-	}
-	return
-
-}
-
-// HasCurrent returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
-func (t *OrderedCollectionPage) HasCurrent() (p Presence) {
-	p = NoPresence
-	if t.raw.IsCurrentIRI() {
-		p = ConvenientPresence
-	} else if t.raw.IsCurrentCollectionPage() {
-		p = RawPresence
-	} else if t.raw.IsCurrentLink() {
-		p = RawPresence
-	}
-	return
-
-}
-
-// SetCurrent sets the value for property 'current'.
-func (t *OrderedCollectionPage) SetCurrent(k url.URL) {
-	t.raw.SetCurrentIRI(k)
-
-}
-
-// GetFirst attempts to get this 'first' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetFirst() (r Resolution, k url.URL) {
-	r = Unresolved
-	handled := false
-	if t.raw.IsFirstIRI() {
-		k = t.raw.GetFirstIRI()
-		if handled {
-			r = Resolved
-		}
-	} else if t.raw.IsFirstCollectionPage() {
-		r = RawResolutionNeeded
-	} else if t.raw.IsFirstLink() {
-		r = RawResolutionNeeded
-	}
-	return
-
-}
-
-// HasFirst returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
-func (t *OrderedCollectionPage) HasFirst() (p Presence) {
-	p = NoPresence
-	if t.raw.IsFirstIRI() {
-		p = ConvenientPresence
-	} else if t.raw.IsFirstCollectionPage() {
-		p = RawPresence
-	} else if t.raw.IsFirstLink() {
-		p = RawPresence
-	}
-	return
-
-}
-
-// SetFirst sets the value for property 'first'.
-func (t *OrderedCollectionPage) SetFirst(k url.URL) {
-	t.raw.SetFirstIRI(k)
-
-}
-
-// GetLast attempts to get this 'last' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetLast() (r Resolution, k url.URL) {
-	r = Unresolved
-	handled := false
-	if t.raw.IsLastIRI() {
-		k = t.raw.GetLastIRI()
-		if handled {
-			r = Resolved
-		}
-	} else if t.raw.IsLastCollectionPage() {
-		r = RawResolutionNeeded
-	} else if t.raw.IsLastLink() {
-		r = RawResolutionNeeded
-	}
-	return
-
-}
-
-// HasLast returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
-func (t *OrderedCollectionPage) HasLast() (p Presence) {
-	p = NoPresence
-	if t.raw.IsLastIRI() {
-		p = ConvenientPresence
-	} else if t.raw.IsLastCollectionPage() {
-		p = RawPresence
-	} else if t.raw.IsLastLink() {
-		p = RawPresence
-	}
-	return
-
-}
-
-// SetLast sets the value for property 'last'.
-func (t *OrderedCollectionPage) SetLast(k url.URL) {
-	t.raw.SetLastIRI(k)
-
-}
-
-// LenItems returns the number of values this property contains. Each index be used with HasItems to determine if ResolveItems is safe to call or if raw handling would be needed.%!(EXTRA string=items)
-func (t *OrderedCollectionPage) LenItems() (idx int) {
-	return t.raw.ItemsLen()
-
-}
-
-// ResolveItems passes the actual concrete type to the resolver for handing property items. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
-func (t *OrderedCollectionPage) ResolveItems(r *Resolver, idx int) (s Resolution, err error) {
-	s = Unresolved
-	handled := false
-	if t.raw.IsItemsObject(idx) {
-		handled, err = r.dispatch(t.raw.GetItemsObject(idx))
-		if handled {
-			s = Resolved
-		}
-	} else if t.raw.IsItemsLink(idx) {
-		handled, err = r.dispatch(t.raw.GetItemsLink(idx))
-		if handled {
-			s = Resolved
-		}
-	} else if t.raw.IsItemsIRI(idx) {
-		s = RawResolutionNeeded
-	}
-	return
-
-}
-
-// HasItems returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
-func (t *OrderedCollectionPage) HasItems(idx int) (p Presence) {
-	p = NoPresence
-	if t.raw.IsItemsObject(idx) {
-		p = ConvenientPresence
-	} else if t.raw.IsItemsLink(idx) {
-		p = ConvenientPresence
-	} else if t.raw.IsItemsIRI(idx) {
-		p = RawPresence
-	}
-	return
-
-}
-
-// AddItems adds an 'Object' typed value.
-func (t *OrderedCollectionPage) AddItems(i vocab.ObjectType) {
-	t.raw.AddItemsObject(i)
-
-}
-
-// SetItemsLink adds a 'Link' typed value.
-func (t *OrderedCollectionPage) SetItemsLink(i vocab.LinkType) {
-	t.raw.AddItemsLink(i)
 
 }
 
@@ -16731,82 +16708,6 @@ func (t *OrderedCollectionPage) HasPartOf() (p Presence) {
 // SetPartOf sets this value to be a 'Link' type.
 func (t *OrderedCollectionPage) SetPartOf(i vocab.LinkType) {
 	t.raw.SetPartOfLink(i)
-
-}
-
-// GetNext attempts to get this 'next' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetNext() (r Resolution, k url.URL) {
-	r = Unresolved
-	handled := false
-	if t.raw.IsNextIRI() {
-		k = t.raw.GetNextIRI()
-		if handled {
-			r = Resolved
-		}
-	} else if t.raw.IsNextCollectionPage() {
-		r = RawResolutionNeeded
-	} else if t.raw.IsNextLink() {
-		r = RawResolutionNeeded
-	}
-	return
-
-}
-
-// HasNext returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
-func (t *OrderedCollectionPage) HasNext() (p Presence) {
-	p = NoPresence
-	if t.raw.IsNextIRI() {
-		p = ConvenientPresence
-	} else if t.raw.IsNextCollectionPage() {
-		p = RawPresence
-	} else if t.raw.IsNextLink() {
-		p = RawPresence
-	}
-	return
-
-}
-
-// SetNext sets the value for property 'next'.
-func (t *OrderedCollectionPage) SetNext(k url.URL) {
-	t.raw.SetNextIRI(k)
-
-}
-
-// GetPrev attempts to get this 'prev' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetPrev() (r Resolution, k url.URL) {
-	r = Unresolved
-	handled := false
-	if t.raw.IsPrevIRI() {
-		k = t.raw.GetPrevIRI()
-		if handled {
-			r = Resolved
-		}
-	} else if t.raw.IsPrevCollectionPage() {
-		r = RawResolutionNeeded
-	} else if t.raw.IsPrevLink() {
-		r = RawResolutionNeeded
-	}
-	return
-
-}
-
-// HasPrev returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
-func (t *OrderedCollectionPage) HasPrev() (p Presence) {
-	p = NoPresence
-	if t.raw.IsPrevIRI() {
-		p = ConvenientPresence
-	} else if t.raw.IsPrevCollectionPage() {
-		p = RawPresence
-	} else if t.raw.IsPrevLink() {
-		p = RawPresence
-	}
-	return
-
-}
-
-// SetPrev sets the value for property 'prev'.
-func (t *OrderedCollectionPage) SetPrev(k url.URL) {
-	t.raw.SetPrevIRI(k)
 
 }
 

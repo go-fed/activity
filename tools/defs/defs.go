@@ -46,6 +46,12 @@ var (
 		URI:     baseURI + "OrderedCollection",
 		Notes:   "A subtype of Collection in which members of the logical collection are assumed to always be strictly ordered.",
 		Extends: []*Type{collectionType},
+		WithoutProperties: []*PropertyType{
+			itemsPropertyType,
+			currentPropertyType,
+			firstPropertyType,
+			lastPropertyType,
+		},
 	}
 	collectionPageType = &Type{
 		Name:    "CollectionPage",
@@ -58,6 +64,14 @@ var (
 		URI:     baseURI + "OrderedCollectionPage",
 		Notes:   "Used to represent ordered subsets of items from an OrderedCollection. Refer to the Activity Streams 2.0 Core for a complete description of the OrderedCollectionPage object.",
 		Extends: []*Type{orderedCollectionType, collectionPageType},
+		WithoutProperties: []*PropertyType{
+			itemsPropertyType,
+			currentPropertyType,
+			firstPropertyType,
+			lastPropertyType,
+			nextPropertyType,
+			prevPropertyType,
+		},
 	}
 
 	AllCoreTypes = []*Type{
@@ -505,12 +519,30 @@ var (
 		Functional:           true,
 		PreferIRIConvenience: true,
 	}
+	currentOrderedPropertyType = &PropertyType{
+		Name:                 "current",
+		URI:                  propertyBaseURI + "current",
+		Notes:                "In a paged OrderedCollection, indicates the page that contains the most recently updated member items.",
+		Domain:               []DomainReference{{T: collectionType}},
+		Range:                []RangeReference{{T: orderedCollectionPageType}, {T: linkType}},
+		Functional:           true,
+		PreferIRIConvenience: true,
+	}
 	firstPropertyType = &PropertyType{
 		Name:                 "first",
 		URI:                  propertyBaseURI + "first",
 		Notes:                "In a paged Collection, indicates the furthest preceeding page of items in the collection.",
 		Domain:               []DomainReference{{T: collectionType}},
 		Range:                []RangeReference{{T: collectionPageType}, {T: linkType}},
+		Functional:           true,
+		PreferIRIConvenience: true,
+	}
+	firstOrderedPropertyType = &PropertyType{
+		Name:                 "first",
+		URI:                  propertyBaseURI + "first",
+		Notes:                "In a paged OrderedCollection, indicates the furthest preceeding page of items in the collection.",
+		Domain:               []DomainReference{{T: collectionType}},
+		Range:                []RangeReference{{T: orderedCollectionPageType}, {T: linkType}},
 		Functional:           true,
 		PreferIRIConvenience: true,
 	}
@@ -556,6 +588,15 @@ var (
 		Notes:                "In a paged Collection, indicates the furthest proceeding page of the collection.",
 		Domain:               []DomainReference{{T: collectionType}},
 		Range:                []RangeReference{{T: collectionPageType}, {T: linkType}},
+		Functional:           true,
+		PreferIRIConvenience: true,
+	}
+	lastOrderedPropertyType = &PropertyType{
+		Name:                 "last",
+		URI:                  propertyBaseURI + "last",
+		Notes:                "In a paged OrderedCollection, indicates the furthest proceeding page of the collection.",
+		Domain:               []DomainReference{{T: collectionType}},
+		Range:                []RangeReference{{T: orderedCollectionPageType}, {T: linkType}},
 		Functional:           true,
 		PreferIRIConvenience: true,
 	}
@@ -617,6 +658,15 @@ var (
 		Functional:           true,
 		PreferIRIConvenience: true,
 	}
+	nextOrderedPropertyType = &PropertyType{
+		Name:                 "next",
+		URI:                  propertyBaseURI + "next",
+		Notes:                "In a paged OrderedCollection, indicates the next page of items.",
+		Domain:               []DomainReference{{T: orderedCollectionPageType}},
+		Range:                []RangeReference{{T: orderedCollectionPageType}, {T: linkType}},
+		Functional:           true,
+		PreferIRIConvenience: true,
+	}
 	objectPropertyType = &PropertyType{
 		Name:   "object",
 		URI:    propertyBaseURI + "object",
@@ -630,6 +680,15 @@ var (
 		Notes:                "In a paged Collection, identifies the previous page of items.",
 		Domain:               []DomainReference{{T: collectionPageType}},
 		Range:                []RangeReference{{T: collectionPageType}, {T: linkType}},
+		Functional:           true,
+		PreferIRIConvenience: true,
+	}
+	prevOrderedPropertyType = &PropertyType{
+		Name:                 "prev",
+		URI:                  propertyBaseURI + "prev",
+		Notes:                "In a paged OrderedCollection, identifies the previous page of items.",
+		Domain:               []DomainReference{{T: orderedCollectionPageType}},
+		Range:                []RangeReference{{T: orderedCollectionPageType}, {T: linkType}},
 		Functional:           true,
 		PreferIRIConvenience: true,
 	}
@@ -1042,13 +1101,16 @@ var (
 		ccPropertyType,
 		contextPropertyType,
 		currentPropertyType,
+		currentOrderedPropertyType,
 		firstPropertyType,
+		firstOrderedPropertyType,
 		generatorPropertyType,
 		iconPropertyType,
 		imagePropertyType,
 		inReplyToPropertyType,
 		instrumentPropertyType,
 		lastPropertyType,
+		lastOrderedPropertyType,
 		locationPropertyType,
 		itemsPropertyType,
 		orderedItemsPropertyType,
@@ -1057,8 +1119,10 @@ var (
 		closedPropertyType,
 		originPropertyType,
 		nextPropertyType,
+		nextOrderedPropertyType,
 		objectPropertyType,
 		prevPropertyType,
+		prevOrderedPropertyType,
 		previewPropertyType,
 		resultPropertyType,
 		repliesPropertyType,
@@ -1747,6 +1811,9 @@ func init() {
 	}
 	orderedCollectionType.Properties = []*PropertyType{
 		orderedItemsPropertyType, // Missing from spec!
+		currentOrderedPropertyType,
+		firstOrderedPropertyType,
+		lastOrderedPropertyType,
 	}
 	collectionPageType.Properties = []*PropertyType{
 		partOfPropertyType,
@@ -1755,6 +1822,8 @@ func init() {
 	}
 	orderedCollectionPageType.Properties = []*PropertyType{
 		startIndexPropertyType,
+		nextOrderedPropertyType,
+		prevOrderedPropertyType,
 	}
 
 	// ExtendedType properties

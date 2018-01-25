@@ -68,6 +68,7 @@ func generateResolver(types []*defs.Type) *defs.StructDef {
 		c := fmt.Sprintf("Callback function for the %s type", t.Name)
 		this.M = append(this.M, &defs.StructMember{name, sig, c})
 	}
+	this.M = append(this.M, &defs.StructMember{"AnyObjectCallback", "func(vocab.ObjectType) error", "Callback function for any type that satisfies the vocab.ObjectType interface."})
 	this.F = []*defs.MemberFunctionDef{
 		{
 			Name:    dispatchFnName,
@@ -90,6 +91,11 @@ func generateResolver(types []*defs.Type) *defs.StructDef {
 					b.WriteString("}\n")
 					b.WriteString(fmt.Sprintf("// End generateResolver for type '%s'\n", t.Name))
 				}
+				b.WriteString("if obj, ok := i.(vocab.ObjectType); ok {\n")
+				b.WriteString("if t.AnyObjectCallback != nil {\n")
+				b.WriteString("return true, t.AnyObjectCallback(obj)")
+				b.WriteString("}\n")
+				b.WriteString("}\n")
 				b.WriteString("return false, fmt.Errorf(\"The interface did not match any known types: %T\", i)\n")
 				return b.String()
 			},

@@ -11,9 +11,9 @@ type Type struct {
 }
 
 func (t *Type) GetProperties() []*PropertyType {
-	omit := make(map[string]bool)
+	omit := make(map[*PropertyType]bool)
 	for _, v := range t.WithoutProperties {
-		omit[v.Name] = true
+		omit[v] = true
 	}
 	var parentProps []*PropertyType
 	for _, p := range t.Extends {
@@ -22,7 +22,7 @@ func (t *Type) GetProperties() []*PropertyType {
 	properties := make([]*PropertyType, 0, len(t.Properties)+len(parentProps))
 	set := make(map[string]bool)
 	for _, v := range t.Properties {
-		if !omit[v.Name] {
+		if !omit[v] {
 			if !set[v.Name] {
 				properties = append(properties, v)
 				set[v.Name] = true
@@ -30,7 +30,7 @@ func (t *Type) GetProperties() []*PropertyType {
 		}
 	}
 	for _, v := range parentProps {
-		if !omit[v.Name] {
+		if !omit[v] {
 			if !set[v.Name] {
 				properties = append(properties, v)
 				set[v.Name] = true

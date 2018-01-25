@@ -1,0 +1,485 @@
+package pub
+
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/go-fed/activity/streams"
+	"github.com/go-fed/activity/vocab"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"strings"
+	"time"
+)
+
+const (
+	postContentTypeHeader = "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
+	getAcceptHeader       = "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
+	contentTypeHeader     = "Content-Type"
+	acceptHeader          = "Accept"
+	publicActivityPub     = "https://www.w3.org/ns/activitystreams#Public"
+	publicJsonLD          = "Public"
+	publicJsonLDAS        = "as:Public"
+)
+
+var alternatives = []string{"application/activity+json"}
+
+func trimAll(s []string) []string {
+	var r []string
+	for _, e := range s {
+		r = append(r, strings.Trim(e, " "))
+	}
+	return r
+}
+
+func headerEqualsOneOf(header string, acceptable []string) bool {
+	sanitizedHeader := strings.Join(trimAll(strings.Split(header, ";")), ";")
+	for _, v := range acceptable {
+		// Remove any number of whitespace after ;'s
+		sanitizedV := strings.Join(trimAll(strings.Split(v, ";")), ";")
+		if sanitizedHeader == sanitizedV {
+			return true
+		}
+	}
+	return false
+}
+
+func isActivityPubPost(r *http.Request) bool {
+	return r.Method == "POST" && headerEqualsOneOf(r.Header.Get(contentTypeHeader), []string{postContentTypeHeader, contentTypeHeader})
+}
+
+func isActivityPubGet(r *http.Request) bool {
+	return r.Method == "GET" && headerEqualsOneOf(r.Header.Get(acceptHeader), []string{getAcceptHeader, contentTypeHeader})
+}
+
+// isPublic determines if a target is the Public collection as defined in the
+// spec, including JSON-LD compliant collections.
+func isPublic(s string) bool {
+	return s == publicActivityPub || s == publicJsonLD || s == publicJsonLDAS
+}
+
+// dereference makes an HTTP GET request to an IRI in order to obtain the
+// ActivityStream representation.
+func dereference(c *http.Client, u url.URL, agent string) ([]byte, error) {
+	// TODO: (section 7.1) The server MUST dereference the collection (with the user's credentials)
+	req, err := http.NewRequest("GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Add(acceptHeader, getAcceptHeader)
+	req.Header.Add("Accept-Charset", "utf-8")
+	req.Header.Add("Date", time.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
+	req.Header.Add("User-Agent", fmt.Sprintf("%s (go-fed ActivityPub)", agent))
+	resp, err := c.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("Request to %s failed (%d): %s", u.String(), resp.StatusCode, resp.Status)
+	}
+	return ioutil.ReadAll(resp.Body)
+}
+
+// TODO: (Section 7) HTTP caching mechanisms [RFC7234] SHOULD be respected when appropriate, both when receiving responses from other servers as well as sending responses to other servers.
+
+// prepare takes a DeliverableObject and returns a list of the proper recipient
+// target URIs. Additionally, the DeliverableObject will have any hidden
+// hidden recipients ("bto" and "bcc") stripped from it.
+func (c *Client) prepare(o DeliverableObject) ([]url.URL, error) {
+	var r []url.URL
+	r = append(r, getToIRIs(o)...)
+	r = append(r, getBToIRIs(o)...)
+	r = append(r, getCcIRIs(o)...)
+	r = append(r, getBccIRIs(o)...)
+	r = append(r, getAudienceIRIs(o)...)
+	i, err := c.resolveInboxes(r, 0, c.MaxDepth)
+	if err != nil {
+		return nil, err
+	}
+	targets := getInboxes(i)
+	ignore := getActorsInboxes(o)
+	r = dedupeIRIs(targets, ignore)
+	stripHiddenRecipients(o)
+	return r, nil
+}
+
+// resolveInboxes takes a list of Actor id URIs and returns them as concrete
+// instances of ActorObject. It applies recursively when it encounters a target
+// that is a Collection or OrderedCollection.
+func (c *Client) resolveInboxes(r []url.URL, depth int, max int) ([]ActorObject, error) {
+	if depth >= max {
+		return nil, nil
+	}
+	a := make([]ActorObject, 0, len(r))
+	for _, u := range r {
+		// Do not retry here -- if a dereference fails, then fail the
+		// entire delivery.
+		resp, err := dereference(c.Client, u, c.Agent)
+		if err != nil {
+			return nil, err
+		}
+		var m map[string]interface{}
+		if err = json.Unmarshal(resp, &m); err != nil {
+			return nil, err
+		}
+		var actor ActorObject
+		var co *streams.Collection
+		var oc *streams.OrderedCollection
+		var cp *streams.CollectionPage
+		var ocp *streams.OrderedCollectionPage
+		// Set AT MOST one of: co, oc, cp, ocp
+		// If none of these are set, attempt to use actor
+		if err = toActorCollectionResolver(&actor, &co, &oc, &cp, &ocp).Deserialize(m); err != nil {
+			return nil, err
+		}
+		// If a recipient is a Collection or OrderedCollection, then the
+		// server MUST dereference the collection. Note that this also
+		// applies to CollectionPage and OrderedCollectionPage.
+		var uris []url.URL
+		if co != nil {
+			uris := getURIsInItemer(co.Raw())
+			actors, err := c.resolveInboxes(uris, depth+1, max)
+			if err != nil {
+				return nil, err
+			}
+			a = append(a, actors...)
+		} else if oc != nil {
+			uris := getURIsInOrderedItemer(oc.Raw())
+			actors, err := c.resolveInboxes(uris, depth+1, max)
+			if err != nil {
+				return nil, err
+			}
+			a = append(a, actors...)
+		} else if cp != nil {
+			cb := func(c vocab.CollectionPageType) error {
+				uris = getURIsInItemer(c)
+				return nil
+			}
+			err := doForCollectionPage(c.Client, c.Agent, cb, cp.Raw())
+			if err != nil {
+				return nil, err
+			}
+			actors, err := c.resolveInboxes(uris, depth+1, max)
+			if err != nil {
+				return nil, err
+			}
+			a = append(a, actors...)
+		} else if ocp != nil {
+			cb := func(c vocab.OrderedCollectionPageType) error {
+				uris = getURIsInOrderedItemer(c)
+				return nil
+			}
+			err := doForOrderedCollectionPage(c.Client, c.Agent, cb, ocp.Raw())
+			if err != nil {
+				return nil, err
+			}
+			actors, err := c.resolveInboxes(uris, depth+1, max)
+			if err != nil {
+				return nil, err
+			}
+			a = append(a, actors...)
+		} else if actor != nil {
+			a = append(a, actor)
+		}
+	}
+	return a, nil
+}
+
+// getInboxes extracts the 'inbox' IRIs from actors.
+func getInboxes(a []ActorObject) []url.URL {
+	// TODO: implement
+	return nil
+}
+
+// getActorsInboxes attempts to find the inbox URIs for the "actor" and
+// "attributedTo" originators on the object. If the inbox URIs are not found,
+// then the one or more actors are resolved as usual, which may result in this
+// server pinging itself.
+func getActorsInboxes(a ActorObject) []url.URL {
+	// TODO: implement
+	return nil
+}
+
+// stripHiddenRecipients removes "bto" and "bcc" from the DeliverableObject.
+// Note that this requirement of the specification is under "Section 6: Client
+// to Server Interactions", the Social API, and not the Federative API.
+func stripHiddenRecipients(o DeliverableObject) {
+	for o.BtoLen() > 0 {
+		if o.IsBtoObject(0) {
+			o.RemoveBtoObject(0)
+		} else if o.IsBtoLink(0) {
+			o.RemoveBtoLink(0)
+		} else if o.IsBtoIRI(0) {
+			o.RemoveBtoIRI(0)
+		}
+	}
+	for o.BccLen() > 0 {
+		if o.IsBccObject(0) {
+			o.RemoveBccObject(0)
+		} else if o.IsBccLink(0) {
+			o.RemoveBccLink(0)
+		} else if o.IsBtoIRI(0) {
+			o.RemoveBccIRI(0)
+		}
+	}
+}
+
+// dedupeIRIs will deduplicate final inbox IRIs. The ignore list is applied to
+// the final list
+func dedupeIRIs(recipients, ignored []url.URL) (out []url.URL) {
+	ignoredMap := make(map[url.URL]bool, len(ignored))
+	for _, elem := range ignored {
+		ignoredMap[elem] = true
+	}
+	outMap := make(map[url.URL]bool, len(recipients))
+	for k, _ := range outMap {
+		if !ignoredMap[k] {
+			out = append(out, k)
+		}
+	}
+	return
+}
+
+func getToIRIs(o DeliverableObject) []url.URL {
+	var r []url.URL
+	for i := 0; i < o.ToLen(); i++ {
+		if o.IsToObject(i) {
+			obj := o.GetToObject(i)
+			if obj.HasId() {
+				r = append(r, obj.GetId())
+			}
+		} else if o.IsToLink(i) {
+			l := o.GetToLink(i)
+			if l.HasHref() {
+				r = append(r, l.GetHref())
+			}
+		} else if o.IsToIRI(i) {
+			r = append(r, o.GetToIRI(i))
+		}
+	}
+	return r
+}
+
+func getBToIRIs(o DeliverableObject) []url.URL {
+	var r []url.URL
+	for i := 0; i < o.BtoLen(); i++ {
+		if o.IsBtoObject(i) {
+			obj := o.GetBtoObject(i)
+			if obj.HasId() {
+				r = append(r, obj.GetId())
+			}
+		} else if o.IsBtoLink(i) {
+			l := o.GetBtoLink(i)
+			if l.HasHref() {
+				r = append(r, l.GetHref())
+			}
+		} else if o.IsBtoIRI(i) {
+			r = append(r, o.GetBtoIRI(i))
+		}
+	}
+	return r
+}
+
+func getCcIRIs(o DeliverableObject) []url.URL {
+	var r []url.URL
+	for i := 0; i < o.CcLen(); i++ {
+		if o.IsCcObject(i) {
+			obj := o.GetCcObject(i)
+			if obj.HasId() {
+				r = append(r, obj.GetId())
+			}
+		} else if o.IsCcLink(i) {
+			l := o.GetCcLink(i)
+			if l.HasHref() {
+				r = append(r, l.GetHref())
+			}
+		} else if o.IsCcIRI(i) {
+			r = append(r, o.GetCcIRI(i))
+		}
+	}
+	return r
+}
+
+func getBccIRIs(o DeliverableObject) []url.URL {
+	var r []url.URL
+	for i := 0; i < o.BccLen(); i++ {
+		if o.IsBccObject(i) {
+			obj := o.GetBccObject(i)
+			if obj.HasId() {
+				r = append(r, obj.GetId())
+			}
+		} else if o.IsBccLink(i) {
+			l := o.GetBccLink(i)
+			if l.HasHref() {
+				r = append(r, l.GetHref())
+			}
+		} else if o.IsBccIRI(i) {
+			r = append(r, o.GetBccIRI(i))
+		}
+	}
+	return r
+}
+
+func getAudienceIRIs(o DeliverableObject) []url.URL {
+	var r []url.URL
+	for i := 0; i < o.AudienceLen(); i++ {
+		if o.IsAudienceObject(i) {
+			obj := o.GetAudienceObject(i)
+			if obj.HasId() {
+				r = append(r, obj.GetId())
+			}
+		} else if o.IsAudienceLink(i) {
+			l := o.GetAudienceLink(i)
+			if l.HasHref() {
+				r = append(r, l.GetHref())
+			}
+		} else if o.IsAudienceIRI(i) {
+			r = append(r, o.GetAudienceIRI(i))
+		}
+	}
+	return r
+}
+
+// doForCollectionPage applies a function over a collection and its subsequent
+// pages recursively. It returns the first non-nil error it encounters.
+func doForCollectionPage(h *http.Client, agent string, cb func(c vocab.CollectionPageType) error, c vocab.CollectionPageType) error {
+	err := cb(c)
+	if err != nil {
+		return err
+	}
+	if c.IsNextCollectionPage() {
+		// Handle this one weird trick that other peers HATE federating
+		// with.
+		return doForCollectionPage(h, agent, cb, c.GetNextCollectionPage())
+	} else if c.IsNextLink() {
+		l := c.GetNextLink()
+		if l.HasHref() {
+			u := l.GetHref()
+			resp, err := dereference(h, u, agent)
+			if err != nil {
+				return err
+			}
+			var m map[string]interface{}
+			err = json.Unmarshal(resp, &m)
+			if err != nil {
+				return err
+			}
+			next, err := toCollectionPage(m)
+			if err != nil {
+				return err
+			}
+			if next != nil {
+				return doForCollectionPage(h, agent, cb, next.Raw())
+			}
+		}
+	} else if c.IsNextIRI() {
+		u := c.GetNextIRI()
+		resp, err := dereference(h, u, agent)
+		if err != nil {
+			return err
+		}
+		var m map[string]interface{}
+		err = json.Unmarshal(resp, &m)
+		if err != nil {
+			return err
+		}
+		next, err := toCollectionPage(m)
+		if err != nil {
+			return err
+		}
+		if next != nil {
+			return doForCollectionPage(h, agent, cb, next.Raw())
+		}
+	}
+	return nil
+}
+
+// doForOrderedCollectionPage applies a function over a collection and its
+// subsequent pages recursively. It returns the first non-nil error it
+// encounters.
+func doForOrderedCollectionPage(h *http.Client, agent string, cb func(c vocab.OrderedCollectionPageType) error, c vocab.OrderedCollectionPageType) error {
+	err := cb(c)
+	if err != nil {
+		return err
+	}
+	if c.IsNextOrderedCollectionPage() {
+		// Handle this one weird trick that other peers HATE federating
+		// with.
+		return doForOrderedCollectionPage(h, agent, cb, c.GetNextOrderedCollectionPage())
+	} else if c.IsNextLink() {
+		l := c.GetNextLink()
+		if l.HasHref() {
+			u := l.GetHref()
+			resp, err := dereference(h, u, agent)
+			if err != nil {
+				return err
+			}
+			var m map[string]interface{}
+			err = json.Unmarshal(resp, &m)
+			if err != nil {
+				return err
+			}
+			next, err := toOrderedCollectionPage(m)
+			if err != nil {
+				return err
+			}
+			if next != nil {
+				return doForOrderedCollectionPage(h, agent, cb, next.Raw())
+			}
+		}
+	} else if c.IsNextIRI() {
+		u := c.GetNextIRI()
+		resp, err := dereference(h, u, agent)
+		if err != nil {
+			return err
+		}
+		var m map[string]interface{}
+		err = json.Unmarshal(resp, &m)
+		if err != nil {
+			return err
+		}
+		next, err := toOrderedCollectionPage(m)
+		if err != nil {
+			return err
+		}
+		if next != nil {
+			return doForOrderedCollectionPage(h, agent, cb, next.Raw())
+		}
+	}
+	return nil
+}
+
+type itemer interface {
+	ItemsLen() (l int)
+	IsItemsObject(index int) (ok bool)
+	GetItemsObject(index int) (v vocab.ObjectType)
+	IsItemsLink(index int) (ok bool)
+	GetItemsLink(index int) (v vocab.LinkType)
+	IsItemsIRI(index int) (ok bool)
+	GetItemsIRI(index int) (v url.URL)
+}
+
+// getURIsInItemer will extract 'items' from the provided Collection or
+// CollectionPage.
+func getURIsInItemer(i itemer) []url.URL {
+	// TODO: Implement
+	return nil
+}
+
+type orderedItemer interface {
+	OrderedItemsLen() (l int)
+	IsOrderedItemsObject(index int) (ok bool)
+	GetOrderedItemsObject(index int) (v vocab.ObjectType)
+	IsOrderedItemsLink(index int) (ok bool)
+	GetOrderedItemsLink(index int) (v vocab.LinkType)
+	IsOrderedItemsIRI(index int) (ok bool)
+	GetOrderedItemsIRI(index int) (v url.URL)
+}
+
+// getURIsInOrderedItemer will extract 'items' from the provided
+// OrderedCollection or OrderedCollectionPage.
+func getURIsInOrderedItemer(i orderedItemer) []url.URL {
+	// TODO: Implement
+	return nil
+}

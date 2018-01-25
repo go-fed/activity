@@ -230,7 +230,15 @@ func generateSerializeFunction(t *defs.Type, this *defs.StructDef, fragments []s
 }
 
 func generateWithoutProperties(d *defs.Type, this *defs.StructDef, it *defs.InterfaceDef) {
+	hasNamed := make(map[string]bool, 0)
+	for _, p := range d.GetProperties() {
+		hasNamed[p.Name] = true
+	}
 	for _, t := range d.WithoutProperties {
+		if hasNamed[t.Name] {
+			// No need to stub -- already has a replacement.
+			continue
+		}
 		clonedThis := &defs.StructDef{
 			Typename: this.Typename,
 			Comment:  this.Comment,
@@ -276,6 +284,7 @@ func generateWithoutProperties(d *defs.Type, this *defs.StructDef, it *defs.Inte
 				this.F = append(this.F, f)
 			} else {
 				f.Body = func() string { return "\n" }
+				this.F = append(this.F, f)
 			}
 		}
 	}
