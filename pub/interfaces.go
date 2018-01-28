@@ -8,7 +8,22 @@ import (
 // ActorObject is an object that has "actor" or "attributedTo" properties,
 // representing the author or originator of the object.
 type ActorObject interface {
-	// TODO: Populate
+	HasInbox() (ok bool)
+	GetInbox() (v url.URL)
+	AttributedToLen() (l int)
+	IsAttributedToObject(index int) (ok bool)
+	GetAttributedToObject(index int) (v vocab.ObjectType)
+	IsAttributedToLink(index int) (ok bool)
+	GetAttributedToLink(index int) (v vocab.LinkType)
+	IsAttributedToIRI(index int) (ok bool)
+	GetAttributedToIRI(index int) (v url.URL)
+	ActorLen() (l int)
+	IsActorObject(index int) (ok bool)
+	GetActorObject(index int) (v vocab.ObjectType)
+	IsActorLink(index int) (ok bool)
+	GetActorLink(index int) (v vocab.LinkType)
+	IsActorIRI(index int) (ok bool)
+	GetActorIRI(index int) (v url.URL)
 }
 
 // DeliverableObject is an object that is able to be sent to recipients via the

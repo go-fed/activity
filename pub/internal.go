@@ -87,18 +87,26 @@ func dereference(c *http.Client, u url.URL, agent string) ([]byte, error) {
 // target URIs. Additionally, the DeliverableObject will have any hidden
 // hidden recipients ("bto" and "bcc") stripped from it.
 func (c *Client) prepare(o DeliverableObject) ([]url.URL, error) {
+	// Get inboxes of recipients
 	var r []url.URL
 	r = append(r, getToIRIs(o)...)
 	r = append(r, getBToIRIs(o)...)
 	r = append(r, getCcIRIs(o)...)
 	r = append(r, getBccIRIs(o)...)
 	r = append(r, getAudienceIRIs(o)...)
-	i, err := c.resolveInboxes(r, 0, c.MaxDepth)
+	// TODO: Handle public collection
+	receiverActors, err := c.resolveInboxes(r, 0, c.MaxDepth)
 	if err != nil {
 		return nil, err
 	}
-	targets := getInboxes(i)
-	ignore := getActorsInboxes(o)
+	targets := getInboxes(receiverActors)
+	// Get inboxes of sender(s)
+	senderActors, err := c.resolveInboxes(getActorsAttributedToURI(o), 0, c.MaxDepth)
+	if err != nil {
+		return nil, err
+	}
+	ignore := getInboxes(senderActors)
+	// Post-processing
 	r = dedupeIRIs(targets, ignore)
 	stripHiddenRecipients(o)
 	return r, nil
@@ -188,17 +196,50 @@ func (c *Client) resolveInboxes(r []url.URL, depth int, max int) ([]ActorObject,
 
 // getInboxes extracts the 'inbox' IRIs from actors.
 func getInboxes(a []ActorObject) []url.URL {
-	// TODO: implement
-	return nil
+	var u []url.URL
+	for _, actor := range a {
+		if actor.HasInbox() {
+			u = append(u, actor.GetInbox())
+		}
+	}
+	return u
 }
 
-// getActorsInboxes attempts to find the inbox URIs for the "actor" and
-// "attributedTo" originators on the object. If the inbox URIs are not found,
-// then the one or more actors are resolved as usual, which may result in this
-// server pinging itself.
-func getActorsInboxes(a ActorObject) []url.URL {
-	// TODO: implement
-	return nil
+// getActorAttributedToURI attempts to find the URIs for the "actor" and
+// "attributedTo" originators on the object.
+func getActorsAttributedToURI(a ActorObject) []url.URL {
+	var u []url.URL
+	for i := 0; i < a.AttributedToLen(); i++ {
+		if a.IsAttributedToObject(i) {
+			obj := a.GetAttributedToObject(i)
+			if obj.HasId() {
+				u = append(u, obj.GetId())
+			}
+		} else if a.IsAttributedToLink(i) {
+			l := a.GetAttributedToLink(i)
+			if l.HasHref() {
+				u = append(u, l.GetHref())
+			}
+		} else if a.IsAttributedToIRI(i) {
+			u = append(u, a.GetAttributedToIRI(i))
+		}
+	}
+	for i := 0; i < a.ActorLen(); i++ {
+		if a.IsActorObject(i) {
+			obj := a.GetActorObject(i)
+			if obj.HasId() {
+				u = append(u, obj.GetId())
+			}
+		} else if a.IsActorLink(i) {
+			l := a.GetActorLink(i)
+			if l.HasHref() {
+				u = append(u, l.GetHref())
+			}
+		} else if a.IsActorIRI(i) {
+			u = append(u, a.GetActorIRI(i))
+		}
+	}
+	return u
 }
 
 // stripHiddenRecipients removes "bto" and "bcc" from the DeliverableObject.
@@ -463,8 +504,23 @@ type itemer interface {
 // getURIsInItemer will extract 'items' from the provided Collection or
 // CollectionPage.
 func getURIsInItemer(i itemer) []url.URL {
-	// TODO: Implement
-	return nil
+	var u []url.URL
+	for j := 0; j < i.ItemsLen(); j++ {
+		if i.IsItemsObject(j) {
+			obj := i.GetItemsObject(j)
+			if obj.HasId() {
+				u = append(u, obj.GetId())
+			}
+		} else if i.IsItemsLink(j) {
+			l := i.GetItemsLink(j)
+			if l.HasHref() {
+				u = append(u, l.GetHref())
+			}
+		} else if i.IsItemsIRI(j) {
+			u = append(u, i.GetItemsIRI(j))
+		}
+	}
+	return u
 }
 
 type orderedItemer interface {
@@ -480,6 +536,21 @@ type orderedItemer interface {
 // getURIsInOrderedItemer will extract 'items' from the provided
 // OrderedCollection or OrderedCollectionPage.
 func getURIsInOrderedItemer(i orderedItemer) []url.URL {
-	// TODO: Implement
-	return nil
+	var u []url.URL
+	for j := 0; j < i.OrderedItemsLen(); j++ {
+		if i.IsOrderedItemsObject(j) {
+			obj := i.GetOrderedItemsObject(j)
+			if obj.HasId() {
+				u = append(u, obj.GetId())
+			}
+		} else if i.IsOrderedItemsLink(j) {
+			l := i.GetOrderedItemsLink(j)
+			if l.HasHref() {
+				u = append(u, l.GetHref())
+			}
+		} else if i.IsOrderedItemsIRI(j) {
+			u = append(u, i.GetOrderedItemsIRI(j))
+		}
+	}
+	return u
 }
