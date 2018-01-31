@@ -2,8 +2,16 @@ package pub
 
 import (
 	"github.com/go-fed/activity/vocab"
+	"net/http"
 	"net/url"
 )
+
+// HandlerFunc returns true if it was able to handle the request as an
+// ActivityPub request. If it handled the request then the error should be
+// checked. The response will have already been written to when handled. Client
+// applications can freely choose how to handle the request if this function
+// does not handle it.
+type HandlerFunc func(http.ResponseWriter, *http.Request) (bool, error)
 
 // ActorObject is an object that has "actor" or "attributedTo" properties,
 // representing the author or originator of the object.

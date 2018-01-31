@@ -13,13 +13,14 @@ import (
 )
 
 const (
-	postContentTypeHeader = "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
-	getAcceptHeader       = "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
-	contentTypeHeader     = "Content-Type"
-	acceptHeader          = "Accept"
-	publicActivityPub     = "https://www.w3.org/ns/activitystreams#Public"
-	publicJsonLD          = "Public"
-	publicJsonLDAS        = "as:Public"
+	postContentTypeHeader     = "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
+	responseContentTypeHeader = "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
+	getAcceptHeader           = "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
+	contentTypeHeader         = "Content-Type"
+	acceptHeader              = "Accept"
+	publicActivityPub         = "https://www.w3.org/ns/activitystreams#Public"
+	publicJsonLD              = "Public"
+	publicJsonLDAS            = "as:Public"
 )
 
 var alternatives = []string{"application/activity+json"}
@@ -86,7 +87,7 @@ func dereference(c *http.Client, u url.URL, agent string) ([]byte, error) {
 // prepare takes a DeliverableObject and returns a list of the proper recipient
 // target URIs. Additionally, the DeliverableObject will have any hidden
 // hidden recipients ("bto" and "bcc") stripped from it.
-func (c *Client) prepare(o DeliverableObject) ([]url.URL, error) {
+func (c *federator) prepare(o DeliverableObject) ([]url.URL, error) {
 	// Get inboxes of recipients
 	var r []url.URL
 	r = append(r, getToIRIs(o)...)
@@ -94,7 +95,16 @@ func (c *Client) prepare(o DeliverableObject) ([]url.URL, error) {
 	r = append(r, getCcIRIs(o)...)
 	r = append(r, getBccIRIs(o)...)
 	r = append(r, getAudienceIRIs(o)...)
-	// TODO: Handle public collection
+	// TODO: Support delivery to shared inbox
+	// 1. When an object is being delivered to the originating actor's
+	// followers, a server MAY reduce the number of receiving actors
+	// delivered to by identifying all followers which share the same
+	// sharedInbox who would otherwise be individual recipients and instead
+	// deliver objects to said sharedInbox.
+	// 2. If an object is addressed to the Public special collection, a
+	// server MAY deliver that object to all known sharedInbox endpoints on
+	// the network.
+	r = filterURLs(r, isPublic)
 	receiverActors, err := c.resolveInboxes(r, 0, c.MaxDepth)
 	if err != nil {
 		return nil, err
@@ -115,7 +125,7 @@ func (c *Client) prepare(o DeliverableObject) ([]url.URL, error) {
 // resolveInboxes takes a list of Actor id URIs and returns them as concrete
 // instances of ActorObject. It applies recursively when it encounters a target
 // that is a Collection or OrderedCollection.
-func (c *Client) resolveInboxes(r []url.URL, depth int, max int) ([]ActorObject, error) {
+func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]ActorObject, error) {
 	if depth >= max {
 		return nil, nil
 	}
@@ -280,6 +290,62 @@ func dedupeIRIs(recipients, ignored []url.URL) (out []url.URL) {
 		}
 	}
 	return
+}
+
+// dedupeOrderedItems will deduplicate the 'orderedItems' within an ordered
+// collection type. Deduplication happens by simply examining the 'id'.
+func (f *federator) dedupeOrderedItems(oc vocab.OrderedCollectionType) (vocab.OrderedCollectionType, error) {
+	i := 0
+	seen := make(map[string]bool, oc.OrderedItemsLen())
+	for i < oc.OrderedItemsLen() {
+		var id string
+		var removeFn func(int)
+		if oc.IsOrderedItemsObject(i) {
+			removeFn = oc.RemoveOrderedItemsObject
+			iri := oc.GetOrderedItemsObject(i).GetId()
+			pIri := &iri
+			id = pIri.String()
+		} else if oc.IsOrderedItemsLink(i) {
+			removeFn = oc.RemoveOrderedItemsLink
+			iri := oc.GetOrderedItemsLink(i).GetId()
+			pIri := &iri
+			id = pIri.String()
+		} else if oc.IsOrderedItemsIRI(i) {
+			removeFn = oc.RemoveOrderedItemsIRI
+			b, err := dereference(f.Client, oc.GetOrderedItemsIRI(i), f.Agent)
+			var m map[string]interface{}
+			if err := json.Unmarshal(b, &m); err != nil {
+				return oc, err
+			}
+			var iri url.URL
+			var hasIri bool
+			if err = toIdResolver(&hasIri, &iri).Deserialize(m); err != nil {
+				return oc, err
+			}
+			pIri := &iri
+			id = pIri.String()
+		}
+		if seen[id] {
+			removeFn(i)
+		} else {
+			seen[id] = true
+			i++
+		}
+	}
+	return oc, nil
+}
+
+// filterURLs removes urls whose strings match the provided filter
+func filterURLs(u []url.URL, fn func(s string) bool) []url.URL {
+	i := 0
+	for i < len(u) {
+		if fn(u[i].String()) {
+			u = append(u[:i], u[i+1:]...)
+		} else {
+			i++
+		}
+	}
+	return u
 }
 
 func getToIRIs(o DeliverableObject) []url.URL {
