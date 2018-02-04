@@ -12,7 +12,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = ioutil.WriteFile("activitystreams.go", b, 0666)
+	err = ioutil.WriteFile("streams.go", b, 0666)
 	if err != nil {
 		panic(err)
 	}

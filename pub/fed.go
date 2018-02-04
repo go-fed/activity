@@ -19,6 +19,8 @@ import (
 // Furthermore, the spec extends the Object ActivityStream type to also contain
 // the 'source' property, whose value appears to be an Object with only
 // 'content' and 'mediaType' properties being semantically useful.
+//
+// TODO: Possibly delete this interface
 type Object interface {
 	GetId() (streams.Resolution, url.URL)
 	SetId(url.URL)
@@ -41,6 +43,8 @@ var _ Object = &streams.Object{}
 // addition to the 'type' property. Furthermore, actors must have the 'inbox'
 // and 'outbox' properties to be considered actors. There are more suggested
 // properties by the spec, which we include here.
+//
+// TODO: Possibly delete this interface
 type Actor interface {
 	GetId() (streams.Resolution, url.URL)
 	SetId(url.URL)
@@ -83,6 +87,8 @@ var _ Object = &streams.Object{}
 
 // Endpoint is a logical grouping of specific properties within the ActivityPub
 // specification.
+//
+// TODO: Possibly delete this interface
 type Endpoint interface {
 	GetProxyUrl() (streams.Resolution, url.URL)
 	HasProxyUrl() streams.Presence
@@ -106,79 +112,44 @@ type Endpoint interface {
 
 var _ Endpoint = &streams.Object{}
 
-type clienter struct {
+// Typer is an object that has a type.
+type Typer interface {
+	TypeLen() (l int)
+	GetType(index int) (v interface{})
 }
 
-func (c *clienter) PostInbox() (http.HandlerFunc, error) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusMethodNotAllowed)
-	}, nil
+type typeIder interface {
+	Typer
+	SetId(v url.URL)
+	Serialize() (m map[string]interface{}, e error)
 }
 
-func (c *clienter) handleCreate() error {
-	// TODO: Enforce object
-	// TODO: Implement
-	return nil
-}
-
-func (c *clienter) handleUpdate() error {
-	// TODO: Enforce object
-	// TODO: Implement
-	return nil
-}
-
-func (c *clienter) handleDelete() error {
-	// TODO: Enforce object
-	// TODO: Implement
-	return nil
-}
-
-func (c *clienter) handleFollow() error {
-	// TODO: Enforce object
-	// TODO: Implement
-	return nil
-}
-
-func (c *clienter) handleAccept() error {
-	// TODO: Implement
-	return nil
-}
-
-func (c *clienter) handleReject() error {
-	// TODO: Implement
-	return nil
-}
-
-func (c *clienter) handleAdd() error {
-	// TODO: Enforce object & target
-	// TODO: Implement
-	return nil
-}
-
-func (c *clienter) handleRemove() error {
-	// TODO: Enforce object & target
-	// TODO: Implement
-	return nil
-}
-
-func (c *clienter) handleLike() error {
-	// TODO: Enforce object
-	// TODO: Implement
-	return nil
-}
-
-func (c *clienter) handleUndo() error {
-	// TODO: Enforce object
-	// TODO: Implement
-	return nil
-}
-
-// FederatorStorer is a long term storage solution provided by clients so that
-// data can be saved and retrieved by the ActivityPub federated server.
-type FederatorStorer interface {
+// Application is provided by users of this library in order to
+type Application interface {
 	// GetInbox returns the OrderedCollection inbox of the actor with the
-	// provided ID.
+	// provided ID. It is up to the implementation to provide the correct
+	// collection for the kind of authorization given in the request.
 	GetInbox(id string, r *http.Request) (vocab.OrderedCollectionType, error)
+	// GetOutbox returns the OrderedCollection inbox of the actor with the
+	// provided ID. It is up to the implementation to provide the correct
+	// collection for the kind of authorization given in the request.
+	GetOutbox(id string, r *http.Request) (vocab.OrderedCollectionType, error)
+	// PostOutboxAuthorized determines whether the request is able to post
+	// an Activity to the outbox for the specified id.
+	PostOutboxAuthorized(id string, r *http.Request) (bool, error)
+	// NewId takes in a client id token and returns an ActivityStreams IRI
+	// id for a new Activity posted to the outbox. The object is provided
+	// as a Typer so clients can use it to decide how to generate the IRI.
+	NewId(id string, t Typer) url.URL
+	// AddToOutboxResolver returns the client's Resolver which must store
+	// the provided object in the outbox of the user represented by the
+	// client id token.
+	AddToOutboxResolver(id string) (*streams.Resolver, error)
+}
+
+// Receiver is provided by users of this library and designed to handle
+// receiving federated messages through the Federated Protocol.
+type Receiver interface {
 	// Create requires the client application to persist the 'object' that
 	// was created.
 	Create(id string, s *streams.Create) error
@@ -215,19 +186,31 @@ type FederatorStorer interface {
 }
 
 type federator struct {
-	// Storer is the permanent storage solution provided by the client
-	// application.
-	Storer FederatorStorer
+	// App is the client application that is ActivityPub aware.
+	//
+	// It is always required.
+	App Application
+	// Receiver provides callbacks when handling incoming messages received
+	// via the Federated Protocol.
+	//
+	// It is only required if EnableServer is true.
+	Receiver Receiver
 	// Client is used to federate with other ActivityPub servers.
+	//
+	// It is only required if EnableServer is true.
 	Client *http.Client
 	// Agent is the User-Agent string to use in HTTP headers when
 	// federating with another server. It will automatically be appended
 	// with '(go-fed ActivityPub)'.
+	//
+	// It is only required if EnableServer is true.
 	Agent string
-	// MaxDepth is how deep collections of recipients will be expanded for
-	// delivery. It must be at least 1 to be compliant with the ActivityPub
-	// spec.
-	MaxDepth int
+	// MaxDeliveryDepth is how deep collections of recipients will be
+	// expanded for delivery. It must be at least 1 to be compliant with the
+	// ActivityPub spec.
+	//
+	// It is only required if EnableServer is true.
+	MaxDeliveryDepth int
 	// EnableClient enables or disables the Social API, the client to
 	// server part of ActivityPub. Useful if permitting remote clients to
 	// act on behalf of the users of the client application.
@@ -236,6 +219,24 @@ type federator struct {
 	// server to server part of ActivityPub. Useful to permit integrating
 	// with the rest of the federative web.
 	EnableServer bool
+	// pool properly handles rate-limiting and retrying deliveries to other
+	// federated servers.
+	//
+	// It is only required if EnableServer is true.
+	pool *delivererPool
+}
+
+func (f *federator) Stop() {
+	if f.pool != nil {
+		f.pool.Stop()
+	}
+}
+
+func (f *federator) Errors() <-chan error {
+	if f.pool != nil {
+		return f.pool.Errors()
+	}
+	return nil
 }
 
 func (f *federator) PostInbox(id string) HandlerFunc {
@@ -269,7 +270,7 @@ func (f *federator) GetInbox(id string) HandlerFunc {
 		if !isActivityPubGet(r) {
 			return false, nil
 		}
-		oc, err := f.Storer.GetInbox(id, r)
+		oc, err := f.App.GetInbox(id, r)
 		if err != nil {
 			return true, err
 		}
@@ -306,10 +307,68 @@ func (f *federator) PostOutbox(id string) HandlerFunc {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			return true, nil
 		}
-		// TODO: Implement
-		if f.EnableServer {
-			// TODO: Hook in delivery
+		ok, err := f.App.PostOutboxAuthorized(id, r)
+		if err != nil {
+			return true, err
 		}
+		if !ok {
+			w.WriteHeader(http.StatusForbidden)
+			return true, nil
+		}
+		b, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			return true, err
+		}
+		var m map[string]interface{}
+		if err = json.Unmarshal(b, &m); err != nil {
+			return true, err
+		}
+		typer, err := toTypeIder(m)
+		if err != nil {
+			return true, err
+		}
+		newId := f.App.NewId(id, typer)
+		if !isActivityType(typer) {
+			// TODO: Wrap in Create Activity
+		}
+		typer.SetId(newId)
+		if m, err = typer.Serialize(); err != nil {
+			return true, err
+		}
+		outboxAdder, err := f.App.AddToOutboxResolver(id)
+		if err != nil {
+			return true, err
+		}
+		if err = outboxAdder.Deserialize(m); err != nil {
+			return true, err
+		}
+		if err = f.getPostOutboxResolver(id).Deserialize(m); err != nil {
+			return true, err
+		}
+		if f.EnableServer {
+			obj, err := toAnyActivity(m)
+			if err != nil {
+				return true, err
+			}
+			recipients, err := f.prepare(obj)
+			if err != nil {
+				return true, err
+			}
+			m, err := obj.Serialize()
+			if err != nil {
+				return true, err
+			}
+			m["@context"] = "https://www.w3.org/ns/activitystreams"
+			b, err := json.Marshal(m)
+			if err != nil {
+				return true, err
+			}
+			for _, to := range recipients {
+				f.pool.Do(b, to, f.postToOutbox)
+			}
+		}
+		w.Header().Set("Location", newId.String())
+		w.WriteHeader(http.StatusCreated)
 		return true, nil
 	}
 }
@@ -319,8 +378,130 @@ func (f *federator) GetOutbox(id string) HandlerFunc {
 		if !isActivityPubGet(r) {
 			return false, nil
 		}
-		// TODO: Implement
+		oc, err := f.App.GetOutbox(id, r)
+		if err != nil {
+			return true, err
+		}
+		m, err := oc.Serialize()
+		if err != nil {
+			return true, err
+		}
+		b, err := json.Marshal(m)
+		if err != nil {
+			return true, err
+		}
+		w.Header().Set(contentTypeHeader, responseContentTypeHeader)
+		w.WriteHeader(http.StatusOK)
+		n, err := w.Write(b)
+		if err != nil {
+			return true, err
+		} else if n != len(b) {
+			return true, fmt.Errorf("ResponseWriter.Write wrote %d of %d bytes", n, len(b))
+		}
 		return true, nil
+	}
+}
+
+func (f *federator) getPostOutboxResolver(id string) *streams.Resolver {
+	return &streams.Resolver{
+		CreateCallback: f.handleClientCreate(id),
+		UpdateCallback: f.handleClientUpdate(id),
+		DeleteCallback: f.handleClientDelete(id),
+		FollowCallback: f.handleClientFollow(id),
+		AcceptCallback: f.handleClientAccept(id),
+		RejectCallback: f.handleClientReject(id),
+		AddCallback:    f.handleClientAdd(id),
+		RemoveCallback: f.handleClientRemove(id),
+		LikeCallback:   f.handleClientLike(id),
+		UndoCallback:   f.handleClientUndo(id),
+		BlockCallback:  f.handleClientBlock(id),
+		// TODO: Extended activity types, such as Announce, Arrive, etc.
+	}
+}
+
+func (f *federator) handleClientCreate(id string) func(s *streams.Create) error {
+	return func(s *streams.Create) error {
+		// TODO: Enforce object
+		// TODO: Implement
+		return nil
+	}
+}
+
+func (f *federator) handleClientUpdate(id string) func(s *streams.Update) error {
+	return func(s *streams.Update) error {
+		// TODO: Enforce object
+		// TODO: Implement
+		return nil
+	}
+}
+
+func (f *federator) handleClientDelete(id string) func(s *streams.Delete) error {
+	return func(s *streams.Delete) error {
+		// TODO: Enforce object
+		// TODO: Implement
+		return nil
+	}
+}
+
+func (f *federator) handleClientFollow(id string) func(s *streams.Follow) error {
+	return func(s *streams.Follow) error {
+		// TODO: Enforce object
+		// TODO: Implement
+		return nil
+	}
+}
+
+func (f *federator) handleClientAccept(id string) func(s *streams.Accept) error {
+	return func(s *streams.Accept) error {
+		// TODO: Implement
+		return nil
+	}
+}
+
+func (f *federator) handleClientReject(id string) func(s *streams.Reject) error {
+	return func(s *streams.Reject) error {
+		// TODO: Implement
+		return nil
+	}
+}
+
+func (f *federator) handleClientAdd(id string) func(s *streams.Add) error {
+	return func(s *streams.Add) error {
+		// TODO: Enforce object & target
+		// TODO: Implement
+		return nil
+	}
+}
+
+func (f *federator) handleClientRemove(id string) func(s *streams.Remove) error {
+	return func(s *streams.Remove) error {
+		// TODO: Enforce object & target
+		// TODO: Implement
+		return nil
+	}
+}
+
+func (f *federator) handleClientLike(id string) func(s *streams.Like) error {
+	return func(s *streams.Like) error {
+		// TODO: Enforce object
+		// TODO: Implement
+		return nil
+	}
+}
+
+func (f *federator) handleClientUndo(id string) func(s *streams.Undo) error {
+	return func(s *streams.Undo) error {
+		// TODO: Enforce object
+		// TODO: Implement
+		return nil
+	}
+}
+
+func (f *federator) handleClientBlock(id string) func(s *streams.Block) error {
+	return func(s *streams.Block) error {
+		// TODO: Enforce object
+		// TODO: Implement
+		return nil
 	}
 }
 
@@ -342,7 +523,7 @@ func (f *federator) getPostInboxResolver(id string) *streams.Resolver {
 
 func (f *federator) handleCreate(id string) func(s *streams.Create) error {
 	return func(s *streams.Create) error {
-		return f.Storer.Create(id, s)
+		return f.Receiver.Create(id, s)
 	}
 }
 
@@ -350,7 +531,7 @@ func (f *federator) handleUpdate(id string) func(s *streams.Update) error {
 	return func(s *streams.Update) error {
 		// TODO: The receiving server MUST take care to be sure that the Update
 		// is authorized to modify its object.
-		return f.Storer.Update(id, s)
+		return f.Receiver.Update(id, s)
 	}
 }
 
@@ -358,48 +539,48 @@ func (f *federator) handleDelete(id string) func(s *streams.Delete) error {
 	return func(s *streams.Delete) error {
 		// TODO: Verify ownership. I think the spec unintentionally suggests to
 		// just assume it is owned, so we will actually verify.
-		return f.Storer.Delete(id, s)
+		return f.Receiver.Delete(id, s)
 	}
 }
 
 func (f *federator) handleFollow(id string) func(s *streams.Follow) error {
 	return func(s *streams.Follow) error {
-		return f.Storer.Follow(id, s)
+		return f.Receiver.Follow(id, s)
 	}
 }
 
 func (f *federator) handleAccept(id string) func(s *streams.Accept) error {
 	return func(s *streams.Accept) error {
-		return f.Storer.Accept(id, s)
+		return f.Receiver.Accept(id, s)
 	}
 }
 
 func (f *federator) handleReject(id string) func(s *streams.Reject) error {
 	return func(s *streams.Reject) error {
-		return f.Storer.Reject(id, s)
+		return f.Receiver.Reject(id, s)
 	}
 }
 
 func (f *federator) handleAdd(id string) func(s *streams.Add) error {
 	return func(s *streams.Add) error {
-		return f.Storer.Add(id, s)
+		return f.Receiver.Add(id, s)
 	}
 }
 
 func (f *federator) handleRemove(id string) func(s *streams.Remove) error {
 	return func(s *streams.Remove) error {
-		return f.Storer.Remove(id, s)
+		return f.Receiver.Remove(id, s)
 	}
 }
 
 func (f *federator) handleLike(id string) func(s *streams.Like) error {
 	return func(s *streams.Like) error {
-		return f.Storer.Like(id, s)
+		return f.Receiver.Like(id, s)
 	}
 }
 
 func (f *federator) handleUndo(id string) func(s *streams.Undo) error {
 	return func(s *streams.Undo) error {
-		return f.Storer.Undo(id, s)
+		return f.Receiver.Undo(id, s)
 	}
 }

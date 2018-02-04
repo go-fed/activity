@@ -11,10 +11,16 @@ import (
 // checked. The response will have already been written to when handled. Client
 // applications can freely choose how to handle the request if this function
 // does not handle it.
+//
+// Note that if the handler attempted to handle the request but returned an
+// error, it is up to the client application to determine what headers and
+// response to send to the requester.
 type HandlerFunc func(http.ResponseWriter, *http.Request) (bool, error)
 
 // ActorObject is an object that has "actor" or "attributedTo" properties,
 // representing the author or originator of the object.
+//
+// TODO: Convert this to be an internal interface.
 type ActorObject interface {
 	HasInbox() (ok bool)
 	GetInbox() (v url.URL)
@@ -36,6 +42,8 @@ type ActorObject interface {
 
 // DeliverableObject is an object that is able to be sent to recipients via the
 // "to", "bto", "cc", "bcc", and "audience" objects and/or links and/or IRIs.
+//
+// TODO: Convert this to be an internal interface.
 type DeliverableObject interface {
 	ActorObject
 	ToLen() (l int)

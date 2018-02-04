@@ -71,3 +71,29 @@ func toOrderedCollectionPage(m map[string]interface{}) (c *streams.OrderedCollec
 	err = r.Deserialize(m)
 	return
 }
+
+func toTypeIder(m map[string]interface{}) (t typeIder, err error) {
+	r := &streams.Resolver{
+		AnyObjectCallback: func(i vocab.ObjectType) error {
+			t = i
+			return nil
+		},
+		AnyLinkCallback: func(i vocab.LinkType) error {
+			t = i
+			return nil
+		},
+	}
+	err = r.Deserialize(m)
+	return
+}
+
+func toAnyActivity(m map[string]interface{}) (o vocab.ActivityType, err error) {
+	r := &streams.Resolver{
+		AnyActivityCallback: func(i vocab.ActivityType) error {
+			o = i
+			return nil
+		},
+	}
+	err = r.Deserialize(m)
+	return
+}

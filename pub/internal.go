@@ -82,6 +82,13 @@ func dereference(c *http.Client, u url.URL, agent string) ([]byte, error) {
 	return ioutil.ReadAll(resp.Body)
 }
 
+// postToOutbox will attempt to send a POST request to the given URL with the
+// body set to the provided bytes.
+func (f *federator) postToOutbox(b []byte, to url.URL) error {
+	// TODO: Implement
+	return nil
+}
+
 // TODO: (Section 7) HTTP caching mechanisms [RFC7234] SHOULD be respected when appropriate, both when receiving responses from other servers as well as sending responses to other servers.
 
 // prepare takes a DeliverableObject and returns a list of the proper recipient
@@ -105,13 +112,13 @@ func (c *federator) prepare(o DeliverableObject) ([]url.URL, error) {
 	// server MAY deliver that object to all known sharedInbox endpoints on
 	// the network.
 	r = filterURLs(r, isPublic)
-	receiverActors, err := c.resolveInboxes(r, 0, c.MaxDepth)
+	receiverActors, err := c.resolveInboxes(r, 0, c.MaxDeliveryDepth)
 	if err != nil {
 		return nil, err
 	}
 	targets := getInboxes(receiverActors)
 	// Get inboxes of sender(s)
-	senderActors, err := c.resolveInboxes(getActorsAttributedToURI(o), 0, c.MaxDepth)
+	senderActors, err := c.resolveInboxes(getActorsAttributedToURI(o), 0, c.MaxDeliveryDepth)
 	if err != nil {
 		return nil, err
 	}
@@ -619,4 +626,23 @@ func getURIsInOrderedItemer(i orderedItemer) []url.URL {
 		}
 	}
 	return u
+}
+
+// TODO: Move this to vocab package.
+var activityTypes = []string{"Accept", "Add", "Announce", "Arrive", "Block", "Create", "Delete", "Dislike", "Flag", "Follow", "Ignore", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Offer", "Question", "Reject", "Read", "Remove", "TentativeReject", "TentativeAccept", "Travel", "Undo", "Update", "View"}
+
+func isActivityType(t Typer) bool {
+	hasType := make(map[string]bool, 1)
+	for i := 0; i < t.TypeLen(); i++ {
+		v := t.GetType(i)
+		if s, ok := v.(string); ok {
+			hasType[s] = true
+		}
+	}
+	for _, t := range activityTypes {
+		if hasType[t] {
+			return true
+		}
+	}
+	return false
 }

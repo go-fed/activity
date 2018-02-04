@@ -37,7 +37,7 @@ func GenerateConvenienceTypes(types []*defs.Type) ([]byte, error) {
 func generatePackageDefinition() *defs.PackageDef {
 	return &defs.PackageDef{
 		Name:    "streams",
-		Comment: "Package activitystreams is a convenience wrapper around the raw ActivityStream vocabulary. This package is code-generated to permit more powerful expressions and manipulations of the ActivityStreams Vocabulary types. This package also does not permit use of 'unknown' properties, or those that are outside of the ActivityStream Vocabulary specification. However, it still correctly propagates them when repeatedly re-and-de-serialized. Custom extensions of the vocabulary are supported by modifying the data definitions in the generation tool and rerunning it. Do not modify this package directly.",
+		Comment: "Package streams is a convenience wrapper around the raw ActivityStream vocabulary. This package is code-generated to permit more powerful expressions and manipulations of the ActivityStreams Vocabulary types. This package also does not permit use of 'unknown' properties, or those that are outside of the ActivityStream Vocabulary specification. However, it still correctly propagates them when repeatedly re-and-de-serialized. Custom extensions of the vocabulary are supported by modifying the data definitions in the generation tool and rerunning it. Do not modify this package directly.",
 		Imports: []string{"fmt", "github.com/go-fed/activity/vocab", "net/url", "time"},
 		Raw: `type Resolution int
 
@@ -68,7 +68,9 @@ func generateResolver(types []*defs.Type) *defs.StructDef {
 		c := fmt.Sprintf("Callback function for the %s type", t.Name)
 		this.M = append(this.M, &defs.StructMember{name, sig, c})
 	}
-	this.M = append(this.M, &defs.StructMember{"AnyObjectCallback", "func(vocab.ObjectType) error", "Callback function for any type that satisfies the vocab.ObjectType interface."})
+	this.M = append(this.M, &defs.StructMember{"AnyObjectCallback", "func(vocab.ObjectType) error", "Callback function for any type that satisfies the vocab.ObjectType interface. Note that this will be called in addition to the specific type callbacks."})
+	this.M = append(this.M, &defs.StructMember{"AnyLinkCallback", "func(vocab.LinkType) error", "Callback function for any type that satisfies the vocab.LinkType interface. Note that this will be called in addition to the specific type callbacks."})
+	this.M = append(this.M, &defs.StructMember{"AnyActivityCallback", "func(vocab.ActivityType) error", "Callback function for any type that satisfies the vocab.ActivityType interface. Note that this will be called in addition to the specific type callbacks."})
 	this.F = []*defs.MemberFunctionDef{
 		{
 			Name:    dispatchFnName,
@@ -94,6 +96,16 @@ func generateResolver(types []*defs.Type) *defs.StructDef {
 				b.WriteString("if obj, ok := i.(vocab.ObjectType); ok {\n")
 				b.WriteString("if t.AnyObjectCallback != nil {\n")
 				b.WriteString("return true, t.AnyObjectCallback(obj)")
+				b.WriteString("}\n")
+				b.WriteString("}\n")
+				b.WriteString("if link, ok := i.(vocab.LinkType); ok {\n")
+				b.WriteString("if t.AnyLinkCallback != nil {\n")
+				b.WriteString("return true, t.AnyLinkCallback(link)")
+				b.WriteString("}\n")
+				b.WriteString("}\n")
+				b.WriteString("if activity, ok := i.(vocab.ActivityType); ok {\n")
+				b.WriteString("if t.AnyActivityCallback != nil {\n")
+				b.WriteString("return true, t.AnyActivityCallback(activity)")
 				b.WriteString("}\n")
 				b.WriteString("}\n")
 				b.WriteString("return false, fmt.Errorf(\"The interface did not match any known types: %T\", i)\n")

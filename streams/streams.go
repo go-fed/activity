@@ -1,4 +1,4 @@
-// Package activitystreams is a convenience wrapper around the raw ActivityStream vocabulary. This package is code-generated to permit more powerful expressions and manipulations of the ActivityStreams Vocabulary types. This package also does not permit use of 'unknown' properties, or those that are outside of the ActivityStream Vocabulary specification. However, it still correctly propagates them when repeatedly re-and-de-serialized. Custom extensions of the vocabulary are supported by modifying the data definitions in the generation tool and rerunning it. Do not modify this package directly.
+// Package streams is a convenience wrapper around the raw ActivityStream vocabulary. This package is code-generated to permit more powerful expressions and manipulations of the ActivityStreams Vocabulary types. This package also does not permit use of 'unknown' properties, or those that are outside of the ActivityStream Vocabulary specification. However, it still correctly propagates them when repeatedly re-and-de-serialized. Custom extensions of the vocabulary are supported by modifying the data definitions in the generation tool and rerunning it. Do not modify this package directly.
 package streams
 
 import (
@@ -134,8 +134,12 @@ type Resolver struct {
 	TombstoneCallback func(*Tombstone) error
 	// Callback function for the Mention type
 	MentionCallback func(*Mention) error
-	// Callback function for any type that satisfies the vocab.ObjectType interface.
+	// Callback function for any type that satisfies the vocab.ObjectType interface. Note that this will be called in addition to the specific type callbacks.
 	AnyObjectCallback func(vocab.ObjectType) error
+	// Callback function for any type that satisfies the vocab.LinkType interface. Note that this will be called in addition to the specific type callbacks.
+	AnyLinkCallback func(vocab.LinkType) error
+	// Callback function for any type that satisfies the vocab.ActivityType interface. Note that this will be called in addition to the specific type callbacks.
+	AnyActivityCallback func(vocab.ActivityType) error
 }
 
 // dispatch routes the given type to the appropriate Resolver callback.
@@ -683,6 +687,16 @@ func (t *Resolver) dispatch(i interface{}) (handled bool, err error) {
 	if obj, ok := i.(vocab.ObjectType); ok {
 		if t.AnyObjectCallback != nil {
 			return true, t.AnyObjectCallback(obj)
+		}
+	}
+	if link, ok := i.(vocab.LinkType); ok {
+		if t.AnyLinkCallback != nil {
+			return true, t.AnyLinkCallback(link)
+		}
+	}
+	if activity, ok := i.(vocab.ActivityType); ok {
+		if t.AnyActivityCallback != nil {
+			return true, t.AnyActivityCallback(activity)
 		}
 	}
 	return false, fmt.Errorf("The interface did not match any known types: %T", i)
