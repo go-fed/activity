@@ -1,6 +1,7 @@
 package pub
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/go-fed/activity/streams"
@@ -84,8 +85,26 @@ func dereference(c *http.Client, u url.URL, agent string) ([]byte, error) {
 
 // postToOutbox will attempt to send a POST request to the given URL with the
 // body set to the provided bytes.
-func (f *federator) postToOutbox(b []byte, to url.URL) error {
-	// TODO: Implement
+func postToOutbox(c *http.Client, b []byte, to url.URL, agent string) error {
+	byteCopy := make([]byte, 0, len(b))
+	copy(b, byteCopy)
+	buf := bytes.NewBuffer(byteCopy)
+	req, err := http.NewRequest("POST", to.String(), buf)
+	if err != nil {
+		return err
+	}
+	req.Header.Add(contentTypeHeader, postContentTypeHeader)
+	req.Header.Add("Accept-Charset", "utf-8")
+	req.Header.Add("Date", time.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
+	req.Header.Add("User-Agent", fmt.Sprintf("%s (go-fed ActivityPub)", agent))
+	resp, err := c.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("Request to %s failed (%d): %s", to.String(), resp.StatusCode, resp.Status)
+	}
 	return nil
 }
 

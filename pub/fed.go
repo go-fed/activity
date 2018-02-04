@@ -375,7 +375,9 @@ func (f *federator) PostOutbox(id string) HandlerFunc {
 				return true, err
 			}
 			for _, to := range recipients {
-				f.pool.Do(b, to, f.postToOutbox)
+				f.pool.Do(b, to, func(b []byte, u url.URL) error {
+					return postToOutbox(f.Client, b, u, f.Agent)
+				})
 			}
 		}
 		w.Header().Set("Location", newId.String())
