@@ -145,6 +145,9 @@ type Application interface {
 	// the provided object in the outbox of the user represented by the
 	// client id token.
 	AddToOutboxResolver(id string) (*streams.Resolver, error)
+	// ActorIRI returns the actor's IRI associated with the given client ID
+	// token.
+	ActorIRI(id string) (url.URL, error)
 }
 
 // Receiver is provided by users of this library and designed to handle
@@ -329,7 +332,15 @@ func (f *federator) PostOutbox(id string) HandlerFunc {
 		}
 		newId := f.App.NewId(id, typer)
 		if !isActivityType(typer) {
-			// TODO: Wrap in Create Activity
+			actorIri, err := f.App.ActorIRI(id)
+			if err != nil {
+				return true, err
+			}
+			obj, ok := typer.(vocab.ObjectType)
+			if !ok {
+				return true, fmt.Errorf("wrap in create: cannot convert to vocab.ObjectType: %T", typer)
+			}
+			typer = f.wrapInCreate(obj, actorIri)
 		}
 		typer.SetId(newId)
 		if m, err = typer.Serialize(); err != nil {

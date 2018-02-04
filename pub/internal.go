@@ -89,6 +89,64 @@ func (f *federator) postToOutbox(b []byte, to url.URL) error {
 	return nil
 }
 
+// wrapInCreate will automatically wrap the provided object in a Create
+// activity. This will copy over the 'to', 'bto', 'cc', 'bcc', and 'audience'
+// properties. It will also copy over the published time if present.
+func (f *federator) wrapInCreate(o vocab.ObjectType, actor url.URL) *vocab.Create {
+	c := &vocab.Create{}
+	c.AddObject(o)
+	c.AddActorIRI(actor)
+	if o.IsPublished() {
+		c.SetPublished(o.GetPublished())
+	}
+	for i := 0; i < o.ToLen(); i++ {
+		if o.IsToObject(i) {
+			c.AddToObject(o.GetToObject(i))
+		} else if o.IsToLink(i) {
+			c.AddToLink(o.GetToLink(i))
+		} else if o.IsToIRI(i) {
+			c.AddToIRI(o.GetToIRI(i))
+		}
+	}
+	for i := 0; i < o.BtoLen(); i++ {
+		if o.IsBtoObject(i) {
+			c.AddBtoObject(o.GetBtoObject(i))
+		} else if o.IsBtoLink(i) {
+			c.AddBtoLink(o.GetBtoLink(i))
+		} else if o.IsBtoIRI(i) {
+			c.AddBtoIRI(o.GetBtoIRI(i))
+		}
+	}
+	for i := 0; i < o.CcLen(); i++ {
+		if o.IsCcObject(i) {
+			c.AddCcObject(o.GetCcObject(i))
+		} else if o.IsCcLink(i) {
+			c.AddCcLink(o.GetCcLink(i))
+		} else if o.IsCcIRI(i) {
+			c.AddCcIRI(o.GetCcIRI(i))
+		}
+	}
+	for i := 0; i < o.BccLen(); i++ {
+		if o.IsBccObject(i) {
+			c.AddBccObject(o.GetBccObject(i))
+		} else if o.IsBccLink(i) {
+			c.AddBccLink(o.GetBccLink(i))
+		} else if o.IsBccIRI(i) {
+			c.AddBccIRI(o.GetBccIRI(i))
+		}
+	}
+	for i := 0; i < o.AudienceLen(); i++ {
+		if o.IsAudienceObject(i) {
+			c.AddAudienceObject(o.GetAudienceObject(i))
+		} else if o.IsAudienceLink(i) {
+			c.AddAudienceLink(o.GetAudienceLink(i))
+		} else if o.IsAudienceIRI(i) {
+			c.AddAudienceIRI(o.GetAudienceIRI(i))
+		}
+	}
+	return c
+}
+
 // TODO: (Section 7) HTTP caching mechanisms [RFC7234] SHOULD be respected when appropriate, both when receiving responses from other servers as well as sending responses to other servers.
 
 // prepare takes a DeliverableObject and returns a list of the proper recipient
