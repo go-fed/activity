@@ -1,6 +1,7 @@
 package pub
 
 import (
+	"fmt"
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/vocab"
 	"net/url"
@@ -72,18 +73,29 @@ func toOrderedCollectionPage(m map[string]interface{}) (c *streams.OrderedCollec
 	return
 }
 
-func toTypeIder(m map[string]interface{}) (t typeIder, err error) {
+func toTypeIder(m map[string]interface{}) (tid typeIder, err error) {
+	var t []typeIder
 	r := &streams.Resolver{
 		AnyObjectCallback: func(i vocab.ObjectType) error {
-			t = i
+			t = append(t, i)
 			return nil
 		},
 		AnyLinkCallback: func(i vocab.LinkType) error {
-			t = i
+			t = append(t, i)
 			return nil
 		},
 	}
 	err = r.Deserialize(m)
+	if err != nil {
+		return
+	}
+	// TODO: Support more than one, which will enable creating multiple
+	// objects simultaneously.
+	if len(t) != 1 {
+		err = fmt.Errorf("too many object/links: %d", len(t))
+		return
+	}
+	tid = t[0]
 	return
 }
 

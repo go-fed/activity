@@ -2,12 +2,20 @@ package pub
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/vocab"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+)
+
+var (
+	// ErrObjectRequired means the activity needs its object property set.
+	ErrObjectRequired = errors.New("object property required")
+	// ErrTypeRequired means the activity needs its type property set.
+	ErrTypeRequired = errors.New("type property required")
 )
 
 // Object is the interface for ActivityPub compliant ActivityStream types.
@@ -188,16 +196,29 @@ type Receiver interface {
 	Undo(id string, s *streams.Undo) error
 }
 
+// ClientReceiver is provided by users of this library and designed to handle
+// receiving messaged from ActivityPub clients through the Social API.
+type ClientReceiver interface {
+	// Create requires the client application to persist the 'object' that
+	// was created.
+	Create(id string, s *streams.Create) error
+}
+
 type federator struct {
 	// App is the client application that is ActivityPub aware.
 	//
 	// It is always required.
 	App Application
 	// Receiver provides callbacks when handling incoming messages received
-	// via the Federated Protocol.
+	// via the Federated Protocol, or server-to-server communications.
 	//
 	// It is only required if EnableServer is true.
 	Receiver Receiver
+	// ClientReceiver provides callbacks when handling incoming messages
+	// received via the Social API, or client-to-server communications.
+	//
+	// It is only required if EnableClient is true.
+	ClientReceiver ClientReceiver
 	// Client is used to federate with other ActivityPub servers.
 	//
 	// It is only required if EnableServer is true.
@@ -301,6 +322,13 @@ func (f *federator) GetInbox(id string) HandlerFunc {
 	}
 }
 
+// PostOutpox provides a HTTP handler for ActivityPub requests for the given id
+// token. The client ID token is passed forwards to other interfaces for
+// application specific behavior. The handler will return true if it handled
+// the request as an ActivityPub request. If it returns an error, it is up to
+// the client to determine how to respond via HTTP.
+//
+// Note that the error could be ErrObjectRequired or ErrTypeRequired.
 func (f *federator) PostOutbox(id string) HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) (bool, error) {
 		if !isActivityPubPost(r) {
@@ -330,7 +358,6 @@ func (f *federator) PostOutbox(id string) HandlerFunc {
 		if err != nil {
 			return true, err
 		}
-		newId := f.App.NewId(id, typer)
 		if !isActivityType(typer) {
 			actorIri, err := f.App.ActorIRI(id)
 			if err != nil {
@@ -342,6 +369,7 @@ func (f *federator) PostOutbox(id string) HandlerFunc {
 			}
 			typer = f.wrapInCreate(obj, actorIri)
 		}
+		newId := f.App.NewId(id, typer)
 		typer.SetId(newId)
 		if m, err = typer.Serialize(); err != nil {
 			return true, err
@@ -434,15 +462,96 @@ func (f *federator) getPostOutboxResolver(id string) *streams.Resolver {
 
 func (f *federator) handleClientCreate(id string) func(s *streams.Create) error {
 	return func(s *streams.Create) error {
-		// TODO: Enforce object
-		// TODO: Implement
-		return nil
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
+		c := s.Raw()
+		// When a Create activity is posted, the actor of the activity
+		// SHOULD be copied onto the object's attributedTo field.
+		// Presumably only if it doesn't already exist, to prevent
+		// duplicate deliveries.
+		createActorIds := make(map[string]interface{})
+		for i := 0; i < c.ActorLen(); i++ {
+			if c.IsActorObject(i) {
+				obj := c.GetActorObject(i)
+				id := obj.GetId()
+				createActorIds[(&id).String()] = obj
+			} else if c.IsActorLink(i) {
+				l := c.GetActorLink(i)
+				href := l.GetHref()
+				createActorIds[(&href).String()] = l
+			} else if c.IsActorIRI(i) {
+				iri := c.GetActorIRI(i)
+				createActorIds[(&iri).String()] = iri
+			}
+		}
+		var obj []vocab.ObjectType
+		for i := 0; i < c.ObjectLen(); i++ {
+			if c.IsObject(i) {
+				obj = append(obj, c.GetObject(i))
+			} else if c.IsObjectIRI(i) {
+				return fmt.Errorf("unsupported: Create Activity with 'object' that is only an IRI")
+			}
+		}
+		objectAttributedToIds := make([]map[string]interface{}, len(obj))
+		for i := range objectAttributedToIds {
+			objectAttributedToIds[i] = make(map[string]interface{})
+		}
+		for k, o := range obj {
+			for i := 0; i < o.AttributedToLen(); i++ {
+				if o.IsAttributedToObject(i) {
+					at := o.GetAttributedToObject(i)
+					id := o.GetId()
+					objectAttributedToIds[k][(&id).String()] = at
+				} else if o.IsAttributedToLink(i) {
+					at := o.GetAttributedToLink(i)
+					href := at.GetHref()
+					objectAttributedToIds[k][(&href).String()] = at
+				} else if o.IsAttributedToIRI(i) {
+					iri := o.GetAttributedToIRI(i)
+					objectAttributedToIds[k][(&iri).String()] = iri
+				}
+			}
+		}
+		for k, v := range createActorIds {
+			for i, attributedToMap := range objectAttributedToIds {
+				if _, ok := attributedToMap[k]; !ok {
+					if vObj, ok := v.(vocab.ObjectType); ok {
+						obj[i].AddAttributedToObject(vObj)
+					} else if vLink, ok := v.(vocab.LinkType); ok {
+						obj[i].AddAttributedToLink(vLink)
+					} else if vIRI, ok := v.(url.URL); ok {
+						obj[i].AddAttributedToIRI(vIRI)
+					}
+				}
+			}
+		}
+		// As such, a server SHOULD copy any recipients of the Create activity to its
+		// object upon initial distribution, and likewise with copying recipients from
+		// the object to the wrapping Create activity.
+		// Again, presumably if it does not already exist.
+		for _, attributedToMap := range objectAttributedToIds {
+			for k, v := range attributedToMap {
+				if _, ok := createActorIds[k]; !ok {
+					if vObj, ok := v.(vocab.ObjectType); ok {
+						c.AddActorObject(vObj)
+					} else if vLink, ok := v.(vocab.LinkType); ok {
+						c.AddActorLink(vLink)
+					} else if vIRI, ok := v.(url.URL); ok {
+						c.AddActorIRI(vIRI)
+					}
+				}
+			}
+		}
+		return f.ClientReceiver.Create(id, s)
 	}
 }
 
 func (f *federator) handleClientUpdate(id string) func(s *streams.Update) error {
 	return func(s *streams.Update) error {
-		// TODO: Enforce object
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
 		// TODO: Implement
 		return nil
 	}
@@ -450,7 +559,9 @@ func (f *federator) handleClientUpdate(id string) func(s *streams.Update) error 
 
 func (f *federator) handleClientDelete(id string) func(s *streams.Delete) error {
 	return func(s *streams.Delete) error {
-		// TODO: Enforce object
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
 		// TODO: Implement
 		return nil
 	}
@@ -458,7 +569,9 @@ func (f *federator) handleClientDelete(id string) func(s *streams.Delete) error 
 
 func (f *federator) handleClientFollow(id string) func(s *streams.Follow) error {
 	return func(s *streams.Follow) error {
-		// TODO: Enforce object
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
 		// TODO: Implement
 		return nil
 	}
@@ -480,7 +593,11 @@ func (f *federator) handleClientReject(id string) func(s *streams.Reject) error 
 
 func (f *federator) handleClientAdd(id string) func(s *streams.Add) error {
 	return func(s *streams.Add) error {
-		// TODO: Enforce object & target
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		} else if s.LenType() == 0 {
+			return ErrTypeRequired
+		}
 		// TODO: Implement
 		return nil
 	}
@@ -488,7 +605,11 @@ func (f *federator) handleClientAdd(id string) func(s *streams.Add) error {
 
 func (f *federator) handleClientRemove(id string) func(s *streams.Remove) error {
 	return func(s *streams.Remove) error {
-		// TODO: Enforce object & target
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		} else if s.LenType() == 0 {
+			return ErrTypeRequired
+		}
 		// TODO: Implement
 		return nil
 	}
@@ -496,7 +617,9 @@ func (f *federator) handleClientRemove(id string) func(s *streams.Remove) error 
 
 func (f *federator) handleClientLike(id string) func(s *streams.Like) error {
 	return func(s *streams.Like) error {
-		// TODO: Enforce object
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
 		// TODO: Implement
 		return nil
 	}
@@ -504,7 +627,9 @@ func (f *federator) handleClientLike(id string) func(s *streams.Like) error {
 
 func (f *federator) handleClientUndo(id string) func(s *streams.Undo) error {
 	return func(s *streams.Undo) error {
-		// TODO: Enforce object
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
 		// TODO: Implement
 		return nil
 	}
@@ -512,7 +637,9 @@ func (f *federator) handleClientUndo(id string) func(s *streams.Undo) error {
 
 func (f *federator) handleClientBlock(id string) func(s *streams.Block) error {
 	return func(s *streams.Block) error {
-		// TODO: Enforce object
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
 		// TODO: Implement
 		return nil
 	}
