@@ -120,6 +120,10 @@ type Endpoint interface {
 
 var _ Endpoint = &streams.Object{}
 
+// TODO: Helper http Handler for serving ActivityStream objects
+// TODO: Helper http Handler for serving Tombstone objects
+// TODO: Helper http Handler for serving deleted objects
+
 // Typer is an object that has a type.
 type Typer interface {
 	TypeLen() (l int)
@@ -160,6 +164,10 @@ type Application interface {
 
 // Receiver is provided by users of this library and designed to handle
 // receiving federated messages through the Federated Protocol.
+//
+// Note that although Receiver and ClientReceiver have similar methods, many of
+// them have different requirements and thus implementations are not
+// interchangeable between Receiver and ClientReceiver.
 type Receiver interface {
 	// Create requires the client application to persist the 'object' that
 	// was created.
@@ -175,12 +183,13 @@ type Receiver interface {
 	// automatically triggered.
 	Follow(id string, s *streams.Follow) error
 	// Accept can be client application specific. However, if this 'Accept'
-	// is in response to a 'Follow' then the follower should be added by the
-	// client application.
+	// is in response to a 'Follow' then the 'actor' should be added to the
+	// original 'actor's 'following' collection by the client application.
 	Accept(id string, s *streams.Accept) error
 	// Reject can be client application specific. However, if this 'Reject'
 	// is in response to a 'Follow' then the client MUST NOT go forward with
-	// adding the follower.
+	// adding the 'actor' to the original 'actor's 'following' collection
+	// by the client application.
 	Reject(id string, s *streams.Reject) error
 	// Add is client application specific, generally involving adding an
 	// 'object' to a specific 'target' collection.
@@ -192,16 +201,61 @@ type Receiver interface {
 	Like(id string, s *streams.Like) error
 	// Undo negates a previous action. The 'actor' on the 'Undo' MUST be the
 	// same as the 'actor' on the Activity being undone, and the client
-	// application is responsible for enforcing this.
+	// application is responsible for enforcing this. Note that 'Undo'-ing
+	// is not a deletion of a previous Activity, but the addition of its
+	// opposite.
 	Undo(id string, s *streams.Undo) error
 }
 
 // ClientReceiver is provided by users of this library and designed to handle
 // receiving messaged from ActivityPub clients through the Social API.
+//
+// Note that although ClientReceiver and Receiver have similar methods, many of
+// them have different requirements and thus implementations are not
+// interchangeable between ClientReceiver and Receiver.
 type ClientReceiver interface {
 	// Create requires the client application to persist the 'object' that
 	// was created.
 	Create(id string, s *streams.Create) error
+	// ClientUpdate should partially replace the 'object' with only the
+	// changed top-level fields.
+	//
+	// TODO: Support deletions.
+	Update(id string, s *streams.Update) error
+	// Delete SHOULD completely remove the 'object' with its 'id', or have
+	// the 'object' be replaced by a 'Tombstone' ActivityStream type.
+	Delete(id string, s *streams.Delete) error
+	// Add is client application specific, generally involving adding an
+	// 'object' to a specific 'target' collection. The application may at
+	// its discretion determine whether this is permissible, by determining
+	// if it owns the 'target' collection and/or by other application
+	// specific criteria.
+	Add(id string, s *streams.Add) error
+	// Remove is client application specific, generally involving removing
+	// an 'object' from a specific 'target' collection. The application may
+	// at its discretion determine whether this is permissible, by
+	// determining if it owns the 'target' collection and/or by other
+	// application specific criteria.
+	Remove(id string, s *streams.Remove) error
+	// Like triggers adding the 'object' to the 'actor's `like` collection.
+	Like(id string, s *streams.Like) error
+	// Block means that the server should not let the 'object' actor
+	// interact with the 'actor'.
+	Block(id string, s *streams.Block) error
+	// Undo negates a previous action. The 'actor' on the 'Undo' MUST be the
+	// same as the 'actor' on the Activity being undone, and the client
+	// application is responsible for enforcing this. Note that 'Undo'-ing
+	// is not a deletion of a previous Activity, but the addition of its
+	// opposite.
+	Undo(id string, s *streams.Undo) error
+	// Accept can be client application specific. However, if this 'Accept'
+	// is in response to a 'Follow' then the follower should be added to
+	// the 'actor's 'followers' collection.
+	Accept(id string, s *streams.Accept) error
+	// Reject can be client application specific. However, if this 'Reject'
+	// is in response to a 'Follow' then the client MUST NOT go forward with
+	// adding the follower to the 'actor's 'followers' collection.
+	Reject(id string, s *streams.Reject) error
 }
 
 type federator struct {
@@ -552,8 +606,7 @@ func (f *federator) handleClientUpdate(id string) func(s *streams.Update) error 
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		// TODO: Implement
-		return nil
+		return f.ClientReceiver.Update(id, s)
 	}
 }
 
@@ -562,8 +615,7 @@ func (f *federator) handleClientDelete(id string) func(s *streams.Delete) error 
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		// TODO: Implement
-		return nil
+		return f.ClientReceiver.Delete(id, s)
 	}
 }
 
@@ -572,22 +624,20 @@ func (f *federator) handleClientFollow(id string) func(s *streams.Follow) error 
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		// TODO: Implement
+		// Nothing extra to do.
 		return nil
 	}
 }
 
 func (f *federator) handleClientAccept(id string) func(s *streams.Accept) error {
 	return func(s *streams.Accept) error {
-		// TODO: Implement
-		return nil
+		return f.ClientReceiver.Accept(id, s)
 	}
 }
 
 func (f *federator) handleClientReject(id string) func(s *streams.Reject) error {
 	return func(s *streams.Reject) error {
-		// TODO: Implement
-		return nil
+		return f.ClientReceiver.Reject(id, s)
 	}
 }
 
@@ -598,8 +648,7 @@ func (f *federator) handleClientAdd(id string) func(s *streams.Add) error {
 		} else if s.LenType() == 0 {
 			return ErrTypeRequired
 		}
-		// TODO: Implement
-		return nil
+		return f.ClientReceiver.Add(id, s)
 	}
 }
 
@@ -610,8 +659,7 @@ func (f *federator) handleClientRemove(id string) func(s *streams.Remove) error 
 		} else if s.LenType() == 0 {
 			return ErrTypeRequired
 		}
-		// TODO: Implement
-		return nil
+		return f.ClientReceiver.Remove(id, s)
 	}
 }
 
@@ -620,8 +668,7 @@ func (f *federator) handleClientLike(id string) func(s *streams.Like) error {
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		// TODO: Implement
-		return nil
+		return f.ClientReceiver.Like(id, s)
 	}
 }
 
@@ -630,8 +677,7 @@ func (f *federator) handleClientUndo(id string) func(s *streams.Undo) error {
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		// TODO: Implement
-		return nil
+		return f.ClientReceiver.Undo(id, s)
 	}
 }
 
@@ -640,8 +686,7 @@ func (f *federator) handleClientBlock(id string) func(s *streams.Block) error {
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		// TODO: Implement
-		return nil
+		return f.ClientReceiver.Block(id, s)
 	}
 }
 
