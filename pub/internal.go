@@ -168,10 +168,10 @@ func (f *federator) wrapInCreate(o vocab.ObjectType, actor url.URL) *vocab.Creat
 
 // TODO: (Section 7) HTTP caching mechanisms [RFC7234] SHOULD be respected when appropriate, both when receiving responses from other servers as well as sending responses to other servers.
 
-// prepare takes a DeliverableObject and returns a list of the proper recipient
-// target URIs. Additionally, the DeliverableObject will have any hidden
+// prepare takes a deliverableObject and returns a list of the proper recipient
+// target URIs. Additionally, the deliverableObject will have any hidden
 // hidden recipients ("bto" and "bcc") stripped from it.
-func (c *federator) prepare(o DeliverableObject) ([]url.URL, error) {
+func (c *federator) prepare(o deliverableObject) ([]url.URL, error) {
 	// Get inboxes of recipients
 	var r []url.URL
 	r = append(r, getToIRIs(o)...)
@@ -207,13 +207,13 @@ func (c *federator) prepare(o DeliverableObject) ([]url.URL, error) {
 }
 
 // resolveInboxes takes a list of Actor id URIs and returns them as concrete
-// instances of ActorObject. It applies recursively when it encounters a target
+// instances of actorObject. It applies recursively when it encounters a target
 // that is a Collection or OrderedCollection.
-func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]ActorObject, error) {
+func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]actorObject, error) {
 	if depth >= max {
 		return nil, nil
 	}
-	a := make([]ActorObject, 0, len(r))
+	a := make([]actorObject, 0, len(r))
 	for _, u := range r {
 		// Do not retry here -- if a dereference fails, then fail the
 		// entire delivery.
@@ -225,7 +225,7 @@ func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]ActorObje
 		if err = json.Unmarshal(resp, &m); err != nil {
 			return nil, err
 		}
-		var actor ActorObject
+		var actor actorObject
 		var co *streams.Collection
 		var oc *streams.OrderedCollection
 		var cp *streams.CollectionPage
@@ -289,7 +289,7 @@ func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]ActorObje
 }
 
 // getInboxes extracts the 'inbox' IRIs from actors.
-func getInboxes(a []ActorObject) []url.URL {
+func getInboxes(a []actorObject) []url.URL {
 	var u []url.URL
 	for _, actor := range a {
 		if actor.HasInbox() {
@@ -301,7 +301,7 @@ func getInboxes(a []ActorObject) []url.URL {
 
 // getActorAttributedToURI attempts to find the URIs for the "actor" and
 // "attributedTo" originators on the object.
-func getActorsAttributedToURI(a ActorObject) []url.URL {
+func getActorsAttributedToURI(a actorObject) []url.URL {
 	var u []url.URL
 	for i := 0; i < a.AttributedToLen(); i++ {
 		if a.IsAttributedToObject(i) {
@@ -336,10 +336,10 @@ func getActorsAttributedToURI(a ActorObject) []url.URL {
 	return u
 }
 
-// stripHiddenRecipients removes "bto" and "bcc" from the DeliverableObject.
+// stripHiddenRecipients removes "bto" and "bcc" from the deliverableObject.
 // Note that this requirement of the specification is under "Section 6: Client
 // to Server Interactions", the Social API, and not the Federative API.
-func stripHiddenRecipients(o DeliverableObject) {
+func stripHiddenRecipients(o deliverableObject) {
 	for o.BtoLen() > 0 {
 		if o.IsBtoObject(0) {
 			o.RemoveBtoObject(0)
@@ -432,7 +432,7 @@ func filterURLs(u []url.URL, fn func(s string) bool) []url.URL {
 	return u
 }
 
-func getToIRIs(o DeliverableObject) []url.URL {
+func getToIRIs(o deliverableObject) []url.URL {
 	var r []url.URL
 	for i := 0; i < o.ToLen(); i++ {
 		if o.IsToObject(i) {
@@ -452,7 +452,7 @@ func getToIRIs(o DeliverableObject) []url.URL {
 	return r
 }
 
-func getBToIRIs(o DeliverableObject) []url.URL {
+func getBToIRIs(o deliverableObject) []url.URL {
 	var r []url.URL
 	for i := 0; i < o.BtoLen(); i++ {
 		if o.IsBtoObject(i) {
@@ -472,7 +472,7 @@ func getBToIRIs(o DeliverableObject) []url.URL {
 	return r
 }
 
-func getCcIRIs(o DeliverableObject) []url.URL {
+func getCcIRIs(o deliverableObject) []url.URL {
 	var r []url.URL
 	for i := 0; i < o.CcLen(); i++ {
 		if o.IsCcObject(i) {
@@ -492,7 +492,7 @@ func getCcIRIs(o DeliverableObject) []url.URL {
 	return r
 }
 
-func getBccIRIs(o DeliverableObject) []url.URL {
+func getBccIRIs(o deliverableObject) []url.URL {
 	var r []url.URL
 	for i := 0; i < o.BccLen(); i++ {
 		if o.IsBccObject(i) {
@@ -512,7 +512,7 @@ func getBccIRIs(o DeliverableObject) []url.URL {
 	return r
 }
 
-func getAudienceIRIs(o DeliverableObject) []url.URL {
+func getAudienceIRIs(o deliverableObject) []url.URL {
 	var r []url.URL
 	for i := 0; i < o.AudienceLen(); i++ {
 		if o.IsAudienceObject(i) {

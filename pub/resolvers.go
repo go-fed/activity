@@ -7,10 +7,10 @@ import (
 	"net/url"
 )
 
-func toActorResolver(a *ActorObject) *streams.Resolver {
+func toActorResolver(a *actorObject) *streams.Resolver {
 	return &streams.Resolver{
 		AnyObjectCallback: func(i vocab.ObjectType) error {
-			if o, ok := i.(ActorObject); ok {
+			if o, ok := i.(actorObject); ok {
 				*a = o
 			}
 			return nil
@@ -18,7 +18,7 @@ func toActorResolver(a *ActorObject) *streams.Resolver {
 	}
 }
 
-func toActorCollectionResolver(a *ActorObject, c **streams.Collection, oc **streams.OrderedCollection, cp **streams.CollectionPage, ocp **streams.OrderedCollectionPage) *streams.Resolver {
+func toActorCollectionResolver(a *actorObject, c **streams.Collection, oc **streams.OrderedCollection, cp **streams.CollectionPage, ocp **streams.OrderedCollectionPage) *streams.Resolver {
 	r := toActorResolver(a)
 	r.CollectionCallback = func(i *streams.Collection) error {
 		*c = i

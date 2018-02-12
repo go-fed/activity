@@ -17,11 +17,9 @@ import (
 // response to send to the requester.
 type HandlerFunc func(http.ResponseWriter, *http.Request) (bool, error)
 
-// ActorObject is an object that has "actor" or "attributedTo" properties,
+// actorObject is an object that has "actor" or "attributedTo" properties,
 // representing the author or originator of the object.
-//
-// TODO: Convert this to be an internal interface.
-type ActorObject interface {
+type actorObject interface {
 	HasInbox() (ok bool)
 	GetInbox() (v url.URL)
 	AttributedToLen() (l int)
@@ -40,12 +38,10 @@ type ActorObject interface {
 	GetActorIRI(index int) (v url.URL)
 }
 
-// DeliverableObject is an object that is able to be sent to recipients via the
+// deliverableObject is an object that is able to be sent to recipients via the
 // "to", "bto", "cc", "bcc", and "audience" objects and/or links and/or IRIs.
-//
-// TODO: Convert this to be an internal interface.
-type DeliverableObject interface {
-	ActorObject
+type deliverableObject interface {
+	actorObject
 	ToLen() (l int)
 	IsToObject(index int) (ok bool)
 	GetToObject(index int) (v vocab.ObjectType)
