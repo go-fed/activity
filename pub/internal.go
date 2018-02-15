@@ -705,6 +705,137 @@ func getURIsInOrderedItemer(i orderedItemer) []url.URL {
 	return u
 }
 
+type activityWithObject interface {
+	ObjectLen() (l int)
+	IsObject(index int) (ok bool)
+	GetObject(index int) (v vocab.ObjectType)
+	IsObjectIRI(index int) (ok bool)
+	GetObjectIRI(index int) (v url.URL)
+}
+
+func getObjectIds(a activityWithObject) (u []url.URL, e error) {
+	for i := 0; i < a.ObjectLen(); i++ {
+		if a.IsObject(i) {
+			obj := a.GetObject(i)
+			if !obj.HasId() {
+				e = fmt.Errorf("object has no id: %v", obj)
+				return
+			}
+			u = append(u, obj.GetId())
+		} else if a.IsObjectIRI(i) {
+			u = append(u, a.GetObjectIRI(i))
+		}
+	}
+	return
+}
+
+type activityWithTarget interface {
+	TargetLen() (l int)
+	IsTargetObject(index int) (ok bool)
+	GetTargetObject(index int) (v vocab.ObjectType)
+	IsTargetIRI(index int) (ok bool)
+	GetTargetIRI(index int) (v url.URL)
+}
+
+func getTargetIds(a activityWithTarget) (u []url.URL, e error) {
+	for i := 0; i < a.TargetLen(); i++ {
+		if a.IsTargetObject(i) {
+			obj := a.GetTargetObject(i)
+			if !obj.HasId() {
+				e = fmt.Errorf("object has no id: %v", obj)
+				return
+			}
+			u = append(u, obj.GetId())
+		} else if a.IsTargetIRI(i) {
+			u = append(u, a.GetTargetIRI(i))
+		}
+	}
+	return
+}
+
+func removeCollectionItemWithId(c vocab.CollectionType, iri url.URL) {
+	for i := 0; i < c.ItemsLen(); i++ {
+		if c.IsItemsObject(i) {
+			o := c.GetItemsObject(i)
+			if !o.HasId() {
+				continue
+			}
+			if o.GetId() == iri {
+				c.RemoveItemsObject(i)
+				return
+			}
+		} else if c.IsItemsLink(i) {
+			l := c.GetItemsLink(i)
+			if !l.HasHref() {
+				continue
+			}
+			if l.GetHref() == iri {
+				c.RemoveItemsLink(i)
+				return
+			}
+		} else if c.IsItemsIRI(i) {
+			if c.GetItemsIRI(i) == iri {
+				c.RemoveItemsIRI(i)
+				return
+			}
+		}
+	}
+}
+
+func removeOrderedCollectionItemWithId(c vocab.OrderedCollectionType, iri url.URL) {
+	for i := 0; i < c.OrderedItemsLen(); i++ {
+		if c.IsOrderedItemsObject(i) {
+			o := c.GetOrderedItemsObject(i)
+			if !o.HasId() {
+				continue
+			}
+			if o.GetId() == iri {
+				c.RemoveOrderedItemsObject(i)
+				return
+			}
+		} else if c.IsOrderedItemsLink(i) {
+			l := c.GetOrderedItemsLink(i)
+			if !l.HasHref() {
+				continue
+			}
+			if l.GetHref() == iri {
+				c.RemoveOrderedItemsLink(i)
+				return
+			}
+		} else if c.IsOrderedItemsIRI(i) {
+			if c.GetOrderedItemsIRI(i) == iri {
+				c.RemoveOrderedItemsIRI(i)
+				return
+			}
+		}
+	}
+}
+
+// toTombstone creates a Tombstone for the given object.
+func toTombstone(obj vocab.ObjectType, id url.URL, now time.Time) vocab.TombstoneType {
+	tomb := &vocab.Tombstone{}
+	tomb.SetId(id)
+	for i := 0; i < obj.TypeLen(); i++ {
+		if s, ok := obj.GetType(i).(string); ok {
+			tomb.AddFormerTypeString(s)
+		} else if fObj, ok := obj.GetType(i).(vocab.ObjectType); ok {
+			tomb.AddFormerTypeObject(fObj)
+		}
+	}
+	if obj.IsPublished() {
+		tomb.SetPublished(obj.GetPublished())
+	} else if obj.IsPublishedIRI() {
+		tomb.SetPublishedIRI(obj.GetPublishedIRI())
+	}
+	if obj.IsUpdated() {
+		tomb.SetUpdated(obj.GetUpdated())
+	} else if obj.IsUpdatedIRI() {
+		tomb.SetUpdatedIRI(obj.GetUpdatedIRI())
+	}
+	tomb.SetDeleted(now)
+	return tomb
+}
+
 // TODO: Move this to vocab package.
 var activityTypes = []string{"Accept", "Add", "Announce", "Arrive", "Block", "Create", "Delete", "Dislike", "Flag", "Follow", "Ignore", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Offer", "Question", "Reject", "Read", "Remove", "TentativeReject", "TentativeAccept", "Travel", "Undo", "Update", "View"}
 

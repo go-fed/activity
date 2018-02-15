@@ -1,6 +1,7 @@
 package pub
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -22,155 +23,54 @@ var (
 // TODO: Helper http Handler for serving Tombstone objects
 // TODO: Helper http Handler for serving deleted objects
 
-// Typer is an object that has a type.
-type Typer interface {
-	TypeLen() (l int)
-	GetType(index int) (v interface{})
+// FederateApp is provided by users of this library and designed to handle
+// receiving messages from ActivityPub servers through the Federative API.
+type FederateApp interface {
 }
 
-type typeIder interface {
-	Typer
-	SetId(v url.URL)
-	Serialize() (m map[string]interface{}, e error)
-}
-
-// Application is provided by users of this library in order to
-type Application interface {
-	// GetInbox returns the OrderedCollection inbox of the actor with the
-	// provided ID. It is up to the implementation to provide the correct
-	// collection for the kind of authorization given in the request.
-	GetInbox(id string, r *http.Request) (vocab.OrderedCollectionType, error)
-	// GetOutbox returns the OrderedCollection inbox of the actor with the
-	// provided ID. It is up to the implementation to provide the correct
-	// collection for the kind of authorization given in the request.
-	GetOutbox(id string, r *http.Request) (vocab.OrderedCollectionType, error)
-	// PostOutboxAuthorized determines whether the request is able to post
-	// an Activity to the outbox for the specified id.
-	PostOutboxAuthorized(id string, r *http.Request) (bool, error)
-	// NewId takes in a client id token and returns an ActivityStreams IRI
-	// id for a new Activity posted to the outbox. The object is provided
-	// as a Typer so clients can use it to decide how to generate the IRI.
-	NewId(id string, t Typer) url.URL
-	// AddToOutboxResolver returns the client's Resolver which must store
-	// the provided object in the outbox of the user represented by the
-	// client id token.
-	AddToOutboxResolver(id string) (*streams.Resolver, error)
-	// ActorIRI returns the actor's IRI associated with the given client ID
-	// token.
-	ActorIRI(id string) (url.URL, error)
-}
-
-// Receiver is provided by users of this library and designed to handle
-// receiving federated messages through the Federated Protocol.
+// Callbacker provides an Application hooks into the lifecycle of the
+// ActivityPub processes for both client-to-server and server-to-server
+// interactions. These callbacks are called after their spec-compliant actions
+// are completed, but before inbox forwarding and before delivery.
 //
-// Note that although Receiver and ClientReceiver have similar methods, many of
-// them have different requirements and thus implementations are not
-// interchangeable between Receiver and ClientReceiver.
-type Receiver interface {
-	// Create requires the client application to persist the 'object' that
-	// was created.
-	Create(id string, s *streams.Create) error
-	// Update should completely replace the 'object' with the same 'id'.
-	Update(id string, s *streams.Update) error
-	// Delete SHOULD completely remove the 'object' with its 'id', or have
-	// the 'object' be replaced by a 'Tombstone' ActivityStream type.
-	Delete(id string, s *streams.Delete) error
-	// Follow means the client application SHOULD reply with an 'Accept' or
-	// 'Reject' ActivityStream with the 'Follow' as the 'object' and deliver
-	// it to the 'actor' of the 'Follow'. This can be human-triggered or
-	// automatically triggered.
-	Follow(id string, s *streams.Follow) error
-	// Accept can be client application specific. However, if this 'Accept'
-	// is in response to a 'Follow' then the 'actor' should be added to the
-	// original 'actor's 'following' collection by the client application.
-	Accept(id string, s *streams.Accept) error
-	// Reject can be client application specific. However, if this 'Reject'
-	// is in response to a 'Follow' then the client MUST NOT go forward with
-	// adding the 'actor' to the original 'actor's 'following' collection
-	// by the client application.
-	Reject(id string, s *streams.Reject) error
-	// Add is client application specific, generally involving adding an
-	// 'object' to a specific 'target' collection.
-	Add(id string, s *streams.Add) error
-	// Remove is client application specific, generally involving removing
-	// an 'object' from a specific 'target' collection.
-	Remove(id string, s *streams.Remove) error
-	// Like triggers adding the like to an object's `like` collection.
-	Like(id string, s *streams.Like) error
-	// Undo negates a previous action. The 'actor' on the 'Undo' MUST be the
-	// same as the 'actor' on the Activity being undone, and the client
-	// application is responsible for enforcing this. Note that 'Undo'-ing
-	// is not a deletion of a previous Activity, but the addition of its
-	// opposite.
-	Undo(id string, s *streams.Undo) error
-}
-
-// ClientReceiver is provided by users of this library and designed to handle
-// receiving messaged from ActivityPub clients through the Social API.
-//
-// Note that although ClientReceiver and Receiver have similar methods, many of
-// them have different requirements and thus implementations are not
-// interchangeable between ClientReceiver and Receiver.
-type ClientReceiver interface {
-	// Create requires the client application to persist the 'object' that
-	// was created.
-	Create(id string, s *streams.Create) error
-	// ClientUpdate should partially replace the 'object' with only the
-	// changed top-level fields.
-	//
-	// TODO: Support deletions.
-	Update(id string, s *streams.Update) error
-	// Delete SHOULD completely remove the 'object' with its 'id', or have
-	// the 'object' be replaced by a 'Tombstone' ActivityStream type.
-	Delete(id string, s *streams.Delete) error
-	// Add is client application specific, generally involving adding an
-	// 'object' to a specific 'target' collection. The application may at
-	// its discretion determine whether this is permissible, by determining
-	// if it owns the 'target' collection and/or by other application
-	// specific criteria.
-	Add(id string, s *streams.Add) error
-	// Remove is client application specific, generally involving removing
-	// an 'object' from a specific 'target' collection. The application may
-	// at its discretion determine whether this is permissible, by
-	// determining if it owns the 'target' collection and/or by other
-	// application specific criteria.
-	Remove(id string, s *streams.Remove) error
-	// Like triggers adding the 'object' to the 'actor's `like` collection.
-	Like(id string, s *streams.Like) error
-	// Block means that the server should not let the 'object' actor
-	// interact with the 'actor'.
-	Block(id string, s *streams.Block) error
-	// Undo negates a previous action. The 'actor' on the 'Undo' MUST be the
-	// same as the 'actor' on the Activity being undone, and the client
-	// application is responsible for enforcing this. Note that 'Undo'-ing
-	// is not a deletion of a previous Activity, but the addition of its
-	// opposite.
-	Undo(id string, s *streams.Undo) error
-	// Accept can be client application specific. However, if this 'Accept'
-	// is in response to a 'Follow' then the follower should be added to
-	// the 'actor's 'followers' collection.
-	Accept(id string, s *streams.Accept) error
-	// Reject can be client application specific. However, if this 'Reject'
-	// is in response to a 'Follow' then the client MUST NOT go forward with
-	// adding the follower to the 'actor's 'followers' collection.
-	Reject(id string, s *streams.Reject) error
+// Note that modifying the ActivityStream objects in a callback may cause
+// unintentionally non-standard behavior if modifying core attributes, but
+// otherwise affords clients powerful flexibility. Use responsibly.
+type Callbacker interface {
+	Create(c context.Context, s *streams.Create) error
+	Update(c context.Context, s *streams.Update) error
+	Delete(c context.Context, s *streams.Delete) error
+	Add(c context.Context, s *streams.Add) error
+	Remove(c context.Context, s *streams.Remove) error
+	Like(c context.Context, s *streams.Like) error
+	Block(c context.Context, s *streams.Block) error
+	Follow(c context.Context, s *streams.Follow) error
+	Undo(c context.Context, s *streams.Undo) error
+	Accept(c context.Context, s *streams.Accept) error
+	Reject(c context.Context, s *streams.Reject) error
 }
 
 type federator struct {
+	// Clock determines the time of this federator.
+	Clock Clock
 	// App is the client application that is ActivityPub aware.
 	//
 	// It is always required.
 	App Application
-	// Receiver provides callbacks when handling incoming messages received
+	// FederateApp provides utility when handling incoming messages received
 	// via the Federated Protocol, or server-to-server communications.
 	//
 	// It is only required if EnableServer is true.
-	Receiver Receiver
-	// ClientReceiver provides callbacks when handling incoming messages
+	FederateApp FederateApp
+	// SocialApp provides utility when handling incoming messages
 	// received via the Social API, or client-to-server communications.
 	//
 	// It is only required if EnableClient is true.
-	ClientReceiver ClientReceiver
+	SocialApp SocialApp
+
+	ClientCallbacker Callbacker
+	ServerCallbacker Callbacker
+
 	// Client is used to federate with other ActivityPub servers.
 	//
 	// It is only required if EnableServer is true.
@@ -215,63 +115,59 @@ func (f *federator) Errors() <-chan error {
 	return nil
 }
 
-func (f *federator) PostInbox(id string) HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) (bool, error) {
-		if !isActivityPubPost(r) {
-			return false, nil
-		}
-		if !f.EnableServer {
-			w.WriteHeader(http.StatusMethodNotAllowed)
-			return true, nil
-		}
-		b, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			return true, err
-		}
-		var m map[string]interface{}
-		if err = json.Unmarshal(b, &m); err != nil {
-			return true, err
-		}
-		if err = f.getPostInboxResolver(id).Deserialize(m); err != nil {
-			return true, err
-		}
-		// TODO: 7.1.2 Inbox forwarding
-		w.WriteHeader(http.StatusOK)
+func (f *federator) PostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error) {
+	if !isActivityPubPost(r) {
+		return false, nil
+	}
+	if !f.EnableServer {
+		w.WriteHeader(http.StatusMethodNotAllowed)
 		return true, nil
 	}
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return true, err
+	}
+	var m map[string]interface{}
+	if err = json.Unmarshal(b, &m); err != nil {
+		return true, err
+	}
+	if err = f.getPostInboxResolver(c).Deserialize(m); err != nil {
+		return true, err
+	}
+	// TODO: 7.1.2 Inbox forwarding
+	w.WriteHeader(http.StatusOK)
+	return true, nil
 }
 
-func (f *federator) GetInbox(id string) HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) (bool, error) {
-		if !isActivityPubGet(r) {
-			return false, nil
-		}
-		oc, err := f.App.GetInbox(id, r)
-		if err != nil {
-			return true, err
-		}
-		oc, err = f.dedupeOrderedItems(oc)
-		if err != nil {
-			return true, err
-		}
-		m, err := oc.Serialize()
-		if err != nil {
-			return true, err
-		}
-		b, err := json.Marshal(m)
-		if err != nil {
-			return true, err
-		}
-		w.Header().Set(contentTypeHeader, responseContentTypeHeader)
-		w.WriteHeader(http.StatusOK)
-		n, err := w.Write(b)
-		if err != nil {
-			return true, err
-		} else if n != len(b) {
-			return true, fmt.Errorf("ResponseWriter.Write wrote %d of %d bytes", n, len(b))
-		}
-		return true, nil
+func (f *federator) GetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error) {
+	if !isActivityPubGet(r) {
+		return false, nil
 	}
+	oc, err := f.App.GetInbox(c, r)
+	if err != nil {
+		return true, err
+	}
+	oc, err = f.dedupeOrderedItems(oc)
+	if err != nil {
+		return true, err
+	}
+	m, err := oc.Serialize()
+	if err != nil {
+		return true, err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return true, err
+	}
+	w.Header().Set(contentTypeHeader, responseContentTypeHeader)
+	w.WriteHeader(http.StatusOK)
+	n, err := w.Write(b)
+	if err != nil {
+		return true, err
+	} else if n != len(b) {
+		return true, fmt.Errorf("ResponseWriter.Write wrote %d of %d bytes", n, len(b))
+	}
+	return true, nil
 }
 
 // PostOutpox provides a HTTP handler for ActivityPub requests for the given id
@@ -281,139 +177,138 @@ func (f *federator) GetInbox(id string) HandlerFunc {
 // the client to determine how to respond via HTTP.
 //
 // Note that the error could be ErrObjectRequired or ErrTypeRequired.
-func (f *federator) PostOutbox(id string) HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) (bool, error) {
-		if !isActivityPubPost(r) {
-			return false, nil
-		}
-		if !f.EnableClient {
-			w.WriteHeader(http.StatusMethodNotAllowed)
-			return true, nil
-		}
-		ok, err := f.App.PostOutboxAuthorized(id, r)
-		if err != nil {
-			return true, err
-		}
-		if !ok {
-			w.WriteHeader(http.StatusForbidden)
-			return true, nil
-		}
-		b, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			return true, err
-		}
-		var m map[string]interface{}
-		if err = json.Unmarshal(b, &m); err != nil {
-			return true, err
-		}
-		typer, err := toTypeIder(m)
-		if err != nil {
-			return true, err
-		}
-		if !isActivityType(typer) {
-			actorIri, err := f.App.ActorIRI(id)
-			if err != nil {
-				return true, err
-			}
-			obj, ok := typer.(vocab.ObjectType)
-			if !ok {
-				return true, fmt.Errorf("wrap in create: cannot convert to vocab.ObjectType: %T", typer)
-			}
-			typer = f.wrapInCreate(obj, actorIri)
-		}
-		newId := f.App.NewId(id, typer)
-		typer.SetId(newId)
-		if m, err = typer.Serialize(); err != nil {
-			return true, err
-		}
-		outboxAdder, err := f.App.AddToOutboxResolver(id)
-		if err != nil {
-			return true, err
-		}
-		if err = outboxAdder.Deserialize(m); err != nil {
-			return true, err
-		}
-		if err = f.getPostOutboxResolver(id).Deserialize(m); err != nil {
-			return true, err
-		}
-		if f.EnableServer {
-			obj, err := toAnyActivity(m)
-			if err != nil {
-				return true, err
-			}
-			recipients, err := f.prepare(obj)
-			if err != nil {
-				return true, err
-			}
-			m, err := obj.Serialize()
-			if err != nil {
-				return true, err
-			}
-			m["@context"] = "https://www.w3.org/ns/activitystreams"
-			b, err := json.Marshal(m)
-			if err != nil {
-				return true, err
-			}
-			for _, to := range recipients {
-				f.pool.Do(b, to, func(b []byte, u url.URL) error {
-					return postToOutbox(f.Client, b, u, f.Agent)
-				})
-			}
-		}
-		w.Header().Set("Location", newId.String())
-		w.WriteHeader(http.StatusCreated)
+func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error) {
+	if !isActivityPubPost(r) {
+		return false, nil
+	}
+	if !f.EnableClient {
+		w.WriteHeader(http.StatusMethodNotAllowed)
 		return true, nil
 	}
-}
-
-func (f *federator) GetOutbox(id string) HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) (bool, error) {
-		if !isActivityPubGet(r) {
-			return false, nil
-		}
-		oc, err := f.App.GetOutbox(id, r)
+	ok, err := f.App.PostOutboxAuthorized(c, r)
+	if err != nil {
+		return true, err
+	}
+	if !ok {
+		w.WriteHeader(http.StatusForbidden)
+		return true, nil
+	}
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return true, err
+	}
+	var m map[string]interface{}
+	if err = json.Unmarshal(b, &m); err != nil {
+		return true, err
+	}
+	typer, err := toTypeIder(m)
+	if err != nil {
+		return true, err
+	}
+	if !isActivityType(typer) {
+		actorIri, err := f.App.ActorIRI(c, r)
 		if err != nil {
 			return true, err
 		}
-		m, err := oc.Serialize()
+		obj, ok := typer.(vocab.ObjectType)
+		if !ok {
+			return true, fmt.Errorf("wrap in create: cannot convert to vocab.ObjectType: %T", typer)
+		}
+		typer = f.wrapInCreate(obj, actorIri)
+	}
+	newId := f.App.NewId(c, typer)
+	typer.SetId(newId)
+	if m, err = typer.Serialize(); err != nil {
+		return true, err
+	}
+	if err := f.addToOutbox(c, m); err != nil {
+		return true, err
+	}
+	deliverable := false
+	if err = f.getPostOutboxResolver(c, &deliverable).Deserialize(m); err != nil {
+		return true, err
+	}
+	if f.EnableServer && deliverable {
+		obj, err := toAnyActivity(m)
 		if err != nil {
 			return true, err
 		}
+		recipients, err := f.prepare(obj)
+		if err != nil {
+			return true, err
+		}
+		m, err := obj.Serialize()
+		if err != nil {
+			return true, err
+		}
+		m["@context"] = "https://www.w3.org/ns/activitystreams"
 		b, err := json.Marshal(m)
 		if err != nil {
 			return true, err
 		}
-		w.Header().Set(contentTypeHeader, responseContentTypeHeader)
-		w.WriteHeader(http.StatusOK)
-		n, err := w.Write(b)
-		if err != nil {
-			return true, err
-		} else if n != len(b) {
-			return true, fmt.Errorf("ResponseWriter.Write wrote %d of %d bytes", n, len(b))
+		for _, to := range recipients {
+			f.pool.Do(b, to, func(b []byte, u url.URL) error {
+				return postToOutbox(f.Client, b, u, f.Agent)
+			})
 		}
-		return true, nil
 	}
+	w.Header().Set("Location", newId.String())
+	w.WriteHeader(http.StatusCreated)
+	return true, nil
 }
 
-func (f *federator) getPostOutboxResolver(id string) *streams.Resolver {
+func (f *federator) GetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error) {
+	if !isActivityPubGet(r) {
+		return false, nil
+	}
+	oc, err := f.App.GetOutbox(c, r)
+	if err != nil {
+		return true, err
+	}
+	m, err := oc.Serialize()
+	if err != nil {
+		return true, err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return true, err
+	}
+	w.Header().Set(contentTypeHeader, responseContentTypeHeader)
+	w.WriteHeader(http.StatusOK)
+	n, err := w.Write(b)
+	if err != nil {
+		return true, err
+	} else if n != len(b) {
+		return true, fmt.Errorf("ResponseWriter.Write wrote %d of %d bytes", n, len(b))
+	}
+	return true, nil
+}
+
+func (f *federator) addToOutbox(c context.Context, m map[string]interface{}) error {
+	// TODO
+	return nil
+}
+
+func (f *federator) getPostOutboxResolver(c context.Context, deliverable *bool) *streams.Resolver {
 	return &streams.Resolver{
-		CreateCallback: f.handleClientCreate(id),
-		UpdateCallback: f.handleClientUpdate(id),
-		DeleteCallback: f.handleClientDelete(id),
-		FollowCallback: f.handleClientFollow(id),
-		AcceptCallback: f.handleClientAccept(id),
-		RejectCallback: f.handleClientReject(id),
-		AddCallback:    f.handleClientAdd(id),
-		RemoveCallback: f.handleClientRemove(id),
-		LikeCallback:   f.handleClientLike(id),
-		UndoCallback:   f.handleClientUndo(id),
-		BlockCallback:  f.handleClientBlock(id),
+		CreateCallback: f.handleClientCreate(c, deliverable),
+		UpdateCallback: f.handleClientUpdate(c, deliverable),
+		DeleteCallback: f.handleClientDelete(c, deliverable),
+		FollowCallback: f.handleClientFollow(c, deliverable),
+		AcceptCallback: f.handleClientAccept(c, deliverable),
+		RejectCallback: f.handleClientReject(c, deliverable),
+		AddCallback:    f.handleClientAdd(c, deliverable),
+		RemoveCallback: f.handleClientRemove(c, deliverable),
+		LikeCallback:   f.handleClientLike(c, deliverable),
+		UndoCallback:   f.handleClientUndo(c, deliverable),
+		BlockCallback:  f.handleClientBlock(c, deliverable),
 		// TODO: Extended activity types, such as Announce, Arrive, etc.
 	}
 }
 
-func (f *federator) handleClientCreate(id string) func(s *streams.Create) error {
+func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool) func(s *streams.Create) error {
 	return func(s *streams.Create) error {
+		*deliverable = true
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
@@ -442,6 +337,7 @@ func (f *federator) handleClientCreate(id string) func(s *streams.Create) error 
 			if c.IsObject(i) {
 				obj = append(obj, c.GetObject(i))
 			} else if c.IsObjectIRI(i) {
+				// TODO: Fetch IRIs as well
 				return fmt.Errorf("unsupported: Create Activity with 'object' that is only an IRI")
 			}
 		}
@@ -495,175 +391,440 @@ func (f *federator) handleClientCreate(id string) func(s *streams.Create) error 
 				}
 			}
 		}
-		return f.ClientReceiver.Create(id, s)
+		// Create requires the client application to persist the 'object' that
+		// was created.
+		for _, o := range obj {
+			if err := f.App.Set(ctx, o); err != nil {
+				return err
+			}
+		}
+		return f.ClientCallbacker.Create(ctx, s)
 	}
 }
 
-func (f *federator) handleClientUpdate(id string) func(s *streams.Update) error {
+func (f *federator) handleClientUpdate(c context.Context, deliverable *bool) func(s *streams.Update) error {
 	return func(s *streams.Update) error {
+		*deliverable = true
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		return f.ClientReceiver.Update(id, s)
+		// TODO: Support redactions via the '"json": null' value.
+		// Update should partially replace the 'object' with only the
+		// changed top-level fields.
+		ids, err := getObjectIds(s.Raw())
+		if err != nil {
+			return err
+		} else if len(ids) == 0 {
+			return fmt.Errorf("update has no id: %v", s)
+		}
+		for idx, id := range ids {
+			pObj, err := f.App.Get(c, id)
+			if err != nil {
+				return err
+			}
+			obj, ok := pObj.(vocab.Serializer)
+			if !ok {
+				return fmt.Errorf("PubObject is not vocab.Serializer: %T", pObj)
+			}
+			m, err := obj.Serialize()
+			if err != nil {
+				return err
+			}
+			if !s.Raw().IsObject(idx) {
+				// TODO: Fetch IRIs as well
+				return fmt.Errorf("update requires object to be wholly provided at index %d", idx)
+			}
+			updated, err := s.Raw().GetObject(idx).Serialize()
+			if err != nil {
+				return err
+			}
+			for k, v := range updated {
+				m[k] = v
+			}
+			p, err := ToPubObject(m)
+			if err != nil {
+				return err
+			}
+			for _, elem := range p {
+				if err := f.App.Set(c, elem); err != nil {
+					return err
+				}
+			}
+		}
+		return f.ClientCallbacker.Update(c, s)
 	}
 }
 
-func (f *federator) handleClientDelete(id string) func(s *streams.Delete) error {
+func (f *federator) handleClientDelete(c context.Context, deliverable *bool) func(s *streams.Delete) error {
 	return func(s *streams.Delete) error {
+		*deliverable = true
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		return f.ClientReceiver.Delete(id, s)
+		ids, err := getObjectIds(s.Raw())
+		if err != nil {
+			return err
+		} else if len(ids) == 0 {
+			return fmt.Errorf("delete has no id: %v", s)
+		}
+		for _, id := range ids {
+			pObj, err := f.App.Get(c, id)
+			if err != nil {
+				return err
+			}
+			obj, ok := pObj.(vocab.ObjectType)
+			if !ok {
+				return fmt.Errorf("cannot delete non-ObjectType: %T", pObj)
+			}
+			tomb := toTombstone(obj, id, f.Clock.Now())
+			if err := f.App.Set(c, tomb); err != nil {
+				return err
+			}
+		}
+		return f.ClientCallbacker.Delete(c, s)
 	}
 }
 
-func (f *federator) handleClientFollow(id string) func(s *streams.Follow) error {
+func (f *federator) handleClientFollow(c context.Context, deliverable *bool) func(s *streams.Follow) error {
 	return func(s *streams.Follow) error {
+		*deliverable = true
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
 		// Nothing extra to do.
-		return nil
+		return f.ClientCallbacker.Follow(c, s)
 	}
 }
 
-func (f *federator) handleClientAccept(id string) func(s *streams.Accept) error {
+func (f *federator) handleClientAccept(c context.Context, deliverable *bool) func(s *streams.Accept) error {
 	return func(s *streams.Accept) error {
-		return f.ClientReceiver.Accept(id, s)
+		*deliverable = true
+		return f.ClientCallbacker.Accept(c, s)
 	}
 }
 
-func (f *federator) handleClientReject(id string) func(s *streams.Reject) error {
+func (f *federator) handleClientReject(c context.Context, deliverable *bool) func(s *streams.Reject) error {
 	return func(s *streams.Reject) error {
-		return f.ClientReceiver.Reject(id, s)
+		*deliverable = true
+		return f.ClientCallbacker.Reject(c, s)
 	}
 }
 
-func (f *federator) handleClientAdd(id string) func(s *streams.Add) error {
+func (f *federator) handleClientAdd(c context.Context, deliverable *bool) func(s *streams.Add) error {
 	return func(s *streams.Add) error {
+		*deliverable = true
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		} else if s.LenType() == 0 {
 			return ErrTypeRequired
 		}
-		return f.ClientReceiver.Add(id, s)
+		raw := s.Raw()
+		ids, err := getTargetIds(raw)
+		if err != nil {
+			return err
+		} else if len(ids) == 0 {
+			return fmt.Errorf("add target has no ids: %v", s)
+		}
+		objIds, err := getObjectIds(s.Raw())
+		if err != nil {
+			return err
+		} else if len(objIds) == 0 {
+			return fmt.Errorf("add object has no ids: %v", s)
+		}
+		var targets []vocab.ObjectType
+		for _, id := range ids {
+			if !f.SocialApp.Owns(c, id) {
+				continue
+			}
+			target, err := f.App.Get(c, id)
+			if err != nil {
+				return err
+			}
+			ct, okCollection := target.(vocab.CollectionType)
+			oct, okOrdered := target.(vocab.OrderedCollectionType)
+			if !okCollection && !okOrdered {
+				return fmt.Errorf("cannot add to type that is not Collection and not OrderedCollection: %v", target)
+			} else if okCollection {
+				targets = append(targets, ct)
+			} else {
+				targets = append(targets, oct)
+			}
+		}
+		for i := 0; i < raw.ObjectLen(); i++ {
+			if !raw.IsObject(i) {
+				// TODO: Fetch IRIs as well
+				return fmt.Errorf("add object must be object type: %v", raw)
+			}
+			obj := raw.GetObject(i)
+			if !f.SocialApp.Owns(c, obj.GetId()) {
+				continue
+			}
+			for _, target := range targets {
+				if !f.SocialApp.CanAdd(c, obj, target) {
+					continue
+				}
+				if ct, ok := target.(vocab.CollectionType); ok {
+					ct.AddItemsObject(obj)
+				} else if oct, ok := target.(vocab.OrderedCollectionType); ok {
+					oct.AddOrderedItemsObject(obj)
+				}
+				if err := f.App.Set(c, target); err != nil {
+					return err
+				}
+			}
+		}
+		return f.ClientCallbacker.Add(c, s)
 	}
 }
 
-func (f *federator) handleClientRemove(id string) func(s *streams.Remove) error {
+func (f *federator) handleClientRemove(c context.Context, deliverable *bool) func(s *streams.Remove) error {
 	return func(s *streams.Remove) error {
+		*deliverable = true
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		} else if s.LenType() == 0 {
 			return ErrTypeRequired
 		}
-		return f.ClientReceiver.Remove(id, s)
+		raw := s.Raw()
+		ids, err := getTargetIds(raw)
+		if err != nil {
+			return err
+		} else if len(ids) == 0 {
+			return fmt.Errorf("remove target has no ids: %v", s)
+		}
+		objIds, err := getObjectIds(s.Raw())
+		if err != nil {
+			return err
+		} else if len(objIds) == 0 {
+			return fmt.Errorf("remove object has no ids: %v", s)
+		}
+		var targets []vocab.ObjectType
+		for _, id := range ids {
+			if !f.SocialApp.Owns(c, id) {
+				continue
+			}
+			target, err := f.App.Get(c, id)
+			if err != nil {
+				return err
+			}
+			ct, okCollection := target.(vocab.CollectionType)
+			oct, okOrdered := target.(vocab.OrderedCollectionType)
+			if !okCollection && !okOrdered {
+				return fmt.Errorf("cannot remove from type that is not Collection and not OrderedCollection: %v", target)
+			} else if okCollection {
+				targets = append(targets, ct)
+			} else {
+				targets = append(targets, oct)
+			}
+		}
+		for i := 0; i < raw.ObjectLen(); i++ {
+			if !raw.IsObject(i) {
+				// TODO: Fetch IRIs as well
+				return fmt.Errorf("remove object must be object type: %v", raw)
+			}
+			obj := raw.GetObject(i)
+			if !f.SocialApp.Owns(c, obj.GetId()) {
+				continue
+			}
+			for _, target := range targets {
+				if !f.SocialApp.CanRemove(c, obj, target) {
+					continue
+				}
+				if ct, ok := target.(vocab.CollectionType); ok {
+					removeCollectionItemWithId(ct, obj.GetId())
+				} else if oct, ok := target.(vocab.OrderedCollectionType); ok {
+					removeOrderedCollectionItemWithId(oct, obj.GetId())
+				}
+				if err := f.App.Set(c, target); err != nil {
+					return err
+				}
+			}
+		}
+		return f.ClientCallbacker.Remove(c, s)
 	}
 }
 
-func (f *federator) handleClientLike(id string) func(s *streams.Like) error {
+func (f *federator) handleClientLike(c context.Context, deliverable *bool) func(s *streams.Like) error {
 	return func(s *streams.Like) error {
+		*deliverable = true
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		return f.ClientReceiver.Like(id, s)
+		// TODO: The server SHOULD add the object to the actor's liked Collection.
+		return f.ClientCallbacker.Like(c, s)
 	}
 }
 
-func (f *federator) handleClientUndo(id string) func(s *streams.Undo) error {
+func (f *federator) handleClientUndo(c context.Context, deliverable *bool) func(s *streams.Undo) error {
 	return func(s *streams.Undo) error {
+		*deliverable = true
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		return f.ClientReceiver.Undo(id, s)
+		// TODO: Support common forms of undo natively.
+		return f.ClientCallbacker.Undo(c, s)
 	}
 }
 
-func (f *federator) handleClientBlock(id string) func(s *streams.Block) error {
+func (f *federator) handleClientBlock(c context.Context, deliverable *bool) func(s *streams.Block) error {
 	return func(s *streams.Block) error {
+		*deliverable = false
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		return f.ClientReceiver.Block(id, s)
+		// TODO: Add to blocked app.
+		return f.ClientCallbacker.Block(c, s)
 	}
 }
 
-func (f *federator) getPostInboxResolver(id string) *streams.Resolver {
+func (f *federator) getPostInboxResolver(c context.Context) *streams.Resolver {
 	return &streams.Resolver{
-		CreateCallback: f.handleCreate(id),
-		UpdateCallback: f.handleUpdate(id),
-		DeleteCallback: f.handleDelete(id),
-		FollowCallback: f.handleFollow(id),
-		AcceptCallback: f.handleAccept(id),
-		RejectCallback: f.handleReject(id),
-		AddCallback:    f.handleAdd(id),
-		RemoveCallback: f.handleRemove(id),
-		LikeCallback:   f.handleLike(id),
-		UndoCallback:   f.handleUndo(id),
+		CreateCallback: f.handleCreate(c),
+		UpdateCallback: f.handleUpdate(c),
+		DeleteCallback: f.handleDelete(c),
+		FollowCallback: f.handleFollow(c),
+		AcceptCallback: f.handleAccept(c),
+		RejectCallback: f.handleReject(c),
+		AddCallback:    f.handleAdd(c),
+		RemoveCallback: f.handleRemove(c),
+		LikeCallback:   f.handleLike(c),
+		UndoCallback:   f.handleUndo(c),
 		// TODO: Extended activity types, such as Announce, Arrive, etc.
 	}
 }
 
-func (f *federator) handleCreate(id string) func(s *streams.Create) error {
+func (f *federator) handleCreate(c context.Context) func(s *streams.Create) error {
 	return func(s *streams.Create) error {
-		return f.Receiver.Create(id, s)
+		// Create requires the client application to persist the 'object' that
+		// was created.
+		raw := s.Raw()
+		for i := 0; i < raw.ObjectLen(); i++ {
+			if !raw.IsObject(i) {
+				// TODO: Fetch IRIs as well
+				return fmt.Errorf("create requires object to be wholly provided at index %d", i)
+			}
+			obj := raw.GetObject(i)
+			if err := f.App.Set(c, obj); err != nil {
+				return err
+			}
+		}
+		return f.ServerCallbacker.Create(c, s)
 	}
 }
 
-func (f *federator) handleUpdate(id string) func(s *streams.Update) error {
+func (f *federator) handleUpdate(c context.Context) func(s *streams.Update) error {
 	return func(s *streams.Update) error {
 		// TODO: The receiving server MUST take care to be sure that the Update
 		// is authorized to modify its object.
-		return f.Receiver.Update(id, s)
+		raw := s.Raw()
+		for i := 0; i < raw.ObjectLen(); i++ {
+			if !raw.IsObject(i) {
+				// TODO: Fetch IRIs as well
+				return fmt.Errorf("update requires object to be wholly provided at index %d", i)
+			}
+			obj := raw.GetObject(i)
+			if err := f.App.Set(c, obj); err != nil {
+				return err
+			}
+		}
+		return f.ServerCallbacker.Update(c, s)
 	}
 }
 
-func (f *federator) handleDelete(id string) func(s *streams.Delete) error {
+func (f *federator) handleDelete(c context.Context) func(s *streams.Delete) error {
 	return func(s *streams.Delete) error {
 		// TODO: Verify ownership. I think the spec unintentionally suggests to
 		// just assume it is owned, so we will actually verify.
-		return f.Receiver.Delete(id, s)
+		ids, err := getObjectIds(s.Raw())
+		if err != nil {
+			return err
+		} else if len(ids) == 0 {
+			return fmt.Errorf("delete has no id: %v", s)
+		}
+		for _, id := range ids {
+			pObj, err := f.App.Get(c, id)
+			if err != nil {
+				return err
+			}
+			obj, ok := pObj.(vocab.ObjectType)
+			if !ok {
+				return fmt.Errorf("cannot delete non-ObjectType: %T", pObj)
+			}
+			tomb := toTombstone(obj, id, f.Clock.Now())
+			if err := f.App.Set(c, tomb); err != nil {
+				return err
+			}
+		}
+		return f.ServerCallbacker.Delete(c, s)
 	}
 }
 
-func (f *federator) handleFollow(id string) func(s *streams.Follow) error {
+func (f *federator) handleFollow(c context.Context) func(s *streams.Follow) error {
 	return func(s *streams.Follow) error {
-		return f.Receiver.Follow(id, s)
+		// TODO: Implement.
+		// Follow means the client application SHOULD reply with an 'Accept' or
+		// 'Reject' ActivityStream with the 'Follow' as the 'object' and deliver
+		// it to the 'actor' of the 'Follow'. This can be human-triggered or
+		// automatically triggered.
+		return f.ServerCallbacker.Follow(c, s)
 	}
 }
 
-func (f *federator) handleAccept(id string) func(s *streams.Accept) error {
+func (f *federator) handleAccept(c context.Context) func(s *streams.Accept) error {
 	return func(s *streams.Accept) error {
-		return f.Receiver.Accept(id, s)
+		// TODO: Implement.
+		// Accept can be client application specific. However, if this 'Accept'
+		// is in response to a 'Follow' then the 'actor' should be added to the
+		// original 'actor's 'following' collection by the client application.
+		return f.ServerCallbacker.Accept(c, s)
 	}
 }
 
-func (f *federator) handleReject(id string) func(s *streams.Reject) error {
+func (f *federator) handleReject(c context.Context) func(s *streams.Reject) error {
 	return func(s *streams.Reject) error {
-		return f.Receiver.Reject(id, s)
+		// TODO: Implement.
+		// Reject can be client application specific. However, if this 'Reject'
+		// is in response to a 'Follow' then the client MUST NOT go forward with
+		// adding the 'actor' to the original 'actor's 'following' collection
+		// by the client application.
+		return f.ServerCallbacker.Reject(c, s)
 	}
 }
 
-func (f *federator) handleAdd(id string) func(s *streams.Add) error {
+func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 	return func(s *streams.Add) error {
-		return f.Receiver.Add(id, s)
+		// TODO: Implement.
+		// Add is client application specific, generally involving adding an
+		// 'object' to a specific 'target' collection.
+		return f.ServerCallbacker.Add(c, s)
 	}
 }
 
-func (f *federator) handleRemove(id string) func(s *streams.Remove) error {
+func (f *federator) handleRemove(c context.Context) func(s *streams.Remove) error {
 	return func(s *streams.Remove) error {
-		return f.Receiver.Remove(id, s)
+		// TODO: Implement.
+		// Remove is client application specific, generally involving removing
+		// an 'object' from a specific 'target' collection.
+		return f.ServerCallbacker.Remove(c, s)
 	}
 }
 
-func (f *federator) handleLike(id string) func(s *streams.Like) error {
+func (f *federator) handleLike(c context.Context) func(s *streams.Like) error {
 	return func(s *streams.Like) error {
-		return f.Receiver.Like(id, s)
+		// TODO: Implement.
+		// Like triggers adding the like to an object's `like` collection.
+		return f.ServerCallbacker.Like(c, s)
 	}
 }
 
-func (f *federator) handleUndo(id string) func(s *streams.Undo) error {
+func (f *federator) handleUndo(c context.Context) func(s *streams.Undo) error {
 	return func(s *streams.Undo) error {
-		return f.Receiver.Undo(id, s)
+		// TODO: Implement.
+		// Undo negates a previous action. The 'actor' on the 'Undo' MUST be the
+		// same as the 'actor' on the Activity being undone, and the client
+		// application is responsible for enforcing this. Note that 'Undo'-ing
+		// is not a deletion of a previous Activity, but the addition of its
+		// opposite.
+		return f.ServerCallbacker.Undo(c, s)
 	}
 }

@@ -7,6 +7,34 @@ import (
 	"net/url"
 )
 
+// ToPubObject transforms a json-deserialized ActivityStream object into a
+// PubObject for use with the pub library. Note that for an object to be an
+// ActivityPub object, it must have an 'id' and at least one 'type'.
+func ToPubObject(m map[string]interface{}) (t []PubObject, e error) {
+	r := &streams.Resolver{
+		AnyObjectCallback: func(i vocab.ObjectType) error {
+			if !i.HasId() {
+				return fmt.Errorf("object type does not have an id: %q", i)
+			} else if i.TypeLen() == 0 {
+				return fmt.Errorf("object type does not have a type: %q", i)
+			}
+			t = append(t, i)
+			return nil
+		},
+		AnyLinkCallback: func(i vocab.LinkType) error {
+			if !i.HasId() {
+				return fmt.Errorf("link type does not have an id: %q", i)
+			} else if i.TypeLen() == 0 {
+				return fmt.Errorf("link type does not have a type: %q", i)
+			}
+			t = append(t, i)
+			return nil
+		},
+	}
+	e = r.Deserialize(m)
+	return t, e
+}
+
 func toActorResolver(a *actorObject) *streams.Resolver {
 	return &streams.Resolver{
 		AnyObjectCallback: func(i vocab.ObjectType) error {
