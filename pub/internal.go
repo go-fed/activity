@@ -2,6 +2,7 @@ package pub
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/go-fed/activity/streams"
@@ -167,6 +168,30 @@ func (f *federator) wrapInCreate(o vocab.ObjectType, actor url.URL) *vocab.Creat
 }
 
 // TODO: (Section 7) HTTP caching mechanisms [RFC7234] SHOULD be respected when appropriate, both when receiving responses from other servers as well as sending responses to other servers.
+
+// deliver will complete the peer-to-peer sending of a federated message to
+// another server.
+func (f *federator) deliver(obj vocab.ActivityType) error {
+	recipients, err := f.prepare(obj)
+	if err != nil {
+		return err
+	}
+	m, err := obj.Serialize()
+	if err != nil {
+		return err
+	}
+	m["@context"] = "https://www.w3.org/ns/activitystreams"
+	b, err := json.Marshal(m)
+	if err != nil {
+		return err
+	}
+	for _, to := range recipients {
+		f.pool.Do(b, to, func(b []byte, u url.URL) error {
+			return postToOutbox(f.Client, b, u, f.Agent)
+		})
+	}
+	return nil
+}
 
 // prepare takes a deliverableObject and returns a list of the proper recipient
 // target URIs. Additionally, the deliverableObject will have any hidden
@@ -834,6 +859,152 @@ func toTombstone(obj vocab.ObjectType, id url.URL, now time.Time) vocab.Tombston
 	}
 	tomb.SetDeleted(now)
 	return tomb
+}
+
+func (f *federator) addToAllActorLikedCollection(ctx context.Context, c vocab.LikeType) error {
+	for i := 0; i < c.ActorLen(); i++ {
+		var actor vocab.ObjectType
+		if c.IsActorObject(i) {
+			actor = c.GetActorObject(i)
+		} else if c.IsActorLink(i) {
+			l := c.GetActorLink(i)
+			if !l.HasHref() {
+				return fmt.Errorf("actor Link href required")
+			}
+			pObj, err := f.App.Get(ctx, l.GetHref())
+			if err != nil {
+				return err
+			}
+			ok := false
+			actor, ok = pObj.(vocab.ObjectType)
+			if !ok {
+				return fmt.Errorf("actor is not vocab.ObjectType")
+			}
+		} else if c.IsActorIRI(i) {
+			iri := c.GetActorIRI(i)
+			pObj, err := f.App.Get(ctx, iri)
+			if err != nil {
+				return err
+			}
+			ok := false
+			actor, ok = pObj.(vocab.ObjectType)
+			if !ok {
+				return fmt.Errorf("actor is not vocab.ObjectType")
+			}
+		}
+		var lc vocab.CollectionType
+		var loc vocab.OrderedCollectionType
+		if actor.IsLikedAnyURI() {
+			pObj, err := f.App.Get(ctx, actor.GetLikedAnyURI())
+			if err != nil {
+				return err
+			}
+			ok := false
+			if lc, ok = pObj.(vocab.CollectionType); !ok {
+				if loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
+					return fmt.Errorf("actors liked collection not CollectionType nor OrderedCollectionType")
+				}
+			}
+		} else if actor.IsLikedCollection() {
+			lc = actor.GetLikedCollection()
+		} else if actor.IsLikedOrderedCollection() {
+			loc = actor.GetLikedOrderedCollection()
+		}
+		for i := 0; i < c.ObjectLen(); i++ {
+			if c.IsObjectIRI(i) {
+				if lc != nil {
+					lc.AddItemsIRI(c.GetObjectIRI(i))
+				} else if loc != nil {
+					loc.AddOrderedItemsIRI(c.GetObjectIRI(i))
+				}
+			} else if c.IsObject(i) {
+				if lc != nil {
+					lc.AddItemsObject(c.GetObject(i))
+				} else if loc != nil {
+					loc.AddOrderedItemsObject(c.GetObject(i))
+				}
+			}
+		}
+		if lc != nil {
+			if err := f.App.Set(ctx, lc); err != nil {
+				return err
+			}
+		} else if loc != nil {
+			if err := f.App.Set(ctx, loc); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func (f *federator) addToAllLikesCollections(ctx context.Context, c vocab.LikeType) error {
+	for i := 0; i < c.ObjectLen(); i++ {
+		var object vocab.ObjectType
+		if c.IsObject(i) {
+			object = c.GetObject(i)
+		} else if c.IsObjectIRI(i) {
+			iri := c.GetObjectIRI(i)
+			pObj, err := f.App.Get(ctx, iri)
+			if err != nil {
+				return err
+			}
+			ok := false
+			object, ok = pObj.(vocab.ObjectType)
+			if !ok {
+				return fmt.Errorf("object is not vocab.ObjectType")
+			}
+		}
+		var lc vocab.CollectionType
+		var loc vocab.OrderedCollectionType
+		if object.IsLikesAnyURI() {
+			pObj, err := f.App.Get(ctx, object.GetLikesAnyURI())
+			if err != nil {
+				return err
+			}
+			ok := false
+			if lc, ok = pObj.(vocab.CollectionType); !ok {
+				if loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
+					return fmt.Errorf("object likes collection not CollectionType nor OrderedCollectionType")
+				}
+			}
+		} else if object.IsLikesCollection() {
+			lc = object.GetLikesCollection()
+		} else if object.IsLikesOrderedCollection() {
+			loc = object.GetLikesOrderedCollection()
+		}
+		for i := 0; i < c.ActorLen(); i++ {
+			if c.IsActorIRI(i) {
+				if lc != nil {
+					lc.AddItemsIRI(c.GetActorIRI(i))
+				} else if loc != nil {
+					loc.AddOrderedItemsIRI(c.GetActorIRI(i))
+				}
+			} else if c.IsActorObject(i) {
+				if lc != nil {
+					lc.AddItemsObject(c.GetActorObject(i))
+				} else if loc != nil {
+					loc.AddOrderedItemsObject(c.GetActorObject(i))
+				}
+			} else if c.IsActorLink(i) {
+				if lc != nil {
+					lc.AddItemsLink(c.GetActorLink(i))
+				} else if loc != nil {
+					loc.AddOrderedItemsLink(c.GetActorLink(i))
+				}
+			}
+		}
+		if lc != nil {
+			if err := f.App.Set(ctx, lc); err != nil {
+				return err
+			}
+		} else if loc != nil {
+			if err := f.App.Set(ctx, loc); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
 }
 
 // TODO: Move this to vocab package.

@@ -23,32 +23,8 @@ var (
 // TODO: Helper http Handler for serving Tombstone objects
 // TODO: Helper http Handler for serving deleted objects
 
-// FederateApp is provided by users of this library and designed to handle
-// receiving messages from ActivityPub servers through the Federative API.
-type FederateApp interface {
-}
-
-// Callbacker provides an Application hooks into the lifecycle of the
-// ActivityPub processes for both client-to-server and server-to-server
-// interactions. These callbacks are called after their spec-compliant actions
-// are completed, but before inbox forwarding and before delivery.
-//
-// Note that modifying the ActivityStream objects in a callback may cause
-// unintentionally non-standard behavior if modifying core attributes, but
-// otherwise affords clients powerful flexibility. Use responsibly.
-type Callbacker interface {
-	Create(c context.Context, s *streams.Create) error
-	Update(c context.Context, s *streams.Update) error
-	Delete(c context.Context, s *streams.Delete) error
-	Add(c context.Context, s *streams.Add) error
-	Remove(c context.Context, s *streams.Remove) error
-	Like(c context.Context, s *streams.Like) error
-	Block(c context.Context, s *streams.Block) error
-	Follow(c context.Context, s *streams.Follow) error
-	Undo(c context.Context, s *streams.Undo) error
-	Accept(c context.Context, s *streams.Accept) error
-	Reject(c context.Context, s *streams.Reject) error
-}
+// TODO: Authorization client-to-server.
+// TODO: Authenticate server-to-server deliveries.
 
 type federator struct {
 	// Clock determines the time of this federator.
@@ -129,6 +105,29 @@ func (f *federator) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	}
 	var m map[string]interface{}
 	if err = json.Unmarshal(b, &m); err != nil {
+		return true, err
+	}
+	ao, err := getActorObject(m)
+	if err != nil {
+		return true, err
+	}
+	var iris []url.URL
+	for i := 0; i < ao.ActorLen(); i++ {
+		if ao.IsActorObject(i) {
+			obj := ao.GetActorObject(i)
+			if obj.HasId() {
+				iris = append(iris, obj.GetId())
+			}
+		} else if ao.IsActorLink(i) {
+			l := ao.GetActorLink(i)
+			if l.HasHref() {
+				iris = append(iris, l.GetHref())
+			}
+		} else if ao.IsActorIRI(i) {
+			iris = append(iris, ao.GetActorIRI(i))
+		}
+	}
+	if err = f.FederateApp.Unblocked(c, iris); err != nil {
 		return true, err
 	}
 	if err = f.getPostInboxResolver(c).Deserialize(m); err != nil {
@@ -233,23 +232,8 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		if err != nil {
 			return true, err
 		}
-		recipients, err := f.prepare(obj)
-		if err != nil {
+		if err := f.deliver(obj); err != nil {
 			return true, err
-		}
-		m, err := obj.Serialize()
-		if err != nil {
-			return true, err
-		}
-		m["@context"] = "https://www.w3.org/ns/activitystreams"
-		b, err := json.Marshal(m)
-		if err != nil {
-			return true, err
-		}
-		for _, to := range recipients {
-			f.pool.Do(b, to, func(b []byte, u url.URL) error {
-				return postToOutbox(f.Client, b, u, f.Agent)
-			})
 		}
 	}
 	w.Header().Set("Location", newId.String())
@@ -285,8 +269,16 @@ func (f *federator) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 }
 
 func (f *federator) addToOutbox(c context.Context, m map[string]interface{}) error {
-	// TODO
-	return nil
+	outbox, err := f.SocialApp.GetOutbox(c)
+	if err != nil {
+		return err
+	}
+	activity, err := toAnyActivity(m)
+	if err != nil {
+		return err
+	}
+	outbox.AddOrderedItemsObject(activity)
+	return f.App.Set(c, outbox)
 }
 
 func (f *federator) getPostOutboxResolver(c context.Context, deliverable *bool) *streams.Resolver {
@@ -644,14 +636,16 @@ func (f *federator) handleClientRemove(c context.Context, deliverable *bool) fun
 	}
 }
 
-func (f *federator) handleClientLike(c context.Context, deliverable *bool) func(s *streams.Like) error {
+func (f *federator) handleClientLike(ctx context.Context, deliverable *bool) func(s *streams.Like) error {
 	return func(s *streams.Like) error {
 		*deliverable = true
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		// TODO: The server SHOULD add the object to the actor's liked Collection.
-		return f.ClientCallbacker.Like(c, s)
+		if err := f.addToAllActorLikedCollection(ctx, s.Raw()); err != nil {
+			return err
+		}
+		return f.ClientCallbacker.Like(ctx, s)
 	}
 }
 
@@ -661,7 +655,7 @@ func (f *federator) handleClientUndo(c context.Context, deliverable *bool) func(
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		// TODO: Support common forms of undo natively.
+		// TODO: Determine if we can support common forms of undo natively.
 		return f.ClientCallbacker.Undo(c, s)
 	}
 }
@@ -672,7 +666,6 @@ func (f *federator) handleClientBlock(c context.Context, deliverable *bool) func
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		// TODO: Add to blocked app.
 		return f.ClientCallbacker.Block(c, s)
 	}
 }
@@ -761,11 +754,31 @@ func (f *federator) handleDelete(c context.Context) func(s *streams.Delete) erro
 
 func (f *federator) handleFollow(c context.Context) func(s *streams.Follow) error {
 	return func(s *streams.Follow) error {
-		// TODO: Implement.
-		// Follow means the client application SHOULD reply with an 'Accept' or
-		// 'Reject' ActivityStream with the 'Follow' as the 'object' and deliver
-		// it to the 'actor' of the 'Follow'. This can be human-triggered or
-		// automatically triggered.
+		// Permit either human-triggered or automatically triggering
+		// 'Accept'/'Reject'.
+		todo := f.FederateApp.OnFollow(c, s)
+		if todo != DoNothing {
+			var activity vocab.ActivityType
+			if todo == AutomaticAccept {
+				activity = &vocab.Accept{}
+			} else if todo == AutomaticReject {
+				activity = &vocab.Reject{}
+			}
+			raw := s.Raw()
+			activity.AddObject(raw)
+			for i := 0; i < raw.ActorLen(); i++ {
+				if raw.IsActorObject(i) {
+					activity.AddToObject(raw.GetActorObject(i))
+				} else if raw.IsActorLink(i) {
+					activity.AddToLink(raw.GetActorLink(i))
+				} else if raw.IsActorIRI(i) {
+					activity.AddToIRI(raw.GetActorIRI(i))
+				}
+			}
+			if err := f.deliver(activity); err != nil {
+				return err
+			}
+		}
 		return f.ServerCallbacker.Follow(c, s)
 	}
 }
@@ -782,7 +795,6 @@ func (f *federator) handleAccept(c context.Context) func(s *streams.Accept) erro
 
 func (f *federator) handleReject(c context.Context) func(s *streams.Reject) error {
 	return func(s *streams.Reject) error {
-		// TODO: Implement.
 		// Reject can be client application specific. However, if this 'Reject'
 		// is in response to a 'Follow' then the client MUST NOT go forward with
 		// adding the 'actor' to the original 'actor's 'following' collection
@@ -811,15 +823,15 @@ func (f *federator) handleRemove(c context.Context) func(s *streams.Remove) erro
 
 func (f *federator) handleLike(c context.Context) func(s *streams.Like) error {
 	return func(s *streams.Like) error {
-		// TODO: Implement.
-		// Like triggers adding the like to an object's `like` collection.
+		if err := f.addToAllLikesCollections(c, s.Raw()); err != nil {
+			return err
+		}
 		return f.ServerCallbacker.Like(c, s)
 	}
 }
 
 func (f *federator) handleUndo(c context.Context) func(s *streams.Undo) error {
 	return func(s *streams.Undo) error {
-		// TODO: Implement.
 		// Undo negates a previous action. The 'actor' on the 'Undo' MUST be the
 		// same as the 'actor' on the Activity being undone, and the client
 		// application is responsible for enforcing this. Note that 'Undo'-ing

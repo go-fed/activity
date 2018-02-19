@@ -35,6 +35,12 @@ func ToPubObject(m map[string]interface{}) (t []PubObject, e error) {
 	return t, e
 }
 
+func getActorObject(m map[string]interface{}) (actorObject, error) {
+	var a actorObject
+	err := toActorResolver(&a).Deserialize(m)
+	return a, err
+}
+
 func toActorResolver(a *actorObject) *streams.Resolver {
 	return &streams.Resolver{
 		AnyObjectCallback: func(i vocab.ObjectType) error {

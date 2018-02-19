@@ -1013,7 +1013,15 @@ var (
 		URI:        propertyBaseURI + "liked",
 		Notes:      "A link to an [ActivityStreams] collection of objects this actor has liked",
 		Domain:     []DomainReference{{T: objectType}},
-		Range:      []RangeReference{{V: xsdAnyURIValueType}},
+		Range:      []RangeReference{{T: collectionType}, {T: orderedCollectionType}, {V: xsdAnyURIValueType}},
+		Functional: true, // Missing from spec!
+	}
+	likesPropertyType = &PropertyType{
+		Name:       "likes",
+		URI:        propertyBaseURI + "likes",
+		Notes:      "A link to an [ActivityStreams] collection of objects this actor has liked",
+		Domain:     []DomainReference{{T: objectType}},
+		Range:      []RangeReference{{T: collectionType}, {T: orderedCollectionType}, {V: xsdAnyURIValueType}},
 		Functional: true, // Missing from spec!
 	}
 	streamsPropertyType = &PropertyType{
@@ -1164,6 +1172,7 @@ var (
 		followingPropertyType,
 		followersPropertyType,
 		likedPropertyType,
+		likesPropertyType,
 		streamsPropertyType,
 		preferredUsernamePropertyType,
 		endpointsPropertyType,
@@ -1770,6 +1779,7 @@ func init() {
 		followingPropertyType,
 		followersPropertyType,
 		likedPropertyType,
+		likesPropertyType,
 		streamsPropertyType,
 		preferredUsernamePropertyType,
 		endpointsPropertyType,

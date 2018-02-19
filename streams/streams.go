@@ -3117,15 +3117,19 @@ func (t *Object) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Object) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -3134,16 +3138,58 @@ func (t *Object) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Object) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Object) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Object) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Object) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Object) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Object) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -5807,15 +5853,19 @@ func (t *Activity) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Activity) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -5824,16 +5874,58 @@ func (t *Activity) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Activity) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Activity) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Activity) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Activity) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Activity) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Activity) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -7919,15 +8011,19 @@ func (t *IntransitiveActivity) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *IntransitiveActivity) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -7936,16 +8032,58 @@ func (t *IntransitiveActivity) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *IntransitiveActivity) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *IntransitiveActivity) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *IntransitiveActivity) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *IntransitiveActivity) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *IntransitiveActivity) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *IntransitiveActivity) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -9973,15 +10111,19 @@ func (t *Collection) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Collection) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -9990,16 +10132,58 @@ func (t *Collection) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Collection) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Collection) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Collection) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Collection) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Collection) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Collection) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -12027,15 +12211,19 @@ func (t *OrderedCollection) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollection) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -12044,16 +12232,58 @@ func (t *OrderedCollection) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *OrderedCollection) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *OrderedCollection) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *OrderedCollection) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollection) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollection) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *OrderedCollection) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -14195,15 +14425,19 @@ func (t *CollectionPage) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *CollectionPage) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -14212,16 +14446,58 @@ func (t *CollectionPage) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *CollectionPage) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *CollectionPage) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *CollectionPage) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *CollectionPage) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *CollectionPage) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *CollectionPage) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -16359,15 +16635,19 @@ func (t *OrderedCollectionPage) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -16376,16 +16656,58 @@ func (t *OrderedCollectionPage) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *OrderedCollectionPage) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *OrderedCollectionPage) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *OrderedCollectionPage) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *OrderedCollectionPage) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -18555,15 +18877,19 @@ func (t *Accept) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Accept) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -18572,16 +18898,58 @@ func (t *Accept) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Accept) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Accept) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Accept) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Accept) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Accept) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Accept) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -20713,15 +21081,19 @@ func (t *TentativeAccept) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeAccept) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -20730,16 +21102,58 @@ func (t *TentativeAccept) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *TentativeAccept) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *TentativeAccept) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *TentativeAccept) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeAccept) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeAccept) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *TentativeAccept) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -22871,15 +23285,19 @@ func (t *Add) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Add) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -22888,16 +23306,58 @@ func (t *Add) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Add) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Add) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Add) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Add) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Add) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Add) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -24983,15 +25443,19 @@ func (t *Arrive) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Arrive) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -25000,16 +25464,58 @@ func (t *Arrive) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Arrive) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Arrive) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Arrive) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Arrive) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Arrive) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Arrive) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -27141,15 +27647,19 @@ func (t *Create) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Create) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -27158,16 +27668,58 @@ func (t *Create) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Create) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Create) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Create) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Create) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Create) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Create) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -29299,15 +29851,19 @@ func (t *Delete) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Delete) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -29316,16 +29872,58 @@ func (t *Delete) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Delete) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Delete) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Delete) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Delete) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Delete) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Delete) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -31457,15 +32055,19 @@ func (t *Follow) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Follow) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -31474,16 +32076,58 @@ func (t *Follow) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Follow) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Follow) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Follow) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Follow) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Follow) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Follow) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -33615,15 +34259,19 @@ func (t *Ignore) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Ignore) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -33632,16 +34280,58 @@ func (t *Ignore) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Ignore) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Ignore) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Ignore) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Ignore) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Ignore) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Ignore) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -35773,15 +36463,19 @@ func (t *Join) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Join) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -35790,16 +36484,58 @@ func (t *Join) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Join) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Join) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Join) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Join) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Join) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Join) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -37931,15 +38667,19 @@ func (t *Leave) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Leave) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -37948,16 +38688,58 @@ func (t *Leave) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Leave) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Leave) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Leave) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Leave) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Leave) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Leave) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -40089,15 +40871,19 @@ func (t *Like) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Like) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -40106,16 +40892,58 @@ func (t *Like) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Like) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Like) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Like) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Like) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Like) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Like) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -42247,15 +43075,19 @@ func (t *Offer) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Offer) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -42264,16 +43096,58 @@ func (t *Offer) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Offer) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Offer) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Offer) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Offer) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Offer) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Offer) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -44405,15 +45279,19 @@ func (t *Invite) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Invite) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -44422,16 +45300,58 @@ func (t *Invite) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Invite) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Invite) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Invite) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Invite) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Invite) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Invite) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -46563,15 +47483,19 @@ func (t *Reject) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Reject) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -46580,16 +47504,58 @@ func (t *Reject) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Reject) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Reject) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Reject) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Reject) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Reject) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Reject) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -48721,15 +49687,19 @@ func (t *TentativeReject) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeReject) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -48738,16 +49708,58 @@ func (t *TentativeReject) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *TentativeReject) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *TentativeReject) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *TentativeReject) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeReject) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeReject) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *TentativeReject) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -50879,15 +51891,19 @@ func (t *Remove) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Remove) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -50896,16 +51912,58 @@ func (t *Remove) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Remove) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Remove) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Remove) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Remove) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Remove) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Remove) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -53037,15 +54095,19 @@ func (t *Undo) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Undo) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -53054,16 +54116,58 @@ func (t *Undo) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Undo) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Undo) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Undo) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Undo) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Undo) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Undo) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -55195,15 +56299,19 @@ func (t *Update) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Update) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -55212,16 +56320,58 @@ func (t *Update) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Update) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Update) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Update) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Update) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Update) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Update) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -57353,15 +58503,19 @@ func (t *View) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *View) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -57370,16 +58524,58 @@ func (t *View) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *View) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *View) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *View) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *View) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *View) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *View) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -59511,15 +60707,19 @@ func (t *Listen) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Listen) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -59528,16 +60728,58 @@ func (t *Listen) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Listen) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Listen) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Listen) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Listen) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Listen) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Listen) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -61669,15 +62911,19 @@ func (t *Read) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Read) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -61686,16 +62932,58 @@ func (t *Read) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Read) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Read) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Read) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Read) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Read) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Read) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -63827,15 +65115,19 @@ func (t *Move) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Move) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -63844,16 +65136,58 @@ func (t *Move) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Move) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Move) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Move) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Move) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Move) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Move) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -65939,15 +67273,19 @@ func (t *Travel) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Travel) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -65956,16 +67294,58 @@ func (t *Travel) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Travel) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Travel) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Travel) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Travel) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Travel) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Travel) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -68097,15 +69477,19 @@ func (t *Announce) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Announce) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -68114,16 +69498,58 @@ func (t *Announce) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Announce) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Announce) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Announce) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Announce) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Announce) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Announce) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -70255,15 +71681,19 @@ func (t *Block) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Block) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -70272,16 +71702,58 @@ func (t *Block) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Block) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Block) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Block) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Block) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Block) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Block) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -72413,15 +73885,19 @@ func (t *Flag) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Flag) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -72430,16 +73906,58 @@ func (t *Flag) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Flag) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Flag) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Flag) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Flag) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Flag) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Flag) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -74571,15 +76089,19 @@ func (t *Dislike) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Dislike) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -74588,16 +76110,58 @@ func (t *Dislike) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Dislike) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Dislike) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Dislike) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Dislike) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Dislike) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Dislike) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -76847,15 +78411,19 @@ func (t *Question) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Question) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -76864,16 +78432,58 @@ func (t *Question) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Question) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Question) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Question) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Question) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Question) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Question) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -78700,15 +80310,19 @@ func (t *Application) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Application) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -78717,16 +80331,58 @@ func (t *Application) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Application) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Application) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Application) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Application) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Application) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Application) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -80553,15 +82209,19 @@ func (t *Group) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Group) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -80570,16 +82230,58 @@ func (t *Group) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Group) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Group) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Group) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Group) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Group) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Group) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -82406,15 +84108,19 @@ func (t *Organization) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Organization) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -82423,16 +84129,58 @@ func (t *Organization) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Organization) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Organization) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Organization) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Organization) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Organization) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Organization) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -84259,15 +86007,19 @@ func (t *Person) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Person) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -84276,16 +86028,58 @@ func (t *Person) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Person) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Person) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Person) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Person) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Person) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Person) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -86112,15 +87906,19 @@ func (t *Service) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Service) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -86129,16 +87927,58 @@ func (t *Service) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Service) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Service) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Service) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Service) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Service) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Service) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -88092,15 +89932,19 @@ func (t *Relationship) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Relationship) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -88109,16 +89953,58 @@ func (t *Relationship) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Relationship) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Relationship) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Relationship) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Relationship) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Relationship) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Relationship) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -89945,15 +91831,19 @@ func (t *Article) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Article) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -89962,16 +91852,58 @@ func (t *Article) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Article) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Article) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Article) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Article) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Article) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Article) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -91798,15 +93730,19 @@ func (t *Document) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Document) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -91815,16 +93751,58 @@ func (t *Document) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Document) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Document) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Document) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Document) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Document) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Document) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -93651,15 +95629,19 @@ func (t *Audio) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Audio) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -93668,16 +95650,58 @@ func (t *Audio) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Audio) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Audio) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Audio) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Audio) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Audio) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Audio) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -95572,15 +97596,19 @@ func (t *Image) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Image) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -95589,16 +97617,58 @@ func (t *Image) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Image) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Image) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Image) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Image) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Image) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Image) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -97425,15 +99495,19 @@ func (t *Video) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Video) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -97442,16 +99516,58 @@ func (t *Video) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Video) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Video) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Video) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Video) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Video) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Video) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -99278,15 +101394,19 @@ func (t *Note) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Note) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -99295,16 +101415,58 @@ func (t *Note) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Note) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Note) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Note) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Note) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Note) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Note) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -101131,15 +103293,19 @@ func (t *Page) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Page) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -101148,16 +103314,58 @@ func (t *Page) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Page) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Page) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Page) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Page) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Page) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Page) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -102984,15 +105192,19 @@ func (t *Event) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Event) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -103001,16 +105213,58 @@ func (t *Event) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Event) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Event) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Event) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Event) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Event) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Event) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -105007,15 +107261,19 @@ func (t *Place) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Place) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -105024,16 +107282,58 @@ func (t *Place) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Place) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Place) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Place) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Place) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Place) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Place) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -106894,15 +109194,19 @@ func (t *Profile) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Profile) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -106911,16 +109215,58 @@ func (t *Profile) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Profile) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Profile) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Profile) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Profile) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Profile) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Profile) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 
@@ -108831,15 +111177,19 @@ func (t *Tombstone) SetFollowers(k url.URL) {
 
 }
 
-// GetLiked attempts to get this 'liked' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetLiked() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveLiked passes the actual concrete type to the resolver for handing property liked. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Tombstone) ResolveLiked(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasLiked() {
-		k = t.raw.GetLiked()
+	if t.raw.IsLikedCollection() {
+		handled, err = r.dispatch(t.raw.GetLikedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsLikedOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikedAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -108848,16 +111198,58 @@ func (t *Tombstone) GetLiked() (r Resolution, k url.URL) {
 // HasLiked returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Tombstone) HasLiked() (p Presence) {
 	p = NoPresence
-	if t.raw.HasLiked() {
+	if t.raw.IsLikedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsLikedOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikedAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetLiked sets the value for property 'liked'.
-func (t *Tombstone) SetLiked(k url.URL) {
-	t.raw.SetLiked(k)
+// SetLiked sets this value to be a 'Collection' type.
+func (t *Tombstone) SetLiked(i vocab.CollectionType) {
+	t.raw.SetLikedCollection(i)
+
+}
+
+// ResolveLikes passes the actual concrete type to the resolver for handing property likes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Tombstone) ResolveLikes(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsLikesCollection() {
+		handled, err = r.dispatch(t.raw.GetLikesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsLikesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsLikesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasLikes returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Tombstone) HasLikes() (p Presence) {
+	p = NoPresence
+	if t.raw.IsLikesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsLikesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsLikesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetLikes sets this value to be a 'Collection' type.
+func (t *Tombstone) SetLikes(i vocab.CollectionType) {
+	t.raw.SetLikesCollection(i)
 
 }
 

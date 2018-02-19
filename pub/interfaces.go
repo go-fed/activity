@@ -3,6 +3,7 @@ package pub
 import (
 	"context"
 	"github.com/go-fed/activity/vocab"
+	"github.com/go-fed/activity/streams"
 	"net/http"
 	"net/url"
 	"time"
@@ -31,7 +32,7 @@ type Clock interface {
 // modification, allowing implementations to pass-through request-scoped data in
 // order to properly handle the request.
 type Application interface {
-// Get fetches the ActivityStream representation of the given id.
+	// Get fetches the ActivityStream representation of the given id.
 	Get(c context.Context, id url.URL) (PubObject, error)
 	// Set should write or overwrite the value of the provided object for
 	// its 'id'.
@@ -67,6 +68,76 @@ type SocialApp interface {
 	// CanRemove returns true if the provided object is allowed to be
 	// removed from the given target collection.
 	CanRemove(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
+	// GetOutbox gets the outbox of an actor.
+	GetOutbox(c context.Context) (vocab.OrderedCollectionType, error)
+}
+
+// FollowResponse instructs how to proceed upon immediately receiving a request
+// to follow.
+type FollowResponse int
+
+const (
+	AutomaticAccept FollowResponse = iota
+	AutomaticReject
+	DoNothing
+)
+
+// Callbacker provides an Application hooks into the lifecycle of the
+// ActivityPub processes for both client-to-server and server-to-server
+// interactions. These callbacks are called after their spec-compliant actions
+// are completed, but before inbox forwarding and before delivery.
+//
+// Note that modifying the ActivityStream objects in a callback may cause
+// unintentionally non-standard behavior if modifying core attributes, but
+// otherwise affords clients powerful flexibility. Use responsibly.
+type Callbacker interface {
+	// Create Activity callback.
+	Create(c context.Context, s *streams.Create) error
+	// Update Activity callback.
+	Update(c context.Context, s *streams.Update) error
+	// Delete Activity callback.
+	Delete(c context.Context, s *streams.Delete) error
+	// Add Activity callback.
+	Add(c context.Context, s *streams.Add) error
+	// Remove Activity callback.
+	Remove(c context.Context, s *streams.Remove) error
+	// Like Activity callback.
+	Like(c context.Context, s *streams.Like) error
+	// Block Activity callback. By default, this implmentation does not
+	// dictate how blocking should be implemented, so it is up to the
+	// application to enforce this by implementing the FederateApp
+	// interface.
+	Block(c context.Context, s *streams.Block) error
+	// Follow Activity callback. In the special case of server-to-server
+	// delivery of a Follow activity, this implementation supports the
+	// option of automatically replying with an 'Accept', 'Reject', or
+	// waiting for human interaction as provided in the FederateApp
+	// interface.
+	Follow(c context.Context, s *streams.Follow) error
+	// Undo Activity callback. It is up to the client to provide support
+	// for all 'Undo' operations; this implementation does not attempt to
+	// provide a generic implementation.
+	Undo(c context.Context, s *streams.Undo) error
+	// Accept Activity callback.
+	Accept(c context.Context, s *streams.Accept) error
+	// Reject Activity callback.
+	Reject(c context.Context, s *streams.Reject) error
+}
+
+// FederateApp is provided by users of this library and designed to handle
+// receiving messages from ActivityPub servers through the Federative API.
+type FederateApp interface {
+	// OnFollow determines whether to take any automatic reactions in
+	// response to this follow.
+	OnFollow(c context.Context, s *streams.Follow) FollowResponse
+	// Unblocked should return an error if the provided actor ids are not
+	// able to interact with this particular end user due to being blocked
+	// or other application-specific logic. This error is passed
+	// transparently back to the request thread via PostInbox.
+	//
+	// If nil error is returned, then the received activity is processed as
+	// a normal unblocked interaction.
+	Unblocked(c context.Context, actorIRIs []url.URL) error
 }
 
 // PubObject is an ActivityPub Object.
