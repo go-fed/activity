@@ -906,8 +906,10 @@ func (f *federator) addToAllActorLikedCollection(ctx context.Context, c vocab.Li
 				}
 			}
 		} else if actor.IsLikedCollection() {
+			// TODO: Fetch collection via f.App.Get
 			lc = actor.GetLikedCollection()
 		} else if actor.IsLikedOrderedCollection() {
+			// TODO: Fetch collection via f.App.Get
 			loc = actor.GetLikedOrderedCollection()
 		}
 		for i := 0; i < c.ObjectLen(); i++ {
@@ -969,8 +971,10 @@ func (f *federator) addToAllLikesCollections(ctx context.Context, c vocab.LikeTy
 				}
 			}
 		} else if object.IsLikesCollection() {
+			// TODO: Fetch collection via f.App.Get
 			lc = object.GetLikesCollection()
 		} else if object.IsLikesOrderedCollection() {
+			// TODO: Fetch collection via f.App.Get
 			loc = object.GetLikesOrderedCollection()
 		}
 		for i := 0; i < c.ActorLen(); i++ {

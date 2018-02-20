@@ -37,12 +37,12 @@ type Application interface {
 	// Set should write or overwrite the value of the provided object for
 	// its 'id'.
 	Set(c context.Context, o PubObject) error
-	// GetInbox returns the OrderedCollection inbox of the actor with the
-	// provided ID. It is up to the implementation to provide the correct
+	// GetInbox returns the OrderedCollection inbox of the actor for this
+	// context. It is up to the implementation to provide the correct
 	// collection for the kind of authorization given in the request.
 	GetInbox(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
-	// GetOutbox returns the OrderedCollection inbox of the actor with the
-	// provided ID. It is up to the implementation to provide the correct
+	// GetOutbox returns the OrderedCollection inbox of the actor for this 
+	// context. It is up to the implementation to provide the correct
 	// collection for the kind of authorization given in the request.
 	GetOutbox(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
 	// PostOutboxAuthorized determines whether the request is able to post
@@ -68,8 +68,27 @@ type SocialApp interface {
 	// CanRemove returns true if the provided object is allowed to be
 	// removed from the given target collection.
 	CanRemove(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
-	// GetOutbox gets the outbox of an actor.
-	GetOutbox(c context.Context) (vocab.OrderedCollectionType, error)
+}
+
+// FederateApp is provided by users of this library and designed to handle
+// receiving messages from ActivityPub servers through the Federative API.
+type FederateApp interface {
+	// OnFollow determines whether to take any automatic reactions in
+	// response to this follow.
+	OnFollow(c context.Context, s *streams.Follow) FollowResponse
+	// Unblocked should return an error if the provided actor ids are not
+	// able to interact with this particular end user due to being blocked
+	// or other application-specific logic. This error is passed
+	// transparently back to the request thread via PostInbox.
+	//
+	// If nil error is returned, then the received activity is processed as
+	// a normal unblocked interaction.
+	Unblocked(c context.Context, actorIRIs []url.URL) error
+	// GetFollowing returns the 'following' collection for the given actor
+	// IRI. It must be a CollectionType; this library does not support an
+	// OrderedCollectionType, as then it would have to be in reverse
+	// chronological order.
+	GetFollowing(c context.Context, actor url.URL) (vocab.CollectionType, error)
 }
 
 // FollowResponse instructs how to proceed upon immediately receiving a request
@@ -113,31 +132,25 @@ type Callbacker interface {
 	// option of automatically replying with an 'Accept', 'Reject', or
 	// waiting for human interaction as provided in the FederateApp
 	// interface.
+	//
+	// In the special case that the FederateApp returned AutomaticAccept,
+	// this library automatically handles adding the 'actor' to the
+	// 'followers' collection of the 'object'.
 	Follow(c context.Context, s *streams.Follow) error
 	// Undo Activity callback. It is up to the client to provide support
 	// for all 'Undo' operations; this implementation does not attempt to
 	// provide a generic implementation.
 	Undo(c context.Context, s *streams.Undo) error
-	// Accept Activity callback.
+	// Accept Activity callback. In the special case that this 'Accept'
+	// activity has an 'object' of 'Follow' type, then the library will
+	// handle adding the 'actor' to the 'following' collection of the
+	// original 'actor' who requested the 'Follow'.
 	Accept(c context.Context, s *streams.Accept) error
-	// Reject Activity callback.
+	// Reject Activity callback. Note that in the special case that this
+	// 'Reject' activity has an 'object' of 'Follow' type, then the client
+	// MUST NOT add the 'actor' to the 'following' collection of the
+	// original 'actor' who requested the 'Follow'.
 	Reject(c context.Context, s *streams.Reject) error
-}
-
-// FederateApp is provided by users of this library and designed to handle
-// receiving messages from ActivityPub servers through the Federative API.
-type FederateApp interface {
-	// OnFollow determines whether to take any automatic reactions in
-	// response to this follow.
-	OnFollow(c context.Context, s *streams.Follow) FollowResponse
-	// Unblocked should return an error if the provided actor ids are not
-	// able to interact with this particular end user due to being blocked
-	// or other application-specific logic. This error is passed
-	// transparently back to the request thread via PostInbox.
-	//
-	// If nil error is returned, then the received activity is processed as
-	// a normal unblocked interaction.
-	Unblocked(c context.Context, actorIRIs []url.URL) error
 }
 
 // PubObject is an ActivityPub Object.

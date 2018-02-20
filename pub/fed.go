@@ -23,6 +23,10 @@ var (
 // TODO: Helper http Handler for serving Tombstone objects
 // TODO: Helper http Handler for serving deleted objects
 
+// TODO: Helper http Handler for serving actor's likes
+// TODO: Helper http Handler for serving actor's followers
+// TODO: Helper http Handler for serving actor's following
+
 // TODO: Authorization client-to-server.
 // TODO: Authenticate server-to-server deliveries.
 
@@ -169,7 +173,7 @@ func (f *federator) GetInbox(c context.Context, w http.ResponseWriter, r *http.R
 	return true, nil
 }
 
-// PostOutpox provides a HTTP handler for ActivityPub requests for the given id
+// PostOutbox provides a HTTP handler for ActivityPub requests for the given id
 // token. The client ID token is passed forwards to other interfaces for
 // application specific behavior. The handler will return true if it handled
 // the request as an ActivityPub request. If it returns an error, it is up to
@@ -220,7 +224,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	if m, err = typer.Serialize(); err != nil {
 		return true, err
 	}
-	if err := f.addToOutbox(c, m); err != nil {
+	if err := f.addToOutbox(c, r, m); err != nil {
 		return true, err
 	}
 	deliverable := false
@@ -268,8 +272,8 @@ func (f *federator) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 	return true, nil
 }
 
-func (f *federator) addToOutbox(c context.Context, m map[string]interface{}) error {
-	outbox, err := f.SocialApp.GetOutbox(c)
+func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string]interface{}) error {
+	outbox, err := f.App.GetOutbox(c, r)
 	if err != nil {
 		return err
 	}
@@ -778,6 +782,9 @@ func (f *federator) handleFollow(c context.Context) func(s *streams.Follow) erro
 			if err := f.deliver(activity); err != nil {
 				return err
 			}
+			if todo == AutomaticAccept {
+				// TODO: Add to followers collection.
+			}
 		}
 		return f.ServerCallbacker.Follow(c, s)
 	}
@@ -785,10 +792,52 @@ func (f *federator) handleFollow(c context.Context) func(s *streams.Follow) erro
 
 func (f *federator) handleAccept(c context.Context) func(s *streams.Accept) error {
 	return func(s *streams.Accept) error {
-		// TODO: Implement.
 		// Accept can be client application specific. However, if this 'Accept'
 		// is in response to a 'Follow' then the 'actor' should be added to the
 		// original 'actor's 'following' collection by the client application.
+		raw := s.Raw()
+		for i := 0; i < raw.ObjectLen(); i++ {
+			if raw.IsObject(i) {
+				obj := raw.GetObject(i)
+				follow, ok := obj.(vocab.FollowType)
+				if !ok {
+					continue
+				}
+				for j := 0; j < follow.ActorLen(); j++ {
+					var iri url.URL
+					if follow.IsActorObject(j) {
+						actor := follow.GetActorObject(j)
+						if !actor.HasId() {
+							return fmt.Errorf("actor object on follow must have id")
+						}
+						iri = actor.GetId()
+					} else if follow.IsActorLink(j) {
+						l := follow.GetActorLink(j)
+						if !l.HasHref() {
+							return fmt.Errorf("actor link on follow must have href")
+						}
+						iri = l.GetHref()
+					} else if follow.IsActorIRI(j) {
+						iri = follow.GetActorIRI(j)
+					}
+					following, err := f.FederateApp.GetFollowing(c, iri)
+					if err != nil {
+						return err
+					}
+					// TODO: Deduplication detection.
+					for k := 0; k < raw.ActorLen(); k++ {
+						if raw.IsActorObject(k) {
+							following.AddItemsObject(raw.GetActorObject(k))
+						} else if raw.IsActorLink(k) {
+							following.AddItemsLink(raw.GetActorLink(k))
+						} else if raw.IsActorIRI(k) {
+							following.AddItemsIRI(raw.GetActorIRI(k))
+						}
+					}
+					f.App.Set(c, following)
+				}
+			}
+		}
 		return f.ServerCallbacker.Accept(c, s)
 	}
 }
