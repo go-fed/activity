@@ -7,9 +7,11 @@ import (
 	"fmt"
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/vocab"
+	"golang.org/x/time/rate"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 var (
@@ -29,6 +31,101 @@ var (
 
 // TODO: Authorization client-to-server.
 // TODO: Authenticate server-to-server deliveries.
+
+// Pubber provides methods for interacting with ActivityPub clients and
+// ActivityPub federating servers.
+type Pubber interface {
+	Stop()
+	Errors() <-chan error
+	PostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
+	GetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
+	// PostOutbox provides a HTTP handler for ActivityPub requests for the given id
+	// token. The client ID token is passed forwards to other interfaces for
+	// application specific behavior. The handler will return true if it handled
+	// the request as an ActivityPub request. If it returns an error, it is up to
+	// the client to determine how to respond via HTTP.
+	//
+	// Note that the error could be ErrObjectRequired or ErrTypeRequired.
+	PostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
+	GetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
+}
+
+// NewPubber provides a Pubber that implements only the Social API in
+// ActivityPub.
+func NewSocialPubber(clock Clock, app Application, socialApp SocialApp, cb Callbacker) Pubber {
+	return &federator{
+		Clock:            clock,
+		App:              app,
+		SocialApp:        socialApp,
+		ClientCallbacker: cb,
+		EnableClient:     true,
+	}
+}
+
+// DeliveryOptions provides options when delivering messages to federated
+// servers. All are required unless explicitly stated otherwise.
+type DeliveryOptions struct {
+	// Client to use when sending http requests to federating peers.
+	Client *http.Client
+	// Agent string to send in http requests.
+	Agent string
+	// Maximum unnesting done when determining who to send messages to. Must
+	// be at least 1.
+	MaxDeliveryDepth int
+	// Initial amount of time to wait before retrying delivery.
+	InitialRetryTime time.Duration
+	// The longest amount of time to wait before retrying delivery.
+	MaximumRetryTime time.Duration
+	// Rate of backing off retries. Must be at least 1.
+	BackoffFactor float64
+	// Maximum number of retries to do when delivering a message. Must be at
+	// least 1.
+	MaxRetries int
+	// Global rate limiter across all deliveries, to prevent spamming
+	// outbound messages.
+	RateLimit *rate.Limiter
+	// Persister allows implementations to save messages that are enqueued
+	// for delivery between downtimes. It also permits metrics gathering and
+	// monitoring of outbound messages.
+	//
+	// This field is optional.
+	Persister DeliveryPersister
+}
+
+// NewPubber provides a Pubber that implements only the Federating API in
+// ActivityPub.
+func NewFederatingPubber(clock Clock, app Application, fApp FederateApp, cb Callbacker, d DeliveryOptions) Pubber {
+	return &federator{
+		Clock:            clock,
+		App:              app,
+		FederateApp:      fApp,
+		ServerCallbacker: cb,
+		Client:           d.Client,
+		Agent:            d.Agent,
+		MaxDeliveryDepth: d.MaxDeliveryDepth,
+		EnableServer:     true,
+		pool:             newDelivererPool(d.InitialRetryTime, d.MaximumRetryTime, d.BackoffFactor, d.MaxRetries, d.RateLimit, d.Persister),
+	}
+}
+
+// NewPubber provides a Pubber that implements both the Social API and the
+// Federating API in ActivityPub.
+func NewPubber(clock Clock, app Application, sApp SocialApp, fApp FederateApp, server, client Callbacker, d DeliveryOptions) Pubber {
+	return &federator{
+		Clock:            clock,
+		App:              app,
+		SocialApp:        sApp,
+		FederateApp:      fApp,
+		Client:           d.Client,
+		Agent:            d.Agent,
+		MaxDeliveryDepth: d.MaxDeliveryDepth,
+		ServerCallbacker: server,
+		ClientCallbacker: client,
+		EnableClient:     true,
+		EnableServer:     true,
+		pool:             newDelivererPool(d.InitialRetryTime, d.MaximumRetryTime, d.BackoffFactor, d.MaxRetries, d.RateLimit, d.Persister),
+	}
+}
 
 type federator struct {
 	// Clock determines the time of this federator.
@@ -173,13 +270,6 @@ func (f *federator) GetInbox(c context.Context, w http.ResponseWriter, r *http.R
 	return true, nil
 }
 
-// PostOutbox provides a HTTP handler for ActivityPub requests for the given id
-// token. The client ID token is passed forwards to other interfaces for
-// application specific behavior. The handler will return true if it handled
-// the request as an ActivityPub request. If it returns an error, it is up to
-// the client to determine how to respond via HTTP.
-//
-// Note that the error could be ErrObjectRequired or ErrTypeRequired.
 func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error) {
 	if !isActivityPubPost(r) {
 		return false, nil

@@ -2,8 +2,8 @@ package pub
 
 import (
 	"context"
-	"github.com/go-fed/activity/vocab"
 	"github.com/go-fed/activity/streams"
+	"github.com/go-fed/activity/vocab"
 	"net/http"
 	"net/url"
 	"time"
@@ -41,7 +41,7 @@ type Application interface {
 	// context. It is up to the implementation to provide the correct
 	// collection for the kind of authorization given in the request.
 	GetInbox(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
-	// GetOutbox returns the OrderedCollection inbox of the actor for this 
+	// GetOutbox returns the OrderedCollection inbox of the actor for this
 	// context. It is up to the implementation to provide the correct
 	// collection for the kind of authorization given in the request.
 	GetOutbox(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
