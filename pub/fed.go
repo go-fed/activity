@@ -944,18 +944,136 @@ func (f *federator) handleReject(c context.Context) func(s *streams.Reject) erro
 
 func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 	return func(s *streams.Add) error {
-		// TODO: Implement.
 		// Add is client application specific, generally involving adding an
 		// 'object' to a specific 'target' collection.
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		} else if s.LenType() == 0 {
+			return ErrTypeRequired
+		}
+		raw := s.Raw()
+		ids, err := getTargetIds(raw)
+		if err != nil {
+			return err
+		} else if len(ids) == 0 {
+			return fmt.Errorf("add target has no ids: %v", s)
+		}
+		objIds, err := getObjectIds(s.Raw())
+		if err != nil {
+			return err
+		} else if len(objIds) == 0 {
+			return fmt.Errorf("add object has no ids: %v", s)
+		}
+		var targets []vocab.ObjectType
+		for _, id := range ids {
+			if !f.FederateApp.Owns(c, id) {
+				continue
+			}
+			target, err := f.App.Get(c, id)
+			if err != nil {
+				return err
+			}
+			ct, okCollection := target.(vocab.CollectionType)
+			oct, okOrdered := target.(vocab.OrderedCollectionType)
+			if !okCollection && !okOrdered {
+				return fmt.Errorf("cannot add to type that is not Collection and not OrderedCollection: %v", target)
+			} else if okCollection {
+				targets = append(targets, ct)
+			} else {
+				targets = append(targets, oct)
+			}
+		}
+		for i := 0; i < raw.ObjectLen(); i++ {
+			if !raw.IsObject(i) {
+				// TODO: Fetch IRIs as well
+				return fmt.Errorf("add object must be object type: %v", raw)
+			}
+			obj := raw.GetObject(i)
+			if !f.FederateApp.Owns(c, obj.GetId()) {
+				continue
+			}
+			for _, target := range targets {
+				if !f.FederateApp.CanAdd(c, obj, target) {
+					continue
+				}
+				if ct, ok := target.(vocab.CollectionType); ok {
+					ct.AddItemsObject(obj)
+				} else if oct, ok := target.(vocab.OrderedCollectionType); ok {
+					oct.AddOrderedItemsObject(obj)
+				}
+				if err := f.App.Set(c, target); err != nil {
+					return err
+				}
+			}
+		}
 		return f.ServerCallbacker.Add(c, s)
 	}
 }
 
 func (f *federator) handleRemove(c context.Context) func(s *streams.Remove) error {
 	return func(s *streams.Remove) error {
-		// TODO: Implement.
 		// Remove is client application specific, generally involving removing
 		// an 'object' from a specific 'target' collection.
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		} else if s.LenType() == 0 {
+			return ErrTypeRequired
+		}
+		raw := s.Raw()
+		ids, err := getTargetIds(raw)
+		if err != nil {
+			return err
+		} else if len(ids) == 0 {
+			return fmt.Errorf("remove target has no ids: %v", s)
+		}
+		objIds, err := getObjectIds(s.Raw())
+		if err != nil {
+			return err
+		} else if len(objIds) == 0 {
+			return fmt.Errorf("remove object has no ids: %v", s)
+		}
+		var targets []vocab.ObjectType
+		for _, id := range ids {
+			if !f.FederateApp.Owns(c, id) {
+				continue
+			}
+			target, err := f.App.Get(c, id)
+			if err != nil {
+				return err
+			}
+			ct, okCollection := target.(vocab.CollectionType)
+			oct, okOrdered := target.(vocab.OrderedCollectionType)
+			if !okCollection && !okOrdered {
+				return fmt.Errorf("cannot remove from type that is not Collection and not OrderedCollection: %v", target)
+			} else if okCollection {
+				targets = append(targets, ct)
+			} else {
+				targets = append(targets, oct)
+			}
+		}
+		for i := 0; i < raw.ObjectLen(); i++ {
+			if !raw.IsObject(i) {
+				// TODO: Fetch IRIs as well
+				return fmt.Errorf("remove object must be object type: %v", raw)
+			}
+			obj := raw.GetObject(i)
+			if !f.FederateApp.Owns(c, obj.GetId()) {
+				continue
+			}
+			for _, target := range targets {
+				if !f.FederateApp.CanRemove(c, obj, target) {
+					continue
+				}
+				if ct, ok := target.(vocab.CollectionType); ok {
+					removeCollectionItemWithId(ct, obj.GetId())
+				} else if oct, ok := target.(vocab.OrderedCollectionType); ok {
+					removeOrderedCollectionItemWithId(oct, obj.GetId())
+				}
+				if err := f.App.Set(c, target); err != nil {
+					return err
+				}
+			}
+		}
 		return f.ServerCallbacker.Remove(c, s)
 	}
 }

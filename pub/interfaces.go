@@ -73,6 +73,14 @@ type SocialApp interface {
 // FederateApp is provided by users of this library and designed to handle
 // receiving messages from ActivityPub servers through the Federative API.
 type FederateApp interface {
+	// Owns returns true if the provided id is owned by this server.
+	Owns(c context.Context, id url.URL) bool
+	// CanAdd returns true if the provided object is allowed to be added to
+	// the given target collection.
+	CanAdd(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
+	// CanRemove returns true if the provided object is allowed to be added to
+	// the given target collection.
+	CanRemove(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
 	// OnFollow determines whether to take any automatic reactions in
 	// response to this follow.
 	OnFollow(c context.Context, s *streams.Follow) FollowResponse
@@ -155,11 +163,10 @@ type Callbacker interface {
 
 // PubObject is an ActivityPub Object.
 type PubObject interface {
+	Typer
 	GetId() url.URL
 	SetId(url.URL)
 	HasId() bool
-	TypeLen() int
-	GetType(int) interface{}
 	AddType(interface{})
 	RemoveType(int)
 }
