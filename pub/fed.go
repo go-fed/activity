@@ -642,9 +642,6 @@ func (f *federator) handleClientAdd(c context.Context, deliverable *bool) func(s
 				return fmt.Errorf("add object must be object type: %v", raw)
 			}
 			obj := raw.GetObject(i)
-			if !f.SocialApp.Owns(c, obj.GetId()) {
-				continue
-			}
 			for _, target := range targets {
 				if !f.SocialApp.CanAdd(c, obj, target) {
 					continue
@@ -709,9 +706,6 @@ func (f *federator) handleClientRemove(c context.Context, deliverable *bool) fun
 				return fmt.Errorf("remove object must be object type: %v", raw)
 			}
 			obj := raw.GetObject(i)
-			if !f.SocialApp.Owns(c, obj.GetId()) {
-				continue
-			}
 			for _, target := range targets {
 				if !f.SocialApp.CanRemove(c, obj, target) {
 					continue
@@ -989,9 +983,6 @@ func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 				return fmt.Errorf("add object must be object type: %v", raw)
 			}
 			obj := raw.GetObject(i)
-			if !f.FederateApp.Owns(c, obj.GetId()) {
-				continue
-			}
 			for _, target := range targets {
 				if !f.FederateApp.CanAdd(c, obj, target) {
 					continue
@@ -1057,9 +1048,6 @@ func (f *federator) handleRemove(c context.Context) func(s *streams.Remove) erro
 				return fmt.Errorf("remove object must be object type: %v", raw)
 			}
 			obj := raw.GetObject(i)
-			if !f.FederateApp.Owns(c, obj.GetId()) {
-				continue
-			}
 			for _, target := range targets {
 				if !f.FederateApp.CanRemove(c, obj, target) {
 					continue
