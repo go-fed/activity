@@ -1,18 +1,24 @@
 package pub
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
+	"fmt"
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/vocab"
 	"golang.org/x/time/rate"
 	"net/http"
+	"net/http/httptest"
 	"net/url"
+	"strings"
 	"testing"
 	"time"
 )
 
 const (
-	testAgent = "test agent string"
+	testAgent    = "test agent string"
+	testInboxURI = "https://example.com/inbox"
 )
 
 func Must(l *time.Location, e error) *time.Location {
@@ -20,6 +26,62 @@ func Must(l *time.Location, e error) *time.Location {
 		panic(e)
 	}
 	return l
+}
+
+func ActivityPubRequest(r *http.Request) *http.Request {
+	if r.Method == "POST" {
+		existing, ok := r.Header["Content-Type"]
+		if ok {
+			r.Header["Content-Type"] = append(existing, "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\"")
+		} else {
+			r.Header["Content-Type"] = []string{"application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""}
+		}
+	} else {
+		existing, ok := r.Header["Accept"]
+		if ok {
+			r.Header["Accept"] = append(existing, "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\"")
+		} else {
+			r.Header["Accept"] = []string{"application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""}
+		}
+	}
+	return r
+}
+
+var (
+	testNote                    *vocab.Note
+	testSingleOrderedCollection *vocab.OrderedCollection
+)
+
+func init() {
+	testNote = &vocab.Note{}
+	testNote.AddNameString("A Note")
+	testSingleOrderedCollection = &vocab.OrderedCollection{}
+	testSingleOrderedCollection.AddItemsObject(testNote)
+}
+
+func VocabEquals(b *bytes.Buffer, s vocab.Serializer) error {
+	m, err := s.Serialize()
+	if err != nil {
+		return err
+	}
+	expected, err := json.Marshal(m)
+	if err != nil {
+		return err
+	}
+	actual := b.Bytes()
+	if len(actual) != len(expected) {
+		return fmt.Errorf("expected len %d, actual len %d; actual value %v", len(expected), len(actual), actual)
+	}
+	var diffs []string
+	for i := range actual {
+		if actual[i] != expected[i] {
+			diffs = append(diffs, fmt.Sprintf("at %d expected %d but got %d", i, expected[i], actual[i]))
+		}
+	}
+	if len(diffs) == 0 {
+		return nil
+	}
+	return fmt.Errorf(strings.Join(diffs, "; "))
 }
 
 var (
@@ -403,11 +465,44 @@ func TestSocialPubber_Stop(t *testing.T) {
 }
 
 func TestSocialPubber_RejectPostInbox(t *testing.T) {
-	// TODO: Implement
+	_, _, _, p := NewSocialPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, nil))
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if resp.Code != http.StatusMethodNotAllowed {
+		t.Fatalf("expected %d, got %d", http.StatusMethodNotAllowed, resp.Code)
+	}
 }
 
 func TestSocialPubber_GetInbox(t *testing.T) {
-	// TODO: Implement
+	app, _, _, p := NewSocialPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
+	gotInbox := 0
+	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		gotInbox++
+		return testSingleOrderedCollection, nil
+	}
+	handled, err := p.GetInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotInbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotInbox)
+	} else if l := len(resp.HeaderMap["Content-Type"]); l != 1 {
+		t.Fatalf("expected %d, got %d", 1, l)
+	} else if h := resp.HeaderMap["Content-Type"][0]; h != responseContentTypeHeader {
+		t.Fatalf("expected %s, got %s", responseContentTypeHeader, h)
+	} else if resp.Code != http.StatusOK {
+		t.Fatalf("expected %d, got %d", http.StatusOK, resp.Code)
+	} else if e := VocabEquals(resp.Body, testSingleOrderedCollection); e != nil {
+		t.Fatal(e)
+	}
 }
 
 func TestSocialPubber_PostOutbox(t *testing.T) {
@@ -415,7 +510,30 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 }
 
 func TestSocialPubber_GetOutbox(t *testing.T) {
-	// TODO: Implement
+	app, _, _, p := NewSocialPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
+	gotOutbox := 0
+	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		gotOutbox++
+		return testSingleOrderedCollection, nil
+	}
+	handled, err := p.GetOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOutbox)
+	} else if l := len(resp.HeaderMap["Content-Type"]); l != 1 {
+		t.Fatalf("expected %d, got %d", 1, l)
+	} else if h := resp.HeaderMap["Content-Type"][0]; h != responseContentTypeHeader {
+		t.Fatalf("expected %s, got %s", responseContentTypeHeader, h)
+	} else if resp.Code != http.StatusOK {
+		t.Fatalf("expected %d, got %d", http.StatusOK, resp.Code)
+	} else if e := VocabEquals(resp.Body, testSingleOrderedCollection); e != nil {
+		t.Fatal(e)
+	}
 }
 
 func TestFederatingPubber_Stop(t *testing.T) {
@@ -460,390 +578,390 @@ func TestPubber_GetOutbox(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_RejectNonActivityPub(t *testing.T) {
+func TestPostInbox_RejectNonActivityPub(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_HandlesBlocked(t *testing.T) {
+func TestPostInbox_HandlesBlocked(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Create_SetsObject(t *testing.T) {
+func TestPostInbox_Create_SetsObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Create_CallsCallback(t *testing.T) {
+func TestPostInbox_Create_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Update_SetsObject(t *testing.T) {
+func TestPostInbox_Update_SetsObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Update_CallsCallback(t *testing.T) {
+func TestPostInbox_Update_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Delete_SetsTombstone(t *testing.T) {
+func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Delete_CallsCallback(t *testing.T) {
+func TestPostInbox_Delete_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Follow_DoNothing(t *testing.T) {
+func TestPostInbox_Follow_DoNothing(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Follow_AutoReject(t *testing.T) {
+func TestPostInbox_Follow_AutoReject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Follow_AutoAccept(t *testing.T) {
+func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Follow_CallsCallback(t *testing.T) {
+func TestPostInbox_Follow_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Accept_DoesNothingIfNotAcceptingFollow(t *testing.T) {
+func TestPostInbox_Accept_DoesNothingIfNotAcceptingFollow(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Accept_AcceptFollowAddsToFollowers(t *testing.T) {
+func TestPostInbox_Accept_AcceptFollowAddsToFollowers(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Accept_CallsCallback(t *testing.T) {
+func TestPostInbox_Accept_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Reject_CallsCallback(t *testing.T) {
+func TestPostInbox_Reject_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Add_RequireObject(t *testing.T) {
+func TestPostInbox_Add_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Add_RequireType(t *testing.T) {
+func TestPostInbox_Add_RequireType(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
+func TestPostInbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Add_AddIfTargetOwned(t *testing.T) {
+func TestPostInbox_Add_AddIfTargetOwned(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
+func TestPostInbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Add_AddIfAppCanAdd(t *testing.T) {
+func TestPostInbox_Add_AddIfAppCanAdd(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Add_SetsTarget(t *testing.T) {
+func TestPostInbox_Add_SetsTarget(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Add_CallsCallback(t *testing.T) {
+func TestPostInbox_Add_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Remove_RequireObject(t *testing.T) {
+func TestPostInbox_Remove_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Remove_RequireType(t *testing.T) {
+func TestPostInbox_Remove_RequireType(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Remove_DoesNotAddIfTargetNotOwned(t *testing.T) {
+func TestPostInbox_Remove_DoesNotAddIfTargetNotOwned(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Remove_AddIfTargetOwned(t *testing.T) {
+func TestPostInbox_Remove_AddIfTargetOwned(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Remove_DoesNotAddIfAppCannotAdd(t *testing.T) {
+func TestPostInbox_Remove_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Remove_AddIfAppCanAdd(t *testing.T) {
+func TestPostInbox_Remove_AddIfAppCanAdd(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Remove_SetsTarget(t *testing.T) {
+func TestPostInbox_Remove_SetsTarget(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Remove_CallsCallback(t *testing.T) {
+func TestPostInbox_Remove_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Like_AddsToLikeCollection(t *testing.T) {
+func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Like_CallsCallback(t *testing.T) {
+func TestPostInbox_Like_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostInbox_Undo_CallsCallback(t *testing.T) {
+func TestPostInbox_Undo_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func GetInbox_RejectNonActivityPub(t *testing.T) {
+func TestGetInbox_RejectNonActivityPub(t *testing.T) {
 	// TODO: Implement
 }
 
-func GetInbox_SetsContentTypeHeader(t *testing.T) {
+func TestGetInbox_SetsContentTypeHeader(t *testing.T) {
 	// TODO: Implement
 }
 
-func GetInbox_DeduplicateInboxItems(t *testing.T) {
+func TestGetInbox_DeduplicateInboxItems(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_RejectNonActivityPub(t *testing.T) {
+func TestPostOutbox_RejectNonActivityPub(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_RejectUnauthorized(t *testing.T) {
+func TestPostOutbox_RejectUnauthorized(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_WrapInCreateActivity(t *testing.T) {
+func TestPostOutbox_WrapInCreateActivity(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Create_RequireObject(t *testing.T) {
+func TestPostOutbox_Create_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Create_CopyToAttributedTo(t *testing.T) {
+func TestPostOutbox_Create_CopyToAttributedTo(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Create_CopyRecipientsToObject(t *testing.T) {
+func TestPostOutbox_Create_CopyRecipientsToObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Create_SetCreatedObject(t *testing.T) {
+func TestPostOutbox_Create_SetCreatedObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Create_CallsCallback(t *testing.T) {
+func TestPostOutbox_Create_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Create_IsDelivered(t *testing.T) {
+func TestPostOutbox_Create_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Update_RequireObject(t *testing.T) {
+func TestPostOutbox_Update_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
+func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Update_SetUpdatedObject(t *testing.T) {
+func TestPostOutbox_Update_SetUpdatedObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Update_CallsCallback(t *testing.T) {
+func TestPostOutbox_Update_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Update_IsDelivered(t *testing.T) {
+func TestPostOutbox_Update_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Delete_RequireObject(t *testing.T) {
+func TestPostOutbox_Delete_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Delete_SetsTombstone(t *testing.T) {
+func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Delete_CallsCallback(t *testing.T) {
+func TestPostOutbox_Delete_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Delete_IsDelivered(t *testing.T) {
+func TestPostOutbox_Delete_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Follow_RequireObject(t *testing.T) {
+func TestPostOutbox_Follow_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Follow_CallsCallback(t *testing.T) {
+func TestPostOutbox_Follow_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Follow_IsDelivered(t *testing.T) {
+func TestPostOutbox_Follow_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Accept_CallsCallback(t *testing.T) {
+func TestPostOutbox_Accept_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Accept_IsDelivered(t *testing.T) {
+func TestPostOutbox_Accept_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Reject_CallsCallback(t *testing.T) {
+func TestPostOutbox_Reject_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Reject_IsDelivered(t *testing.T) {
+func TestPostOutbox_Reject_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Add_RequireObject(t *testing.T) {
+func TestPostOutbox_Add_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Add_RequireType(t *testing.T) {
+func TestPostOutbox_Add_RequireType(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
+func TestPostOutbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Add_AddsIfTargetOwned(t *testing.T) {
+func TestPostOutbox_Add_AddsIfTargetOwned(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
+func TestPostOutbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Add_AddIfAppCanAdd(t *testing.T) {
+func TestPostOutbox_Add_AddIfAppCanAdd(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Add_SetsTarget(t *testing.T) {
+func TestPostOutbox_Add_SetsTarget(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Add_CallsCallback(t *testing.T) {
+func TestPostOutbox_Add_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Add_IsDelivered(t *testing.T) {
+func TestPostOutbox_Add_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Remove_RequireObject(t *testing.T) {
+func TestPostOutbox_Remove_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Remove_RequireType(t *testing.T) {
+func TestPostOutbox_Remove_RequireType(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
+func TestPostOutbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Remove_RemoveIfTargetOwned(t *testing.T) {
+func TestPostOutbox_Remove_RemoveIfTargetOwned(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
+func TestPostOutbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Remove_RemoveIfAppCanRemove(t *testing.T) {
+func TestPostOutbox_Remove_RemoveIfAppCanRemove(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Remove_SetsTarget(t *testing.T) {
+func TestPostOutbox_Remove_SetsTarget(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Remove_CallsCallback(t *testing.T) {
+func TestPostOutbox_Remove_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Remove_IsDelivered(t *testing.T) {
+func TestPostOutbox_Remove_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Like_RequireObject(t *testing.T) {
+func TestPostOutbox_Like_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Like_RequireType(t *testing.T) {
+func TestPostOutbox_Like_RequireType(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Like_AddsToLikedCollection(t *testing.T) {
+func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Like_AddsToLikedOrderedCollection(t *testing.T) {
+func TestPostOutbox_Like_AddsToLikedOrderedCollection(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Like_CallsCallback(t *testing.T) {
+func TestPostOutbox_Like_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Like_IsDelivered(t *testing.T) {
+func TestPostOutbox_Like_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Undo_RequireObject(t *testing.T) {
+func TestPostOutbox_Undo_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Undo_CallsCallback(t *testing.T) {
+func TestPostOutbox_Undo_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Undo_IsDelivered(t *testing.T) {
+func TestPostOutbox_Undo_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Block_RequireObject(t *testing.T) {
+func TestPostOutbox_Block_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Block_CallsCallback(t *testing.T) {
+func TestPostOutbox_Block_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_Block_IsNotDelivered(t *testing.T) {
+func TestPostOutbox_Block_IsNotDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_DoesNotDeliverNondeliverable(t *testing.T) {
+func TestPostOutbox_DoesNotDeliverNondeliverable(t *testing.T) {
 	// TODO: Implement
 }
 
-func PostOutbox_SetsLocationHeader(t *testing.T) {
+func TestPostOutbox_SetsLocationHeader(t *testing.T) {
 	// TODO: Implement
 }
 
-func GetOutbox_RejectNonActivityPub(t *testing.T) {
+func TestGetOutbox_RejectNonActivityPub(t *testing.T) {
 	// TODO: Implement
 }
 
-func GetOutbox_SetsContentTypeHeader(t *testing.T) {
+func TestGetOutbox_SetsContentTypeHeader(t *testing.T) {
 	// TODO: Implement
 }
