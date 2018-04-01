@@ -17,15 +17,47 @@ import (
 )
 
 const (
-	testAgent    = "test agent string"
-	testInboxURI = "https://example.com/inbox"
+	testAgent        = "test agent string"
+	testInboxURI     = "https://example.com/inbox"
+	testOutboxURI    = "https://example.com/outbox"
+	testNewIRIString = "https://example.com/test/new/iri"
+	sallyIRIString   = "https://example.com/sally"
 )
+
+var (
+	testNewIRI *url.URL
+	sallyIRI   *url.URL
+)
+
+func init() {
+	var err error
+	testNewIRI, err = url.Parse(testNewIRIString)
+	if err != nil {
+		panic(err)
+	}
+	sallyIRI, err = url.Parse(sallyIRIString)
+	if err != nil {
+		panic(err)
+	}
+}
 
 func Must(l *time.Location, e error) *time.Location {
 	if e != nil {
 		panic(e)
 	}
 	return l
+}
+
+func MustSerialize(s vocab.Serializer) []byte {
+	m, err := s.Serialize()
+	if err != nil {
+		panic(err)
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		panic(err)
+	}
+	return b
 }
 
 func ActivityPubRequest(r *http.Request) *http.Request {
@@ -50,13 +82,23 @@ func ActivityPubRequest(r *http.Request) *http.Request {
 var (
 	testNote                    *vocab.Note
 	testSingleOrderedCollection *vocab.OrderedCollection
+	testCreateNote              *vocab.Create
 )
 
 func init() {
+	sally := &vocab.Person{}
+	sally.AddNameString("Sally")
+	sally.SetId(*sallyIRI)
+
 	testNote = &vocab.Note{}
 	testNote.AddNameString("A Note")
+	testNote.AddContentString("This is a simple note")
 	testSingleOrderedCollection = &vocab.OrderedCollection{}
 	testSingleOrderedCollection.AddItemsObject(testNote)
+	testCreateNote = &vocab.Create{}
+	testCreateNote.AddSummaryString("Sally created a note")
+	testCreateNote.AddActorObject(sally)
+	testCreateNote.AddObject(testNote)
 }
 
 func VocabEquals(b *bytes.Buffer, s vocab.Serializer) error {
@@ -506,13 +548,77 @@ func TestSocialPubber_GetInbox(t *testing.T) {
 }
 
 func TestSocialPubber_PostOutbox(t *testing.T) {
-	// TODO: Implement
+	app, _, cb, p := NewSocialPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	gotPostOutboxAuthorized := 0
+	app.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
+		gotPostOutboxAuthorized++
+		return true, nil
+	}
+	gotNewId := 0
+	app.newId = func(c context.Context, t Typer) url.URL {
+		gotNewId++
+		return *testNewIRI
+	}
+	gotOutbox := 0
+	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		gotOutbox++
+		oc := &vocab.OrderedCollection{}
+		oc.AddType("OrderedCollection")
+		return oc, nil
+	}
+	gotSet := 0
+	var gotSetOutbox PubObject
+	var gotSetCreateObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetOutbox = o
+		} else if gotSet == 2 {
+			gotSetCreateObject = o
+		}
+		return nil
+	}
+	gotCreate := 0
+	var gotCreateCallback *streams.Create
+	cb.create = func(c context.Context, s *streams.Create) error {
+		gotCreate++
+		gotCreateCallback = s
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotPostOutboxAuthorized != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotPostOutboxAuthorized)
+	} else if gotNewId != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotNewId)
+	} else if gotOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOutbox)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if l := gotSetOutbox.GetType(0).(string); l != "OrderedCollection" {
+		t.Fatalf("expected %s, got %s", "OrderedCollection", l)
+	} else if l := gotSetCreateObject.GetType(0).(string); l != "Note" {
+		t.Fatalf("expected %s, got %s", "Note", l)
+	} else if gotCreate != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCreate)
+	} else if l := len(resp.HeaderMap["Location"]); l != 1 {
+		t.Fatalf("expected %d, got %d", 1, l)
+	} else if h := resp.HeaderMap["Location"][0]; h != testNewIRIString {
+		t.Fatalf("expected %s, got %s", testNewIRI, h)
+	} else if resp.Code != http.StatusCreated {
+		t.Fatalf("expected %d, got %d", http.StatusCreated, resp.Code)
+	}
 }
 
 func TestSocialPubber_GetOutbox(t *testing.T) {
 	app, _, _, p := NewSocialPubberTest(t)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
+	req := ActivityPubRequest(httptest.NewRequest("GET", testOutboxURI, nil))
 	gotOutbox := 0
 	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
 		gotOutbox++
