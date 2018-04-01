@@ -22,6 +22,7 @@ const (
 	testOutboxURI    = "https://example.com/outbox"
 	testNewIRIString = "https://example.com/test/new/iri"
 	sallyIRIString   = "https://example.com/sally"
+	noteName         = "A Note"
 )
 
 var (
@@ -91,7 +92,7 @@ func init() {
 	sally.SetId(*sallyIRI)
 
 	testNote = &vocab.Note{}
-	testNote.AddNameString("A Note")
+	testNote.AddNameString(noteName)
 	testNote.AddContentString("This is a simple note")
 	testSingleOrderedCollection = &vocab.OrderedCollection{}
 	testSingleOrderedCollection.AddItemsObject(testNote)
@@ -606,6 +607,8 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 		t.Fatalf("expected %s, got %s", "Note", l)
 	} else if gotCreate != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCreate)
+	} else if iri := gotCreateCallback.Raw().GetActorObject(0).GetId(); iri.String() != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, iri.String())
 	} else if l := len(resp.HeaderMap["Location"]); l != 1 {
 		t.Fatalf("expected %d, got %d", 1, l)
 	} else if h := resp.HeaderMap["Location"][0]; h != testNewIRIString {
@@ -648,19 +651,118 @@ func TestFederatingPubber_Stop(t *testing.T) {
 }
 
 func TestFederatingPubber_PostInbox(t *testing.T) {
-	// TODO: Implement
+	app, fedApp, cb, _, p := NewFederatingPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	gotUnblocked := 0
+	var iri url.URL
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		gotUnblocked++
+		iri = actorIRIs[0]
+		return nil
+	}
+	gotSet := 0
+	var setObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		setObject = o
+		return nil
+	}
+	gotCreate := 0
+	var gotCreateCallback *streams.Create
+	cb.create = func(c context.Context, s *streams.Create) error {
+		gotCreate++
+		gotCreateCallback = s
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotUnblocked != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotUnblocked)
+	} else if iri.String() != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, iri.String())
+	} else if gotSet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if l := setObject.GetType(0).(string); l != "Note" {
+		t.Fatalf("expected %s, got %s", "Note", l)
+	} else if gotCreate != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCreate)
+	} else if s := gotCreateCallback.Raw().GetActorObject(0).GetId(); s.String() != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, s)
+	} else if resp.Code != http.StatusOK {
+		t.Fatalf("expected %d, got %d", http.StatusOK, resp.Code)
+	}
 }
 
 func TestFederatingPubber_GetInbox(t *testing.T) {
-	// TODO: Implement
+	app, _, _, _, p := NewFederatingPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
+	gotInbox := 0
+	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		gotInbox++
+		return testSingleOrderedCollection, nil
+	}
+	handled, err := p.GetInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotInbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotInbox)
+	} else if l := len(resp.HeaderMap["Content-Type"]); l != 1 {
+		t.Fatalf("expected %d, got %d", 1, l)
+	} else if h := resp.HeaderMap["Content-Type"][0]; h != responseContentTypeHeader {
+		t.Fatalf("expected %s, got %s", responseContentTypeHeader, h)
+	} else if resp.Code != http.StatusOK {
+		t.Fatalf("expected %d, got %d", http.StatusOK, resp.Code)
+	} else if e := VocabEquals(resp.Body, testSingleOrderedCollection); e != nil {
+		t.Fatal(e)
+	}
 }
 
 func TestFederatingPubber_RejectPostOutbox(t *testing.T) {
-	// TODO: Implement
+	_, _, _, _, p := NewFederatingPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, nil))
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if resp.Code != http.StatusMethodNotAllowed {
+		t.Fatalf("expected %d, got %d", http.StatusMethodNotAllowed, resp.Code)
+	}
 }
 
 func TestFederatingPubber_GetOutbox(t *testing.T) {
-	// TODO: Implement
+	app, _, _, _, p := NewFederatingPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("GET", testOutboxURI, nil))
+	gotOutbox := 0
+	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		gotOutbox++
+		return testSingleOrderedCollection, nil
+	}
+	handled, err := p.GetOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOutbox)
+	} else if l := len(resp.HeaderMap["Content-Type"]); l != 1 {
+		t.Fatalf("expected %d, got %d", 1, l)
+	} else if h := resp.HeaderMap["Content-Type"][0]; h != responseContentTypeHeader {
+		t.Fatalf("expected %s, got %s", responseContentTypeHeader, h)
+	} else if resp.Code != http.StatusOK {
+		t.Fatalf("expected %d, got %d", http.StatusOK, resp.Code)
+	} else if e := VocabEquals(resp.Body, testSingleOrderedCollection); e != nil {
+		t.Fatal(e)
+	}
 }
 
 func TestPubber_Stop(t *testing.T) {
