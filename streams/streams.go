@@ -727,13 +727,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Object'
 	for _, typeName := range typeStringVals {
 		if typeName == "Object" {
-			if t.ObjectCallback != nil {
+			if t.ObjectCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Object{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Object{v}
-				return t.ObjectCallback(as)
+				if t.ObjectCallback != nil {
+					if err := t.ObjectCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -743,13 +770,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Link'
 	for _, typeName := range typeStringVals {
 		if typeName == "Link" {
-			if t.LinkCallback != nil {
+			if t.LinkCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Link{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Link{v}
-				return t.LinkCallback(as)
+				if t.LinkCallback != nil {
+					if err := t.LinkCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -759,13 +813,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Activity'
 	for _, typeName := range typeStringVals {
 		if typeName == "Activity" {
-			if t.ActivityCallback != nil {
+			if t.ActivityCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Activity{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Activity{v}
-				return t.ActivityCallback(as)
+				if t.ActivityCallback != nil {
+					if err := t.ActivityCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -775,13 +856,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'IntransitiveActivity'
 	for _, typeName := range typeStringVals {
 		if typeName == "IntransitiveActivity" {
-			if t.IntransitiveActivityCallback != nil {
+			if t.IntransitiveActivityCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.IntransitiveActivity{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &IntransitiveActivity{v}
-				return t.IntransitiveActivityCallback(as)
+				if t.IntransitiveActivityCallback != nil {
+					if err := t.IntransitiveActivityCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -791,13 +899,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Collection'
 	for _, typeName := range typeStringVals {
 		if typeName == "Collection" {
-			if t.CollectionCallback != nil {
+			if t.CollectionCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Collection{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Collection{v}
-				return t.CollectionCallback(as)
+				if t.CollectionCallback != nil {
+					if err := t.CollectionCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -807,13 +942,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'OrderedCollection'
 	for _, typeName := range typeStringVals {
 		if typeName == "OrderedCollection" {
-			if t.OrderedCollectionCallback != nil {
+			if t.OrderedCollectionCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.OrderedCollection{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &OrderedCollection{v}
-				return t.OrderedCollectionCallback(as)
+				if t.OrderedCollectionCallback != nil {
+					if err := t.OrderedCollectionCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -823,13 +985,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'CollectionPage'
 	for _, typeName := range typeStringVals {
 		if typeName == "CollectionPage" {
-			if t.CollectionPageCallback != nil {
+			if t.CollectionPageCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.CollectionPage{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &CollectionPage{v}
-				return t.CollectionPageCallback(as)
+				if t.CollectionPageCallback != nil {
+					if err := t.CollectionPageCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -839,13 +1028,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'OrderedCollectionPage'
 	for _, typeName := range typeStringVals {
 		if typeName == "OrderedCollectionPage" {
-			if t.OrderedCollectionPageCallback != nil {
+			if t.OrderedCollectionPageCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.OrderedCollectionPage{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &OrderedCollectionPage{v}
-				return t.OrderedCollectionPageCallback(as)
+				if t.OrderedCollectionPageCallback != nil {
+					if err := t.OrderedCollectionPageCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -855,13 +1071,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Accept'
 	for _, typeName := range typeStringVals {
 		if typeName == "Accept" {
-			if t.AcceptCallback != nil {
+			if t.AcceptCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Accept{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Accept{v}
-				return t.AcceptCallback(as)
+				if t.AcceptCallback != nil {
+					if err := t.AcceptCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -871,13 +1114,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'TentativeAccept'
 	for _, typeName := range typeStringVals {
 		if typeName == "TentativeAccept" {
-			if t.TentativeAcceptCallback != nil {
+			if t.TentativeAcceptCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.TentativeAccept{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &TentativeAccept{v}
-				return t.TentativeAcceptCallback(as)
+				if t.TentativeAcceptCallback != nil {
+					if err := t.TentativeAcceptCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -887,13 +1157,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Add'
 	for _, typeName := range typeStringVals {
 		if typeName == "Add" {
-			if t.AddCallback != nil {
+			if t.AddCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Add{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Add{v}
-				return t.AddCallback(as)
+				if t.AddCallback != nil {
+					if err := t.AddCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -903,13 +1200,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Arrive'
 	for _, typeName := range typeStringVals {
 		if typeName == "Arrive" {
-			if t.ArriveCallback != nil {
+			if t.ArriveCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Arrive{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Arrive{v}
-				return t.ArriveCallback(as)
+				if t.ArriveCallback != nil {
+					if err := t.ArriveCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -919,13 +1243,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Create'
 	for _, typeName := range typeStringVals {
 		if typeName == "Create" {
-			if t.CreateCallback != nil {
+			if t.CreateCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Create{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Create{v}
-				return t.CreateCallback(as)
+				if t.CreateCallback != nil {
+					if err := t.CreateCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -935,13 +1286,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Delete'
 	for _, typeName := range typeStringVals {
 		if typeName == "Delete" {
-			if t.DeleteCallback != nil {
+			if t.DeleteCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Delete{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Delete{v}
-				return t.DeleteCallback(as)
+				if t.DeleteCallback != nil {
+					if err := t.DeleteCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -951,13 +1329,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Follow'
 	for _, typeName := range typeStringVals {
 		if typeName == "Follow" {
-			if t.FollowCallback != nil {
+			if t.FollowCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Follow{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Follow{v}
-				return t.FollowCallback(as)
+				if t.FollowCallback != nil {
+					if err := t.FollowCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -967,13 +1372,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Ignore'
 	for _, typeName := range typeStringVals {
 		if typeName == "Ignore" {
-			if t.IgnoreCallback != nil {
+			if t.IgnoreCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Ignore{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Ignore{v}
-				return t.IgnoreCallback(as)
+				if t.IgnoreCallback != nil {
+					if err := t.IgnoreCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -983,13 +1415,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Join'
 	for _, typeName := range typeStringVals {
 		if typeName == "Join" {
-			if t.JoinCallback != nil {
+			if t.JoinCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Join{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Join{v}
-				return t.JoinCallback(as)
+				if t.JoinCallback != nil {
+					if err := t.JoinCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -999,13 +1458,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Leave'
 	for _, typeName := range typeStringVals {
 		if typeName == "Leave" {
-			if t.LeaveCallback != nil {
+			if t.LeaveCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Leave{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Leave{v}
-				return t.LeaveCallback(as)
+				if t.LeaveCallback != nil {
+					if err := t.LeaveCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1015,13 +1501,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Like'
 	for _, typeName := range typeStringVals {
 		if typeName == "Like" {
-			if t.LikeCallback != nil {
+			if t.LikeCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Like{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Like{v}
-				return t.LikeCallback(as)
+				if t.LikeCallback != nil {
+					if err := t.LikeCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1031,13 +1544,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Offer'
 	for _, typeName := range typeStringVals {
 		if typeName == "Offer" {
-			if t.OfferCallback != nil {
+			if t.OfferCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Offer{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Offer{v}
-				return t.OfferCallback(as)
+				if t.OfferCallback != nil {
+					if err := t.OfferCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1047,13 +1587,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Invite'
 	for _, typeName := range typeStringVals {
 		if typeName == "Invite" {
-			if t.InviteCallback != nil {
+			if t.InviteCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Invite{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Invite{v}
-				return t.InviteCallback(as)
+				if t.InviteCallback != nil {
+					if err := t.InviteCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1063,13 +1630,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Reject'
 	for _, typeName := range typeStringVals {
 		if typeName == "Reject" {
-			if t.RejectCallback != nil {
+			if t.RejectCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Reject{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Reject{v}
-				return t.RejectCallback(as)
+				if t.RejectCallback != nil {
+					if err := t.RejectCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1079,13 +1673,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'TentativeReject'
 	for _, typeName := range typeStringVals {
 		if typeName == "TentativeReject" {
-			if t.TentativeRejectCallback != nil {
+			if t.TentativeRejectCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.TentativeReject{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &TentativeReject{v}
-				return t.TentativeRejectCallback(as)
+				if t.TentativeRejectCallback != nil {
+					if err := t.TentativeRejectCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1095,13 +1716,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Remove'
 	for _, typeName := range typeStringVals {
 		if typeName == "Remove" {
-			if t.RemoveCallback != nil {
+			if t.RemoveCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Remove{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Remove{v}
-				return t.RemoveCallback(as)
+				if t.RemoveCallback != nil {
+					if err := t.RemoveCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1111,13 +1759,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Undo'
 	for _, typeName := range typeStringVals {
 		if typeName == "Undo" {
-			if t.UndoCallback != nil {
+			if t.UndoCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Undo{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Undo{v}
-				return t.UndoCallback(as)
+				if t.UndoCallback != nil {
+					if err := t.UndoCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1127,13 +1802,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Update'
 	for _, typeName := range typeStringVals {
 		if typeName == "Update" {
-			if t.UpdateCallback != nil {
+			if t.UpdateCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Update{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Update{v}
-				return t.UpdateCallback(as)
+				if t.UpdateCallback != nil {
+					if err := t.UpdateCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1143,13 +1845,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'View'
 	for _, typeName := range typeStringVals {
 		if typeName == "View" {
-			if t.ViewCallback != nil {
+			if t.ViewCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.View{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &View{v}
-				return t.ViewCallback(as)
+				if t.ViewCallback != nil {
+					if err := t.ViewCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1159,13 +1888,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Listen'
 	for _, typeName := range typeStringVals {
 		if typeName == "Listen" {
-			if t.ListenCallback != nil {
+			if t.ListenCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Listen{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Listen{v}
-				return t.ListenCallback(as)
+				if t.ListenCallback != nil {
+					if err := t.ListenCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1175,13 +1931,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Read'
 	for _, typeName := range typeStringVals {
 		if typeName == "Read" {
-			if t.ReadCallback != nil {
+			if t.ReadCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Read{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Read{v}
-				return t.ReadCallback(as)
+				if t.ReadCallback != nil {
+					if err := t.ReadCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1191,13 +1974,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Move'
 	for _, typeName := range typeStringVals {
 		if typeName == "Move" {
-			if t.MoveCallback != nil {
+			if t.MoveCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Move{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Move{v}
-				return t.MoveCallback(as)
+				if t.MoveCallback != nil {
+					if err := t.MoveCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1207,13 +2017,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Travel'
 	for _, typeName := range typeStringVals {
 		if typeName == "Travel" {
-			if t.TravelCallback != nil {
+			if t.TravelCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Travel{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Travel{v}
-				return t.TravelCallback(as)
+				if t.TravelCallback != nil {
+					if err := t.TravelCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1223,13 +2060,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Announce'
 	for _, typeName := range typeStringVals {
 		if typeName == "Announce" {
-			if t.AnnounceCallback != nil {
+			if t.AnnounceCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Announce{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Announce{v}
-				return t.AnnounceCallback(as)
+				if t.AnnounceCallback != nil {
+					if err := t.AnnounceCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1239,13 +2103,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Block'
 	for _, typeName := range typeStringVals {
 		if typeName == "Block" {
-			if t.BlockCallback != nil {
+			if t.BlockCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Block{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Block{v}
-				return t.BlockCallback(as)
+				if t.BlockCallback != nil {
+					if err := t.BlockCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1255,13 +2146,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Flag'
 	for _, typeName := range typeStringVals {
 		if typeName == "Flag" {
-			if t.FlagCallback != nil {
+			if t.FlagCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Flag{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Flag{v}
-				return t.FlagCallback(as)
+				if t.FlagCallback != nil {
+					if err := t.FlagCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1271,13 +2189,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Dislike'
 	for _, typeName := range typeStringVals {
 		if typeName == "Dislike" {
-			if t.DislikeCallback != nil {
+			if t.DislikeCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Dislike{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Dislike{v}
-				return t.DislikeCallback(as)
+				if t.DislikeCallback != nil {
+					if err := t.DislikeCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1287,13 +2232,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Question'
 	for _, typeName := range typeStringVals {
 		if typeName == "Question" {
-			if t.QuestionCallback != nil {
+			if t.QuestionCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Question{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Question{v}
-				return t.QuestionCallback(as)
+				if t.QuestionCallback != nil {
+					if err := t.QuestionCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1303,13 +2275,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Application'
 	for _, typeName := range typeStringVals {
 		if typeName == "Application" {
-			if t.ApplicationCallback != nil {
+			if t.ApplicationCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Application{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Application{v}
-				return t.ApplicationCallback(as)
+				if t.ApplicationCallback != nil {
+					if err := t.ApplicationCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1319,13 +2318,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Group'
 	for _, typeName := range typeStringVals {
 		if typeName == "Group" {
-			if t.GroupCallback != nil {
+			if t.GroupCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Group{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Group{v}
-				return t.GroupCallback(as)
+				if t.GroupCallback != nil {
+					if err := t.GroupCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1335,13 +2361,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Organization'
 	for _, typeName := range typeStringVals {
 		if typeName == "Organization" {
-			if t.OrganizationCallback != nil {
+			if t.OrganizationCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Organization{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Organization{v}
-				return t.OrganizationCallback(as)
+				if t.OrganizationCallback != nil {
+					if err := t.OrganizationCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1351,13 +2404,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Person'
 	for _, typeName := range typeStringVals {
 		if typeName == "Person" {
-			if t.PersonCallback != nil {
+			if t.PersonCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Person{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Person{v}
-				return t.PersonCallback(as)
+				if t.PersonCallback != nil {
+					if err := t.PersonCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1367,13 +2447,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Service'
 	for _, typeName := range typeStringVals {
 		if typeName == "Service" {
-			if t.ServiceCallback != nil {
+			if t.ServiceCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Service{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Service{v}
-				return t.ServiceCallback(as)
+				if t.ServiceCallback != nil {
+					if err := t.ServiceCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1383,13 +2490,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Relationship'
 	for _, typeName := range typeStringVals {
 		if typeName == "Relationship" {
-			if t.RelationshipCallback != nil {
+			if t.RelationshipCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Relationship{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Relationship{v}
-				return t.RelationshipCallback(as)
+				if t.RelationshipCallback != nil {
+					if err := t.RelationshipCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1399,13 +2533,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Article'
 	for _, typeName := range typeStringVals {
 		if typeName == "Article" {
-			if t.ArticleCallback != nil {
+			if t.ArticleCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Article{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Article{v}
-				return t.ArticleCallback(as)
+				if t.ArticleCallback != nil {
+					if err := t.ArticleCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1415,13 +2576,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Document'
 	for _, typeName := range typeStringVals {
 		if typeName == "Document" {
-			if t.DocumentCallback != nil {
+			if t.DocumentCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Document{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Document{v}
-				return t.DocumentCallback(as)
+				if t.DocumentCallback != nil {
+					if err := t.DocumentCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1431,13 +2619,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Audio'
 	for _, typeName := range typeStringVals {
 		if typeName == "Audio" {
-			if t.AudioCallback != nil {
+			if t.AudioCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Audio{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Audio{v}
-				return t.AudioCallback(as)
+				if t.AudioCallback != nil {
+					if err := t.AudioCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1447,13 +2662,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Image'
 	for _, typeName := range typeStringVals {
 		if typeName == "Image" {
-			if t.ImageCallback != nil {
+			if t.ImageCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Image{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Image{v}
-				return t.ImageCallback(as)
+				if t.ImageCallback != nil {
+					if err := t.ImageCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1463,13 +2705,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Video'
 	for _, typeName := range typeStringVals {
 		if typeName == "Video" {
-			if t.VideoCallback != nil {
+			if t.VideoCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Video{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Video{v}
-				return t.VideoCallback(as)
+				if t.VideoCallback != nil {
+					if err := t.VideoCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1479,13 +2748,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Note'
 	for _, typeName := range typeStringVals {
 		if typeName == "Note" {
-			if t.NoteCallback != nil {
+			if t.NoteCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Note{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Note{v}
-				return t.NoteCallback(as)
+				if t.NoteCallback != nil {
+					if err := t.NoteCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1495,13 +2791,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Page'
 	for _, typeName := range typeStringVals {
 		if typeName == "Page" {
-			if t.PageCallback != nil {
+			if t.PageCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Page{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Page{v}
-				return t.PageCallback(as)
+				if t.PageCallback != nil {
+					if err := t.PageCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1511,13 +2834,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Event'
 	for _, typeName := range typeStringVals {
 		if typeName == "Event" {
-			if t.EventCallback != nil {
+			if t.EventCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Event{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Event{v}
-				return t.EventCallback(as)
+				if t.EventCallback != nil {
+					if err := t.EventCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1527,13 +2877,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Place'
 	for _, typeName := range typeStringVals {
 		if typeName == "Place" {
-			if t.PlaceCallback != nil {
+			if t.PlaceCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Place{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Place{v}
-				return t.PlaceCallback(as)
+				if t.PlaceCallback != nil {
+					if err := t.PlaceCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1543,13 +2920,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Profile'
 	for _, typeName := range typeStringVals {
 		if typeName == "Profile" {
-			if t.ProfileCallback != nil {
+			if t.ProfileCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Profile{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Profile{v}
-				return t.ProfileCallback(as)
+				if t.ProfileCallback != nil {
+					if err := t.ProfileCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1559,13 +2963,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Tombstone'
 	for _, typeName := range typeStringVals {
 		if typeName == "Tombstone" {
-			if t.TombstoneCallback != nil {
+			if t.TombstoneCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Tombstone{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Tombstone{v}
-				return t.TombstoneCallback(as)
+				if t.TombstoneCallback != nil {
+					if err := t.TombstoneCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
@@ -1575,13 +3006,40 @@ func (t *Resolver) Deserialize(m map[string]interface{}) (err error) {
 	// Begin generateResolver for type 'Mention'
 	for _, typeName := range typeStringVals {
 		if typeName == "Mention" {
-			if t.MentionCallback != nil {
+			if t.MentionCallback != nil || t.AnyObjectCallback != nil || t.AnyLinkCallback != nil || t.AnyActivityCallback != nil {
 				v := &vocab.Mention{}
 				if err := v.Deserialize(m); err != nil {
 					return err
 				}
 				as := &Mention{v}
-				return t.MentionCallback(as)
+				if t.MentionCallback != nil {
+					if err := t.MentionCallback(as); err != nil {
+						return err
+					}
+				}
+				var i interface{} = v
+				if obj, ok := i.(vocab.ObjectType); ok {
+					if t.AnyObjectCallback != nil {
+						if err := t.AnyObjectCallback(obj); err != nil {
+							return err
+						}
+					}
+				}
+				if link, ok := i.(vocab.LinkType); ok {
+					if t.AnyLinkCallback != nil {
+						if err := t.AnyLinkCallback(link); err != nil {
+							return err
+						}
+					}
+				}
+				if activity, ok := i.(vocab.ActivityType); ok {
+					if t.AnyActivityCallback != nil {
+						if err := t.AnyActivityCallback(activity); err != nil {
+							return err
+						}
+					}
+				}
+				return nil
 			} else {
 				return nil
 			}
