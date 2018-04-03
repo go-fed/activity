@@ -63,7 +63,7 @@ func isPublic(s string) bool {
 
 // dereference makes an HTTP GET request to an IRI in order to obtain the
 // ActivityStream representation.
-func dereference(c *http.Client, u url.URL, agent string) ([]byte, error) {
+func dereference(c HttpClient, u url.URL, agent string) ([]byte, error) {
 	// TODO: (section 7.1) The server MUST dereference the collection (with the user's credentials)
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -86,7 +86,7 @@ func dereference(c *http.Client, u url.URL, agent string) ([]byte, error) {
 
 // postToOutbox will attempt to send a POST request to the given URL with the
 // body set to the provided bytes.
-func postToOutbox(c *http.Client, b []byte, to url.URL, agent string) error {
+func postToOutbox(c HttpClient, b []byte, to url.URL, agent string) error {
 	byteCopy := make([]byte, 0, len(b))
 	copy(b, byteCopy)
 	buf := bytes.NewBuffer(byteCopy)
@@ -234,11 +234,11 @@ func (c *federator) prepare(o deliverableObject) ([]url.URL, error) {
 // resolveInboxes takes a list of Actor id URIs and returns them as concrete
 // instances of actorObject. It applies recursively when it encounters a target
 // that is a Collection or OrderedCollection.
-func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]actorObject, error) {
+func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]actor, error) {
 	if depth >= max {
 		return nil, nil
 	}
-	a := make([]actorObject, 0, len(r))
+	a := make([]actor, 0, len(r))
 	for _, u := range r {
 		// Do not retry here -- if a dereference fails, then fail the
 		// entire delivery.
@@ -250,7 +250,7 @@ func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]actorObje
 		if err = json.Unmarshal(resp, &m); err != nil {
 			return nil, err
 		}
-		var actor actorObject
+		var actor actor
 		var co *streams.Collection
 		var oc *streams.OrderedCollection
 		var cp *streams.CollectionPage
@@ -314,7 +314,7 @@ func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]actorObje
 }
 
 // getInboxes extracts the 'inbox' IRIs from actors.
-func getInboxes(a []actorObject) []url.URL {
+func getInboxes(a []actor) []url.URL {
 	var u []url.URL
 	for _, actor := range a {
 		if actor.HasInbox() {
@@ -393,9 +393,10 @@ func dedupeIRIs(recipients, ignored []url.URL) (out []url.URL) {
 		ignoredMap[elem] = true
 	}
 	outMap := make(map[url.URL]bool, len(recipients))
-	for k, _ := range outMap {
-		if !ignoredMap[k] {
+	for _, k := range recipients {
+		if !ignoredMap[k] && !outMap[k] {
 			out = append(out, k)
+			outMap[k] = true
 		}
 	}
 	return
@@ -559,7 +560,7 @@ func getAudienceIRIs(o deliverableObject) []url.URL {
 
 // doForCollectionPage applies a function over a collection and its subsequent
 // pages recursively. It returns the first non-nil error it encounters.
-func doForCollectionPage(h *http.Client, agent string, cb func(c vocab.CollectionPageType) error, c vocab.CollectionPageType) error {
+func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionPageType) error, c vocab.CollectionPageType) error {
 	err := cb(c)
 	if err != nil {
 		return err
@@ -614,7 +615,7 @@ func doForCollectionPage(h *http.Client, agent string, cb func(c vocab.Collectio
 // doForOrderedCollectionPage applies a function over a collection and its
 // subsequent pages recursively. It returns the first non-nil error it
 // encounters.
-func doForOrderedCollectionPage(h *http.Client, agent string, cb func(c vocab.OrderedCollectionPageType) error, c vocab.OrderedCollectionPageType) error {
+func doForOrderedCollectionPage(h HttpClient, agent string, cb func(c vocab.OrderedCollectionPageType) error, c vocab.OrderedCollectionPageType) error {
 	err := cb(c)
 	if err != nil {
 		return err

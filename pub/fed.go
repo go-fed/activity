@@ -66,7 +66,7 @@ func NewSocialPubber(clock Clock, app Application, socialApp SocialApp, cb Callb
 // servers. All are required unless explicitly stated otherwise.
 type DeliveryOptions struct {
 	// Client to use when sending http requests to federating peers.
-	Client *http.Client
+	Client HttpClient
 	// Agent string to send in http requests.
 	Agent string
 	// Maximum unnesting done when determining who to send messages to. Must
@@ -110,7 +110,7 @@ func NewFederatingPubber(clock Clock, app Application, fApp FederateApp, cb Call
 
 // NewPubber provides a Pubber that implements both the Social API and the
 // Federating API in ActivityPub.
-func NewPubber(clock Clock, app Application, sApp SocialApp, fApp FederateApp, server, client Callbacker, d DeliveryOptions) Pubber {
+func NewPubber(clock Clock, app Application, sApp SocialApp, fApp FederateApp, client, server Callbacker, d DeliveryOptions) Pubber {
 	return &federator{
 		Clock:            clock,
 		App:              app,
@@ -151,7 +151,7 @@ type federator struct {
 	// Client is used to federate with other ActivityPub servers.
 	//
 	// It is only required if EnableServer is true.
-	Client *http.Client
+	Client HttpClient
 	// Agent is the User-Agent string to use in HTTP headers when
 	// federating with another server. It will automatically be appended
 	// with '(go-fed ActivityPub)'.

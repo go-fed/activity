@@ -37,11 +37,11 @@ func ToPubObject(m map[string]interface{}) (t []PubObject, e error) {
 
 func getActorObject(m map[string]interface{}) (actorObject, error) {
 	var a actorObject
-	err := toActorResolver(&a).Deserialize(m)
+	err := toActorObjectResolver(&a).Deserialize(m)
 	return a, err
 }
 
-func toActorResolver(a *actorObject) *streams.Resolver {
+func toActorObjectResolver(a *actorObject) *streams.Resolver {
 	return &streams.Resolver{
 		AnyObjectCallback: func(i vocab.ObjectType) error {
 			if o, ok := i.(actorObject); ok {
@@ -52,7 +52,18 @@ func toActorResolver(a *actorObject) *streams.Resolver {
 	}
 }
 
-func toActorCollectionResolver(a *actorObject, c **streams.Collection, oc **streams.OrderedCollection, cp **streams.CollectionPage, ocp **streams.OrderedCollectionPage) *streams.Resolver {
+func toActorResolver(a *actor) *streams.Resolver {
+	return &streams.Resolver{
+		AnyObjectCallback: func(i vocab.ObjectType) error {
+			if o, ok := i.(actor); ok {
+				*a = o
+			}
+			return nil
+		},
+	}
+}
+
+func toActorCollectionResolver(a *actor, c **streams.Collection, oc **streams.OrderedCollection, cp **streams.CollectionPage, ocp **streams.OrderedCollectionPage) *streams.Resolver {
 	r := toActorResolver(a)
 	r.CollectionCallback = func(i *streams.Collection) error {
 		*c = i

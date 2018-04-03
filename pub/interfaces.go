@@ -25,6 +25,11 @@ type Clock interface {
 	Now() time.Time
 }
 
+// HttpClient sends http requests.
+type HttpClient interface {
+	Do(req *http.Request) (*http.Response, error)
+}
+
 // Application is provided by users of this library in order to implement a
 // social-federative-web application.
 //
@@ -182,6 +187,13 @@ type typeIder interface {
 	Typer
 	SetId(v url.URL)
 	Serialize() (m map[string]interface{}, e error)
+}
+
+// actor is an object that is an ActivityPub Actor. The specification is more
+// strict than what we include here, only for our internal use.
+type actor interface {
+	HasInbox() (ok bool)
+	GetInbox() (v url.URL)
 }
 
 // actorObject is an object that has "actor" or "attributedTo" properties,
