@@ -8,6 +8,7 @@ import (
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/vocab"
 	"golang.org/x/time/rate"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -17,17 +18,29 @@ import (
 )
 
 const (
-	testAgent        = "test agent string"
-	testInboxURI     = "https://example.com/inbox"
-	testOutboxURI    = "https://example.com/outbox"
-	testNewIRIString = "https://example.com/test/new/iri"
-	sallyIRIString   = "https://example.com/sally"
-	noteName         = "A Note"
+	testAgent         = "test agent string"
+	testInboxURI      = "https://example.com/sally/inbox"
+	testOutboxURI     = "https://example.com/sally/outbox"
+	testNewIRIString  = "https://example.com/test/new/iri"
+	sallyIRIString    = "https://example.com/sally"
+	samIRIString      = "https://example.com/sam"
+	samIRIInboxString = "https://example.com/sam/inbox"
+	noteName          = "A Note"
+	deliveryId        = "deliveryId"
 )
 
 var (
-	testNewIRI *url.URL
-	sallyIRI   *url.URL
+	testNewIRI                  *url.URL
+	sallyIRI                    *url.URL
+	sallyActor                  *vocab.Person
+	sallyActorJSON              []byte
+	samIRI                      *url.URL
+	samIRIInbox                 *url.URL
+	samActor                    *vocab.Person
+	samActorJSON                []byte
+	testNote                    *vocab.Note
+	testSingleOrderedCollection *vocab.OrderedCollection
+	testCreateNote              *vocab.Create
 )
 
 func init() {
@@ -40,6 +53,56 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+	samIRI, err = url.Parse(samIRIString)
+	if err != nil {
+		panic(err)
+	}
+	samIRIInbox, err = url.Parse(samIRIInboxString)
+	if err != nil {
+		panic(err)
+	}
+	samActor := &vocab.Person{}
+	samActor.SetInbox(*samIRIInbox)
+	samActor.SetId(*samIRI)
+	m, err := samActor.Serialize()
+	if err != nil {
+		panic(err)
+	}
+	samActorJSON, err = json.Marshal(m)
+	if err != nil {
+		panic(err)
+	}
+	sallyInbox, err := url.Parse(testInboxURI)
+	if err != nil {
+		panic(err)
+	}
+	sallyOutbox, err := url.Parse(testOutboxURI)
+	if err != nil {
+		panic(err)
+	}
+	sallyActor = &vocab.Person{}
+	sallyActor.AddNameString("Sally")
+	sallyActor.SetId(*sallyIRI)
+	sallyActor.SetInbox(*sallyInbox)
+	sallyActor.SetOutbox(*sallyOutbox)
+	m, err = sallyActor.Serialize()
+	if err != nil {
+		panic(err)
+	}
+	sallyActorJSON, err = json.Marshal(m)
+	if err != nil {
+		panic(err)
+	}
+	testNote = &vocab.Note{}
+	testNote.AddNameString(noteName)
+	testNote.AddContentString("This is a simple note")
+	testSingleOrderedCollection = &vocab.OrderedCollection{}
+	testSingleOrderedCollection.AddItemsObject(testNote)
+	testCreateNote = &vocab.Create{}
+	testCreateNote.AddSummaryString("Sally created a note")
+	testCreateNote.AddActorObject(sallyActor)
+	testCreateNote.AddObject(testNote)
+	testCreateNote.AddToObject(samActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -78,28 +141,6 @@ func ActivityPubRequest(r *http.Request) *http.Request {
 		}
 	}
 	return r
-}
-
-var (
-	testNote                    *vocab.Note
-	testSingleOrderedCollection *vocab.OrderedCollection
-	testCreateNote              *vocab.Create
-)
-
-func init() {
-	sally := &vocab.Person{}
-	sally.AddNameString("Sally")
-	sally.SetId(*sallyIRI)
-
-	testNote = &vocab.Note{}
-	testNote.AddNameString(noteName)
-	testNote.AddContentString("This is a simple note")
-	testSingleOrderedCollection = &vocab.OrderedCollection{}
-	testSingleOrderedCollection.AddItemsObject(testNote)
-	testCreateNote = &vocab.Create{}
-	testCreateNote.AddSummaryString("Sally created a note")
-	testCreateNote.AddActorObject(sally)
-	testCreateNote.AddObject(testNote)
 }
 
 func VocabEquals(b *bytes.Buffer, s vocab.Serializer) error {
@@ -449,6 +490,20 @@ func (m *MockPersister) Undeliverable(id string) {
 	m.undeliverable(id)
 }
 
+var _ HttpClient = &MockHttpClient{}
+
+type MockHttpClient struct {
+	t  *testing.T
+	do func(req *http.Request) (*http.Response, error)
+}
+
+func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
+	if m.do == nil {
+		m.t.Fatal("unexpected call to MockHttpClient Do")
+	}
+	return m.do(req)
+}
+
 func NewSocialPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSocialApp, cb *MockCallbacker, p Pubber) {
 	clock := &MockClock{now}
 	app = &MockApplication{t: t}
@@ -458,14 +513,15 @@ func NewSocialPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSoc
 	return
 }
 
-func NewFederatingPubberTest(t *testing.T) (app *MockApplication, fedApp *MockFederateApp, cb *MockCallbacker, per *MockPersister, p Pubber) {
+func NewFederatingPubberTest(t *testing.T) (app *MockApplication, fedApp *MockFederateApp, cb *MockCallbacker, per *MockPersister, h *MockHttpClient, p Pubber) {
 	clock := &MockClock{now}
 	app = &MockApplication{t: t}
 	fedApp = &MockFederateApp{t: t}
 	cb = &MockCallbacker{t: t}
 	per = &MockPersister{t: t}
+	h = &MockHttpClient{t: t}
 	d := DeliveryOptions{
-		Client:           &http.Client{},
+		Client:           h,
 		Agent:            testAgent,
 		MaxDeliveryDepth: 1,
 		InitialRetryTime: time.Second,
@@ -479,7 +535,7 @@ func NewFederatingPubberTest(t *testing.T) (app *MockApplication, fedApp *MockFe
 	return
 }
 
-func NewPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, per *MockPersister, p Pubber) {
+func NewPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, per *MockPersister, h *MockHttpClient, p Pubber) {
 	clock := &MockClock{now}
 	app = &MockApplication{t: t}
 	socialApp = &MockSocialApp{t: t}
@@ -487,8 +543,9 @@ func NewPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSocialApp
 	socialCb = &MockCallbacker{t: t}
 	fedCb = &MockCallbacker{t: t}
 	per = &MockPersister{t: t}
+	h = &MockHttpClient{t: t}
 	d := DeliveryOptions{
-		Client:           &http.Client{},
+		Client:           h,
 		Agent:            testAgent,
 		MaxDeliveryDepth: 1,
 		InitialRetryTime: time.Second,
@@ -646,12 +703,12 @@ func TestSocialPubber_GetOutbox(t *testing.T) {
 }
 
 func TestFederatingPubber_Stop(t *testing.T) {
-	_, _, _, _, p := NewFederatingPubberTest(t)
+	_, _, _, _, _, p := NewFederatingPubberTest(t)
 	p.Stop()
 }
 
 func TestFederatingPubber_PostInbox(t *testing.T) {
-	app, fedApp, cb, _, p := NewFederatingPubberTest(t)
+	app, fedApp, cb, _, _, p := NewFederatingPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
 	gotUnblocked := 0
@@ -698,7 +755,7 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 }
 
 func TestFederatingPubber_GetInbox(t *testing.T) {
-	app, _, _, _, p := NewFederatingPubberTest(t)
+	app, _, _, _, _, p := NewFederatingPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
 	gotInbox := 0
@@ -725,7 +782,7 @@ func TestFederatingPubber_GetInbox(t *testing.T) {
 }
 
 func TestFederatingPubber_RejectPostOutbox(t *testing.T) {
-	_, _, _, _, p := NewFederatingPubberTest(t)
+	_, _, _, _, _, p := NewFederatingPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, nil))
 	handled, err := p.PostOutbox(context.Background(), resp, req)
@@ -739,7 +796,7 @@ func TestFederatingPubber_RejectPostOutbox(t *testing.T) {
 }
 
 func TestFederatingPubber_GetOutbox(t *testing.T) {
-	app, _, _, _, p := NewFederatingPubberTest(t)
+	app, _, _, _, _, p := NewFederatingPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testOutboxURI, nil))
 	gotOutbox := 0
@@ -766,24 +823,251 @@ func TestFederatingPubber_GetOutbox(t *testing.T) {
 }
 
 func TestPubber_Stop(t *testing.T) {
-	_, _, _, _, _, _, p := NewPubberTest(t)
+	_, _, _, _, _, _, _, p := NewPubberTest(t)
 	p.Stop()
 }
 
 func TestPubber_PostInbox(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	gotUnblocked := 0
+	var iri url.URL
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		gotUnblocked++
+		iri = actorIRIs[0]
+		return nil
+	}
+	gotSet := 0
+	var setObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		setObject = o
+		return nil
+	}
+	gotCreate := 0
+	var gotCreateCallback *streams.Create
+	fedCb.create = func(c context.Context, s *streams.Create) error {
+		gotCreate++
+		gotCreateCallback = s
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotUnblocked != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotUnblocked)
+	} else if iri.String() != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, iri.String())
+	} else if gotSet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if l := setObject.GetType(0).(string); l != "Note" {
+		t.Fatalf("expected %s, got %s", "Note", l)
+	} else if gotCreate != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCreate)
+	} else if s := gotCreateCallback.Raw().GetActorObject(0).GetId(); s.String() != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, s)
+	} else if resp.Code != http.StatusOK {
+		t.Fatalf("expected %d, got %d", http.StatusOK, resp.Code)
+	}
 }
 
 func TestPubber_GetInbox(t *testing.T) {
-	// TODO: Implement
+	app, _, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
+	gotInbox := 0
+	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		gotInbox++
+		return testSingleOrderedCollection, nil
+	}
+	handled, err := p.GetInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotInbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotInbox)
+	} else if l := len(resp.HeaderMap["Content-Type"]); l != 1 {
+		t.Fatalf("expected %d, got %d", 1, l)
+	} else if h := resp.HeaderMap["Content-Type"][0]; h != responseContentTypeHeader {
+		t.Fatalf("expected %s, got %s", responseContentTypeHeader, h)
+	} else if resp.Code != http.StatusOK {
+		t.Fatalf("expected %d, got %d", http.StatusOK, resp.Code)
+	} else if e := VocabEquals(resp.Body, testSingleOrderedCollection); e != nil {
+		t.Fatal(e)
+	}
 }
 
 func TestPubber_PostOutbox(t *testing.T) {
-	// TODO: Implement
+	app, _, _, socialCb, _, per, httpClient, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	gotPostOutboxAuthorized := 0
+	app.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
+		gotPostOutboxAuthorized++
+		return true, nil
+	}
+	gotNewId := 0
+	app.newId = func(c context.Context, t Typer) url.URL {
+		gotNewId++
+		return *testNewIRI
+	}
+	gotOutbox := 0
+	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		gotOutbox++
+		oc := &vocab.OrderedCollection{}
+		oc.AddType("OrderedCollection")
+		return oc, nil
+	}
+	gotSet := 0
+	var gotSetOutbox PubObject
+	var gotSetCreateObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetOutbox = o
+		} else if gotSet == 2 {
+			gotSetCreateObject = o
+		}
+		return nil
+	}
+	gotCreate := 0
+	var gotCreateCallback *streams.Create
+	socialCb.create = func(c context.Context, s *streams.Create) error {
+		gotCreate++
+		gotCreateCallback = s
+		return nil
+	}
+	gotHttpDo := 0
+	var httpActorRequest *http.Request
+	var httpSenderRequest *http.Request
+	var httpDeliveryRequest *http.Request
+	httpClient.do = func(req *http.Request) (*http.Response, error) {
+		gotHttpDo++
+		if gotHttpDo == 1 {
+			httpActorRequest = req
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(samActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 2 {
+			httpSenderRequest = req
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(sallyActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 3 {
+			httpDeliveryRequest = req
+			okResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
+			}
+			return okResp, nil
+		}
+		return nil, nil
+	}
+	gotSending := 0
+	var sendingURL url.URL
+	per.sending = func(b []byte, u url.URL) string {
+		gotSending++
+		sendingURL = u
+		return deliveryId
+	}
+	gotSuccessful := 0
+	var successfulId string
+	per.successful = func(id string) {
+		gotSuccessful++
+		successfulId = id
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	time.Sleep(time.Millisecond) // TODO: Break out the delivererPool.
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotPostOutboxAuthorized != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotPostOutboxAuthorized)
+	} else if gotNewId != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotNewId)
+	} else if gotOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOutbox)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if l := gotSetOutbox.GetType(0).(string); l != "OrderedCollection" {
+		t.Fatalf("expected %s, got %s", "OrderedCollection", l)
+	} else if l := gotSetCreateObject.GetType(0).(string); l != "Note" {
+		t.Fatalf("expected %s, got %s", "Note", l)
+	} else if gotCreate != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCreate)
+	} else if iri := gotCreateCallback.Raw().GetActorObject(0).GetId(); iri.String() != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, iri.String())
+	} else if gotSending != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSending)
+	} else if sendingURL.String() != samIRIInboxString {
+		t.Fatalf("expected %s, got %s", samIRIInboxString, sendingURL.String())
+	} else if gotSuccessful != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSuccessful)
+	} else if successfulId != deliveryId {
+		t.Fatalf("expected %s, got %s", deliveryId, successfulId)
+	} else if gotHttpDo != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
+	} else if h := httpActorRequest.Header.Get("Accept"); h != getAcceptHeader {
+		t.Fatalf("expected %s, got %s", getAcceptHeader, h)
+	} else if h := httpSenderRequest.Header.Get("Accept"); h != getAcceptHeader {
+		t.Fatalf("expected %s, got %s", getAcceptHeader, h)
+	} else if h := httpDeliveryRequest.Header.Get("Content-Type"); h != postContentTypeHeader {
+		t.Fatalf("expected %s, got %s", postContentTypeHeader, h)
+	} else if httpActorRequest.Method != "GET" {
+		t.Fatalf("expected %s, got %s", "GET", httpActorRequest.Method)
+	} else if httpSenderRequest.Method != "GET" {
+		t.Fatalf("expected %s, got %s", "GET", httpSenderRequest.Method)
+	} else if httpDeliveryRequest.Method != "POST" {
+		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
+	} else if s := httpActorRequest.URL.String(); s != samIRIString {
+		t.Fatalf("expected %s, got %s", samIRIString, s)
+	} else if s := httpSenderRequest.URL.String(); s != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, s)
+	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
+		t.Fatalf("expected %s, got %s", samIRIInboxString, s)
+	} else if l := len(resp.HeaderMap["Location"]); l != 1 {
+		t.Fatalf("expected %d, got %d", 1, l)
+	} else if h := resp.HeaderMap["Location"][0]; h != testNewIRIString {
+		t.Fatalf("expected %s, got %s", testNewIRI, h)
+	} else if resp.Code != http.StatusCreated {
+		t.Fatalf("expected %d, got %d", http.StatusCreated, resp.Code)
+	}
 }
 
 func TestPubber_GetOutbox(t *testing.T) {
-	// TODO: Implement
+	app, _, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("GET", testOutboxURI, nil))
+	gotOutbox := 0
+	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		gotOutbox++
+		return testSingleOrderedCollection, nil
+	}
+	handled, err := p.GetOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOutbox)
+	} else if l := len(resp.HeaderMap["Content-Type"]); l != 1 {
+		t.Fatalf("expected %d, got %d", 1, l)
+	} else if h := resp.HeaderMap["Content-Type"][0]; h != responseContentTypeHeader {
+		t.Fatalf("expected %s, got %s", responseContentTypeHeader, h)
+	} else if resp.Code != http.StatusOK {
+		t.Fatalf("expected %d, got %d", http.StatusOK, resp.Code)
+	} else if e := VocabEquals(resp.Body, testSingleOrderedCollection); e != nil {
+		t.Fatal(e)
+	}
 }
 
 func TestPostInbox_RejectNonActivityPub(t *testing.T) {
