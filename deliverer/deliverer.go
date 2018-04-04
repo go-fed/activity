@@ -1,8 +1,9 @@
-package pub
+package deliverer
 
 import (
 	"context"
 	"fmt"
+	"github.com/go-fed/activity/pub"
 	"golang.org/x/time/rate"
 	"math"
 	"net/url"
@@ -33,7 +34,32 @@ type DeliveryPersister interface {
 	Undeliverable(id string)
 }
 
-type delivererPool struct {
+// DeliveryOptions provides options when delivering messages to federated
+// servers. All are required unless explicitly stated otherwise.
+type DeliveryOptions struct {
+	// Initial amount of time to wait before retrying delivery.
+	InitialRetryTime time.Duration
+	// The longest amount of time to wait before retrying delivery.
+	MaximumRetryTime time.Duration
+	// Rate of backing off retries. Must be at least 1.
+	BackoffFactor float64
+	// Maximum number of retries to do when delivering a message. Must be at
+	// least 1.
+	MaxRetries int
+	// Global rate limiter across all deliveries, to prevent spamming
+	// outbound messages.
+	RateLimit *rate.Limiter
+	// Persister allows implementations to save messages that are enqueued
+	// for delivery between downtimes. It also permits metrics gathering and
+	// monitoring of outbound messages.
+	//
+	// This field is optional.
+	Persister DeliveryPersister
+}
+
+var _ pub.Deliverer = &DelivererPool{}
+
+type DelivererPool struct {
 	// When present, permits clients to be notified of all state changes
 	// when delivering a request to another federated server.
 	//
@@ -57,15 +83,15 @@ type delivererPool struct {
 	errChan chan error
 }
 
-func newDelivererPool(initial, maxRetry time.Duration, factor float64, maxN int, qps *rate.Limiter, persister DeliveryPersister) *delivererPool {
+func NewDelivererPool(d DeliveryOptions) *DelivererPool {
 	ctx, cancel := context.WithCancel(context.Background())
-	return &delivererPool{
-		persister:        persister,
-		initialRetryTime: initial,
-		maxRetryTime:     maxRetry,
-		retryTimeFactor:  factor,
-		maxNumberRetries: maxN,
-		limiter:          qps,
+	return &DelivererPool{
+		persister:        d.Persister,
+		initialRetryTime: d.InitialRetryTime,
+		maxRetryTime:     d.MaximumRetryTime,
+		retryTimeFactor:  d.BackoffFactor,
+		maxNumberRetries: d.MaxRetries,
+		limiter:          d.RateLimit,
 		ctx:              ctx,
 		cancel:           cancel,
 		timerId:          0,
@@ -100,7 +126,7 @@ func (r retryData) ShouldRetry(max int) bool {
 }
 
 // Do spawns a goroutine that retries f until it returns no error.
-func (d *delivererPool) Do(b []byte, to url.URL, sendFn func([]byte, url.URL) error) {
+func (d *DelivererPool) Do(b []byte, to url.URL, sendFn func([]byte, url.URL) error) {
 	f := func() error {
 		return sendFn(b, to)
 	}
@@ -118,7 +144,7 @@ func (d *delivererPool) Do(b []byte, to url.URL, sendFn func([]byte, url.URL) er
 	}()
 }
 
-func (d *delivererPool) Restart(b []byte, to url.URL, id string, sendFn func([]byte, url.URL) error) {
+func (d *DelivererPool) Restart(b []byte, to url.URL, id string, sendFn func([]byte, url.URL) error) {
 	f := func() error {
 		return sendFn(b, to)
 	}
@@ -132,16 +158,16 @@ func (d *delivererPool) Restart(b []byte, to url.URL, id string, sendFn func([]b
 	}()
 }
 
-func (d *delivererPool) Stop() {
+func (d *DelivererPool) Stop() {
 	d.cancel()
 	d.closeTimers()
 }
 
-func (d *delivererPool) Errors() <-chan error {
+func (d *DelivererPool) Errors() <-chan error {
 	return d.errChan
 }
 
-func (d *delivererPool) do(r retryData) {
+func (d *DelivererPool) do(r retryData) {
 	if err := d.limiter.Wait(d.ctx); err != nil {
 		if d.persister != nil {
 			d.persister.Cancel(r.id)
@@ -168,7 +194,7 @@ func (d *delivererPool) do(r retryData) {
 	}
 }
 
-func (d *delivererPool) addClosableTimer(r retryData) {
+func (d *DelivererPool) addClosableTimer(r retryData) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	id := d.timerId
@@ -179,7 +205,7 @@ func (d *delivererPool) addClosableTimer(r retryData) {
 	})
 }
 
-func (d *delivererPool) removeTimer(id uint64) {
+func (d *DelivererPool) removeTimer(id uint64) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	if _, ok := d.timerMap[id]; ok {
@@ -187,7 +213,7 @@ func (d *delivererPool) removeTimer(id uint64) {
 	}
 }
 
-func (d *delivererPool) closeTimers() {
+func (d *DelivererPool) closeTimers() {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	for _, v := range d.timerMap {

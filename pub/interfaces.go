@@ -166,6 +166,14 @@ type Callbacker interface {
 	Reject(c context.Context, s *streams.Reject) error
 }
 
+// Deliverer schedules federated ActivityPub messages for delivery, possibly
+// asynchronously.
+type Deliverer interface {
+	// Do schedules a message to be sent to a specific URL endpoint by
+	// using toDo.
+	Do(b []byte, to url.URL, toDo func(b []byte, u url.URL) error)
+}
+
 // PubObject is an ActivityPub Object.
 type PubObject interface {
 	Typer

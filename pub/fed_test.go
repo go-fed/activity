@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/vocab"
-	"golang.org/x/time/rate"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -26,7 +25,6 @@ const (
 	samIRIString      = "https://example.com/sam"
 	samIRIInboxString = "https://example.com/sam/inbox"
 	noteName          = "A Note"
-	deliveryId        = "deliveryId"
 )
 
 var (
@@ -444,50 +442,18 @@ func (m *MockFederateApp) GetFollowing(c context.Context, actor url.URL) (vocab.
 	return m.getFollowing(c, actor)
 }
 
-var _ DeliveryPersister = &MockPersister{}
+var _ Deliverer = &MockDeliverer{}
 
-type MockPersister struct {
-	t             *testing.T
-	sending       func(b []byte, to url.URL) string
-	cancel        func(id string)
-	successful    func(id string)
-	retrying      func(id string)
-	undeliverable func(id string)
+type MockDeliverer struct {
+	t  *testing.T
+	do func(b []byte, to url.URL, toDo func(b []byte, u url.URL) error)
 }
 
-func (m *MockPersister) Sending(b []byte, to url.URL) string {
-	if m.sending == nil {
-		m.t.Fatal("unexpected call to MockPersister Sending")
+func (m *MockDeliverer) Do(b []byte, to url.URL, toDo func(b []byte, u url.URL) error) {
+	if m.do == nil {
+		m.t.Fatal("unexpected call to MockDeliverer Do")
 	}
-	return m.sending(b, to)
-}
-
-func (m *MockPersister) Cancel(id string) {
-	if m.cancel == nil {
-		m.t.Fatal("unexpected call to MockPersister Cancel")
-	}
-	m.cancel(id)
-}
-
-func (m *MockPersister) Successful(id string) {
-	if m.successful == nil {
-		m.t.Fatal("unexpected call to MockPersister Successful")
-	}
-	m.successful(id)
-}
-
-func (m *MockPersister) Retrying(id string) {
-	if m.retrying == nil {
-		m.t.Fatal("unexpected call to MockPersister Retrying")
-	}
-	m.retrying(id)
-}
-
-func (m *MockPersister) Undeliverable(id string) {
-	if m.undeliverable == nil {
-		m.t.Fatal("unexpected call to MockPersister Undeliverable")
-	}
-	m.undeliverable(id)
+	m.do(b, to, toDo)
 }
 
 var _ HttpClient = &MockHttpClient{}
@@ -513,55 +479,28 @@ func NewSocialPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSoc
 	return
 }
 
-func NewFederatingPubberTest(t *testing.T) (app *MockApplication, fedApp *MockFederateApp, cb *MockCallbacker, per *MockPersister, h *MockHttpClient, p Pubber) {
+func NewFederatingPubberTest(t *testing.T) (app *MockApplication, fedApp *MockFederateApp, cb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
 	clock := &MockClock{now}
 	app = &MockApplication{t: t}
 	fedApp = &MockFederateApp{t: t}
 	cb = &MockCallbacker{t: t}
-	per = &MockPersister{t: t}
+	d = &MockDeliverer{t: t}
 	h = &MockHttpClient{t: t}
-	d := DeliveryOptions{
-		Client:           h,
-		Agent:            testAgent,
-		MaxDeliveryDepth: 1,
-		InitialRetryTime: time.Second,
-		MaximumRetryTime: time.Second,
-		BackoffFactor:    1,
-		MaxRetries:       1,
-		RateLimit:        rate.NewLimiter(1, 1),
-		Persister:        per,
-	}
-	p = NewFederatingPubber(clock, app, fedApp, cb, d)
+	p = NewFederatingPubber(clock, app, fedApp, cb, d, h, testAgent, 1)
 	return
 }
 
-func NewPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, per *MockPersister, h *MockHttpClient, p Pubber) {
+func NewPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
 	clock := &MockClock{now}
 	app = &MockApplication{t: t}
 	socialApp = &MockSocialApp{t: t}
 	fedApp = &MockFederateApp{t: t}
 	socialCb = &MockCallbacker{t: t}
 	fedCb = &MockCallbacker{t: t}
-	per = &MockPersister{t: t}
+	d = &MockDeliverer{t: t}
 	h = &MockHttpClient{t: t}
-	d := DeliveryOptions{
-		Client:           h,
-		Agent:            testAgent,
-		MaxDeliveryDepth: 1,
-		InitialRetryTime: time.Second,
-		MaximumRetryTime: time.Second,
-		BackoffFactor:    1,
-		MaxRetries:       1,
-		RateLimit:        rate.NewLimiter(1, 1),
-		Persister:        per,
-	}
-	p = NewPubber(clock, app, socialApp, fedApp, socialCb, fedCb, d)
+	p = NewPubber(clock, app, socialApp, fedApp, socialCb, fedCb, d, h, testAgent, 1)
 	return
-}
-
-func TestSocialPubber_Stop(t *testing.T) {
-	_, _, _, p := NewSocialPubberTest(t)
-	p.Stop()
 }
 
 func TestSocialPubber_RejectPostInbox(t *testing.T) {
@@ -702,11 +641,6 @@ func TestSocialPubber_GetOutbox(t *testing.T) {
 	}
 }
 
-func TestFederatingPubber_Stop(t *testing.T) {
-	_, _, _, _, _, p := NewFederatingPubberTest(t)
-	p.Stop()
-}
-
 func TestFederatingPubber_PostInbox(t *testing.T) {
 	app, fedApp, cb, _, _, p := NewFederatingPubberTest(t)
 	resp := httptest.NewRecorder()
@@ -822,11 +756,6 @@ func TestFederatingPubber_GetOutbox(t *testing.T) {
 	}
 }
 
-func TestPubber_Stop(t *testing.T) {
-	_, _, _, _, _, _, _, p := NewPubberTest(t)
-	p.Stop()
-}
-
 func TestPubber_PostInbox(t *testing.T) {
 	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
@@ -902,7 +831,7 @@ func TestPubber_GetInbox(t *testing.T) {
 }
 
 func TestPubber_PostOutbox(t *testing.T) {
-	app, _, _, socialCb, _, per, httpClient, p := NewPubberTest(t)
+	app, _, _, socialCb, _, d, httpClient, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
 	gotPostOutboxAuthorized := 0
@@ -971,21 +900,16 @@ func TestPubber_PostOutbox(t *testing.T) {
 		}
 		return nil, nil
 	}
-	gotSending := 0
-	var sendingURL url.URL
-	per.sending = func(b []byte, u url.URL) string {
-		gotSending++
-		sendingURL = u
-		return deliveryId
-	}
-	gotSuccessful := 0
-	var successfulId string
-	per.successful = func(id string) {
-		gotSuccessful++
-		successfulId = id
+	gotDoDelivery := 0
+	var doDeliveryURL url.URL
+	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+		gotDoDelivery++
+		doDeliveryURL = u
+		if err := toDo(b, u); err != nil {
+			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
+		}
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
-	time.Sleep(time.Millisecond) // TODO: Break out the delivererPool.
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -1006,14 +930,10 @@ func TestPubber_PostOutbox(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotCreate)
 	} else if iri := gotCreateCallback.Raw().GetActorObject(0).GetId(); iri.String() != sallyIRIString {
 		t.Fatalf("expected %s, got %s", sallyIRIString, iri.String())
-	} else if gotSending != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotSending)
-	} else if sendingURL.String() != samIRIInboxString {
-		t.Fatalf("expected %s, got %s", samIRIInboxString, sendingURL.String())
-	} else if gotSuccessful != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotSuccessful)
-	} else if successfulId != deliveryId {
-		t.Fatalf("expected %s, got %s", deliveryId, successfulId)
+	} else if gotDoDelivery != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotDoDelivery)
+	} else if doDeliveryURL.String() != samIRIInboxString {
+		t.Fatalf("expected %s, got %s", samIRIInboxString, doDeliveryURL.String())
 	} else if gotHttpDo != 3 {
 		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
 	} else if h := httpActorRequest.Header.Get("Accept"); h != getAcceptHeader {

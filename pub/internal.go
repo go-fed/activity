@@ -186,7 +186,7 @@ func (f *federator) deliver(obj vocab.ActivityType) error {
 		return err
 	}
 	for _, to := range recipients {
-		f.pool.Do(b, to, func(b []byte, u url.URL) error {
+		f.deliverer.Do(b, to, func(b []byte, u url.URL) error {
 			return postToOutbox(f.Client, b, u, f.Agent)
 		})
 	}
