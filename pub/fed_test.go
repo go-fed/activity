@@ -17,6 +17,7 @@ import (
 )
 
 const (
+	noteURIString     = "https://example.com/note"
 	testAgent         = "test agent string"
 	testInboxURI      = "https://example.com/sally/inbox"
 	testOutboxURI     = "https://example.com/sally/outbox"
@@ -28,6 +29,7 @@ const (
 )
 
 var (
+	noteIRI                     *url.URL
 	testNewIRI                  *url.URL
 	sallyIRI                    *url.URL
 	sallyActor                  *vocab.Person
@@ -39,10 +41,15 @@ var (
 	testNote                    *vocab.Note
 	testSingleOrderedCollection *vocab.OrderedCollection
 	testCreateNote              *vocab.Create
+	testUpdateNote              *vocab.Update
 )
 
 func init() {
 	var err error
+	noteIRI, err = url.Parse(noteURIString)
+	if err != nil {
+		panic(err)
+	}
 	testNewIRI, err = url.Parse(testNewIRIString)
 	if err != nil {
 		panic(err)
@@ -97,10 +104,17 @@ func init() {
 	testSingleOrderedCollection = &vocab.OrderedCollection{}
 	testSingleOrderedCollection.AddItemsObject(testNote)
 	testCreateNote = &vocab.Create{}
+	testCreateNote.SetId(*noteIRI)
 	testCreateNote.AddSummaryString("Sally created a note")
 	testCreateNote.AddActorObject(sallyActor)
 	testCreateNote.AddObject(testNote)
 	testCreateNote.AddToObject(samActor)
+	testUpdateNote = &vocab.Update{}
+	testUpdateNote.SetId(*noteIRI)
+	testUpdateNote.AddSummaryString("Sally updated a note")
+	testUpdateNote.AddActorObject(sallyActor)
+	testUpdateNote.AddObject(testNote)
+	testUpdateNote.AddToObject(samActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -141,6 +155,22 @@ func ActivityPubRequest(r *http.Request) *http.Request {
 	return r
 }
 
+func PubObjectEquals(p PubObject, s vocab.Serializer) error {
+	ps, ok := p.(vocab.Serializer)
+	if !ok {
+		return fmt.Errorf("PubObject is not Serializer")
+	}
+	m, err := ps.Serialize()
+	if err != nil {
+		return err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return err
+	}
+	return VocabEquals(bytes.NewBuffer(b), s)
+}
+
 func VocabEquals(b *bytes.Buffer, s vocab.Serializer) error {
 	m, err := s.Serialize()
 	if err != nil {
@@ -152,7 +182,7 @@ func VocabEquals(b *bytes.Buffer, s vocab.Serializer) error {
 	}
 	actual := b.Bytes()
 	if len(actual) != len(expected) {
-		return fmt.Errorf("expected len %d, actual len %d; actual value %v", len(expected), len(actual), actual)
+		return fmt.Errorf("expected len %d, actual len %d:\nexpected value %s\nactual value %s", len(expected), len(actual), expected, actual)
 	}
 	var diffs []string
 	for i := range actual {
@@ -991,27 +1021,151 @@ func TestPubber_GetOutbox(t *testing.T) {
 }
 
 func TestPostInbox_RejectNonActivityPub(t *testing.T) {
-	// TODO: Implement
+	_, _, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if handled {
+		t.Fatalf("expected !handled, got handled")
+	}
 }
 
 func TestPostInbox_HandlesBlocked(t *testing.T) {
-	// TODO: Implement
+	_, _, fedApp, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	blockedErr := fmt.Errorf("blocked")
+	gotBlocked := 0
+	var iri url.URL
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		gotBlocked++
+		iri = actorIRIs[0]
+		return blockedErr
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != blockedErr {
+		t.Fatalf("expected %s, got %s", blockedErr, err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	}
 }
 
 func TestPostInbox_Create_SetsObject(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotSet := 0
+	var setObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		setObject = o
+		return nil
+	}
+	fedCb.create = func(c context.Context, s *streams.Create) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotSet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if err := PubObjectEquals(setObject, testNote); err != nil {
+		t.Fatalf("unexpected set object: %s", err)
+	}
 }
 
 func TestPostInbox_Create_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	app.set = func(c context.Context, o PubObject) error {
+		return nil
+	}
+	gotCreate := 0
+	var gotCreateCallback *streams.Create
+	fedCb.create = func(c context.Context, s *streams.Create) error {
+		gotCreate++
+		gotCreateCallback = s
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCreate != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCreate)
+	} else if err := PubObjectEquals(gotCreateCallback.Raw(), testCreateNote); err != nil {
+		t.Fatalf("unexpected create callback: %s", err)
+	}
 }
 
 func TestPostInbox_Update_SetsObject(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotSet := 0
+	var setObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		setObject = o
+		return nil
+	}
+	fedCb.update = func(c context.Context, s *streams.Update) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotSet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if err := PubObjectEquals(setObject, testNote); err != nil {
+		t.Fatalf("unexpected set object: %s", err)
+	}
 }
 
 func TestPostInbox_Update_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	app.set = func(c context.Context, o PubObject) error {
+		return nil
+	}
+	gotCallback := 0
+	var gotStreamCallback *streams.Update
+	fedCb.update = func(c context.Context, s *streams.Update) error {
+		gotCallback++
+		gotStreamCallback = s
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotStreamCallback.Raw(), testUpdateNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
