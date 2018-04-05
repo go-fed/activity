@@ -17,19 +17,23 @@ import (
 )
 
 const (
-	noteURIString     = "https://example.com/note"
-	testAgent         = "test agent string"
-	testInboxURI      = "https://example.com/sally/inbox"
-	testOutboxURI     = "https://example.com/sally/outbox"
-	testNewIRIString  = "https://example.com/test/new/iri"
-	sallyIRIString    = "https://example.com/sally"
-	samIRIString      = "https://example.com/sam"
-	samIRIInboxString = "https://example.com/sam/inbox"
-	noteName          = "A Note"
+	iriString             = "https://example.com/something"
+	noteURIString         = "https://example.com/note/123"
+	noteActivityURIString = "https://example.com/activity/987"
+	testAgent             = "test agent string"
+	testInboxURI          = "https://example.com/sally/inbox"
+	testOutboxURI         = "https://example.com/sally/outbox"
+	testNewIRIString      = "https://example.com/test/new/iri"
+	sallyIRIString        = "https://example.com/sally"
+	samIRIString          = "https://example.com/sam"
+	samIRIInboxString     = "https://example.com/sam/inbox"
+	noteName              = "A Note"
 )
 
 var (
+	iri                         *url.URL
 	noteIRI                     *url.URL
+	noteActivityIRI             *url.URL
 	testNewIRI                  *url.URL
 	sallyIRI                    *url.URL
 	sallyActor                  *vocab.Person
@@ -42,11 +46,21 @@ var (
 	testSingleOrderedCollection *vocab.OrderedCollection
 	testCreateNote              *vocab.Create
 	testUpdateNote              *vocab.Update
+	testDeleteNote              *vocab.Delete
+	testTombstoneNote           *vocab.Tombstone
 )
 
 func init() {
 	var err error
+	iri, err = url.Parse(iriString)
+	if err != nil {
+		panic(err)
+	}
 	noteIRI, err = url.Parse(noteURIString)
+	if err != nil {
+		panic(err)
+	}
+	noteActivityIRI, err = url.Parse(noteActivityURIString)
 	if err != nil {
 		panic(err)
 	}
@@ -99,22 +113,32 @@ func init() {
 		panic(err)
 	}
 	testNote = &vocab.Note{}
+	testNote.SetId(*noteIRI)
 	testNote.AddNameString(noteName)
 	testNote.AddContentString("This is a simple note")
 	testSingleOrderedCollection = &vocab.OrderedCollection{}
 	testSingleOrderedCollection.AddItemsObject(testNote)
 	testCreateNote = &vocab.Create{}
-	testCreateNote.SetId(*noteIRI)
+	testCreateNote.SetId(*noteActivityIRI)
 	testCreateNote.AddSummaryString("Sally created a note")
 	testCreateNote.AddActorObject(sallyActor)
 	testCreateNote.AddObject(testNote)
 	testCreateNote.AddToObject(samActor)
 	testUpdateNote = &vocab.Update{}
-	testUpdateNote.SetId(*noteIRI)
+	testUpdateNote.SetId(*noteActivityIRI)
 	testUpdateNote.AddSummaryString("Sally updated a note")
 	testUpdateNote.AddActorObject(sallyActor)
 	testUpdateNote.AddObject(testNote)
 	testUpdateNote.AddToObject(samActor)
+	testDeleteNote = &vocab.Delete{}
+	testDeleteNote.SetId(*noteActivityIRI)
+	testDeleteNote.AddActorObject(sallyActor)
+	testDeleteNote.AddObject(testNote)
+	testDeleteNote.AddToObject(samActor)
+	testTombstoneNote = &vocab.Tombstone{}
+	testTombstoneNote.SetId(*noteIRI)
+	testTombstoneNote.AddFormerTypeString("Note")
+	testTombstoneNote.SetDeleted(now)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -1168,12 +1192,194 @@ func TestPostInbox_Update_CallsCallback(t *testing.T) {
 	}
 }
 
+func TestPostInbox_Delete_FetchesObject(t *testing.T) {
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		if id != *noteIRI {
+			t.Fatalf("expected %s, got %s", noteIRI, id)
+		}
+		return testNote, nil
+	}
+	app.set = func(c context.Context, p PubObject) error {
+		return nil
+	}
+	fedCb.delete = func(c context.Context, s *streams.Delete) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	}
+}
+
 func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
-	// TODO: Implement
+	// Table test
+	tests := []struct {
+		name     string
+		input    func() PubObject
+		expected func() vocab.Serializer
+	}{
+		{
+			name: "delete note",
+			input: func() PubObject {
+				return testNote
+			},
+			expected: func() vocab.Serializer {
+				return testTombstoneNote
+			},
+		},
+		{
+			name: "forward published time",
+			input: func() PubObject {
+				testNote := &vocab.Note{}
+				testNote.SetId(*noteIRI)
+				testNote.AddType("Note")
+				testNote.AddNameString(noteName)
+				testNote.AddContentString("This is a simple note")
+				testNote.SetPublished(now)
+				return testNote
+			},
+			expected: func() vocab.Serializer {
+				testTombstoneNote := &vocab.Tombstone{}
+				testTombstoneNote.SetId(*noteIRI)
+				testTombstoneNote.AddFormerTypeString("Note")
+				testTombstoneNote.SetDeleted(now)
+				testTombstoneNote.SetPublished(now)
+				return testTombstoneNote
+			},
+		},
+		{
+			name: "forward published iri",
+			input: func() PubObject {
+				testNote := &vocab.Note{}
+				testNote.SetId(*noteIRI)
+				testNote.AddType("Note")
+				testNote.AddNameString(noteName)
+				testNote.AddContentString("This is a simple note")
+				testNote.SetPublishedIRI(*iri)
+				return testNote
+			},
+			expected: func() vocab.Serializer {
+				testTombstoneNote := &vocab.Tombstone{}
+				testTombstoneNote.SetId(*noteIRI)
+				testTombstoneNote.AddFormerTypeString("Note")
+				testTombstoneNote.SetDeleted(now)
+				testTombstoneNote.SetPublishedIRI(*iri)
+				return testTombstoneNote
+			},
+		},
+		{
+			name: "forward updated time",
+			input: func() PubObject {
+				testNote := &vocab.Note{}
+				testNote.SetId(*noteIRI)
+				testNote.AddType("Note")
+				testNote.AddNameString(noteName)
+				testNote.AddContentString("This is a simple note")
+				testNote.SetUpdated(now)
+				return testNote
+			},
+			expected: func() vocab.Serializer {
+				testTombstoneNote := &vocab.Tombstone{}
+				testTombstoneNote.SetId(*noteIRI)
+				testTombstoneNote.AddFormerTypeString("Note")
+				testTombstoneNote.SetDeleted(now)
+				testTombstoneNote.SetUpdated(now)
+				return testTombstoneNote
+			},
+		},
+		{
+			name: "forward updated iri",
+			input: func() PubObject {
+				testNote := &vocab.Note{}
+				testNote.SetId(*noteIRI)
+				testNote.AddType("Note")
+				testNote.AddNameString(noteName)
+				testNote.AddContentString("This is a simple note")
+				testNote.SetUpdatedIRI(*iri)
+				return testNote
+			},
+			expected: func() vocab.Serializer {
+				testTombstoneNote := &vocab.Tombstone{}
+				testTombstoneNote.SetId(*noteIRI)
+				testTombstoneNote.AddFormerTypeString("Note")
+				testTombstoneNote.SetDeleted(now)
+				testTombstoneNote.SetUpdatedIRI(*iri)
+				return testTombstoneNote
+			},
+		},
+	}
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.set = func(c context.Context, p PubObject) error {
+		gotSet++
+		gotSetObject = p
+		return nil
+	}
+	fedCb.delete = func(c context.Context, s *streams.Delete) error {
+		return nil
+	}
+	for _, test := range tests {
+		app.get = func(c context.Context, id url.URL) (PubObject, error) {
+			return test.input(), nil
+		}
+		gotSet = 0
+		resp := httptest.NewRecorder()
+		req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
+		handled, err := p.PostInbox(context.Background(), resp, req)
+		if err != nil {
+			t.Fatalf("(%q) %s", test.name, err)
+		} else if !handled {
+			t.Fatalf("(%q) expected handled, got !handled", test.name)
+		} else if gotSet != 1 {
+			t.Fatalf("(%q) expected %d, got %d", 1, test.name, gotSet)
+		} else if err := PubObjectEquals(gotSetObject, test.expected()); err != nil {
+			t.Fatalf("(%q) unexpected tombstone object: %s", test.name, err)
+		}
+	}
 }
 
 func TestPostInbox_Delete_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		return testNote, nil
+	}
+	app.set = func(c context.Context, p PubObject) error {
+		return nil
+	}
+	gotCallback := 0
+	var gotStreamCallback *streams.Delete
+	fedCb.delete = func(c context.Context, s *streams.Delete) error {
+		gotCallback++
+		gotStreamCallback = s
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotStreamCallback.Raw(), testDeleteNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostInbox_Follow_DoNothing(t *testing.T) {
