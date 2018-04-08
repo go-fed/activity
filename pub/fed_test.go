@@ -27,6 +27,7 @@ const (
 	sallyIRIString        = "https://example.com/sally"
 	samIRIString          = "https://example.com/sam"
 	samIRIInboxString     = "https://example.com/sam/inbox"
+	sallyIRIInboxString   = "https://example.com/sally/inbox"
 	noteName              = "A Note"
 )
 
@@ -36,6 +37,7 @@ var (
 	noteActivityIRI             *url.URL
 	testNewIRI                  *url.URL
 	sallyIRI                    *url.URL
+	sallyIRIInbox               *url.URL
 	sallyActor                  *vocab.Person
 	sallyActorJSON              []byte
 	samIRI                      *url.URL
@@ -48,6 +50,7 @@ var (
 	testUpdateNote              *vocab.Update
 	testDeleteNote              *vocab.Delete
 	testTombstoneNote           *vocab.Tombstone
+	testFollow                  *vocab.Follow
 )
 
 func init() {
@@ -69,6 +72,10 @@ func init() {
 		panic(err)
 	}
 	sallyIRI, err = url.Parse(sallyIRIString)
+	if err != nil {
+		panic(err)
+	}
+	sallyIRIInbox, err = url.Parse(sallyIRIInboxString)
 	if err != nil {
 		panic(err)
 	}
@@ -139,6 +146,11 @@ func init() {
 	testTombstoneNote.SetId(*noteIRI)
 	testTombstoneNote.AddFormerTypeString("Note")
 	testTombstoneNote.SetDeleted(now)
+	testFollow = &vocab.Follow{}
+	testFollow.SetId(*noteActivityIRI)
+	testFollow.AddActorObject(sallyActor)
+	testFollow.AddObject(samActor)
+	testFollow.AddToObject(samActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -153,6 +165,7 @@ func MustSerialize(s vocab.Serializer) []byte {
 	if err != nil {
 		panic(err)
 	}
+	addJSONLDContext(m)
 	b, err := json.Marshal(m)
 	if err != nil {
 		panic(err)
@@ -192,13 +205,20 @@ func PubObjectEquals(p PubObject, s vocab.Serializer) error {
 	if err != nil {
 		return err
 	}
-	return VocabEquals(bytes.NewBuffer(b), s)
+	return VocabEqualsContext(bytes.NewBuffer(b), s, false)
 }
 
 func VocabEquals(b *bytes.Buffer, s vocab.Serializer) error {
+	return VocabEqualsContext(b, s, true)
+}
+
+func VocabEqualsContext(b *bytes.Buffer, s vocab.Serializer, requireContext bool) error {
 	m, err := s.Serialize()
 	if err != nil {
 		return err
+	}
+	if requireContext {
+		m["@context"] = "https://www.w3.org/ns/activitystreams"
 	}
 	expected, err := json.Marshal(m)
 	if err != nil {
@@ -1383,11 +1403,101 @@ func TestPostInbox_Delete_CallsCallback(t *testing.T) {
 }
 
 func TestPostInbox_Follow_DoNothing(t *testing.T) {
-	// TODO: Implement
+	_, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotOnFollow := 0
+	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
+		gotOnFollow++
+		return DoNothing
+	}
+	fedCb.follow = func(c context.Context, s *streams.Follow) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOnFollow != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOnFollow)
+	}
 }
 
 func TestPostInbox_Follow_AutoReject(t *testing.T) {
-	// TODO: Implement
+	_, _, fedApp, _, fedCb, d, httpClient, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotOnFollow := 0
+	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
+		gotOnFollow++
+		return AutomaticReject
+	}
+	fedCb.follow = func(c context.Context, s *streams.Follow) error {
+		return nil
+	}
+	gotHttpDo := 0
+	var httpActorRequest *http.Request
+	var httpDeliveryRequest *http.Request
+	httpClient.do = func(req *http.Request) (*http.Response, error) {
+		gotHttpDo++
+		if gotHttpDo == 1 {
+			httpActorRequest = req
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(sallyActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 2 {
+			httpDeliveryRequest = req
+			okResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
+			}
+			return okResp, nil
+		}
+		return nil, nil
+	}
+	gotDoDelivery := 0
+	var doDeliveryURL url.URL
+	var bytesToSend []byte
+	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+		gotDoDelivery++
+		doDeliveryURL = u
+		bytesToSend = b
+		if err := toDo(b, u); err != nil {
+			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
+		}
+	}
+	expected := &vocab.Reject{}
+	expected.AddObject(testFollow)
+	expected.AddToObject(sallyActor)
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOnFollow != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOnFollow)
+	} else if gotHttpDo != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotHttpDo)
+	} else if s := httpActorRequest.URL.String(); s != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, s)
+	} else if s := httpDeliveryRequest.URL.String(); s != sallyIRIInboxString {
+		t.Fatalf("expected %s, got %s", sallyIRIInboxString, s)
+	} else if gotDoDelivery != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotDoDelivery)
+	} else if doDeliveryURL.String() != sallyIRIInboxString {
+		t.Fatalf("expected %s, got %s", sallyIRIInboxString, doDeliveryURL.String())
+	} else if err := VocabEquals(bytes.NewBuffer(bytesToSend), expected); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestPostInbox_Follow_AutoAccept(t *testing.T) {
@@ -1395,7 +1505,32 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 }
 
 func TestPostInbox_Follow_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	_, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
+		return DoNothing
+	}
+	gotCallback := 0
+	var gotCallbackObject *streams.Follow
+	fedCb.follow = func(c context.Context, s *streams.Follow) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testFollow); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostInbox_Accept_DoesNothingIfNotAcceptingFollow(t *testing.T) {

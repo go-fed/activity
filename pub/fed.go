@@ -207,6 +207,7 @@ func (f *federator) GetInbox(c context.Context, w http.ResponseWriter, r *http.R
 	if err != nil {
 		return true, err
 	}
+	addJSONLDContext(m)
 	b, err := json.Marshal(m)
 	if err != nil {
 		return true, err
@@ -299,6 +300,7 @@ func (f *federator) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 	if err != nil {
 		return true, err
 	}
+	addJSONLDContext(m)
 	b, err := json.Marshal(m)
 	if err != nil {
 		return true, err

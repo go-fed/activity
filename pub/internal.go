@@ -23,6 +23,8 @@ const (
 	publicActivityPub         = "https://www.w3.org/ns/activitystreams#Public"
 	publicJsonLD              = "Public"
 	publicJsonLDAS            = "as:Public"
+	jsonLDContext             = "@context"
+	activityPubContext        = "https://www.w3.org/ns/activitystreams"
 )
 
 var alternatives = []string{"application/activity+json"}
@@ -59,6 +61,10 @@ func isActivityPubGet(r *http.Request) bool {
 // spec, including JSON-LD compliant collections.
 func isPublic(s string) bool {
 	return s == publicActivityPub || s == publicJsonLD || s == publicJsonLDAS
+}
+
+func addJSONLDContext(m map[string]interface{}) {
+	m[jsonLDContext] = activityPubContext
 }
 
 // dereference makes an HTTP GET request to an IRI in order to obtain the
@@ -180,7 +186,7 @@ func (f *federator) deliver(obj vocab.ActivityType) error {
 	if err != nil {
 		return err
 	}
-	m["@context"] = "https://www.w3.org/ns/activitystreams"
+	addJSONLDContext(m)
 	b, err := json.Marshal(m)
 	if err != nil {
 		return err
