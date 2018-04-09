@@ -4455,15 +4455,17 @@ func (t *Object) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Object) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -4472,28 +4474,32 @@ func (t *Object) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Object) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Object) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Object) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Object) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -4502,28 +4508,34 @@ func (t *Object) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Object) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Object) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Object) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Object) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -4532,28 +4544,36 @@ func (t *Object) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Object) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Object) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Object) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Object) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -4562,16 +4582,20 @@ func (t *Object) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Object) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Object) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Object) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -7191,15 +7215,17 @@ func (t *Activity) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Activity) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -7208,28 +7234,32 @@ func (t *Activity) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Activity) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Activity) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Activity) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Activity) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -7238,28 +7268,34 @@ func (t *Activity) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Activity) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Activity) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Activity) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Activity) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -7268,28 +7304,36 @@ func (t *Activity) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Activity) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Activity) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Activity) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Activity) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -7298,16 +7342,20 @@ func (t *Activity) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Activity) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Activity) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Activity) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -9349,15 +9397,17 @@ func (t *IntransitiveActivity) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *IntransitiveActivity) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -9366,28 +9416,32 @@ func (t *IntransitiveActivity) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *IntransitiveActivity) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *IntransitiveActivity) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *IntransitiveActivity) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *IntransitiveActivity) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -9396,28 +9450,34 @@ func (t *IntransitiveActivity) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *IntransitiveActivity) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *IntransitiveActivity) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *IntransitiveActivity) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *IntransitiveActivity) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -9426,28 +9486,36 @@ func (t *IntransitiveActivity) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *IntransitiveActivity) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *IntransitiveActivity) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *IntransitiveActivity) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *IntransitiveActivity) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -9456,16 +9524,20 @@ func (t *IntransitiveActivity) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *IntransitiveActivity) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *IntransitiveActivity) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *IntransitiveActivity) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -11449,15 +11521,17 @@ func (t *Collection) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Collection) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -11466,28 +11540,32 @@ func (t *Collection) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Collection) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Collection) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Collection) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Collection) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -11496,28 +11574,34 @@ func (t *Collection) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Collection) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Collection) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Collection) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Collection) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -11526,28 +11610,36 @@ func (t *Collection) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Collection) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Collection) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Collection) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Collection) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -11556,16 +11648,20 @@ func (t *Collection) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Collection) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Collection) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Collection) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -13549,15 +13645,17 @@ func (t *OrderedCollection) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollection) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -13566,28 +13664,32 @@ func (t *OrderedCollection) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *OrderedCollection) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *OrderedCollection) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *OrderedCollection) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollection) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -13596,28 +13698,34 @@ func (t *OrderedCollection) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *OrderedCollection) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *OrderedCollection) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *OrderedCollection) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollection) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -13626,28 +13734,36 @@ func (t *OrderedCollection) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *OrderedCollection) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *OrderedCollection) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *OrderedCollection) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollection) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -13656,16 +13772,20 @@ func (t *OrderedCollection) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *OrderedCollection) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *OrderedCollection) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *OrderedCollection) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -15763,15 +15883,17 @@ func (t *CollectionPage) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *CollectionPage) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -15780,28 +15902,32 @@ func (t *CollectionPage) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *CollectionPage) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *CollectionPage) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *CollectionPage) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *CollectionPage) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -15810,28 +15936,34 @@ func (t *CollectionPage) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *CollectionPage) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *CollectionPage) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *CollectionPage) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *CollectionPage) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -15840,28 +15972,36 @@ func (t *CollectionPage) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *CollectionPage) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *CollectionPage) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *CollectionPage) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *CollectionPage) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -15870,16 +16010,20 @@ func (t *CollectionPage) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *CollectionPage) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *CollectionPage) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *CollectionPage) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -17973,15 +18117,17 @@ func (t *OrderedCollectionPage) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -17990,28 +18136,32 @@ func (t *OrderedCollectionPage) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *OrderedCollectionPage) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *OrderedCollectionPage) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *OrderedCollectionPage) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -18020,28 +18170,34 @@ func (t *OrderedCollectionPage) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *OrderedCollectionPage) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *OrderedCollectionPage) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *OrderedCollectionPage) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -18050,28 +18206,36 @@ func (t *OrderedCollectionPage) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *OrderedCollectionPage) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *OrderedCollectionPage) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *OrderedCollectionPage) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -18080,16 +18244,20 @@ func (t *OrderedCollectionPage) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *OrderedCollectionPage) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *OrderedCollectionPage) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *OrderedCollectionPage) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -20215,15 +20383,17 @@ func (t *Accept) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Accept) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -20232,28 +20402,32 @@ func (t *Accept) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Accept) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Accept) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Accept) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Accept) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -20262,28 +20436,34 @@ func (t *Accept) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Accept) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Accept) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Accept) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Accept) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -20292,28 +20472,36 @@ func (t *Accept) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Accept) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Accept) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Accept) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Accept) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -20322,16 +20510,20 @@ func (t *Accept) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Accept) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Accept) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Accept) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -22419,15 +22611,17 @@ func (t *TentativeAccept) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeAccept) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -22436,28 +22630,32 @@ func (t *TentativeAccept) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *TentativeAccept) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *TentativeAccept) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *TentativeAccept) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeAccept) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -22466,28 +22664,34 @@ func (t *TentativeAccept) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *TentativeAccept) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *TentativeAccept) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *TentativeAccept) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeAccept) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -22496,28 +22700,36 @@ func (t *TentativeAccept) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *TentativeAccept) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *TentativeAccept) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *TentativeAccept) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeAccept) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -22526,16 +22738,20 @@ func (t *TentativeAccept) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *TentativeAccept) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *TentativeAccept) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *TentativeAccept) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -24623,15 +24839,17 @@ func (t *Add) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Add) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -24640,28 +24858,32 @@ func (t *Add) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Add) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Add) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Add) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Add) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -24670,28 +24892,34 @@ func (t *Add) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Add) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Add) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Add) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Add) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -24700,28 +24928,36 @@ func (t *Add) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Add) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Add) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Add) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Add) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -24730,16 +24966,20 @@ func (t *Add) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Add) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Add) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Add) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -26781,15 +27021,17 @@ func (t *Arrive) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Arrive) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -26798,28 +27040,32 @@ func (t *Arrive) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Arrive) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Arrive) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Arrive) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Arrive) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -26828,28 +27074,34 @@ func (t *Arrive) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Arrive) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Arrive) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Arrive) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Arrive) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -26858,28 +27110,36 @@ func (t *Arrive) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Arrive) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Arrive) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Arrive) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Arrive) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -26888,16 +27148,20 @@ func (t *Arrive) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Arrive) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Arrive) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Arrive) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -28985,15 +29249,17 @@ func (t *Create) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Create) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -29002,28 +29268,32 @@ func (t *Create) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Create) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Create) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Create) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Create) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -29032,28 +29302,34 @@ func (t *Create) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Create) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Create) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Create) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Create) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -29062,28 +29338,36 @@ func (t *Create) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Create) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Create) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Create) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Create) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -29092,16 +29376,20 @@ func (t *Create) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Create) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Create) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Create) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -31189,15 +31477,17 @@ func (t *Delete) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Delete) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -31206,28 +31496,32 @@ func (t *Delete) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Delete) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Delete) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Delete) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Delete) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -31236,28 +31530,34 @@ func (t *Delete) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Delete) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Delete) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Delete) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Delete) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -31266,28 +31566,36 @@ func (t *Delete) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Delete) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Delete) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Delete) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Delete) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -31296,16 +31604,20 @@ func (t *Delete) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Delete) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Delete) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Delete) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -33393,15 +33705,17 @@ func (t *Follow) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Follow) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -33410,28 +33724,32 @@ func (t *Follow) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Follow) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Follow) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Follow) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Follow) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -33440,28 +33758,34 @@ func (t *Follow) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Follow) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Follow) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Follow) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Follow) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -33470,28 +33794,36 @@ func (t *Follow) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Follow) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Follow) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Follow) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Follow) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -33500,16 +33832,20 @@ func (t *Follow) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Follow) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Follow) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Follow) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -35597,15 +35933,17 @@ func (t *Ignore) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Ignore) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -35614,28 +35952,32 @@ func (t *Ignore) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Ignore) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Ignore) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Ignore) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Ignore) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -35644,28 +35986,34 @@ func (t *Ignore) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Ignore) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Ignore) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Ignore) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Ignore) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -35674,28 +36022,36 @@ func (t *Ignore) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Ignore) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Ignore) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Ignore) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Ignore) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -35704,16 +36060,20 @@ func (t *Ignore) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Ignore) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Ignore) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Ignore) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -37801,15 +38161,17 @@ func (t *Join) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Join) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -37818,28 +38180,32 @@ func (t *Join) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Join) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Join) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Join) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Join) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -37848,28 +38214,34 @@ func (t *Join) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Join) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Join) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Join) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Join) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -37878,28 +38250,36 @@ func (t *Join) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Join) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Join) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Join) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Join) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -37908,16 +38288,20 @@ func (t *Join) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Join) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Join) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Join) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -40005,15 +40389,17 @@ func (t *Leave) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Leave) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -40022,28 +40408,32 @@ func (t *Leave) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Leave) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Leave) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Leave) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Leave) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -40052,28 +40442,34 @@ func (t *Leave) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Leave) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Leave) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Leave) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Leave) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -40082,28 +40478,36 @@ func (t *Leave) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Leave) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Leave) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Leave) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Leave) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -40112,16 +40516,20 @@ func (t *Leave) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Leave) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Leave) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Leave) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -42209,15 +42617,17 @@ func (t *Like) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Like) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -42226,28 +42636,32 @@ func (t *Like) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Like) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Like) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Like) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Like) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -42256,28 +42670,34 @@ func (t *Like) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Like) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Like) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Like) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Like) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -42286,28 +42706,36 @@ func (t *Like) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Like) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Like) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Like) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Like) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -42316,16 +42744,20 @@ func (t *Like) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Like) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Like) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Like) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -44413,15 +44845,17 @@ func (t *Offer) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Offer) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -44430,28 +44864,32 @@ func (t *Offer) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Offer) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Offer) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Offer) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Offer) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -44460,28 +44898,34 @@ func (t *Offer) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Offer) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Offer) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Offer) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Offer) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -44490,28 +44934,36 @@ func (t *Offer) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Offer) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Offer) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Offer) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Offer) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -44520,16 +44972,20 @@ func (t *Offer) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Offer) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Offer) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Offer) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -46617,15 +47073,17 @@ func (t *Invite) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Invite) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -46634,28 +47092,32 @@ func (t *Invite) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Invite) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Invite) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Invite) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Invite) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -46664,28 +47126,34 @@ func (t *Invite) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Invite) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Invite) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Invite) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Invite) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -46694,28 +47162,36 @@ func (t *Invite) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Invite) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Invite) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Invite) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Invite) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -46724,16 +47200,20 @@ func (t *Invite) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Invite) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Invite) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Invite) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -48821,15 +49301,17 @@ func (t *Reject) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Reject) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -48838,28 +49320,32 @@ func (t *Reject) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Reject) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Reject) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Reject) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Reject) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -48868,28 +49354,34 @@ func (t *Reject) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Reject) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Reject) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Reject) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Reject) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -48898,28 +49390,36 @@ func (t *Reject) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Reject) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Reject) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Reject) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Reject) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -48928,16 +49428,20 @@ func (t *Reject) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Reject) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Reject) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Reject) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -51025,15 +51529,17 @@ func (t *TentativeReject) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeReject) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -51042,28 +51548,32 @@ func (t *TentativeReject) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *TentativeReject) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *TentativeReject) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *TentativeReject) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeReject) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -51072,28 +51582,34 @@ func (t *TentativeReject) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *TentativeReject) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *TentativeReject) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *TentativeReject) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeReject) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -51102,28 +51618,36 @@ func (t *TentativeReject) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *TentativeReject) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *TentativeReject) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *TentativeReject) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *TentativeReject) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -51132,16 +51656,20 @@ func (t *TentativeReject) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *TentativeReject) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *TentativeReject) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *TentativeReject) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -53229,15 +53757,17 @@ func (t *Remove) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Remove) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -53246,28 +53776,32 @@ func (t *Remove) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Remove) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Remove) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Remove) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Remove) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -53276,28 +53810,34 @@ func (t *Remove) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Remove) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Remove) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Remove) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Remove) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -53306,28 +53846,36 @@ func (t *Remove) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Remove) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Remove) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Remove) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Remove) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -53336,16 +53884,20 @@ func (t *Remove) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Remove) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Remove) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Remove) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -55433,15 +55985,17 @@ func (t *Undo) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Undo) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -55450,28 +56004,32 @@ func (t *Undo) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Undo) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Undo) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Undo) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Undo) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -55480,28 +56038,34 @@ func (t *Undo) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Undo) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Undo) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Undo) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Undo) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -55510,28 +56074,36 @@ func (t *Undo) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Undo) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Undo) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Undo) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Undo) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -55540,16 +56112,20 @@ func (t *Undo) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Undo) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Undo) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Undo) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -57637,15 +58213,17 @@ func (t *Update) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Update) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -57654,28 +58232,32 @@ func (t *Update) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Update) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Update) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Update) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Update) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -57684,28 +58266,34 @@ func (t *Update) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Update) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Update) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Update) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Update) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -57714,28 +58302,36 @@ func (t *Update) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Update) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Update) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Update) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Update) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -57744,16 +58340,20 @@ func (t *Update) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Update) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Update) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Update) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -59841,15 +60441,17 @@ func (t *View) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *View) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -59858,28 +60460,32 @@ func (t *View) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *View) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *View) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *View) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *View) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -59888,28 +60494,34 @@ func (t *View) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *View) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *View) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *View) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *View) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -59918,28 +60530,36 @@ func (t *View) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *View) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *View) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *View) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *View) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -59948,16 +60568,20 @@ func (t *View) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *View) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *View) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *View) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -62045,15 +62669,17 @@ func (t *Listen) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Listen) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -62062,28 +62688,32 @@ func (t *Listen) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Listen) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Listen) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Listen) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Listen) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -62092,28 +62722,34 @@ func (t *Listen) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Listen) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Listen) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Listen) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Listen) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -62122,28 +62758,36 @@ func (t *Listen) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Listen) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Listen) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Listen) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Listen) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -62152,16 +62796,20 @@ func (t *Listen) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Listen) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Listen) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Listen) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -64249,15 +64897,17 @@ func (t *Read) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Read) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -64266,28 +64916,32 @@ func (t *Read) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Read) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Read) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Read) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Read) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -64296,28 +64950,34 @@ func (t *Read) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Read) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Read) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Read) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Read) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -64326,28 +64986,36 @@ func (t *Read) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Read) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Read) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Read) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Read) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -64356,16 +65024,20 @@ func (t *Read) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Read) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Read) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Read) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -66453,15 +67125,17 @@ func (t *Move) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Move) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -66470,28 +67144,32 @@ func (t *Move) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Move) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Move) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Move) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Move) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -66500,28 +67178,34 @@ func (t *Move) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Move) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Move) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Move) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Move) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -66530,28 +67214,36 @@ func (t *Move) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Move) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Move) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Move) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Move) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -66560,16 +67252,20 @@ func (t *Move) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Move) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Move) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Move) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -68611,15 +69307,17 @@ func (t *Travel) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Travel) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -68628,28 +69326,32 @@ func (t *Travel) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Travel) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Travel) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Travel) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Travel) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -68658,28 +69360,34 @@ func (t *Travel) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Travel) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Travel) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Travel) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Travel) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -68688,28 +69396,36 @@ func (t *Travel) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Travel) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Travel) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Travel) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Travel) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -68718,16 +69434,20 @@ func (t *Travel) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Travel) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Travel) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Travel) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -70815,15 +71535,17 @@ func (t *Announce) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Announce) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -70832,28 +71554,32 @@ func (t *Announce) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Announce) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Announce) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Announce) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Announce) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -70862,28 +71588,34 @@ func (t *Announce) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Announce) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Announce) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Announce) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Announce) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -70892,28 +71624,36 @@ func (t *Announce) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Announce) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Announce) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Announce) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Announce) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -70922,16 +71662,20 @@ func (t *Announce) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Announce) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Announce) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Announce) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -73019,15 +73763,17 @@ func (t *Block) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Block) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -73036,28 +73782,32 @@ func (t *Block) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Block) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Block) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Block) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Block) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -73066,28 +73816,34 @@ func (t *Block) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Block) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Block) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Block) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Block) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -73096,28 +73852,36 @@ func (t *Block) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Block) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Block) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Block) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Block) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -73126,16 +73890,20 @@ func (t *Block) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Block) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Block) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Block) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -75223,15 +75991,17 @@ func (t *Flag) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Flag) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -75240,28 +76010,32 @@ func (t *Flag) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Flag) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Flag) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Flag) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Flag) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -75270,28 +76044,34 @@ func (t *Flag) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Flag) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Flag) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Flag) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Flag) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -75300,28 +76080,36 @@ func (t *Flag) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Flag) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Flag) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Flag) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Flag) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -75330,16 +76118,20 @@ func (t *Flag) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Flag) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Flag) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Flag) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -77427,15 +78219,17 @@ func (t *Dislike) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Dislike) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -77444,28 +78238,32 @@ func (t *Dislike) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Dislike) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Dislike) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Dislike) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Dislike) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -77474,28 +78272,34 @@ func (t *Dislike) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Dislike) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Dislike) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Dislike) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Dislike) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -77504,28 +78308,36 @@ func (t *Dislike) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Dislike) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Dislike) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Dislike) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Dislike) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -77534,16 +78346,20 @@ func (t *Dislike) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Dislike) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Dislike) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Dislike) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -79749,15 +80565,17 @@ func (t *Question) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Question) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -79766,28 +80584,32 @@ func (t *Question) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Question) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Question) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Question) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Question) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -79796,28 +80618,34 @@ func (t *Question) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Question) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Question) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Question) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Question) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -79826,28 +80654,36 @@ func (t *Question) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Question) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Question) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Question) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Question) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -79856,16 +80692,20 @@ func (t *Question) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Question) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Question) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Question) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -81648,15 +82488,17 @@ func (t *Application) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Application) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -81665,28 +82507,32 @@ func (t *Application) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Application) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Application) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Application) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Application) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -81695,28 +82541,34 @@ func (t *Application) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Application) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Application) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Application) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Application) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -81725,28 +82577,36 @@ func (t *Application) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Application) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Application) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Application) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Application) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -81755,16 +82615,20 @@ func (t *Application) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Application) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Application) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Application) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -83547,15 +84411,17 @@ func (t *Group) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Group) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -83564,28 +84430,32 @@ func (t *Group) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Group) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Group) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Group) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Group) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -83594,28 +84464,34 @@ func (t *Group) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Group) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Group) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Group) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Group) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -83624,28 +84500,36 @@ func (t *Group) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Group) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Group) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Group) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Group) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -83654,16 +84538,20 @@ func (t *Group) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Group) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Group) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Group) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -85446,15 +86334,17 @@ func (t *Organization) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Organization) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -85463,28 +86353,32 @@ func (t *Organization) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Organization) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Organization) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Organization) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Organization) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -85493,28 +86387,34 @@ func (t *Organization) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Organization) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Organization) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Organization) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Organization) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -85523,28 +86423,36 @@ func (t *Organization) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Organization) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Organization) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Organization) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Organization) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -85553,16 +86461,20 @@ func (t *Organization) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Organization) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Organization) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Organization) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -87345,15 +88257,17 @@ func (t *Person) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Person) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -87362,28 +88276,32 @@ func (t *Person) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Person) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Person) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Person) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Person) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -87392,28 +88310,34 @@ func (t *Person) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Person) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Person) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Person) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Person) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -87422,28 +88346,36 @@ func (t *Person) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Person) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Person) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Person) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Person) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -87452,16 +88384,20 @@ func (t *Person) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Person) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Person) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Person) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -89244,15 +90180,17 @@ func (t *Service) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Service) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -89261,28 +90199,32 @@ func (t *Service) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Service) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Service) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Service) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Service) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -89291,28 +90233,34 @@ func (t *Service) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Service) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Service) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Service) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Service) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -89321,28 +90269,36 @@ func (t *Service) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Service) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Service) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Service) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Service) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -89351,16 +90307,20 @@ func (t *Service) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Service) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Service) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Service) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -91270,15 +92230,17 @@ func (t *Relationship) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Relationship) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -91287,28 +92249,32 @@ func (t *Relationship) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Relationship) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Relationship) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Relationship) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Relationship) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -91317,28 +92283,34 @@ func (t *Relationship) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Relationship) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Relationship) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Relationship) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Relationship) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -91347,28 +92319,36 @@ func (t *Relationship) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Relationship) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Relationship) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Relationship) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Relationship) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -91377,16 +92357,20 @@ func (t *Relationship) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Relationship) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Relationship) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Relationship) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -93169,15 +94153,17 @@ func (t *Article) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Article) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -93186,28 +94172,32 @@ func (t *Article) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Article) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Article) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Article) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Article) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -93216,28 +94206,34 @@ func (t *Article) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Article) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Article) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Article) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Article) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -93246,28 +94242,36 @@ func (t *Article) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Article) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Article) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Article) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Article) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -93276,16 +94280,20 @@ func (t *Article) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Article) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Article) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Article) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -95068,15 +96076,17 @@ func (t *Document) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Document) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -95085,28 +96095,32 @@ func (t *Document) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Document) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Document) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Document) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Document) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -95115,28 +96129,34 @@ func (t *Document) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Document) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Document) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Document) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Document) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -95145,28 +96165,36 @@ func (t *Document) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Document) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Document) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Document) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Document) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -95175,16 +96203,20 @@ func (t *Document) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Document) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Document) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Document) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -96967,15 +97999,17 @@ func (t *Audio) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Audio) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -96984,28 +98018,32 @@ func (t *Audio) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Audio) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Audio) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Audio) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Audio) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -97014,28 +98052,34 @@ func (t *Audio) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Audio) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Audio) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Audio) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Audio) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -97044,28 +98088,36 @@ func (t *Audio) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Audio) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Audio) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Audio) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Audio) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -97074,16 +98126,20 @@ func (t *Audio) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Audio) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Audio) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Audio) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -98934,15 +99990,17 @@ func (t *Image) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Image) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -98951,28 +100009,32 @@ func (t *Image) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Image) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Image) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Image) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Image) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -98981,28 +100043,34 @@ func (t *Image) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Image) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Image) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Image) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Image) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -99011,28 +100079,36 @@ func (t *Image) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Image) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Image) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Image) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Image) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -99041,16 +100117,20 @@ func (t *Image) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Image) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Image) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Image) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -100833,15 +101913,17 @@ func (t *Video) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Video) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -100850,28 +101932,32 @@ func (t *Video) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Video) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Video) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Video) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Video) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -100880,28 +101966,34 @@ func (t *Video) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Video) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Video) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Video) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Video) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -100910,28 +102002,36 @@ func (t *Video) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Video) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Video) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Video) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Video) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -100940,16 +102040,20 @@ func (t *Video) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Video) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Video) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Video) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -102732,15 +103836,17 @@ func (t *Note) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Note) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -102749,28 +103855,32 @@ func (t *Note) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Note) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Note) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Note) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Note) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -102779,28 +103889,34 @@ func (t *Note) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Note) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Note) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Note) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Note) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -102809,28 +103925,36 @@ func (t *Note) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Note) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Note) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Note) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Note) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -102839,16 +103963,20 @@ func (t *Note) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Note) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Note) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Note) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -104631,15 +105759,17 @@ func (t *Page) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Page) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -104648,28 +105778,32 @@ func (t *Page) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Page) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Page) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Page) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Page) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -104678,28 +105812,34 @@ func (t *Page) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Page) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Page) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Page) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Page) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -104708,28 +105848,36 @@ func (t *Page) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Page) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Page) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Page) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Page) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -104738,16 +105886,20 @@ func (t *Page) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Page) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Page) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Page) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -106530,15 +107682,17 @@ func (t *Event) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Event) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -106547,28 +107701,32 @@ func (t *Event) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Event) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Event) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Event) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Event) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -106577,28 +107735,34 @@ func (t *Event) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Event) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Event) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Event) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Event) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -106607,28 +107771,36 @@ func (t *Event) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Event) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Event) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Event) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Event) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -106637,16 +107809,20 @@ func (t *Event) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Event) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Event) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Event) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -108599,15 +109775,17 @@ func (t *Place) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Place) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -108616,28 +109794,32 @@ func (t *Place) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Place) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Place) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Place) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Place) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -108646,28 +109828,34 @@ func (t *Place) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Place) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Place) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Place) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Place) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -108676,28 +109864,36 @@ func (t *Place) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Place) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Place) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Place) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Place) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -108706,16 +109902,20 @@ func (t *Place) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Place) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Place) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Place) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -110532,15 +111732,17 @@ func (t *Profile) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Profile) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -110549,28 +111751,32 @@ func (t *Profile) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Profile) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Profile) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Profile) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Profile) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -110579,28 +111785,34 @@ func (t *Profile) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Profile) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Profile) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Profile) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Profile) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -110609,28 +111821,36 @@ func (t *Profile) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Profile) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Profile) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Profile) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Profile) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -110639,16 +111859,20 @@ func (t *Profile) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Profile) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Profile) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Profile) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 
@@ -112515,15 +113739,17 @@ func (t *Tombstone) SetSource(i vocab.ObjectType) {
 
 }
 
-// GetInbox attempts to get this 'inbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetInbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveInbox passes the actual concrete type to the resolver for handing property inbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Tombstone) ResolveInbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasInbox() {
-		k = t.raw.GetInbox()
+	if t.raw.IsInboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetInboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsInboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -112532,28 +113758,32 @@ func (t *Tombstone) GetInbox() (r Resolution, k url.URL) {
 // HasInbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Tombstone) HasInbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasInbox() {
+	if t.raw.IsInboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsInboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetInbox sets the value for property 'inbox'.
-func (t *Tombstone) SetInbox(k url.URL) {
-	t.raw.SetInbox(k)
+// SetInbox sets this value to be a 'OrderedCollection' type.
+func (t *Tombstone) SetInbox(i vocab.OrderedCollectionType) {
+	t.raw.SetInboxOrderedCollection(i)
 
 }
 
-// GetOutbox attempts to get this 'outbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetOutbox() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveOutbox passes the actual concrete type to the resolver for handing property outbox. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Tombstone) ResolveOutbox(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasOutbox() {
-		k = t.raw.GetOutbox()
+	if t.raw.IsOutboxOrderedCollection() {
+		handled, err = r.dispatch(t.raw.GetOutboxOrderedCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsOutboxAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -112562,28 +113792,34 @@ func (t *Tombstone) GetOutbox() (r Resolution, k url.URL) {
 // HasOutbox returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Tombstone) HasOutbox() (p Presence) {
 	p = NoPresence
-	if t.raw.HasOutbox() {
+	if t.raw.IsOutboxOrderedCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsOutboxAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetOutbox sets the value for property 'outbox'.
-func (t *Tombstone) SetOutbox(k url.URL) {
-	t.raw.SetOutbox(k)
+// SetOutbox sets this value to be a 'OrderedCollection' type.
+func (t *Tombstone) SetOutbox(i vocab.OrderedCollectionType) {
+	t.raw.SetOutboxOrderedCollection(i)
 
 }
 
-// GetFollowing attempts to get this 'following' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetFollowing() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowing passes the actual concrete type to the resolver for handing property following. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Tombstone) ResolveFollowing(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowing() {
-		k = t.raw.GetFollowing()
+	if t.raw.IsFollowingCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowingCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowingOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowingAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -112592,28 +113828,36 @@ func (t *Tombstone) GetFollowing() (r Resolution, k url.URL) {
 // HasFollowing returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Tombstone) HasFollowing() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowing() {
+	if t.raw.IsFollowingCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowingOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowingAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowing sets the value for property 'following'.
-func (t *Tombstone) SetFollowing(k url.URL) {
-	t.raw.SetFollowing(k)
+// SetFollowing sets this value to be a 'Collection' type.
+func (t *Tombstone) SetFollowing(i vocab.CollectionType) {
+	t.raw.SetFollowingCollection(i)
 
 }
 
-// GetFollowers attempts to get this 'followers' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetFollowers() (r Resolution, k url.URL) {
-	r = Unresolved
+// ResolveFollowers passes the actual concrete type to the resolver for handing property followers. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *Tombstone) ResolveFollowers(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
 	handled := false
-	if t.raw.HasFollowers() {
-		k = t.raw.GetFollowers()
+	if t.raw.IsFollowersCollection() {
+		handled, err = r.dispatch(t.raw.GetFollowersCollection())
 		if handled {
-			r = Resolved
+			s = Resolved
 		}
+	} else if t.raw.IsFollowersOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsFollowersAnyURI() {
+		s = RawResolutionNeeded
 	}
 	return
 
@@ -112622,16 +113866,20 @@ func (t *Tombstone) GetFollowers() (r Resolution, k url.URL) {
 // HasFollowers returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Tombstone) HasFollowers() (p Presence) {
 	p = NoPresence
-	if t.raw.HasFollowers() {
+	if t.raw.IsFollowersCollection() {
 		p = ConvenientPresence
+	} else if t.raw.IsFollowersOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsFollowersAnyURI() {
+		p = RawPresence
 	}
 	return
 
 }
 
-// SetFollowers sets the value for property 'followers'.
-func (t *Tombstone) SetFollowers(k url.URL) {
-	t.raw.SetFollowers(k)
+// SetFollowers sets this value to be a 'Collection' type.
+func (t *Tombstone) SetFollowers(i vocab.CollectionType) {
+	t.raw.SetFollowersCollection(i)
 
 }
 

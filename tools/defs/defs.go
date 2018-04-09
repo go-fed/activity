@@ -981,7 +981,7 @@ var (
 		URI:        propertyBaseURI + "inbox", // Missing from spec!
 		Notes:      "A reference to an [ActivityStreams] OrderedCollection comprised of all the messages received by the actor.",
 		Domain:     []DomainReference{{T: objectType}},
-		Range:      []RangeReference{{V: xsdAnyURIValueType}},
+		Range:      []RangeReference{{T: orderedCollectionType}, {V: xsdAnyURIValueType}},
 		Functional: true, // Missing from spec!
 	}
 	outboxPropertyType = &PropertyType{
@@ -989,7 +989,7 @@ var (
 		URI:        propertyBaseURI + "outbox", // Missing from spec!
 		Notes:      "An [ActivityStreams] OrderedCollection comprised of all the messages produced by the actor.",
 		Domain:     []DomainReference{{T: objectType}},
-		Range:      []RangeReference{{V: xsdAnyURIValueType}},
+		Range:      []RangeReference{{T: orderedCollectionType}, {V: xsdAnyURIValueType}},
 		Functional: true, // Missing from spec!
 	}
 	followingPropertyType = &PropertyType{
@@ -997,7 +997,7 @@ var (
 		URI:        propertyBaseURI + "following",
 		Notes:      "A link to an [ActivityStreams] collection of the actors that this actor is following",
 		Domain:     []DomainReference{{T: objectType}},
-		Range:      []RangeReference{{V: xsdAnyURIValueType}},
+		Range:      []RangeReference{{T: collectionType}, {T: orderedCollectionType}, {V: xsdAnyURIValueType}},
 		Functional: true, // Missing from spec!
 	}
 	followersPropertyType = &PropertyType{
@@ -1005,7 +1005,7 @@ var (
 		URI:        propertyBaseURI + "followers",
 		Notes:      "A link to an [ActivityStreams] collection of the actors that follow this actor",
 		Domain:     []DomainReference{{T: objectType}},
-		Range:      []RangeReference{{V: xsdAnyURIValueType}},
+		Range:      []RangeReference{{T: collectionType}, {T: orderedCollectionType}, {V: xsdAnyURIValueType}},
 		Functional: true, // Missing from spec!
 	}
 	likedPropertyType = &PropertyType{
