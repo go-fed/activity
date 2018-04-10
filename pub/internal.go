@@ -224,13 +224,19 @@ func (c *federator) prepare(o deliverableObject) ([]url.URL, error) {
 	if err != nil {
 		return nil, err
 	}
-	targets := getInboxes(receiverActors)
+	targets, err := getInboxes(receiverActors)
+	if err != nil {
+		return nil, err
+	}
 	// Get inboxes of sender(s)
 	senderActors, err := c.resolveInboxes(getActorsAttributedToURI(o), 0, c.MaxDeliveryDepth)
 	if err != nil {
 		return nil, err
 	}
-	ignore := getInboxes(senderActors)
+	ignore, err := getInboxes(senderActors)
+	if err != nil {
+		return nil, err
+	}
 	// Post-processing
 	r = dedupeIRIs(targets, ignore)
 	stripHiddenRecipients(o)
@@ -320,14 +326,20 @@ func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]actor, er
 }
 
 // getInboxes extracts the 'inbox' IRIs from actors.
-func getInboxes(a []actor) []url.URL {
+func getInboxes(a []actor) ([]url.URL, error) {
 	var u []url.URL
 	for _, actor := range a {
-		if actor.HasInbox() {
-			u = append(u, actor.GetInbox())
+		if actor.IsInboxAnyURI() {
+			u = append(u, actor.GetInboxAnyURI())
+		} else if actor.IsInboxOrderedCollection() {
+			oc := actor.GetInboxOrderedCollection()
+			if !oc.HasId() {
+				return nil, fmt.Errorf("actor inbox OrderedCollection has no IRI")
+			}
+			u = append(u, oc.GetId())
 		}
 	}
-	return u
+	return u, nil
 }
 
 // getActorAttributedToURI attempts to find the URIs for the "actor" and
@@ -868,56 +880,41 @@ func toTombstone(obj vocab.ObjectType, id url.URL, now time.Time) vocab.Tombston
 	return tomb
 }
 
-func (f *federator) addToAllActorLikedCollection(ctx context.Context, c vocab.LikeType) error {
+func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error, c vocab.ActivityType) error {
 	for i := 0; i < c.ActorLen(); i++ {
-		var actor vocab.ObjectType
+		var iri url.URL
 		if c.IsActorObject(i) {
-			actor = c.GetActorObject(i)
+			obj := c.GetActorObject(i)
+			if !obj.HasId() {
+				return fmt.Errorf("actor does not have id")
+			}
+			iri = obj.GetId()
 		} else if c.IsActorLink(i) {
 			l := c.GetActorLink(i)
 			if !l.HasHref() {
 				return fmt.Errorf("actor Link href required")
 			}
-			pObj, err := f.App.Get(ctx, l.GetHref())
-			if err != nil {
-				return err
-			}
-			ok := false
-			actor, ok = pObj.(vocab.ObjectType)
-			if !ok {
-				return fmt.Errorf("actor is not vocab.ObjectType")
-			}
+			iri = l.GetHref()
 		} else if c.IsActorIRI(i) {
-			iri := c.GetActorIRI(i)
-			pObj, err := f.App.Get(ctx, iri)
-			if err != nil {
-				return err
-			}
-			ok := false
-			actor, ok = pObj.(vocab.ObjectType)
-			if !ok {
-				return fmt.Errorf("actor is not vocab.ObjectType")
-			}
+			iri = c.GetActorIRI(i)
+		}
+		if !f.App.Owns(ctx, iri) {
+			continue
+		}
+		var actor vocab.ObjectType
+		pObj, err := f.App.Get(ctx, iri)
+		if err != nil {
+			return err
+		}
+		ok := false
+		actor, ok = pObj.(vocab.ObjectType)
+		if !ok {
+			return fmt.Errorf("actor is not vocab.ObjectType")
 		}
 		var lc vocab.CollectionType
 		var loc vocab.OrderedCollectionType
-		if actor.IsLikedAnyURI() {
-			pObj, err := f.App.Get(ctx, actor.GetLikedAnyURI())
-			if err != nil {
-				return err
-			}
-			ok := false
-			if lc, ok = pObj.(vocab.CollectionType); !ok {
-				if loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
-					return fmt.Errorf("actors liked collection not CollectionType nor OrderedCollectionType")
-				}
-			}
-		} else if actor.IsLikedCollection() {
-			// TODO: Fetch collection via f.App.Get
-			lc = actor.GetLikedCollection()
-		} else if actor.IsLikedOrderedCollection() {
-			// TODO: Fetch collection via f.App.Get
-			loc = actor.GetLikedOrderedCollection()
+		if err := getter(actor, &lc, &loc); err != nil {
+			return err
 		}
 		for i := 0; i < c.ObjectLen(); i++ {
 			if c.IsObjectIRI(i) {
@@ -947,42 +944,35 @@ func (f *federator) addToAllActorLikedCollection(ctx context.Context, c vocab.Li
 	return nil
 }
 
-func (f *federator) addToAllLikesCollections(ctx context.Context, c vocab.LikeType) error {
+func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error, c vocab.ActivityType) error {
 	for i := 0; i < c.ObjectLen(); i++ {
-		var object vocab.ObjectType
+		var iri url.URL
 		if c.IsObject(i) {
-			object = c.GetObject(i)
+			obj := c.GetObject(i)
+			if !obj.HasId() {
+				return fmt.Errorf("object does not have id")
+			}
+			iri = obj.GetId()
 		} else if c.IsObjectIRI(i) {
-			iri := c.GetObjectIRI(i)
-			pObj, err := f.App.Get(ctx, iri)
-			if err != nil {
-				return err
-			}
-			ok := false
-			object, ok = pObj.(vocab.ObjectType)
-			if !ok {
-				return fmt.Errorf("object is not vocab.ObjectType")
-			}
+			iri = c.GetObjectIRI(i)
+		}
+		if !f.App.Owns(ctx, iri) {
+			continue
+		}
+		var object vocab.ObjectType
+		pObj, err := f.App.Get(ctx, iri)
+		if err != nil {
+			return err
+		}
+		ok := false
+		object, ok = pObj.(vocab.ObjectType)
+		if !ok {
+			return fmt.Errorf("object is not vocab.ObjectType")
 		}
 		var lc vocab.CollectionType
 		var loc vocab.OrderedCollectionType
-		if object.IsLikesAnyURI() {
-			pObj, err := f.App.Get(ctx, object.GetLikesAnyURI())
-			if err != nil {
-				return err
-			}
-			ok := false
-			if lc, ok = pObj.(vocab.CollectionType); !ok {
-				if loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
-					return fmt.Errorf("object likes collection not CollectionType nor OrderedCollectionType")
-				}
-			}
-		} else if object.IsLikesCollection() {
-			// TODO: Fetch collection via f.App.Get
-			lc = object.GetLikesCollection()
-		} else if object.IsLikesOrderedCollection() {
-			// TODO: Fetch collection via f.App.Get
-			loc = object.GetLikesOrderedCollection()
+		if err := getter(object, &lc, &loc); err != nil {
+			return err
 		}
 		for i := 0; i < c.ActorLen(); i++ {
 			if c.IsActorIRI(i) {

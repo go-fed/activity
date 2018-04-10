@@ -27,6 +27,7 @@ const (
 	sallyIRIString        = "https://example.com/sally"
 	samIRIString          = "https://example.com/sam"
 	samIRIInboxString     = "https://example.com/sam/inbox"
+	samIRIFollowersString = "https://example.com/sam/followers"
 	sallyIRIInboxString   = "https://example.com/sally/inbox"
 	noteName              = "A Note"
 )
@@ -42,6 +43,7 @@ var (
 	sallyActorJSON              []byte
 	samIRI                      *url.URL
 	samIRIInbox                 *url.URL
+	samIRIFollowers             *url.URL
 	samActor                    *vocab.Person
 	samActorJSON                []byte
 	testNote                    *vocab.Note
@@ -51,6 +53,8 @@ var (
 	testDeleteNote              *vocab.Delete
 	testTombstoneNote           *vocab.Tombstone
 	testFollow                  *vocab.Follow
+	testAcceptNote              *vocab.Accept
+	testAcceptFollow            *vocab.Accept
 )
 
 func init() {
@@ -87,8 +91,12 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	samActor := &vocab.Person{}
-	samActor.SetInbox(*samIRIInbox)
+	samIRIFollowers, err = url.Parse(samIRIFollowersString)
+	if err != nil {
+		panic(err)
+	}
+	samActor = &vocab.Person{}
+	samActor.SetInboxAnyURI(*samIRIInbox)
 	samActor.SetId(*samIRI)
 	m, err := samActor.Serialize()
 	if err != nil {
@@ -109,8 +117,8 @@ func init() {
 	sallyActor = &vocab.Person{}
 	sallyActor.AddNameString("Sally")
 	sallyActor.SetId(*sallyIRI)
-	sallyActor.SetInbox(*sallyInbox)
-	sallyActor.SetOutbox(*sallyOutbox)
+	sallyActor.SetInboxAnyURI(*sallyInbox)
+	sallyActor.SetOutboxAnyURI(*sallyOutbox)
 	m, err = sallyActor.Serialize()
 	if err != nil {
 		panic(err)
@@ -151,6 +159,16 @@ func init() {
 	testFollow.AddActorObject(sallyActor)
 	testFollow.AddObject(samActor)
 	testFollow.AddToObject(samActor)
+	testAcceptNote = &vocab.Accept{}
+	testAcceptNote.SetId(*noteActivityIRI)
+	testAcceptNote.AddActorObject(sallyActor)
+	testAcceptNote.AddObject(&vocab.Offer{})
+	testAcceptNote.AddToObject(samActor)
+	testAcceptFollow = &vocab.Accept{}
+	testAcceptFollow.SetId(*noteActivityIRI)
+	testAcceptFollow.AddActorObject(samActor)
+	testAcceptFollow.AddObject(testFollow)
+	testAcceptFollow.AddToObject(sallyActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -258,6 +276,7 @@ var _ Application = &MockApplication{}
 
 type MockApplication struct {
 	t                    *testing.T
+	owns                 func(c context.Context, id url.URL) bool
 	get                  func(c context.Context, id url.URL) (PubObject, error)
 	set                  func(c context.Context, o PubObject) error
 	getInbox             func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
@@ -265,6 +284,13 @@ type MockApplication struct {
 	postOutboxAuthorized func(c context.Context, r *http.Request) (bool, error)
 	newId                func(c context.Context, t Typer) url.URL
 	actorIRI             func(c context.Context, r *http.Request) (url.URL, error)
+}
+
+func (m *MockApplication) Owns(c context.Context, id url.URL) bool {
+	if m.owns == nil {
+		m.t.Fatal("unexpected call to MockApplication Owns")
+	}
+	return m.owns(c, id)
 }
 
 func (m *MockApplication) Get(c context.Context, id url.URL) (PubObject, error) {
@@ -320,16 +346,8 @@ var _ SocialApp = &MockSocialApp{}
 
 type MockSocialApp struct {
 	t         *testing.T
-	owns      func(c context.Context, id url.URL) bool
 	canAdd    func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
 	canRemove func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
-}
-
-func (m *MockSocialApp) Owns(c context.Context, id url.URL) bool {
-	if m.owns == nil {
-		m.t.Fatal("unexpected call to MockSocialApp Owns")
-	}
-	return m.owns(c, id)
 }
 
 func (m *MockSocialApp) CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
@@ -466,19 +484,11 @@ var _ FederateApp = &MockFederateApp{}
 
 type MockFederateApp struct {
 	t            *testing.T
-	owns         func(c context.Context, id url.URL) bool
 	canAdd       func(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
 	canRemove    func(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
 	onFollow     func(c context.Context, s *streams.Follow) FollowResponse
 	unblocked    func(c context.Context, actorIRIs []url.URL) error
 	getFollowing func(c context.Context, actor url.URL) (vocab.CollectionType, error)
-}
-
-func (m *MockFederateApp) Owns(c context.Context, id url.URL) bool {
-	if m.owns == nil {
-		m.t.Fatal("unexpected call to MockFederateApp Owns")
-	}
-	return m.owns(c, id)
 }
 
 func (m *MockFederateApp) CanAdd(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool {
@@ -1500,8 +1510,118 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 	}
 }
 
+// TODO: Test follower OrderedCollection & IRI.
+// TODO: Test does not own one of the objects.
 func TestPostInbox_Follow_AutoAccept(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, d, httpClient, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotOnFollow := 0
+	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
+		gotOnFollow++
+		return AutomaticAccept
+	}
+	fedCb.follow = func(c context.Context, s *streams.Follow) error {
+		return nil
+	}
+	gotHttpDo := 0
+	var httpActorRequest *http.Request
+	var httpDeliveryRequest *http.Request
+	httpClient.do = func(req *http.Request) (*http.Response, error) {
+		gotHttpDo++
+		if gotHttpDo == 1 {
+			httpActorRequest = req
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(sallyActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 2 {
+			httpDeliveryRequest = req
+			okResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
+			}
+			return okResp, nil
+		}
+		return nil, nil
+	}
+	gotDoDelivery := 0
+	var doDeliveryURL url.URL
+	var bytesToSend []byte
+	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+		gotDoDelivery++
+		doDeliveryURL = u
+		bytesToSend = b
+		if err := toDo(b, u); err != nil {
+			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
+		}
+	}
+	gotOwns := 0
+	var ownsIRI url.URL
+	app.owns = func(c context.Context, id url.URL) bool {
+		gotOwns++
+		ownsIRI = id
+		return true
+	}
+	gotGet := 0
+	var getIRI url.URL
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		gotGet++
+		getIRI = id
+		samActor := &vocab.Person{}
+		samActor.SetInboxAnyURI(*samIRIInbox)
+		samActor.SetId(*samIRI)
+		samActor.SetFollowersCollection(&vocab.Collection{})
+		return samActor, nil
+	}
+	gotSet := 0
+	var setObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		setObject = o
+		return nil
+	}
+	expected := &vocab.Accept{}
+	expected.AddObject(testFollow)
+	expected.AddToObject(sallyActor)
+	expectedFollowers := &vocab.Collection{}
+	expectedFollowers.AddItemsObject(sallyActor)
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOnFollow != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOnFollow)
+	} else if gotHttpDo != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotHttpDo)
+	} else if s := httpActorRequest.URL.String(); s != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, s)
+	} else if s := httpDeliveryRequest.URL.String(); s != sallyIRIInboxString {
+		t.Fatalf("expected %s, got %s", sallyIRIInboxString, s)
+	} else if gotDoDelivery != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotDoDelivery)
+	} else if doDeliveryURL.String() != sallyIRIInboxString {
+		t.Fatalf("expected %s, got %s", sallyIRIInboxString, doDeliveryURL.String())
+	} else if err := VocabEquals(bytes.NewBuffer(bytesToSend), expected); err != nil {
+		t.Fatal(err)
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if ownsIRI.String() != samIRIString {
+		t.Fatalf("expected %s, got %s", samIRIString, ownsIRI.String())
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if getIRI.String() != samIRIString {
+		t.Fatalf("expected %s, got %s", samIRIString, getIRI.String())
+	} else if gotSet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if err := PubObjectEquals(setObject, expectedFollowers); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestPostInbox_Follow_CallsCallback(t *testing.T) {
@@ -1534,10 +1654,28 @@ func TestPostInbox_Follow_CallsCallback(t *testing.T) {
 }
 
 func TestPostInbox_Accept_DoesNothingIfNotAcceptingFollow(t *testing.T) {
+	_, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	fedCb.accept = func(c context.Context, s *streams.Accept) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	}
+}
+
+func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 	// TODO: Implement
 }
 
-func TestPostInbox_Accept_AcceptFollowAddsToFollowers(t *testing.T) {
+func TestPostInbox_Accept_DoesNothingIfNotOwned(t *testing.T) {
 	// TODO: Implement
 }
 

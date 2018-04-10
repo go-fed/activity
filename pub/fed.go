@@ -27,6 +27,8 @@ var (
 // TODO: Helper http Handler for serving actor's followers
 // TODO: Helper http Handler for serving actor's following
 
+// TODO: Helper for sending arbitrary ActivityPub objects.
+
 // TODO: Authorization client-to-server.
 // TODO: Authenticate server-to-server deliveries.
 
@@ -186,6 +188,7 @@ func (f *federator) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	if err = f.getPostInboxResolver(c).Deserialize(m); err != nil {
 		return true, err
 	}
+	// TODO: Add to inbox collection
 	// TODO: 7.1.2 Inbox forwarding
 	w.WriteHeader(http.StatusOK)
 	return true, nil
@@ -283,6 +286,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 			return true, err
 		}
 	}
+	// TODO: Add to outbox collection
 	w.Header().Set("Location", newId.String())
 	w.WriteHeader(http.StatusCreated)
 	return true, nil
@@ -573,7 +577,7 @@ func (f *federator) handleClientAdd(c context.Context, deliverable *bool) func(s
 		}
 		var targets []vocab.ObjectType
 		for _, id := range ids {
-			if !f.SocialApp.Owns(c, id) {
+			if !f.App.Owns(c, id) {
 				continue
 			}
 			target, err := f.App.Get(c, id)
@@ -637,7 +641,7 @@ func (f *federator) handleClientRemove(c context.Context, deliverable *bool) fun
 		}
 		var targets []vocab.ObjectType
 		for _, id := range ids {
-			if !f.SocialApp.Owns(c, id) {
+			if !f.App.Owns(c, id) {
 				continue
 			}
 			target, err := f.App.Get(c, id)
@@ -684,7 +688,29 @@ func (f *federator) handleClientLike(ctx context.Context, deliverable *bool) fun
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		if err := f.addToAllActorLikedCollection(ctx, s.Raw()); err != nil {
+		getter := func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error {
+			if actor.IsLikedAnyURI() {
+				pObj, err := f.App.Get(ctx, actor.GetLikedAnyURI())
+				if err != nil {
+					return err
+				}
+				ok := false
+				if *lc, ok = pObj.(vocab.CollectionType); !ok {
+					if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
+						return fmt.Errorf("actors liked collection not CollectionType nor OrderedCollectionType")
+					}
+				}
+				return nil
+			} else if actor.IsLikedCollection() {
+				*lc = actor.GetLikedCollection()
+				return nil
+			} else if actor.IsLikedOrderedCollection() {
+				*loc = actor.GetLikedOrderedCollection()
+				return nil
+			}
+			return fmt.Errorf("cannot determine type of actor liked")
+		}
+		if err := f.addAllObjectsToActorCollection(ctx, getter, s.Raw()); err != nil {
 			return err
 		}
 		return f.ClientCallbacker.Like(ctx, s)
@@ -821,7 +847,32 @@ func (f *federator) handleFollow(c context.Context) func(s *streams.Follow) erro
 				return err
 			}
 			if todo == AutomaticAccept {
-				// TODO: Add to followers collection.
+				getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error {
+					if object.IsFollowersAnyURI() {
+						pObj, err := f.App.Get(c, object.GetFollowersAnyURI())
+						if err != nil {
+							return err
+						}
+						ok := false
+						if *lc, ok = pObj.(vocab.CollectionType); !ok {
+							if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
+								return fmt.Errorf("object followers collection not CollectionType nor OrderedCollectionType")
+							}
+						}
+						return nil
+					} else if object.IsFollowersCollection() {
+						*lc = object.GetFollowersCollection()
+						return nil
+					} else if object.IsFollowersOrderedCollection() {
+						*loc = object.GetFollowersOrderedCollection()
+						return nil
+					}
+					return fmt.Errorf("cannot determine type of object followers")
+				}
+				// TODO: Deduplication detection.
+				if err := f.addAllActorsToObjectCollection(c, getter, raw); err != nil {
+					return err
+				}
 			}
 		}
 		return f.ServerCallbacker.Follow(c, s)
@@ -841,38 +892,31 @@ func (f *federator) handleAccept(c context.Context) func(s *streams.Accept) erro
 				if !ok {
 					continue
 				}
-				for j := 0; j < follow.ActorLen(); j++ {
-					var iri url.URL
-					if follow.IsActorObject(j) {
-						actor := follow.GetActorObject(j)
-						if !actor.HasId() {
-							return fmt.Errorf("actor object on follow must have id")
+				getter := func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error {
+					if actor.IsFollowingAnyURI() {
+						pObj, err := f.App.Get(c, actor.GetFollowingAnyURI())
+						if err != nil {
+							return err
 						}
-						iri = actor.GetId()
-					} else if follow.IsActorLink(j) {
-						l := follow.GetActorLink(j)
-						if !l.HasHref() {
-							return fmt.Errorf("actor link on follow must have href")
+						ok := false
+						if *lc, ok = pObj.(vocab.CollectionType); !ok {
+							if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
+								return fmt.Errorf("actors following collection not CollectionType nor OrderedCollectionType")
+							}
 						}
-						iri = l.GetHref()
-					} else if follow.IsActorIRI(j) {
-						iri = follow.GetActorIRI(j)
+						return nil
+					} else if actor.IsFollowingCollection() {
+						*lc = actor.GetFollowingCollection()
+						return nil
+					} else if actor.IsFollowingOrderedCollection() {
+						*loc = actor.GetFollowingOrderedCollection()
+						return nil
 					}
-					following, err := f.FederateApp.GetFollowing(c, iri)
-					if err != nil {
-						return err
-					}
-					// TODO: Deduplication detection.
-					for k := 0; k < raw.ActorLen(); k++ {
-						if raw.IsActorObject(k) {
-							following.AddItemsObject(raw.GetActorObject(k))
-						} else if raw.IsActorLink(k) {
-							following.AddItemsLink(raw.GetActorLink(k))
-						} else if raw.IsActorIRI(k) {
-							following.AddItemsIRI(raw.GetActorIRI(k))
-						}
-					}
-					f.App.Set(c, following)
+					return fmt.Errorf("cannot determine type of actor following")
+				}
+				// TODO: Deduplication detection.
+				if err := f.addAllObjectsToActorCollection(c, getter, follow); err != nil {
+					return err
 				}
 			}
 		}
@@ -914,7 +958,7 @@ func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 		}
 		var targets []vocab.ObjectType
 		for _, id := range ids {
-			if !f.FederateApp.Owns(c, id) {
+			if !f.App.Owns(c, id) {
 				continue
 			}
 			target, err := f.App.Get(c, id)
@@ -979,7 +1023,7 @@ func (f *federator) handleRemove(c context.Context) func(s *streams.Remove) erro
 		}
 		var targets []vocab.ObjectType
 		for _, id := range ids {
-			if !f.FederateApp.Owns(c, id) {
+			if !f.App.Owns(c, id) {
 				continue
 			}
 			target, err := f.App.Get(c, id)
@@ -1022,7 +1066,29 @@ func (f *federator) handleRemove(c context.Context) func(s *streams.Remove) erro
 
 func (f *federator) handleLike(c context.Context) func(s *streams.Like) error {
 	return func(s *streams.Like) error {
-		if err := f.addToAllLikesCollections(c, s.Raw()); err != nil {
+		getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error {
+			if object.IsLikesAnyURI() {
+				pObj, err := f.App.Get(c, object.GetLikesAnyURI())
+				if err != nil {
+					return err
+				}
+				ok := false
+				if *lc, ok = pObj.(vocab.CollectionType); !ok {
+					if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
+						return fmt.Errorf("object likes collection not CollectionType nor OrderedCollectionType")
+					}
+				}
+				return nil
+			} else if object.IsLikesCollection() {
+				*lc = object.GetLikesCollection()
+				return nil
+			} else if object.IsLikesOrderedCollection() {
+				*loc = object.GetLikesOrderedCollection()
+				return nil
+			}
+			return fmt.Errorf("cannot determine type of object likes")
+		}
+		if err := f.addAllActorsToObjectCollection(c, getter, s.Raw()); err != nil {
 			return err
 		}
 		return f.ServerCallbacker.Like(c, s)

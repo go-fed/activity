@@ -37,6 +37,8 @@ type HttpClient interface {
 // modification, allowing implementations to pass-through request-scoped data in
 // order to properly handle the request.
 type Application interface {
+	// Owns returns true if the provided id is owned by this server.
+	Owns(c context.Context, id url.URL) bool
 	// Get fetches the ActivityStream representation of the given id.
 	Get(c context.Context, id url.URL) (PubObject, error)
 	// Set should write or overwrite the value of the provided object for
@@ -65,8 +67,6 @@ type Application interface {
 // SocialApp is provided by users of this library and designed to handle
 // receiving messages from ActivityPub clients through the Social API.
 type SocialApp interface {
-	// Owns returns true if the provided id is owned by this server.
-	Owns(c context.Context, id url.URL) bool
 	// CanAdd returns true if the provided object is allowed to be added to
 	// the given target collection.
 	CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
@@ -78,8 +78,6 @@ type SocialApp interface {
 // FederateApp is provided by users of this library and designed to handle
 // receiving messages from ActivityPub servers through the Federative API.
 type FederateApp interface {
-	// Owns returns true if the provided id is owned by this server.
-	Owns(c context.Context, id url.URL) bool
 	// CanAdd returns true if the provided object is allowed to be added to
 	// the given target collection.
 	CanAdd(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
@@ -87,7 +85,8 @@ type FederateApp interface {
 	// the given target collection.
 	CanRemove(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
 	// OnFollow determines whether to take any automatic reactions in
-	// response to this follow.
+	// response to this follow. Note that this method must check ownership
+	// to automatically Accept the Follow.
 	OnFollow(c context.Context, s *streams.Follow) FollowResponse
 	// Unblocked should return an error if the provided actor ids are not
 	// able to interact with this particular end user due to being blocked
@@ -97,11 +96,6 @@ type FederateApp interface {
 	// If nil error is returned, then the received activity is processed as
 	// a normal unblocked interaction.
 	Unblocked(c context.Context, actorIRIs []url.URL) error
-	// GetFollowing returns the 'following' collection for the given actor
-	// IRI. It must be a CollectionType; this library does not support an
-	// OrderedCollectionType, as then it would have to be in reverse
-	// chronological order.
-	GetFollowing(c context.Context, actor url.URL) (vocab.CollectionType, error)
 }
 
 // FollowResponse instructs how to proceed upon immediately receiving a request
@@ -200,15 +194,21 @@ type typeIder interface {
 // actor is an object that is an ActivityPub Actor. The specification is more
 // strict than what we include here, only for our internal use.
 type actor interface {
-	HasInbox() (ok bool)
-	GetInbox() (v url.URL)
+	IsInboxAnyURI() (ok bool)
+	GetInboxAnyURI() (v url.URL)
+	IsInboxOrderedCollection() (ok bool)
+	GetInboxOrderedCollection() (v vocab.OrderedCollectionType)
 }
+
+var _ actor = &vocab.Object{}
 
 // actorObject is an object that has "actor" or "attributedTo" properties,
 // representing the author or originator of the object.
 type actorObject interface {
-	HasInbox() (ok bool)
-	GetInbox() (v url.URL)
+	IsInboxAnyURI() (ok bool)
+	GetInboxAnyURI() (v url.URL)
+	IsInboxOrderedCollection() (ok bool)
+	GetInboxOrderedCollection() (v vocab.OrderedCollectionType)
 	AttributedToLen() (l int)
 	IsAttributedToObject(index int) (ok bool)
 	GetAttributedToObject(index int) (v vocab.ObjectType)
