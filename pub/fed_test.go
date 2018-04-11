@@ -55,6 +55,7 @@ var (
 	testFollow                  *vocab.Follow
 	testAcceptNote              *vocab.Accept
 	testAcceptFollow            *vocab.Accept
+	testRejectFollow            *vocab.Reject
 )
 
 func init() {
@@ -169,6 +170,11 @@ func init() {
 	testAcceptFollow.AddActorObject(samActor)
 	testAcceptFollow.AddObject(testFollow)
 	testAcceptFollow.AddToObject(sallyActor)
+	testRejectFollow = &vocab.Reject{}
+	testRejectFollow.SetId(*noteActivityIRI)
+	testRejectFollow.AddActorObject(samActor)
+	testRejectFollow.AddObject(testFollow)
+	testRejectFollow.AddToObject(sallyActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -1800,7 +1806,29 @@ func TestPostInbox_Accept_CallsCallback(t *testing.T) {
 }
 
 func TestPostInbox_Reject_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	_, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRejectFollow))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotCallback := 0
+	var gotCallbackObject *streams.Reject
+	fedCb.reject = func(c context.Context, s *streams.Reject) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testRejectFollow); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostInbox_Add_RequireObject(t *testing.T) {
