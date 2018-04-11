@@ -1671,16 +1671,132 @@ func TestPostInbox_Accept_DoesNothingIfNotAcceptingFollow(t *testing.T) {
 	}
 }
 
+// TODO: Test follower OrderedCollection & IRI.
 func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotOwns := 0
+	var ownsIRI url.URL
+	app.owns = func(c context.Context, id url.URL) bool {
+		gotOwns++
+		ownsIRI = id
+		return true
+	}
+	gotGet := 0
+	var getIRI url.URL
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		gotGet++
+		getIRI = id
+		sallyActor := &vocab.Person{}
+		sallyActor.SetInboxAnyURI(*sallyIRIInbox)
+		sallyActor.SetId(*sallyIRI)
+		sallyActor.SetFollowingCollection(&vocab.Collection{})
+		return sallyActor, nil
+	}
+	gotSet := 0
+	var setObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		setObject = o
+		return nil
+	}
+	fedCb.accept = func(c context.Context, s *streams.Accept) error {
+		return nil
+	}
+	expectedFollowing := &vocab.Collection{}
+	expectedFollowing.AddItemsObject(samActor)
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if ownsIRI.String() != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, ownsIRI.String())
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if getIRI.String() != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, getIRI.String())
+	} else if gotSet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if err := PubObjectEquals(setObject, expectedFollowing); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestPostInbox_Accept_DoesNothingIfNotOwned(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotOwns := 0
+	var ownsIRI url.URL
+	app.owns = func(c context.Context, id url.URL) bool {
+		gotOwns++
+		ownsIRI = id
+		return false
+	}
+	fedCb.accept = func(c context.Context, s *streams.Accept) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if ownsIRI.String() != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, ownsIRI.String())
+	}
 }
 
 func TestPostInbox_Accept_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	app.owns = func(c context.Context, id url.URL) bool {
+		return true
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		sallyActor := &vocab.Person{}
+		sallyActor.SetInboxAnyURI(*sallyIRIInbox)
+		sallyActor.SetId(*sallyIRI)
+		sallyActor.SetFollowingCollection(&vocab.Collection{})
+		return sallyActor, nil
+	}
+	app.set = func(c context.Context, o PubObject) error {
+		return nil
+	}
+	gotCallback := 0
+	var gotCallbackObject *streams.Accept
+	fedCb.accept = func(c context.Context, s *streams.Accept) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	expectedFollowing := &vocab.Collection{}
+	expectedFollowing.AddItemsObject(samActor)
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testAcceptFollow); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostInbox_Reject_CallsCallback(t *testing.T) {
