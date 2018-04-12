@@ -15,8 +15,8 @@ import (
 var (
 	// ErrObjectRequired means the activity needs its object property set.
 	ErrObjectRequired = errors.New("object property required")
-	// ErrTypeRequired means the activity needs its type property set.
-	ErrTypeRequired = errors.New("type property required")
+	// ErrTargetRequired means the activity needs its target property set.
+	ErrTargetRequired = errors.New("target property required")
 )
 
 // TODO: Helper http Handler for serving ActivityStream objects
@@ -43,7 +43,7 @@ type Pubber interface {
 	// the request as an ActivityPub request. If it returns an error, it is up to
 	// the client to determine how to respond via HTTP.
 	//
-	// Note that the error could be ErrObjectRequired or ErrTypeRequired.
+	// Note that the error could be ErrObjectRequired or ErrTargetRequired.
 	PostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
 	GetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
 }
@@ -559,8 +559,8 @@ func (f *federator) handleClientAdd(c context.Context, deliverable *bool) func(s
 		*deliverable = true
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
-		} else if s.LenType() == 0 {
-			return ErrTypeRequired
+		} else if s.LenTarget() == 0 {
+			return ErrTargetRequired
 		}
 		raw := s.Raw()
 		ids, err := getTargetIds(raw)
@@ -623,8 +623,8 @@ func (f *federator) handleClientRemove(c context.Context, deliverable *bool) fun
 		*deliverable = true
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
-		} else if s.LenType() == 0 {
-			return ErrTypeRequired
+		} else if s.LenTarget() == 0 {
+			return ErrTargetRequired
 		}
 		raw := s.Raw()
 		ids, err := getTargetIds(raw)
@@ -750,6 +750,7 @@ func (f *federator) getPostInboxResolver(c context.Context) *streams.Resolver {
 		RemoveCallback: f.handleRemove(c),
 		LikeCallback:   f.handleLike(c),
 		UndoCallback:   f.handleUndo(c),
+		BlockCallback:  f.handleBlock(c),
 		// TODO: Extended activity types, such as Announce, Arrive, etc.
 	}
 }
@@ -758,6 +759,9 @@ func (f *federator) handleCreate(c context.Context) func(s *streams.Create) erro
 	return func(s *streams.Create) error {
 		// Create requires the client application to persist the 'object' that
 		// was created.
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
 		raw := s.Raw()
 		for i := 0; i < raw.ObjectLen(); i++ {
 			if !raw.IsObject(i) {
@@ -777,6 +781,9 @@ func (f *federator) handleUpdate(c context.Context) func(s *streams.Update) erro
 	return func(s *streams.Update) error {
 		// TODO: The receiving server MUST take care to be sure that the Update
 		// is authorized to modify its object.
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
 		raw := s.Raw()
 		for i := 0; i < raw.ObjectLen(); i++ {
 			if !raw.IsObject(i) {
@@ -796,6 +803,9 @@ func (f *federator) handleDelete(c context.Context) func(s *streams.Delete) erro
 	return func(s *streams.Delete) error {
 		// TODO: Verify ownership. I think the spec unintentionally suggests to
 		// just assume it is owned, so we will actually verify.
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
 		ids, err := getObjectIds(s.Raw())
 		if err != nil {
 			return err
@@ -824,6 +834,9 @@ func (f *federator) handleFollow(c context.Context) func(s *streams.Follow) erro
 	return func(s *streams.Follow) error {
 		// Permit either human-triggered or automatically triggering
 		// 'Accept'/'Reject'.
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
 		todo := f.FederateApp.OnFollow(c, s)
 		if todo != DoNothing {
 			var activity vocab.ActivityType
@@ -940,8 +953,8 @@ func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 		// 'object' to a specific 'target' collection.
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
-		} else if s.LenType() == 0 {
-			return ErrTypeRequired
+		} else if s.LenTarget() == 0 {
+			return ErrTargetRequired
 		}
 		raw := s.Raw()
 		ids, err := getTargetIds(raw)
@@ -1005,8 +1018,8 @@ func (f *federator) handleRemove(c context.Context) func(s *streams.Remove) erro
 		// an 'object' from a specific 'target' collection.
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
-		} else if s.LenType() == 0 {
-			return ErrTypeRequired
+		} else if s.LenTarget() == 0 {
+			return ErrTargetRequired
 		}
 		raw := s.Raw()
 		ids, err := getTargetIds(raw)
@@ -1066,6 +1079,9 @@ func (f *federator) handleRemove(c context.Context) func(s *streams.Remove) erro
 
 func (f *federator) handleLike(c context.Context) func(s *streams.Like) error {
 	return func(s *streams.Like) error {
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
 		getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error {
 			if object.IsLikesAnyURI() {
 				pObj, err := f.App.Get(c, object.GetLikesAnyURI())
@@ -1102,6 +1118,21 @@ func (f *federator) handleUndo(c context.Context) func(s *streams.Undo) error {
 		// application is responsible for enforcing this. Note that 'Undo'-ing
 		// is not a deletion of a previous Activity, but the addition of its
 		// opposite.
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
 		return f.ServerCallbacker.Undo(c, s)
+	}
+}
+
+func (f *federator) handleBlock(c context.Context) func(s *streams.Block) error {
+	// Servers SHOULD NOT deliver Block Activities to their object. So in
+	// this case we will explicitly ignore it, but validate it as if we
+	// were to accept it.
+	return func(s *streams.Block) error {
+		if s.LenObject() == 0 {
+			return ErrObjectRequired
+		}
+		return nil
 	}
 }

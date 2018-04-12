@@ -1112,6 +1112,166 @@ func TestPostInbox_HandlesBlocked(t *testing.T) {
 	}
 }
 
+func TestPostInbox_RequiresObject(t *testing.T) {
+	tests := []struct {
+		name  string
+		input func() vocab.Serializer
+	}{
+		{
+			name: "create",
+			input: func() vocab.Serializer {
+				v := &vocab.Create{}
+				v.SetId(*noteActivityIRI)
+				v.AddSummaryString("Sally created a note")
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+		{
+			name: "update",
+			input: func() vocab.Serializer {
+				v := &vocab.Update{}
+				v.SetId(*noteActivityIRI)
+				v.AddSummaryString("Sally updated a note")
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+		{
+			name: "delete",
+			input: func() vocab.Serializer {
+				v := &vocab.Delete{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+		{
+			name: "follow",
+			input: func() vocab.Serializer {
+				v := &vocab.Follow{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+		{
+			name: "add",
+			input: func() vocab.Serializer {
+				v := &vocab.Add{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				v.AddTargetObject(testNote)
+				return v
+			},
+		},
+		{
+			name: "remove",
+			input: func() vocab.Serializer {
+				v := &vocab.Remove{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				v.AddTargetObject(testNote)
+				return v
+			},
+		},
+		{
+			name: "like",
+			input: func() vocab.Serializer {
+				v := &vocab.Like{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+		{
+			name: "block",
+			input: func() vocab.Serializer {
+				v := &vocab.Block{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+		{
+			name: "undo",
+			input: func() vocab.Serializer {
+				v := &vocab.Undo{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+	}
+	_, _, fedApp, _, _, _, _, p := NewPubberTest(t)
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	for _, test := range tests {
+		resp := httptest.NewRecorder()
+		req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
+		handled, err := p.PostInbox(context.Background(), resp, req)
+		if err != ErrObjectRequired {
+			t.Fatalf("(%s) expected %s, got %s", test.name, ErrObjectRequired, err)
+		} else if !handled {
+			t.Fatalf("(%s) expected handled, got !handled", test.name)
+		}
+	}
+}
+
+func TestPostInbox_RequiresTarget(t *testing.T) {
+	tests := []struct {
+		name  string
+		input func() vocab.Serializer
+	}{
+		{
+			name: "add",
+			input: func() vocab.Serializer {
+				v := &vocab.Add{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				v.AddObject(testNote)
+				return v
+			},
+		},
+		{
+			name: "remove",
+			input: func() vocab.Serializer {
+				v := &vocab.Remove{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				v.AddObject(testNote)
+				return v
+			},
+		},
+	}
+	_, _, fedApp, _, _, _, _, p := NewPubberTest(t)
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	for _, test := range tests {
+		resp := httptest.NewRecorder()
+		req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
+		handled, err := p.PostInbox(context.Background(), resp, req)
+		if err != ErrTargetRequired {
+			t.Fatalf("(%s) expected %s, got %s", test.name, ErrTargetRequired, err)
+		} else if !handled {
+			t.Fatalf("(%s) expected handled, got !handled", test.name)
+		}
+	}
+}
+
 func TestPostInbox_Create_SetsObject(t *testing.T) {
 	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
@@ -1831,14 +1991,6 @@ func TestPostInbox_Reject_CallsCallback(t *testing.T) {
 	}
 }
 
-func TestPostInbox_Add_RequireObject(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostInbox_Add_RequireType(t *testing.T) {
-	// TODO: Implement
-}
-
 func TestPostInbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 	// TODO: Implement
 }
@@ -1860,14 +2012,6 @@ func TestPostInbox_Add_SetsTarget(t *testing.T) {
 }
 
 func TestPostInbox_Add_CallsCallback(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostInbox_Remove_RequireObject(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostInbox_Remove_RequireType(t *testing.T) {
 	// TODO: Implement
 }
 
@@ -2023,7 +2167,7 @@ func TestPostOutbox_Add_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func TestPostOutbox_Add_RequireType(t *testing.T) {
+func TestPostOutbox_Add_RequireTarget(t *testing.T) {
 	// TODO: Implement
 }
 
@@ -2059,7 +2203,7 @@ func TestPostOutbox_Remove_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func TestPostOutbox_Remove_RequireType(t *testing.T) {
+func TestPostOutbox_Remove_RequireTarget(t *testing.T) {
 	// TODO: Implement
 }
 
@@ -2095,7 +2239,7 @@ func TestPostOutbox_Like_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
-func TestPostOutbox_Like_RequireType(t *testing.T) {
+func TestPostOutbox_Like_RequireTarget(t *testing.T) {
 	// TODO: Implement
 }
 
