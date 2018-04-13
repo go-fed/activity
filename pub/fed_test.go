@@ -56,6 +56,7 @@ var (
 	testAcceptNote              *vocab.Accept
 	testAcceptFollow            *vocab.Accept
 	testRejectFollow            *vocab.Reject
+	testAddNote                 *vocab.Add
 )
 
 func init() {
@@ -175,6 +176,12 @@ func init() {
 	testRejectFollow.AddActorObject(samActor)
 	testRejectFollow.AddObject(testFollow)
 	testRejectFollow.AddToObject(sallyActor)
+	testAddNote = &vocab.Add{}
+	testAddNote.SetId(*noteActivityIRI)
+	testAddNote.AddActorObject(sallyActor)
+	testAddNote.AddObject(testNote)
+	testAddNote.AddTargetIRI(*iri)
+	testAddNote.AddToObject(samActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -230,6 +237,18 @@ func PubObjectEquals(p PubObject, s vocab.Serializer) error {
 		return err
 	}
 	return VocabEqualsContext(bytes.NewBuffer(b), s, false)
+}
+
+func VocabSerializerEquals(i, j vocab.Serializer) error {
+	m, err := i.Serialize()
+	if err != nil {
+		return err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return err
+	}
+	return VocabEqualsContext(bytes.NewBuffer(b), j, false)
 }
 
 func VocabEquals(b *bytes.Buffer, s vocab.Serializer) error {
@@ -1992,27 +2011,202 @@ func TestPostInbox_Reject_CallsCallback(t *testing.T) {
 }
 
 func TestPostInbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotOwns := 0
+	var gotOwnsId url.URL
+	app.owns = func(c context.Context, id url.URL) bool {
+		gotOwns++
+		gotOwnsId = id
+		return false
+	}
+	fedCb.add = func(c context.Context, s *streams.Add) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.Collection{}
+	expected.AddItemsObject(testNote)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if gotOwnsId.String() != iriString {
+		t.Fatalf("expected %s, got %s", iriString, gotOwnsId.String())
+	}
 }
 
-func TestPostInbox_Add_AddIfTargetOwned(t *testing.T) {
-	// TODO: Implement
+func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotOwns := 0
+	var gotOwnsId url.URL
+	app.owns = func(c context.Context, id url.URL) bool {
+		gotOwns++
+		gotOwnsId = id
+		return true
+	}
+	gotGet := 0
+	var gotGetId url.URL
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		gotGet++
+		gotGetId = id
+		v := &vocab.Collection{}
+		return v, nil
+	}
+	gotCanAdd := 0
+	var gotCanAddObject vocab.ObjectType
+	var gotCanAddTarget vocab.ObjectType
+	fedApp.canAdd = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+		gotCanAdd++
+		gotCanAddObject = o
+		gotCanAddTarget = t
+		return true
+	}
+	gotSet := 0
+	var gotSetTarget PubObject
+	app.set = func(c context.Context, target PubObject) error {
+		gotSet++
+		gotSetTarget = target
+		return nil
+	}
+	fedCb.add = func(c context.Context, s *streams.Add) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.Collection{}
+	expected.AddItemsObject(testNote)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if gotOwnsId.String() != iriString {
+		t.Fatalf("expected %s, got %s", iriString, gotOwnsId.String())
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotGetId.String() != iriString {
+		t.Fatalf("expected %s, got %s", iriString, gotGetId.String())
+	} else if gotCanAdd != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCanAdd)
+	} else if err := VocabSerializerEquals(gotCanAddObject, testNote); err != nil {
+		t.Fatal(err)
+	} else if err := VocabSerializerEquals(gotCanAddTarget, expected); err != nil {
+		t.Fatal(err)
+	} else if gotSet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if err := PubObjectEquals(gotSetTarget, expected); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestPostInbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostInbox_Add_AddIfAppCanAdd(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostInbox_Add_SetsTarget(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotOwns := 0
+	var gotOwnsId url.URL
+	app.owns = func(c context.Context, id url.URL) bool {
+		gotOwns++
+		gotOwnsId = id
+		return true
+	}
+	gotGet := 0
+	var gotGetId url.URL
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		gotGet++
+		gotGetId = id
+		v := &vocab.Collection{}
+		return v, nil
+	}
+	gotCanAdd := 0
+	var gotCanAddObject vocab.ObjectType
+	var gotCanAddTarget vocab.ObjectType
+	fedApp.canAdd = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+		gotCanAdd++
+		gotCanAddObject = o
+		gotCanAddTarget = t
+		return false
+	}
+	fedCb.add = func(c context.Context, s *streams.Add) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.Collection{}
+	expected.AddItemsObject(testNote)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if gotOwnsId.String() != iriString {
+		t.Fatalf("expected %s, got %s", iriString, gotOwnsId.String())
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotGetId.String() != iriString {
+		t.Fatalf("expected %s, got %s", iriString, gotGetId.String())
+	} else if gotCanAdd != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCanAdd)
+	} else if err := VocabSerializerEquals(gotCanAddObject, testNote); err != nil {
+		t.Fatal(err)
+	} else if err := VocabSerializerEquals(gotCanAddTarget, &vocab.Collection{}); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestPostInbox_Add_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	app.owns = func(c context.Context, id url.URL) bool {
+		return true
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		v := &vocab.Collection{}
+		return v, nil
+	}
+	fedApp.canAdd = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+		return true
+	}
+	app.set = func(c context.Context, target PubObject) error {
+		return nil
+	}
+	gotCallback := 0
+	var gotCallbackObject *streams.Add
+	fedCb.add = func(c context.Context, s *streams.Add) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.Collection{}
+	expected.AddItemsObject(testNote)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testAddNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostInbox_Remove_DoesNotAddIfTargetNotOwned(t *testing.T) {

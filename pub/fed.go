@@ -13,6 +13,7 @@ import (
 )
 
 var (
+	// TODO: Just respond with an HTTP error, don't put onus on Application.
 	// ErrObjectRequired means the activity needs its object property set.
 	ErrObjectRequired = errors.New("object property required")
 	// ErrTargetRequired means the activity needs its target property set.
@@ -980,13 +981,12 @@ func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 			}
 			ct, okCollection := target.(vocab.CollectionType)
 			oct, okOrdered := target.(vocab.OrderedCollectionType)
-			if !okCollection && !okOrdered {
-				return fmt.Errorf("cannot add to type that is not Collection and not OrderedCollection: %v", target)
-			} else if okCollection {
+			if okCollection {
 				targets = append(targets, ct)
-			} else {
+			} else if okOrdered {
 				targets = append(targets, oct)
 			}
+			// else ignore non-collection, let Application handle.
 		}
 		for i := 0; i < raw.ObjectLen(); i++ {
 			if !raw.IsObject(i) {
