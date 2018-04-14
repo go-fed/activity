@@ -1117,6 +1117,7 @@ func (f *federator) handleUndo(c context.Context) func(s *streams.Undo) error {
 		// application is responsible for enforcing this. Note that 'Undo'-ing
 		// is not a deletion of a previous Activity, but the addition of its
 		// opposite.
+		// TODO: Enforce this
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}

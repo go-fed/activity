@@ -58,6 +58,8 @@ var (
 	testRejectFollow            *vocab.Reject
 	testAddNote                 *vocab.Add
 	testRemoveNote              *vocab.Remove
+	testLikeNote                *vocab.Like
+	testUndoLike                *vocab.Undo
 )
 
 func init() {
@@ -189,6 +191,16 @@ func init() {
 	testRemoveNote.AddObject(testNote)
 	testRemoveNote.AddTargetIRI(*iri)
 	testRemoveNote.AddToObject(samActor)
+	testLikeNote = &vocab.Like{}
+	testLikeNote.SetId(*noteActivityIRI)
+	testLikeNote.AddActorObject(sallyActor)
+	testLikeNote.AddObject(testNote)
+	testLikeNote.AddToObject(samActor)
+	testUndoLike = &vocab.Undo{}
+	testUndoLike.SetId(*noteActivityIRI)
+	testUndoLike.AddActorObject(sallyActor)
+	testUndoLike.AddObject(testLikeNote)
+	testUndoLike.AddToObject(samActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -2405,16 +2417,129 @@ func TestPostInbox_Remove_CallsCallback(t *testing.T) {
 	}
 }
 
+// TODO: Test likes OrderedCollection & IRI.
 func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotOwns := 0
+	var gotOwnsId url.URL
+	app.owns = func(c context.Context, id url.URL) bool {
+		gotOwns++
+		gotOwnsId = id
+		return true
+	}
+	gotGet := 0
+	var gotGetId url.URL
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		gotGet++
+		gotGetId = id
+		v := &vocab.Note{}
+		v.SetId(*noteIRI)
+		v.AddNameString(noteName)
+		v.AddContentString("This is a simple note")
+		v.SetLikesCollection(&vocab.Collection{})
+		return v, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.set = func(c context.Context, target PubObject) error {
+		gotSet++
+		gotSetObject = target
+		return nil
+	}
+	fedCb.like = func(c context.Context, s *streams.Like) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.Collection{}
+	expected.AddItemsObject(sallyActor)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if gotOwnsId.String() != noteURIString {
+		t.Fatalf("expected %s, got %s", noteURIString, gotOwnsId.String())
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotGetId.String() != noteURIString {
+		t.Fatalf("expected %s, got %s", noteURIString, gotGetId.String())
+	} else if gotSet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if err := PubObjectEquals(gotSetObject, expected); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostInbox_Like_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	app.owns = func(c context.Context, id url.URL) bool {
+		return true
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		v := &vocab.Note{}
+		v.SetId(*noteIRI)
+		v.AddNameString(noteName)
+		v.AddContentString("This is a simple note")
+		v.SetLikesCollection(&vocab.Collection{})
+		return v, nil
+	}
+	app.set = func(c context.Context, target PubObject) error {
+		return nil
+	}
+	gotCallback := 0
+	var gotCallbackObject *streams.Like
+	fedCb.like = func(c context.Context, s *streams.Like) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testLikeNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostInbox_Undo_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	_, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testUndoLike))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotCallback := 0
+	var gotCallbackObject *streams.Undo
+	fedCb.undo = func(c context.Context, s *streams.Undo) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testUndoLike); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestGetInbox_RejectNonActivityPub(t *testing.T) {
