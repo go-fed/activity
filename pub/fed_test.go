@@ -19,6 +19,7 @@ import (
 const (
 	iriString             = "https://example.com/something"
 	noteURIString         = "https://example.com/note/123"
+	updateURIString       = "https://example.com/note/update/123"
 	noteActivityURIString = "https://example.com/activity/987"
 	testAgent             = "test agent string"
 	testInboxURI          = "https://example.com/sally/inbox"
@@ -36,6 +37,7 @@ var (
 	iri                         *url.URL
 	noteIRI                     *url.URL
 	noteActivityIRI             *url.URL
+	updateActivityIRI           *url.URL
 	testNewIRI                  *url.URL
 	sallyIRI                    *url.URL
 	sallyIRIInbox               *url.URL
@@ -73,6 +75,10 @@ func init() {
 		panic(err)
 	}
 	noteActivityIRI, err = url.Parse(noteActivityURIString)
+	if err != nil {
+		panic(err)
+	}
+	updateActivityIRI, err = url.Parse(updateURIString)
 	if err != nil {
 		panic(err)
 	}
@@ -145,7 +151,7 @@ func init() {
 	testCreateNote.AddObject(testNote)
 	testCreateNote.AddToObject(samActor)
 	testUpdateNote = &vocab.Update{}
-	testUpdateNote.SetId(*noteActivityIRI)
+	testUpdateNote.SetId(*updateActivityIRI)
 	testUpdateNote.AddSummaryString("Sally updated a note")
 	testUpdateNote.AddActorObject(sallyActor)
 	testUpdateNote.AddObject(testNote)
@@ -2543,15 +2549,61 @@ func TestPostInbox_Undo_CallsCallback(t *testing.T) {
 }
 
 func TestGetInbox_RejectNonActivityPub(t *testing.T) {
-	// TODO: Implement
+	app, _, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := httptest.NewRequest("GET", testInboxURI, nil)
+	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		return &vocab.OrderedCollection{}, nil
+	}
+	handled, err := p.GetInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if handled {
+		t.Fatalf("expected !handled, got handled")
+	}
 }
 
 func TestGetInbox_SetsContentTypeHeader(t *testing.T) {
-	// TODO: Implement
+	app, _, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
+	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		return &vocab.OrderedCollection{}, nil
+	}
+	handled, err := p.GetInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if l := len(resp.HeaderMap["Content-Type"]); l != 1 {
+		t.Fatalf("expected %d, got %d", 1, l)
+	} else if h := resp.HeaderMap["Content-Type"][0]; h != responseContentTypeHeader {
+		t.Fatalf("expected %s, got %s", responseContentTypeHeader, h)
+	}
 }
 
 func TestGetInbox_DeduplicateInboxItems(t *testing.T) {
-	// TODO: Implement
+	app, _, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
+	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		v := &vocab.OrderedCollection{}
+		v.AddOrderedItemsObject(testCreateNote)
+		v.AddOrderedItemsObject(testCreateNote)
+		v.AddOrderedItemsObject(testUpdateNote)
+		return v, nil
+	}
+	handled, err := p.GetInbox(context.Background(), resp, req)
+	expected := &vocab.OrderedCollection{}
+	expected.AddOrderedItemsObject(testCreateNote)
+	expected.AddOrderedItemsObject(testUpdateNote)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if err := VocabEquals(resp.Body, expected); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostOutbox_RejectNonActivityPub(t *testing.T) {
