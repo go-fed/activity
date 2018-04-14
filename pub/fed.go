@@ -1045,13 +1045,12 @@ func (f *federator) handleRemove(c context.Context) func(s *streams.Remove) erro
 			}
 			ct, okCollection := target.(vocab.CollectionType)
 			oct, okOrdered := target.(vocab.OrderedCollectionType)
-			if !okCollection && !okOrdered {
-				return fmt.Errorf("cannot remove from type that is not Collection and not OrderedCollection: %v", target)
-			} else if okCollection {
+			if okCollection {
 				targets = append(targets, ct)
-			} else {
+			} else if okOrdered {
 				targets = append(targets, oct)
 			}
+			// else ignore non-collection, let Application handle.
 		}
 		for i := 0; i < raw.ObjectLen(); i++ {
 			if !raw.IsObject(i) {

@@ -57,6 +57,7 @@ var (
 	testAcceptFollow            *vocab.Accept
 	testRejectFollow            *vocab.Reject
 	testAddNote                 *vocab.Add
+	testRemoveNote              *vocab.Remove
 )
 
 func init() {
@@ -182,6 +183,12 @@ func init() {
 	testAddNote.AddObject(testNote)
 	testAddNote.AddTargetIRI(*iri)
 	testAddNote.AddToObject(samActor)
+	testRemoveNote = &vocab.Remove{}
+	testRemoveNote.SetId(*noteActivityIRI)
+	testRemoveNote.AddActorObject(sallyActor)
+	testRemoveNote.AddObject(testNote)
+	testRemoveNote.AddTargetIRI(*iri)
+	testRemoveNote.AddToObject(samActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -2028,8 +2035,6 @@ func TestPostInbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 		return nil
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
-	expected := &vocab.Collection{}
-	expected.AddItemsObject(testNote)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -2145,8 +2150,6 @@ func TestPostInbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 		return nil
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
-	expected := &vocab.Collection{}
-	expected.AddItemsObject(testNote)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -2196,8 +2199,6 @@ func TestPostInbox_Add_CallsCallback(t *testing.T) {
 		return nil
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
-	expected := &vocab.Collection{}
-	expected.AddItemsObject(testNote)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -2209,28 +2210,199 @@ func TestPostInbox_Add_CallsCallback(t *testing.T) {
 	}
 }
 
-func TestPostInbox_Remove_DoesNotAddIfTargetNotOwned(t *testing.T) {
-	// TODO: Implement
+func TestPostInbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotOwns := 0
+	var gotOwnsId url.URL
+	app.owns = func(c context.Context, id url.URL) bool {
+		gotOwns++
+		gotOwnsId = id
+		return false
+	}
+	fedCb.remove = func(c context.Context, s *streams.Remove) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if gotOwnsId.String() != iriString {
+		t.Fatalf("expected %s, got %s", iriString, gotOwnsId.String())
+	}
 }
 
-func TestPostInbox_Remove_AddIfTargetOwned(t *testing.T) {
-	// TODO: Implement
+func TestPostInbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotOwns := 0
+	var gotOwnsId url.URL
+	app.owns = func(c context.Context, id url.URL) bool {
+		gotOwns++
+		gotOwnsId = id
+		return true
+	}
+	gotGet := 0
+	var gotGetId url.URL
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		gotGet++
+		gotGetId = id
+		v := &vocab.Collection{}
+		v.AddItemsObject(testNote)
+		return v, nil
+	}
+	gotCanRemove := 0
+	var gotCanRemoveObject vocab.ObjectType
+	var gotCanRemoveTarget vocab.ObjectType
+	fedApp.canRemove = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+		gotCanRemove++
+		gotCanRemoveObject = o
+		gotCanRemoveTarget = t
+		return true
+	}
+	gotSet := 0
+	var gotSetTarget PubObject
+	app.set = func(c context.Context, target PubObject) error {
+		gotSet++
+		gotSetTarget = target
+		return nil
+	}
+	fedCb.remove = func(c context.Context, s *streams.Remove) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if gotOwnsId.String() != iriString {
+		t.Fatalf("expected %s, got %s", iriString, gotOwnsId.String())
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotGetId.String() != iriString {
+		t.Fatalf("expected %s, got %s", iriString, gotGetId.String())
+	} else if gotCanRemove != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCanRemove)
+	} else if err := VocabSerializerEquals(gotCanRemoveObject, testNote); err != nil {
+		t.Fatal(err)
+	} else if err := VocabSerializerEquals(gotCanRemoveTarget, &vocab.Collection{}); err != nil {
+		t.Fatal(err)
+	} else if gotSet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if err := PubObjectEquals(gotSetTarget, &vocab.Collection{}); err != nil {
+		t.Fatal(err)
+	}
 }
 
-func TestPostInbox_Remove_DoesNotAddIfAppCannotAdd(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostInbox_Remove_AddIfAppCanAdd(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostInbox_Remove_SetsTarget(t *testing.T) {
-	// TODO: Implement
+func TestPostInbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	gotOwns := 0
+	var gotOwnsId url.URL
+	app.owns = func(c context.Context, id url.URL) bool {
+		gotOwns++
+		gotOwnsId = id
+		return true
+	}
+	gotGet := 0
+	var gotGetId url.URL
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		gotGet++
+		gotGetId = id
+		v := &vocab.Collection{}
+		v.AddItemsObject(testNote)
+		return v, nil
+	}
+	gotCanRemove := 0
+	var gotCanRemoveObject vocab.ObjectType
+	var gotCanRemoveTarget vocab.ObjectType
+	fedApp.canRemove = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+		gotCanRemove++
+		gotCanRemoveObject = o
+		gotCanRemoveTarget = t
+		return false
+	}
+	fedCb.remove = func(c context.Context, s *streams.Remove) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.Collection{}
+	expected.AddItemsObject(testNote)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if gotOwnsId.String() != iriString {
+		t.Fatalf("expected %s, got %s", iriString, gotOwnsId.String())
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotGetId.String() != iriString {
+		t.Fatalf("expected %s, got %s", iriString, gotGetId.String())
+	} else if gotCanRemove != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCanRemove)
+	} else if err := VocabSerializerEquals(gotCanRemoveObject, testNote); err != nil {
+		t.Fatal(err)
+	} else if err := VocabSerializerEquals(gotCanRemoveTarget, expected); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestPostInbox_Remove_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	app.owns = func(c context.Context, id url.URL) bool {
+		return true
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		v := &vocab.Collection{}
+		return v, nil
+	}
+	fedApp.canRemove = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+		return true
+	}
+	app.set = func(c context.Context, target PubObject) error {
+		return nil
+	}
+	gotCallback := 0
+	var gotCallbackObject *streams.Remove
+	fedCb.remove = func(c context.Context, s *streams.Remove) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testRemoveNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
