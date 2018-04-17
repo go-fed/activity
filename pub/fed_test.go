@@ -2835,9 +2835,36 @@ func TestPostOutbox_SetsLocationHeader(t *testing.T) {
 }
 
 func TestGetOutbox_RejectNonActivityPub(t *testing.T) {
-	// TODO: Implement
+	app, _, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := httptest.NewRequest("GET", testOutboxURI, nil)
+	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		return &vocab.OrderedCollection{}, nil
+	}
+	handled, err := p.GetOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if handled {
+		t.Fatalf("expected !handled, got handled")
+	}
+
 }
 
 func TestGetOutbox_SetsContentTypeHeader(t *testing.T) {
-	// TODO: Implement
+	app, _, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("GET", testOutboxURI, nil))
+	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		return &vocab.OrderedCollection{}, nil
+	}
+	handled, err := p.GetOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if l := len(resp.HeaderMap["Content-Type"]); l != 1 {
+		t.Fatalf("expected %d, got %d", 1, l)
+	} else if h := resp.HeaderMap["Content-Type"][0]; h != responseContentTypeHeader {
+		t.Fatalf("expected %s, got %s", responseContentTypeHeader, h)
+	}
 }
