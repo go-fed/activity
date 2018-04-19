@@ -235,7 +235,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return true, nil
 	}
-	ok, err := f.App.PostOutboxAuthorized(c, r)
+	ok, err := f.SocialApp.PostOutboxAuthorized(c, r)
 	if err != nil {
 		return true, err
 	}
@@ -256,7 +256,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		return true, err
 	}
 	if !isActivityType(typer) {
-		actorIri, err := f.App.ActorIRI(c, r)
+		actorIri, err := f.SocialApp.ActorIRI(c, r)
 		if err != nil {
 			return true, err
 		}

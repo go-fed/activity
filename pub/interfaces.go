@@ -52,27 +52,27 @@ type Application interface {
 	// context. It is up to the implementation to provide the correct
 	// collection for the kind of authorization given in the request.
 	GetOutbox(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
-	// PostOutboxAuthorized determines whether the request is able to post
-	// an Activity to the outbox.
-	PostOutboxAuthorized(c context.Context, r *http.Request) (bool, error)
 	// NewId takes in a client id token and returns an ActivityStreams IRI
 	// id for a new Activity posted to the outbox. The object is provided
 	// as a Typer so clients can use it to decide how to generate the IRI.
 	NewId(c context.Context, t Typer) url.URL
-	// AddToOutboxResolver(c context.Context) (*streams.Resolver, error)
-	// ActorIRI returns the actor's IRI associated with the given request.
-	ActorIRI(c context.Context, r *http.Request) (url.URL, error)
 }
 
 // SocialApp is provided by users of this library and designed to handle
 // receiving messages from ActivityPub clients through the Social API.
 type SocialApp interface {
+	// PostOutboxAuthorized determines whether the request is able to post
+	// an Activity to the outbox.
+	PostOutboxAuthorized(c context.Context, r *http.Request) (bool, error)
 	// CanAdd returns true if the provided object is allowed to be added to
 	// the given target collection.
 	CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
 	// CanRemove returns true if the provided object is allowed to be
 	// removed from the given target collection.
 	CanRemove(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
+	// AddToOutboxResolver(c context.Context) (*streams.Resolver, error)
+	// ActorIRI returns the actor's IRI associated with the given request.
+	ActorIRI(c context.Context, r *http.Request) (url.URL, error)
 }
 
 // FederateApp is provided by users of this library and designed to handle

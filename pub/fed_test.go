@@ -325,15 +325,13 @@ func (m *MockClock) Now() time.Time {
 var _ Application = &MockApplication{}
 
 type MockApplication struct {
-	t                    *testing.T
-	owns                 func(c context.Context, id url.URL) bool
-	get                  func(c context.Context, id url.URL) (PubObject, error)
-	set                  func(c context.Context, o PubObject) error
-	getInbox             func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
-	getOutbox            func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
-	postOutboxAuthorized func(c context.Context, r *http.Request) (bool, error)
-	newId                func(c context.Context, t Typer) url.URL
-	actorIRI             func(c context.Context, r *http.Request) (url.URL, error)
+	t         *testing.T
+	owns      func(c context.Context, id url.URL) bool
+	get       func(c context.Context, id url.URL) (PubObject, error)
+	set       func(c context.Context, o PubObject) error
+	getInbox  func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
+	getOutbox func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
+	newId     func(c context.Context, t Typer) url.URL
 }
 
 func (m *MockApplication) Owns(c context.Context, id url.URL) bool {
@@ -371,13 +369,6 @@ func (m *MockApplication) GetOutbox(c context.Context, r *http.Request) (vocab.O
 	return m.getOutbox(c, r)
 }
 
-func (m *MockApplication) PostOutboxAuthorized(c context.Context, r *http.Request) (bool, error) {
-	if m.postOutboxAuthorized == nil {
-		m.t.Fatal("unexpected call to MockApplication PostOutboxAuthorized")
-	}
-	return m.postOutboxAuthorized(c, r)
-}
-
 func (m *MockApplication) NewId(c context.Context, t Typer) url.URL {
 	if m.newId == nil {
 		m.t.Fatal("unexpected call to MockApplication NewId")
@@ -385,19 +376,14 @@ func (m *MockApplication) NewId(c context.Context, t Typer) url.URL {
 	return m.newId(c, t)
 }
 
-func (m *MockApplication) ActorIRI(c context.Context, r *http.Request) (url.URL, error) {
-	if m.actorIRI == nil {
-		m.t.Fatal("unexpected call to MockApplication ActorIRI")
-	}
-	return m.actorIRI(c, r)
-}
-
 var _ SocialApp = &MockSocialApp{}
 
 type MockSocialApp struct {
-	t         *testing.T
-	canAdd    func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
-	canRemove func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
+	t                    *testing.T
+	canAdd               func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
+	canRemove            func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
+	postOutboxAuthorized func(c context.Context, r *http.Request) (bool, error)
+	actorIRI             func(c context.Context, r *http.Request) (url.URL, error)
 }
 
 func (m *MockSocialApp) CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
@@ -412,6 +398,20 @@ func (m *MockSocialApp) CanRemove(c context.Context, o vocab.ObjectType, t vocab
 		m.t.Fatal("unexpected call to MockSocialApp CanRemove")
 	}
 	return m.canRemove(c, o, t)
+}
+
+func (m *MockSocialApp) PostOutboxAuthorized(c context.Context, r *http.Request) (bool, error) {
+	if m.postOutboxAuthorized == nil {
+		m.t.Fatal("unexpected call to MockSocialApp PostOutboxAuthorized")
+	}
+	return m.postOutboxAuthorized(c, r)
+}
+
+func (m *MockSocialApp) ActorIRI(c context.Context, r *http.Request) (url.URL, error) {
+	if m.actorIRI == nil {
+		m.t.Fatal("unexpected call to MockSocialApp ActorIRI")
+	}
+	return m.actorIRI(c, r)
 }
 
 var _ Callbacker = &MockCallbacker{}
@@ -637,6 +637,53 @@ func NewPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSocialApp
 	return
 }
 
+func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
+	socialApp.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
+		return true, nil
+	}
+	app.newId = func(c context.Context, t Typer) url.URL {
+		return *testNewIRI
+	}
+	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		oc := &vocab.OrderedCollection{}
+		oc.AddType("OrderedCollection")
+		return oc, nil
+	}
+	app.set = func(c context.Context, o PubObject) error {
+		return nil
+	}
+	gotHttpDo := 0
+	h.do = func(req *http.Request) (*http.Response, error) {
+		gotHttpDo++
+		if gotHttpDo == 1 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(samActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 2 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(sallyActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 3 {
+			okResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
+			}
+			return okResp, nil
+		}
+		return nil, nil
+	}
+	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+		if err := toDo(b, u); err != nil {
+			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
+		}
+	}
+	return
+}
+
 func TestSocialPubber_RejectPostInbox(t *testing.T) {
 	_, _, _, p := NewSocialPubberTest(t)
 	resp := httptest.NewRecorder()
@@ -679,11 +726,11 @@ func TestSocialPubber_GetInbox(t *testing.T) {
 }
 
 func TestSocialPubber_PostOutbox(t *testing.T) {
-	app, _, cb, p := NewSocialPubberTest(t)
+	app, socialApp, cb, p := NewSocialPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
 	gotPostOutboxAuthorized := 0
-	app.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
+	socialApp.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
 		gotPostOutboxAuthorized++
 		return true, nil
 	}
@@ -965,11 +1012,11 @@ func TestPubber_GetInbox(t *testing.T) {
 }
 
 func TestPubber_PostOutbox(t *testing.T) {
-	app, _, _, socialCb, _, d, httpClient, p := NewPubberTest(t)
+	app, socialApp, _, socialCb, _, d, httpClient, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
 	gotPostOutboxAuthorized := 0
-	app.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
+	socialApp.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
 		gotPostOutboxAuthorized++
 		return true, nil
 	}
@@ -2607,19 +2654,241 @@ func TestGetInbox_DeduplicateInboxItems(t *testing.T) {
 }
 
 func TestPostOutbox_RejectNonActivityPub(t *testing.T) {
-	// TODO: Implement
+	_, _, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if handled {
+		t.Fatalf("expected !handled, got handled")
+	}
 }
 
 func TestPostOutbox_RejectUnauthorized(t *testing.T) {
-	// TODO: Implement
+	_, socialApp, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	gotUnauthorized := 0
+	socialApp.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
+		gotUnauthorized++
+		return false, nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotUnauthorized != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotUnauthorized)
+	} else if resp.Code != http.StatusForbidden {
+		t.Fatalf("expected %d, got %d", http.StatusForbidden, resp.Code)
+	}
 }
 
 func TestPostOutbox_WrapInCreateActivity(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	// Raw Note
+	rawNote := &vocab.Note{}
+	rawNote.SetId(*noteIRI)
+	rawNote.AddNameString(noteName)
+	rawNote.AddContentString("This is a simple note")
+	rawNote.AddToObject(samActor)
+	// Expected result
+	expectedNote := &vocab.Note{}
+	expectedNote.SetId(*noteIRI)
+	expectedNote.AddNameString(noteName)
+	expectedNote.AddContentString("This is a simple note")
+	expectedNote.AddToObject(samActor)
+	expectedNote.AddAttributedToIRI(*sallyIRI)
+	expectedCreate := &vocab.Create{}
+	expectedCreate.SetId(*testNewIRI)
+	expectedCreate.AddActorIRI(*sallyIRI)
+	expectedCreate.AddObject(expectedNote)
+	expectedCreate.AddToObject(samActor)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(rawNote))))
+	gotActorIRI := 0
+	socialApp.actorIRI = func(c context.Context, r *http.Request) (url.URL, error) {
+		gotActorIRI++
+		return *sallyIRI, nil
+	}
+	gotCallback := 0
+	var gotCallbackObject *streams.Create
+	socialCb.create = func(c context.Context, s *streams.Create) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotActorIRI != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotActorIRI)
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), expectedCreate); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
-func TestPostOutbox_Create_RequireObject(t *testing.T) {
-	// TODO: Implement
+func TestPostOutbox_RequiresObject(t *testing.T) {
+	tests := []struct {
+		name  string
+		input func() vocab.Serializer
+	}{
+		{
+			name: "create",
+			input: func() vocab.Serializer {
+				v := &vocab.Create{}
+				v.SetId(*noteActivityIRI)
+				v.AddSummaryString("Sally created a note")
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+		{
+			name: "update",
+			input: func() vocab.Serializer {
+				v := &vocab.Update{}
+				v.SetId(*noteActivityIRI)
+				v.AddSummaryString("Sally updated a note")
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+		{
+			name: "delete",
+			input: func() vocab.Serializer {
+				v := &vocab.Delete{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+		{
+			name: "follow",
+			input: func() vocab.Serializer {
+				v := &vocab.Follow{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+		{
+			name: "add",
+			input: func() vocab.Serializer {
+				v := &vocab.Add{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				v.AddTargetObject(testNote)
+				return v
+			},
+		},
+		{
+			name: "remove",
+			input: func() vocab.Serializer {
+				v := &vocab.Remove{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				v.AddTargetObject(testNote)
+				return v
+			},
+		},
+		{
+			name: "like",
+			input: func() vocab.Serializer {
+				v := &vocab.Like{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+		{
+			name: "block",
+			input: func() vocab.Serializer {
+				v := &vocab.Block{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+		{
+			name: "undo",
+			input: func() vocab.Serializer {
+				v := &vocab.Undo{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				return v
+			},
+		},
+	}
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	for _, test := range tests {
+		resp := httptest.NewRecorder()
+		req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
+		handled, err := p.PostOutbox(context.Background(), resp, req)
+		if err != ErrObjectRequired {
+			t.Fatalf("(%s) expected %s, got %s", test.name, ErrObjectRequired, err)
+		} else if !handled {
+			t.Fatalf("(%s) expected handled, got !handled", test.name)
+		}
+	}
+}
+
+func TestPostOutbox_RequiresTarget(t *testing.T) {
+	tests := []struct {
+		name  string
+		input func() vocab.Serializer
+	}{
+		{
+			name: "add",
+			input: func() vocab.Serializer {
+				v := &vocab.Add{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				v.AddObject(testNote)
+				return v
+			},
+		},
+		{
+			name: "remove",
+			input: func() vocab.Serializer {
+				v := &vocab.Remove{}
+				v.SetId(*noteActivityIRI)
+				v.AddActorObject(sallyActor)
+				v.AddToObject(samActor)
+				v.AddObject(testNote)
+				return v
+			},
+		},
+	}
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	for _, test := range tests {
+		resp := httptest.NewRecorder()
+		req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
+		handled, err := p.PostOutbox(context.Background(), resp, req)
+		if err != ErrTargetRequired {
+			t.Fatalf("(%s) expected %s, got %s", test.name, ErrTargetRequired, err)
+		} else if !handled {
+			t.Fatalf("(%s) expected handled, got !handled", test.name)
+		}
+	}
 }
 
 func TestPostOutbox_Create_CopyToAttributedTo(t *testing.T) {
@@ -2642,10 +2911,6 @@ func TestPostOutbox_Create_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func TestPostOutbox_Update_RequireObject(t *testing.T) {
-	// TODO: Implement
-}
-
 func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
 	// TODO: Implement
 }
@@ -2662,10 +2927,6 @@ func TestPostOutbox_Update_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func TestPostOutbox_Delete_RequireObject(t *testing.T) {
-	// TODO: Implement
-}
-
 func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 	// TODO: Implement
 }
@@ -2675,10 +2936,6 @@ func TestPostOutbox_Delete_CallsCallback(t *testing.T) {
 }
 
 func TestPostOutbox_Delete_IsDelivered(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostOutbox_Follow_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
@@ -2703,14 +2960,6 @@ func TestPostOutbox_Reject_CallsCallback(t *testing.T) {
 }
 
 func TestPostOutbox_Reject_IsDelivered(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostOutbox_Add_RequireObject(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostOutbox_Add_RequireTarget(t *testing.T) {
 	// TODO: Implement
 }
 
@@ -2742,14 +2991,6 @@ func TestPostOutbox_Add_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func TestPostOutbox_Remove_RequireObject(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostOutbox_Remove_RequireTarget(t *testing.T) {
-	// TODO: Implement
-}
-
 func TestPostOutbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
 	// TODO: Implement
 }
@@ -2778,14 +3019,6 @@ func TestPostOutbox_Remove_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func TestPostOutbox_Like_RequireObject(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostOutbox_Like_RequireTarget(t *testing.T) {
-	// TODO: Implement
-}
-
 func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 	// TODO: Implement
 }
@@ -2802,19 +3035,11 @@ func TestPostOutbox_Like_IsDelivered(t *testing.T) {
 	// TODO: Implement
 }
 
-func TestPostOutbox_Undo_RequireObject(t *testing.T) {
-	// TODO: Implement
-}
-
 func TestPostOutbox_Undo_CallsCallback(t *testing.T) {
 	// TODO: Implement
 }
 
 func TestPostOutbox_Undo_IsDelivered(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostOutbox_Block_RequireObject(t *testing.T) {
 	// TODO: Implement
 }
 
