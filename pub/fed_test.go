@@ -34,34 +34,36 @@ const (
 )
 
 var (
-	iri                         *url.URL
-	noteIRI                     *url.URL
-	noteActivityIRI             *url.URL
-	updateActivityIRI           *url.URL
-	testNewIRI                  *url.URL
-	sallyIRI                    *url.URL
-	sallyIRIInbox               *url.URL
-	sallyActor                  *vocab.Person
-	sallyActorJSON              []byte
-	samIRI                      *url.URL
-	samIRIInbox                 *url.URL
-	samIRIFollowers             *url.URL
-	samActor                    *vocab.Person
-	samActorJSON                []byte
-	testNote                    *vocab.Note
-	testSingleOrderedCollection *vocab.OrderedCollection
-	testCreateNote              *vocab.Create
-	testUpdateNote              *vocab.Update
-	testDeleteNote              *vocab.Delete
-	testTombstoneNote           *vocab.Tombstone
-	testFollow                  *vocab.Follow
-	testAcceptNote              *vocab.Accept
-	testAcceptFollow            *vocab.Accept
-	testRejectFollow            *vocab.Reject
-	testAddNote                 *vocab.Add
-	testRemoveNote              *vocab.Remove
-	testLikeNote                *vocab.Like
-	testUndoLike                *vocab.Undo
+	iri                          *url.URL
+	noteIRI                      *url.URL
+	noteActivityIRI              *url.URL
+	updateActivityIRI            *url.URL
+	testNewIRI                   *url.URL
+	sallyIRI                     *url.URL
+	sallyIRIInbox                *url.URL
+	sallyActor                   *vocab.Person
+	sallyActorJSON               []byte
+	samIRI                       *url.URL
+	samIRIInbox                  *url.URL
+	samIRIFollowers              *url.URL
+	samActor                     *vocab.Person
+	samActorJSON                 []byte
+	testNote                     *vocab.Note
+	testSingleOrderedCollection  *vocab.OrderedCollection
+	testCreateNote               *vocab.Create
+	testUpdateNote               *vocab.Update
+	testDeleteNote               *vocab.Delete
+	testTombstoneNote            *vocab.Tombstone
+	testFollow                   *vocab.Follow
+	testAcceptNote               *vocab.Accept
+	testAcceptFollow             *vocab.Accept
+	testRejectFollow             *vocab.Reject
+	testAddNote                  *vocab.Add
+	testRemoveNote               *vocab.Remove
+	testLikeNote                 *vocab.Like
+	testUndoLike                 *vocab.Undo
+	testClientExpectedNote       *vocab.Note
+	testClientExpectedCreateNote *vocab.Create
 )
 
 func init() {
@@ -207,6 +209,19 @@ func init() {
 	testUndoLike.AddActorObject(sallyActor)
 	testUndoLike.AddObject(testLikeNote)
 	testUndoLike.AddToObject(samActor)
+
+	testClientExpectedNote = &vocab.Note{}
+	testClientExpectedNote.SetId(*noteIRI)
+	testClientExpectedNote.AddNameString(noteName)
+	testClientExpectedNote.AddContentString("This is a simple note")
+	testClientExpectedNote.AddAttributedToObject(sallyActor)
+	testClientExpectedNote.AddToObject(samActor)
+	testClientExpectedCreateNote = &vocab.Create{}
+	testClientExpectedCreateNote.SetId(*testNewIRI)
+	testClientExpectedCreateNote.AddSummaryString("Sally created a note")
+	testClientExpectedCreateNote.AddActorObject(sallyActor)
+	testClientExpectedCreateNote.AddObject(testClientExpectedNote)
+	testClientExpectedCreateNote.AddToObject(samActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -752,9 +767,9 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 	app.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
-			gotSetOutbox = o
-		} else if gotSet == 2 {
 			gotSetCreateObject = o
+		} else if gotSet == 2 {
+			gotSetOutbox = o
 		}
 		return nil
 	}
@@ -1038,9 +1053,9 @@ func TestPubber_PostOutbox(t *testing.T) {
 	app.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
-			gotSetOutbox = o
-		} else if gotSet == 2 {
 			gotSetCreateObject = o
+		} else if gotSet == 2 {
+			gotSetOutbox = o
 		}
 		return nil
 	}
@@ -2892,23 +2907,130 @@ func TestPostOutbox_RequiresTarget(t *testing.T) {
 }
 
 func TestPostOutbox_Create_CopyToAttributedTo(t *testing.T) {
-	// TODO: Implement
-}
-
-func TestPostOutbox_Create_CopyRecipientsToObject(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	var gotCallbackObject *streams.Create
+	socialCb.create = func(c context.Context, s *streams.Create) error {
+		gotCallbackObject = s
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if e := PubObjectEquals(gotCallbackObject.Raw(), testClientExpectedCreateNote); e != nil {
+		t.Fatal(e)
+	}
 }
 
 func TestPostOutbox_Create_SetCreatedObject(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	socialCb.create = func(c context.Context, s *streams.Create) error {
+		return nil
+	}
+	gotSet := 0
+	var gotSetOutbox PubObject
+	var gotSetCreate PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetCreate = o
+		} else {
+			gotSetOutbox = o
+		}
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	expectedOutbox := &vocab.OrderedCollection{}
+	expectedOutbox.AddType("OrderedCollection")
+	expectedOutbox.AddOrderedItemsObject(testClientExpectedCreateNote)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if err := PubObjectEquals(gotSetCreate, testClientExpectedNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	} else if err := PubObjectEquals(gotSetOutbox, expectedOutbox); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostOutbox_Create_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	gotCallback := 0
+	var gotCallbackObject *streams.Create
+	socialCb.create = func(c context.Context, s *streams.Create) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testClientExpectedCreateNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostOutbox_Create_IsDelivered(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	socialCb.create = func(c context.Context, s *streams.Create) error {
+		return nil
+	}
+	gotHttpDo := 0
+	var httpDeliveryRequest *http.Request
+	httpClient.do = func(req *http.Request) (*http.Response, error) {
+		gotHttpDo++
+		if gotHttpDo == 1 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(samActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 2 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(sallyActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 3 {
+			httpDeliveryRequest = req
+			okResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
+			}
+			return okResp, nil
+		}
+		return nil, nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if httpDeliveryRequest.Method != "POST" {
+		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
+	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
+		t.Fatalf("expected %s, got %s", samIRIInboxString, s)
+	}
 }
 
 func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {

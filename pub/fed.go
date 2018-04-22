@@ -271,11 +271,11 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	if m, err = typer.Serialize(); err != nil {
 		return true, err
 	}
-	if err := f.addToOutbox(c, r, m); err != nil {
+	deliverable := false
+	if err = f.getPostOutboxResolver(c, &deliverable, &m).Deserialize(m); err != nil {
 		return true, err
 	}
-	deliverable := false
-	if err = f.getPostOutboxResolver(c, &deliverable).Deserialize(m); err != nil {
+	if err := f.addToOutbox(c, r, m); err != nil {
 		return true, err
 	}
 	if f.EnableServer && deliverable {
@@ -334,9 +334,9 @@ func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string
 	return f.App.Set(c, outbox)
 }
 
-func (f *federator) getPostOutboxResolver(c context.Context, deliverable *bool) *streams.Resolver {
+func (f *federator) getPostOutboxResolver(c context.Context, deliverable *bool, toAddToOutbox *map[string]interface{}) *streams.Resolver {
 	return &streams.Resolver{
-		CreateCallback: f.handleClientCreate(c, deliverable),
+		CreateCallback: f.handleClientCreate(c, deliverable, toAddToOutbox),
 		UpdateCallback: f.handleClientUpdate(c, deliverable),
 		DeleteCallback: f.handleClientDelete(c, deliverable),
 		FollowCallback: f.handleClientFollow(c, deliverable),
@@ -351,7 +351,7 @@ func (f *federator) getPostOutboxResolver(c context.Context, deliverable *bool) 
 	}
 }
 
-func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool) func(s *streams.Create) error {
+func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool, toAddToOutbox *map[string]interface{}) func(s *streams.Create) error {
 	return func(s *streams.Create) error {
 		*deliverable = true
 		if s.LenObject() == 0 {
@@ -379,12 +379,11 @@ func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool) f
 		}
 		var obj []vocab.ObjectType
 		for i := 0; i < c.ObjectLen(); i++ {
-			if c.IsObject(i) {
-				obj = append(obj, c.GetObject(i))
-			} else if c.IsObjectIRI(i) {
+			if !c.IsObject(i) {
 				// TODO: Fetch IRIs as well
 				return fmt.Errorf("unsupported: Create Activity with 'object' that is only an IRI")
 			}
+			obj = append(obj, c.GetObject(i))
 		}
 		objectAttributedToIds := make([]map[string]interface{}, len(obj))
 		for i := range objectAttributedToIds {
@@ -419,10 +418,6 @@ func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool) f
 				}
 			}
 		}
-		// As such, a server SHOULD copy any recipients of the Create activity to its
-		// object upon initial distribution, and likewise with copying recipients from
-		// the object to the wrapping Create activity.
-		// Again, presumably if it does not already exist.
 		for _, attributedToMap := range objectAttributedToIds {
 			for k, v := range attributedToMap {
 				if _, ok := createActorIds[k]; !ok {
@@ -436,12 +431,25 @@ func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool) f
 				}
 			}
 		}
+		// As such, a server SHOULD copy any recipients of the Create activity to its
+		// object upon initial distribution, and likewise with copying recipients from
+		// the object to the wrapping Create activity.
+		if err := f.sameRecipients(c); err != nil {
+			return err
+		}
 		// Create requires the client application to persist the 'object' that
 		// was created.
 		for _, o := range obj {
 			if err := f.App.Set(ctx, o); err != nil {
 				return err
 			}
+		}
+		// Persist the above changes in the outbox
+		var err error
+		*toAddToOutbox = make(map[string]interface{})
+		*toAddToOutbox, err = c.Serialize()
+		if err != nil {
+			return err
 		}
 		return f.ClientCallbacker.Create(ctx, s)
 	}

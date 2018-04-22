@@ -173,6 +173,307 @@ func (f *federator) wrapInCreate(o vocab.ObjectType, actor url.URL) *vocab.Creat
 	return c
 }
 
+// Ensures the activity and object have the same 'to', 'bto', 'cc', 'bcc', and
+// 'audience' properties. Copy the Activity's recipients to objects, and the
+// objects to the activity, but does NOT copy objects' recipients to each other.
+//
+// If there is any disagreement between the activity and an object, we default
+// to a no-op.
+func (f *federator) sameRecipients(a vocab.ActivityType) error {
+	// First, map recipients for each object and the activity.
+	to := make([]map[string]interface{}, a.ObjectLen())
+	for i := 0; i < a.ObjectLen(); i++ {
+		to[i] = make(map[string]interface{})
+		if !a.IsObject(i) {
+			return fmt.Errorf("sameRecipients does not support 'to' object IRIs on Activities")
+		}
+		o := a.GetObject(i)
+		for j := 0; j < o.ToLen(); j++ {
+			if o.IsToObject(j) {
+				id := o.GetToObject(j).GetId()
+				to[i][(&id).String()] = o.GetToObject(j)
+			} else if o.IsToLink(j) {
+				id := o.GetToLink(j).GetHref()
+				to[i][(&id).String()] = o.GetToLink(j)
+			} else if o.IsToIRI(j) {
+				id := o.GetToIRI(j)
+				to[i][(&id).String()] = id
+			}
+		}
+	}
+	toActivity := make(map[string]interface{})
+	for i := 0; i < a.ToLen(); i++ {
+		if a.IsToObject(i) {
+			id := a.GetToObject(i).GetId()
+			toActivity[(&id).String()] = a.GetToObject(i)
+		} else if a.IsToLink(i) {
+			id := a.GetToLink(i).GetHref()
+			toActivity[(&id).String()] = a.GetToLink(i)
+		} else if a.IsToIRI(i) {
+			id := a.GetToIRI(i)
+			toActivity[(&id).String()] = id
+		}
+	}
+	bto := make([]map[string]interface{}, a.ObjectLen())
+	for i := 0; i < a.ObjectLen(); i++ {
+		bto[i] = make(map[string]interface{})
+		if !a.IsObject(i) {
+			return fmt.Errorf("sameRecipients does not support 'bto' object IRIs on Activities")
+		}
+		o := a.GetObject(i)
+		for j := 0; j < o.BtoLen(); j++ {
+			if o.IsBtoObject(j) {
+				id := o.GetBtoObject(j).GetId()
+				bto[i][(&id).String()] = o.GetBtoObject(j)
+			} else if o.IsBtoLink(j) {
+				id := o.GetBtoLink(j).GetHref()
+				bto[i][(&id).String()] = o.GetBtoLink(j)
+			} else if o.IsBtoIRI(j) {
+				id := o.GetBtoIRI(j)
+				bto[i][(&id).String()] = id
+			}
+		}
+	}
+	btoActivity := make(map[string]interface{})
+	for i := 0; i < a.BtoLen(); i++ {
+		if a.IsBtoObject(i) {
+			id := a.GetBtoObject(i).GetId()
+			btoActivity[(&id).String()] = a.GetBtoObject(i)
+		} else if a.IsBtoLink(i) {
+			id := a.GetBtoLink(i).GetHref()
+			btoActivity[(&id).String()] = a.GetBtoLink(i)
+		} else if a.IsBtoIRI(i) {
+			id := a.GetBtoIRI(i)
+			btoActivity[(&id).String()] = id
+		}
+	}
+	cc := make([]map[string]interface{}, a.ObjectLen())
+	for i := 0; i < a.ObjectLen(); i++ {
+		cc[i] = make(map[string]interface{})
+		if !a.IsObject(i) {
+			return fmt.Errorf("sameRecipients does not support 'cc' object IRIs on Activities")
+		}
+		o := a.GetObject(i)
+		for j := 0; j < o.CcLen(); j++ {
+			if o.IsCcObject(j) {
+				id := o.GetCcObject(j).GetId()
+				cc[i][(&id).String()] = o.GetCcObject(j)
+			} else if o.IsCcLink(j) {
+				id := o.GetCcLink(j).GetHref()
+				cc[i][(&id).String()] = o.GetCcLink(j)
+			} else if o.IsCcIRI(j) {
+				id := o.GetCcIRI(j)
+				cc[i][(&id).String()] = id
+			}
+		}
+	}
+	ccActivity := make(map[string]interface{})
+	for i := 0; i < a.CcLen(); i++ {
+		if a.IsCcObject(i) {
+			id := a.GetCcObject(i).GetId()
+			ccActivity[(&id).String()] = a.GetCcObject(i)
+		} else if a.IsCcLink(i) {
+			id := a.GetCcLink(i).GetHref()
+			ccActivity[(&id).String()] = a.GetCcLink(i)
+		} else if a.IsCcIRI(i) {
+			id := a.GetCcIRI(i)
+			ccActivity[(&id).String()] = id
+		}
+	}
+	bcc := make([]map[string]interface{}, a.ObjectLen())
+	for i := 0; i < a.ObjectLen(); i++ {
+		bcc[i] = make(map[string]interface{})
+		if !a.IsObject(i) {
+			return fmt.Errorf("sameRecipients does not support 'bcc' object IRIs on Activities")
+		}
+		o := a.GetObject(i)
+		for j := 0; j < o.BccLen(); j++ {
+			if o.IsBccObject(j) {
+				id := o.GetBccObject(j).GetId()
+				bcc[i][(&id).String()] = o.GetBccObject(j)
+			} else if o.IsBccLink(j) {
+				id := o.GetBccLink(j).GetHref()
+				bcc[i][(&id).String()] = o.GetBccLink(j)
+			} else if o.IsBccIRI(j) {
+				id := o.GetBccIRI(j)
+				bcc[i][(&id).String()] = id
+			}
+		}
+	}
+	bccActivity := make(map[string]interface{})
+	for i := 0; i < a.BccLen(); i++ {
+		if a.IsBccObject(i) {
+			id := a.GetBccObject(i).GetId()
+			bccActivity[(&id).String()] = a.GetBccObject(i)
+		} else if a.IsBccLink(i) {
+			id := a.GetBccLink(i).GetHref()
+			bccActivity[(&id).String()] = a.GetBccLink(i)
+		} else if a.IsBccIRI(i) {
+			id := a.GetBccIRI(i)
+			bccActivity[(&id).String()] = id
+		}
+	}
+	audience := make([]map[string]interface{}, a.ObjectLen())
+	for i := 0; i < a.ObjectLen(); i++ {
+		audience[i] = make(map[string]interface{})
+		if !a.IsObject(i) {
+			return fmt.Errorf("sameRecipients does not support 'audience' object IRIs on Activities")
+		}
+		o := a.GetObject(i)
+		for j := 0; j < o.AudienceLen(); j++ {
+			if o.IsAudienceObject(j) {
+				id := o.GetAudienceObject(j).GetId()
+				audience[i][(&id).String()] = o.GetAudienceObject(j)
+			} else if o.IsAudienceLink(j) {
+				id := o.GetAudienceLink(j).GetHref()
+				audience[i][(&id).String()] = o.GetAudienceLink(j)
+			} else if o.IsAudienceIRI(j) {
+				id := o.GetAudienceIRI(j)
+				audience[i][(&id).String()] = id
+			}
+		}
+	}
+	audienceActivity := make(map[string]interface{})
+	for i := 0; i < a.AudienceLen(); i++ {
+		if a.IsAudienceObject(i) {
+			id := a.GetAudienceObject(i).GetId()
+			audienceActivity[(&id).String()] = a.GetAudienceObject(i)
+		} else if a.IsAudienceLink(i) {
+			id := a.GetAudienceLink(i).GetHref()
+			audienceActivity[(&id).String()] = a.GetAudienceLink(i)
+		} else if a.IsAudienceIRI(i) {
+			id := a.GetAudienceIRI(i)
+			audienceActivity[(&id).String()] = id
+		}
+	}
+	// Next, add activity recipients to all objects if not already present
+	for k, v := range toActivity {
+		for i := 0; i < a.ObjectLen(); i++ {
+			if _, ok := to[i][k]; !ok {
+				if vObj, ok := v.(vocab.ObjectType); ok {
+					a.GetObject(i).AddToObject(vObj)
+				} else if vLink, ok := v.(vocab.LinkType); ok {
+					a.GetObject(i).AddToLink(vLink)
+				} else if vIRI, ok := v.(url.URL); ok {
+					a.GetObject(i).AddToIRI(vIRI)
+				}
+			}
+		}
+	}
+	for k, v := range btoActivity {
+		for i := 0; i < a.ObjectLen(); i++ {
+			if _, ok := bto[i][k]; !ok {
+				if vObj, ok := v.(vocab.ObjectType); ok {
+					a.GetObject(i).AddBtoObject(vObj)
+				} else if vLink, ok := v.(vocab.LinkType); ok {
+					a.GetObject(i).AddBtoLink(vLink)
+				} else if vIRI, ok := v.(url.URL); ok {
+					a.GetObject(i).AddBtoIRI(vIRI)
+				}
+			}
+		}
+	}
+	for k, v := range ccActivity {
+		for i := 0; i < a.ObjectLen(); i++ {
+			if _, ok := cc[i][k]; !ok {
+				if vObj, ok := v.(vocab.ObjectType); ok {
+					a.GetObject(i).AddCcObject(vObj)
+				} else if vLink, ok := v.(vocab.LinkType); ok {
+					a.GetObject(i).AddCcLink(vLink)
+				} else if vIRI, ok := v.(url.URL); ok {
+					a.GetObject(i).AddCcIRI(vIRI)
+				}
+			}
+		}
+	}
+	for k, v := range bccActivity {
+		for i := 0; i < a.ObjectLen(); i++ {
+			if _, ok := bcc[i][k]; !ok {
+				if vObj, ok := v.(vocab.ObjectType); ok {
+					a.GetObject(i).AddBccObject(vObj)
+				} else if vLink, ok := v.(vocab.LinkType); ok {
+					a.GetObject(i).AddBccLink(vLink)
+				} else if vIRI, ok := v.(url.URL); ok {
+					a.GetObject(i).AddBccIRI(vIRI)
+				}
+			}
+		}
+	}
+	for k, v := range audienceActivity {
+		for i := 0; i < a.ObjectLen(); i++ {
+			if _, ok := audience[i][k]; !ok {
+				if vObj, ok := v.(vocab.ObjectType); ok {
+					a.GetObject(i).AddAudienceObject(vObj)
+				} else if vLink, ok := v.(vocab.LinkType); ok {
+					a.GetObject(i).AddAudienceLink(vLink)
+				} else if vIRI, ok := v.(url.URL); ok {
+					a.GetObject(i).AddAudienceIRI(vIRI)
+				}
+			}
+		}
+	}
+	// Finally, add all the objects' recipients to the activity if not
+	// already present.
+	for i := 0; i < a.ObjectLen(); i++ {
+		for k, v := range to[i] {
+			if _, ok := toActivity[k]; !ok {
+				if vObj, ok := v.(vocab.ObjectType); ok {
+					a.AddToObject(vObj)
+				} else if vLink, ok := v.(vocab.LinkType); ok {
+					a.AddToLink(vLink)
+				} else if vIRI, ok := v.(url.URL); ok {
+					a.AddToIRI(vIRI)
+				}
+			}
+		}
+		for k, v := range bto[i] {
+			if _, ok := btoActivity[k]; !ok {
+				if vObj, ok := v.(vocab.ObjectType); ok {
+					a.AddBtoObject(vObj)
+				} else if vLink, ok := v.(vocab.LinkType); ok {
+					a.AddBtoLink(vLink)
+				} else if vIRI, ok := v.(url.URL); ok {
+					a.AddBtoIRI(vIRI)
+				}
+			}
+		}
+		for k, v := range cc[i] {
+			if _, ok := ccActivity[k]; !ok {
+				if vObj, ok := v.(vocab.ObjectType); ok {
+					a.AddCcObject(vObj)
+				} else if vLink, ok := v.(vocab.LinkType); ok {
+					a.AddCcLink(vLink)
+				} else if vIRI, ok := v.(url.URL); ok {
+					a.AddCcIRI(vIRI)
+				}
+			}
+		}
+		for k, v := range bcc[i] {
+			if _, ok := bccActivity[k]; !ok {
+				if vObj, ok := v.(vocab.ObjectType); ok {
+					a.AddBccObject(vObj)
+				} else if vLink, ok := v.(vocab.LinkType); ok {
+					a.AddBccLink(vLink)
+				} else if vIRI, ok := v.(url.URL); ok {
+					a.AddBccIRI(vIRI)
+				}
+			}
+		}
+		for k, v := range audience[i] {
+			if _, ok := audienceActivity[k]; !ok {
+				if vObj, ok := v.(vocab.ObjectType); ok {
+					a.AddAudienceObject(vObj)
+				} else if vLink, ok := v.(vocab.LinkType); ok {
+					a.AddAudienceLink(vLink)
+				} else if vIRI, ok := v.(url.URL); ok {
+					a.AddAudienceIRI(vIRI)
+				}
+			}
+		}
+	}
+	return nil
+}
+
 // TODO: (Section 7) HTTP caching mechanisms [RFC7234] SHOULD be respected when appropriate, both when receiving responses from other servers as well as sending responses to other servers.
 
 // deliver will complete the peer-to-peer sending of a federated message to
