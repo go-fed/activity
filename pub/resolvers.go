@@ -134,8 +134,8 @@ func toTypeIder(m map[string]interface{}) (tid typeIder, err error) {
 	if err != nil {
 		return
 	}
-	// TODO: Support more than one, which will enable creating multiple
-	// objects simultaneously.
+	// This should not be more than 1 as clients are not permitted to send
+	// an array of objects/links.
 	if len(t) != 1 {
 		err = fmt.Errorf("too many object/links: %d", len(t))
 		return
