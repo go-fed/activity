@@ -287,7 +287,6 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 			return true, err
 		}
 	}
-	// TODO: Add to outbox collection
 	w.Header().Set("Location", newId.String())
 	w.WriteHeader(http.StatusCreated)
 	return true, nil
@@ -380,7 +379,6 @@ func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool, t
 		var obj []vocab.ObjectType
 		for i := 0; i < c.ObjectLen(); i++ {
 			if !c.IsObject(i) {
-				// TODO: Fetch IRIs as well
 				return fmt.Errorf("unsupported: Create Activity with 'object' that is only an IRI")
 			}
 			obj = append(obj, c.GetObject(i))
@@ -484,7 +482,6 @@ func (f *federator) handleClientUpdate(c context.Context, deliverable *bool) fun
 				return err
 			}
 			if !s.Raw().IsObject(idx) {
-				// TODO: Fetch IRIs as well
 				return fmt.Errorf("update requires object to be wholly provided at index %d", idx)
 			}
 			updated, err := s.Raw().GetObject(idx).Serialize()
