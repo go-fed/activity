@@ -1309,6 +1309,55 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter f
 	return nil
 }
 
+// Fetches an "object" on a raw JSON map of an Activity with the matching 'id'
+// field. If there is no object matching the IRI, or the object just is an IRI,
+// or the object wth the matching id is not in the array of objects, then a nil
+// map is returned.
+func getRawObject(m map[string]interface{}, id string) map[string]interface{} {
+	for k, v := range m {
+		if k == "object" {
+			switch val := v.(type) {
+			case map[string]interface{}:
+				if r, ok := val["id"]; ok {
+					if rId, ok := r.(string); ok && rId == id {
+						return val
+					}
+				}
+			case interface{}:
+				// Most likely an IRI/URI. Don't do anything.
+			case []interface{}:
+				for _, elem := range val {
+					if elemVal, ok := elem.(map[string]interface{}); ok {
+						if r, ok := elemVal["id"]; ok {
+							if rId, ok := r.(string); ok && rId == id {
+								return elemVal
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// recursivelyApplyDeletes takes input map 'm' and deletes entries in its maps
+// where the 'hasNils' map has nils. If the interface{} of the maps are
+// themselves map[string]interface{} types, then this function recurs.
+func recursivelyApplyDeletes(m, hasNils map[string]interface{}) {
+	for k, v := range hasNils {
+		if _, ok := m[k]; v == nil && ok {
+			delete(m, k)
+		} else if nilsSubMap, ok := v.(map[string]interface{}); ok {
+			if mSub, ok := m[k]; ok {
+				if mSubMap, ok := mSub.(map[string]interface{}); ok {
+					recursivelyApplyDeletes(mSubMap, nilsSubMap)
+				}
+			}
+		}
+	}
+}
+
 // TODO: Move this to vocab package.
 var activityTypes = []string{"Accept", "Add", "Announce", "Arrive", "Block", "Create", "Delete", "Dislike", "Flag", "Follow", "Ignore", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Offer", "Question", "Reject", "Read", "Remove", "TentativeReject", "TentativeAccept", "Travel", "Undo", "Update", "View"}
 

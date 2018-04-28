@@ -272,7 +272,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		return true, err
 	}
 	deliverable := false
-	if err = f.getPostOutboxResolver(c, &deliverable, &m).Deserialize(m); err != nil {
+	if err = f.getPostOutboxResolver(c, m, &deliverable, &m).Deserialize(m); err != nil {
 		return true, err
 	}
 	if err := f.addToOutbox(c, r, m); err != nil {
@@ -333,10 +333,10 @@ func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string
 	return f.App.Set(c, outbox)
 }
 
-func (f *federator) getPostOutboxResolver(c context.Context, deliverable *bool, toAddToOutbox *map[string]interface{}) *streams.Resolver {
+func (f *federator) getPostOutboxResolver(c context.Context, rawJson map[string]interface{}, deliverable *bool, toAddToOutbox *map[string]interface{}) *streams.Resolver {
 	return &streams.Resolver{
 		CreateCallback: f.handleClientCreate(c, deliverable, toAddToOutbox),
-		UpdateCallback: f.handleClientUpdate(c, deliverable),
+		UpdateCallback: f.handleClientUpdate(c, rawJson, deliverable),
 		DeleteCallback: f.handleClientDelete(c, deliverable),
 		FollowCallback: f.handleClientFollow(c, deliverable),
 		AcceptCallback: f.handleClientAccept(c, deliverable),
@@ -453,13 +453,12 @@ func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool, t
 	}
 }
 
-func (f *federator) handleClientUpdate(c context.Context, deliverable *bool) func(s *streams.Update) error {
+func (f *federator) handleClientUpdate(c context.Context, rawJson map[string]interface{}, deliverable *bool) func(s *streams.Update) error {
 	return func(s *streams.Update) error {
 		*deliverable = true
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		// TODO: Support redactions via the '"json": null' value.
 		// Update should partially replace the 'object' with only the
 		// changed top-level fields.
 		ids, err := getObjectIds(s.Raw())
@@ -490,6 +489,9 @@ func (f *federator) handleClientUpdate(c context.Context, deliverable *bool) fun
 			}
 			for k, v := range updated {
 				m[k] = v
+			}
+			if rawUpdatedObject := getRawObject(rawJson, id.String()); rawUpdatedObject != nil {
+				recursivelyApplyDeletes(m, rawUpdatedObject)
 			}
 			p, err := ToPubObject(m)
 			if err != nil {
