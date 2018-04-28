@@ -34,36 +34,41 @@ const (
 )
 
 var (
-	iri                          *url.URL
-	noteIRI                      *url.URL
-	noteActivityIRI              *url.URL
-	updateActivityIRI            *url.URL
-	testNewIRI                   *url.URL
-	sallyIRI                     *url.URL
-	sallyIRIInbox                *url.URL
-	sallyActor                   *vocab.Person
-	sallyActorJSON               []byte
-	samIRI                       *url.URL
-	samIRIInbox                  *url.URL
-	samIRIFollowers              *url.URL
-	samActor                     *vocab.Person
-	samActorJSON                 []byte
-	testNote                     *vocab.Note
-	testSingleOrderedCollection  *vocab.OrderedCollection
-	testCreateNote               *vocab.Create
-	testUpdateNote               *vocab.Update
-	testDeleteNote               *vocab.Delete
-	testTombstoneNote            *vocab.Tombstone
-	testFollow                   *vocab.Follow
-	testAcceptNote               *vocab.Accept
-	testAcceptFollow             *vocab.Accept
-	testRejectFollow             *vocab.Reject
-	testAddNote                  *vocab.Add
-	testRemoveNote               *vocab.Remove
-	testLikeNote                 *vocab.Like
-	testUndoLike                 *vocab.Undo
-	testClientExpectedNote       *vocab.Note
-	testClientExpectedCreateNote *vocab.Create
+	iri                              *url.URL
+	noteIRI                          *url.URL
+	noteActivityIRI                  *url.URL
+	updateActivityIRI                *url.URL
+	testNewIRI                       *url.URL
+	sallyIRI                         *url.URL
+	sallyIRIInbox                    *url.URL
+	sallyActor                       *vocab.Person
+	sallyActorJSON                   []byte
+	samIRI                           *url.URL
+	samIRIInbox                      *url.URL
+	samIRIFollowers                  *url.URL
+	samActor                         *vocab.Person
+	samActorJSON                     []byte
+	testNote                         *vocab.Note
+	testSingleOrderedCollection      *vocab.OrderedCollection
+	testCreateNote                   *vocab.Create
+	testUpdateNote                   *vocab.Update
+	testDeleteNote                   *vocab.Delete
+	testTombstoneNote                *vocab.Tombstone
+	testFollow                       *vocab.Follow
+	testAcceptNote                   *vocab.Accept
+	testAcceptFollow                 *vocab.Accept
+	testRejectFollow                 *vocab.Reject
+	testAddNote                      *vocab.Add
+	testRemoveNote                   *vocab.Remove
+	testLikeNote                     *vocab.Like
+	testUndoLike                     *vocab.Undo
+	testClientExpectedNote           *vocab.Note
+	testClientExpectedCreateNote     *vocab.Create
+	testDeleteSubFields              string
+	testDeleteFields                 string
+	testDeleteFieldsDifferentObjects string
+	testClientUpdateNote             *vocab.Update
+	testClientExpectedUpdateNote     *vocab.Update
 )
 
 func init() {
@@ -111,6 +116,7 @@ func init() {
 	samActor = &vocab.Person{}
 	samActor.SetInboxAnyURI(*samIRIInbox)
 	samActor.SetId(*samIRI)
+	samActor.AddNameString("Sam")
 	m, err := samActor.Serialize()
 	if err != nil {
 		panic(err)
@@ -222,6 +228,91 @@ func init() {
 	testClientExpectedCreateNote.AddActorObject(sallyActor)
 	testClientExpectedCreateNote.AddObject(testClientExpectedNote)
 	testClientExpectedCreateNote.AddToObject(samActor)
+	testDeleteSubFields = `
+        {
+          "@context": "https://www.w3.org/ns/activitystreams",
+          "summary": "Sally updated her note",
+          "type": "Update",
+          "actor": "https://example.com/sally",
+	  "id": "https://example.com/test/new/iri",
+          "object": {
+            "id": "https://example.com/note/123",
+	    "type": "Note",
+            "to": {
+              "id": "https://example.com/sam",
+              "inbox": "https://example.com/sam/inbox",
+	      "type": "Person",
+	      "name": null
+            }
+	  }
+        }
+	`
+	testDeleteFields = `
+        {
+          "@context": "https://www.w3.org/ns/activitystreams",
+          "summary": "Sally updated her note",
+          "type": "Update",
+          "actor": "https://example.com/sally",
+	  "id": "https://example.com/test/new/iri",
+          "object": {
+            "id": "https://example.com/note/123",
+	    "type": "Note",
+            "to": null
+	  }
+        }
+	`
+	testDeleteFieldsDifferentObjects = `
+	{
+          "@context": "https://www.w3.org/ns/activitystreams",
+          "summary": "Sally updated her notes",
+          "type": "Update",
+          "actor": "https://example.com/sally",
+	  "id": "https://example.com/test/new/iri",
+          "object": [
+            {
+              "id": "https://example.com/note/123",
+	      "type": "Note",
+              "to": {
+                "id": "https://example.com/sam",
+                "inbox": "https://example.com/sam/inbox",
+	        "type": "Person",
+	        "name": null
+              }
+            },
+	    {
+              "id": "https://example.com/note/update/123",
+	      "type": "Note",
+              "to": {
+                "id": "https://example.com/sam",
+                "inbox": "https://example.com/sam/inbox",
+	        "type": "Person",
+	        "name": null
+              }
+            }
+	  ]
+	}
+	`
+	sammActor := &vocab.Person{}
+	sammActor.SetInboxAnyURI(*samIRIInbox)
+	sammActor.SetId(*samIRI)
+	sammActor.AddNameString("Samm")
+	testUpdateNote := &vocab.Note{}
+	testUpdateNote.SetId(*noteIRI)
+	testUpdateNote.AddNameString(noteName)
+	testUpdateNote.AddContentString("This is a simple note")
+	testUpdateNote.AddToObject(sammActor)
+	testClientUpdateNote = &vocab.Update{}
+	testClientUpdateNote.SetId(*updateActivityIRI)
+	testClientUpdateNote.AddSummaryString("Sally updated a note")
+	testClientUpdateNote.AddActorObject(sallyActor)
+	testClientUpdateNote.AddObject(testUpdateNote)
+	testClientUpdateNote.AddToObject(samActor)
+	testClientExpectedUpdateNote = &vocab.Update{}
+	testClientExpectedUpdateNote.SetId(*testNewIRI)
+	testClientExpectedUpdateNote.AddSummaryString("Sally updated a note")
+	testClientExpectedUpdateNote.AddActorObject(sallyActor)
+	testClientExpectedUpdateNote.AddObject(testNote)
+	testClientExpectedUpdateNote.AddToObject(samActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -3033,20 +3124,347 @@ func TestPostOutbox_Create_IsDelivered(t *testing.T) {
 	}
 }
 
-func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
-	// TODO: Implement
+func TestPostOutbox_Update_DeleteSubFields(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer([]byte(testDeleteSubFields))))
+	socialCb.update = func(c context.Context, s *streams.Update) error {
+		return nil
+	}
+	gotGet := 0
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		gotGet++
+		if id != *noteIRI {
+			t.Fatalf("expected %s, got %s", noteIRI, id)
+		}
+		samActor := &vocab.Person{}
+		samActor.SetInboxAnyURI(*samIRIInbox)
+		samActor.SetId(*samIRI)
+		samActor.AddNameString("Sam")
+		v := &vocab.Note{}
+		v.SetId(*noteIRI)
+		v.AddNameString(noteName)
+		v.AddContentString("This is a simple note")
+		v.AddToObject(samActor)
+		return v, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.set = func(c context.Context, p PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObject = p
+		}
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	expectedSamActor := &vocab.Person{}
+	expectedSamActor.SetInboxAnyURI(*samIRIInbox)
+	expectedSamActor.SetId(*samIRI)
+	expectedUpdatedNote := &vocab.Note{}
+	expectedUpdatedNote.SetId(*noteIRI)
+	expectedUpdatedNote.AddNameString(noteName)
+	expectedUpdatedNote.AddContentString("This is a simple note")
+	expectedUpdatedNote.AddToObject(expectedSamActor)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if err := PubObjectEquals(gotSetObject, expectedUpdatedNote); err != nil {
+		t.Fatalf("unexpected set object: %s", err)
+	}
 }
 
-func TestPostOutbox_Update_SetUpdatedObject(t *testing.T) {
-	// TODO: Implement
+func TestPostOutbox_Update_DeleteFields(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer([]byte(testDeleteFields))))
+	socialCb.update = func(c context.Context, s *streams.Update) error {
+		return nil
+	}
+	gotGet := 0
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		gotGet++
+		if id != *noteIRI {
+			t.Fatalf("expected %s, got %s", noteIRI, id)
+		}
+		samActor := &vocab.Person{}
+		samActor.SetInboxAnyURI(*samIRIInbox)
+		samActor.SetId(*samIRI)
+		samActor.AddNameString("Sam")
+		v := &vocab.Note{}
+		v.SetId(*noteIRI)
+		v.AddNameString(noteName)
+		v.AddContentString("This is a simple note")
+		v.AddToObject(samActor)
+		return v, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.set = func(c context.Context, p PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObject = p
+		}
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	expectedUpdatedNote := &vocab.Note{}
+	expectedUpdatedNote.SetId(*noteIRI)
+	expectedUpdatedNote.AddNameString(noteName)
+	expectedUpdatedNote.AddContentString("This is a simple note")
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if err := PubObjectEquals(gotSetObject, expectedUpdatedNote); err != nil {
+		t.Fatalf("unexpected set object: %s", err)
+	}
+}
+
+func TestPostOutbox_Update_DeleteSubFieldsMultipleObjects(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer([]byte(testDeleteFieldsDifferentObjects))))
+	socialCb.update = func(c context.Context, s *streams.Update) error {
+		return nil
+	}
+	gotGet := 0
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		gotGet++
+		var v *vocab.Note
+		if id == *noteIRI {
+			samActor := &vocab.Person{}
+			samActor.SetInboxAnyURI(*samIRIInbox)
+			samActor.SetId(*samIRI)
+			samActor.AddNameString("Sam")
+			v = &vocab.Note{}
+			v.SetId(*noteIRI)
+			v.AddNameString(noteName)
+			v.AddContentString("This is a simple note")
+			v.AddToObject(samActor)
+		} else if id == *updateActivityIRI {
+			samActor := &vocab.Person{}
+			samActor.SetInboxAnyURI(*samIRIInbox)
+			samActor.SetId(*samIRI)
+			samActor.AddNameString("Sam")
+			v = &vocab.Note{}
+			v.SetId(*updateActivityIRI)
+			v.AddNameString(noteName)
+			v.AddContentString("This is a simple note")
+			v.AddToObject(samActor)
+		} else {
+			t.Fatalf("unexpected app.Get id: %s", id)
+		}
+		return v, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	var gotSetObject2 PubObject
+	app.set = func(c context.Context, p PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObject = p
+		} else if gotSet == 2 {
+			gotSetObject2 = p
+		}
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	expectedSamActor := &vocab.Person{}
+	expectedSamActor.SetInboxAnyURI(*samIRIInbox)
+	expectedSamActor.SetId(*samIRI)
+	expectedUpdatedNote := &vocab.Note{}
+	expectedUpdatedNote.SetId(*noteIRI)
+	expectedUpdatedNote.AddNameString(noteName)
+	expectedUpdatedNote.AddContentString("This is a simple note")
+	expectedUpdatedNote.AddToObject(expectedSamActor)
+	expectedUpdatedNote2 := &vocab.Note{}
+	expectedUpdatedNote2.SetId(*updateActivityIRI)
+	expectedUpdatedNote2.AddNameString(noteName)
+	expectedUpdatedNote2.AddContentString("This is a simple note")
+	expectedUpdatedNote2.AddToObject(expectedSamActor)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotGet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotGet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
+	} else if err := PubObjectEquals(gotSetObject, expectedUpdatedNote); err != nil {
+		t.Fatalf("unexpected set object: %s", err)
+	} else if err := PubObjectEquals(gotSetObject2, expectedUpdatedNote2); err != nil {
+		t.Fatalf("unexpected set object: %s", err)
+	}
+}
+
+func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testClientUpdateNote))))
+	socialCb.update = func(c context.Context, s *streams.Update) error {
+		return nil
+	}
+	gotGet := 0
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		gotGet++
+		if id != *noteIRI {
+			t.Fatalf("expected %s, got %s", noteIRI, id)
+		}
+		samActor := &vocab.Person{}
+		samActor.SetInboxAnyURI(*samIRIInbox)
+		samActor.SetId(*samIRI)
+		samActor.AddNameString("Sam")
+		v := &vocab.Note{}
+		v.SetId(*noteIRI)
+		v.AddNameString(noteName)
+		v.AddContentString("This is a simple note")
+		v.AddToObject(samActor)
+		return v, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.set = func(c context.Context, p PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObject = p
+		}
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	samActor := &vocab.Person{}
+	samActor.SetInboxAnyURI(*samIRIInbox)
+	samActor.SetId(*samIRI)
+	samActor.AddNameString("Samm")
+	expectedUpdatedNote := &vocab.Note{}
+	expectedUpdatedNote.SetId(*noteIRI)
+	expectedUpdatedNote.AddNameString(noteName)
+	expectedUpdatedNote.AddContentString("This is a simple note")
+	expectedUpdatedNote.AddToObject(samActor)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if err := PubObjectEquals(gotSetObject, expectedUpdatedNote); err != nil {
+		t.Fatalf("unexpected set object: %s", err)
+	}
 }
 
 func TestPostOutbox_Update_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote))))
+	gotCallback := 0
+	var gotCallbackObject *streams.Update
+	socialCb.update = func(c context.Context, s *streams.Update) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		samActor := &vocab.Person{}
+		samActor.SetInboxAnyURI(*samIRIInbox)
+		samActor.SetId(*samIRI)
+		samActor.AddNameString("Sam")
+		v := &vocab.Note{}
+		v.SetId(*noteIRI)
+		v.AddNameString(noteName)
+		v.AddContentString("This is a simple note")
+		v.AddToObject(samActor)
+		return v, nil
+	}
+	app.set = func(c context.Context, p PubObject) error {
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testClientExpectedUpdateNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostOutbox_Update_IsDelivered(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote))))
+	socialCb.update = func(c context.Context, s *streams.Update) error {
+		return nil
+	}
+	gotHttpDo := 0
+	var httpDeliveryRequest *http.Request
+	httpClient.do = func(req *http.Request) (*http.Response, error) {
+		gotHttpDo++
+		if gotHttpDo == 1 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(samActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 2 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(sallyActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 3 {
+			httpDeliveryRequest = req
+			okResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
+			}
+			return okResp, nil
+		}
+		return nil, nil
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		samActor := &vocab.Person{}
+		samActor.SetInboxAnyURI(*samIRIInbox)
+		samActor.SetId(*samIRI)
+		samActor.AddNameString("Sam")
+		v := &vocab.Note{}
+		v.SetId(*noteIRI)
+		v.AddNameString(noteName)
+		v.AddContentString("This is a simple note")
+		v.AddToObject(samActor)
+		return v, nil
+	}
+	app.set = func(c context.Context, p PubObject) error {
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if httpDeliveryRequest.Method != "POST" {
+		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
+	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
+		t.Fatalf("expected %s, got %s", samIRIInboxString, s)
+	}
 }
 
 func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
