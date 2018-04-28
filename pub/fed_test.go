@@ -69,6 +69,7 @@ var (
 	testDeleteFieldsDifferentObjects string
 	testClientUpdateNote             *vocab.Update
 	testClientExpectedUpdateNote     *vocab.Update
+	testClientExpectedDeleteNote     *vocab.Delete
 )
 
 func init() {
@@ -313,6 +314,11 @@ func init() {
 	testClientExpectedUpdateNote.AddActorObject(sallyActor)
 	testClientExpectedUpdateNote.AddObject(testNote)
 	testClientExpectedUpdateNote.AddToObject(samActor)
+	testClientExpectedDeleteNote = &vocab.Delete{}
+	testClientExpectedDeleteNote.SetId(*testNewIRI)
+	testClientExpectedDeleteNote.AddActorObject(sallyActor)
+	testClientExpectedDeleteNote.AddObject(testNote)
+	testClientExpectedDeleteNote.AddToObject(samActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -415,7 +421,9 @@ func VocabEqualsContext(b *bytes.Buffer, s vocab.Serializer, requireContext bool
 }
 
 var (
-	now = time.Date(2000, 2, 3, 4, 5, 6, 7, Must(time.LoadLocation("America/New_York")))
+	now               = time.Date(2000, 2, 3, 4, 5, 6, 7, Must(time.LoadLocation("America/New_York")))
+	testPublishedTime = time.Date(2001, 2, 3, 4, 5, 6, 7, Must(time.LoadLocation("America/New_York")))
+	testUpdateTime    = time.Date(2002, 2, 3, 4, 5, 6, 7, Must(time.LoadLocation("America/New_York")))
 )
 
 var _ Clock = &MockClock{}
@@ -3468,15 +3476,135 @@ func TestPostOutbox_Update_IsDelivered(t *testing.T) {
 }
 
 func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
+	socialCb.delete = func(c context.Context, s *streams.Delete) error {
+		return nil
+	}
+	gotGet := 0
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		gotGet++
+		if id != *noteIRI {
+			t.Fatalf("expected %s, got %s", noteIRI, id)
+		}
+		v := &vocab.Note{}
+		v.AddType("Note")
+		v.SetId(*noteIRI)
+		v.SetPublished(testPublishedTime)
+		v.SetUpdated(testUpdateTime)
+		return v, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.set = func(c context.Context, p PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObject = p
+		}
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	expectedTombstone := &vocab.Tombstone{}
+	expectedTombstone.SetId(*noteIRI)
+	expectedTombstone.SetPublished(testPublishedTime)
+	expectedTombstone.SetUpdated(testUpdateTime)
+	expectedTombstone.SetDeleted(now)
+	expectedTombstone.AddFormerTypeString("Note")
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if err := PubObjectEquals(gotSetObject, expectedTombstone); err != nil {
+		t.Fatalf("unexpected set object: %s", err)
+	}
 }
 
 func TestPostOutbox_Delete_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
+	gotCallback := 0
+	var gotCallbackObject *streams.Delete
+	socialCb.delete = func(c context.Context, s *streams.Delete) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		return testNote, nil
+	}
+	app.set = func(c context.Context, p PubObject) error {
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testClientExpectedDeleteNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostOutbox_Delete_IsDelivered(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
+	socialCb.delete = func(c context.Context, s *streams.Delete) error {
+		return nil
+	}
+	gotHttpDo := 0
+	var httpDeliveryRequest *http.Request
+	httpClient.do = func(req *http.Request) (*http.Response, error) {
+		gotHttpDo++
+		if gotHttpDo == 1 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(samActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 2 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(sallyActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 3 {
+			httpDeliveryRequest = req
+			okResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
+			}
+			return okResp, nil
+		}
+		return nil, nil
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		return testNote, nil
+	}
+	app.set = func(c context.Context, p PubObject) error {
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if httpDeliveryRequest.Method != "POST" {
+		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
+	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
+		t.Fatalf("expected %s, got %s", samIRIInboxString, s)
+	}
 }
 
 func TestPostOutbox_Follow_CallsCallback(t *testing.T) {
