@@ -887,7 +887,7 @@ func generateIntermediateTypeDefinition(t *defs.PropertyType, parentTitle string
 				} else {
 					b.WriteString("err = fmt.Errorf(\"Given map but nothing to do with it for this type: %v\", m)")
 				}
-				b.WriteString("} else {\n")
+				b.WriteString("} else if i != nil {\n")
 				for _, r := range t.Range {
 					if r.V != nil {
 						b.WriteString("if !matched {\n")
@@ -929,11 +929,7 @@ func generateIntermediateTypeDefinition(t *defs.PropertyType, parentTitle string
 					}
 					b.WriteString("}\n")
 				}
-				b.WriteString("if t.unknown_ != nil {\n")
 				b.WriteString(fmt.Sprintf("i = %s(t.unknown_)\n", unknownValueSerializeFnName))
-				b.WriteString("return\n")
-				b.WriteString("}\n")
-				b.WriteString(fmt.Sprintf("err = fmt.Errorf(\"Could not serialize all-nil for type %s: %%v\", t)\n", intermed.Typename))
 				b.WriteString("return")
 				return b.String()
 			},

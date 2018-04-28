@@ -1088,6 +1088,113 @@ func TestSerializationWithoutTypeSet(t *testing.T) {
 	}
 }
 
+func TestReserializationAbility(t *testing.T) {
+	const (
+		samIRIInboxString = "https://example.com/sam/inbox"
+		samIRIString      = "https://example.com/sam"
+		noteURIString     = "https://example.com/note/123"
+		sallyIRIString    = "https://example.com/sally"
+		activityIRIString = "https://example.com/test/new/iri"
+	)
+	samIRIInbox, err := url.Parse(samIRIInboxString)
+	if err != nil {
+		t.Fatal(err)
+	}
+	samIRI, err := url.Parse(samIRIString)
+	if err != nil {
+		t.Fatal(err)
+	}
+	noteIRI, err := url.Parse(noteURIString)
+	if err != nil {
+		t.Fatal(err)
+	}
+	sallyIRI, err := url.Parse(sallyIRIString)
+	if err != nil {
+		t.Fatal(err)
+	}
+	activityIRI, err := url.Parse(activityIRIString)
+	if err != nil {
+		t.Fatal(err)
+	}
+	expectedSamActor := &Person{}
+	expectedSamActor.SetInboxAnyURI(*samIRIInbox)
+	expectedSamActor.SetId(*samIRI)
+	expectedNote := &Note{}
+	expectedNote.SetId(*noteIRI)
+	expectedNote.AddNameString("A Note")
+	expectedNote.AddContentString("This is a simple note")
+	expectedNote.AddToObject(expectedSamActor)
+	expectedUpdate := &Update{}
+	expectedUpdate.AddActorIRI(*sallyIRI)
+	expectedUpdate.AddSummaryString("Sally updated her note")
+	expectedUpdate.SetId(*activityIRI)
+	expectedUpdate.AddObject(expectedNote)
+	tables := []struct {
+		name         string
+		expected     Serializer
+		deserializer func() Deserializer
+		input        string
+	}{
+		{
+			name:         "JSON with null",
+			expected:     expectedUpdate,
+			deserializer: func() Deserializer { return &Update{} },
+			input: `
+                        {
+                          "@context": "https://www.w3.org/ns/activitystreams",
+                          "summary": "Sally updated her note",
+                          "type": "Update",
+                          "actor": "https://example.com/sally",
+	                  "id": "https://example.com/test/new/iri",
+                          "object": {
+                            "id": "https://example.com/note/123",
+	                    "type": "Note",
+                            "to": {
+                              "id": "https://example.com/sam",
+                              "inbox": "https://example.com/sam/inbox",
+	                      "type": "Person",
+	                      "name": null
+                            }
+	                  }
+                        }
+			`,
+		},
+	}
+	for _, r := range tables {
+		m := make(map[string]interface{})
+		err := json.Unmarshal([]byte(r.input), &m)
+		if err != nil {
+			t.Errorf("%s: Cannot json.Unmarshal: %s", r.name, err)
+			continue
+		}
+		actual := r.deserializer()
+		err = actual.Deserialize(m)
+		if err != nil {
+			t.Errorf("%s: Cannot Deserialize: %s", r.name, err)
+			continue
+		}
+		if diff := deep.Equal(actual, r.expected); diff != nil {
+			t.Errorf("%s: Deserialize deep equal is false: %s", r.name, diff)
+		}
+		// Only test ability to reserialize
+		serializer, ok := actual.(Serializer)
+		if !ok {
+			t.Errorf("Deserializer is not also Serializer")
+		}
+		m, err = serializer.Serialize()
+		if err != nil {
+			t.Errorf("%s: Cannot Serialize: %s", r.name, err)
+			continue
+		}
+		m["@context"] = "https://www.w3.org/ns/activitystreams"
+		_, err = json.Marshal(m)
+		if err != nil {
+			t.Errorf("%s: Cannot json.Marshal: %s", r.name, err)
+			continue
+		}
+	}
+}
+
 func TestBooleanOperationsOnEmptyTypes(t *testing.T) {
 	o := &Object{}
 	// Functional multi-type property
