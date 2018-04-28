@@ -1323,8 +1323,6 @@ func getRawObject(m map[string]interface{}, id string) map[string]interface{} {
 						return val
 					}
 				}
-			case interface{}:
-				// Most likely an IRI/URI. Don't do anything.
 			case []interface{}:
 				for _, elem := range val {
 					if elemVal, ok := elem.(map[string]interface{}); ok {
