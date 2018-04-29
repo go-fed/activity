@@ -1309,6 +1309,32 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter f
 	return nil
 }
 
+func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string]interface{}) error {
+	outbox, err := f.App.GetOutbox(c, r)
+	if err != nil {
+		return err
+	}
+	activity, err := toAnyActivity(m)
+	if err != nil {
+		return err
+	}
+	outbox.AddOrderedItemsObject(activity)
+	return f.App.Set(c, outbox)
+}
+
+func (f *federator) addToInbox(c context.Context, r *http.Request, m map[string]interface{}) error {
+	inbox, err := f.App.GetInbox(c, r)
+	if err != nil {
+		return err
+	}
+	activity, err := toAnyActivity(m)
+	if err != nil {
+		return err
+	}
+	inbox.AddOrderedItemsObject(activity)
+	return f.App.Set(c, inbox)
+}
+
 // Fetches an "object" on a raw JSON map of an Activity with the matching 'id'
 // field. If there is no object matching the IRI, or the object just is an IRI,
 // or the object wth the matching id is not in the array of objects, then a nil

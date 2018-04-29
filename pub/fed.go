@@ -189,7 +189,9 @@ func (f *federator) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	if err = f.getPostInboxResolver(c).Deserialize(m); err != nil {
 		return true, err
 	}
-	// TODO: Add to inbox collection
+	if err := f.addToInbox(c, r, m); err != nil {
+		return true, err
+	}
 	// TODO: 7.1.2 Inbox forwarding
 	w.WriteHeader(http.StatusOK)
 	return true, nil
@@ -318,19 +320,6 @@ func (f *federator) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 		return true, fmt.Errorf("ResponseWriter.Write wrote %d of %d bytes", n, len(b))
 	}
 	return true, nil
-}
-
-func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string]interface{}) error {
-	outbox, err := f.App.GetOutbox(c, r)
-	if err != nil {
-		return err
-	}
-	activity, err := toAnyActivity(m)
-	if err != nil {
-		return err
-	}
-	outbox.AddOrderedItemsObject(activity)
-	return f.App.Set(c, outbox)
 }
 
 func (f *federator) getPostOutboxResolver(c context.Context, rawJson map[string]interface{}, deliverable *bool, toAddToOutbox *map[string]interface{}) *streams.Resolver {

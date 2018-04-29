@@ -751,6 +751,21 @@ func NewPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSocialApp
 	return
 }
 
+func PreparePostInboxTest(t *testing.T, app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
+	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+		return nil
+	}
+	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		oc := &vocab.OrderedCollection{}
+		oc.AddType("OrderedCollection")
+		return oc, nil
+	}
+	app.set = func(c context.Context, o PubObject) error {
+		return nil
+	}
+	return
+}
+
 func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
 	socialApp.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
 		return true, nil
@@ -947,11 +962,23 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 		iri = actorIRIs[0]
 		return nil
 	}
+	gotInbox := 0
+	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		gotInbox++
+		oc := &vocab.OrderedCollection{}
+		oc.AddType("OrderedCollection")
+		return oc, nil
+	}
 	gotSet := 0
 	var setObject PubObject
+	var inboxObject PubObject
 	app.set = func(c context.Context, o PubObject) error {
 		gotSet++
-		setObject = o
+		if gotSet == 1 {
+			setObject = o
+		} else if gotSet == 2 {
+			inboxObject = o
+		}
 		return nil
 	}
 	gotCreate := 0
@@ -970,8 +997,12 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotUnblocked)
 	} else if iri.String() != sallyIRIString {
 		t.Fatalf("expected %s, got %s", sallyIRIString, iri.String())
-	} else if gotSet != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if gotInbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotInbox)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if l := inboxObject.GetType(0).(string); l != "OrderedCollection" {
+		t.Fatalf("expected %s, got %s", "OrderedCollection", l)
 	} else if l := setObject.GetType(0).(string); l != "Note" {
 		t.Fatalf("expected %s, got %s", "Note", l)
 	} else if gotCreate != 1 {
@@ -1062,11 +1093,23 @@ func TestPubber_PostInbox(t *testing.T) {
 		iri = actorIRIs[0]
 		return nil
 	}
+	gotInbox := 0
+	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		gotInbox++
+		oc := &vocab.OrderedCollection{}
+		oc.AddType("OrderedCollection")
+		return oc, nil
+	}
 	gotSet := 0
 	var setObject PubObject
+	var inboxObject PubObject
 	app.set = func(c context.Context, o PubObject) error {
 		gotSet++
-		setObject = o
+		if gotSet == 1 {
+			setObject = o
+		} else if gotSet == 2 {
+			inboxObject = o
+		}
 		return nil
 	}
 	gotCreate := 0
@@ -1085,8 +1128,12 @@ func TestPubber_PostInbox(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotUnblocked)
 	} else if iri.String() != sallyIRIString {
 		t.Fatalf("expected %s, got %s", sallyIRIString, iri.String())
-	} else if gotSet != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if gotInbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotInbox)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if l := inboxObject.GetType(0).(string); l != "OrderedCollection" {
+		t.Fatalf("expected %s, got %s", "OrderedCollection", l)
 	} else if l := setObject.GetType(0).(string); l != "Note" {
 		t.Fatalf("expected %s, got %s", "Note", l)
 	} else if gotCreate != 1 {
@@ -1478,17 +1525,17 @@ func TestPostInbox_RequiresTarget(t *testing.T) {
 }
 
 func TestPostInbox_Create_SetsObject(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotSet := 0
 	var setObject PubObject
 	app.set = func(c context.Context, o PubObject) error {
 		gotSet++
-		setObject = o
+		if gotSet == 1 {
+			setObject = o
+		}
 		return nil
 	}
 	fedCb.create = func(c context.Context, s *streams.Create) error {
@@ -1499,23 +1546,18 @@ func TestPostInbox_Create_SetsObject(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
-	} else if gotSet != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
 	} else if err := PubObjectEquals(setObject, testNote); err != nil {
 		t.Fatalf("unexpected set object: %s", err)
 	}
 }
 
 func TestPostInbox_Create_CallsCallback(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
-	app.set = func(c context.Context, o PubObject) error {
-		return nil
-	}
 	gotCreate := 0
 	var gotCreateCallback *streams.Create
 	fedCb.create = func(c context.Context, s *streams.Create) error {
@@ -1536,17 +1578,17 @@ func TestPostInbox_Create_CallsCallback(t *testing.T) {
 }
 
 func TestPostInbox_Update_SetsObject(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotSet := 0
 	var setObject PubObject
 	app.set = func(c context.Context, o PubObject) error {
 		gotSet++
-		setObject = o
+		if gotSet == 1 {
+			setObject = o
+		}
 		return nil
 	}
 	fedCb.update = func(c context.Context, s *streams.Update) error {
@@ -1557,23 +1599,18 @@ func TestPostInbox_Update_SetsObject(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
-	} else if gotSet != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
 	} else if err := PubObjectEquals(setObject, testNote); err != nil {
 		t.Fatalf("unexpected set object: %s", err)
 	}
 }
 
 func TestPostInbox_Update_CallsCallback(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
-	app.set = func(c context.Context, o PubObject) error {
-		return nil
-	}
 	gotCallback := 0
 	var gotStreamCallback *streams.Update
 	fedCb.update = func(c context.Context, s *streams.Update) error {
@@ -1594,20 +1631,15 @@ func TestPostInbox_Update_CallsCallback(t *testing.T) {
 }
 
 func TestPostInbox_Delete_FetchesObject(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	app.get = func(c context.Context, id url.URL) (PubObject, error) {
 		if id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
 		}
 		return testNote, nil
-	}
-	app.set = func(c context.Context, p PubObject) error {
-		return nil
 	}
 	fedCb.delete = func(c context.Context, s *streams.Delete) error {
 		return nil
@@ -1717,15 +1749,15 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 			},
 		},
 	}
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	gotSet := 0
 	var gotSetObject PubObject
 	app.set = func(c context.Context, p PubObject) error {
 		gotSet++
-		gotSetObject = p
+		if gotSet == 1 {
+			gotSetObject = p
+		}
 		return nil
 	}
 	fedCb.delete = func(c context.Context, s *streams.Delete) error {
@@ -1743,8 +1775,8 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 			t.Fatalf("(%q) %s", test.name, err)
 		} else if !handled {
 			t.Fatalf("(%q) expected handled, got !handled", test.name)
-		} else if gotSet != 1 {
-			t.Fatalf("(%q) expected %d, got %d", 1, test.name, gotSet)
+		} else if gotSet != 2 {
+			t.Fatalf("(%q) expected %d, got %d", test.name, 2, gotSet)
 		} else if err := PubObjectEquals(gotSetObject, test.expected()); err != nil {
 			t.Fatalf("(%q) unexpected tombstone object: %s", test.name, err)
 		}
@@ -1752,17 +1784,12 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 }
 
 func TestPostInbox_Delete_CallsCallback(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	app.get = func(c context.Context, id url.URL) (PubObject, error) {
 		return testNote, nil
-	}
-	app.set = func(c context.Context, p PubObject) error {
-		return nil
 	}
 	gotCallback := 0
 	var gotStreamCallback *streams.Delete
@@ -1784,12 +1811,10 @@ func TestPostInbox_Delete_CallsCallback(t *testing.T) {
 }
 
 func TestPostInbox_Follow_DoNothing(t *testing.T) {
-	_, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotOnFollow := 0
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
 		gotOnFollow++
@@ -1809,12 +1834,10 @@ func TestPostInbox_Follow_DoNothing(t *testing.T) {
 }
 
 func TestPostInbox_Follow_AutoReject(t *testing.T) {
-	_, _, fedApp, _, fedCb, d, httpClient, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotOnFollow := 0
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
 		gotOnFollow++
@@ -1884,12 +1907,10 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 // TODO: Test follower OrderedCollection & IRI.
 // TODO: Test does not own one of the objects.
 func TestPostInbox_Follow_AutoAccept(t *testing.T) {
-	app, _, fedApp, _, fedCb, d, httpClient, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotOnFollow := 0
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
 		gotOnFollow++
@@ -1953,7 +1974,9 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	var setObject PubObject
 	app.set = func(c context.Context, o PubObject) error {
 		gotSet++
-		setObject = o
+		if gotSet == 1 {
+			setObject = o
+		}
 		return nil
 	}
 	expected := &vocab.Accept{}
@@ -1988,20 +2011,18 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
 	} else if getIRI.String() != samIRIString {
 		t.Fatalf("expected %s, got %s", samIRIString, getIRI.String())
-	} else if gotSet != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
 	} else if err := PubObjectEquals(setObject, expectedFollowers); err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestPostInbox_Follow_CallsCallback(t *testing.T) {
-	_, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
 		return DoNothing
 	}
@@ -2025,12 +2046,10 @@ func TestPostInbox_Follow_CallsCallback(t *testing.T) {
 }
 
 func TestPostInbox_Accept_DoesNothingIfNotAcceptingFollow(t *testing.T) {
-	_, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	fedCb.accept = func(c context.Context, s *streams.Accept) error {
 		return nil
 	}
@@ -2044,12 +2063,10 @@ func TestPostInbox_Accept_DoesNothingIfNotAcceptingFollow(t *testing.T) {
 
 // TODO: Test follower OrderedCollection & IRI.
 func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotOwns := 0
 	var ownsIRI url.URL
 	app.owns = func(c context.Context, id url.URL) bool {
@@ -2072,7 +2089,9 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 	var setObject PubObject
 	app.set = func(c context.Context, o PubObject) error {
 		gotSet++
-		setObject = o
+		if gotSet == 1 {
+			setObject = o
+		}
 		return nil
 	}
 	fedCb.accept = func(c context.Context, s *streams.Accept) error {
@@ -2093,20 +2112,18 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
 	} else if getIRI.String() != sallyIRIString {
 		t.Fatalf("expected %s, got %s", sallyIRIString, getIRI.String())
-	} else if gotSet != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
 	} else if err := PubObjectEquals(setObject, expectedFollowing); err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestPostInbox_Accept_DoesNothingIfNotOwned(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotOwns := 0
 	var ownsIRI url.URL
 	app.owns = func(c context.Context, id url.URL) bool {
@@ -2130,12 +2147,10 @@ func TestPostInbox_Accept_DoesNothingIfNotOwned(t *testing.T) {
 }
 
 func TestPostInbox_Accept_CallsCallback(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
@@ -2145,9 +2160,6 @@ func TestPostInbox_Accept_CallsCallback(t *testing.T) {
 		sallyActor.SetId(*sallyIRI)
 		sallyActor.SetFollowingCollection(&vocab.Collection{})
 		return sallyActor, nil
-	}
-	app.set = func(c context.Context, o PubObject) error {
-		return nil
 	}
 	gotCallback := 0
 	var gotCallbackObject *streams.Accept
@@ -2171,12 +2183,10 @@ func TestPostInbox_Accept_CallsCallback(t *testing.T) {
 }
 
 func TestPostInbox_Reject_CallsCallback(t *testing.T) {
-	_, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRejectFollow))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotCallback := 0
 	var gotCallbackObject *streams.Reject
 	fedCb.reject = func(c context.Context, s *streams.Reject) error {
@@ -2197,12 +2207,10 @@ func TestPostInbox_Reject_CallsCallback(t *testing.T) {
 }
 
 func TestPostInbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotOwns := 0
 	var gotOwnsId url.URL
 	app.owns = func(c context.Context, id url.URL) bool {
@@ -2226,12 +2234,10 @@ func TestPostInbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 }
 
 func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotOwns := 0
 	var gotOwnsId url.URL
 	app.owns = func(c context.Context, id url.URL) bool {
@@ -2260,7 +2266,9 @@ func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	var gotSetTarget PubObject
 	app.set = func(c context.Context, target PubObject) error {
 		gotSet++
-		gotSetTarget = target
+		if gotSet == 1 {
+			gotSetTarget = target
+		}
 		return nil
 	}
 	fedCb.add = func(c context.Context, s *streams.Add) error {
@@ -2287,20 +2295,18 @@ func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
 		t.Fatal(err)
 	} else if err := VocabSerializerEquals(gotCanAddTarget, expected); err != nil {
 		t.Fatal(err)
-	} else if gotSet != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
 	} else if err := PubObjectEquals(gotSetTarget, expected); err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestPostInbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotOwns := 0
 	var gotOwnsId url.URL
 	app.owns = func(c context.Context, id url.URL) bool {
@@ -2351,12 +2357,10 @@ func TestPostInbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 }
 
 func TestPostInbox_Add_CallsCallback(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
@@ -2366,9 +2370,6 @@ func TestPostInbox_Add_CallsCallback(t *testing.T) {
 	}
 	fedApp.canAdd = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
 		return true
-	}
-	app.set = func(c context.Context, target PubObject) error {
-		return nil
 	}
 	gotCallback := 0
 	var gotCallbackObject *streams.Add
@@ -2390,12 +2391,10 @@ func TestPostInbox_Add_CallsCallback(t *testing.T) {
 }
 
 func TestPostInbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotOwns := 0
 	var gotOwnsId url.URL
 	app.owns = func(c context.Context, id url.URL) bool {
@@ -2419,12 +2418,10 @@ func TestPostInbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
 }
 
 func TestPostInbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotOwns := 0
 	var gotOwnsId url.URL
 	app.owns = func(c context.Context, id url.URL) bool {
@@ -2454,7 +2451,9 @@ func TestPostInbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	var gotSetTarget PubObject
 	app.set = func(c context.Context, target PubObject) error {
 		gotSet++
-		gotSetTarget = target
+		if gotSet == 1 {
+			gotSetTarget = target
+		}
 		return nil
 	}
 	fedCb.remove = func(c context.Context, s *streams.Remove) error {
@@ -2479,20 +2478,18 @@ func TestPostInbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 		t.Fatal(err)
 	} else if err := VocabSerializerEquals(gotCanRemoveTarget, &vocab.Collection{}); err != nil {
 		t.Fatal(err)
-	} else if gotSet != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
 	} else if err := PubObjectEquals(gotSetTarget, &vocab.Collection{}); err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestPostInbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotOwns := 0
 	var gotOwnsId url.URL
 	app.owns = func(c context.Context, id url.URL) bool {
@@ -2546,12 +2543,10 @@ func TestPostInbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 }
 
 func TestPostInbox_Remove_CallsCallback(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
@@ -2561,9 +2556,6 @@ func TestPostInbox_Remove_CallsCallback(t *testing.T) {
 	}
 	fedApp.canRemove = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
 		return true
-	}
-	app.set = func(c context.Context, target PubObject) error {
-		return nil
 	}
 	gotCallback := 0
 	var gotCallbackObject *streams.Remove
@@ -2586,12 +2578,10 @@ func TestPostInbox_Remove_CallsCallback(t *testing.T) {
 
 // TODO: Test likes OrderedCollection & IRI.
 func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotOwns := 0
 	var gotOwnsId url.URL
 	app.owns = func(c context.Context, id url.URL) bool {
@@ -2615,7 +2605,9 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	var gotSetObject PubObject
 	app.set = func(c context.Context, target PubObject) error {
 		gotSet++
-		gotSetObject = target
+		if gotSet == 1 {
+			gotSetObject = target
+		}
 		return nil
 	}
 	fedCb.like = func(c context.Context, s *streams.Like) error {
@@ -2636,20 +2628,18 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
 	} else if gotGetId.String() != noteURIString {
 		t.Fatalf("expected %s, got %s", noteURIString, gotGetId.String())
-	} else if gotSet != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
 	} else if err := PubObjectEquals(gotSetObject, expected); err != nil {
 		t.Fatalf("unexpected callback object: %s", err)
 	}
 }
 
 func TestPostInbox_Like_CallsCallback(t *testing.T) {
-	app, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
@@ -2660,9 +2650,6 @@ func TestPostInbox_Like_CallsCallback(t *testing.T) {
 		v.AddContentString("This is a simple note")
 		v.SetLikesCollection(&vocab.Collection{})
 		return v, nil
-	}
-	app.set = func(c context.Context, target PubObject) error {
-		return nil
 	}
 	gotCallback := 0
 	var gotCallbackObject *streams.Like
@@ -2684,12 +2671,10 @@ func TestPostInbox_Like_CallsCallback(t *testing.T) {
 }
 
 func TestPostInbox_Undo_CallsCallback(t *testing.T) {
-	_, _, fedApp, _, fedCb, _, _, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testUndoLike))))
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
-		return nil
-	}
 	gotCallback := 0
 	var gotCallbackObject *streams.Undo
 	fedCb.undo = func(c context.Context, s *streams.Undo) error {
