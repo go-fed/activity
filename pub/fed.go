@@ -543,7 +543,6 @@ func (f *federator) handleClientFollow(c context.Context, deliverable *bool) fun
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		// Nothing extra to do.
 		return f.ClientCallbacker.Follow(c, s)
 	}
 }

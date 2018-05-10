@@ -70,6 +70,7 @@ var (
 	testClientUpdateNote             *vocab.Update
 	testClientExpectedUpdateNote     *vocab.Update
 	testClientExpectedDeleteNote     *vocab.Delete
+	testClientExpectedFollow         *vocab.Follow
 )
 
 func init() {
@@ -319,6 +320,11 @@ func init() {
 	testClientExpectedDeleteNote.AddActorObject(sallyActor)
 	testClientExpectedDeleteNote.AddObject(testNote)
 	testClientExpectedDeleteNote.AddToObject(samActor)
+	testClientExpectedFollow = &vocab.Follow{}
+	testClientExpectedFollow.SetId(*testNewIRI)
+	testClientExpectedFollow.AddActorObject(sallyActor)
+	testClientExpectedFollow.AddObject(samActor)
+	testClientExpectedFollow.AddToObject(samActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -3672,11 +3678,73 @@ func TestPostOutbox_Delete_IsDelivered(t *testing.T) {
 }
 
 func TestPostOutbox_Follow_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
+	gotCallback := 0
+	var gotCallbackObject *streams.Follow
+	socialCb.follow = func(c context.Context, s *streams.Follow) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testClientExpectedFollow); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostOutbox_Follow_IsDelivered(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
+	socialCb.follow = func(c context.Context, s *streams.Follow) error {
+		return nil
+	}
+	gotHttpDo := 0
+	var httpDeliveryRequest *http.Request
+	httpClient.do = func(req *http.Request) (*http.Response, error) {
+		gotHttpDo++
+		if gotHttpDo == 1 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(samActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 2 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(sallyActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 3 {
+			httpDeliveryRequest = req
+			okResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
+			}
+			return okResp, nil
+		}
+		return nil, nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if httpDeliveryRequest.Method != "POST" {
+		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
+	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
+		t.Fatalf("expected %s, got %s", samIRIInboxString, s)
+	}
 }
 
 func TestPostOutbox_Accept_CallsCallback(t *testing.T) {
