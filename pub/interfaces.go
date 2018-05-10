@@ -41,6 +41,9 @@ type Application interface {
 	Owns(c context.Context, id url.URL) bool
 	// Get fetches the ActivityStream representation of the given id.
 	Get(c context.Context, id url.URL) (PubObject, error)
+	// Has determines if the server already knows about the object or
+	// Activity specified by the given id.
+	Has(c context.Context, id url.URL) (bool, error)
 	// Set should write or overwrite the value of the provided object for
 	// its 'id'.
 	Set(c context.Context, o PubObject) error
@@ -96,6 +99,17 @@ type FederateApp interface {
 	// If nil error is returned, then the received activity is processed as
 	// a normal unblocked interaction.
 	Unblocked(c context.Context, actorIRIs []url.URL) error
+	// FilterForwarding is invoked when a received activity needs to be
+	// forwarded to specific inboxes owned by this server in order to avoid
+	// the ghost reply problem. The IRIs provided are collections owned by
+	// this server that the federate peer requested inbox forwarding to.
+	//
+	// Implementors must apply some sort of filtering to the provided IRI
+	// collections. Without any filtering, the resulting application is
+	// vulnerable to becoming a spam bot for a malicious federate peer.
+	// Typical implementations will filter the iris down to be only the
+	// follower collections owned by the actors targeted in the activity.
+	FilterForwarding(c context.Context, activity vocab.ActivityType, iris []url.URL) ([]url.URL, error)
 }
 
 // FollowResponse instructs how to proceed upon immediately receiving a request
@@ -112,6 +126,9 @@ const (
 // ActivityPub processes for both client-to-server and server-to-server
 // interactions. These callbacks are called after their spec-compliant actions
 // are completed, but before inbox forwarding and before delivery.
+//
+// Note that at minimum, for inbox forwarding to work correctly, these
+// Activities must be stored in the client application as a system of record.
 //
 // Note that modifying the ActivityStream objects in a callback may cause
 // unintentionally non-standard behavior if modifying core attributes, but

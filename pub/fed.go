@@ -49,7 +49,7 @@ type Pubber interface {
 	GetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
 }
 
-// NewPubber provides a Pubber that implements only the Social API in
+// NewSocialPubber provides a Pubber that implements only the Social API in
 // ActivityPub.
 func NewSocialPubber(clock Clock, app Application, socialApp SocialApp, cb Callbacker) Pubber {
 	return &federator{
@@ -61,38 +61,40 @@ func NewSocialPubber(clock Clock, app Application, socialApp SocialApp, cb Callb
 	}
 }
 
-// NewPubber provides a Pubber that implements only the Federating API in
-// ActivityPub.
-func NewFederatingPubber(clock Clock, app Application, fApp FederateApp, cb Callbacker, d Deliverer, client HttpClient, userAgent string, maxDeliveryDepth int) Pubber {
+// NewFederatingPubber provides a Pubber that implements only the Federating API
+// in ActivityPub.
+func NewFederatingPubber(clock Clock, app Application, fApp FederateApp, cb Callbacker, d Deliverer, client HttpClient, userAgent string, maxDeliveryDepth, maxForwardingDepth int) Pubber {
 	return &federator{
-		Clock:            clock,
-		App:              app,
-		FederateApp:      fApp,
-		ServerCallbacker: cb,
-		Client:           client,
-		Agent:            userAgent,
-		MaxDeliveryDepth: maxDeliveryDepth,
-		EnableServer:     true,
-		deliverer:        d,
+		Clock:                   clock,
+		App:                     app,
+		FederateApp:             fApp,
+		ServerCallbacker:        cb,
+		Client:                  client,
+		Agent:                   userAgent,
+		MaxDeliveryDepth:        maxDeliveryDepth,
+		MaxInboxForwardingDepth: maxForwardingDepth,
+		EnableServer:            true,
+		deliverer:               d,
 	}
 }
 
 // NewPubber provides a Pubber that implements both the Social API and the
 // Federating API in ActivityPub.
-func NewPubber(clock Clock, app Application, sApp SocialApp, fApp FederateApp, client, server Callbacker, d Deliverer, httpClient HttpClient, userAgent string, maxDeliveryDepth int) Pubber {
+func NewPubber(clock Clock, app Application, sApp SocialApp, fApp FederateApp, client, server Callbacker, d Deliverer, httpClient HttpClient, userAgent string, maxDeliveryDepth, maxForwardingDepth int) Pubber {
 	return &federator{
-		Clock:            clock,
-		App:              app,
-		SocialApp:        sApp,
-		FederateApp:      fApp,
-		Client:           httpClient,
-		Agent:            userAgent,
-		MaxDeliveryDepth: maxDeliveryDepth,
-		ServerCallbacker: server,
-		ClientCallbacker: client,
-		EnableClient:     true,
-		EnableServer:     true,
-		deliverer:        d,
+		Clock:                   clock,
+		App:                     app,
+		SocialApp:               sApp,
+		FederateApp:             fApp,
+		Client:                  httpClient,
+		Agent:                   userAgent,
+		MaxDeliveryDepth:        maxDeliveryDepth,
+		MaxInboxForwardingDepth: maxForwardingDepth,
+		ServerCallbacker:        server,
+		ClientCallbacker:        client,
+		EnableClient:            true,
+		EnableServer:            true,
+		deliverer:               d,
 	}
 }
 
@@ -141,6 +143,13 @@ type federator struct {
 	//
 	// It is only required if EnableServer is true.
 	MaxDeliveryDepth int
+	// MaxInboxForwardingDepth is how deep the values are examined for
+	// determining ownership of whether to forward an Activity to
+	// collections or followers. Once this maximum is exceeded, the ghost
+	// replies issue may become a problem, but users may not mind.
+	//
+	// It is only required if EnableServer is true.
+	MaxInboxForwardingDepth int
 	// deliverer handles deliveries to other federated servers.
 	//
 	// It is only required if EnableServer is true.
@@ -192,7 +201,9 @@ func (f *federator) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	if err := f.addToInbox(c, r, m); err != nil {
 		return true, err
 	}
-	// TODO: 7.1.2 Inbox forwarding
+	if err := f.inboxForwarding(c, m); err != nil {
+		return true, err
+	}
 	w.WriteHeader(http.StatusOK)
 	return true, nil
 }

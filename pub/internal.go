@@ -483,6 +483,12 @@ func (f *federator) deliver(obj vocab.ActivityType) error {
 	if err != nil {
 		return err
 	}
+	return f.deliverToRecipients(obj, recipients)
+}
+
+// deliverToRecipients will take a prepared Activity and send it to specific
+// recipients without examining the activity.
+func (f *federator) deliverToRecipients(obj vocab.ActivityType, recipients []url.URL) error {
 	m, err := obj.Serialize()
 	if err != nil {
 		return err
@@ -1333,6 +1339,212 @@ func (f *federator) addToInbox(c context.Context, r *http.Request, m map[string]
 	}
 	inbox.AddOrderedItemsObject(activity)
 	return f.App.Set(c, inbox)
+}
+
+// Note: This is a mechanism for causing other victim servers to DDOS
+// or forward spam on a malicious user's behalf. The trick is a simple
+// one: Reply to a user, and CC a ton of 'follower' collections owned
+// by the victim server. Bonus points for listing more 'follower'
+// collections from other popular instances as well. Leveraging the
+// Inbox Forwarding mechanism, a storm of messages will ensue.
+//
+// I don't want users of this library to be vulnerable to this kind of
+// spam/DDOS storm. So here we allow the client application to filter
+// out recipient collections.
+func (f *federator) inboxForwarding(c context.Context, m map[string]interface{}) error {
+	a, err := toAnyActivity(m)
+	if err != nil {
+		return err
+	}
+	// 1. Must be first time we have seen this Activity.
+	if ok, err := f.App.Has(c, a.GetId()); err != nil {
+		return err
+	} else if ok {
+		return nil
+	}
+	// 2. The values of 'to', 'cc', or 'audience' are Collections owned by
+	//    this server.
+	var r []url.URL
+	r = append(r, getToIRIs(a)...)
+	r = append(r, getCcIRIs(a)...)
+	r = append(r, getAudienceIRIs(a)...)
+	var myIRIs []url.URL
+	col := make(map[string]vocab.CollectionType, 0)
+	oCol := make(map[string]vocab.OrderedCollectionType, 0)
+	for _, iri := range r {
+		if ok, err := f.App.Has(c, iri); err != nil {
+			return err
+		} else if !ok {
+			continue
+		}
+		obj, err := f.App.Get(c, iri)
+		if err != nil {
+			return err
+		}
+		if c, ok := obj.(vocab.CollectionType); ok {
+			col[(&iri).String()] = c
+			myIRIs = append(myIRIs, iri)
+		} else if oc, ok := obj.(vocab.OrderedCollectionType); ok {
+			oCol[(&iri).String()] = oc
+			myIRIs = append(myIRIs, iri)
+		}
+	}
+	if len(myIRIs) == 0 {
+		return nil
+	}
+	// 3. The values of 'inReplyTo', 'object', 'target', or 'tag' are owned
+	//    by this server.
+	ownsValue := false
+	objs, l, iris := getInboxForwardingValues(a)
+	for _, obj := range objs {
+		if f.hasInboxForwardingValues(c, 0, f.MaxInboxForwardingDepth, obj) {
+			ownsValue = true
+			break
+		}
+	}
+	if !ownsValue && f.ownsAnyLinks(c, l) {
+		ownsValue = true
+	}
+	if !ownsValue && f.ownsAnyIRIs(c, iris) {
+		ownsValue = true
+	}
+	if !ownsValue {
+		return nil
+	}
+	// Do the inbox forwarding since the above conditions hold true. Support
+	// the behavior of letting the application filter out the resulting
+	// collections to be targeted.
+	toSend, err := f.FederateApp.FilterForwarding(c, a, myIRIs)
+	if err != nil {
+		return err
+	}
+	recipients := make([]url.URL, 0, len(toSend))
+	for _, iri := range toSend {
+		if c, ok := col[(&iri).String()]; ok {
+			for i := 0; i < c.ItemsLen(); i++ {
+				if c.IsItemsObject(i) {
+					obj := c.GetItemsObject(i)
+					if obj.HasId() {
+						recipients = append(recipients, obj.GetId())
+					}
+				} else if c.IsItemsLink(i) {
+					l := c.GetItemsLink(i)
+					if l.HasHref() {
+						recipients = append(recipients, l.GetHref())
+					}
+				} else if c.IsItemsIRI(i) {
+					recipients = append(recipients, c.GetItemsIRI(i))
+				}
+			}
+		} else if oc, ok := oCol[(&iri).String()]; ok {
+			for i := 0; i < oc.OrderedItemsLen(); i++ {
+				if oc.IsOrderedItemsObject(i) {
+					obj := oc.GetOrderedItemsObject(i)
+					if obj.HasId() {
+						recipients = append(recipients, obj.GetId())
+					}
+				} else if oc.IsOrderedItemsLink(i) {
+					l := oc.GetItemsLink(i)
+					if l.HasHref() {
+						recipients = append(recipients, l.GetHref())
+					}
+				} else if oc.IsOrderedItemsIRI(i) {
+					recipients = append(recipients, oc.GetOrderedItemsIRI(i))
+				}
+			}
+		}
+	}
+	return f.deliverToRecipients(a, recipients)
+}
+
+// Given an 'inReplyTo', 'object', 'target', or 'tag' object, recursively
+// examines those same values to determine if the app owns any, up to a maximum
+// depth.
+func (f *federator) hasInboxForwardingValues(c context.Context, depth, maxDepth int, o vocab.ObjectType) bool {
+	if depth == maxDepth {
+		return false
+	}
+	if f.App.Owns(c, o.GetId()) {
+		return true
+	}
+	objs, l, iris := getInboxForwardingValues(o)
+	for _, obj := range objs {
+		if f.hasInboxForwardingValues(c, depth+1, maxDepth, obj) {
+			return true
+		}
+	}
+	if f.ownsAnyLinks(c, l) {
+		return true
+	}
+	return f.ownsAnyIRIs(c, iris)
+}
+
+func (f *federator) ownsAnyIRIs(c context.Context, iris []url.URL) bool {
+	for _, iri := range iris {
+		if f.App.Owns(c, iri) {
+			return true
+		}
+		// TODO: Dereference the IRI
+	}
+	return false
+}
+
+func (f *federator) ownsAnyLinks(c context.Context, links []vocab.LinkType) bool {
+	for _, link := range links {
+		if !link.HasHref() {
+			continue
+		}
+		href := link.GetHref()
+		if f.App.Owns(c, href) {
+			return true
+		}
+		// TODO: Dereference the IRI
+	}
+	return false
+}
+
+func getInboxForwardingValues(o vocab.ObjectType) (objs []vocab.ObjectType, l []vocab.LinkType, iri []url.URL) {
+	// 'inReplyTo'
+	for i := 0; i < o.InReplyToLen(); i++ {
+		if o.IsInReplyToObject(i) {
+			objs = append(objs, o.GetInReplyToObject(i))
+		} else if o.IsInReplyToLink(i) {
+			l = append(l, o.GetInReplyToLink(i))
+		} else if o.IsInReplyToIRI(i) {
+			iri = append(iri, o.GetInReplyToIRI(i))
+		}
+	}
+	// 'tag'
+	for i := 0; i < o.TagLen(); i++ {
+		if o.IsTagObject(i) {
+			objs = append(objs, o.GetTagObject(i))
+		} else if o.IsTagLink(i) {
+			l = append(l, o.GetTagLink(i))
+		} else if o.IsTagIRI(i) {
+			iri = append(iri, o.GetTagIRI(i))
+		}
+	}
+	if a, ok := o.(vocab.ActivityType); ok {
+		// 'object'
+		for i := 0; i < a.ObjectLen(); i++ {
+			if a.IsObject(i) {
+				objs = append(objs, a.GetObject(i))
+			} else if a.IsObjectIRI(i) {
+				iri = append(iri, a.GetObjectIRI(i))
+			}
+		}
+		// 'target'
+		for i := 0; i < a.TargetLen(); i++ {
+			if a.IsTargetObject(i) {
+				objs = append(objs, a.GetTargetObject(i))
+			} else if a.IsTargetLink(i) {
+				l = append(l, a.GetTargetLink(i))
+			} else if a.IsTargetIRI(i) {
+				iri = append(iri, a.GetTargetIRI(i))
+			}
+		}
+	}
+	return
 }
 
 // Fetches an "object" on a raw JSON map of an Activity with the matching 'id'

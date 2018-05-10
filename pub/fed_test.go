@@ -442,6 +442,7 @@ type MockApplication struct {
 	t         *testing.T
 	owns      func(c context.Context, id url.URL) bool
 	get       func(c context.Context, id url.URL) (PubObject, error)
+	has       func(c context.Context, id url.URL) (bool, error)
 	set       func(c context.Context, o PubObject) error
 	getInbox  func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
 	getOutbox func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
@@ -460,6 +461,13 @@ func (m *MockApplication) Get(c context.Context, id url.URL) (PubObject, error) 
 		m.t.Fatal("unexpected call to MockApplication Get")
 	}
 	return m.get(c, id)
+}
+
+func (m *MockApplication) Has(c context.Context, id url.URL) (bool, error) {
+	if m.has == nil {
+		m.t.Fatal("unexpected call to MockApplication Has")
+	}
+	return m.has(c, id)
 }
 
 func (m *MockApplication) Set(c context.Context, o PubObject) error {
@@ -647,12 +655,13 @@ func (m *MockCallbacker) Reject(c context.Context, s *streams.Reject) error {
 var _ FederateApp = &MockFederateApp{}
 
 type MockFederateApp struct {
-	t            *testing.T
-	canAdd       func(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
-	canRemove    func(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
-	onFollow     func(c context.Context, s *streams.Follow) FollowResponse
-	unblocked    func(c context.Context, actorIRIs []url.URL) error
-	getFollowing func(c context.Context, actor url.URL) (vocab.CollectionType, error)
+	t                *testing.T
+	canAdd           func(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
+	canRemove        func(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
+	onFollow         func(c context.Context, s *streams.Follow) FollowResponse
+	unblocked        func(c context.Context, actorIRIs []url.URL) error
+	getFollowing     func(c context.Context, actor url.URL) (vocab.CollectionType, error)
+	filterForwarding func(c context.Context, activity vocab.ActivityType, iris []url.URL) ([]url.URL, error)
 }
 
 func (m *MockFederateApp) CanAdd(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool {
@@ -688,6 +697,13 @@ func (m *MockFederateApp) GetFollowing(c context.Context, actor url.URL) (vocab.
 		m.t.Fatal("unexpected call to MockFederateApp GetFollowing")
 	}
 	return m.getFollowing(c, actor)
+}
+
+func (m *MockFederateApp) FilterForwarding(c context.Context, activity vocab.ActivityType, iris []url.URL) ([]url.URL, error) {
+	if m.filterForwarding == nil {
+		m.t.Fatal("unexpected call to MockFederateApp FilterForwarding")
+	}
+	return m.filterForwarding(c, activity, iris)
 }
 
 var _ Deliverer = &MockDeliverer{}
@@ -734,7 +750,7 @@ func NewFederatingPubberTest(t *testing.T) (app *MockApplication, fedApp *MockFe
 	cb = &MockCallbacker{t: t}
 	d = &MockDeliverer{t: t}
 	h = &MockHttpClient{t: t}
-	p = NewFederatingPubber(clock, app, fedApp, cb, d, h, testAgent, 1)
+	p = NewFederatingPubber(clock, app, fedApp, cb, d, h, testAgent, 1, 1)
 	return
 }
 
@@ -747,7 +763,7 @@ func NewPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSocialApp
 	fedCb = &MockCallbacker{t: t}
 	d = &MockDeliverer{t: t}
 	h = &MockHttpClient{t: t}
-	p = NewPubber(clock, app, socialApp, fedApp, socialCb, fedCb, d, h, testAgent, 1)
+	p = NewPubber(clock, app, socialApp, fedApp, socialCb, fedCb, d, h, testAgent, 1, 1)
 	return
 }
 
@@ -762,6 +778,9 @@ func PreparePostInboxTest(t *testing.T, app *MockApplication, socialApp *MockSoc
 	}
 	app.set = func(c context.Context, o PubObject) error {
 		return nil
+	}
+	app.has = func(c context.Context, id url.URL) (bool, error) {
+		return false, nil
 	}
 	return
 }
@@ -981,6 +1000,26 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 		}
 		return nil
 	}
+	gotHas := 0
+	var hasIriActivity url.URL
+	var hasIriTo url.URL
+	app.has = func(c context.Context, id url.URL) (bool, error) {
+		gotHas++
+		if gotHas == 1 {
+			hasIriActivity = id
+			return false, nil
+		} else {
+			hasIriTo = id
+			return true, nil
+		}
+	}
+	gotGet := 0
+	var gotIri url.URL
+	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+		gotGet++
+		gotIri = iri
+		return samActor, nil
+	}
 	gotCreate := 0
 	var gotCreateCallback *streams.Create
 	cb.create = func(c context.Context, s *streams.Create) error {
@@ -1005,6 +1044,16 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 		t.Fatalf("expected %s, got %s", "OrderedCollection", l)
 	} else if l := setObject.GetType(0).(string); l != "Note" {
 		t.Fatalf("expected %s, got %s", "Note", l)
+	} else if gotHas != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotHas)
+	} else if hasIriActivityString := (&hasIriActivity).String(); hasIriActivityString != noteActivityURIString {
+		t.Fatalf("expected %s, got %s", noteActivityURIString, hasIriActivityString)
+	} else if hasIriToString := (&hasIriTo).String(); hasIriToString != samIRIString {
+		t.Fatalf("expected %s, got %s", samIRIString, hasIriToString)
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotIriString := (&gotIri).String(); gotIriString != samIRIString {
+		t.Fatalf("expected %s, got %s", samIRIString, gotIriString)
 	} else if gotCreate != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCreate)
 	} else if s := gotCreateCallback.Raw().GetActorObject(0).GetId(); s.String() != sallyIRIString {
@@ -1112,6 +1161,26 @@ func TestPubber_PostInbox(t *testing.T) {
 		}
 		return nil
 	}
+	gotHas := 0
+	var hasIriActivity url.URL
+	var hasIriTo url.URL
+	app.has = func(c context.Context, id url.URL) (bool, error) {
+		gotHas++
+		if gotHas == 1 {
+			hasIriActivity = id
+			return false, nil
+		} else {
+			hasIriTo = id
+			return true, nil
+		}
+	}
+	gotGet := 0
+	var gotIri url.URL
+	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+		gotGet++
+		gotIri = iri
+		return samActor, nil
+	}
 	gotCreate := 0
 	var gotCreateCallback *streams.Create
 	fedCb.create = func(c context.Context, s *streams.Create) error {
@@ -1136,6 +1205,16 @@ func TestPubber_PostInbox(t *testing.T) {
 		t.Fatalf("expected %s, got %s", "OrderedCollection", l)
 	} else if l := setObject.GetType(0).(string); l != "Note" {
 		t.Fatalf("expected %s, got %s", "Note", l)
+	} else if gotHas != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotHas)
+	} else if hasIriActivityString := (&hasIriActivity).String(); hasIriActivityString != noteActivityURIString {
+		t.Fatalf("expected %s, got %s", noteActivityURIString, hasIriActivityString)
+	} else if hasIriToString := (&hasIriTo).String(); hasIriToString != samIRIString {
+		t.Fatalf("expected %s, got %s", samIRIString, hasIriToString)
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotIriString := (&gotIri).String(); gotIriString != samIRIString {
+		t.Fatalf("expected %s, got %s", samIRIString, gotIriString)
 	} else if gotCreate != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCreate)
 	} else if s := gotCreateCallback.Raw().GetActorObject(0).GetId(); s.String() != sallyIRIString {
