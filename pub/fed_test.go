@@ -74,6 +74,7 @@ var (
 	testClientExpectedAcceptFollow   *vocab.Accept
 	testClientExpectedRejectFollow   *vocab.Reject
 	testClientExpectedAdd            *vocab.Add
+	testClientExpectedRemove         *vocab.Remove
 )
 
 func init() {
@@ -344,6 +345,12 @@ func init() {
 	testClientExpectedAdd.AddObject(testNote)
 	testClientExpectedAdd.AddTargetIRI(*iri)
 	testClientExpectedAdd.AddToObject(samActor)
+	testClientExpectedRemove = &vocab.Remove{}
+	testClientExpectedRemove.SetId(*testNewIRI)
+	testClientExpectedRemove.AddActorObject(sallyActor)
+	testClientExpectedRemove.AddObject(testNote)
+	testClientExpectedRemove.AddTargetIRI(*iri)
+	testClientExpectedRemove.AddToObject(samActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -4122,23 +4129,220 @@ func TestPostOutbox_Add_IsDelivered(t *testing.T) {
 }
 
 func TestPostOutbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	gotOwns := 0
+	var gotOwnsIri url.URL
+	app.owns = func(c context.Context, iri url.URL) bool {
+		gotOwns++
+		gotOwnsIri = iri
+		return false
+	}
+	socialCb.remove = func(c context.Context, s *streams.Remove) error {
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if ownsIri := (&gotOwnsIri).String(); ownsIri != iriString {
+		t.Fatalf("expected %s, got %s", iriString, ownsIri)
+	}
 }
 
 func TestPostOutbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	app.owns = func(c context.Context, iri url.URL) bool {
+		return true
+	}
+	gotGet := 0
+	var gotGetIri url.URL
+	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+		gotGet++
+		gotGetIri = iri
+		col := &vocab.Collection{}
+		col.AddType("Collection")
+		col.AddItemsObject(testNote)
+		return col, nil
+	}
+	gotCanRemove := 0
+	var canRemoveObj vocab.ObjectType
+	var canRemoveTarget vocab.ObjectType
+	socialApp.canRemove = func(c context.Context, obj vocab.ObjectType, t vocab.ObjectType) bool {
+		gotCanRemove++
+		canRemoveObj = obj
+		canRemoveTarget = t
+		return true
+	}
+	gotSet := 0
+	var gotSetObj PubObject
+	app.set = func(c context.Context, t PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObj = t
+		}
+		return nil
+	}
+	socialCb.remove = func(c context.Context, s *streams.Remove) error {
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	expectedTarget := &vocab.Collection{}
+	expectedTarget.AddType("Collection")
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if getIri := (&gotGetIri).String(); getIri != iriString {
+		t.Fatalf("expected %s, got %s", iriString, getIri)
+	} else if gotCanRemove != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCanRemove)
+	} else if err := VocabSerializerEquals(canRemoveTarget, expectedTarget); err != nil {
+		t.Fatal(err)
+	} else if err := VocabSerializerEquals(canRemoveObj, testNote); err != nil {
+		t.Fatal(err)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if err := PubObjectEquals(gotSetObj, expectedTarget); err != nil {
+		t.Fatalf("unexpected set object: %s", err)
+	}
 }
 
 func TestPostOutbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	app.owns = func(c context.Context, iri url.URL) bool {
+		return true
+	}
+	gotGet := 0
+	var gotGetIri url.URL
+	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+		gotGet++
+		gotGetIri = iri
+		col := &vocab.Collection{}
+		col.AddType("Collection")
+		col.AddItemsObject(testNote)
+		return col, nil
+	}
+	gotCanRemove := 0
+	var canRemoveObj vocab.ObjectType
+	var canRemoveTarget vocab.ObjectType
+	socialApp.canRemove = func(c context.Context, obj vocab.ObjectType, t vocab.ObjectType) bool {
+		gotCanRemove++
+		canRemoveObj = obj
+		canRemoveTarget = t
+		return false
+	}
+	socialCb.remove = func(c context.Context, s *streams.Remove) error {
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	expectedTarget := &vocab.Collection{}
+	expectedTarget.AddType("Collection")
+	expectedTarget.AddItemsObject(testNote)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if getIri := (&gotGetIri).String(); getIri != iriString {
+		t.Fatalf("expected %s, got %s", iriString, getIri)
+	} else if gotCanRemove != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCanRemove)
+	} else if err := VocabSerializerEquals(canRemoveTarget, expectedTarget); err != nil {
+		t.Fatal(err)
+	} else if err := VocabSerializerEquals(canRemoveObj, testNote); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestPostOutbox_Remove_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	app.owns = func(c context.Context, iri url.URL) bool {
+		return false
+	}
+	gotCallback := 0
+	var gotCallbackObject *streams.Remove
+	socialCb.remove = func(c context.Context, s *streams.Remove) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testClientExpectedRemove); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostOutbox_Remove_IsDelivered(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	app.owns = func(c context.Context, iri url.URL) bool {
+		return false
+	}
+	socialCb.remove = func(c context.Context, s *streams.Remove) error {
+		return nil
+	}
+	gotHttpDo := 0
+	var httpDeliveryRequest *http.Request
+	httpClient.do = func(req *http.Request) (*http.Response, error) {
+		gotHttpDo++
+		if gotHttpDo == 1 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(samActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 2 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(sallyActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 3 {
+			httpDeliveryRequest = req
+			okResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
+			}
+			return okResp, nil
+		}
+		return nil, nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if httpDeliveryRequest.Method != "POST" {
+		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
+	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
+		t.Fatalf("expected %s, got %s", samIRIInboxString, s)
+	}
 }
 
 func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
