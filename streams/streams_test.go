@@ -3,10 +3,10 @@
 package streams
 
 import (
-	"net/url"
 	"encoding/json"
 	"github.com/go-fed/activity/vocab"
 	"github.com/go-test/deep"
+	"net/url"
 	"testing"
 )
 
@@ -255,13 +255,13 @@ func TestNulls(t *testing.T) {
 	expectedUpdate.SetId(*activityIRI)
 	expectedUpdate.AddObject(expectedNote)
 	tables := []struct {
-		name         string
-		expected     vocab.Serializer
-		input        string
+		name     string
+		expected vocab.Serializer
+		input    string
 	}{
 		{
-			name:         "JSON with null",
-			expected:     expectedUpdate,
+			name:     "JSON with null",
+			expected: expectedUpdate,
 			input: `
                         {
                           "@context": "https://www.w3.org/ns/activitystreams",
