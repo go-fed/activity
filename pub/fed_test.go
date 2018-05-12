@@ -17,20 +17,21 @@ import (
 )
 
 const (
-	iriString             = "https://example.com/something"
-	noteURIString         = "https://example.com/note/123"
-	updateURIString       = "https://example.com/note/update/123"
-	noteActivityURIString = "https://example.com/activity/987"
-	testAgent             = "test agent string"
-	testInboxURI          = "https://example.com/sally/inbox"
-	testOutboxURI         = "https://example.com/sally/outbox"
-	testNewIRIString      = "https://example.com/test/new/iri"
-	sallyIRIString        = "https://example.com/sally"
-	samIRIString          = "https://example.com/sam"
-	samIRIInboxString     = "https://example.com/sam/inbox"
-	samIRIFollowersString = "https://example.com/sam/followers"
-	sallyIRIInboxString   = "https://example.com/sally/inbox"
-	noteName              = "A Note"
+	iriString               = "https://example.com/something"
+	noteURIString           = "https://example.com/note/123"
+	updateURIString         = "https://example.com/note/update/123"
+	noteActivityURIString   = "https://example.com/activity/987"
+	testAgent               = "test agent string"
+	testInboxURI            = "https://example.com/sally/inbox"
+	testOutboxURI           = "https://example.com/sally/outbox"
+	testNewIRIString        = "https://example.com/test/new/iri"
+	sallyIRIString          = "https://example.com/sally"
+	sallyFollowingIRIString = "https://example.com/sally/following"
+	samIRIString            = "https://example.com/sam"
+	samIRIInboxString       = "https://example.com/sam/inbox"
+	samIRIFollowersString   = "https://example.com/sam/followers"
+	sallyIRIInboxString     = "https://example.com/sally/inbox"
+	noteName                = "A Note"
 )
 
 var (
@@ -41,6 +42,7 @@ var (
 	testNewIRI                       *url.URL
 	sallyIRI                         *url.URL
 	sallyIRIInbox                    *url.URL
+	sallyFollowingIRI                *url.URL
 	sallyActor                       *vocab.Person
 	sallyActorJSON                   []byte
 	samIRI                           *url.URL
@@ -108,6 +110,10 @@ func init() {
 		panic(err)
 	}
 	sallyIRIInbox, err = url.Parse(sallyIRIInboxString)
+	if err != nil {
+		panic(err)
+	}
+	sallyFollowingIRI, err = url.Parse(sallyFollowingIRIString)
 	if err != nil {
 		panic(err)
 	}
@@ -1979,6 +1985,13 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
 	}
+	gotOwns := 0
+	var ownsIRI url.URL
+	app.owns = func(c context.Context, id url.URL) bool {
+		gotOwns++
+		ownsIRI = id
+		return true
+	}
 	gotHttpDo := 0
 	var httpActorRequest *http.Request
 	var httpDeliveryRequest *http.Request
@@ -2028,6 +2041,10 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 		t.Fatalf("expected %s, got %s", sallyIRIString, s)
 	} else if s := httpDeliveryRequest.URL.String(); s != sallyIRIInboxString {
 		t.Fatalf("expected %s, got %s", sallyIRIInboxString, s)
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if ownsIRI.String() != samIRIString {
+		t.Fatalf("expected %s, got %s", samIRIString, ownsIRI.String())
 	} else if gotDoDelivery != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotDoDelivery)
 	} else if doDeliveryURL.String() != sallyIRIInboxString {
@@ -2037,8 +2054,6 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 	}
 }
 
-// TODO: Test follower OrderedCollection & IRI.
-// TODO: Test does not own one of the objects.
 func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
@@ -2155,6 +2170,190 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	}
 }
 
+func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
+	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
+		return AutomaticAccept
+	}
+	fedCb.follow = func(c context.Context, s *streams.Follow) error {
+		return nil
+	}
+	gotHttpDo := 0
+	httpClient.do = func(req *http.Request) (*http.Response, error) {
+		gotHttpDo++
+		if gotHttpDo == 1 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(sallyActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 2 {
+			okResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
+			}
+			return okResp, nil
+		}
+		return nil, nil
+	}
+	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+		if err := toDo(b, u); err != nil {
+			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
+		}
+	}
+	app.owns = func(c context.Context, id url.URL) bool {
+		return true
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		samActor := &vocab.Person{}
+		samActor.SetInboxAnyURI(*samIRIInbox)
+		samActor.SetId(*samIRI)
+		samActor.SetFollowersOrderedCollection(&vocab.OrderedCollection{})
+		return samActor, nil
+	}
+	gotSet := 0
+	var setObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			setObject = o
+		}
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expectedFollowers := &vocab.OrderedCollection{}
+	expectedFollowers.AddOrderedItemsObject(sallyActor)
+	expectedActor := &vocab.Person{}
+	expectedActor.SetInboxAnyURI(*samIRIInbox)
+	expectedActor.SetId(*samIRI)
+	expectedActor.SetFollowersOrderedCollection(expectedFollowers)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if err := PubObjectEquals(setObject, expectedActor); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
+	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
+		return AutomaticAccept
+	}
+	fedCb.follow = func(c context.Context, s *streams.Follow) error {
+		return nil
+	}
+	gotHttpDo := 0
+	httpClient.do = func(req *http.Request) (*http.Response, error) {
+		gotHttpDo++
+		if gotHttpDo == 1 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(sallyActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 2 {
+			okResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
+			}
+			return okResp, nil
+		}
+		return nil, nil
+	}
+	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+		if err := toDo(b, u); err != nil {
+			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
+		}
+	}
+	app.owns = func(c context.Context, id url.URL) bool {
+		return true
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		if id == *samIRI {
+			samActor := &vocab.Person{}
+			samActor.SetInboxAnyURI(*samIRIInbox)
+			samActor.SetId(*samIRI)
+			samActor.SetFollowersAnyURI(*testNewIRI)
+			return samActor, nil
+		} else if id == *testNewIRI {
+			return &vocab.Collection{}, nil
+		}
+		t.Fatalf("unexpected get(%s)", &id)
+		return nil, nil
+	}
+	gotSet := 0
+	var setObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			setObject = o
+		}
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expectedFollowers := &vocab.Collection{}
+	expectedFollowers.AddItemsObject(sallyActor)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if err := PubObjectEquals(setObject, expectedFollowers); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestPostInbox_Follow_DoesNotAutoAcceptIfNotOwned(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
+	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
+		return AutomaticAccept
+	}
+	fedCb.follow = func(c context.Context, s *streams.Follow) error {
+		return nil
+	}
+	app.owns = func(c context.Context, id url.URL) bool {
+		return false
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	}
+}
+
+func TestPostInbox_Follow_DoesNotAutoRejectIfNotOwned(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
+	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
+		return AutomaticReject
+	}
+	fedCb.follow = func(c context.Context, s *streams.Follow) error {
+		return nil
+	}
+	app.owns = func(c context.Context, id url.URL) bool {
+		return false
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	}
+}
+
 func TestPostInbox_Follow_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
@@ -2198,7 +2397,6 @@ func TestPostInbox_Accept_DoesNothingIfNotAcceptingFollow(t *testing.T) {
 	}
 }
 
-// TODO: Test follower OrderedCollection & IRI.
 func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
@@ -2256,6 +2454,94 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 	} else if gotSet != 2 {
 		t.Fatalf("expected %d, got %d", 2, gotSet)
 	} else if err := PubObjectEquals(setObject, expectedActor); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestPostInbox_Accept_AcceptFollowAddsToFollowersOrderedCollection(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
+	app.owns = func(c context.Context, id url.URL) bool {
+		return true
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		sallyActor := &vocab.Person{}
+		sallyActor.SetInboxAnyURI(*sallyIRIInbox)
+		sallyActor.SetId(*sallyIRI)
+		sallyActor.SetFollowingOrderedCollection(&vocab.OrderedCollection{})
+		return sallyActor, nil
+	}
+	gotSet := 0
+	var setObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			setObject = o
+		}
+		return nil
+	}
+	fedCb.accept = func(c context.Context, s *streams.Accept) error {
+		return nil
+	}
+	expectedFollowing := &vocab.OrderedCollection{}
+	expectedFollowing.AddOrderedItemsObject(samActor)
+	expectedActor := &vocab.Person{}
+	expectedActor.SetInboxAnyURI(*sallyIRIInbox)
+	expectedActor.SetId(*sallyIRI)
+	expectedActor.SetFollowingOrderedCollection(expectedFollowing)
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if err := PubObjectEquals(setObject, expectedActor); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestPostInbox_Accept_AcceptFollowAddsToFollowersIRI(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
+	app.owns = func(c context.Context, id url.URL) bool {
+		return true
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		if id == *sallyIRI {
+			sallyActor := &vocab.Person{}
+			sallyActor.SetInboxAnyURI(*sallyIRIInbox)
+			sallyActor.SetId(*sallyIRI)
+			sallyActor.SetFollowingAnyURI(*sallyFollowingIRI)
+			return sallyActor, nil
+		} else if id == *sallyFollowingIRI {
+			return &vocab.OrderedCollection{}, nil
+		}
+		t.Fatalf("Unexpected get(%s)", (&id).String())
+		return nil, nil
+	}
+	gotSet := 0
+	var setObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			setObject = o
+		}
+		return nil
+	}
+	fedCb.accept = func(c context.Context, s *streams.Accept) error {
+		return nil
+	}
+	expectedFollowing := &vocab.OrderedCollection{}
+	expectedFollowing.AddOrderedItemsObject(samActor)
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if err := PubObjectEquals(setObject, expectedFollowing); err != nil {
 		t.Fatal(err)
 	}
 }
@@ -2717,7 +3003,6 @@ func TestPostInbox_Remove_CallsCallback(t *testing.T) {
 	}
 }
 
-// TODO: Test likes OrderedCollection & IRI.
 func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
@@ -2777,6 +3062,97 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	} else if gotSet != 2 {
 		t.Fatalf("expected %d, got %d", 2, gotSet)
 	} else if err := PubObjectEquals(gotSetObject, expectedNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
+}
+
+func TestPostInbox_Like_AddsToLikeOrderedCollection(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
+	app.owns = func(c context.Context, id url.URL) bool {
+		return true
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		v := &vocab.Note{}
+		v.SetId(*noteIRI)
+		v.AddNameString(noteName)
+		v.AddContentString("This is a simple note")
+		v.SetLikesOrderedCollection(&vocab.OrderedCollection{})
+		return v, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.set = func(c context.Context, target PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObject = target
+		}
+		return nil
+	}
+	fedCb.like = func(c context.Context, s *streams.Like) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.OrderedCollection{}
+	expected.AddOrderedItemsObject(sallyActor)
+	expectedNote := &vocab.Note{}
+	expectedNote.SetId(*noteIRI)
+	expectedNote.AddNameString(noteName)
+	expectedNote.AddContentString("This is a simple note")
+	expectedNote.SetLikesOrderedCollection(expected)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if err := PubObjectEquals(gotSetObject, expectedNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
+}
+
+func TestPostInbox_Like_AddsToLikeIRI(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
+	app.owns = func(c context.Context, id url.URL) bool {
+		return true
+	}
+	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		if id == *noteIRI {
+			v := &vocab.Note{}
+			v.SetId(*noteIRI)
+			v.AddNameString(noteName)
+			v.AddContentString("This is a simple note")
+			v.SetLikesAnyURI(*testNewIRI)
+			return v, nil
+		} else if id == *testNewIRI {
+			return &vocab.OrderedCollection{}, nil
+		}
+		t.Fatalf("unexpected get(%s)", &id)
+		return nil, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.set = func(c context.Context, target PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObject = target
+		}
+		return nil
+	}
+	fedCb.like = func(c context.Context, s *streams.Like) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.OrderedCollection{}
+	expected.AddOrderedItemsObject(sallyActor)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if err := PubObjectEquals(gotSetObject, expected); err != nil {
 		t.Fatalf("unexpected callback object: %s", err)
 	}
 }
@@ -4718,12 +5094,26 @@ func TestPostOutbox_Block_IsNotDelivered(t *testing.T) {
 	}
 }
 
-func TestPostOutbox_DoesNotDeliverNondeliverable(t *testing.T) {
-	// TODO: Implement
-}
-
 func TestPostOutbox_SetsLocationHeader(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	socialCb.create = func(c context.Context, s *streams.Create) error {
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if loc, ok := resp.HeaderMap["Location"]; !ok {
+		t.Fatalf("expected Location header, got none")
+	} else if len(loc) != 1 {
+		t.Fatalf("expected Location header to have length 1, got %d", len(loc))
+	} else if loc[0] != testNewIRIString {
+		t.Fatalf("expected %s, got %s", testNewIRIString, loc[0])
+	}
 }
 
 func TestGetOutbox_RejectNonActivityPub(t *testing.T) {
@@ -4739,7 +5129,6 @@ func TestGetOutbox_RejectNonActivityPub(t *testing.T) {
 	} else if handled {
 		t.Fatalf("expected !handled, got handled")
 	}
-
 }
 
 func TestGetOutbox_SetsContentTypeHeader(t *testing.T) {

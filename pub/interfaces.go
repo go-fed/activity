@@ -88,8 +88,9 @@ type FederateApp interface {
 	// the given target collection.
 	CanRemove(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
 	// OnFollow determines whether to take any automatic reactions in
-	// response to this follow. Note that this method must check ownership
-	// to automatically Accept the Follow.
+	// response to this follow. Note that if this application does not own
+	// an object on the activity, then the 'AutomaticAccept' and
+	// 'AutomaticReject' results will behave as if they were 'DoNothing'.
 	OnFollow(c context.Context, s *streams.Follow) FollowResponse
 	// Unblocked should return an error if the provided actor ids are not
 	// able to interact with this particular end user due to being blocked

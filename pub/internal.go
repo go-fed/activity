@@ -1187,7 +1187,9 @@ func toTombstone(obj vocab.ObjectType, id url.URL, now time.Time) vocab.Tombston
 	return tomb
 }
 
-func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error, c vocab.ActivityType) error {
+type getActorCollectionFn func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (isIRI bool, e error)
+
+func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter getActorCollectionFn, c vocab.ActivityType) error {
 	for i := 0; i < c.ActorLen(); i++ {
 		var iri url.URL
 		if c.IsActorObject(i) {
@@ -1221,7 +1223,8 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter f
 		}
 		var lc vocab.CollectionType
 		var loc vocab.OrderedCollectionType
-		if err := getter(actor, &lc, &loc); err != nil {
+		isIRI := false
+		if isIRI, err = getter(actor, &lc, &loc); err != nil {
 			return err
 		}
 		for i := 0; i < c.ObjectLen(); i++ {
@@ -1239,20 +1242,32 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter f
 				}
 			}
 		}
-		if err := f.App.Set(ctx, actor); err != nil {
+		if isIRI {
+			if lc != nil {
+				err = f.App.Set(ctx, lc)
+			} else if loc != nil {
+				err = f.App.Set(ctx, loc)
+			}
+			if err != nil {
+				return err
+			}
+		} else if err := f.App.Set(ctx, actor); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error, c vocab.ActivityType) error {
+type getObjectCollectionFn func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (isIRI bool, e error)
+
+func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter getObjectCollectionFn, c vocab.ActivityType) (bool, error) {
+	ownsAny := false
 	for i := 0; i < c.ObjectLen(); i++ {
 		var iri url.URL
 		if c.IsObject(i) {
 			obj := c.GetObject(i)
 			if !obj.HasId() {
-				return fmt.Errorf("object does not have id")
+				return ownsAny, fmt.Errorf("object does not have id")
 			}
 			iri = obj.GetId()
 		} else if c.IsObjectIRI(i) {
@@ -1261,21 +1276,23 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter f
 		if !f.App.Owns(ctx, iri) {
 			continue
 		}
+		ownsAny = true
 		var object vocab.ObjectType
 		pObj, err := f.App.Get(ctx, iri)
 		if err != nil {
-			return err
+			return ownsAny, err
 		}
 		ok := false
 		object, ok = pObj.(vocab.ObjectType)
 		if !ok {
 			// TODO: Handle links, too
-			return fmt.Errorf("object is not vocab.ObjectType")
+			return ownsAny, fmt.Errorf("object is not vocab.ObjectType")
 		}
 		var lc vocab.CollectionType
 		var loc vocab.OrderedCollectionType
-		if err := getter(object, &lc, &loc); err != nil {
-			return err
+		isIRI := false
+		if isIRI, err = getter(object, &lc, &loc); err != nil {
+			return ownsAny, err
 		}
 		for i := 0; i < c.ActorLen(); i++ {
 			if c.IsActorIRI(i) {
@@ -1298,11 +1315,36 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter f
 				}
 			}
 		}
-		if err := f.App.Set(ctx, object); err != nil {
-			return err
+		if isIRI {
+			if lc != nil {
+				err = f.App.Set(ctx, lc)
+			} else if loc != nil {
+				err = f.App.Set(ctx, loc)
+			}
+			if err != nil {
+				return ownsAny, err
+			}
+		} else if err := f.App.Set(ctx, object); err != nil {
+			return ownsAny, err
 		}
 	}
-	return nil
+	return ownsAny, nil
+}
+
+func (f *federator) ownsAnyObjects(c context.Context, a vocab.ActivityType) (bool, error) {
+	var iris []url.URL
+	for i := 0; i < a.ObjectLen(); i++ {
+		if a.IsObject(i) {
+			obj := a.GetObject(i)
+			if !obj.HasId() {
+				return false, fmt.Errorf("object missing id")
+			}
+			iris = append(iris, obj.GetId())
+		} else if a.IsObjectIRI(i) {
+			iris = append(iris, a.GetObjectIRI(i))
+		}
+	}
+	return f.ownsAnyIRIs(c, iris), nil
 }
 
 func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string]interface{}) error {

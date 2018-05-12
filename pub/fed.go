@@ -695,27 +695,27 @@ func (f *federator) handleClientLike(ctx context.Context, deliverable *bool) fun
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		getter := func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error {
+		getter := func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
 			if actor.IsLikedAnyURI() {
 				pObj, err := f.App.Get(ctx, actor.GetLikedAnyURI())
 				if err != nil {
-					return err
+					return true, err
 				}
 				ok := false
 				if *lc, ok = pObj.(vocab.CollectionType); !ok {
 					if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
-						return fmt.Errorf("actors liked collection not CollectionType nor OrderedCollectionType")
+						return true, fmt.Errorf("actors liked collection not CollectionType nor OrderedCollectionType")
 					}
 				}
-				return nil
+				return true, nil
 			} else if actor.IsLikedCollection() {
 				*lc = actor.GetLikedCollection()
-				return nil
+				return false, nil
 			} else if actor.IsLikedOrderedCollection() {
 				*loc = actor.GetLikedOrderedCollection()
-				return nil
+				return false, nil
 			}
-			return fmt.Errorf("cannot determine type of actor liked")
+			return false, fmt.Errorf("cannot determine type of actor liked")
 		}
 		if err := f.addAllObjectsToActorCollection(ctx, getter, s.Raw()); err != nil {
 			return err
@@ -863,34 +863,44 @@ func (f *federator) handleFollow(c context.Context) func(s *streams.Follow) erro
 					activity.AddToIRI(raw.GetActorIRI(i))
 				}
 			}
-			if err := f.deliver(activity); err != nil {
-				return err
-			}
+			ownsAny := false
 			if todo == AutomaticAccept {
-				getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error {
+				getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
 					if object.IsFollowersAnyURI() {
 						pObj, err := f.App.Get(c, object.GetFollowersAnyURI())
 						if err != nil {
-							return err
+							return true, err
 						}
 						ok := false
 						if *lc, ok = pObj.(vocab.CollectionType); !ok {
 							if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
-								return fmt.Errorf("object followers collection not CollectionType nor OrderedCollectionType")
+								return true, fmt.Errorf("object followers collection not CollectionType nor OrderedCollectionType")
 							}
 						}
-						return nil
+						return true, nil
 					} else if object.IsFollowersCollection() {
 						*lc = object.GetFollowersCollection()
-						return nil
+						return false, nil
 					} else if object.IsFollowersOrderedCollection() {
 						*loc = object.GetFollowersOrderedCollection()
-						return nil
+						return false, nil
 					}
-					return fmt.Errorf("cannot determine type of object followers")
+					return false, fmt.Errorf("cannot determine type of object followers")
 				}
 				// TODO: Deduplication detection.
-				if err := f.addAllActorsToObjectCollection(c, getter, raw); err != nil {
+				var err error
+				if ownsAny, err = f.addAllActorsToObjectCollection(c, getter, raw); err != nil {
+					return err
+				}
+			} else if todo == AutomaticReject {
+				var err error
+				ownsAny, err = f.ownsAnyObjects(c, raw)
+				if err != nil {
+					return err
+				}
+			}
+			if ownsAny {
+				if err := f.deliver(activity); err != nil {
 					return err
 				}
 			}
@@ -912,27 +922,27 @@ func (f *federator) handleAccept(c context.Context) func(s *streams.Accept) erro
 				if !ok {
 					continue
 				}
-				getter := func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error {
+				getter := func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
 					if actor.IsFollowingAnyURI() {
 						pObj, err := f.App.Get(c, actor.GetFollowingAnyURI())
 						if err != nil {
-							return err
+							return true, err
 						}
 						ok := false
 						if *lc, ok = pObj.(vocab.CollectionType); !ok {
 							if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
-								return fmt.Errorf("actors following collection not CollectionType nor OrderedCollectionType")
+								return true, fmt.Errorf("actors following collection not CollectionType nor OrderedCollectionType")
 							}
 						}
-						return nil
+						return true, nil
 					} else if actor.IsFollowingCollection() {
 						*lc = actor.GetFollowingCollection()
-						return nil
+						return false, nil
 					} else if actor.IsFollowingOrderedCollection() {
 						*loc = actor.GetFollowingOrderedCollection()
-						return nil
+						return false, nil
 					}
-					return fmt.Errorf("cannot determine type of actor following")
+					return false, fmt.Errorf("cannot determine type of actor following")
 				}
 				// TODO: Deduplication detection.
 				if err := f.addAllObjectsToActorCollection(c, getter, follow); err != nil {
@@ -1087,29 +1097,29 @@ func (f *federator) handleLike(c context.Context) func(s *streams.Like) error {
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) error {
+		getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
 			if object.IsLikesAnyURI() {
 				pObj, err := f.App.Get(c, object.GetLikesAnyURI())
 				if err != nil {
-					return err
+					return true, err
 				}
 				ok := false
 				if *lc, ok = pObj.(vocab.CollectionType); !ok {
 					if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
-						return fmt.Errorf("object likes collection not CollectionType nor OrderedCollectionType")
+						return true, fmt.Errorf("object likes collection not CollectionType nor OrderedCollectionType")
 					}
 				}
-				return nil
+				return true, nil
 			} else if object.IsLikesCollection() {
 				*lc = object.GetLikesCollection()
-				return nil
+				return false, nil
 			} else if object.IsLikesOrderedCollection() {
 				*loc = object.GetLikesOrderedCollection()
-				return nil
+				return false, nil
 			}
-			return fmt.Errorf("cannot determine type of object likes")
+			return false, fmt.Errorf("cannot determine type of object likes")
 		}
-		if err := f.addAllActorsToObjectCollection(c, getter, s.Raw()); err != nil {
+		if _, err := f.addAllActorsToObjectCollection(c, getter, s.Raw()); err != nil {
 			return err
 		}
 		return f.ServerCallbacker.Like(c, s)
