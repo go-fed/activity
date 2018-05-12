@@ -1216,6 +1216,7 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter f
 		ok := false
 		actor, ok = pObj.(vocab.ObjectType)
 		if !ok {
+			// TODO: Handle links, too
 			return fmt.Errorf("actor is not vocab.ObjectType")
 		}
 		var lc vocab.CollectionType
@@ -1238,14 +1239,8 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter f
 				}
 			}
 		}
-		if lc != nil {
-			if err := f.App.Set(ctx, lc); err != nil {
-				return err
-			}
-		} else if loc != nil {
-			if err := f.App.Set(ctx, loc); err != nil {
-				return err
-			}
+		if err := f.App.Set(ctx, actor); err != nil {
+			return err
 		}
 	}
 	return nil
@@ -1274,6 +1269,7 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter f
 		ok := false
 		object, ok = pObj.(vocab.ObjectType)
 		if !ok {
+			// TODO: Handle links, too
 			return fmt.Errorf("object is not vocab.ObjectType")
 		}
 		var lc vocab.CollectionType
@@ -1302,14 +1298,8 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter f
 				}
 			}
 		}
-		if lc != nil {
-			if err := f.App.Set(ctx, lc); err != nil {
-				return err
-			}
-		} else if loc != nil {
-			if err := f.App.Set(ctx, loc); err != nil {
-				return err
-			}
+		if err := f.App.Set(ctx, object); err != nil {
+			return err
 		}
 	}
 	return nil
