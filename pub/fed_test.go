@@ -4498,7 +4498,7 @@ func TestPostOutbox_Add_IsDelivered(t *testing.T) {
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return false
 	}
-	socialCb.reject = func(c context.Context, s *streams.Reject) error {
+	socialCb.add = func(c context.Context, s *streams.Add) error {
 		return nil
 	}
 	gotHttpDo := 0
@@ -4871,6 +4871,9 @@ func TestPostOutbox_Like_DoesNotAddIfCollectionNotOwned(t *testing.T) {
 		gotOwns++
 		gotOwnsIri = iri
 		return false
+	}
+	socialCb.like = func(c context.Context, s *streams.Like) error {
+		return nil
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	if err != nil {
