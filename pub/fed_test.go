@@ -62,6 +62,7 @@ var (
 	testRemoveNote                   *vocab.Remove
 	testLikeNote                     *vocab.Like
 	testUndoLike                     *vocab.Undo
+	testBlock                        *vocab.Block
 	testClientExpectedNote           *vocab.Note
 	testClientExpectedCreateNote     *vocab.Create
 	testDeleteSubFields              string
@@ -77,6 +78,7 @@ var (
 	testClientExpectedRemove         *vocab.Remove
 	testClientExpectedLike           *vocab.Like
 	testClientExpectedUndo           *vocab.Undo
+	testClientExpectedBlock          *vocab.Block
 )
 
 func init() {
@@ -223,6 +225,10 @@ func init() {
 	testUndoLike.AddActorObject(sallyActor)
 	testUndoLike.AddObject(testLikeNote)
 	testUndoLike.AddToObject(samActor)
+	testBlock = &vocab.Block{}
+	testBlock.SetId(*noteActivityIRI)
+	testBlock.AddActorObject(sallyActor)
+	testBlock.AddObject(samActor)
 
 	testClientExpectedNote = &vocab.Note{}
 	testClientExpectedNote.SetId(*noteIRI)
@@ -363,6 +369,10 @@ func init() {
 	testClientExpectedUndo.AddActorObject(sallyActor)
 	testClientExpectedUndo.AddObject(testLikeNote)
 	testClientExpectedUndo.AddToObject(samActor)
+	testClientExpectedBlock = &vocab.Block{}
+	testClientExpectedBlock.SetId(*testNewIRI)
+	testClientExpectedBlock.AddActorObject(sallyActor)
+	testClientExpectedBlock.AddObject(samActor)
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -4665,11 +4675,47 @@ func TestPostOutbox_Undo_IsDelivered(t *testing.T) {
 }
 
 func TestPostOutbox_Block_CallsCallback(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testBlock))))
+	gotCallback := 0
+	var gotCallbackObject *streams.Block
+	socialCb.block = func(c context.Context, s *streams.Block) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), testClientExpectedBlock); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
 }
 
 func TestPostOutbox_Block_IsNotDelivered(t *testing.T) {
-	// TODO: Implement
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testBlock))))
+	socialCb.block = func(c context.Context, s *streams.Block) error {
+		return nil
+	}
+	httpClient.do = func(req *http.Request) (*http.Response, error) {
+		t.Fatalf("expected no calls to httpClient.Do")
+		return nil, nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	}
 }
 
 func TestPostOutbox_DoesNotDeliverNondeliverable(t *testing.T) {
