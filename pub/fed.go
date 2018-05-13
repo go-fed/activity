@@ -887,7 +887,6 @@ func (f *federator) handleFollow(c context.Context) func(s *streams.Follow) erro
 					}
 					return false, fmt.Errorf("cannot determine type of object followers")
 				}
-				// TODO: Deduplication detection.
 				var err error
 				if ownsAny, err = f.addAllActorsToObjectCollection(c, getter, raw); err != nil {
 					return err
@@ -944,7 +943,6 @@ func (f *federator) handleAccept(c context.Context) func(s *streams.Accept) erro
 					}
 					return false, fmt.Errorf("cannot determine type of actor following")
 				}
-				// TODO: Deduplication detection.
 				if err := f.addAllObjectsToActorCollection(c, getter, follow); err != nil {
 					return err
 				}

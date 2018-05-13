@@ -1218,27 +1218,50 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 		ok := false
 		actor, ok = pObj.(vocab.ObjectType)
 		if !ok {
-			// TODO: Handle links, too
 			return fmt.Errorf("actor is not vocab.ObjectType")
 		}
+		// Obtain ordered/unordered collection
 		var lc vocab.CollectionType
 		var loc vocab.OrderedCollectionType
 		isIRI := false
 		if isIRI, err = getter(actor, &lc, &loc); err != nil {
 			return err
 		}
+		// Duplication detection
+		var iriSet map[url.URL]bool
+		if lc != nil {
+			iriSet, err = getIRISetFromItems(lc)
+		} else if loc != nil {
+			iriSet, err = getIRISetFromOrderedItems(loc)
+		}
+		if err != nil {
+			return err
+		}
+		// Add object to collection if not a duplicate
 		for i := 0; i < c.ObjectLen(); i++ {
 			if c.IsObjectIRI(i) {
+				iri := c.GetObjectIRI(i)
+				if iriSet[iri] {
+					continue
+				}
 				if lc != nil {
-					lc.AddItemsIRI(c.GetObjectIRI(i))
+					lc.AddItemsIRI(iri)
 				} else if loc != nil {
-					loc.AddOrderedItemsIRI(c.GetObjectIRI(i))
+					loc.AddOrderedItemsIRI(iri)
 				}
 			} else if c.IsObject(i) {
+				obj := c.GetObject(i)
+				if !obj.HasId() {
+					return fmt.Errorf("object at index %d has no id", i)
+				}
+				iri := obj.GetId()
+				if iriSet[iri] {
+					continue
+				}
 				if lc != nil {
-					lc.AddItemsObject(c.GetObject(i))
+					lc.AddItemsObject(obj)
 				} else if loc != nil {
-					loc.AddOrderedItemsObject(c.GetObject(i))
+					loc.AddOrderedItemsObject(obj)
 				}
 			}
 		}
@@ -1285,33 +1308,64 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 		ok := false
 		object, ok = pObj.(vocab.ObjectType)
 		if !ok {
-			// TODO: Handle links, too
 			return ownsAny, fmt.Errorf("object is not vocab.ObjectType")
 		}
+		// Obtain ordered/unordered collection
 		var lc vocab.CollectionType
 		var loc vocab.OrderedCollectionType
 		isIRI := false
 		if isIRI, err = getter(object, &lc, &loc); err != nil {
 			return ownsAny, err
 		}
+		// Duplication detection
+		var iriSet map[url.URL]bool
+		if lc != nil {
+			iriSet, err = getIRISetFromItems(lc)
+		} else if loc != nil {
+			iriSet, err = getIRISetFromOrderedItems(loc)
+		}
+		if err != nil {
+			return ownsAny, err
+		}
+		// Add actor to collection if not a duplicate
 		for i := 0; i < c.ActorLen(); i++ {
 			if c.IsActorIRI(i) {
+				iri := c.GetActorIRI(i)
+				if iriSet[iri] {
+					continue
+				}
 				if lc != nil {
-					lc.AddItemsIRI(c.GetActorIRI(i))
+					lc.AddItemsIRI(iri)
 				} else if loc != nil {
-					loc.AddOrderedItemsIRI(c.GetActorIRI(i))
+					loc.AddOrderedItemsIRI(iri)
 				}
 			} else if c.IsActorObject(i) {
+				obj := c.GetActorObject(i)
+				if !obj.HasId() {
+					return ownsAny, fmt.Errorf("actor object at index %d has no id", i)
+				}
+				iri := obj.GetId()
+				if iriSet[iri] {
+					continue
+				}
 				if lc != nil {
-					lc.AddItemsObject(c.GetActorObject(i))
+					lc.AddItemsObject(obj)
 				} else if loc != nil {
-					loc.AddOrderedItemsObject(c.GetActorObject(i))
+					loc.AddOrderedItemsObject(obj)
 				}
 			} else if c.IsActorLink(i) {
+				l := c.GetActorLink(i)
+				if !l.HasHref() {
+					return ownsAny, fmt.Errorf("actor link at index %d has no id", i)
+				}
+				iri := l.GetHref()
+				if iriSet[iri] {
+					continue
+				}
 				if lc != nil {
-					lc.AddItemsLink(c.GetActorLink(i))
+					lc.AddItemsLink(l)
 				} else if loc != nil {
-					loc.AddOrderedItemsLink(c.GetActorLink(i))
+					loc.AddOrderedItemsLink(l)
 				}
 			}
 		}
@@ -1624,6 +1678,50 @@ func recursivelyApplyDeletes(m, hasNils map[string]interface{}) {
 			}
 		}
 	}
+}
+
+func getIRISetFromItems(c vocab.CollectionType) (map[url.URL]bool, error) {
+	r := make(map[url.URL]bool, c.ItemsLen())
+	for i := 0; i < c.ItemsLen(); i++ {
+		if c.IsItemsObject(i) {
+			obj := c.GetItemsObject(i)
+			if !obj.HasId() {
+				return r, fmt.Errorf("items object at index %d has no id", i)
+			}
+			r[obj.GetId()] = true
+		} else if c.IsItemsLink(i) {
+			l := c.GetItemsLink(i)
+			if !l.HasHref() {
+				return r, fmt.Errorf("items link at index %d has no href", i)
+			}
+			r[l.GetHref()] = true
+		} else if c.IsItemsIRI(i) {
+			r[c.GetItemsIRI(i)] = true
+		}
+	}
+	return r, nil
+}
+
+func getIRISetFromOrderedItems(c vocab.OrderedCollectionType) (map[url.URL]bool, error) {
+	r := make(map[url.URL]bool, c.OrderedItemsLen())
+	for i := 0; i < c.OrderedItemsLen(); i++ {
+		if c.IsOrderedItemsObject(i) {
+			obj := c.GetOrderedItemsObject(i)
+			if !obj.HasId() {
+				return r, fmt.Errorf("items object at index %d has no id", i)
+			}
+			r[obj.GetId()] = true
+		} else if c.IsOrderedItemsLink(i) {
+			l := c.GetOrderedItemsLink(i)
+			if !l.HasHref() {
+				return r, fmt.Errorf("items link at index %d has no href", i)
+			}
+			r[l.GetHref()] = true
+		} else if c.IsOrderedItemsIRI(i) {
+			r[c.GetOrderedItemsIRI(i)] = true
+		}
+	}
+	return r, nil
 }
 
 // TODO: Move this to vocab package.
