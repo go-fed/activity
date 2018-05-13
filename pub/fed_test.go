@@ -1663,6 +1663,36 @@ func TestPostInbox_RequiresTarget(t *testing.T) {
 	}
 }
 
+func TestPostInbox_DoesNotAddToInboxIfDuplicate(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	gotSet := 0
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		return nil
+	}
+	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		inbox := &vocab.OrderedCollection{}
+		inbox.AddOrderedItemsIRI(*noteActivityIRI)
+		return inbox, nil
+	}
+	fedCb.create = func(c context.Context, s *streams.Create) error {
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expectedInbox := &vocab.OrderedCollection{}
+	expectedInbox.AddOrderedItemsIRI(*noteActivityIRI)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotSet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSet)
+	}
+}
+
 func TestPostInbox_Create_SetsObject(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)

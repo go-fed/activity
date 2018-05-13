@@ -1423,8 +1423,15 @@ func (f *federator) addToInbox(c context.Context, r *http.Request, m map[string]
 	if err != nil {
 		return err
 	}
-	inbox.AddOrderedItemsObject(activity)
-	return f.App.Set(c, inbox)
+	iriSet, err := getIRISetFromOrderedItems(inbox)
+	if err != nil {
+		return err
+	}
+	if !iriSet[activity.GetId()] {
+		inbox.AddOrderedItemsObject(activity)
+		return f.App.Set(c, inbox)
+	}
+	return nil
 }
 
 // Note: This is a mechanism for causing other victim servers to DDOS
