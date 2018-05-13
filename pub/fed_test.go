@@ -17,21 +17,23 @@ import (
 )
 
 const (
-	iriString               = "https://example.com/something"
-	noteURIString           = "https://example.com/note/123"
-	updateURIString         = "https://example.com/note/update/123"
-	noteActivityURIString   = "https://example.com/activity/987"
-	testAgent               = "test agent string"
-	testInboxURI            = "https://example.com/sally/inbox"
-	testOutboxURI           = "https://example.com/sally/outbox"
-	testNewIRIString        = "https://example.com/test/new/iri"
-	sallyIRIString          = "https://example.com/sally"
-	sallyFollowingIRIString = "https://example.com/sally/following"
-	samIRIString            = "https://example.com/sam"
-	samIRIInboxString       = "https://example.com/sam/inbox"
-	samIRIFollowersString   = "https://example.com/sam/followers"
-	sallyIRIInboxString     = "https://example.com/sally/inbox"
-	noteName                = "A Note"
+	iriString                 = "https://example.com/something"
+	noteURIString             = "https://example.com/note/123"
+	updateURIString           = "https://example.com/note/update/123"
+	noteActivityURIString     = "https://example.com/activity/987"
+	testAgent                 = "test agent string"
+	testInboxURI              = "https://example.com/sally/inbox"
+	testOutboxURI             = "https://example.com/sally/outbox"
+	testNewIRIString          = "https://example.com/test/new/iri"
+	sallyIRIString            = "https://example.com/sally"
+	sallyFollowingIRIString   = "https://example.com/sally/following"
+	samIRIString              = "https://example.com/sam"
+	samIRIInboxString         = "https://example.com/sam/inbox"
+	samIRIFollowersString     = "https://example.com/sam/followers"
+	sallyIRIInboxString       = "https://example.com/sally/inbox"
+	noteName                  = "A Note"
+	otherOriginIRIString      = "https://foo.net/activity/112358"
+	otherOriginActorIRIString = "https://foo.net/peyton"
 )
 
 var (
@@ -48,6 +50,8 @@ var (
 	samIRI                           *url.URL
 	samIRIInbox                      *url.URL
 	samIRIFollowers                  *url.URL
+	otherOriginIRI                   *url.URL
+	otherOriginActorIRI              *url.URL
 	samActor                         *vocab.Person
 	samActorJSON                     []byte
 	testNote                         *vocab.Note
@@ -126,6 +130,14 @@ func init() {
 		panic(err)
 	}
 	samIRIFollowers, err = url.Parse(samIRIFollowersString)
+	if err != nil {
+		panic(err)
+	}
+	otherOriginIRI, err = url.Parse(otherOriginIRIString)
+	if err != nil {
+		panic(err)
+	}
+	otherOriginActorIRI, err = url.Parse(otherOriginActorIRIString)
 	if err != nil {
 		panic(err)
 	}
@@ -1690,6 +1702,76 @@ func TestPostInbox_DoesNotAddToInboxIfDuplicate(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotSet != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotSet)
+	}
+}
+
+func TestPostInbox_OriginMustMatch(t *testing.T) {
+	tests := []struct {
+		name  string
+		input func() vocab.ActivityType
+	}{
+		{
+			name: "update",
+			input: func() vocab.ActivityType {
+				a := &vocab.Update{}
+				a.SetId(*otherOriginIRI)
+				a.AddActorIRI(*otherOriginActorIRI)
+				a.AddObject(testCreateNote)
+				return a
+			},
+		},
+		{
+			name: "delete",
+			input: func() vocab.ActivityType {
+				a := &vocab.Delete{}
+				a.SetId(*otherOriginIRI)
+				a.AddActorIRI(*otherOriginActorIRI)
+				a.AddObjectIRI(*noteIRI)
+				return a
+			},
+		},
+	}
+	for _, test := range tests {
+		app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+		PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+		resp := httptest.NewRecorder()
+		req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
+		handled, err := p.PostInbox(context.Background(), resp, req)
+		if !handled {
+			t.Fatalf("%q: expected handled, got !handled", test.name)
+		} else if err == nil {
+			t.Fatalf("%q: expected same origin error", test.name)
+		}
+	}
+}
+
+func TestPostInbox_ActivityActorsMustCoverObjectActors(t *testing.T) {
+	tests := []struct {
+		name  string
+		input func() vocab.ActivityType
+	}{
+		{
+			name: "undo",
+			input: func() vocab.ActivityType {
+				a := &vocab.Undo{}
+				a.SetId(*noteActivityIRI)
+				a.AddActorObject(samActor)
+				a.AddObject(testLikeNote)
+				return a
+			},
+		},
+	}
+	for _, test := range tests {
+		app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+		PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+		resp := httptest.NewRecorder()
+		req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
+		handled, err := p.PostInbox(context.Background(), resp, req)
+		if !handled {
+			t.Fatalf("%q: expected handled, got !handled", test.name)
+		} else if err == nil {
+			t.Fatalf("%q: expected actor mismatch error", test.name)
+		}
 	}
 }
 

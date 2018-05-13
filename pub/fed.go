@@ -786,12 +786,13 @@ func (f *federator) handleCreate(c context.Context) func(s *streams.Create) erro
 
 func (f *federator) handleUpdate(c context.Context) func(s *streams.Update) error {
 	return func(s *streams.Update) error {
-		// TODO: The receiving server MUST take care to be sure that the Update
-		// is authorized to modify its object.
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
 		raw := s.Raw()
+		if err := f.ensureActivityOriginMatchesObjects(raw); err != nil {
+			return err
+		}
 		for i := 0; i < raw.ObjectLen(); i++ {
 			if !raw.IsObject(i) {
 				// TODO: Fetch IRIs as well
@@ -808,12 +809,14 @@ func (f *federator) handleUpdate(c context.Context) func(s *streams.Update) erro
 
 func (f *federator) handleDelete(c context.Context) func(s *streams.Delete) error {
 	return func(s *streams.Delete) error {
-		// TODO: Verify ownership. I think the spec unintentionally suggests to
-		// just assume it is owned, so we will actually verify.
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
 		}
-		ids, err := getObjectIds(s.Raw())
+		raw := s.Raw()
+		if err := f.ensureActivityOriginMatchesObjects(raw); err != nil {
+			return err
+		}
+		ids, err := getObjectIds(raw)
 		if err != nil {
 			return err
 		} else if len(ids) == 0 {
@@ -1126,14 +1129,16 @@ func (f *federator) handleLike(c context.Context) func(s *streams.Like) error {
 
 func (f *federator) handleUndo(c context.Context) func(s *streams.Undo) error {
 	return func(s *streams.Undo) error {
-		// Undo negates a previous action. The 'actor' on the 'Undo' MUST be the
-		// same as the 'actor' on the Activity being undone, and the client
-		// application is responsible for enforcing this. Note that 'Undo'-ing
-		// is not a deletion of a previous Activity, but the addition of its
-		// opposite.
-		// TODO: Enforce this
+		// Undo negates a previous action. The 'actor' on the 'Undo'
+		// MUST be the same as the 'actor' on the Activity being undone.
+		// Here we enforce that the actors on the Undo must correspond
+		// to all objects' original actors in some manner.
 		if s.LenObject() == 0 {
 			return ErrObjectRequired
+		}
+		raw := s.Raw()
+		if err := f.ensureActivityActorsMatchObjectActors(raw); err != nil {
+			return err
 		}
 		return f.ServerCallbacker.Undo(c, s)
 	}

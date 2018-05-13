@@ -1596,6 +1596,92 @@ func (f *federator) ownsAnyLinks(c context.Context, links []vocab.LinkType) bool
 	return false
 }
 
+func (f *federator) ensureActivityOriginMatchesObjects(a vocab.ActivityType) error {
+	if !a.HasId() {
+		return fmt.Errorf("activity has no iri")
+	}
+	originIRI := a.GetId()
+	originHost := originIRI.Host
+	for i := 0; i < a.ObjectLen(); i++ {
+		if a.IsObject(i) {
+			obj := a.GetObject(i)
+			if !obj.HasId() {
+				return fmt.Errorf("object at index %d has no id", i)
+			}
+			iri := obj.GetId()
+			if originHost != iri.Host {
+				return fmt.Errorf("object %q: not in activity origin", iri)
+			}
+		} else if a.IsObjectIRI(i) {
+			// TODO: Dereference IRI
+			iri := a.GetObjectIRI(i)
+			return fmt.Errorf("unimplemented: fetching IRI for origin check: %q", iri)
+		}
+	}
+	return nil
+}
+
+func (f *federator) ensureActivityActorsMatchObjectActors(a vocab.ActivityType) error {
+	actorSet := make(map[url.URL]bool, a.ActorLen())
+	for i := 0; i < a.ActorLen(); i++ {
+		if a.IsActorObject(i) {
+			obj := a.GetActorObject(i)
+			if !obj.HasId() {
+				return fmt.Errorf("actor object at index %d has no id", i)
+			}
+			actorSet[obj.GetId()] = true
+		} else if a.IsActorLink(i) {
+			l := a.GetActorLink(i)
+			if !l.HasHref() {
+				return fmt.Errorf("actor link at index %d has no href", i)
+			}
+			actorSet[l.GetHref()] = true
+		} else if a.IsActorIRI(i) {
+			actorSet[a.GetActorIRI(i)] = true
+		}
+	}
+	objectActors := make(map[url.URL]bool, a.ObjectLen())
+	for i := 0; i < a.ObjectLen(); i++ {
+		if a.IsObject(i) {
+			obj := a.GetObject(i)
+			if !obj.HasId() {
+				return fmt.Errorf("object at index %d has no id", i)
+			}
+			objectActivity, ok := obj.(vocab.ActivityType)
+			if !ok {
+				return fmt.Errorf("object at index %d is not an activity", i)
+			}
+			for j := 0; j < objectActivity.ActorLen(); j++ {
+				if objectActivity.IsActorObject(j) {
+					obj := objectActivity.GetActorObject(j)
+					if !obj.HasId() {
+						return fmt.Errorf("actor object at index (%d,%d) has no id", i, j)
+					}
+					objectActors[obj.GetId()] = true
+				} else if objectActivity.IsActorLink(j) {
+					l := objectActivity.GetActorLink(j)
+					if !l.HasHref() {
+						return fmt.Errorf("actor link at index (%d,%d) has no href", i, j)
+					}
+					objectActors[l.GetHref()] = true
+				} else if objectActivity.IsActorIRI(j) {
+					objectActors[objectActivity.GetActorIRI(j)] = true
+				}
+			}
+		} else if a.IsObjectIRI(i) {
+			// TODO: Dereference IRI
+			iri := a.GetObjectIRI(i)
+			return fmt.Errorf("unimplemented: fetching IRI for UNDO verification of ownership of %q", iri)
+		}
+	}
+	for k := range objectActors {
+		if !actorSet[k] {
+			return fmt.Errorf("at least 1 activity actors missing: %q", k)
+		}
+	}
+	return nil
+}
+
 func getInboxForwardingValues(o vocab.ObjectType) (objs []vocab.ObjectType, l []vocab.LinkType, iri []url.URL) {
 	// 'inReplyTo'
 	for i := 0; i < o.InReplyToLen(); i++ {
