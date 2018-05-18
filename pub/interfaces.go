@@ -2,8 +2,10 @@ package pub
 
 import (
 	"context"
+	"crypto"
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/vocab"
+	"github.com/go-fed/httpsig"
 	"net/http"
 	"net/url"
 	"time"
@@ -111,6 +113,29 @@ type FederateApp interface {
 	// Typical implementations will filter the iris down to be only the
 	// follower collections owned by the actors targeted in the activity.
 	FilterForwarding(c context.Context, activity vocab.ActivityType, iris []url.URL) ([]url.URL, error)
+	// NewSigner returns a new httpsig.Signer for which deliveries can be
+	// signed by the actor delivering the Activity. Let me take this moment
+	// to really level with you, dear anonymous reader-of-documentation. You
+	// want to use httpsig.RSA_SHA256 as the algorithm. Otherwise, your app
+	// will not federate correctly and peers will reject the signatures. All
+	// other known implementations using HTTP Signatures use RSA_SHA256,
+	// hardcoded just like your implementation will be.
+	//
+	// Some people might think it funny to split the federation and use
+	// their own algorithm. And while I give you the power to build the
+	// largest foot-gun possible to blow away your limbs because I respect
+	// your freedom, you as a developer have the responsibility to also be
+	// cognizant of the wider community you are building for. Don't be a
+	// dick.
+	//
+	// The headers available for inclusion in the signature are:
+	//     Date
+	//     User-Agent
+	NewSigner() (httpsig.Signer, error)
+	// PrivateKey fetches the private key and its associated public key ID.
+	// The given URL is the inbox or outbox for the actor whose key is
+	// needed.
+	PrivateKey(boxIRI url.URL) (privKey crypto.PrivateKey, pubKeyId string, err error)
 }
 
 // FollowResponse instructs how to proceed upon immediately receiving a request

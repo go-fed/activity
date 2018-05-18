@@ -195,7 +195,7 @@ func (f *federator) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	if err = f.FederateApp.Unblocked(c, iris); err != nil {
 		return true, err
 	}
-	if err = f.getPostInboxResolver(c).Deserialize(m); err != nil {
+	if err = f.getPostInboxResolver(c, *r.URL).Deserialize(m); err != nil {
 		return true, err
 	}
 	if err := f.addToInbox(c, r, m); err != nil {
@@ -296,7 +296,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		if err != nil {
 			return true, err
 		}
-		if err := f.deliver(obj); err != nil {
+		if err := f.deliver(obj, *r.URL); err != nil {
 			return true, err
 		}
 	}
@@ -745,12 +745,12 @@ func (f *federator) handleClientBlock(c context.Context, deliverable *bool) func
 	}
 }
 
-func (f *federator) getPostInboxResolver(c context.Context) *streams.Resolver {
+func (f *federator) getPostInboxResolver(c context.Context, inboxURL url.URL) *streams.Resolver {
 	return &streams.Resolver{
 		CreateCallback: f.handleCreate(c),
 		UpdateCallback: f.handleUpdate(c),
 		DeleteCallback: f.handleDelete(c),
-		FollowCallback: f.handleFollow(c),
+		FollowCallback: f.handleFollow(c, inboxURL),
 		AcceptCallback: f.handleAccept(c),
 		RejectCallback: f.handleReject(c),
 		AddCallback:    f.handleAdd(c),
@@ -840,7 +840,7 @@ func (f *federator) handleDelete(c context.Context) func(s *streams.Delete) erro
 	}
 }
 
-func (f *federator) handleFollow(c context.Context) func(s *streams.Follow) error {
+func (f *federator) handleFollow(c context.Context, inboxURL url.URL) func(s *streams.Follow) error {
 	return func(s *streams.Follow) error {
 		// Permit either human-triggered or automatically triggering
 		// 'Accept'/'Reject'.
@@ -902,7 +902,7 @@ func (f *federator) handleFollow(c context.Context) func(s *streams.Follow) erro
 				}
 			}
 			if ownsAny {
-				if err := f.deliver(activity); err != nil {
+				if err := f.deliver(activity, inboxURL); err != nil {
 					return err
 				}
 			}

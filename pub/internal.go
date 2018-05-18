@@ -3,10 +3,12 @@ package pub
 import (
 	"bytes"
 	"context"
+	"crypto"
 	"encoding/json"
 	"fmt"
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/vocab"
+	"github.com/go-fed/httpsig"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -69,7 +71,9 @@ func addJSONLDContext(m map[string]interface{}) {
 
 // dereference makes an HTTP GET request to an IRI in order to obtain the
 // ActivityStream representation.
-func dereference(c HttpClient, u url.URL, agent string) ([]byte, error) {
+//
+// creds is allowed to be nil.
+func dereference(c HttpClient, u url.URL, agent string, creds *creds) ([]byte, error) {
 	// TODO: (section 7.1) The server MUST dereference the collection (with the user's credentials)
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -79,6 +83,13 @@ func dereference(c HttpClient, u url.URL, agent string) ([]byte, error) {
 	req.Header.Add("Accept-Charset", "utf-8")
 	req.Header.Add("Date", time.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
 	req.Header.Add("User-Agent", fmt.Sprintf("%s (go-fed ActivityPub)", agent))
+	if creds != nil {
+		err := creds.signer.SignRequest(creds.privKey, creds.pubKeyId, req)
+		creds.privKey = nil
+		if err != nil {
+			return nil, err
+		}
+	}
 	resp, err := c.Do(req)
 	if err != nil {
 		return nil, err
@@ -90,9 +101,17 @@ func dereference(c HttpClient, u url.URL, agent string) ([]byte, error) {
 	return ioutil.ReadAll(resp.Body)
 }
 
+type creds struct {
+	signer   httpsig.Signer
+	privKey  crypto.PrivateKey
+	pubKeyId string
+}
+
 // postToOutbox will attempt to send a POST request to the given URL with the
 // body set to the provided bytes.
-func postToOutbox(c HttpClient, b []byte, to url.URL, agent string) error {
+//
+// creds is able to be nil.
+func postToOutbox(c HttpClient, b []byte, to url.URL, agent string, creds *creds) error {
 	byteCopy := make([]byte, 0, len(b))
 	copy(b, byteCopy)
 	buf := bytes.NewBuffer(byteCopy)
@@ -104,6 +123,13 @@ func postToOutbox(c HttpClient, b []byte, to url.URL, agent string) error {
 	req.Header.Add("Accept-Charset", "utf-8")
 	req.Header.Add("Date", time.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
 	req.Header.Add("User-Agent", fmt.Sprintf("%s (go-fed ActivityPub)", agent))
+	if creds != nil {
+		err := creds.signer.SignRequest(creds.privKey, creds.pubKeyId, req)
+		creds.privKey = nil
+		if err != nil {
+			return err
+		}
+	}
 	resp, err := c.Do(req)
 	if err != nil {
 		return err
@@ -478,17 +504,26 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 
 // deliver will complete the peer-to-peer sending of a federated message to
 // another server.
-func (f *federator) deliver(obj vocab.ActivityType) error {
-	recipients, err := f.prepare(obj)
+func (f *federator) deliver(obj vocab.ActivityType, boxIRI url.URL) error {
+	recipients, err := f.prepare(boxIRI, obj)
 	if err != nil {
 		return err
 	}
-	return f.deliverToRecipients(obj, recipients)
+	var creds *creds
+	creds.signer, err = f.FederateApp.NewSigner()
+	if err != nil {
+		return err
+	}
+	creds.privKey, creds.pubKeyId, err = f.FederateApp.PrivateKey(boxIRI)
+	if err != nil {
+		return err
+	}
+	return f.deliverToRecipients(obj, recipients, creds)
 }
 
 // deliverToRecipients will take a prepared Activity and send it to specific
 // recipients without examining the activity.
-func (f *federator) deliverToRecipients(obj vocab.ActivityType, recipients []url.URL) error {
+func (f *federator) deliverToRecipients(obj vocab.ActivityType, recipients []url.URL, creds *creds) error {
 	m, err := obj.Serialize()
 	if err != nil {
 		return err
@@ -500,7 +535,7 @@ func (f *federator) deliverToRecipients(obj vocab.ActivityType, recipients []url
 	}
 	for _, to := range recipients {
 		f.deliverer.Do(b, to, func(b []byte, u url.URL) error {
-			return postToOutbox(f.Client, b, u, f.Agent)
+			return postToOutbox(f.Client, b, u, f.Agent, creds)
 		})
 	}
 	return nil
@@ -509,7 +544,7 @@ func (f *federator) deliverToRecipients(obj vocab.ActivityType, recipients []url
 // prepare takes a deliverableObject and returns a list of the proper recipient
 // target URIs. Additionally, the deliverableObject will have any hidden
 // hidden recipients ("bto" and "bcc") stripped from it.
-func (c *federator) prepare(o deliverableObject) ([]url.URL, error) {
+func (c *federator) prepare(boxIRI url.URL, o deliverableObject) ([]url.URL, error) {
 	// Get inboxes of recipients
 	var r []url.URL
 	r = append(r, getToIRIs(o)...)
@@ -527,7 +562,7 @@ func (c *federator) prepare(o deliverableObject) ([]url.URL, error) {
 	// server MAY deliver that object to all known sharedInbox endpoints on
 	// the network.
 	r = filterURLs(r, isPublic)
-	receiverActors, err := c.resolveInboxes(r, 0, c.MaxDeliveryDepth)
+	receiverActors, err := c.resolveInboxes(boxIRI, r, 0, c.MaxDeliveryDepth)
 	if err != nil {
 		return nil, err
 	}
@@ -536,7 +571,7 @@ func (c *federator) prepare(o deliverableObject) ([]url.URL, error) {
 		return nil, err
 	}
 	// Get inboxes of sender(s)
-	senderActors, err := c.resolveInboxes(getActorsAttributedToURI(o), 0, c.MaxDeliveryDepth)
+	senderActors, err := c.resolveInboxes(boxIRI, getActorsAttributedToURI(o), 0, c.MaxDeliveryDepth)
 	if err != nil {
 		return nil, err
 	}
@@ -553,7 +588,7 @@ func (c *federator) prepare(o deliverableObject) ([]url.URL, error) {
 // resolveInboxes takes a list of Actor id URIs and returns them as concrete
 // instances of actorObject. It applies recursively when it encounters a target
 // that is a Collection or OrderedCollection.
-func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]actor, error) {
+func (c *federator) resolveInboxes(boxIRI url.URL, r []url.URL, depth int, max int) ([]actor, error) {
 	if depth >= max {
 		return nil, nil
 	}
@@ -561,38 +596,21 @@ func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]actor, er
 	for _, u := range r {
 		// Do not retry here -- if a dereference fails, then fail the
 		// entire delivery.
-		resp, err := dereference(c.Client, u, c.Agent)
+		actor, co, oc, cp, ocp, cr, err := c.dereferenceForResolvingInboxes(u, boxIRI, nil)
 		if err != nil {
 			return nil, err
 		}
-		var m map[string]interface{}
-		if err = json.Unmarshal(resp, &m); err != nil {
-			return nil, err
-		}
-		var actor actor
-		var co *streams.Collection
-		var oc *streams.OrderedCollection
-		var cp *streams.CollectionPage
-		var ocp *streams.OrderedCollectionPage
-		// Set AT MOST one of: co, oc, cp, ocp
-		// If none of these are set, attempt to use actor
-		if err = toActorCollectionResolver(&actor, &co, &oc, &cp, &ocp).Deserialize(m); err != nil {
-			return nil, err
-		}
-		// If a recipient is a Collection or OrderedCollection, then the
-		// server MUST dereference the collection. Note that this also
-		// applies to CollectionPage and OrderedCollectionPage.
 		var uris []url.URL
 		if co != nil {
 			uris := getURIsInItemer(co.Raw())
-			actors, err := c.resolveInboxes(uris, depth+1, max)
+			actors, err := c.resolveInboxes(boxIRI, uris, depth+1, max)
 			if err != nil {
 				return nil, err
 			}
 			a = append(a, actors...)
 		} else if oc != nil {
 			uris := getURIsInOrderedItemer(oc.Raw())
-			actors, err := c.resolveInboxes(uris, depth+1, max)
+			actors, err := c.resolveInboxes(boxIRI, uris, depth+1, max)
 			if err != nil {
 				return nil, err
 			}
@@ -602,11 +620,11 @@ func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]actor, er
 				uris = getURIsInItemer(c)
 				return nil
 			}
-			err := doForCollectionPage(c.Client, c.Agent, cb, cp.Raw())
+			err := doForCollectionPage(c.Client, c.Agent, cb, cp.Raw(), cr)
 			if err != nil {
 				return nil, err
 			}
-			actors, err := c.resolveInboxes(uris, depth+1, max)
+			actors, err := c.resolveInboxes(boxIRI, uris, depth+1, max)
 			if err != nil {
 				return nil, err
 			}
@@ -616,11 +634,11 @@ func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]actor, er
 				uris = getURIsInOrderedItemer(c)
 				return nil
 			}
-			err := doForOrderedCollectionPage(c.Client, c.Agent, cb, ocp.Raw())
+			err := doForOrderedCollectionPage(c.Client, c.Agent, cb, ocp.Raw(), cr)
 			if err != nil {
 				return nil, err
 			}
-			actors, err := c.resolveInboxes(uris, depth+1, max)
+			actors, err := c.resolveInboxes(boxIRI, uris, depth+1, max)
 			if err != nil {
 				return nil, err
 			}
@@ -630,6 +648,47 @@ func (c *federator) resolveInboxes(r []url.URL, depth int, max int) ([]actor, er
 		}
 	}
 	return a, nil
+}
+
+func (c *federator) dereferenceForResolvingInboxes(u, boxIRI url.URL, cr *creds) (actor actor, co *streams.Collection, oc *streams.OrderedCollection, cp *streams.CollectionPage, ocp *streams.OrderedCollectionPage, cred *creds, err error) {
+	// To pass back to calling function, since may be set recursively:
+	cred = cr
+	var resp []byte
+	resp, err = dereference(c.Client, u, c.Agent, cr)
+	if err != nil {
+		return
+	}
+	var m map[string]interface{}
+	if err = json.Unmarshal(resp, &m); err != nil {
+		return
+	}
+	// Set AT MOST one of: co, oc, cp, ocp
+	// If none of these are set, attempt to use actor
+	if err = toActorCollectionResolver(&actor, &co, &oc, &cp, &ocp).Deserialize(m); err != nil {
+		return
+	}
+	// If a recipient is a Collection or OrderedCollection, then the
+	// server MUST dereference the collection, WITH the user's
+	// credentials.
+	//
+	// Note that this also applies to CollectionPage and
+	// OrderedCollectionPage.
+	//
+	// This jumps to the label above ONLY if we have not yet set the
+	// creds -- which happens at most once.
+	if (co != nil || oc != nil || cp != nil || ocp != nil) && cr == nil {
+		cr = &creds{}
+		cr.signer, err = c.FederateApp.NewSigner()
+		if err != nil {
+			return
+		}
+		cr.privKey, cr.pubKeyId, err = c.FederateApp.PrivateKey(boxIRI)
+		if err != nil {
+			return
+		}
+		return c.dereferenceForResolvingInboxes(u, boxIRI, cr)
+	}
+	return
 }
 
 // getInboxes extracts the 'inbox' IRIs from actors.
@@ -747,7 +806,7 @@ func (f *federator) dedupeOrderedItems(oc vocab.OrderedCollectionType) (vocab.Or
 			id = pIri.String()
 		} else if oc.IsOrderedItemsIRI(i) {
 			removeFn = oc.RemoveOrderedItemsIRI
-			b, err := dereference(f.Client, oc.GetOrderedItemsIRI(i), f.Agent)
+			b, err := dereference(f.Client, oc.GetOrderedItemsIRI(i), f.Agent, nil)
 			var m map[string]interface{}
 			if err := json.Unmarshal(b, &m); err != nil {
 				return oc, err
@@ -885,7 +944,7 @@ func getAudienceIRIs(o deliverableObject) []url.URL {
 
 // doForCollectionPage applies a function over a collection and its subsequent
 // pages recursively. It returns the first non-nil error it encounters.
-func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionPageType) error, c vocab.CollectionPageType) error {
+func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionPageType) error, c vocab.CollectionPageType, creds *creds) error {
 	err := cb(c)
 	if err != nil {
 		return err
@@ -893,12 +952,12 @@ func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionP
 	if c.IsNextCollectionPage() {
 		// Handle this one weird trick that other peers HATE federating
 		// with.
-		return doForCollectionPage(h, agent, cb, c.GetNextCollectionPage())
+		return doForCollectionPage(h, agent, cb, c.GetNextCollectionPage(), creds)
 	} else if c.IsNextLink() {
 		l := c.GetNextLink()
 		if l.HasHref() {
 			u := l.GetHref()
-			resp, err := dereference(h, u, agent)
+			resp, err := dereference(h, u, agent, creds)
 			if err != nil {
 				return err
 			}
@@ -912,12 +971,12 @@ func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionP
 				return err
 			}
 			if next != nil {
-				return doForCollectionPage(h, agent, cb, next.Raw())
+				return doForCollectionPage(h, agent, cb, next.Raw(), creds)
 			}
 		}
 	} else if c.IsNextIRI() {
 		u := c.GetNextIRI()
-		resp, err := dereference(h, u, agent)
+		resp, err := dereference(h, u, agent, creds)
 		if err != nil {
 			return err
 		}
@@ -931,7 +990,7 @@ func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionP
 			return err
 		}
 		if next != nil {
-			return doForCollectionPage(h, agent, cb, next.Raw())
+			return doForCollectionPage(h, agent, cb, next.Raw(), creds)
 		}
 	}
 	return nil
@@ -940,7 +999,7 @@ func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionP
 // doForOrderedCollectionPage applies a function over a collection and its
 // subsequent pages recursively. It returns the first non-nil error it
 // encounters.
-func doForOrderedCollectionPage(h HttpClient, agent string, cb func(c vocab.OrderedCollectionPageType) error, c vocab.OrderedCollectionPageType) error {
+func doForOrderedCollectionPage(h HttpClient, agent string, cb func(c vocab.OrderedCollectionPageType) error, c vocab.OrderedCollectionPageType, creds *creds) error {
 	err := cb(c)
 	if err != nil {
 		return err
@@ -948,12 +1007,12 @@ func doForOrderedCollectionPage(h HttpClient, agent string, cb func(c vocab.Orde
 	if c.IsNextOrderedCollectionPage() {
 		// Handle this one weird trick that other peers HATE federating
 		// with.
-		return doForOrderedCollectionPage(h, agent, cb, c.GetNextOrderedCollectionPage())
+		return doForOrderedCollectionPage(h, agent, cb, c.GetNextOrderedCollectionPage(), creds)
 	} else if c.IsNextLink() {
 		l := c.GetNextLink()
 		if l.HasHref() {
 			u := l.GetHref()
-			resp, err := dereference(h, u, agent)
+			resp, err := dereference(h, u, agent, creds)
 			if err != nil {
 				return err
 			}
@@ -967,12 +1026,12 @@ func doForOrderedCollectionPage(h HttpClient, agent string, cb func(c vocab.Orde
 				return err
 			}
 			if next != nil {
-				return doForOrderedCollectionPage(h, agent, cb, next.Raw())
+				return doForOrderedCollectionPage(h, agent, cb, next.Raw(), creds)
 			}
 		}
 	} else if c.IsNextIRI() {
 		u := c.GetNextIRI()
-		resp, err := dereference(h, u, agent)
+		resp, err := dereference(h, u, agent, creds)
 		if err != nil {
 			return err
 		}
@@ -986,7 +1045,7 @@ func doForOrderedCollectionPage(h HttpClient, agent string, cb func(c vocab.Orde
 			return err
 		}
 		if next != nil {
-			return doForOrderedCollectionPage(h, agent, cb, next.Raw())
+			return doForOrderedCollectionPage(h, agent, cb, next.Raw(), creds)
 		}
 	}
 	return nil
@@ -1547,7 +1606,7 @@ func (f *federator) inboxForwarding(c context.Context, m map[string]interface{})
 			}
 		}
 	}
-	return f.deliverToRecipients(a, recipients)
+	return f.deliverToRecipients(a, recipients, nil)
 }
 
 // Given an 'inReplyTo', 'object', 'target', or 'tag' object, recursively
