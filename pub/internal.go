@@ -73,7 +73,7 @@ func addJSONLDContext(m map[string]interface{}) {
 // ActivityStream representation.
 //
 // creds is allowed to be nil.
-func dereference(c HttpClient, u url.URL, agent string, creds *creds) ([]byte, error) {
+func dereference(c HttpClient, u url.URL, agent string, creds *creds, clock Clock) ([]byte, error) {
 	// TODO: (section 7.1) The server MUST dereference the collection (with the user's credentials)
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -81,7 +81,7 @@ func dereference(c HttpClient, u url.URL, agent string, creds *creds) ([]byte, e
 	}
 	req.Header.Add(acceptHeader, getAcceptHeader)
 	req.Header.Add("Accept-Charset", "utf-8")
-	req.Header.Add("Date", time.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
+	req.Header.Add("Date", clock.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
 	req.Header.Add("User-Agent", fmt.Sprintf("%s (go-fed ActivityPub)", agent))
 	if creds != nil {
 		err := creds.signer.SignRequest(creds.privKey, creds.pubKeyId, req)
@@ -111,7 +111,7 @@ type creds struct {
 // body set to the provided bytes.
 //
 // creds is able to be nil.
-func postToOutbox(c HttpClient, b []byte, to url.URL, agent string, creds *creds) error {
+func postToOutbox(c HttpClient, b []byte, to url.URL, agent string, creds *creds, clock Clock) error {
 	byteCopy := make([]byte, 0, len(b))
 	copy(b, byteCopy)
 	buf := bytes.NewBuffer(byteCopy)
@@ -121,7 +121,7 @@ func postToOutbox(c HttpClient, b []byte, to url.URL, agent string, creds *creds
 	}
 	req.Header.Add(contentTypeHeader, postContentTypeHeader)
 	req.Header.Add("Accept-Charset", "utf-8")
-	req.Header.Add("Date", time.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
+	req.Header.Add("Date", clock.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
 	req.Header.Add("User-Agent", fmt.Sprintf("%s (go-fed ActivityPub)", agent))
 	if creds != nil {
 		err := creds.signer.SignRequest(creds.privKey, creds.pubKeyId, req)
@@ -509,7 +509,7 @@ func (f *federator) deliver(obj vocab.ActivityType, boxIRI url.URL) error {
 	if err != nil {
 		return err
 	}
-	var creds *creds
+	creds := &creds{}
 	creds.signer, err = f.FederateApp.NewSigner()
 	if err != nil {
 		return err
@@ -535,7 +535,7 @@ func (f *federator) deliverToRecipients(obj vocab.ActivityType, recipients []url
 	}
 	for _, to := range recipients {
 		f.deliverer.Do(b, to, func(b []byte, u url.URL) error {
-			return postToOutbox(f.Client, b, u, f.Agent, creds)
+			return postToOutbox(f.Client, b, u, f.Agent, creds, f.Clock)
 		})
 	}
 	return nil
@@ -620,7 +620,7 @@ func (c *federator) resolveInboxes(boxIRI url.URL, r []url.URL, depth int, max i
 				uris = getURIsInItemer(c)
 				return nil
 			}
-			err := doForCollectionPage(c.Client, c.Agent, cb, cp.Raw(), cr)
+			err := doForCollectionPage(c.Client, c.Agent, cb, cp.Raw(), cr, c.Clock)
 			if err != nil {
 				return nil, err
 			}
@@ -634,7 +634,7 @@ func (c *federator) resolveInboxes(boxIRI url.URL, r []url.URL, depth int, max i
 				uris = getURIsInOrderedItemer(c)
 				return nil
 			}
-			err := doForOrderedCollectionPage(c.Client, c.Agent, cb, ocp.Raw(), cr)
+			err := doForOrderedCollectionPage(c.Client, c.Agent, cb, ocp.Raw(), cr, c.Clock)
 			if err != nil {
 				return nil, err
 			}
@@ -654,7 +654,7 @@ func (c *federator) dereferenceForResolvingInboxes(u, boxIRI url.URL, cr *creds)
 	// To pass back to calling function, since may be set recursively:
 	cred = cr
 	var resp []byte
-	resp, err = dereference(c.Client, u, c.Agent, cr)
+	resp, err = dereference(c.Client, u, c.Agent, cr, c.Clock)
 	if err != nil {
 		return
 	}
@@ -806,7 +806,7 @@ func (f *federator) dedupeOrderedItems(oc vocab.OrderedCollectionType) (vocab.Or
 			id = pIri.String()
 		} else if oc.IsOrderedItemsIRI(i) {
 			removeFn = oc.RemoveOrderedItemsIRI
-			b, err := dereference(f.Client, oc.GetOrderedItemsIRI(i), f.Agent, nil)
+			b, err := dereference(f.Client, oc.GetOrderedItemsIRI(i), f.Agent, nil, f.Clock)
 			var m map[string]interface{}
 			if err := json.Unmarshal(b, &m); err != nil {
 				return oc, err
@@ -944,7 +944,7 @@ func getAudienceIRIs(o deliverableObject) []url.URL {
 
 // doForCollectionPage applies a function over a collection and its subsequent
 // pages recursively. It returns the first non-nil error it encounters.
-func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionPageType) error, c vocab.CollectionPageType, creds *creds) error {
+func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionPageType) error, c vocab.CollectionPageType, creds *creds, clock Clock) error {
 	err := cb(c)
 	if err != nil {
 		return err
@@ -952,12 +952,12 @@ func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionP
 	if c.IsNextCollectionPage() {
 		// Handle this one weird trick that other peers HATE federating
 		// with.
-		return doForCollectionPage(h, agent, cb, c.GetNextCollectionPage(), creds)
+		return doForCollectionPage(h, agent, cb, c.GetNextCollectionPage(), creds, clock)
 	} else if c.IsNextLink() {
 		l := c.GetNextLink()
 		if l.HasHref() {
 			u := l.GetHref()
-			resp, err := dereference(h, u, agent, creds)
+			resp, err := dereference(h, u, agent, creds, clock)
 			if err != nil {
 				return err
 			}
@@ -971,12 +971,12 @@ func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionP
 				return err
 			}
 			if next != nil {
-				return doForCollectionPage(h, agent, cb, next.Raw(), creds)
+				return doForCollectionPage(h, agent, cb, next.Raw(), creds, clock)
 			}
 		}
 	} else if c.IsNextIRI() {
 		u := c.GetNextIRI()
-		resp, err := dereference(h, u, agent, creds)
+		resp, err := dereference(h, u, agent, creds, clock)
 		if err != nil {
 			return err
 		}
@@ -990,7 +990,7 @@ func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionP
 			return err
 		}
 		if next != nil {
-			return doForCollectionPage(h, agent, cb, next.Raw(), creds)
+			return doForCollectionPage(h, agent, cb, next.Raw(), creds, clock)
 		}
 	}
 	return nil
@@ -999,7 +999,7 @@ func doForCollectionPage(h HttpClient, agent string, cb func(c vocab.CollectionP
 // doForOrderedCollectionPage applies a function over a collection and its
 // subsequent pages recursively. It returns the first non-nil error it
 // encounters.
-func doForOrderedCollectionPage(h HttpClient, agent string, cb func(c vocab.OrderedCollectionPageType) error, c vocab.OrderedCollectionPageType, creds *creds) error {
+func doForOrderedCollectionPage(h HttpClient, agent string, cb func(c vocab.OrderedCollectionPageType) error, c vocab.OrderedCollectionPageType, creds *creds, clock Clock) error {
 	err := cb(c)
 	if err != nil {
 		return err
@@ -1007,12 +1007,12 @@ func doForOrderedCollectionPage(h HttpClient, agent string, cb func(c vocab.Orde
 	if c.IsNextOrderedCollectionPage() {
 		// Handle this one weird trick that other peers HATE federating
 		// with.
-		return doForOrderedCollectionPage(h, agent, cb, c.GetNextOrderedCollectionPage(), creds)
+		return doForOrderedCollectionPage(h, agent, cb, c.GetNextOrderedCollectionPage(), creds, clock)
 	} else if c.IsNextLink() {
 		l := c.GetNextLink()
 		if l.HasHref() {
 			u := l.GetHref()
-			resp, err := dereference(h, u, agent, creds)
+			resp, err := dereference(h, u, agent, creds, clock)
 			if err != nil {
 				return err
 			}
@@ -1026,12 +1026,12 @@ func doForOrderedCollectionPage(h HttpClient, agent string, cb func(c vocab.Orde
 				return err
 			}
 			if next != nil {
-				return doForOrderedCollectionPage(h, agent, cb, next.Raw(), creds)
+				return doForOrderedCollectionPage(h, agent, cb, next.Raw(), creds, clock)
 			}
 		}
 	} else if c.IsNextIRI() {
 		u := c.GetNextIRI()
-		resp, err := dereference(h, u, agent, creds)
+		resp, err := dereference(h, u, agent, creds, clock)
 		if err != nil {
 			return err
 		}
@@ -1045,7 +1045,7 @@ func doForOrderedCollectionPage(h HttpClient, agent string, cb func(c vocab.Orde
 			return err
 		}
 		if next != nil {
-			return doForOrderedCollectionPage(h, agent, cb, next.Raw(), creds)
+			return doForOrderedCollectionPage(h, agent, cb, next.Raw(), creds, clock)
 		}
 	}
 	return nil

@@ -3,10 +3,14 @@ package pub
 import (
 	"bytes"
 	"context"
+	"crypto"
+	"crypto/rand"
+	"crypto/rsa"
 	"encoding/json"
 	"fmt"
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/vocab"
+	"github.com/go-fed/httpsig"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -34,6 +38,8 @@ const (
 	noteName                  = "A Note"
 	otherOriginIRIString      = "https://foo.net/activity/112358"
 	otherOriginActorIRIString = "https://foo.net/peyton"
+
+	testPublicKeyID = "publicKeyId"
 )
 
 var (
@@ -85,6 +91,8 @@ var (
 	testClientExpectedLike           *vocab.Like
 	testClientExpectedUndo           *vocab.Undo
 	testClientExpectedBlock          *vocab.Block
+
+	testPrivateKey *rsa.PrivateKey
 )
 
 func init() {
@@ -391,6 +399,11 @@ func init() {
 	testClientExpectedBlock.SetId(*testNewIRI)
 	testClientExpectedBlock.AddActorObject(sallyActor)
 	testClientExpectedBlock.AddObject(samActor)
+
+	testPrivateKey, err = rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -734,6 +747,8 @@ type MockFederateApp struct {
 	unblocked        func(c context.Context, actorIRIs []url.URL) error
 	getFollowing     func(c context.Context, actor url.URL) (vocab.CollectionType, error)
 	filterForwarding func(c context.Context, activity vocab.ActivityType, iris []url.URL) ([]url.URL, error)
+	newSigner        func() (httpsig.Signer, error)
+	privateKey       func(boxIRI url.URL) (crypto.PrivateKey, string, error)
 }
 
 func (m *MockFederateApp) CanAdd(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool {
@@ -776,6 +791,20 @@ func (m *MockFederateApp) FilterForwarding(c context.Context, activity vocab.Act
 		m.t.Fatal("unexpected call to MockFederateApp FilterForwarding")
 	}
 	return m.filterForwarding(c, activity, iris)
+}
+
+func (m *MockFederateApp) NewSigner() (httpsig.Signer, error) {
+	if m.newSigner == nil {
+		m.t.Fatal("unexpected call to MockFederateApp NewSigner")
+	}
+	return m.newSigner()
+}
+
+func (m *MockFederateApp) PrivateKey(boxIRI url.URL) (privKey crypto.PrivateKey, pubKeyId string, err error) {
+	if m.privateKey == nil {
+		m.t.Fatal("unexpected call to MockFederateApp PrivateKey")
+	}
+	return m.privateKey(boxIRI)
 }
 
 var _ Deliverer = &MockDeliverer{}
@@ -860,6 +889,16 @@ func PreparePostInboxTest(t *testing.T, app *MockApplication, socialApp *MockSoc
 func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
 	socialApp.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
 		return true, nil
+	}
+	fedApp.newSigner = func() (httpsig.Signer, error) {
+		s, _, err := httpsig.NewSigner([]httpsig.Algorithm{httpsig.RSA_SHA256}, nil, httpsig.Signature)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return s, err
+	}
+	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+		return testPrivateKey, testPublicKeyID, nil
 	}
 	app.newId = func(c context.Context, t Typer) url.URL {
 		return *testNewIRI
@@ -1324,13 +1363,29 @@ func TestPubber_GetInbox(t *testing.T) {
 }
 
 func TestPubber_PostOutbox(t *testing.T) {
-	app, socialApp, _, socialCb, _, d, httpClient, p := NewPubberTest(t)
+	app, socialApp, fedApp, socialCb, _, d, httpClient, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
 	gotPostOutboxAuthorized := 0
 	socialApp.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
 		gotPostOutboxAuthorized++
 		return true, nil
+	}
+	gotNewSigner := 0
+	fedApp.newSigner = func() (httpsig.Signer, error) {
+		gotNewSigner++
+		s, _, err := httpsig.NewSigner([]httpsig.Algorithm{httpsig.RSA_SHA256}, nil, httpsig.Signature)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return s, err
+	}
+	gotPrivateKey := 0
+	var gotPrivateKeyIRI url.URL
+	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+		gotPrivateKey++
+		gotPrivateKeyIRI = boxIRI
+		return testPrivateKey, testPublicKeyID, nil
 	}
 	gotNewId := 0
 	app.newId = func(c context.Context, t Typer) url.URL {
@@ -1411,6 +1466,12 @@ func TestPubber_PostOutbox(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotPostOutboxAuthorized)
 	} else if gotNewId != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotNewId)
+	} else if gotNewSigner != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotNewSigner)
+	} else if gotPrivateKey != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotPrivateKey)
+	} else if s := (&gotPrivateKeyIRI).String(); s != testOutboxURI {
+		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if gotOutbox != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotOutbox)
 	} else if gotSet != 2 {
@@ -1453,6 +1514,14 @@ func TestPubber_PostOutbox(t *testing.T) {
 		t.Fatalf("expected %s, got %s", testNewIRI, h)
 	} else if resp.Code != http.StatusCreated {
 		t.Fatalf("expected %d, got %d", http.StatusCreated, resp.Code)
+	}
+	verif, err := httpsig.NewVerifier(httpDeliveryRequest)
+	if err != nil {
+		t.Fatal(err)
+	} else if verif.KeyId() != testPublicKeyID {
+		t.Fatalf("expected %s, got %s", testPublicKeyID, verif.KeyId())
+	} else if err := verif.Verify(testPrivateKey.Public(), httpsig.RSA_SHA256); err != nil {
+		t.Fatal(err)
 	}
 }
 
@@ -2094,6 +2163,22 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 		gotOnFollow++
 		return AutomaticReject
 	}
+	gotNewSigner := 0
+	fedApp.newSigner = func() (httpsig.Signer, error) {
+		gotNewSigner++
+		s, _, err := httpsig.NewSigner([]httpsig.Algorithm{httpsig.RSA_SHA256}, nil, httpsig.Signature)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return s, err
+	}
+	gotPrivateKey := 0
+	var gotPrivateKeyIRI url.URL
+	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+		gotPrivateKey++
+		gotPrivateKeyIRI = boxIRI
+		return testPrivateKey, testPublicKeyID, nil
+	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
 	}
@@ -2145,6 +2230,12 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotNewSigner != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotNewSigner)
+	} else if gotPrivateKey != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotPrivateKey)
+	} else if s := (&gotPrivateKeyIRI).String(); s != testInboxURI {
+		t.Fatalf("expected %s, got %s", testInboxURI, s)
 	} else if gotOnFollow != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotOnFollow)
 	} else if gotHttpDo != 2 {
@@ -2175,6 +2266,22 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
 		gotOnFollow++
 		return AutomaticAccept
+	}
+	gotNewSigner := 0
+	fedApp.newSigner = func() (httpsig.Signer, error) {
+		gotNewSigner++
+		s, _, err := httpsig.NewSigner([]httpsig.Algorithm{httpsig.RSA_SHA256}, nil, httpsig.Signature)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return s, err
+	}
+	gotPrivateKey := 0
+	var gotPrivateKeyIRI url.URL
+	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+		gotPrivateKey++
+		gotPrivateKeyIRI = boxIRI
+		return testPrivateKey, testPublicKeyID, nil
 	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
@@ -2255,6 +2362,12 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotOnFollow != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotOnFollow)
+	} else if gotNewSigner != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotNewSigner)
+	} else if gotPrivateKey != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotPrivateKey)
+	} else if s := (&gotPrivateKeyIRI).String(); s != testInboxURI {
+		t.Fatalf("expected %s, got %s", testInboxURI, s)
 	} else if gotHttpDo != 2 {
 		t.Fatalf("expected %d, got %d", 2, gotHttpDo)
 	} else if s := httpActorRequest.URL.String(); s != sallyIRIString {
@@ -2289,6 +2402,16 @@ func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) 
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
 		return AutomaticAccept
+	}
+	fedApp.newSigner = func() (httpsig.Signer, error) {
+		s, _, err := httpsig.NewSigner([]httpsig.Algorithm{httpsig.RSA_SHA256}, nil, httpsig.Signature)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return s, err
+	}
+	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+		return testPrivateKey, testPublicKeyID, nil
 	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
@@ -2363,6 +2486,16 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
 		return AutomaticAccept
 	}
+	fedApp.newSigner = func() (httpsig.Signer, error) {
+		s, _, err := httpsig.NewSigner([]httpsig.Algorithm{httpsig.RSA_SHA256}, nil, httpsig.Signature)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return s, err
+	}
+	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+		return testPrivateKey, testPublicKeyID, nil
+	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
 	}
@@ -2431,6 +2564,16 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
 		return AutomaticAccept
+	}
+	fedApp.newSigner = func() (httpsig.Signer, error) {
+		s, _, err := httpsig.NewSigner([]httpsig.Algorithm{httpsig.RSA_SHA256}, nil, httpsig.Signature)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return s, err
+	}
+	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+		return testPrivateKey, testPublicKeyID, nil
 	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
