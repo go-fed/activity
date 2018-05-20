@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/vocab"
+	"github.com/go-fed/httpsig"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -20,7 +21,7 @@ var (
 	ErrTargetRequired = errors.New("target property required")
 )
 
-// TODO: Helper http Handler for serving ActivityStream objects
+// TODO: Helper http Handler for serving ActivityStream objects (handle optional HTTP sigs as well)
 // TODO: Helper http Handler for serving Tombstone objects
 // TODO: Helper http Handler for serving deleted objects
 
@@ -30,7 +31,6 @@ var (
 
 // TODO: Helper for sending arbitrary ActivityPub objects.
 
-// TODO: Authorization client-to-server.
 // TODO: Authenticate server-to-server deliveries.
 
 // Pubber provides methods for interacting with ActivityPub clients and
@@ -248,11 +248,17 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return true, nil
 	}
-	ok, err := f.SocialApp.PostOutboxAuthorized(c, r)
+	v, err := httpsig.NewVerifier(r)
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		return true, nil
+	}
+	pk, algo, err := f.SocialApp.GetPublicKey(c, v.KeyId(), *r.URL)
 	if err != nil {
 		return true, err
 	}
-	if !ok {
+	err = v.Verify(pk, algo)
+	if err != nil {
 		w.WriteHeader(http.StatusForbidden)
 		return true, nil
 	}

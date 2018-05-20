@@ -66,9 +66,12 @@ type Application interface {
 // SocialApp is provided by users of this library and designed to handle
 // receiving messages from ActivityPub clients through the Social API.
 type SocialApp interface {
-	// PostOutboxAuthorized determines whether the request is able to post
-	// an Activity to the outbox.
-	PostOutboxAuthorized(c context.Context, r *http.Request) (bool, error)
+	// GetPublicKey fetches the public key for a user based on the public
+	// key id. It also determines which algorithm to use to verify the
+	// signature. The application must make sure that the actor whose boxIRI
+	// is passed in matches the public key id that is requested, or return
+	// an error.
+	GetPublicKey(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error)
 	// CanAdd returns true if the provided object is allowed to be added to
 	// the given target collection.
 	CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool

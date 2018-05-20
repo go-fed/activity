@@ -39,7 +39,7 @@ const (
 	otherOriginIRIString      = "https://foo.net/activity/112358"
 	otherOriginActorIRIString = "https://foo.net/peyton"
 
-	testPublicKeyID = "publicKeyId"
+	testPublicKeyId = "publicKeyId"
 )
 
 var (
@@ -92,7 +92,8 @@ var (
 	testClientExpectedUndo           *vocab.Undo
 	testClientExpectedBlock          *vocab.Block
 
-	testPrivateKey *rsa.PrivateKey
+	testPrivateKey      *rsa.PrivateKey
+	testOtherPrivateKey *rsa.PrivateKey
 )
 
 func init() {
@@ -404,6 +405,10 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+	testOtherPrivateKey, err = rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func Must(l *time.Location, e error) *time.Location {
@@ -426,6 +431,30 @@ func MustSerialize(s vocab.Serializer) []byte {
 	return b
 }
 
+func BadSignature(r *http.Request) *http.Request {
+	s, _, err := httpsig.NewSigner([]httpsig.Algorithm{httpsig.RSA_SHA256}, nil, httpsig.Signature)
+	if err != nil {
+		panic(err)
+	}
+	err = s.SignRequest(testOtherPrivateKey, testPublicKeyId, r)
+	if err != nil {
+		panic(err)
+	}
+	return r
+}
+
+func Sign(r *http.Request) *http.Request {
+	s, _, err := httpsig.NewSigner([]httpsig.Algorithm{httpsig.RSA_SHA256}, nil, httpsig.Signature)
+	if err != nil {
+		panic(err)
+	}
+	err = s.SignRequest(testPrivateKey, testPublicKeyId, r)
+	if err != nil {
+		panic(err)
+	}
+	return r
+}
+
 func ActivityPubRequest(r *http.Request) *http.Request {
 	if r.Method == "POST" {
 		existing, ok := r.Header["Content-Type"]
@@ -442,6 +471,7 @@ func ActivityPubRequest(r *http.Request) *http.Request {
 			r.Header["Accept"] = []string{"application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""}
 		}
 	}
+	r.Header["Date"] = []string{now.UTC().Format("Mon, 02 Jan 2006 15:04:05") + " GMT"}
 	return r
 }
 
@@ -586,11 +616,11 @@ func (m *MockApplication) NewId(c context.Context, t Typer) url.URL {
 var _ SocialApp = &MockSocialApp{}
 
 type MockSocialApp struct {
-	t                    *testing.T
-	canAdd               func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
-	canRemove            func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
-	postOutboxAuthorized func(c context.Context, r *http.Request) (bool, error)
-	actorIRI             func(c context.Context, r *http.Request) (url.URL, error)
+	t            *testing.T
+	canAdd       func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
+	canRemove    func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
+	getPublicKey func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error)
+	actorIRI     func(c context.Context, r *http.Request) (url.URL, error)
 }
 
 func (m *MockSocialApp) CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
@@ -607,11 +637,11 @@ func (m *MockSocialApp) CanRemove(c context.Context, o vocab.ObjectType, t vocab
 	return m.canRemove(c, o, t)
 }
 
-func (m *MockSocialApp) PostOutboxAuthorized(c context.Context, r *http.Request) (bool, error) {
-	if m.postOutboxAuthorized == nil {
-		m.t.Fatal("unexpected call to MockSocialApp PostOutboxAuthorized")
+func (m *MockSocialApp) GetPublicKey(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+	if m.getPublicKey == nil {
+		m.t.Fatal("unexpected call to MockSocialApp GetPublicKey")
 	}
-	return m.postOutboxAuthorized(c, r)
+	return m.getPublicKey(c, publicKeyId, boxIRI)
 }
 
 func (m *MockSocialApp) ActorIRI(c context.Context, r *http.Request) (url.URL, error) {
@@ -887,8 +917,8 @@ func PreparePostInboxTest(t *testing.T, app *MockApplication, socialApp *MockSoc
 }
 
 func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
-	socialApp.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
-		return true, nil
+	socialApp.getPublicKey = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+		return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
 	}
 	fedApp.newSigner = func() (httpsig.Signer, error) {
 		s, _, err := httpsig.NewSigner([]httpsig.Algorithm{httpsig.RSA_SHA256}, nil, httpsig.Signature)
@@ -898,7 +928,7 @@ func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSo
 		return s, err
 	}
 	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
-		return testPrivateKey, testPublicKeyID, nil
+		return testPrivateKey, testPublicKeyId, nil
 	}
 	app.newId = func(c context.Context, t Typer) url.URL {
 		return *testNewIRI
@@ -987,11 +1017,15 @@ func TestSocialPubber_GetInbox(t *testing.T) {
 func TestSocialPubber_PostOutbox(t *testing.T) {
 	app, socialApp, cb, p := NewSocialPubberTest(t)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
-	gotPostOutboxAuthorized := 0
-	socialApp.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
-		gotPostOutboxAuthorized++
-		return true, nil
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
+	gotPublicKey := 0
+	var gotPublicKeyId string
+	var gotBoxIRI url.URL
+	socialApp.getPublicKey = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+		gotPublicKey++
+		gotPublicKeyId = publicKeyId
+		gotBoxIRI = boxIRI
+		return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
 	}
 	gotNewId := 0
 	app.newId = func(c context.Context, t Typer) url.URL {
@@ -1029,8 +1063,12 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
-	} else if gotPostOutboxAuthorized != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotPostOutboxAuthorized)
+	} else if gotPublicKey != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotPublicKey)
+	} else if gotPublicKeyId != testPublicKeyId {
+		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
+	} else if s := (&gotBoxIRI).String(); s != testOutboxURI {
+		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if gotNewId != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotNewId)
 	} else if gotOutbox != 1 {
@@ -1365,11 +1403,15 @@ func TestPubber_GetInbox(t *testing.T) {
 func TestPubber_PostOutbox(t *testing.T) {
 	app, socialApp, fedApp, socialCb, _, d, httpClient, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
-	gotPostOutboxAuthorized := 0
-	socialApp.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
-		gotPostOutboxAuthorized++
-		return true, nil
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
+	gotPublicKey := 0
+	var gotPublicKeyId string
+	var gotBoxIRI url.URL
+	socialApp.getPublicKey = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+		gotPublicKey++
+		gotPublicKeyId = publicKeyId
+		gotBoxIRI = boxIRI
+		return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
 	}
 	gotNewSigner := 0
 	fedApp.newSigner = func() (httpsig.Signer, error) {
@@ -1385,7 +1427,7 @@ func TestPubber_PostOutbox(t *testing.T) {
 	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
 		gotPrivateKey++
 		gotPrivateKeyIRI = boxIRI
-		return testPrivateKey, testPublicKeyID, nil
+		return testPrivateKey, testPublicKeyId, nil
 	}
 	gotNewId := 0
 	app.newId = func(c context.Context, t Typer) url.URL {
@@ -1462,8 +1504,12 @@ func TestPubber_PostOutbox(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
-	} else if gotPostOutboxAuthorized != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotPostOutboxAuthorized)
+	} else if gotPublicKey != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotPublicKey)
+	} else if gotPublicKeyId != testPublicKeyId {
+		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
+	} else if s := (&gotBoxIRI).String(); s != testOutboxURI {
+		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if gotNewId != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotNewId)
 	} else if gotNewSigner != 1 {
@@ -1518,8 +1564,8 @@ func TestPubber_PostOutbox(t *testing.T) {
 	verif, err := httpsig.NewVerifier(httpDeliveryRequest)
 	if err != nil {
 		t.Fatal(err)
-	} else if verif.KeyId() != testPublicKeyID {
-		t.Fatalf("expected %s, got %s", testPublicKeyID, verif.KeyId())
+	} else if verif.KeyId() != testPublicKeyId {
+		t.Fatalf("expected %s, got %s", testPublicKeyId, verif.KeyId())
 	} else if err := verif.Verify(testPrivateKey.Public(), httpsig.RSA_SHA256); err != nil {
 		t.Fatal(err)
 	}
@@ -2177,7 +2223,7 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
 		gotPrivateKey++
 		gotPrivateKeyIRI = boxIRI
-		return testPrivateKey, testPublicKeyID, nil
+		return testPrivateKey, testPublicKeyId, nil
 	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
@@ -2281,7 +2327,7 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
 		gotPrivateKey++
 		gotPrivateKeyIRI = boxIRI
-		return testPrivateKey, testPublicKeyID, nil
+		return testPrivateKey, testPublicKeyId, nil
 	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
@@ -2411,7 +2457,7 @@ func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) 
 		return s, err
 	}
 	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
-		return testPrivateKey, testPublicKeyID, nil
+		return testPrivateKey, testPublicKeyId, nil
 	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
@@ -2494,7 +2540,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 		return s, err
 	}
 	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
-		return testPrivateKey, testPublicKeyID, nil
+		return testPrivateKey, testPublicKeyId, nil
 	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
@@ -2573,7 +2619,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
 		return s, err
 	}
 	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
-		return testPrivateKey, testPublicKeyID, nil
+		return testPrivateKey, testPublicKeyId, nil
 	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
@@ -3710,22 +3756,44 @@ func TestPostOutbox_RejectNonActivityPub(t *testing.T) {
 	}
 }
 
-func TestPostOutbox_RejectUnauthorized(t *testing.T) {
-	_, socialApp, _, _, _, _, _, p := NewPubberTest(t)
+func TestPostOutbox_RejectUnauthorized_NotSigned(t *testing.T) {
+	_, _, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
-	gotUnauthorized := 0
-	socialApp.postOutboxAuthorized = func(c context.Context, r *http.Request) (bool, error) {
-		gotUnauthorized++
-		return false, nil
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if resp.Code != http.StatusForbidden {
+		t.Fatalf("expected %d, got %d", http.StatusForbidden, resp.Code)
+	}
+}
+
+func TestPostOutbox_RejectUnauthorized_WrongSignature(t *testing.T) {
+	_, socialApp, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := BadSignature(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
+	gotPublicKey := 0
+	var gotPublicKeyId string
+	var gotBoxIRI url.URL
+	socialApp.getPublicKey = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+		gotPublicKey++
+		gotPublicKeyId = publicKeyId
+		gotBoxIRI = boxIRI
+		return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
-	} else if gotUnauthorized != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotUnauthorized)
+	} else if gotPublicKey != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotPublicKey)
+	} else if gotPublicKeyId != testPublicKeyId {
+		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
+	} else if s := (&gotBoxIRI).String(); s != testOutboxURI {
+		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if resp.Code != http.StatusForbidden {
 		t.Fatalf("expected %d, got %d", http.StatusForbidden, resp.Code)
 	}
@@ -3753,7 +3821,7 @@ func TestPostOutbox_WrapInCreateActivity(t *testing.T) {
 	expectedCreate.AddObject(expectedNote)
 	expectedCreate.AddToObject(samActor)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(rawNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(rawNote)))))
 	gotActorIRI := 0
 	socialApp.actorIRI = func(c context.Context, r *http.Request) (url.URL, error) {
 		gotActorIRI++
@@ -3884,7 +3952,7 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	for _, test := range tests {
 		resp := httptest.NewRecorder()
-		req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
+		req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(test.input())))))
 		handled, err := p.PostOutbox(context.Background(), resp, req)
 		if err != ErrObjectRequired {
 			t.Fatalf("(%s) expected %s, got %s", test.name, ErrObjectRequired, err)
@@ -3926,7 +3994,7 @@ func TestPostOutbox_RequiresTarget(t *testing.T) {
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	for _, test := range tests {
 		resp := httptest.NewRecorder()
-		req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
+		req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(test.input())))))
 		handled, err := p.PostOutbox(context.Background(), resp, req)
 		if err != ErrTargetRequired {
 			t.Fatalf("(%s) expected %s, got %s", test.name, ErrTargetRequired, err)
@@ -3940,9 +4008,11 @@ func TestPostOutbox_Create_CopyToAttributedTo(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
+	gotCallback := 0
 	var gotCallbackObject *streams.Create
 	socialCb.create = func(c context.Context, s *streams.Create) error {
+		gotCallback++
 		gotCallbackObject = s
 		return nil
 	}
@@ -3951,6 +4021,8 @@ func TestPostOutbox_Create_CopyToAttributedTo(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
 	} else if e := PubObjectEquals(gotCallbackObject.Raw(), testClientExpectedCreateNote); e != nil {
 		t.Fatal(e)
 	}
@@ -3960,7 +4032,7 @@ func TestPostOutbox_Create_SetCreatedObject(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
 	socialCb.create = func(c context.Context, s *streams.Create) error {
 		return nil
 	}
@@ -3997,7 +4069,7 @@ func TestPostOutbox_Create_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
 	gotCallback := 0
 	var gotCallbackObject *streams.Create
 	socialCb.create = func(c context.Context, s *streams.Create) error {
@@ -4021,7 +4093,7 @@ func TestPostOutbox_Create_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
 	socialCb.create = func(c context.Context, s *streams.Create) error {
 		return nil
 	}
@@ -4056,6 +4128,8 @@ func TestPostOutbox_Create_IsDelivered(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotHttpDo != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
 	} else if httpDeliveryRequest.Method != "POST" {
 		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
 	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
@@ -4067,7 +4141,7 @@ func TestPostOutbox_Update_DeleteSubFields(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer([]byte(testDeleteSubFields))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer([]byte(testDeleteSubFields)))))
 	socialCb.update = func(c context.Context, s *streams.Update) error {
 		return nil
 	}
@@ -4123,7 +4197,7 @@ func TestPostOutbox_Update_DeleteFields(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer([]byte(testDeleteFields))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer([]byte(testDeleteFields)))))
 	socialCb.update = func(c context.Context, s *streams.Update) error {
 		return nil
 	}
@@ -4175,7 +4249,7 @@ func TestPostOutbox_Update_DeleteSubFieldsMultipleObjects(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer([]byte(testDeleteFieldsDifferentObjects))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer([]byte(testDeleteFieldsDifferentObjects)))))
 	socialCb.update = func(c context.Context, s *streams.Update) error {
 		return nil
 	}
@@ -4253,7 +4327,7 @@ func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testClientUpdateNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testClientUpdateNote)))))
 	socialCb.update = func(c context.Context, s *streams.Update) error {
 		return nil
 	}
@@ -4310,7 +4384,7 @@ func TestPostOutbox_Update_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote)))))
 	gotCallback := 0
 	var gotCallbackObject *streams.Update
 	socialCb.update = func(c context.Context, s *streams.Update) error {
@@ -4349,7 +4423,7 @@ func TestPostOutbox_Update_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote)))))
 	socialCb.update = func(c context.Context, s *streams.Update) error {
 		return nil
 	}
@@ -4399,6 +4473,8 @@ func TestPostOutbox_Update_IsDelivered(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotHttpDo != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
 	} else if httpDeliveryRequest.Method != "POST" {
 		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
 	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
@@ -4410,7 +4486,7 @@ func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote)))))
 	socialCb.delete = func(c context.Context, s *streams.Delete) error {
 		return nil
 	}
@@ -4460,7 +4536,7 @@ func TestPostOutbox_Delete_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote)))))
 	gotCallback := 0
 	var gotCallbackObject *streams.Delete
 	socialCb.delete = func(c context.Context, s *streams.Delete) error {
@@ -4490,7 +4566,7 @@ func TestPostOutbox_Delete_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote)))))
 	socialCb.delete = func(c context.Context, s *streams.Delete) error {
 		return nil
 	}
@@ -4531,6 +4607,8 @@ func TestPostOutbox_Delete_IsDelivered(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotHttpDo != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
 	} else if httpDeliveryRequest.Method != "POST" {
 		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
 	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
@@ -4542,7 +4620,7 @@ func TestPostOutbox_Follow_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testFollow)))))
 	gotCallback := 0
 	var gotCallbackObject *streams.Follow
 	socialCb.follow = func(c context.Context, s *streams.Follow) error {
@@ -4566,7 +4644,7 @@ func TestPostOutbox_Follow_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testFollow)))))
 	socialCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
 	}
@@ -4601,6 +4679,8 @@ func TestPostOutbox_Follow_IsDelivered(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotHttpDo != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
 	} else if httpDeliveryRequest.Method != "POST" {
 		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
 	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
@@ -4612,7 +4692,7 @@ func TestPostOutbox_Accept_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow)))))
 	gotCallback := 0
 	var gotCallbackObject *streams.Accept
 	socialCb.accept = func(c context.Context, s *streams.Accept) error {
@@ -4636,7 +4716,7 @@ func TestPostOutbox_Accept_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow)))))
 	socialCb.accept = func(c context.Context, s *streams.Accept) error {
 		return nil
 	}
@@ -4671,6 +4751,8 @@ func TestPostOutbox_Accept_IsDelivered(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotHttpDo != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
 	} else if httpDeliveryRequest.Method != "POST" {
 		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
 	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
@@ -4682,7 +4764,7 @@ func TestPostOutbox_Reject_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRejectFollow))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRejectFollow)))))
 	gotCallback := 0
 	var gotCallbackObject *streams.Reject
 	socialCb.reject = func(c context.Context, s *streams.Reject) error {
@@ -4706,7 +4788,7 @@ func TestPostOutbox_Reject_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRejectFollow))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRejectFollow)))))
 	socialCb.reject = func(c context.Context, s *streams.Reject) error {
 		return nil
 	}
@@ -4741,6 +4823,8 @@ func TestPostOutbox_Reject_IsDelivered(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotHttpDo != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
 	} else if httpDeliveryRequest.Method != "POST" {
 		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
 	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
@@ -4752,7 +4836,7 @@ func TestPostOutbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
 	gotOwns := 0
 	var gotOwnsIri url.URL
 	app.owns = func(c context.Context, iri url.URL) bool {
@@ -4779,7 +4863,7 @@ func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
@@ -4842,7 +4926,7 @@ func TestPostOutbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
@@ -4891,7 +4975,7 @@ func TestPostOutbox_Add_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return false
 	}
@@ -4918,7 +5002,7 @@ func TestPostOutbox_Add_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return false
 	}
@@ -4956,6 +5040,8 @@ func TestPostOutbox_Add_IsDelivered(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotHttpDo != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
 	} else if httpDeliveryRequest.Method != "POST" {
 		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
 	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
@@ -4967,7 +5053,7 @@ func TestPostOutbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
 	gotOwns := 0
 	var gotOwnsIri url.URL
 	app.owns = func(c context.Context, iri url.URL) bool {
@@ -4994,7 +5080,7 @@ func TestPostOutbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
@@ -5057,7 +5143,7 @@ func TestPostOutbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
@@ -5108,7 +5194,7 @@ func TestPostOutbox_Remove_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return false
 	}
@@ -5135,7 +5221,7 @@ func TestPostOutbox_Remove_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return false
 	}
@@ -5173,6 +5259,8 @@ func TestPostOutbox_Remove_IsDelivered(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotHttpDo != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
 	} else if httpDeliveryRequest.Method != "POST" {
 		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
 	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
@@ -5184,7 +5272,7 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
 	gotOwns := 0
 	var gotOwnsIri url.URL
 	app.owns = func(c context.Context, iri url.URL) bool {
@@ -5245,7 +5333,7 @@ func TestPostOutbox_Like_DoesNotAddIfAlreadyLiked(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
@@ -5292,7 +5380,7 @@ func TestPostOutbox_Like_AddsToLikedOrderedCollection(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
@@ -5335,7 +5423,7 @@ func TestPostOutbox_Like_DoesNotAddIfCollectionNotOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
 	gotOwns := 0
 	var gotOwnsIri url.URL
 	app.owns = func(c context.Context, iri url.URL) bool {
@@ -5362,7 +5450,7 @@ func TestPostOutbox_Like_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
@@ -5399,7 +5487,7 @@ func TestPostOutbox_Like_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
@@ -5447,6 +5535,8 @@ func TestPostOutbox_Like_IsDelivered(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotHttpDo != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
 	} else if httpDeliveryRequest.Method != "POST" {
 		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
 	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
@@ -5458,7 +5548,7 @@ func TestPostOutbox_Undo_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUndoLike))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUndoLike)))))
 	gotCallback := 0
 	var gotCallbackObject *streams.Undo
 	socialCb.undo = func(c context.Context, s *streams.Undo) error {
@@ -5482,7 +5572,7 @@ func TestPostOutbox_Undo_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUndoLike))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUndoLike)))))
 	socialCb.undo = func(c context.Context, s *streams.Undo) error {
 		return nil
 	}
@@ -5517,6 +5607,8 @@ func TestPostOutbox_Undo_IsDelivered(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotHttpDo != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
 	} else if httpDeliveryRequest.Method != "POST" {
 		t.Fatalf("expected %s, got %s", "POST", httpDeliveryRequest.Method)
 	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
@@ -5528,7 +5620,7 @@ func TestPostOutbox_Block_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testBlock))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testBlock)))))
 	gotCallback := 0
 	var gotCallbackObject *streams.Block
 	socialCb.block = func(c context.Context, s *streams.Block) error {
@@ -5552,7 +5644,7 @@ func TestPostOutbox_Block_IsNotDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testBlock))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testBlock)))))
 	socialCb.block = func(c context.Context, s *streams.Block) error {
 		return nil
 	}
@@ -5572,7 +5664,7 @@ func TestPostOutbox_SetsLocationHeader(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
-	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
 	socialCb.create = func(c context.Context, s *streams.Create) error {
 		return nil
 	}
