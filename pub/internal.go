@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"context"
 	"crypto"
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/go-fed/activity/streams"
@@ -21,12 +23,16 @@ const (
 	responseContentTypeHeader = "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
 	getAcceptHeader           = "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
 	contentTypeHeader         = "Content-Type"
+	dateHeader                = "Date"
+	digestHeader              = "Digest"
 	acceptHeader              = "Accept"
 	publicActivityPub         = "https://www.w3.org/ns/activitystreams#Public"
 	publicJsonLD              = "Public"
 	publicJsonLDAS            = "as:Public"
 	jsonLDContext             = "@context"
 	activityPubContext        = "https://www.w3.org/ns/activitystreams"
+	sha256Digest              = "SHA-256"
+	digestDelimiter           = "="
 )
 
 var alternatives = []string{"application/activity+json"}
@@ -67,6 +73,19 @@ func isPublic(s string) bool {
 
 func addJSONLDContext(m map[string]interface{}) {
 	m[jsonLDContext] = activityPubContext
+}
+
+func addResponseHeaders(h http.Header, c Clock, responseContent []byte) {
+	h.Set(contentTypeHeader, responseContentTypeHeader)
+	// RFC 7231 §7.1.1.2
+	h.Set(dateHeader, c.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
+	// RFC 3230 and RFC 5843
+	var b bytes.Buffer
+	b.WriteString(sha256Digest)
+	b.WriteString(digestDelimiter)
+	hashed := sha256.Sum256(responseContent)
+	b.WriteString(base64.StdEncoding.EncodeToString(hashed[:]))
+	h.Set(digestHeader, b.String())
 }
 
 // dereference makes an HTTP GET request to an IRI in order to obtain the

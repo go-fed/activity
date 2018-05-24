@@ -32,6 +32,35 @@ type HttpClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
+// SocialAPIVerifier will verify incoming requests from clients and is meant to
+// encapsulate authentication functionality by standards such as OAuth (RFC
+// 6749).
+type SocialAPIVerifier interface {
+	// Verify will determine the authenticated user for the given request,
+	// returning false if verification fails. If the request is entirely
+	// missing the required fields in order to authenticate, this function
+	// must return nil and false for all values to permit attempting
+	// validation by HTTP Signatures. If there was an internal error
+	// determining the authentication of the request, it is returned.
+	//
+	// Return values are interpreted as follows:
+	//     (userFoo, true,  true,  <nil>) => userFoo passed authentication and is authorized
+	//     (<any>,   true,  false, <nil>) => a user passed authentication but failed authorization (Permission denied)
+	//     (<any>,   false, false, <nil>) => authentication failed: deny access (Bad request)
+	//     (<nil>,   false, true,  <nil>) => authentication failed: must pass HTTP Signature verification or will be Permission Denied
+	//     (<nil>,   true,  true,  <nil>) => "I don't care, try to validate using HTTP Signatures. If that still doesn't work, permit raw requests access anyway."
+	//     (<any>,   <any>, <any>, error) => an internal error occurred during validation
+	//
+	// Be very careful that the 'authenticatedUser' value is non-nil when
+	// returning 'authn' and 'authz' values of true, or else the library
+	// will use the most permissive logic instead of the most restrictive as
+	// outlined above.
+	Verify(r *http.Request) (authenticatedUser *url.URL, authn, authz bool, err error)
+	// VerifyForOutbox is the same as Verify, except that the request must
+	// authenticate the owner of the provided outbox IRI.
+	VerifyForOutbox(r *http.Request, outbox url.URL) (authn, authz bool, err error)
+}
+
 // Application is provided by users of this library in order to implement a
 // social-federative-web application.
 //
@@ -43,6 +72,10 @@ type Application interface {
 	Owns(c context.Context, id url.URL) bool
 	// Get fetches the ActivityStream representation of the given id.
 	Get(c context.Context, id url.URL) (PubObject, error)
+	// GetAsVerifiedUser fetches the ActivityStream representation of the
+	// given id with the provided IRI representing the authenticated user
+	// making the request.
+	GetAsVerifiedUser(c context.Context, id, authdUser url.URL) (PubObject, error)
 	// Has determines if the server already knows about the object or
 	// Activity specified by the given id.
 	Has(c context.Context, id url.URL) (bool, error)
@@ -61,17 +94,15 @@ type Application interface {
 	// id for a new Activity posted to the outbox. The object is provided
 	// as a Typer so clients can use it to decide how to generate the IRI.
 	NewId(c context.Context, t Typer) url.URL
+	// GetPublicKey fetches the public key for a user based on the public
+	// key id. It also determines which algorithm to use to verify the
+	// signature.
+	GetPublicKey(c context.Context, publicKeyId string) (pubKey crypto.PublicKey, algo httpsig.Algorithm, user url.URL, err error)
 }
 
 // SocialApp is provided by users of this library and designed to handle
 // receiving messages from ActivityPub clients through the Social API.
 type SocialApp interface {
-	// GetPublicKey fetches the public key for a user based on the public
-	// key id. It also determines which algorithm to use to verify the
-	// signature. The application must make sure that the actor whose boxIRI
-	// is passed in matches the public key id that is requested, or return
-	// an error.
-	GetPublicKey(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error)
 	// CanAdd returns true if the provided object is allowed to be added to
 	// the given target collection.
 	CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
@@ -81,6 +112,21 @@ type SocialApp interface {
 	// AddToOutboxResolver(c context.Context) (*streams.Resolver, error)
 	// ActorIRI returns the actor's IRI associated with the given request.
 	ActorIRI(c context.Context, r *http.Request) (url.URL, error)
+	// GetSocialAPIVerifier returns the authentication mechanism used for
+	// incoming ActivityPub client requests. It is optional and allowed to
+	// return null.
+	//
+	// Note that regardless of what this implementation returns, HTTP
+	// Signatures is supported natively as a fallback.
+	GetSocialAPIVerifier() SocialAPIVerifier
+	// GetPublicKeyForOutbox fetches the public key for a user based on the
+	// public key id. It also determines which algorithm to use to verify
+	// the signature.
+	//
+	// Note that a key difference from Application's GetPublicKey is that
+	// this function must make sure that the actor whose boxIRI is passed in
+	// matches the public key id that is requested, or return an error.
+	GetPublicKeyForOutbox(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error)
 }
 
 // FederateApp is provided by users of this library and designed to handle
@@ -216,6 +262,7 @@ type Deliverer interface {
 
 // PubObject is an ActivityPub Object.
 type PubObject interface {
+	vocab.Serializer
 	Typer
 	GetId() url.URL
 	SetId(url.URL)

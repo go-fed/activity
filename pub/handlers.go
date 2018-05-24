@@ -1,0 +1,116 @@
+package pub
+
+import (
+	"context"
+	"crypto"
+	"encoding/json"
+	"fmt"
+	"github.com/go-fed/httpsig"
+	"net/http"
+	"net/url"
+)
+
+// ServeActivityPubObject will serve the ActivityPub object with the given IRI
+// in the request. Note that requests must be signed with HTTP signatures or
+// else they will be denied access. To explicitly opt out of this protection,
+// use ServeActivityPubObjectWithVerificationMethod instead.
+func ServeActivityPubObject(c context.Context, a Application, clock Clock, w http.ResponseWriter, r *http.Request) (handled bool, err error) {
+	return serveActivityPubObject(c, a, clock, w, r, nil)
+}
+
+// ServeActivityPubObjectWithVerificationMethod will serve the ActivityPub
+// object with the given IRI in the request. The rules for accessing the data
+// are governed by the SocialAPIVerifier's behavior and may permit accessing
+// data without having any credentials in the request.
+func ServeActivityPubObjectWithVerificationMethod(c context.Context, a Application, clock Clock, w http.ResponseWriter, r *http.Request, verifier SocialAPIVerifier) (handled bool, err error) {
+	return serveActivityPubObject(c, a, clock, w, r, verifier)
+}
+
+func serveActivityPubObject(c context.Context, a Application, clock Clock, w http.ResponseWriter, r *http.Request, verifier SocialAPIVerifier) (handled bool, err error) {
+	handled = isActivityPubGet(r)
+	if !handled {
+		return
+	}
+	id := *r.URL
+	if !a.Owns(c, id) {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	var verifiedUser *url.URL
+	authenticated := false
+	authorized := false
+	if verifier != nil {
+		verifiedUser, authenticated, authorized, err = verifier.Verify(r)
+		if err != nil {
+			return
+		} else if authenticated && !authorized {
+			w.WriteHeader(http.StatusForbidden)
+			return
+		} else if !authenticated && !authorized {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		} else if !authenticated && authorized {
+			// Protect against bad implementations.
+			if verifiedUser != nil {
+				verifiedUser = nil
+			}
+		}
+	}
+	if verifiedUser == nil {
+		var v httpsig.Verifier
+		v, err = httpsig.NewVerifier(r)
+		if err != nil { // Unsigned request
+			if !authenticated {
+				w.WriteHeader(http.StatusBadRequest)
+				err = nil
+				return
+			}
+		} else { // Signed request
+			var publicKey crypto.PublicKey
+			var algo httpsig.Algorithm
+			var user url.URL
+			publicKey, algo, user, err = a.GetPublicKey(c, v.KeyId())
+			if err != nil {
+				return
+			}
+			err = v.Verify(publicKey, algo)
+			if err != nil && !authenticated {
+				w.WriteHeader(http.StatusForbidden)
+				err = nil
+				return
+			} else if err == nil {
+				verifiedUser = &user
+			}
+		}
+	}
+	var pObj PubObject
+	if verifiedUser != nil {
+		pObj, err = a.GetAsVerifiedUser(c, *r.URL, *verifiedUser)
+	} else {
+		pObj, err = a.Get(c, *r.URL)
+	}
+	if err != nil {
+		return
+	}
+	var m map[string]interface{}
+	m, err = pObj.Serialize()
+	if err != nil {
+		return
+	}
+	addJSONLDContext(m)
+	var b []byte
+	b, err = json.Marshal(m)
+	if err != nil {
+		return
+	}
+	addResponseHeaders(w.Header(), clock, b)
+	w.WriteHeader(http.StatusOK)
+	n, err := w.Write(b)
+	if err != nil {
+		return
+	} else if n != len(b) {
+		err = fmt.Errorf("ResponseWriter.Write wrote %d of %d bytes", n, len(b))
+		return
+	}
+	return
+}

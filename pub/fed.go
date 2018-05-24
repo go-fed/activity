@@ -21,17 +21,7 @@ var (
 	ErrTargetRequired = errors.New("target property required")
 )
 
-// TODO: Helper http Handler for serving ActivityStream objects (handle optional HTTP sigs as well)
-// TODO: Helper http Handler for serving Tombstone objects
-// TODO: Helper http Handler for serving deleted objects
-
-// TODO: Helper http Handler for serving actor's likes
-// TODO: Helper http Handler for serving actor's followers
-// TODO: Helper http Handler for serving actor's following
-
 // TODO: Helper for sending arbitrary ActivityPub objects.
-
-// TODO: Authenticate server-to-server deliveries.
 
 // Pubber provides methods for interacting with ActivityPub clients and
 // ActivityPub federating servers.
@@ -229,7 +219,7 @@ func (f *federator) GetInbox(c context.Context, w http.ResponseWriter, r *http.R
 	if err != nil {
 		return true, err
 	}
-	w.Header().Set(contentTypeHeader, responseContentTypeHeader)
+	addResponseHeaders(w.Header(), f.Clock, b)
 	w.WriteHeader(http.StatusOK)
 	n, err := w.Write(b)
 	if err != nil {
@@ -248,19 +238,35 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return true, nil
 	}
-	v, err := httpsig.NewVerifier(r)
-	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		return true, nil
+	authenticated := false
+	authorized := false
+	if verifier := f.SocialApp.GetSocialAPIVerifier(); verifier != nil {
+		authenticated, authorized, err := verifier.VerifyForOutbox(r, *r.URL)
+		if err != nil {
+			return true, err
+		} else if authenticated && !authorized {
+			w.WriteHeader(http.StatusForbidden)
+			return true, nil
+		} else if !authenticated && !authorized {
+			w.WriteHeader(http.StatusBadRequest)
+			return true, nil
+		}
 	}
-	pk, algo, err := f.SocialApp.GetPublicKey(c, v.KeyId(), *r.URL)
-	if err != nil {
-		return true, err
-	}
-	err = v.Verify(pk, algo)
-	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		return true, nil
+	if !!authenticated && authorized {
+		v, err := httpsig.NewVerifier(r)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return true, nil
+		}
+		pk, algo, err := f.SocialApp.GetPublicKeyForOutbox(c, v.KeyId(), *r.URL)
+		if err != nil {
+			return true, err
+		}
+		err = v.Verify(pk, algo)
+		if err != nil {
+			w.WriteHeader(http.StatusForbidden)
+			return true, nil
+		}
 	}
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -328,7 +334,7 @@ func (f *federator) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 	if err != nil {
 		return true, err
 	}
-	w.Header().Set(contentTypeHeader, responseContentTypeHeader)
+	addResponseHeaders(w.Header(), f.Clock, b)
 	w.WriteHeader(http.StatusOK)
 	n, err := w.Write(b)
 	if err != nil {
@@ -478,11 +484,7 @@ func (f *federator) handleClientUpdate(c context.Context, rawJson map[string]int
 			if err != nil {
 				return err
 			}
-			obj, ok := pObj.(vocab.Serializer)
-			if !ok {
-				return fmt.Errorf("PubObject is not vocab.Serializer: %T", pObj)
-			}
-			m, err := obj.Serialize()
+			m, err := pObj.Serialize()
 			if err != nil {
 				return err
 			}
