@@ -58,6 +58,13 @@ type SocialAPIVerifier interface {
 	Verify(r *http.Request) (authenticatedUser *url.URL, authn, authz bool, err error)
 	// VerifyForOutbox is the same as Verify, except that the request must
 	// authenticate the owner of the provided outbox IRI.
+	//
+	// Return values are interpreted as follows:
+	//     (true,  true,   <nil>) => user for the outbox passed authentication and is authorized
+	//     (true,  false,  <nil>) => a user passed authentication but failed authorization for this outbox (Permission denied)
+	//     (false, true,   <nil>) => authentication failed: must pass HTTP Signature verification or will be Permission Denied
+	//     (false, false,  <nil>) => authentication failed: deny access (Bad request)
+	//     (<any>, <any>,  error) => an internal error occurred during validation
 	VerifyForOutbox(r *http.Request, outbox url.URL) (authn, authz bool, err error)
 }
 
@@ -118,7 +125,7 @@ type SocialApp interface {
 	//
 	// Note that regardless of what this implementation returns, HTTP
 	// Signatures is supported natively as a fallback.
-	GetSocialAPIVerifier() SocialAPIVerifier
+	GetSocialAPIVerifier(c context.Context) SocialAPIVerifier
 	// GetPublicKeyForOutbox fetches the public key for a user based on the
 	// public key id. It also determines which algorithm to use to verify
 	// the signature.

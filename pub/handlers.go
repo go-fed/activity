@@ -37,6 +37,8 @@ func serveActivityPubObject(c context.Context, a Application, clock Clock, w htt
 		return
 	}
 	var verifiedUser *url.URL
+	// By default, permit unsigned access to resource. however, if there is
+	// an HTTP Signature present, it must pass validation.
 	authenticated := false
 	authorized := false
 	if verifier != nil {
@@ -50,7 +52,13 @@ func serveActivityPubObject(c context.Context, a Application, clock Clock, w htt
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		} else if !authenticated && authorized {
-			// Protect against bad implementations.
+			// Protect against bad implementations: There is no
+			// recognized reason for an implementation to pass back
+			// a non-nil verifiedUser that is authorized but not
+			// authenticated.
+			//
+			// Force HTTP Signature validation to trigger by
+			// ensuring the verifiedUser is nil.
 			if verifiedUser != nil {
 				verifiedUser = nil
 			}
@@ -60,11 +68,11 @@ func serveActivityPubObject(c context.Context, a Application, clock Clock, w htt
 		var v httpsig.Verifier
 		v, err = httpsig.NewVerifier(r)
 		if err != nil { // Unsigned request
-			if !authenticated {
+			if !authenticated && authorized { // Must pass HTTP Signature verification
 				w.WriteHeader(http.StatusBadRequest)
 				err = nil
 				return
-			}
+			} // Else permit unsigned requests access
 		} else { // Signed request
 			var publicKey crypto.PublicKey
 			var algo httpsig.Algorithm
@@ -74,13 +82,13 @@ func serveActivityPubObject(c context.Context, a Application, clock Clock, w htt
 				return
 			}
 			err = v.Verify(publicKey, algo)
-			if err != nil && !authenticated {
+			if err != nil && !authenticated { // Failed and must pass HTTP Signature verification
 				w.WriteHeader(http.StatusForbidden)
 				err = nil
 				return
 			} else if err == nil {
 				verifiedUser = &user
-			}
+			} // Else failed HTTP Signature verification but we still allow access.
 		}
 	}
 	var pObj PubObject

@@ -238,9 +238,11 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return true, nil
 	}
+	// By default, enforce HTTP Signatures.
 	authenticated := false
-	authorized := false
-	if verifier := f.SocialApp.GetSocialAPIVerifier(); verifier != nil {
+	authorized := true
+	if verifier := f.SocialApp.GetSocialAPIVerifier(c); verifier != nil {
+		// Use custom Social API method to authenticate and authorize.
 		authenticated, authorized, err := verifier.VerifyForOutbox(r, *r.URL)
 		if err != nil {
 			return true, err
@@ -252,7 +254,8 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 			return true, nil
 		}
 	}
-	if !!authenticated && authorized {
+	if !authenticated && authorized {
+		// Use HTTP Signatures to authenticate and authorize.
 		v, err := httpsig.NewVerifier(r)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)

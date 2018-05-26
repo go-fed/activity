@@ -554,14 +554,16 @@ func (m *MockClock) Now() time.Time {
 var _ Application = &MockApplication{}
 
 type MockApplication struct {
-	t         *testing.T
-	owns      func(c context.Context, id url.URL) bool
-	get       func(c context.Context, id url.URL) (PubObject, error)
-	has       func(c context.Context, id url.URL) (bool, error)
-	set       func(c context.Context, o PubObject) error
-	getInbox  func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
-	getOutbox func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
-	newId     func(c context.Context, t Typer) url.URL
+	t                 *testing.T
+	owns              func(c context.Context, id url.URL) bool
+	get               func(c context.Context, id url.URL) (PubObject, error)
+	getAsVerifiedUser func(c context.Context, id, authdUser url.URL) (PubObject, error)
+	has               func(c context.Context, id url.URL) (bool, error)
+	set               func(c context.Context, o PubObject) error
+	getInbox          func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
+	getOutbox         func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
+	newId             func(c context.Context, t Typer) url.URL
+	getPublicKey      func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, url.URL, error)
 }
 
 func (m *MockApplication) Owns(c context.Context, id url.URL) bool {
@@ -576,6 +578,13 @@ func (m *MockApplication) Get(c context.Context, id url.URL) (PubObject, error) 
 		m.t.Fatal("unexpected call to MockApplication Get")
 	}
 	return m.get(c, id)
+}
+
+func (m *MockApplication) GetAsVerifiedUser(c context.Context, id, authdUser url.URL) (PubObject, error) {
+	if m.getAsVerifiedUser == nil {
+		m.t.Fatal("unexpected call to MockApplication GetAsVerifiedUser")
+	}
+	return m.getAsVerifiedUser(c, id, authdUser)
 }
 
 func (m *MockApplication) Has(c context.Context, id url.URL) (bool, error) {
@@ -613,14 +622,22 @@ func (m *MockApplication) NewId(c context.Context, t Typer) url.URL {
 	return m.newId(c, t)
 }
 
+func (m *MockApplication) GetPublicKey(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, url.URL, error) {
+	if m.getPublicKey == nil {
+		m.t.Fatal("unexpected call to MockApplication GetPublicKey")
+	}
+	return m.getPublicKey(c, publicKeyId)
+}
+
 var _ SocialApp = &MockSocialApp{}
 
 type MockSocialApp struct {
-	t            *testing.T
-	canAdd       func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
-	canRemove    func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
-	getPublicKey func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error)
-	actorIRI     func(c context.Context, r *http.Request) (url.URL, error)
+	t                     *testing.T
+	canAdd                func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
+	canRemove             func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
+	actorIRI              func(c context.Context, r *http.Request) (url.URL, error)
+	getPublicKeyForOutbox func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error)
+	getSocialAPIVerifier  func(c context.Context) SocialAPIVerifier
 }
 
 func (m *MockSocialApp) CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
@@ -637,18 +654,25 @@ func (m *MockSocialApp) CanRemove(c context.Context, o vocab.ObjectType, t vocab
 	return m.canRemove(c, o, t)
 }
 
-func (m *MockSocialApp) GetPublicKey(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
-	if m.getPublicKey == nil {
-		m.t.Fatal("unexpected call to MockSocialApp GetPublicKey")
-	}
-	return m.getPublicKey(c, publicKeyId, boxIRI)
-}
-
 func (m *MockSocialApp) ActorIRI(c context.Context, r *http.Request) (url.URL, error) {
 	if m.actorIRI == nil {
 		m.t.Fatal("unexpected call to MockSocialApp ActorIRI")
 	}
 	return m.actorIRI(c, r)
+}
+
+func (m *MockSocialApp) GetPublicKeyForOutbox(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+	if m.getPublicKeyForOutbox == nil {
+		m.t.Fatal("unexpected call to MockSocialApp GetPublicKeyForOutbox")
+	}
+	return m.getPublicKeyForOutbox(c, publicKeyId, boxIRI)
+}
+
+func (m *MockSocialApp) GetSocialAPIVerifier(c context.Context) SocialAPIVerifier {
+	if m.getSocialAPIVerifier == nil {
+		m.t.Fatal("unexpected call to MockSocialApp GetSocialAPIVerifier")
+	}
+	return m.getSocialAPIVerifier(c)
 }
 
 var _ Callbacker = &MockCallbacker{}
@@ -865,6 +889,28 @@ func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
 	return m.do(req)
 }
 
+var _ SocialAPIVerifier = &MockSocialAPIVerifier{}
+
+type MockSocialAPIVerifier struct {
+	t               *testing.T
+	verify          func(r *http.Request) (authenticatedUser *url.URL, authn, authz bool, err error)
+	verifyForOutbox func(r *http.Request, outbox url.URL) (authn, authz bool, err error)
+}
+
+func (m *MockSocialAPIVerifier) Verify(r *http.Request) (authenticatedUser *url.URL, authn, authz bool, err error) {
+	if m.verify == nil {
+		m.t.Fatal("unexpected call to MockSocialAPIVerifier Verify")
+	}
+	return m.verify(r)
+}
+
+func (m *MockSocialAPIVerifier) VerifyForOutbox(r *http.Request, outbox url.URL) (authn, authz bool, err error) {
+	if m.verifyForOutbox == nil {
+		m.t.Fatal("unexpected call to MockSocialAPIVerifier VerifyForOutbox")
+	}
+	return m.verifyForOutbox(r, outbox)
+}
+
 func NewSocialPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSocialApp, cb *MockCallbacker, p Pubber) {
 	clock := &MockClock{now}
 	app = &MockApplication{t: t}
@@ -917,8 +963,11 @@ func PreparePostInboxTest(t *testing.T, app *MockApplication, socialApp *MockSoc
 }
 
 func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
-	socialApp.getPublicKey = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
 		return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
+	}
+	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
+		return nil
 	}
 	fedApp.newSigner = func() (httpsig.Signer, error) {
 		s, _, err := httpsig.NewSigner([]httpsig.Algorithm{httpsig.RSA_SHA256}, nil, httpsig.Signature)
@@ -1018,14 +1067,19 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 	app, socialApp, cb, p := NewSocialPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
-	gotPublicKey := 0
+	gotPublicKeyForOutbox := 0
 	var gotPublicKeyId string
 	var gotBoxIRI url.URL
-	socialApp.getPublicKey = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
-		gotPublicKey++
+	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+		gotPublicKeyForOutbox++
 		gotPublicKeyId = publicKeyId
 		gotBoxIRI = boxIRI
 		return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
+	}
+	gotSocialAPIVerifier := 0
+	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
+		gotSocialAPIVerifier++
+		return nil
 	}
 	gotNewId := 0
 	app.newId = func(c context.Context, t Typer) url.URL {
@@ -1063,12 +1117,112 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
-	} else if gotPublicKey != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotPublicKey)
+	} else if resp.Code != http.StatusCreated {
+		t.Fatalf("expected %d, got %d", http.StatusCreated, resp.Code)
+	} else if gotPublicKeyForOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotPublicKeyForOutbox)
 	} else if gotPublicKeyId != testPublicKeyId {
 		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
 	} else if s := (&gotBoxIRI).String(); s != testOutboxURI {
 		t.Fatalf("expected %s, got %s", testOutboxURI, s)
+	} else if gotSocialAPIVerifier != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSocialAPIVerifier)
+	} else if gotNewId != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotNewId)
+	} else if gotOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOutbox)
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if l := gotSetOutbox.GetType(0).(string); l != "OrderedCollection" {
+		t.Fatalf("expected %s, got %s", "OrderedCollection", l)
+	} else if l := gotSetCreateObject.GetType(0).(string); l != "Note" {
+		t.Fatalf("expected %s, got %s", "Note", l)
+	} else if gotCreate != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCreate)
+	} else if iri := gotCreateCallback.Raw().GetActorObject(0).GetId(); iri.String() != sallyIRIString {
+		t.Fatalf("expected %s, got %s", sallyIRIString, iri.String())
+	} else if l := len(resp.HeaderMap["Location"]); l != 1 {
+		t.Fatalf("expected %d, got %d", 1, l)
+	} else if h := resp.HeaderMap["Location"][0]; h != testNewIRIString {
+		t.Fatalf("expected %s, got %s", testNewIRI, h)
+	} else if resp.Code != http.StatusCreated {
+		t.Fatalf("expected %d, got %d", http.StatusCreated, resp.Code)
+	}
+}
+
+func TestSocialPubber_PostOutbox_SocialAPIVerified(t *testing.T) {
+	app, socialApp, cb, p := NewSocialPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
+	gotPublicKeyForOutbox := 0
+	var gotPublicKeyId string
+	var gotBoxIRI url.URL
+	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+		gotPublicKeyForOutbox++
+		gotPublicKeyId = publicKeyId
+		gotBoxIRI = boxIRI
+		return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
+	}
+	gotVerifyForOutbox := 0
+	var gotVerifiedOutbox url.URL
+	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
+		mockV := &MockSocialAPIVerifier{
+			verifyForOutbox: func(r *http.Request, outbox url.URL) (bool, bool, error) {
+				gotVerifyForOutbox++
+				gotVerifiedOutbox = outbox
+				return true, true, nil
+			},
+		}
+		return mockV
+	}
+	gotNewId := 0
+	app.newId = func(c context.Context, t Typer) url.URL {
+		gotNewId++
+		return *testNewIRI
+	}
+	gotOutbox := 0
+	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+		gotOutbox++
+		oc := &vocab.OrderedCollection{}
+		oc.AddType("OrderedCollection")
+		return oc, nil
+	}
+	gotSet := 0
+	var gotSetOutbox PubObject
+	var gotSetCreateObject PubObject
+	app.set = func(c context.Context, o PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetCreateObject = o
+		} else if gotSet == 2 {
+			gotSetOutbox = o
+		}
+		return nil
+	}
+	gotCreate := 0
+	var gotCreateCallback *streams.Create
+	cb.create = func(c context.Context, s *streams.Create) error {
+		gotCreate++
+		gotCreateCallback = s
+		return nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if resp.Code != http.StatusCreated {
+		t.Fatalf("expected %d, got %d", http.StatusCreated, resp.Code)
+	} else if gotPublicKeyForOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotPublicKeyForOutbox)
+	} else if gotPublicKeyId != testPublicKeyId {
+		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
+	} else if s := (&gotBoxIRI).String(); s != testOutboxURI {
+		t.Fatalf("expected %s, got %s", testOutboxURI, s)
+	} else if gotVerifyForOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotVerifyForOutbox)
+	} else if o := (&gotVerifiedOutbox).String(); o != testOutboxURI {
+		t.Fatalf("expected %s, got %s", testOutboxURI, o)
 	} else if gotNewId != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotNewId)
 	} else if gotOutbox != 1 {
@@ -1407,11 +1561,16 @@ func TestPubber_PostOutbox(t *testing.T) {
 	gotPublicKey := 0
 	var gotPublicKeyId string
 	var gotBoxIRI url.URL
-	socialApp.getPublicKey = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
 		gotPublicKey++
 		gotPublicKeyId = publicKeyId
 		gotBoxIRI = boxIRI
 		return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
+	}
+	gotSocialAPIVerifier := 0
+	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
+		gotSocialAPIVerifier++
+		return nil
 	}
 	gotNewSigner := 0
 	fedApp.newSigner = func() (httpsig.Signer, error) {
@@ -1510,6 +1669,8 @@ func TestPubber_PostOutbox(t *testing.T) {
 		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
 	} else if s := (&gotBoxIRI).String(); s != testOutboxURI {
 		t.Fatalf("expected %s, got %s", testOutboxURI, s)
+	} else if gotSocialAPIVerifier != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSocialAPIVerifier)
 	} else if gotNewId != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotNewId)
 	} else if gotNewSigner != 1 {
@@ -3757,27 +3918,118 @@ func TestPostOutbox_RejectNonActivityPub(t *testing.T) {
 }
 
 func TestPostOutbox_RejectUnauthorized_NotSigned(t *testing.T) {
-	_, _, _, _, _, _, _, p := NewPubberTest(t)
+	_, socialApp, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
+		return nil
+	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if resp.Code != http.StatusBadRequest {
+		t.Fatalf("expected %d, got %d", http.StatusBadRequest, resp.Code)
+	}
+}
+
+func TestPostOutbox_RejectUnauthenticatedUnauthorized(t *testing.T) {
+	_, socialApp, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	gotVerifyForOutbox := 0
+	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
+		mockV := &MockSocialAPIVerifier{
+			verifyForOutbox: func(r *http.Request, outbox url.URL) (bool, bool, error) {
+				gotVerifyForOutbox++
+				return false, false, nil
+			},
+		}
+		return mockV
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotVerifyForOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotVerifyForOutbox)
+	} else if resp.Code != http.StatusBadRequest {
+		t.Fatalf("expected %d, got %d", http.StatusBadRequest, resp.Code)
+	}
+}
+
+func TestPostOutbox_RejectAuthenticatedUnauthorized(t *testing.T) {
+	_, socialApp, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	gotVerifyForOutbox := 0
+	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
+		mockV := &MockSocialAPIVerifier{
+			verifyForOutbox: func(r *http.Request, outbox url.URL) (bool, bool, error) {
+				gotVerifyForOutbox++
+				return true, false, nil
+			},
+		}
+		return mockV
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotVerifyForOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotVerifyForOutbox)
 	} else if resp.Code != http.StatusForbidden {
 		t.Fatalf("expected %d, got %d", http.StatusForbidden, resp.Code)
 	}
 }
 
-func TestPostOutbox_RejectUnauthorized_WrongSignature(t *testing.T) {
+func TestPostOutbox_RejectFallback_Unauthorized_NotSigned(t *testing.T) {
+	_, socialApp, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
+	gotVerifyForOutbox := 0
+	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
+		mockV := &MockSocialAPIVerifier{
+			verifyForOutbox: func(r *http.Request, outbox url.URL) (bool, bool, error) {
+				gotVerifyForOutbox++
+				return false, true, nil
+			},
+		}
+		return mockV
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotVerifyForOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotVerifyForOutbox)
+	} else if resp.Code != http.StatusBadRequest {
+		t.Fatalf("expected %d, got %d", http.StatusBadRequest, resp.Code)
+	}
+}
+
+func TestPostOutbox_RejectFallback_Unauthorized_WrongSignature(t *testing.T) {
 	_, socialApp, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := BadSignature(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
+	gotVerifyForOutbox := 0
+	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
+		mockV := &MockSocialAPIVerifier{
+			verifyForOutbox: func(r *http.Request, outbox url.URL) (bool, bool, error) {
+				gotVerifyForOutbox++
+				return false, true, nil
+			},
+		}
+		return mockV
+	}
 	gotPublicKey := 0
 	var gotPublicKeyId string
 	var gotBoxIRI url.URL
-	socialApp.getPublicKey = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
 		gotPublicKey++
 		gotPublicKeyId = publicKeyId
 		gotBoxIRI = boxIRI
@@ -3788,6 +4040,44 @@ func TestPostOutbox_RejectUnauthorized_WrongSignature(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if gotVerifyForOutbox != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotVerifyForOutbox)
+	} else if gotPublicKey != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotPublicKey)
+	} else if gotPublicKeyId != testPublicKeyId {
+		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
+	} else if s := (&gotBoxIRI).String(); s != testOutboxURI {
+		t.Fatalf("expected %s, got %s", testOutboxURI, s)
+	} else if resp.Code != http.StatusForbidden {
+		t.Fatalf("expected %d, got %d", http.StatusForbidden, resp.Code)
+	}
+}
+
+func TestPostOutbox_RejectUnauthorized_WrongSignature(t *testing.T) {
+	_, socialApp, _, _, _, _, _, p := NewPubberTest(t)
+	resp := httptest.NewRecorder()
+	req := BadSignature(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
+	gotSocialAPIVerifier := 0
+	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
+		gotSocialAPIVerifier++
+		return nil
+	}
+	gotPublicKey := 0
+	var gotPublicKeyId string
+	var gotBoxIRI url.URL
+	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+		gotPublicKey++
+		gotPublicKeyId = publicKeyId
+		gotBoxIRI = boxIRI
+		return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
+	}
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotSocialAPIVerifier != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSocialAPIVerifier)
 	} else if gotPublicKey != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotPublicKey)
 	} else if gotPublicKeyId != testPublicKeyId {
