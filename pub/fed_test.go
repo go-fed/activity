@@ -1896,6 +1896,7 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 		return nil
 	}
 	for _, test := range tests {
+		t.Logf("Running table test case %q", test.name)
 		resp := httptest.NewRecorder()
 		req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
 		handled, err := p.PostInbox(context.Background(), resp, req)
@@ -1940,6 +1941,7 @@ func TestPostInbox_RequiresTarget(t *testing.T) {
 		return nil
 	}
 	for _, test := range tests {
+		t.Logf("Running table test case %q", test.name)
 		resp := httptest.NewRecorder()
 		req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
 		handled, err := p.PostInbox(context.Background(), resp, req)
@@ -2008,6 +2010,7 @@ func TestPostInbox_OriginMustMatch(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
+		t.Logf("Running table test case %q", test.name)
 		app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 		PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 		resp := httptest.NewRecorder()
@@ -2038,6 +2041,7 @@ func TestPostInbox_ActivityActorsMustCoverObjectActors(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
+		t.Logf("Running table test case %q", test.name)
 		app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 		PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 		resp := httptest.NewRecorder()
@@ -2291,6 +2295,7 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 		return nil
 	}
 	for _, test := range tests {
+		t.Logf("Running table test case %q", test.name)
 		app.get = func(c context.Context, id url.URL) (PubObject, error) {
 			return test.input(), nil
 		}
@@ -4241,6 +4246,7 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	for _, test := range tests {
+		t.Logf("Running table test case %q", test.name)
 		resp := httptest.NewRecorder()
 		req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(test.input())))))
 		handled, err := p.PostOutbox(context.Background(), resp, req)
@@ -4283,6 +4289,7 @@ func TestPostOutbox_RequiresTarget(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
 	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	for _, test := range tests {
+		t.Logf("Running table test case %q", test.name)
 		resp := httptest.NewRecorder()
 		req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(test.input())))))
 		handled, err := p.PostOutbox(context.Background(), resp, req)

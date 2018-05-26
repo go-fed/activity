@@ -11,8 +11,8 @@ import (
 )
 
 // ServeActivityPubObject will serve the ActivityPub object with the given IRI
-// in the request. Note that requests must be signed with HTTP signatures or
-// else they will be denied access. To explicitly opt out of this protection,
+// in the request. Note that requests may be signed with HTTP signatures or be
+// permitted without any authentication scheme. To change this default behavior,
 // use ServeActivityPubObjectWithVerificationMethod instead.
 func ServeActivityPubObject(c context.Context, a Application, clock Clock, w http.ResponseWriter, r *http.Request) (handled bool, err error) {
 	return serveActivityPubObject(c, a, clock, w, r, nil)
