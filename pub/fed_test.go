@@ -1945,8 +1945,10 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
 		handled, err := p.PostInbox(context.Background(), resp, req)
-		if err != ErrObjectRequired {
-			t.Fatalf("(%s) expected %s, got %s", test.name, ErrObjectRequired, err)
+		if resp.Code != http.StatusBadRequest {
+			t.Fatalf("(%s) expected %d, got %d", test.name, http.StatusBadRequest, resp.Code)
+		} else if err != nil {
+			t.Fatal(err)
 		} else if !handled {
 			t.Fatalf("(%s) expected handled, got !handled", test.name)
 		}
@@ -1990,8 +1992,10 @@ func TestPostInbox_RequiresTarget(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
 		handled, err := p.PostInbox(context.Background(), resp, req)
-		if err != ErrTargetRequired {
-			t.Fatalf("(%s) expected %s, got %s", test.name, ErrTargetRequired, err)
+		if resp.Code != http.StatusBadRequest {
+			t.Fatalf("(%s) expected %d, got %d", test.name, http.StatusBadRequest, resp.Code)
+		} else if err != nil {
+			t.Fatal(err)
 		} else if !handled {
 			t.Fatalf("(%s) expected handled, got !handled", test.name)
 		}
@@ -4327,8 +4331,10 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(test.input())))))
 		handled, err := p.PostOutbox(context.Background(), resp, req)
-		if err != ErrObjectRequired {
-			t.Fatalf("(%s) expected %s, got %s", test.name, ErrObjectRequired, err)
+		if resp.Code != http.StatusBadRequest {
+			t.Fatalf("(%s) expected %d, got %d", test.name, http.StatusBadRequest, resp.Code)
+		} else if err != nil {
+			t.Fatal(err)
 		} else if !handled {
 			t.Fatalf("(%s) expected handled, got !handled", test.name)
 		}
@@ -4370,8 +4376,10 @@ func TestPostOutbox_RequiresTarget(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(test.input())))))
 		handled, err := p.PostOutbox(context.Background(), resp, req)
-		if err != ErrTargetRequired {
-			t.Fatalf("(%s) expected %s, got %s", test.name, ErrTargetRequired, err)
+		if resp.Code != http.StatusBadRequest {
+			t.Fatalf("(%s) expected %d, got %d", test.name, http.StatusBadRequest, resp.Code)
+		} else if err != nil {
+			t.Fatal(err)
 		} else if !handled {
 			t.Fatalf("(%s) expected handled, got !handled", test.name)
 		}
