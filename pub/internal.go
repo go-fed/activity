@@ -1267,7 +1267,7 @@ func toTombstone(obj vocab.ObjectType, id url.URL, now time.Time) vocab.Tombston
 
 type getActorCollectionFn func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (isIRI bool, e error)
 
-func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter getActorCollectionFn, c vocab.ActivityType) error {
+func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter getActorCollectionFn, c vocab.ActivityType, prepend bool) error {
 	for i := 0; i < c.ActorLen(); i++ {
 		var iri url.URL
 		if c.IsActorObject(i) {
@@ -1323,9 +1323,17 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 					continue
 				}
 				if lc != nil {
-					lc.AppendItemsIRI(iri)
+					if prepend {
+						lc.PrependItemsIRI(iri)
+					} else {
+						lc.AppendItemsIRI(iri)
+					}
 				} else if loc != nil {
-					loc.AppendOrderedItemsIRI(iri)
+					if prepend {
+						loc.PrependOrderedItemsIRI(iri)
+					} else {
+						loc.AppendOrderedItemsIRI(iri)
+					}
 				}
 			} else if c.IsObject(i) {
 				obj := c.GetObject(i)
@@ -1337,9 +1345,17 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 					continue
 				}
 				if lc != nil {
-					lc.AppendItemsObject(obj)
+					if prepend {
+						lc.PrependItemsObject(obj)
+					} else {
+						lc.AppendItemsObject(obj)
+					}
 				} else if loc != nil {
-					loc.AppendOrderedItemsObject(obj)
+					if prepend {
+						loc.PrependOrderedItemsObject(obj)
+					} else {
+						loc.AppendOrderedItemsObject(obj)
+					}
 				}
 			}
 		}
@@ -1361,7 +1377,7 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 
 type getObjectCollectionFn func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (isIRI bool, e error)
 
-func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter getObjectCollectionFn, c vocab.ActivityType) (bool, error) {
+func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter getObjectCollectionFn, c vocab.ActivityType, prepend bool) (bool, error) {
 	ownsAny := false
 	for i := 0; i < c.ObjectLen(); i++ {
 		var iri url.URL
@@ -1413,9 +1429,17 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 					continue
 				}
 				if lc != nil {
-					lc.AppendItemsIRI(iri)
+					if prepend {
+						lc.AppendItemsIRI(iri)
+					} else {
+						lc.PrependItemsIRI(iri)
+					}
 				} else if loc != nil {
-					loc.AppendOrderedItemsIRI(iri)
+					if prepend {
+						loc.PrependOrderedItemsIRI(iri)
+					} else {
+						loc.AppendOrderedItemsIRI(iri)
+					}
 				}
 			} else if c.IsActorObject(i) {
 				obj := c.GetActorObject(i)
@@ -1427,9 +1451,17 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 					continue
 				}
 				if lc != nil {
-					lc.AppendItemsObject(obj)
+					if prepend {
+						lc.PrependItemsObject(obj)
+					} else {
+						lc.AppendItemsObject(obj)
+					}
 				} else if loc != nil {
-					loc.AppendOrderedItemsObject(obj)
+					if prepend {
+						loc.PrependOrderedItemsObject(obj)
+					} else {
+						loc.AppendOrderedItemsObject(obj)
+					}
 				}
 			} else if c.IsActorLink(i) {
 				l := c.GetActorLink(i)
@@ -1441,9 +1473,17 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 					continue
 				}
 				if lc != nil {
-					lc.AppendItemsLink(l)
+					if prepend {
+						lc.PrependItemsLink(l)
+					} else {
+						lc.AppendItemsLink(l)
+					}
 				} else if loc != nil {
-					loc.AppendOrderedItemsLink(l)
+					if prepend {
+						loc.PrependOrderedItemsLink(l)
+					} else {
+						loc.AppendOrderedItemsLink(l)
+					}
 				}
 			}
 		}
@@ -1488,7 +1528,7 @@ func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string
 	if err != nil {
 		return err
 	}
-	outbox.AppendOrderedItemsObject(activity)
+	outbox.PrependOrderedItemsObject(activity)
 	return f.App.Set(c, outbox)
 }
 
@@ -1506,7 +1546,7 @@ func (f *federator) addToInbox(c context.Context, r *http.Request, m map[string]
 		return err
 	}
 	if !iriSet[activity.GetId()] {
-		inbox.AppendOrderedItemsObject(activity)
+		inbox.PrependOrderedItemsObject(activity)
 		return f.App.Set(c, inbox)
 	}
 	return nil

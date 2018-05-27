@@ -728,7 +728,7 @@ func (f *federator) handleClientLike(ctx context.Context, deliverable *bool) fun
 			}
 			return false, fmt.Errorf("cannot determine type of actor liked")
 		}
-		if err := f.addAllObjectsToActorCollection(ctx, getter, s.Raw()); err != nil {
+		if err := f.addAllObjectsToActorCollection(ctx, getter, s.Raw(), true); err != nil {
 			return err
 		}
 		return f.ClientCallbacker.Like(ctx, s)
@@ -902,7 +902,7 @@ func (f *federator) handleFollow(c context.Context, inboxURL url.URL) func(s *st
 					return false, fmt.Errorf("cannot determine type of object followers")
 				}
 				var err error
-				if ownsAny, err = f.addAllActorsToObjectCollection(c, getter, raw); err != nil {
+				if ownsAny, err = f.addAllActorsToObjectCollection(c, getter, raw, true); err != nil {
 					return err
 				}
 			} else if todo == AutomaticReject {
@@ -957,7 +957,7 @@ func (f *federator) handleAccept(c context.Context) func(s *streams.Accept) erro
 					}
 					return false, fmt.Errorf("cannot determine type of actor following")
 				}
-				if err := f.addAllObjectsToActorCollection(c, getter, follow); err != nil {
+				if err := f.addAllObjectsToActorCollection(c, getter, follow, true); err != nil {
 					return err
 				}
 			}
@@ -1131,7 +1131,7 @@ func (f *federator) handleLike(c context.Context) func(s *streams.Like) error {
 			}
 			return false, fmt.Errorf("cannot determine type of object likes")
 		}
-		if _, err := f.addAllActorsToObjectCollection(c, getter, s.Raw()); err != nil {
+		if _, err := f.addAllActorsToObjectCollection(c, getter, s.Raw(), true); err != nil {
 			return err
 		}
 		return f.ServerCallbacker.Like(c, s)
