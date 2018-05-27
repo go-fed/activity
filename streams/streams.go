@@ -3143,15 +3143,27 @@ func (t *Object) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Object) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Object) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Object) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Object) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Object) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Object) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -3179,9 +3191,15 @@ func (t *Object) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Object) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Object) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Object) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -3229,9 +3247,15 @@ func (t *Object) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Object) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Object) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Object) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -3279,9 +3303,15 @@ func (t *Object) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Object) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Object) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Object) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -3364,15 +3394,27 @@ func (t *Object) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Object) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Object) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Object) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Object) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Object) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Object) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -3400,9 +3442,15 @@ func (t *Object) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Object) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Object) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Object) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -3519,15 +3567,27 @@ func (t *Object) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Object) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Object) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Object) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Object) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Object) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Object) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -3555,9 +3615,15 @@ func (t *Object) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Object) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Object) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Object) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -3635,9 +3701,15 @@ func (t *Object) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Object) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Object) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Object) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -3685,9 +3757,15 @@ func (t *Object) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Object) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Object) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Object) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -3752,15 +3830,27 @@ func (t *Object) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Object) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Object) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Object) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Object) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Object) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Object) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -3805,15 +3895,27 @@ func (t *Object) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Object) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Object) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Object) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Object) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Object) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Object) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -3943,9 +4045,15 @@ func (t *Object) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Object) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Object) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Object) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -4028,15 +4136,27 @@ func (t *Object) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Object) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Object) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Object) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Object) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Object) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Object) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -4061,9 +4181,15 @@ func (t *Object) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Object) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Object) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Object) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -4129,9 +4255,15 @@ func (t *Object) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Object) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Object) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Object) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -4177,9 +4309,15 @@ func (t *Object) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Object) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Object) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Object) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -4227,9 +4365,15 @@ func (t *Object) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Object) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Object) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Object) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -4277,9 +4421,15 @@ func (t *Object) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Object) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Object) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Object) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -4327,9 +4477,15 @@ func (t *Object) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Object) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Object) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Object) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -4695,9 +4851,15 @@ func (t *Object) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Object) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Object) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Object) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -5015,9 +5177,15 @@ func (t *Link) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Link) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Link) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Link) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -5123,9 +5291,15 @@ func (t *Link) GetRel(idx int) (r Resolution, k string) {
 
 }
 
-// AddRel appends the value for property 'rel'.
-func (t *Link) AddRel(k string) {
-	t.raw.AddRel(k)
+// AppendRel appends the value for property 'rel'.
+func (t *Link) AppendRel(k string) {
+	t.raw.AppendRel(k)
+
+}
+
+// PrependRel prepends the value for property 'rel'.
+func (t *Link) PrependRel(k string) {
+	t.raw.PrependRel(k)
 
 }
 
@@ -5168,9 +5342,15 @@ func (t *Link) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Link) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Link) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Link) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -5238,9 +5418,15 @@ func (t *Link) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Link) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Link) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Link) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -5306,9 +5492,15 @@ func (t *Link) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Link) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Link) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Link) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -5493,15 +5685,27 @@ func (t *Link) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Link) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Link) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Link) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Link) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Link) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Link) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -5547,9 +5751,15 @@ func (t *Activity) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Activity) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Activity) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Activity) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -5595,9 +5805,15 @@ func (t *Activity) ResolveObject(r *Resolver, idx int) (s Resolution, err error)
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Activity) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Activity) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Activity) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -5643,9 +5859,15 @@ func (t *Activity) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Activity) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Activity) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Activity) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -5710,15 +5932,27 @@ func (t *Activity) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Activity) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Activity) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Activity) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Activity) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Activity) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Activity) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -5763,15 +5997,27 @@ func (t *Activity) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Activity) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Activity) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Activity) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Activity) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Activity) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Activity) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -5816,15 +6062,27 @@ func (t *Activity) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Activity) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Activity) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Activity) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Activity) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Activity) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Activity) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -5903,15 +6161,27 @@ func (t *Activity) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Activity) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Activity) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Activity) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Activity) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Activity) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Activity) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -5939,9 +6209,15 @@ func (t *Activity) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Activity) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Activity) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Activity) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -5989,9 +6265,15 @@ func (t *Activity) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Activity) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Activity) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Activity) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -6039,9 +6321,15 @@ func (t *Activity) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Activity) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Activity) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Activity) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -6124,15 +6412,27 @@ func (t *Activity) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Activity) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Activity) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Activity) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Activity) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Activity) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Activity) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -6160,9 +6460,15 @@ func (t *Activity) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Activity) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Activity) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Activity) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -6279,15 +6585,27 @@ func (t *Activity) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Activity) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Activity) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Activity) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Activity) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Activity) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Activity) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -6315,9 +6633,15 @@ func (t *Activity) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Activity) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Activity) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Activity) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -6395,9 +6719,15 @@ func (t *Activity) ResolveImage(r *Resolver, idx int) (s Resolution, err error) 
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Activity) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Activity) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Activity) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -6445,9 +6775,15 @@ func (t *Activity) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Activity) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Activity) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Activity) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -6512,15 +6848,27 @@ func (t *Activity) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Activity) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Activity) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Activity) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Activity) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Activity) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Activity) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -6565,15 +6913,27 @@ func (t *Activity) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Activity) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Activity) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Activity) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Activity) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Activity) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Activity) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -6703,9 +7063,15 @@ func (t *Activity) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Activity) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Activity) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Activity) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -6788,15 +7154,27 @@ func (t *Activity) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Activity) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Activity) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Activity) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Activity) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Activity) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Activity) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -6821,9 +7199,15 @@ func (t *Activity) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Activity) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Activity) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Activity) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -6889,9 +7273,15 @@ func (t *Activity) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Activity) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Activity) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Activity) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -6937,9 +7327,15 @@ func (t *Activity) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Activity) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Activity) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Activity) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -6987,9 +7383,15 @@ func (t *Activity) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Activity) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Activity) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Activity) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -7037,9 +7439,15 @@ func (t *Activity) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Activity) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Activity) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Activity) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -7087,9 +7495,15 @@ func (t *Activity) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Activity) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Activity) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Activity) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -7455,9 +7869,15 @@ func (t *Activity) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Activity) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Activity) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Activity) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -7775,9 +8195,15 @@ func (t *IntransitiveActivity) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *IntransitiveActivity) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *IntransitiveActivity) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *IntransitiveActivity) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -7825,9 +8251,15 @@ func (t *IntransitiveActivity) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *IntransitiveActivity) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *IntransitiveActivity) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *IntransitiveActivity) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -7892,15 +8324,27 @@ func (t *IntransitiveActivity) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *IntransitiveActivity) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *IntransitiveActivity) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *IntransitiveActivity) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *IntransitiveActivity) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *IntransitiveActivity) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *IntransitiveActivity) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -7945,15 +8389,27 @@ func (t *IntransitiveActivity) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *IntransitiveActivity) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *IntransitiveActivity) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *IntransitiveActivity) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *IntransitiveActivity) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *IntransitiveActivity) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *IntransitiveActivity) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -7998,15 +8454,27 @@ func (t *IntransitiveActivity) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *IntransitiveActivity) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *IntransitiveActivity) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *IntransitiveActivity) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *IntransitiveActivity) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *IntransitiveActivity) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *IntransitiveActivity) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -8085,15 +8553,27 @@ func (t *IntransitiveActivity) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *IntransitiveActivity) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *IntransitiveActivity) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *IntransitiveActivity) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *IntransitiveActivity) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *IntransitiveActivity) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *IntransitiveActivity) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -8121,9 +8601,15 @@ func (t *IntransitiveActivity) GetAttributedTo(idx int) (r Resolution, k url.URL
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *IntransitiveActivity) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *IntransitiveActivity) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *IntransitiveActivity) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -8171,9 +8657,15 @@ func (t *IntransitiveActivity) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *IntransitiveActivity) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *IntransitiveActivity) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *IntransitiveActivity) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -8221,9 +8713,15 @@ func (t *IntransitiveActivity) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *IntransitiveActivity) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *IntransitiveActivity) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *IntransitiveActivity) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -8306,15 +8804,27 @@ func (t *IntransitiveActivity) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *IntransitiveActivity) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *IntransitiveActivity) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *IntransitiveActivity) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *IntransitiveActivity) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *IntransitiveActivity) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *IntransitiveActivity) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -8342,9 +8852,15 @@ func (t *IntransitiveActivity) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *IntransitiveActivity) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *IntransitiveActivity) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *IntransitiveActivity) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -8461,15 +8977,27 @@ func (t *IntransitiveActivity) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *IntransitiveActivity) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *IntransitiveActivity) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *IntransitiveActivity) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *IntransitiveActivity) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *IntransitiveActivity) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *IntransitiveActivity) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -8497,9 +9025,15 @@ func (t *IntransitiveActivity) ResolveIcon(r *Resolver, idx int) (s Resolution, 
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *IntransitiveActivity) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *IntransitiveActivity) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *IntransitiveActivity) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -8577,9 +9111,15 @@ func (t *IntransitiveActivity) ResolveImage(r *Resolver, idx int) (s Resolution,
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *IntransitiveActivity) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *IntransitiveActivity) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *IntransitiveActivity) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -8627,9 +9167,15 @@ func (t *IntransitiveActivity) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *IntransitiveActivity) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *IntransitiveActivity) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *IntransitiveActivity) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -8694,15 +9240,27 @@ func (t *IntransitiveActivity) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *IntransitiveActivity) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *IntransitiveActivity) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *IntransitiveActivity) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *IntransitiveActivity) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *IntransitiveActivity) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *IntransitiveActivity) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -8747,15 +9305,27 @@ func (t *IntransitiveActivity) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *IntransitiveActivity) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *IntransitiveActivity) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *IntransitiveActivity) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *IntransitiveActivity) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *IntransitiveActivity) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *IntransitiveActivity) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -8885,9 +9455,15 @@ func (t *IntransitiveActivity) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *IntransitiveActivity) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *IntransitiveActivity) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *IntransitiveActivity) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -8970,15 +9546,27 @@ func (t *IntransitiveActivity) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *IntransitiveActivity) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *IntransitiveActivity) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *IntransitiveActivity) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *IntransitiveActivity) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *IntransitiveActivity) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *IntransitiveActivity) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -9003,9 +9591,15 @@ func (t *IntransitiveActivity) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *IntransitiveActivity) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *IntransitiveActivity) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *IntransitiveActivity) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -9071,9 +9665,15 @@ func (t *IntransitiveActivity) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *IntransitiveActivity) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *IntransitiveActivity) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *IntransitiveActivity) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -9119,9 +9719,15 @@ func (t *IntransitiveActivity) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *IntransitiveActivity) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *IntransitiveActivity) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *IntransitiveActivity) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -9169,9 +9775,15 @@ func (t *IntransitiveActivity) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *IntransitiveActivity) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *IntransitiveActivity) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *IntransitiveActivity) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -9219,9 +9831,15 @@ func (t *IntransitiveActivity) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *IntransitiveActivity) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *IntransitiveActivity) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *IntransitiveActivity) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -9269,9 +9887,15 @@ func (t *IntransitiveActivity) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *IntransitiveActivity) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *IntransitiveActivity) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *IntransitiveActivity) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -9637,9 +10261,15 @@ func (t *IntransitiveActivity) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *IntransitiveActivity) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *IntransitiveActivity) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *IntransitiveActivity) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -10122,15 +10752,27 @@ func (t *Collection) HasItems(idx int) (p Presence) {
 
 }
 
-// AddItems adds an 'Object' typed value.
-func (t *Collection) AddItems(i vocab.ObjectType) {
-	t.raw.AddItemsObject(i)
+// AppendItems appends an 'Object' typed value.
+func (t *Collection) AppendItems(i vocab.ObjectType) {
+	t.raw.AppendItemsObject(i)
 
 }
 
-// SetItemsLink adds a 'Link' typed value.
-func (t *Collection) SetItemsLink(i vocab.LinkType) {
-	t.raw.AddItemsLink(i)
+// PrependItems prepends an 'Object' typed value.
+func (t *Collection) PrependItems(i vocab.ObjectType) {
+	t.raw.PrependItemsObject(i)
+
+}
+
+// AppendItemsLink appends a 'Link' typed value.
+func (t *Collection) AppendItemsLink(i vocab.LinkType) {
+	t.raw.AppendItemsLink(i)
+
+}
+
+// PrependItemsLink prepends a 'Link' typed value.
+func (t *Collection) PrependItemsLink(i vocab.LinkType) {
+	t.raw.PrependItemsLink(i)
 
 }
 
@@ -10209,15 +10851,27 @@ func (t *Collection) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Collection) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Collection) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Collection) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Collection) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Collection) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Collection) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -10245,9 +10899,15 @@ func (t *Collection) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Collection) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Collection) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Collection) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -10295,9 +10955,15 @@ func (t *Collection) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Collection) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Collection) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Collection) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -10345,9 +11011,15 @@ func (t *Collection) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Collection) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Collection) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Collection) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -10430,15 +11102,27 @@ func (t *Collection) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Collection) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Collection) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Collection) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Collection) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Collection) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Collection) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -10466,9 +11150,15 @@ func (t *Collection) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Collection) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Collection) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Collection) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -10585,15 +11275,27 @@ func (t *Collection) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Collection) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Collection) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Collection) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Collection) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Collection) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Collection) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -10621,9 +11323,15 @@ func (t *Collection) ResolveIcon(r *Resolver, idx int) (s Resolution, err error)
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Collection) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Collection) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Collection) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -10701,9 +11409,15 @@ func (t *Collection) ResolveImage(r *Resolver, idx int) (s Resolution, err error
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Collection) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Collection) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Collection) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -10751,9 +11465,15 @@ func (t *Collection) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Collection) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Collection) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Collection) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -10818,15 +11538,27 @@ func (t *Collection) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Collection) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Collection) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Collection) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Collection) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Collection) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Collection) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -10871,15 +11603,27 @@ func (t *Collection) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Collection) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Collection) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Collection) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Collection) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Collection) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Collection) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -11009,9 +11753,15 @@ func (t *Collection) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Collection) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Collection) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Collection) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -11094,15 +11844,27 @@ func (t *Collection) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Collection) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Collection) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Collection) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Collection) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Collection) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Collection) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -11127,9 +11889,15 @@ func (t *Collection) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Collection) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Collection) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Collection) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -11195,9 +11963,15 @@ func (t *Collection) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Collection) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Collection) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Collection) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -11243,9 +12017,15 @@ func (t *Collection) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Collection) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Collection) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Collection) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -11293,9 +12073,15 @@ func (t *Collection) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Collection) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Collection) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Collection) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -11343,9 +12129,15 @@ func (t *Collection) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Collection) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Collection) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Collection) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -11393,9 +12185,15 @@ func (t *Collection) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Collection) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Collection) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Collection) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -11761,9 +12559,15 @@ func (t *Collection) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Collection) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Collection) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Collection) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -12098,15 +12902,27 @@ func (t *OrderedCollection) HasOrderedItems(idx int) (p Presence) {
 
 }
 
-// AddOrderedItems adds an 'Object' typed value.
-func (t *OrderedCollection) AddOrderedItems(i vocab.ObjectType) {
-	t.raw.AddOrderedItemsObject(i)
+// AppendOrderedItems appends an 'Object' typed value.
+func (t *OrderedCollection) AppendOrderedItems(i vocab.ObjectType) {
+	t.raw.AppendOrderedItemsObject(i)
 
 }
 
-// SetOrderedItemsLink adds a 'Link' typed value.
-func (t *OrderedCollection) SetOrderedItemsLink(i vocab.LinkType) {
-	t.raw.AddOrderedItemsLink(i)
+// PrependOrderedItems prepends an 'Object' typed value.
+func (t *OrderedCollection) PrependOrderedItems(i vocab.ObjectType) {
+	t.raw.PrependOrderedItemsObject(i)
+
+}
+
+// AppendOrderedItemsLink appends a 'Link' typed value.
+func (t *OrderedCollection) AppendOrderedItemsLink(i vocab.LinkType) {
+	t.raw.AppendOrderedItemsLink(i)
+
+}
+
+// PrependOrderedItemsLink prepends a 'Link' typed value.
+func (t *OrderedCollection) PrependOrderedItemsLink(i vocab.LinkType) {
+	t.raw.PrependOrderedItemsLink(i)
 
 }
 
@@ -12333,15 +13149,27 @@ func (t *OrderedCollection) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *OrderedCollection) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *OrderedCollection) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *OrderedCollection) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *OrderedCollection) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *OrderedCollection) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *OrderedCollection) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -12369,9 +13197,15 @@ func (t *OrderedCollection) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *OrderedCollection) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *OrderedCollection) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *OrderedCollection) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -12419,9 +13253,15 @@ func (t *OrderedCollection) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *OrderedCollection) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *OrderedCollection) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *OrderedCollection) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -12469,9 +13309,15 @@ func (t *OrderedCollection) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *OrderedCollection) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *OrderedCollection) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *OrderedCollection) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -12554,15 +13400,27 @@ func (t *OrderedCollection) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *OrderedCollection) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *OrderedCollection) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *OrderedCollection) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *OrderedCollection) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *OrderedCollection) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *OrderedCollection) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -12590,9 +13448,15 @@ func (t *OrderedCollection) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *OrderedCollection) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *OrderedCollection) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *OrderedCollection) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -12709,15 +13573,27 @@ func (t *OrderedCollection) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *OrderedCollection) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *OrderedCollection) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *OrderedCollection) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *OrderedCollection) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *OrderedCollection) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *OrderedCollection) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -12745,9 +13621,15 @@ func (t *OrderedCollection) ResolveIcon(r *Resolver, idx int) (s Resolution, err
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *OrderedCollection) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *OrderedCollection) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *OrderedCollection) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -12825,9 +13707,15 @@ func (t *OrderedCollection) ResolveImage(r *Resolver, idx int) (s Resolution, er
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *OrderedCollection) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *OrderedCollection) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *OrderedCollection) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -12875,9 +13763,15 @@ func (t *OrderedCollection) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *OrderedCollection) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *OrderedCollection) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *OrderedCollection) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -12942,15 +13836,27 @@ func (t *OrderedCollection) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *OrderedCollection) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *OrderedCollection) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *OrderedCollection) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *OrderedCollection) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *OrderedCollection) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *OrderedCollection) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -12995,15 +13901,27 @@ func (t *OrderedCollection) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *OrderedCollection) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *OrderedCollection) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *OrderedCollection) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *OrderedCollection) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *OrderedCollection) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *OrderedCollection) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -13133,9 +14051,15 @@ func (t *OrderedCollection) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *OrderedCollection) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *OrderedCollection) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *OrderedCollection) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -13218,15 +14142,27 @@ func (t *OrderedCollection) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *OrderedCollection) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *OrderedCollection) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *OrderedCollection) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *OrderedCollection) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *OrderedCollection) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *OrderedCollection) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -13251,9 +14187,15 @@ func (t *OrderedCollection) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *OrderedCollection) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *OrderedCollection) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *OrderedCollection) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -13319,9 +14261,15 @@ func (t *OrderedCollection) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *OrderedCollection) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *OrderedCollection) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *OrderedCollection) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -13367,9 +14315,15 @@ func (t *OrderedCollection) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *OrderedCollection) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *OrderedCollection) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *OrderedCollection) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -13417,9 +14371,15 @@ func (t *OrderedCollection) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *OrderedCollection) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *OrderedCollection) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *OrderedCollection) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -13467,9 +14427,15 @@ func (t *OrderedCollection) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *OrderedCollection) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *OrderedCollection) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *OrderedCollection) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -13517,9 +14483,15 @@ func (t *OrderedCollection) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *OrderedCollection) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *OrderedCollection) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *OrderedCollection) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -13885,9 +14857,15 @@ func (t *OrderedCollection) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *OrderedCollection) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *OrderedCollection) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *OrderedCollection) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -14484,15 +15462,27 @@ func (t *CollectionPage) HasItems(idx int) (p Presence) {
 
 }
 
-// AddItems adds an 'Object' typed value.
-func (t *CollectionPage) AddItems(i vocab.ObjectType) {
-	t.raw.AddItemsObject(i)
+// AppendItems appends an 'Object' typed value.
+func (t *CollectionPage) AppendItems(i vocab.ObjectType) {
+	t.raw.AppendItemsObject(i)
 
 }
 
-// SetItemsLink adds a 'Link' typed value.
-func (t *CollectionPage) SetItemsLink(i vocab.LinkType) {
-	t.raw.AddItemsLink(i)
+// PrependItems prepends an 'Object' typed value.
+func (t *CollectionPage) PrependItems(i vocab.ObjectType) {
+	t.raw.PrependItemsObject(i)
+
+}
+
+// AppendItemsLink appends a 'Link' typed value.
+func (t *CollectionPage) AppendItemsLink(i vocab.LinkType) {
+	t.raw.AppendItemsLink(i)
+
+}
+
+// PrependItemsLink prepends a 'Link' typed value.
+func (t *CollectionPage) PrependItemsLink(i vocab.LinkType) {
+	t.raw.PrependItemsLink(i)
 
 }
 
@@ -14571,15 +15561,27 @@ func (t *CollectionPage) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *CollectionPage) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *CollectionPage) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *CollectionPage) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *CollectionPage) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *CollectionPage) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *CollectionPage) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -14607,9 +15609,15 @@ func (t *CollectionPage) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *CollectionPage) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *CollectionPage) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *CollectionPage) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -14657,9 +15665,15 @@ func (t *CollectionPage) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *CollectionPage) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *CollectionPage) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *CollectionPage) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -14707,9 +15721,15 @@ func (t *CollectionPage) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *CollectionPage) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *CollectionPage) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *CollectionPage) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -14792,15 +15812,27 @@ func (t *CollectionPage) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *CollectionPage) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *CollectionPage) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *CollectionPage) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *CollectionPage) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *CollectionPage) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *CollectionPage) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -14828,9 +15860,15 @@ func (t *CollectionPage) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *CollectionPage) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *CollectionPage) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *CollectionPage) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -14947,15 +15985,27 @@ func (t *CollectionPage) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *CollectionPage) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *CollectionPage) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *CollectionPage) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *CollectionPage) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *CollectionPage) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *CollectionPage) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -14983,9 +16033,15 @@ func (t *CollectionPage) ResolveIcon(r *Resolver, idx int) (s Resolution, err er
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *CollectionPage) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *CollectionPage) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *CollectionPage) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -15063,9 +16119,15 @@ func (t *CollectionPage) ResolveImage(r *Resolver, idx int) (s Resolution, err e
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *CollectionPage) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *CollectionPage) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *CollectionPage) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -15113,9 +16175,15 @@ func (t *CollectionPage) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *CollectionPage) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *CollectionPage) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *CollectionPage) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -15180,15 +16248,27 @@ func (t *CollectionPage) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *CollectionPage) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *CollectionPage) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *CollectionPage) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *CollectionPage) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *CollectionPage) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *CollectionPage) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -15233,15 +16313,27 @@ func (t *CollectionPage) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *CollectionPage) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *CollectionPage) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *CollectionPage) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *CollectionPage) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *CollectionPage) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *CollectionPage) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -15371,9 +16463,15 @@ func (t *CollectionPage) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *CollectionPage) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *CollectionPage) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *CollectionPage) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -15456,15 +16554,27 @@ func (t *CollectionPage) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *CollectionPage) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *CollectionPage) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *CollectionPage) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *CollectionPage) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *CollectionPage) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *CollectionPage) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -15489,9 +16599,15 @@ func (t *CollectionPage) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *CollectionPage) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *CollectionPage) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *CollectionPage) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -15557,9 +16673,15 @@ func (t *CollectionPage) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *CollectionPage) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *CollectionPage) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *CollectionPage) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -15605,9 +16727,15 @@ func (t *CollectionPage) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *CollectionPage) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *CollectionPage) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *CollectionPage) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -15655,9 +16783,15 @@ func (t *CollectionPage) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *CollectionPage) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *CollectionPage) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *CollectionPage) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -15705,9 +16839,15 @@ func (t *CollectionPage) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *CollectionPage) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *CollectionPage) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *CollectionPage) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -15755,9 +16895,15 @@ func (t *CollectionPage) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *CollectionPage) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *CollectionPage) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *CollectionPage) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -16123,9 +17269,15 @@ func (t *CollectionPage) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *CollectionPage) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *CollectionPage) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *CollectionPage) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -16570,15 +17722,27 @@ func (t *OrderedCollectionPage) HasOrderedItems(idx int) (p Presence) {
 
 }
 
-// AddOrderedItems adds an 'Object' typed value.
-func (t *OrderedCollectionPage) AddOrderedItems(i vocab.ObjectType) {
-	t.raw.AddOrderedItemsObject(i)
+// AppendOrderedItems appends an 'Object' typed value.
+func (t *OrderedCollectionPage) AppendOrderedItems(i vocab.ObjectType) {
+	t.raw.AppendOrderedItemsObject(i)
 
 }
 
-// SetOrderedItemsLink adds a 'Link' typed value.
-func (t *OrderedCollectionPage) SetOrderedItemsLink(i vocab.LinkType) {
-	t.raw.AddOrderedItemsLink(i)
+// PrependOrderedItems prepends an 'Object' typed value.
+func (t *OrderedCollectionPage) PrependOrderedItems(i vocab.ObjectType) {
+	t.raw.PrependOrderedItemsObject(i)
+
+}
+
+// AppendOrderedItemsLink appends a 'Link' typed value.
+func (t *OrderedCollectionPage) AppendOrderedItemsLink(i vocab.LinkType) {
+	t.raw.AppendOrderedItemsLink(i)
+
+}
+
+// PrependOrderedItemsLink prepends a 'Link' typed value.
+func (t *OrderedCollectionPage) PrependOrderedItemsLink(i vocab.LinkType) {
+	t.raw.PrependOrderedItemsLink(i)
 
 }
 
@@ -16805,15 +17969,27 @@ func (t *OrderedCollectionPage) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *OrderedCollectionPage) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *OrderedCollectionPage) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *OrderedCollectionPage) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *OrderedCollectionPage) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *OrderedCollectionPage) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *OrderedCollectionPage) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -16841,9 +18017,15 @@ func (t *OrderedCollectionPage) GetAttributedTo(idx int) (r Resolution, k url.UR
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *OrderedCollectionPage) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *OrderedCollectionPage) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *OrderedCollectionPage) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -16891,9 +18073,15 @@ func (t *OrderedCollectionPage) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *OrderedCollectionPage) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *OrderedCollectionPage) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *OrderedCollectionPage) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -16941,9 +18129,15 @@ func (t *OrderedCollectionPage) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *OrderedCollectionPage) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *OrderedCollectionPage) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *OrderedCollectionPage) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -17026,15 +18220,27 @@ func (t *OrderedCollectionPage) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *OrderedCollectionPage) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *OrderedCollectionPage) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *OrderedCollectionPage) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *OrderedCollectionPage) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *OrderedCollectionPage) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *OrderedCollectionPage) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -17062,9 +18268,15 @@ func (t *OrderedCollectionPage) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *OrderedCollectionPage) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *OrderedCollectionPage) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *OrderedCollectionPage) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -17181,15 +18393,27 @@ func (t *OrderedCollectionPage) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *OrderedCollectionPage) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *OrderedCollectionPage) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *OrderedCollectionPage) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *OrderedCollectionPage) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *OrderedCollectionPage) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *OrderedCollectionPage) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -17217,9 +18441,15 @@ func (t *OrderedCollectionPage) ResolveIcon(r *Resolver, idx int) (s Resolution,
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *OrderedCollectionPage) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *OrderedCollectionPage) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *OrderedCollectionPage) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -17297,9 +18527,15 @@ func (t *OrderedCollectionPage) ResolveImage(r *Resolver, idx int) (s Resolution
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *OrderedCollectionPage) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *OrderedCollectionPage) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *OrderedCollectionPage) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -17347,9 +18583,15 @@ func (t *OrderedCollectionPage) GetInReplyTo(idx int) (r Resolution, k url.URL) 
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *OrderedCollectionPage) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *OrderedCollectionPage) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *OrderedCollectionPage) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -17414,15 +18656,27 @@ func (t *OrderedCollectionPage) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *OrderedCollectionPage) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *OrderedCollectionPage) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *OrderedCollectionPage) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *OrderedCollectionPage) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *OrderedCollectionPage) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *OrderedCollectionPage) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -17467,15 +18721,27 @@ func (t *OrderedCollectionPage) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *OrderedCollectionPage) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *OrderedCollectionPage) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *OrderedCollectionPage) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *OrderedCollectionPage) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *OrderedCollectionPage) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *OrderedCollectionPage) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -17605,9 +18871,15 @@ func (t *OrderedCollectionPage) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *OrderedCollectionPage) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *OrderedCollectionPage) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *OrderedCollectionPage) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -17690,15 +18962,27 @@ func (t *OrderedCollectionPage) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *OrderedCollectionPage) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *OrderedCollectionPage) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *OrderedCollectionPage) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *OrderedCollectionPage) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *OrderedCollectionPage) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *OrderedCollectionPage) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -17723,9 +19007,15 @@ func (t *OrderedCollectionPage) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *OrderedCollectionPage) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *OrderedCollectionPage) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *OrderedCollectionPage) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -17791,9 +19081,15 @@ func (t *OrderedCollectionPage) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *OrderedCollectionPage) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *OrderedCollectionPage) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *OrderedCollectionPage) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -17839,9 +19135,15 @@ func (t *OrderedCollectionPage) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *OrderedCollectionPage) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *OrderedCollectionPage) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *OrderedCollectionPage) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -17889,9 +19191,15 @@ func (t *OrderedCollectionPage) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *OrderedCollectionPage) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *OrderedCollectionPage) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *OrderedCollectionPage) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -17939,9 +19247,15 @@ func (t *OrderedCollectionPage) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *OrderedCollectionPage) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *OrderedCollectionPage) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *OrderedCollectionPage) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -17989,9 +19303,15 @@ func (t *OrderedCollectionPage) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *OrderedCollectionPage) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *OrderedCollectionPage) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *OrderedCollectionPage) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -18357,9 +19677,15 @@ func (t *OrderedCollectionPage) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *OrderedCollectionPage) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *OrderedCollectionPage) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *OrderedCollectionPage) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -18715,9 +20041,15 @@ func (t *Accept) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Accept) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Accept) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Accept) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -18763,9 +20095,15 @@ func (t *Accept) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Accept) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Accept) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Accept) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -18811,9 +20149,15 @@ func (t *Accept) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Accept) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Accept) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Accept) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -18878,15 +20222,27 @@ func (t *Accept) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Accept) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Accept) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Accept) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Accept) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Accept) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Accept) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -18931,15 +20287,27 @@ func (t *Accept) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Accept) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Accept) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Accept) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Accept) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Accept) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Accept) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -18984,15 +20352,27 @@ func (t *Accept) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Accept) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Accept) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Accept) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Accept) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Accept) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Accept) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -19071,15 +20451,27 @@ func (t *Accept) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Accept) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Accept) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Accept) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Accept) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Accept) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Accept) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -19107,9 +20499,15 @@ func (t *Accept) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Accept) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Accept) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Accept) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -19157,9 +20555,15 @@ func (t *Accept) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Accept) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Accept) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Accept) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -19207,9 +20611,15 @@ func (t *Accept) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Accept) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Accept) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Accept) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -19292,15 +20702,27 @@ func (t *Accept) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Accept) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Accept) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Accept) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Accept) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Accept) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Accept) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -19328,9 +20750,15 @@ func (t *Accept) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Accept) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Accept) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Accept) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -19447,15 +20875,27 @@ func (t *Accept) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Accept) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Accept) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Accept) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Accept) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Accept) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Accept) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -19483,9 +20923,15 @@ func (t *Accept) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Accept) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Accept) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Accept) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -19563,9 +21009,15 @@ func (t *Accept) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Accept) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Accept) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Accept) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -19613,9 +21065,15 @@ func (t *Accept) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Accept) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Accept) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Accept) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -19680,15 +21138,27 @@ func (t *Accept) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Accept) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Accept) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Accept) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Accept) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Accept) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Accept) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -19733,15 +21203,27 @@ func (t *Accept) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Accept) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Accept) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Accept) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Accept) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Accept) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Accept) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -19871,9 +21353,15 @@ func (t *Accept) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Accept) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Accept) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Accept) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -19956,15 +21444,27 @@ func (t *Accept) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Accept) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Accept) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Accept) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Accept) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Accept) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Accept) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -19989,9 +21489,15 @@ func (t *Accept) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Accept) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Accept) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Accept) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -20057,9 +21563,15 @@ func (t *Accept) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Accept) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Accept) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Accept) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -20105,9 +21617,15 @@ func (t *Accept) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Accept) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Accept) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Accept) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -20155,9 +21673,15 @@ func (t *Accept) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Accept) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Accept) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Accept) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -20205,9 +21729,15 @@ func (t *Accept) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Accept) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Accept) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Accept) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -20255,9 +21785,15 @@ func (t *Accept) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Accept) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Accept) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Accept) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -20623,9 +22159,15 @@ func (t *Accept) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Accept) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Accept) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Accept) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -20943,9 +22485,15 @@ func (t *TentativeAccept) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *TentativeAccept) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *TentativeAccept) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *TentativeAccept) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -20991,9 +22539,15 @@ func (t *TentativeAccept) ResolveObject(r *Resolver, idx int) (s Resolution, err
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *TentativeAccept) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *TentativeAccept) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *TentativeAccept) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -21039,9 +22593,15 @@ func (t *TentativeAccept) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *TentativeAccept) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *TentativeAccept) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *TentativeAccept) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -21106,15 +22666,27 @@ func (t *TentativeAccept) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *TentativeAccept) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *TentativeAccept) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *TentativeAccept) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *TentativeAccept) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *TentativeAccept) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *TentativeAccept) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -21159,15 +22731,27 @@ func (t *TentativeAccept) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *TentativeAccept) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *TentativeAccept) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *TentativeAccept) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *TentativeAccept) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *TentativeAccept) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *TentativeAccept) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -21212,15 +22796,27 @@ func (t *TentativeAccept) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *TentativeAccept) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *TentativeAccept) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *TentativeAccept) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *TentativeAccept) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *TentativeAccept) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *TentativeAccept) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -21299,15 +22895,27 @@ func (t *TentativeAccept) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *TentativeAccept) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *TentativeAccept) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *TentativeAccept) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *TentativeAccept) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *TentativeAccept) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *TentativeAccept) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -21335,9 +22943,15 @@ func (t *TentativeAccept) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *TentativeAccept) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *TentativeAccept) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *TentativeAccept) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -21385,9 +22999,15 @@ func (t *TentativeAccept) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *TentativeAccept) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *TentativeAccept) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *TentativeAccept) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -21435,9 +23055,15 @@ func (t *TentativeAccept) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *TentativeAccept) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *TentativeAccept) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *TentativeAccept) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -21520,15 +23146,27 @@ func (t *TentativeAccept) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *TentativeAccept) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *TentativeAccept) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *TentativeAccept) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *TentativeAccept) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *TentativeAccept) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *TentativeAccept) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -21556,9 +23194,15 @@ func (t *TentativeAccept) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *TentativeAccept) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *TentativeAccept) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *TentativeAccept) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -21675,15 +23319,27 @@ func (t *TentativeAccept) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *TentativeAccept) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *TentativeAccept) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *TentativeAccept) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *TentativeAccept) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *TentativeAccept) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *TentativeAccept) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -21711,9 +23367,15 @@ func (t *TentativeAccept) ResolveIcon(r *Resolver, idx int) (s Resolution, err e
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *TentativeAccept) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *TentativeAccept) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *TentativeAccept) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -21791,9 +23453,15 @@ func (t *TentativeAccept) ResolveImage(r *Resolver, idx int) (s Resolution, err 
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *TentativeAccept) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *TentativeAccept) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *TentativeAccept) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -21841,9 +23509,15 @@ func (t *TentativeAccept) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *TentativeAccept) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *TentativeAccept) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *TentativeAccept) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -21908,15 +23582,27 @@ func (t *TentativeAccept) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *TentativeAccept) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *TentativeAccept) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *TentativeAccept) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *TentativeAccept) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *TentativeAccept) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *TentativeAccept) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -21961,15 +23647,27 @@ func (t *TentativeAccept) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *TentativeAccept) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *TentativeAccept) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *TentativeAccept) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *TentativeAccept) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *TentativeAccept) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *TentativeAccept) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -22099,9 +23797,15 @@ func (t *TentativeAccept) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *TentativeAccept) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *TentativeAccept) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *TentativeAccept) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -22184,15 +23888,27 @@ func (t *TentativeAccept) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *TentativeAccept) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *TentativeAccept) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *TentativeAccept) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *TentativeAccept) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *TentativeAccept) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *TentativeAccept) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -22217,9 +23933,15 @@ func (t *TentativeAccept) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *TentativeAccept) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *TentativeAccept) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *TentativeAccept) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -22285,9 +24007,15 @@ func (t *TentativeAccept) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *TentativeAccept) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *TentativeAccept) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *TentativeAccept) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -22333,9 +24061,15 @@ func (t *TentativeAccept) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *TentativeAccept) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *TentativeAccept) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *TentativeAccept) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -22383,9 +24117,15 @@ func (t *TentativeAccept) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *TentativeAccept) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *TentativeAccept) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *TentativeAccept) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -22433,9 +24173,15 @@ func (t *TentativeAccept) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *TentativeAccept) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *TentativeAccept) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *TentativeAccept) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -22483,9 +24229,15 @@ func (t *TentativeAccept) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *TentativeAccept) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *TentativeAccept) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *TentativeAccept) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -22851,9 +24603,15 @@ func (t *TentativeAccept) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *TentativeAccept) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *TentativeAccept) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *TentativeAccept) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -23171,9 +24929,15 @@ func (t *Add) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Add) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Add) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Add) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -23219,9 +24983,15 @@ func (t *Add) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Add) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Add) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Add) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -23267,9 +25037,15 @@ func (t *Add) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Add) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Add) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Add) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -23334,15 +25110,27 @@ func (t *Add) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Add) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Add) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Add) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Add) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Add) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Add) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -23387,15 +25175,27 @@ func (t *Add) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Add) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Add) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Add) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Add) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Add) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Add) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -23440,15 +25240,27 @@ func (t *Add) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Add) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Add) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Add) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Add) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Add) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Add) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -23527,15 +25339,27 @@ func (t *Add) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Add) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Add) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Add) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Add) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Add) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Add) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -23563,9 +25387,15 @@ func (t *Add) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Add) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Add) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Add) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -23613,9 +25443,15 @@ func (t *Add) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Add) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Add) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Add) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -23663,9 +25499,15 @@ func (t *Add) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Add) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Add) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Add) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -23748,15 +25590,27 @@ func (t *Add) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Add) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Add) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Add) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Add) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Add) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Add) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -23784,9 +25638,15 @@ func (t *Add) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Add) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Add) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Add) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -23903,15 +25763,27 @@ func (t *Add) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Add) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Add) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Add) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Add) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Add) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Add) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -23939,9 +25811,15 @@ func (t *Add) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Add) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Add) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Add) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -24019,9 +25897,15 @@ func (t *Add) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Add) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Add) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Add) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -24069,9 +25953,15 @@ func (t *Add) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Add) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Add) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Add) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -24136,15 +26026,27 @@ func (t *Add) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Add) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Add) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Add) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Add) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Add) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Add) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -24189,15 +26091,27 @@ func (t *Add) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Add) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Add) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Add) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Add) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Add) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Add) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -24327,9 +26241,15 @@ func (t *Add) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Add) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Add) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Add) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -24412,15 +26332,27 @@ func (t *Add) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Add) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Add) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Add) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Add) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Add) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Add) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -24445,9 +26377,15 @@ func (t *Add) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Add) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Add) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Add) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -24513,9 +26451,15 @@ func (t *Add) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Add) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Add) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Add) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -24561,9 +26505,15 @@ func (t *Add) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Add) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Add) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Add) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -24611,9 +26561,15 @@ func (t *Add) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Add) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Add) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Add) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -24661,9 +26617,15 @@ func (t *Add) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Add) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Add) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Add) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -24711,9 +26673,15 @@ func (t *Add) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Add) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Add) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Add) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -25079,9 +27047,15 @@ func (t *Add) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Add) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Add) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Add) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -25399,9 +27373,15 @@ func (t *Arrive) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Arrive) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Arrive) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Arrive) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -25449,9 +27429,15 @@ func (t *Arrive) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Arrive) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Arrive) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Arrive) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -25516,15 +27502,27 @@ func (t *Arrive) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Arrive) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Arrive) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Arrive) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Arrive) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Arrive) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Arrive) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -25569,15 +27567,27 @@ func (t *Arrive) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Arrive) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Arrive) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Arrive) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Arrive) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Arrive) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Arrive) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -25622,15 +27632,27 @@ func (t *Arrive) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Arrive) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Arrive) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Arrive) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Arrive) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Arrive) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Arrive) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -25709,15 +27731,27 @@ func (t *Arrive) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Arrive) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Arrive) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Arrive) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Arrive) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Arrive) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Arrive) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -25745,9 +27779,15 @@ func (t *Arrive) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Arrive) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Arrive) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Arrive) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -25795,9 +27835,15 @@ func (t *Arrive) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Arrive) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Arrive) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Arrive) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -25845,9 +27891,15 @@ func (t *Arrive) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Arrive) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Arrive) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Arrive) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -25930,15 +27982,27 @@ func (t *Arrive) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Arrive) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Arrive) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Arrive) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Arrive) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Arrive) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Arrive) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -25966,9 +28030,15 @@ func (t *Arrive) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Arrive) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Arrive) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Arrive) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -26085,15 +28155,27 @@ func (t *Arrive) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Arrive) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Arrive) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Arrive) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Arrive) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Arrive) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Arrive) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -26121,9 +28203,15 @@ func (t *Arrive) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Arrive) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Arrive) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Arrive) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -26201,9 +28289,15 @@ func (t *Arrive) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Arrive) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Arrive) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Arrive) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -26251,9 +28345,15 @@ func (t *Arrive) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Arrive) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Arrive) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Arrive) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -26318,15 +28418,27 @@ func (t *Arrive) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Arrive) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Arrive) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Arrive) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Arrive) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Arrive) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Arrive) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -26371,15 +28483,27 @@ func (t *Arrive) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Arrive) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Arrive) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Arrive) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Arrive) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Arrive) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Arrive) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -26509,9 +28633,15 @@ func (t *Arrive) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Arrive) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Arrive) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Arrive) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -26594,15 +28724,27 @@ func (t *Arrive) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Arrive) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Arrive) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Arrive) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Arrive) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Arrive) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Arrive) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -26627,9 +28769,15 @@ func (t *Arrive) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Arrive) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Arrive) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Arrive) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -26695,9 +28843,15 @@ func (t *Arrive) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Arrive) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Arrive) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Arrive) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -26743,9 +28897,15 @@ func (t *Arrive) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Arrive) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Arrive) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Arrive) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -26793,9 +28953,15 @@ func (t *Arrive) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Arrive) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Arrive) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Arrive) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -26843,9 +29009,15 @@ func (t *Arrive) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Arrive) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Arrive) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Arrive) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -26893,9 +29065,15 @@ func (t *Arrive) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Arrive) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Arrive) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Arrive) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -27261,9 +29439,15 @@ func (t *Arrive) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Arrive) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Arrive) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Arrive) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -27581,9 +29765,15 @@ func (t *Create) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Create) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Create) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Create) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -27629,9 +29819,15 @@ func (t *Create) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Create) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Create) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Create) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -27677,9 +29873,15 @@ func (t *Create) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Create) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Create) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Create) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -27744,15 +29946,27 @@ func (t *Create) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Create) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Create) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Create) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Create) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Create) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Create) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -27797,15 +30011,27 @@ func (t *Create) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Create) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Create) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Create) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Create) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Create) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Create) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -27850,15 +30076,27 @@ func (t *Create) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Create) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Create) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Create) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Create) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Create) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Create) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -27937,15 +30175,27 @@ func (t *Create) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Create) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Create) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Create) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Create) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Create) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Create) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -27973,9 +30223,15 @@ func (t *Create) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Create) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Create) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Create) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -28023,9 +30279,15 @@ func (t *Create) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Create) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Create) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Create) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -28073,9 +30335,15 @@ func (t *Create) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Create) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Create) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Create) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -28158,15 +30426,27 @@ func (t *Create) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Create) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Create) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Create) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Create) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Create) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Create) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -28194,9 +30474,15 @@ func (t *Create) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Create) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Create) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Create) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -28313,15 +30599,27 @@ func (t *Create) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Create) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Create) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Create) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Create) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Create) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Create) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -28349,9 +30647,15 @@ func (t *Create) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Create) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Create) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Create) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -28429,9 +30733,15 @@ func (t *Create) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Create) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Create) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Create) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -28479,9 +30789,15 @@ func (t *Create) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Create) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Create) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Create) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -28546,15 +30862,27 @@ func (t *Create) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Create) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Create) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Create) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Create) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Create) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Create) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -28599,15 +30927,27 @@ func (t *Create) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Create) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Create) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Create) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Create) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Create) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Create) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -28737,9 +31077,15 @@ func (t *Create) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Create) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Create) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Create) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -28822,15 +31168,27 @@ func (t *Create) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Create) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Create) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Create) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Create) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Create) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Create) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -28855,9 +31213,15 @@ func (t *Create) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Create) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Create) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Create) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -28923,9 +31287,15 @@ func (t *Create) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Create) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Create) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Create) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -28971,9 +31341,15 @@ func (t *Create) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Create) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Create) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Create) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -29021,9 +31397,15 @@ func (t *Create) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Create) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Create) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Create) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -29071,9 +31453,15 @@ func (t *Create) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Create) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Create) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Create) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -29121,9 +31509,15 @@ func (t *Create) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Create) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Create) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Create) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -29489,9 +31883,15 @@ func (t *Create) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Create) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Create) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Create) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -29809,9 +32209,15 @@ func (t *Delete) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Delete) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Delete) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Delete) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -29857,9 +32263,15 @@ func (t *Delete) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Delete) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Delete) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Delete) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -29905,9 +32317,15 @@ func (t *Delete) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Delete) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Delete) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Delete) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -29972,15 +32390,27 @@ func (t *Delete) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Delete) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Delete) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Delete) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Delete) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Delete) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Delete) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -30025,15 +32455,27 @@ func (t *Delete) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Delete) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Delete) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Delete) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Delete) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Delete) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Delete) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -30078,15 +32520,27 @@ func (t *Delete) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Delete) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Delete) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Delete) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Delete) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Delete) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Delete) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -30165,15 +32619,27 @@ func (t *Delete) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Delete) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Delete) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Delete) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Delete) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Delete) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Delete) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -30201,9 +32667,15 @@ func (t *Delete) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Delete) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Delete) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Delete) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -30251,9 +32723,15 @@ func (t *Delete) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Delete) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Delete) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Delete) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -30301,9 +32779,15 @@ func (t *Delete) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Delete) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Delete) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Delete) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -30386,15 +32870,27 @@ func (t *Delete) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Delete) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Delete) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Delete) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Delete) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Delete) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Delete) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -30422,9 +32918,15 @@ func (t *Delete) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Delete) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Delete) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Delete) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -30541,15 +33043,27 @@ func (t *Delete) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Delete) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Delete) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Delete) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Delete) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Delete) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Delete) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -30577,9 +33091,15 @@ func (t *Delete) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Delete) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Delete) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Delete) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -30657,9 +33177,15 @@ func (t *Delete) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Delete) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Delete) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Delete) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -30707,9 +33233,15 @@ func (t *Delete) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Delete) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Delete) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Delete) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -30774,15 +33306,27 @@ func (t *Delete) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Delete) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Delete) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Delete) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Delete) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Delete) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Delete) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -30827,15 +33371,27 @@ func (t *Delete) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Delete) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Delete) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Delete) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Delete) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Delete) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Delete) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -30965,9 +33521,15 @@ func (t *Delete) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Delete) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Delete) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Delete) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -31050,15 +33612,27 @@ func (t *Delete) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Delete) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Delete) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Delete) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Delete) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Delete) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Delete) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -31083,9 +33657,15 @@ func (t *Delete) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Delete) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Delete) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Delete) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -31151,9 +33731,15 @@ func (t *Delete) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Delete) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Delete) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Delete) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -31199,9 +33785,15 @@ func (t *Delete) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Delete) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Delete) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Delete) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -31249,9 +33841,15 @@ func (t *Delete) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Delete) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Delete) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Delete) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -31299,9 +33897,15 @@ func (t *Delete) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Delete) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Delete) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Delete) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -31349,9 +33953,15 @@ func (t *Delete) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Delete) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Delete) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Delete) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -31717,9 +34327,15 @@ func (t *Delete) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Delete) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Delete) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Delete) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -32037,9 +34653,15 @@ func (t *Follow) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Follow) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Follow) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Follow) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -32085,9 +34707,15 @@ func (t *Follow) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Follow) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Follow) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Follow) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -32133,9 +34761,15 @@ func (t *Follow) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Follow) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Follow) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Follow) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -32200,15 +34834,27 @@ func (t *Follow) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Follow) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Follow) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Follow) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Follow) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Follow) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Follow) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -32253,15 +34899,27 @@ func (t *Follow) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Follow) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Follow) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Follow) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Follow) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Follow) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Follow) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -32306,15 +34964,27 @@ func (t *Follow) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Follow) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Follow) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Follow) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Follow) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Follow) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Follow) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -32393,15 +35063,27 @@ func (t *Follow) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Follow) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Follow) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Follow) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Follow) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Follow) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Follow) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -32429,9 +35111,15 @@ func (t *Follow) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Follow) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Follow) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Follow) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -32479,9 +35167,15 @@ func (t *Follow) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Follow) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Follow) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Follow) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -32529,9 +35223,15 @@ func (t *Follow) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Follow) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Follow) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Follow) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -32614,15 +35314,27 @@ func (t *Follow) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Follow) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Follow) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Follow) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Follow) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Follow) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Follow) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -32650,9 +35362,15 @@ func (t *Follow) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Follow) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Follow) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Follow) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -32769,15 +35487,27 @@ func (t *Follow) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Follow) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Follow) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Follow) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Follow) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Follow) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Follow) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -32805,9 +35535,15 @@ func (t *Follow) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Follow) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Follow) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Follow) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -32885,9 +35621,15 @@ func (t *Follow) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Follow) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Follow) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Follow) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -32935,9 +35677,15 @@ func (t *Follow) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Follow) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Follow) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Follow) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -33002,15 +35750,27 @@ func (t *Follow) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Follow) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Follow) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Follow) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Follow) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Follow) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Follow) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -33055,15 +35815,27 @@ func (t *Follow) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Follow) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Follow) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Follow) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Follow) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Follow) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Follow) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -33193,9 +35965,15 @@ func (t *Follow) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Follow) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Follow) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Follow) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -33278,15 +36056,27 @@ func (t *Follow) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Follow) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Follow) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Follow) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Follow) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Follow) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Follow) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -33311,9 +36101,15 @@ func (t *Follow) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Follow) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Follow) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Follow) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -33379,9 +36175,15 @@ func (t *Follow) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Follow) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Follow) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Follow) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -33427,9 +36229,15 @@ func (t *Follow) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Follow) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Follow) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Follow) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -33477,9 +36285,15 @@ func (t *Follow) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Follow) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Follow) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Follow) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -33527,9 +36341,15 @@ func (t *Follow) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Follow) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Follow) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Follow) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -33577,9 +36397,15 @@ func (t *Follow) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Follow) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Follow) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Follow) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -33945,9 +36771,15 @@ func (t *Follow) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Follow) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Follow) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Follow) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -34265,9 +37097,15 @@ func (t *Ignore) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Ignore) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Ignore) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Ignore) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -34313,9 +37151,15 @@ func (t *Ignore) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Ignore) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Ignore) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Ignore) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -34361,9 +37205,15 @@ func (t *Ignore) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Ignore) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Ignore) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Ignore) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -34428,15 +37278,27 @@ func (t *Ignore) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Ignore) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Ignore) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Ignore) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Ignore) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Ignore) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Ignore) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -34481,15 +37343,27 @@ func (t *Ignore) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Ignore) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Ignore) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Ignore) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Ignore) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Ignore) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Ignore) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -34534,15 +37408,27 @@ func (t *Ignore) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Ignore) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Ignore) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Ignore) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Ignore) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Ignore) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Ignore) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -34621,15 +37507,27 @@ func (t *Ignore) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Ignore) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Ignore) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Ignore) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Ignore) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Ignore) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Ignore) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -34657,9 +37555,15 @@ func (t *Ignore) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Ignore) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Ignore) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Ignore) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -34707,9 +37611,15 @@ func (t *Ignore) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Ignore) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Ignore) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Ignore) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -34757,9 +37667,15 @@ func (t *Ignore) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Ignore) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Ignore) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Ignore) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -34842,15 +37758,27 @@ func (t *Ignore) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Ignore) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Ignore) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Ignore) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Ignore) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Ignore) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Ignore) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -34878,9 +37806,15 @@ func (t *Ignore) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Ignore) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Ignore) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Ignore) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -34997,15 +37931,27 @@ func (t *Ignore) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Ignore) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Ignore) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Ignore) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Ignore) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Ignore) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Ignore) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -35033,9 +37979,15 @@ func (t *Ignore) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Ignore) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Ignore) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Ignore) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -35113,9 +38065,15 @@ func (t *Ignore) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Ignore) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Ignore) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Ignore) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -35163,9 +38121,15 @@ func (t *Ignore) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Ignore) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Ignore) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Ignore) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -35230,15 +38194,27 @@ func (t *Ignore) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Ignore) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Ignore) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Ignore) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Ignore) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Ignore) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Ignore) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -35283,15 +38259,27 @@ func (t *Ignore) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Ignore) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Ignore) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Ignore) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Ignore) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Ignore) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Ignore) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -35421,9 +38409,15 @@ func (t *Ignore) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Ignore) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Ignore) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Ignore) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -35506,15 +38500,27 @@ func (t *Ignore) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Ignore) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Ignore) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Ignore) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Ignore) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Ignore) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Ignore) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -35539,9 +38545,15 @@ func (t *Ignore) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Ignore) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Ignore) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Ignore) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -35607,9 +38619,15 @@ func (t *Ignore) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Ignore) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Ignore) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Ignore) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -35655,9 +38673,15 @@ func (t *Ignore) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Ignore) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Ignore) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Ignore) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -35705,9 +38729,15 @@ func (t *Ignore) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Ignore) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Ignore) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Ignore) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -35755,9 +38785,15 @@ func (t *Ignore) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Ignore) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Ignore) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Ignore) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -35805,9 +38841,15 @@ func (t *Ignore) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Ignore) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Ignore) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Ignore) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -36173,9 +39215,15 @@ func (t *Ignore) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Ignore) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Ignore) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Ignore) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -36493,9 +39541,15 @@ func (t *Join) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Join) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Join) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Join) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -36541,9 +39595,15 @@ func (t *Join) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Join) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Join) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Join) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -36589,9 +39649,15 @@ func (t *Join) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Join) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Join) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Join) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -36656,15 +39722,27 @@ func (t *Join) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Join) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Join) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Join) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Join) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Join) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Join) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -36709,15 +39787,27 @@ func (t *Join) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Join) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Join) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Join) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Join) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Join) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Join) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -36762,15 +39852,27 @@ func (t *Join) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Join) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Join) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Join) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Join) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Join) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Join) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -36849,15 +39951,27 @@ func (t *Join) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Join) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Join) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Join) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Join) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Join) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Join) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -36885,9 +39999,15 @@ func (t *Join) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Join) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Join) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Join) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -36935,9 +40055,15 @@ func (t *Join) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Join) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Join) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Join) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -36985,9 +40111,15 @@ func (t *Join) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Join) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Join) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Join) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -37070,15 +40202,27 @@ func (t *Join) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Join) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Join) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Join) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Join) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Join) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Join) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -37106,9 +40250,15 @@ func (t *Join) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Join) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Join) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Join) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -37225,15 +40375,27 @@ func (t *Join) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Join) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Join) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Join) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Join) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Join) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Join) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -37261,9 +40423,15 @@ func (t *Join) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Join) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Join) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Join) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -37341,9 +40509,15 @@ func (t *Join) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Join) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Join) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Join) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -37391,9 +40565,15 @@ func (t *Join) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Join) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Join) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Join) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -37458,15 +40638,27 @@ func (t *Join) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Join) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Join) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Join) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Join) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Join) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Join) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -37511,15 +40703,27 @@ func (t *Join) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Join) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Join) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Join) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Join) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Join) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Join) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -37649,9 +40853,15 @@ func (t *Join) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Join) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Join) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Join) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -37734,15 +40944,27 @@ func (t *Join) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Join) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Join) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Join) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Join) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Join) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Join) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -37767,9 +40989,15 @@ func (t *Join) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Join) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Join) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Join) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -37835,9 +41063,15 @@ func (t *Join) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Join) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Join) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Join) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -37883,9 +41117,15 @@ func (t *Join) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Join) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Join) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Join) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -37933,9 +41173,15 @@ func (t *Join) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Join) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Join) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Join) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -37983,9 +41229,15 @@ func (t *Join) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Join) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Join) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Join) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -38033,9 +41285,15 @@ func (t *Join) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Join) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Join) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Join) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -38401,9 +41659,15 @@ func (t *Join) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Join) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Join) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Join) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -38721,9 +41985,15 @@ func (t *Leave) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Leave) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Leave) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Leave) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -38769,9 +42039,15 @@ func (t *Leave) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Leave) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Leave) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Leave) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -38817,9 +42093,15 @@ func (t *Leave) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Leave) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Leave) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Leave) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -38884,15 +42166,27 @@ func (t *Leave) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Leave) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Leave) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Leave) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Leave) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Leave) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Leave) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -38937,15 +42231,27 @@ func (t *Leave) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Leave) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Leave) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Leave) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Leave) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Leave) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Leave) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -38990,15 +42296,27 @@ func (t *Leave) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Leave) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Leave) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Leave) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Leave) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Leave) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Leave) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -39077,15 +42395,27 @@ func (t *Leave) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Leave) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Leave) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Leave) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Leave) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Leave) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Leave) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -39113,9 +42443,15 @@ func (t *Leave) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Leave) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Leave) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Leave) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -39163,9 +42499,15 @@ func (t *Leave) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Leave) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Leave) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Leave) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -39213,9 +42555,15 @@ func (t *Leave) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Leave) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Leave) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Leave) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -39298,15 +42646,27 @@ func (t *Leave) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Leave) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Leave) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Leave) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Leave) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Leave) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Leave) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -39334,9 +42694,15 @@ func (t *Leave) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Leave) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Leave) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Leave) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -39453,15 +42819,27 @@ func (t *Leave) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Leave) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Leave) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Leave) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Leave) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Leave) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Leave) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -39489,9 +42867,15 @@ func (t *Leave) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Leave) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Leave) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Leave) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -39569,9 +42953,15 @@ func (t *Leave) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Leave) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Leave) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Leave) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -39619,9 +43009,15 @@ func (t *Leave) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Leave) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Leave) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Leave) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -39686,15 +43082,27 @@ func (t *Leave) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Leave) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Leave) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Leave) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Leave) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Leave) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Leave) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -39739,15 +43147,27 @@ func (t *Leave) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Leave) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Leave) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Leave) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Leave) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Leave) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Leave) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -39877,9 +43297,15 @@ func (t *Leave) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Leave) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Leave) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Leave) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -39962,15 +43388,27 @@ func (t *Leave) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Leave) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Leave) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Leave) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Leave) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Leave) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Leave) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -39995,9 +43433,15 @@ func (t *Leave) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Leave) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Leave) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Leave) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -40063,9 +43507,15 @@ func (t *Leave) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Leave) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Leave) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Leave) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -40111,9 +43561,15 @@ func (t *Leave) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Leave) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Leave) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Leave) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -40161,9 +43617,15 @@ func (t *Leave) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Leave) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Leave) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Leave) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -40211,9 +43673,15 @@ func (t *Leave) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Leave) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Leave) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Leave) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -40261,9 +43729,15 @@ func (t *Leave) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Leave) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Leave) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Leave) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -40629,9 +44103,15 @@ func (t *Leave) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Leave) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Leave) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Leave) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -40949,9 +44429,15 @@ func (t *Like) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Like) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Like) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Like) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -40997,9 +44483,15 @@ func (t *Like) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Like) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Like) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Like) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -41045,9 +44537,15 @@ func (t *Like) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Like) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Like) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Like) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -41112,15 +44610,27 @@ func (t *Like) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Like) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Like) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Like) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Like) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Like) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Like) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -41165,15 +44675,27 @@ func (t *Like) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Like) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Like) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Like) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Like) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Like) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Like) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -41218,15 +44740,27 @@ func (t *Like) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Like) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Like) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Like) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Like) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Like) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Like) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -41305,15 +44839,27 @@ func (t *Like) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Like) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Like) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Like) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Like) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Like) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Like) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -41341,9 +44887,15 @@ func (t *Like) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Like) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Like) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Like) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -41391,9 +44943,15 @@ func (t *Like) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Like) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Like) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Like) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -41441,9 +44999,15 @@ func (t *Like) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Like) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Like) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Like) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -41526,15 +45090,27 @@ func (t *Like) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Like) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Like) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Like) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Like) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Like) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Like) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -41562,9 +45138,15 @@ func (t *Like) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Like) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Like) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Like) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -41681,15 +45263,27 @@ func (t *Like) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Like) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Like) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Like) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Like) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Like) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Like) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -41717,9 +45311,15 @@ func (t *Like) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Like) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Like) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Like) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -41797,9 +45397,15 @@ func (t *Like) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Like) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Like) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Like) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -41847,9 +45453,15 @@ func (t *Like) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Like) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Like) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Like) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -41914,15 +45526,27 @@ func (t *Like) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Like) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Like) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Like) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Like) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Like) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Like) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -41967,15 +45591,27 @@ func (t *Like) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Like) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Like) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Like) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Like) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Like) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Like) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -42105,9 +45741,15 @@ func (t *Like) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Like) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Like) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Like) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -42190,15 +45832,27 @@ func (t *Like) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Like) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Like) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Like) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Like) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Like) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Like) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -42223,9 +45877,15 @@ func (t *Like) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Like) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Like) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Like) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -42291,9 +45951,15 @@ func (t *Like) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Like) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Like) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Like) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -42339,9 +46005,15 @@ func (t *Like) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Like) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Like) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Like) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -42389,9 +46061,15 @@ func (t *Like) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Like) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Like) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Like) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -42439,9 +46117,15 @@ func (t *Like) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Like) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Like) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Like) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -42489,9 +46173,15 @@ func (t *Like) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Like) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Like) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Like) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -42857,9 +46547,15 @@ func (t *Like) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Like) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Like) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Like) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -43177,9 +46873,15 @@ func (t *Offer) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Offer) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Offer) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Offer) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -43225,9 +46927,15 @@ func (t *Offer) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Offer) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Offer) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Offer) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -43273,9 +46981,15 @@ func (t *Offer) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Offer) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Offer) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Offer) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -43340,15 +47054,27 @@ func (t *Offer) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Offer) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Offer) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Offer) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Offer) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Offer) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Offer) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -43393,15 +47119,27 @@ func (t *Offer) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Offer) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Offer) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Offer) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Offer) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Offer) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Offer) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -43446,15 +47184,27 @@ func (t *Offer) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Offer) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Offer) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Offer) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Offer) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Offer) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Offer) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -43533,15 +47283,27 @@ func (t *Offer) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Offer) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Offer) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Offer) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Offer) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Offer) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Offer) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -43569,9 +47331,15 @@ func (t *Offer) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Offer) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Offer) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Offer) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -43619,9 +47387,15 @@ func (t *Offer) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Offer) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Offer) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Offer) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -43669,9 +47443,15 @@ func (t *Offer) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Offer) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Offer) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Offer) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -43754,15 +47534,27 @@ func (t *Offer) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Offer) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Offer) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Offer) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Offer) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Offer) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Offer) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -43790,9 +47582,15 @@ func (t *Offer) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Offer) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Offer) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Offer) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -43909,15 +47707,27 @@ func (t *Offer) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Offer) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Offer) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Offer) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Offer) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Offer) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Offer) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -43945,9 +47755,15 @@ func (t *Offer) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Offer) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Offer) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Offer) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -44025,9 +47841,15 @@ func (t *Offer) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Offer) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Offer) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Offer) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -44075,9 +47897,15 @@ func (t *Offer) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Offer) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Offer) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Offer) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -44142,15 +47970,27 @@ func (t *Offer) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Offer) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Offer) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Offer) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Offer) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Offer) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Offer) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -44195,15 +48035,27 @@ func (t *Offer) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Offer) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Offer) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Offer) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Offer) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Offer) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Offer) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -44333,9 +48185,15 @@ func (t *Offer) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Offer) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Offer) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Offer) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -44418,15 +48276,27 @@ func (t *Offer) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Offer) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Offer) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Offer) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Offer) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Offer) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Offer) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -44451,9 +48321,15 @@ func (t *Offer) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Offer) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Offer) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Offer) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -44519,9 +48395,15 @@ func (t *Offer) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Offer) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Offer) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Offer) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -44567,9 +48449,15 @@ func (t *Offer) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Offer) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Offer) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Offer) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -44617,9 +48505,15 @@ func (t *Offer) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Offer) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Offer) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Offer) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -44667,9 +48561,15 @@ func (t *Offer) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Offer) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Offer) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Offer) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -44717,9 +48617,15 @@ func (t *Offer) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Offer) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Offer) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Offer) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -45085,9 +48991,15 @@ func (t *Offer) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Offer) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Offer) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Offer) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -45405,9 +49317,15 @@ func (t *Invite) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Invite) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Invite) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Invite) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -45453,9 +49371,15 @@ func (t *Invite) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Invite) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Invite) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Invite) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -45501,9 +49425,15 @@ func (t *Invite) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Invite) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Invite) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Invite) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -45568,15 +49498,27 @@ func (t *Invite) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Invite) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Invite) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Invite) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Invite) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Invite) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Invite) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -45621,15 +49563,27 @@ func (t *Invite) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Invite) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Invite) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Invite) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Invite) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Invite) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Invite) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -45674,15 +49628,27 @@ func (t *Invite) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Invite) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Invite) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Invite) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Invite) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Invite) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Invite) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -45761,15 +49727,27 @@ func (t *Invite) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Invite) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Invite) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Invite) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Invite) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Invite) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Invite) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -45797,9 +49775,15 @@ func (t *Invite) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Invite) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Invite) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Invite) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -45847,9 +49831,15 @@ func (t *Invite) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Invite) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Invite) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Invite) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -45897,9 +49887,15 @@ func (t *Invite) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Invite) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Invite) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Invite) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -45982,15 +49978,27 @@ func (t *Invite) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Invite) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Invite) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Invite) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Invite) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Invite) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Invite) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -46018,9 +50026,15 @@ func (t *Invite) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Invite) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Invite) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Invite) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -46137,15 +50151,27 @@ func (t *Invite) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Invite) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Invite) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Invite) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Invite) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Invite) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Invite) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -46173,9 +50199,15 @@ func (t *Invite) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Invite) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Invite) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Invite) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -46253,9 +50285,15 @@ func (t *Invite) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Invite) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Invite) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Invite) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -46303,9 +50341,15 @@ func (t *Invite) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Invite) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Invite) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Invite) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -46370,15 +50414,27 @@ func (t *Invite) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Invite) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Invite) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Invite) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Invite) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Invite) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Invite) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -46423,15 +50479,27 @@ func (t *Invite) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Invite) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Invite) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Invite) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Invite) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Invite) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Invite) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -46561,9 +50629,15 @@ func (t *Invite) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Invite) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Invite) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Invite) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -46646,15 +50720,27 @@ func (t *Invite) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Invite) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Invite) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Invite) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Invite) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Invite) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Invite) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -46679,9 +50765,15 @@ func (t *Invite) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Invite) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Invite) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Invite) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -46747,9 +50839,15 @@ func (t *Invite) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Invite) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Invite) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Invite) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -46795,9 +50893,15 @@ func (t *Invite) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Invite) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Invite) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Invite) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -46845,9 +50949,15 @@ func (t *Invite) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Invite) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Invite) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Invite) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -46895,9 +51005,15 @@ func (t *Invite) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Invite) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Invite) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Invite) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -46945,9 +51061,15 @@ func (t *Invite) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Invite) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Invite) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Invite) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -47313,9 +51435,15 @@ func (t *Invite) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Invite) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Invite) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Invite) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -47633,9 +51761,15 @@ func (t *Reject) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Reject) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Reject) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Reject) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -47681,9 +51815,15 @@ func (t *Reject) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Reject) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Reject) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Reject) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -47729,9 +51869,15 @@ func (t *Reject) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Reject) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Reject) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Reject) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -47796,15 +51942,27 @@ func (t *Reject) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Reject) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Reject) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Reject) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Reject) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Reject) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Reject) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -47849,15 +52007,27 @@ func (t *Reject) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Reject) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Reject) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Reject) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Reject) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Reject) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Reject) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -47902,15 +52072,27 @@ func (t *Reject) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Reject) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Reject) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Reject) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Reject) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Reject) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Reject) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -47989,15 +52171,27 @@ func (t *Reject) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Reject) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Reject) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Reject) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Reject) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Reject) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Reject) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -48025,9 +52219,15 @@ func (t *Reject) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Reject) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Reject) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Reject) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -48075,9 +52275,15 @@ func (t *Reject) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Reject) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Reject) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Reject) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -48125,9 +52331,15 @@ func (t *Reject) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Reject) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Reject) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Reject) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -48210,15 +52422,27 @@ func (t *Reject) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Reject) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Reject) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Reject) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Reject) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Reject) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Reject) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -48246,9 +52470,15 @@ func (t *Reject) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Reject) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Reject) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Reject) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -48365,15 +52595,27 @@ func (t *Reject) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Reject) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Reject) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Reject) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Reject) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Reject) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Reject) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -48401,9 +52643,15 @@ func (t *Reject) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Reject) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Reject) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Reject) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -48481,9 +52729,15 @@ func (t *Reject) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Reject) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Reject) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Reject) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -48531,9 +52785,15 @@ func (t *Reject) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Reject) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Reject) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Reject) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -48598,15 +52858,27 @@ func (t *Reject) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Reject) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Reject) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Reject) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Reject) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Reject) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Reject) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -48651,15 +52923,27 @@ func (t *Reject) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Reject) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Reject) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Reject) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Reject) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Reject) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Reject) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -48789,9 +53073,15 @@ func (t *Reject) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Reject) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Reject) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Reject) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -48874,15 +53164,27 @@ func (t *Reject) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Reject) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Reject) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Reject) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Reject) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Reject) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Reject) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -48907,9 +53209,15 @@ func (t *Reject) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Reject) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Reject) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Reject) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -48975,9 +53283,15 @@ func (t *Reject) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Reject) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Reject) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Reject) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -49023,9 +53337,15 @@ func (t *Reject) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Reject) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Reject) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Reject) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -49073,9 +53393,15 @@ func (t *Reject) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Reject) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Reject) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Reject) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -49123,9 +53449,15 @@ func (t *Reject) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Reject) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Reject) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Reject) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -49173,9 +53505,15 @@ func (t *Reject) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Reject) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Reject) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Reject) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -49541,9 +53879,15 @@ func (t *Reject) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Reject) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Reject) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Reject) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -49861,9 +54205,15 @@ func (t *TentativeReject) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *TentativeReject) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *TentativeReject) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *TentativeReject) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -49909,9 +54259,15 @@ func (t *TentativeReject) ResolveObject(r *Resolver, idx int) (s Resolution, err
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *TentativeReject) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *TentativeReject) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *TentativeReject) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -49957,9 +54313,15 @@ func (t *TentativeReject) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *TentativeReject) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *TentativeReject) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *TentativeReject) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -50024,15 +54386,27 @@ func (t *TentativeReject) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *TentativeReject) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *TentativeReject) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *TentativeReject) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *TentativeReject) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *TentativeReject) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *TentativeReject) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -50077,15 +54451,27 @@ func (t *TentativeReject) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *TentativeReject) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *TentativeReject) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *TentativeReject) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *TentativeReject) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *TentativeReject) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *TentativeReject) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -50130,15 +54516,27 @@ func (t *TentativeReject) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *TentativeReject) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *TentativeReject) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *TentativeReject) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *TentativeReject) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *TentativeReject) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *TentativeReject) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -50217,15 +54615,27 @@ func (t *TentativeReject) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *TentativeReject) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *TentativeReject) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *TentativeReject) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *TentativeReject) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *TentativeReject) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *TentativeReject) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -50253,9 +54663,15 @@ func (t *TentativeReject) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *TentativeReject) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *TentativeReject) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *TentativeReject) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -50303,9 +54719,15 @@ func (t *TentativeReject) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *TentativeReject) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *TentativeReject) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *TentativeReject) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -50353,9 +54775,15 @@ func (t *TentativeReject) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *TentativeReject) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *TentativeReject) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *TentativeReject) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -50438,15 +54866,27 @@ func (t *TentativeReject) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *TentativeReject) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *TentativeReject) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *TentativeReject) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *TentativeReject) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *TentativeReject) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *TentativeReject) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -50474,9 +54914,15 @@ func (t *TentativeReject) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *TentativeReject) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *TentativeReject) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *TentativeReject) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -50593,15 +55039,27 @@ func (t *TentativeReject) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *TentativeReject) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *TentativeReject) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *TentativeReject) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *TentativeReject) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *TentativeReject) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *TentativeReject) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -50629,9 +55087,15 @@ func (t *TentativeReject) ResolveIcon(r *Resolver, idx int) (s Resolution, err e
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *TentativeReject) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *TentativeReject) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *TentativeReject) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -50709,9 +55173,15 @@ func (t *TentativeReject) ResolveImage(r *Resolver, idx int) (s Resolution, err 
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *TentativeReject) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *TentativeReject) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *TentativeReject) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -50759,9 +55229,15 @@ func (t *TentativeReject) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *TentativeReject) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *TentativeReject) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *TentativeReject) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -50826,15 +55302,27 @@ func (t *TentativeReject) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *TentativeReject) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *TentativeReject) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *TentativeReject) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *TentativeReject) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *TentativeReject) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *TentativeReject) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -50879,15 +55367,27 @@ func (t *TentativeReject) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *TentativeReject) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *TentativeReject) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *TentativeReject) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *TentativeReject) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *TentativeReject) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *TentativeReject) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -51017,9 +55517,15 @@ func (t *TentativeReject) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *TentativeReject) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *TentativeReject) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *TentativeReject) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -51102,15 +55608,27 @@ func (t *TentativeReject) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *TentativeReject) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *TentativeReject) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *TentativeReject) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *TentativeReject) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *TentativeReject) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *TentativeReject) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -51135,9 +55653,15 @@ func (t *TentativeReject) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *TentativeReject) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *TentativeReject) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *TentativeReject) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -51203,9 +55727,15 @@ func (t *TentativeReject) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *TentativeReject) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *TentativeReject) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *TentativeReject) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -51251,9 +55781,15 @@ func (t *TentativeReject) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *TentativeReject) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *TentativeReject) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *TentativeReject) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -51301,9 +55837,15 @@ func (t *TentativeReject) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *TentativeReject) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *TentativeReject) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *TentativeReject) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -51351,9 +55893,15 @@ func (t *TentativeReject) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *TentativeReject) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *TentativeReject) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *TentativeReject) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -51401,9 +55949,15 @@ func (t *TentativeReject) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *TentativeReject) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *TentativeReject) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *TentativeReject) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -51769,9 +56323,15 @@ func (t *TentativeReject) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *TentativeReject) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *TentativeReject) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *TentativeReject) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -52089,9 +56649,15 @@ func (t *Remove) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Remove) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Remove) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Remove) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -52137,9 +56703,15 @@ func (t *Remove) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Remove) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Remove) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Remove) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -52185,9 +56757,15 @@ func (t *Remove) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Remove) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Remove) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Remove) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -52252,15 +56830,27 @@ func (t *Remove) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Remove) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Remove) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Remove) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Remove) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Remove) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Remove) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -52305,15 +56895,27 @@ func (t *Remove) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Remove) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Remove) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Remove) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Remove) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Remove) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Remove) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -52358,15 +56960,27 @@ func (t *Remove) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Remove) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Remove) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Remove) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Remove) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Remove) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Remove) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -52445,15 +57059,27 @@ func (t *Remove) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Remove) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Remove) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Remove) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Remove) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Remove) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Remove) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -52481,9 +57107,15 @@ func (t *Remove) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Remove) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Remove) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Remove) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -52531,9 +57163,15 @@ func (t *Remove) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Remove) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Remove) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Remove) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -52581,9 +57219,15 @@ func (t *Remove) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Remove) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Remove) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Remove) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -52666,15 +57310,27 @@ func (t *Remove) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Remove) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Remove) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Remove) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Remove) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Remove) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Remove) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -52702,9 +57358,15 @@ func (t *Remove) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Remove) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Remove) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Remove) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -52821,15 +57483,27 @@ func (t *Remove) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Remove) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Remove) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Remove) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Remove) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Remove) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Remove) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -52857,9 +57531,15 @@ func (t *Remove) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Remove) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Remove) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Remove) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -52937,9 +57617,15 @@ func (t *Remove) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Remove) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Remove) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Remove) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -52987,9 +57673,15 @@ func (t *Remove) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Remove) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Remove) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Remove) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -53054,15 +57746,27 @@ func (t *Remove) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Remove) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Remove) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Remove) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Remove) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Remove) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Remove) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -53107,15 +57811,27 @@ func (t *Remove) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Remove) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Remove) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Remove) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Remove) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Remove) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Remove) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -53245,9 +57961,15 @@ func (t *Remove) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Remove) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Remove) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Remove) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -53330,15 +58052,27 @@ func (t *Remove) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Remove) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Remove) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Remove) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Remove) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Remove) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Remove) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -53363,9 +58097,15 @@ func (t *Remove) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Remove) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Remove) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Remove) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -53431,9 +58171,15 @@ func (t *Remove) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Remove) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Remove) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Remove) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -53479,9 +58225,15 @@ func (t *Remove) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Remove) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Remove) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Remove) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -53529,9 +58281,15 @@ func (t *Remove) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Remove) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Remove) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Remove) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -53579,9 +58337,15 @@ func (t *Remove) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Remove) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Remove) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Remove) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -53629,9 +58393,15 @@ func (t *Remove) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Remove) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Remove) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Remove) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -53997,9 +58767,15 @@ func (t *Remove) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Remove) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Remove) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Remove) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -54317,9 +59093,15 @@ func (t *Undo) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Undo) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Undo) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Undo) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -54365,9 +59147,15 @@ func (t *Undo) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Undo) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Undo) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Undo) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -54413,9 +59201,15 @@ func (t *Undo) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Undo) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Undo) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Undo) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -54480,15 +59274,27 @@ func (t *Undo) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Undo) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Undo) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Undo) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Undo) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Undo) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Undo) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -54533,15 +59339,27 @@ func (t *Undo) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Undo) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Undo) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Undo) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Undo) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Undo) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Undo) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -54586,15 +59404,27 @@ func (t *Undo) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Undo) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Undo) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Undo) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Undo) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Undo) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Undo) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -54673,15 +59503,27 @@ func (t *Undo) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Undo) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Undo) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Undo) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Undo) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Undo) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Undo) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -54709,9 +59551,15 @@ func (t *Undo) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Undo) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Undo) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Undo) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -54759,9 +59607,15 @@ func (t *Undo) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Undo) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Undo) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Undo) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -54809,9 +59663,15 @@ func (t *Undo) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Undo) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Undo) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Undo) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -54894,15 +59754,27 @@ func (t *Undo) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Undo) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Undo) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Undo) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Undo) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Undo) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Undo) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -54930,9 +59802,15 @@ func (t *Undo) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Undo) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Undo) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Undo) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -55049,15 +59927,27 @@ func (t *Undo) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Undo) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Undo) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Undo) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Undo) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Undo) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Undo) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -55085,9 +59975,15 @@ func (t *Undo) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Undo) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Undo) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Undo) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -55165,9 +60061,15 @@ func (t *Undo) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Undo) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Undo) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Undo) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -55215,9 +60117,15 @@ func (t *Undo) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Undo) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Undo) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Undo) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -55282,15 +60190,27 @@ func (t *Undo) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Undo) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Undo) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Undo) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Undo) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Undo) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Undo) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -55335,15 +60255,27 @@ func (t *Undo) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Undo) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Undo) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Undo) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Undo) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Undo) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Undo) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -55473,9 +60405,15 @@ func (t *Undo) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Undo) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Undo) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Undo) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -55558,15 +60496,27 @@ func (t *Undo) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Undo) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Undo) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Undo) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Undo) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Undo) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Undo) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -55591,9 +60541,15 @@ func (t *Undo) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Undo) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Undo) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Undo) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -55659,9 +60615,15 @@ func (t *Undo) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Undo) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Undo) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Undo) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -55707,9 +60669,15 @@ func (t *Undo) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Undo) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Undo) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Undo) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -55757,9 +60725,15 @@ func (t *Undo) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Undo) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Undo) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Undo) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -55807,9 +60781,15 @@ func (t *Undo) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Undo) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Undo) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Undo) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -55857,9 +60837,15 @@ func (t *Undo) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Undo) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Undo) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Undo) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -56225,9 +61211,15 @@ func (t *Undo) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Undo) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Undo) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Undo) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -56545,9 +61537,15 @@ func (t *Update) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Update) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Update) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Update) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -56593,9 +61591,15 @@ func (t *Update) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Update) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Update) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Update) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -56641,9 +61645,15 @@ func (t *Update) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Update) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Update) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Update) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -56708,15 +61718,27 @@ func (t *Update) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Update) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Update) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Update) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Update) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Update) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Update) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -56761,15 +61783,27 @@ func (t *Update) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Update) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Update) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Update) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Update) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Update) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Update) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -56814,15 +61848,27 @@ func (t *Update) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Update) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Update) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Update) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Update) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Update) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Update) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -56901,15 +61947,27 @@ func (t *Update) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Update) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Update) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Update) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Update) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Update) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Update) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -56937,9 +61995,15 @@ func (t *Update) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Update) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Update) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Update) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -56987,9 +62051,15 @@ func (t *Update) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Update) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Update) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Update) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -57037,9 +62107,15 @@ func (t *Update) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Update) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Update) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Update) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -57122,15 +62198,27 @@ func (t *Update) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Update) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Update) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Update) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Update) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Update) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Update) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -57158,9 +62246,15 @@ func (t *Update) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Update) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Update) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Update) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -57277,15 +62371,27 @@ func (t *Update) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Update) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Update) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Update) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Update) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Update) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Update) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -57313,9 +62419,15 @@ func (t *Update) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Update) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Update) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Update) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -57393,9 +62505,15 @@ func (t *Update) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Update) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Update) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Update) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -57443,9 +62561,15 @@ func (t *Update) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Update) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Update) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Update) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -57510,15 +62634,27 @@ func (t *Update) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Update) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Update) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Update) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Update) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Update) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Update) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -57563,15 +62699,27 @@ func (t *Update) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Update) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Update) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Update) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Update) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Update) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Update) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -57701,9 +62849,15 @@ func (t *Update) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Update) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Update) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Update) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -57786,15 +62940,27 @@ func (t *Update) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Update) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Update) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Update) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Update) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Update) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Update) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -57819,9 +62985,15 @@ func (t *Update) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Update) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Update) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Update) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -57887,9 +63059,15 @@ func (t *Update) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Update) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Update) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Update) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -57935,9 +63113,15 @@ func (t *Update) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Update) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Update) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Update) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -57985,9 +63169,15 @@ func (t *Update) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Update) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Update) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Update) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -58035,9 +63225,15 @@ func (t *Update) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Update) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Update) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Update) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -58085,9 +63281,15 @@ func (t *Update) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Update) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Update) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Update) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -58453,9 +63655,15 @@ func (t *Update) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Update) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Update) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Update) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -58773,9 +63981,15 @@ func (t *View) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *View) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *View) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *View) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -58821,9 +64035,15 @@ func (t *View) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *View) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *View) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *View) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -58869,9 +64089,15 @@ func (t *View) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *View) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *View) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *View) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -58936,15 +64162,27 @@ func (t *View) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *View) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *View) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *View) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *View) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *View) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *View) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -58989,15 +64227,27 @@ func (t *View) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *View) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *View) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *View) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *View) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *View) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *View) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -59042,15 +64292,27 @@ func (t *View) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *View) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *View) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *View) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *View) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *View) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *View) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -59129,15 +64391,27 @@ func (t *View) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *View) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *View) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *View) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *View) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *View) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *View) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -59165,9 +64439,15 @@ func (t *View) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *View) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *View) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *View) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -59215,9 +64495,15 @@ func (t *View) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *View) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *View) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *View) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -59265,9 +64551,15 @@ func (t *View) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *View) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *View) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *View) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -59350,15 +64642,27 @@ func (t *View) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *View) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *View) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *View) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *View) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *View) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *View) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -59386,9 +64690,15 @@ func (t *View) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *View) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *View) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *View) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -59505,15 +64815,27 @@ func (t *View) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *View) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *View) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *View) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *View) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *View) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *View) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -59541,9 +64863,15 @@ func (t *View) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *View) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *View) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *View) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -59621,9 +64949,15 @@ func (t *View) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *View) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *View) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *View) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -59671,9 +65005,15 @@ func (t *View) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *View) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *View) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *View) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -59738,15 +65078,27 @@ func (t *View) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *View) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *View) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *View) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *View) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *View) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *View) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -59791,15 +65143,27 @@ func (t *View) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *View) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *View) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *View) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *View) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *View) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *View) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -59929,9 +65293,15 @@ func (t *View) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *View) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *View) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *View) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -60014,15 +65384,27 @@ func (t *View) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *View) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *View) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *View) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *View) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *View) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *View) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -60047,9 +65429,15 @@ func (t *View) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *View) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *View) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *View) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -60115,9 +65503,15 @@ func (t *View) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *View) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *View) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *View) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -60163,9 +65557,15 @@ func (t *View) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *View) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *View) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *View) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -60213,9 +65613,15 @@ func (t *View) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *View) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *View) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *View) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -60263,9 +65669,15 @@ func (t *View) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *View) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *View) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *View) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -60313,9 +65725,15 @@ func (t *View) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *View) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *View) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *View) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -60681,9 +66099,15 @@ func (t *View) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *View) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *View) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *View) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -61001,9 +66425,15 @@ func (t *Listen) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Listen) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Listen) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Listen) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -61049,9 +66479,15 @@ func (t *Listen) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Listen) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Listen) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Listen) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -61097,9 +66533,15 @@ func (t *Listen) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Listen) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Listen) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Listen) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -61164,15 +66606,27 @@ func (t *Listen) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Listen) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Listen) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Listen) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Listen) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Listen) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Listen) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -61217,15 +66671,27 @@ func (t *Listen) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Listen) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Listen) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Listen) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Listen) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Listen) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Listen) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -61270,15 +66736,27 @@ func (t *Listen) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Listen) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Listen) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Listen) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Listen) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Listen) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Listen) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -61357,15 +66835,27 @@ func (t *Listen) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Listen) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Listen) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Listen) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Listen) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Listen) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Listen) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -61393,9 +66883,15 @@ func (t *Listen) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Listen) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Listen) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Listen) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -61443,9 +66939,15 @@ func (t *Listen) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Listen) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Listen) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Listen) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -61493,9 +66995,15 @@ func (t *Listen) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Listen) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Listen) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Listen) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -61578,15 +67086,27 @@ func (t *Listen) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Listen) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Listen) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Listen) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Listen) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Listen) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Listen) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -61614,9 +67134,15 @@ func (t *Listen) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Listen) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Listen) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Listen) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -61733,15 +67259,27 @@ func (t *Listen) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Listen) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Listen) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Listen) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Listen) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Listen) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Listen) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -61769,9 +67307,15 @@ func (t *Listen) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Listen) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Listen) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Listen) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -61849,9 +67393,15 @@ func (t *Listen) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Listen) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Listen) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Listen) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -61899,9 +67449,15 @@ func (t *Listen) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Listen) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Listen) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Listen) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -61966,15 +67522,27 @@ func (t *Listen) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Listen) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Listen) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Listen) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Listen) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Listen) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Listen) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -62019,15 +67587,27 @@ func (t *Listen) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Listen) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Listen) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Listen) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Listen) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Listen) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Listen) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -62157,9 +67737,15 @@ func (t *Listen) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Listen) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Listen) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Listen) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -62242,15 +67828,27 @@ func (t *Listen) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Listen) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Listen) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Listen) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Listen) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Listen) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Listen) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -62275,9 +67873,15 @@ func (t *Listen) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Listen) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Listen) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Listen) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -62343,9 +67947,15 @@ func (t *Listen) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Listen) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Listen) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Listen) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -62391,9 +68001,15 @@ func (t *Listen) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Listen) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Listen) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Listen) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -62441,9 +68057,15 @@ func (t *Listen) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Listen) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Listen) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Listen) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -62491,9 +68113,15 @@ func (t *Listen) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Listen) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Listen) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Listen) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -62541,9 +68169,15 @@ func (t *Listen) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Listen) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Listen) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Listen) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -62909,9 +68543,15 @@ func (t *Listen) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Listen) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Listen) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Listen) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -63229,9 +68869,15 @@ func (t *Read) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Read) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Read) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Read) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -63277,9 +68923,15 @@ func (t *Read) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Read) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Read) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Read) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -63325,9 +68977,15 @@ func (t *Read) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Read) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Read) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Read) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -63392,15 +69050,27 @@ func (t *Read) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Read) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Read) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Read) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Read) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Read) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Read) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -63445,15 +69115,27 @@ func (t *Read) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Read) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Read) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Read) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Read) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Read) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Read) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -63498,15 +69180,27 @@ func (t *Read) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Read) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Read) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Read) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Read) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Read) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Read) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -63585,15 +69279,27 @@ func (t *Read) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Read) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Read) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Read) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Read) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Read) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Read) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -63621,9 +69327,15 @@ func (t *Read) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Read) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Read) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Read) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -63671,9 +69383,15 @@ func (t *Read) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Read) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Read) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Read) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -63721,9 +69439,15 @@ func (t *Read) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Read) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Read) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Read) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -63806,15 +69530,27 @@ func (t *Read) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Read) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Read) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Read) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Read) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Read) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Read) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -63842,9 +69578,15 @@ func (t *Read) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Read) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Read) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Read) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -63961,15 +69703,27 @@ func (t *Read) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Read) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Read) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Read) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Read) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Read) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Read) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -63997,9 +69751,15 @@ func (t *Read) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Read) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Read) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Read) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -64077,9 +69837,15 @@ func (t *Read) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Read) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Read) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Read) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -64127,9 +69893,15 @@ func (t *Read) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Read) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Read) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Read) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -64194,15 +69966,27 @@ func (t *Read) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Read) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Read) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Read) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Read) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Read) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Read) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -64247,15 +70031,27 @@ func (t *Read) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Read) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Read) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Read) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Read) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Read) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Read) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -64385,9 +70181,15 @@ func (t *Read) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Read) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Read) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Read) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -64470,15 +70272,27 @@ func (t *Read) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Read) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Read) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Read) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Read) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Read) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Read) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -64503,9 +70317,15 @@ func (t *Read) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Read) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Read) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Read) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -64571,9 +70391,15 @@ func (t *Read) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Read) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Read) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Read) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -64619,9 +70445,15 @@ func (t *Read) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Read) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Read) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Read) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -64669,9 +70501,15 @@ func (t *Read) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Read) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Read) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Read) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -64719,9 +70557,15 @@ func (t *Read) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Read) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Read) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Read) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -64769,9 +70613,15 @@ func (t *Read) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Read) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Read) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Read) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -65137,9 +70987,15 @@ func (t *Read) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Read) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Read) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Read) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -65457,9 +71313,15 @@ func (t *Move) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Move) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Move) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Move) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -65505,9 +71367,15 @@ func (t *Move) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Move) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Move) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Move) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -65553,9 +71421,15 @@ func (t *Move) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Move) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Move) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Move) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -65620,15 +71494,27 @@ func (t *Move) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Move) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Move) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Move) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Move) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Move) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Move) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -65673,15 +71559,27 @@ func (t *Move) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Move) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Move) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Move) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Move) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Move) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Move) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -65726,15 +71624,27 @@ func (t *Move) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Move) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Move) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Move) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Move) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Move) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Move) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -65813,15 +71723,27 @@ func (t *Move) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Move) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Move) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Move) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Move) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Move) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Move) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -65849,9 +71771,15 @@ func (t *Move) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Move) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Move) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Move) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -65899,9 +71827,15 @@ func (t *Move) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Move) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Move) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Move) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -65949,9 +71883,15 @@ func (t *Move) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Move) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Move) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Move) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -66034,15 +71974,27 @@ func (t *Move) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Move) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Move) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Move) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Move) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Move) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Move) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -66070,9 +72022,15 @@ func (t *Move) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Move) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Move) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Move) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -66189,15 +72147,27 @@ func (t *Move) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Move) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Move) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Move) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Move) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Move) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Move) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -66225,9 +72195,15 @@ func (t *Move) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Move) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Move) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Move) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -66305,9 +72281,15 @@ func (t *Move) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Move) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Move) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Move) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -66355,9 +72337,15 @@ func (t *Move) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Move) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Move) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Move) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -66422,15 +72410,27 @@ func (t *Move) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Move) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Move) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Move) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Move) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Move) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Move) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -66475,15 +72475,27 @@ func (t *Move) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Move) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Move) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Move) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Move) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Move) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Move) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -66613,9 +72625,15 @@ func (t *Move) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Move) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Move) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Move) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -66698,15 +72716,27 @@ func (t *Move) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Move) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Move) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Move) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Move) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Move) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Move) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -66731,9 +72761,15 @@ func (t *Move) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Move) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Move) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Move) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -66799,9 +72835,15 @@ func (t *Move) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Move) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Move) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Move) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -66847,9 +72889,15 @@ func (t *Move) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Move) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Move) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Move) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -66897,9 +72945,15 @@ func (t *Move) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Move) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Move) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Move) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -66947,9 +73001,15 @@ func (t *Move) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Move) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Move) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Move) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -66997,9 +73057,15 @@ func (t *Move) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Move) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Move) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Move) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -67365,9 +73431,15 @@ func (t *Move) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Move) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Move) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Move) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -67685,9 +73757,15 @@ func (t *Travel) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Travel) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Travel) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Travel) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -67735,9 +73813,15 @@ func (t *Travel) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Travel) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Travel) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Travel) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -67802,15 +73886,27 @@ func (t *Travel) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Travel) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Travel) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Travel) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Travel) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Travel) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Travel) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -67855,15 +73951,27 @@ func (t *Travel) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Travel) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Travel) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Travel) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Travel) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Travel) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Travel) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -67908,15 +74016,27 @@ func (t *Travel) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Travel) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Travel) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Travel) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Travel) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Travel) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Travel) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -67995,15 +74115,27 @@ func (t *Travel) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Travel) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Travel) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Travel) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Travel) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Travel) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Travel) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -68031,9 +74163,15 @@ func (t *Travel) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Travel) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Travel) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Travel) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -68081,9 +74219,15 @@ func (t *Travel) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Travel) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Travel) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Travel) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -68131,9 +74275,15 @@ func (t *Travel) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Travel) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Travel) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Travel) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -68216,15 +74366,27 @@ func (t *Travel) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Travel) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Travel) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Travel) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Travel) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Travel) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Travel) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -68252,9 +74414,15 @@ func (t *Travel) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Travel) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Travel) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Travel) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -68371,15 +74539,27 @@ func (t *Travel) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Travel) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Travel) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Travel) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Travel) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Travel) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Travel) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -68407,9 +74587,15 @@ func (t *Travel) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Travel) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Travel) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Travel) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -68487,9 +74673,15 @@ func (t *Travel) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Travel) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Travel) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Travel) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -68537,9 +74729,15 @@ func (t *Travel) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Travel) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Travel) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Travel) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -68604,15 +74802,27 @@ func (t *Travel) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Travel) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Travel) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Travel) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Travel) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Travel) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Travel) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -68657,15 +74867,27 @@ func (t *Travel) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Travel) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Travel) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Travel) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Travel) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Travel) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Travel) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -68795,9 +75017,15 @@ func (t *Travel) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Travel) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Travel) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Travel) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -68880,15 +75108,27 @@ func (t *Travel) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Travel) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Travel) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Travel) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Travel) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Travel) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Travel) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -68913,9 +75153,15 @@ func (t *Travel) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Travel) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Travel) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Travel) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -68981,9 +75227,15 @@ func (t *Travel) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Travel) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Travel) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Travel) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -69029,9 +75281,15 @@ func (t *Travel) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Travel) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Travel) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Travel) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -69079,9 +75337,15 @@ func (t *Travel) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Travel) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Travel) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Travel) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -69129,9 +75393,15 @@ func (t *Travel) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Travel) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Travel) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Travel) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -69179,9 +75449,15 @@ func (t *Travel) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Travel) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Travel) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Travel) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -69547,9 +75823,15 @@ func (t *Travel) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Travel) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Travel) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Travel) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -69867,9 +76149,15 @@ func (t *Announce) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Announce) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Announce) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Announce) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -69915,9 +76203,15 @@ func (t *Announce) ResolveObject(r *Resolver, idx int) (s Resolution, err error)
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Announce) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Announce) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Announce) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -69963,9 +76257,15 @@ func (t *Announce) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Announce) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Announce) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Announce) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -70030,15 +76330,27 @@ func (t *Announce) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Announce) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Announce) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Announce) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Announce) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Announce) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Announce) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -70083,15 +76395,27 @@ func (t *Announce) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Announce) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Announce) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Announce) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Announce) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Announce) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Announce) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -70136,15 +76460,27 @@ func (t *Announce) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Announce) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Announce) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Announce) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Announce) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Announce) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Announce) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -70223,15 +76559,27 @@ func (t *Announce) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Announce) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Announce) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Announce) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Announce) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Announce) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Announce) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -70259,9 +76607,15 @@ func (t *Announce) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Announce) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Announce) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Announce) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -70309,9 +76663,15 @@ func (t *Announce) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Announce) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Announce) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Announce) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -70359,9 +76719,15 @@ func (t *Announce) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Announce) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Announce) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Announce) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -70444,15 +76810,27 @@ func (t *Announce) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Announce) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Announce) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Announce) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Announce) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Announce) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Announce) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -70480,9 +76858,15 @@ func (t *Announce) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Announce) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Announce) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Announce) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -70599,15 +76983,27 @@ func (t *Announce) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Announce) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Announce) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Announce) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Announce) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Announce) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Announce) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -70635,9 +77031,15 @@ func (t *Announce) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Announce) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Announce) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Announce) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -70715,9 +77117,15 @@ func (t *Announce) ResolveImage(r *Resolver, idx int) (s Resolution, err error) 
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Announce) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Announce) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Announce) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -70765,9 +77173,15 @@ func (t *Announce) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Announce) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Announce) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Announce) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -70832,15 +77246,27 @@ func (t *Announce) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Announce) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Announce) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Announce) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Announce) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Announce) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Announce) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -70885,15 +77311,27 @@ func (t *Announce) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Announce) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Announce) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Announce) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Announce) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Announce) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Announce) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -71023,9 +77461,15 @@ func (t *Announce) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Announce) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Announce) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Announce) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -71108,15 +77552,27 @@ func (t *Announce) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Announce) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Announce) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Announce) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Announce) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Announce) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Announce) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -71141,9 +77597,15 @@ func (t *Announce) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Announce) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Announce) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Announce) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -71209,9 +77671,15 @@ func (t *Announce) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Announce) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Announce) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Announce) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -71257,9 +77725,15 @@ func (t *Announce) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Announce) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Announce) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Announce) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -71307,9 +77781,15 @@ func (t *Announce) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Announce) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Announce) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Announce) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -71357,9 +77837,15 @@ func (t *Announce) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Announce) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Announce) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Announce) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -71407,9 +77893,15 @@ func (t *Announce) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Announce) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Announce) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Announce) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -71775,9 +78267,15 @@ func (t *Announce) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Announce) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Announce) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Announce) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -72095,9 +78593,15 @@ func (t *Block) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Block) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Block) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Block) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -72143,9 +78647,15 @@ func (t *Block) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Block) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Block) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Block) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -72191,9 +78701,15 @@ func (t *Block) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Block) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Block) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Block) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -72258,15 +78774,27 @@ func (t *Block) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Block) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Block) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Block) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Block) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Block) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Block) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -72311,15 +78839,27 @@ func (t *Block) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Block) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Block) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Block) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Block) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Block) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Block) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -72364,15 +78904,27 @@ func (t *Block) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Block) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Block) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Block) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Block) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Block) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Block) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -72451,15 +79003,27 @@ func (t *Block) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Block) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Block) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Block) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Block) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Block) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Block) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -72487,9 +79051,15 @@ func (t *Block) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Block) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Block) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Block) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -72537,9 +79107,15 @@ func (t *Block) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Block) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Block) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Block) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -72587,9 +79163,15 @@ func (t *Block) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Block) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Block) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Block) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -72672,15 +79254,27 @@ func (t *Block) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Block) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Block) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Block) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Block) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Block) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Block) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -72708,9 +79302,15 @@ func (t *Block) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Block) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Block) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Block) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -72827,15 +79427,27 @@ func (t *Block) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Block) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Block) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Block) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Block) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Block) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Block) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -72863,9 +79475,15 @@ func (t *Block) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Block) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Block) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Block) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -72943,9 +79561,15 @@ func (t *Block) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Block) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Block) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Block) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -72993,9 +79617,15 @@ func (t *Block) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Block) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Block) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Block) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -73060,15 +79690,27 @@ func (t *Block) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Block) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Block) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Block) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Block) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Block) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Block) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -73113,15 +79755,27 @@ func (t *Block) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Block) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Block) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Block) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Block) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Block) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Block) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -73251,9 +79905,15 @@ func (t *Block) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Block) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Block) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Block) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -73336,15 +79996,27 @@ func (t *Block) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Block) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Block) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Block) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Block) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Block) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Block) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -73369,9 +80041,15 @@ func (t *Block) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Block) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Block) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Block) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -73437,9 +80115,15 @@ func (t *Block) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Block) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Block) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Block) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -73485,9 +80169,15 @@ func (t *Block) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Block) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Block) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Block) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -73535,9 +80225,15 @@ func (t *Block) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Block) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Block) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Block) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -73585,9 +80281,15 @@ func (t *Block) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Block) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Block) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Block) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -73635,9 +80337,15 @@ func (t *Block) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Block) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Block) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Block) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -74003,9 +80711,15 @@ func (t *Block) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Block) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Block) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Block) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -74323,9 +81037,15 @@ func (t *Flag) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Flag) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Flag) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Flag) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -74371,9 +81091,15 @@ func (t *Flag) ResolveObject(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Flag) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Flag) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Flag) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -74419,9 +81145,15 @@ func (t *Flag) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Flag) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Flag) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Flag) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -74486,15 +81218,27 @@ func (t *Flag) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Flag) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Flag) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Flag) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Flag) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Flag) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Flag) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -74539,15 +81283,27 @@ func (t *Flag) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Flag) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Flag) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Flag) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Flag) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Flag) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Flag) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -74592,15 +81348,27 @@ func (t *Flag) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Flag) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Flag) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Flag) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Flag) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Flag) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Flag) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -74679,15 +81447,27 @@ func (t *Flag) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Flag) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Flag) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Flag) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Flag) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Flag) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Flag) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -74715,9 +81495,15 @@ func (t *Flag) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Flag) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Flag) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Flag) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -74765,9 +81551,15 @@ func (t *Flag) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Flag) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Flag) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Flag) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -74815,9 +81607,15 @@ func (t *Flag) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Flag) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Flag) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Flag) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -74900,15 +81698,27 @@ func (t *Flag) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Flag) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Flag) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Flag) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Flag) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Flag) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Flag) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -74936,9 +81746,15 @@ func (t *Flag) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Flag) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Flag) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Flag) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -75055,15 +81871,27 @@ func (t *Flag) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Flag) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Flag) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Flag) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Flag) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Flag) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Flag) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -75091,9 +81919,15 @@ func (t *Flag) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Flag) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Flag) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Flag) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -75171,9 +82005,15 @@ func (t *Flag) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Flag) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Flag) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Flag) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -75221,9 +82061,15 @@ func (t *Flag) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Flag) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Flag) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Flag) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -75288,15 +82134,27 @@ func (t *Flag) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Flag) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Flag) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Flag) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Flag) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Flag) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Flag) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -75341,15 +82199,27 @@ func (t *Flag) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Flag) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Flag) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Flag) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Flag) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Flag) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Flag) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -75479,9 +82349,15 @@ func (t *Flag) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Flag) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Flag) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Flag) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -75564,15 +82440,27 @@ func (t *Flag) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Flag) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Flag) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Flag) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Flag) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Flag) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Flag) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -75597,9 +82485,15 @@ func (t *Flag) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Flag) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Flag) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Flag) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -75665,9 +82559,15 @@ func (t *Flag) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Flag) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Flag) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Flag) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -75713,9 +82613,15 @@ func (t *Flag) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Flag) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Flag) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Flag) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -75763,9 +82669,15 @@ func (t *Flag) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Flag) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Flag) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Flag) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -75813,9 +82725,15 @@ func (t *Flag) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Flag) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Flag) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Flag) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -75863,9 +82781,15 @@ func (t *Flag) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Flag) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Flag) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Flag) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -76231,9 +83155,15 @@ func (t *Flag) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Flag) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Flag) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Flag) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -76551,9 +83481,15 @@ func (t *Dislike) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Dislike) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Dislike) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Dislike) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -76599,9 +83535,15 @@ func (t *Dislike) ResolveObject(r *Resolver, idx int) (s Resolution, err error) 
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Dislike) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Dislike) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Dislike) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -76647,9 +83589,15 @@ func (t *Dislike) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Dislike) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Dislike) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Dislike) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -76714,15 +83662,27 @@ func (t *Dislike) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Dislike) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Dislike) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Dislike) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Dislike) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Dislike) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Dislike) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -76767,15 +83727,27 @@ func (t *Dislike) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Dislike) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Dislike) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Dislike) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Dislike) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Dislike) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Dislike) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -76820,15 +83792,27 @@ func (t *Dislike) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Dislike) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Dislike) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Dislike) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Dislike) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Dislike) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Dislike) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -76907,15 +83891,27 @@ func (t *Dislike) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Dislike) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Dislike) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Dislike) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Dislike) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Dislike) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Dislike) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -76943,9 +83939,15 @@ func (t *Dislike) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Dislike) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Dislike) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Dislike) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -76993,9 +83995,15 @@ func (t *Dislike) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Dislike) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Dislike) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Dislike) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -77043,9 +84051,15 @@ func (t *Dislike) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Dislike) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Dislike) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Dislike) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -77128,15 +84142,27 @@ func (t *Dislike) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Dislike) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Dislike) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Dislike) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Dislike) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Dislike) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Dislike) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -77164,9 +84190,15 @@ func (t *Dislike) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Dislike) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Dislike) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Dislike) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -77283,15 +84315,27 @@ func (t *Dislike) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Dislike) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Dislike) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Dislike) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Dislike) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Dislike) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Dislike) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -77319,9 +84363,15 @@ func (t *Dislike) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Dislike) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Dislike) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Dislike) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -77399,9 +84449,15 @@ func (t *Dislike) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Dislike) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Dislike) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Dislike) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -77449,9 +84505,15 @@ func (t *Dislike) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Dislike) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Dislike) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Dislike) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -77516,15 +84578,27 @@ func (t *Dislike) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Dislike) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Dislike) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Dislike) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Dislike) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Dislike) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Dislike) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -77569,15 +84643,27 @@ func (t *Dislike) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Dislike) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Dislike) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Dislike) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Dislike) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Dislike) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Dislike) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -77707,9 +84793,15 @@ func (t *Dislike) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Dislike) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Dislike) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Dislike) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -77792,15 +84884,27 @@ func (t *Dislike) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Dislike) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Dislike) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Dislike) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Dislike) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Dislike) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Dislike) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -77825,9 +84929,15 @@ func (t *Dislike) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Dislike) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Dislike) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Dislike) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -77893,9 +85003,15 @@ func (t *Dislike) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Dislike) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Dislike) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Dislike) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -77941,9 +85057,15 @@ func (t *Dislike) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Dislike) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Dislike) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Dislike) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -77991,9 +85113,15 @@ func (t *Dislike) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Dislike) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Dislike) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Dislike) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -78041,9 +85169,15 @@ func (t *Dislike) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Dislike) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Dislike) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Dislike) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -78091,9 +85225,15 @@ func (t *Dislike) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Dislike) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Dislike) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Dislike) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -78459,9 +85599,15 @@ func (t *Dislike) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Dislike) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Dislike) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Dislike) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -78796,15 +85942,27 @@ func (t *Question) HasOneOf(idx int) (p Presence) {
 
 }
 
-// AddOneOf adds an 'Object' typed value.
-func (t *Question) AddOneOf(i vocab.ObjectType) {
-	t.raw.AddOneOfObject(i)
+// AppendOneOf appends an 'Object' typed value.
+func (t *Question) AppendOneOf(i vocab.ObjectType) {
+	t.raw.AppendOneOfObject(i)
 
 }
 
-// SetOneOfLink adds a 'Link' typed value.
-func (t *Question) SetOneOfLink(i vocab.LinkType) {
-	t.raw.AddOneOfLink(i)
+// PrependOneOf prepends an 'Object' typed value.
+func (t *Question) PrependOneOf(i vocab.ObjectType) {
+	t.raw.PrependOneOfObject(i)
+
+}
+
+// AppendOneOfLink appends a 'Link' typed value.
+func (t *Question) AppendOneOfLink(i vocab.LinkType) {
+	t.raw.AppendOneOfLink(i)
+
+}
+
+// PrependOneOfLink prepends a 'Link' typed value.
+func (t *Question) PrependOneOfLink(i vocab.LinkType) {
+	t.raw.PrependOneOfLink(i)
 
 }
 
@@ -78849,15 +86007,27 @@ func (t *Question) HasAnyOf(idx int) (p Presence) {
 
 }
 
-// AddAnyOf adds an 'Object' typed value.
-func (t *Question) AddAnyOf(i vocab.ObjectType) {
-	t.raw.AddAnyOfObject(i)
+// AppendAnyOf appends an 'Object' typed value.
+func (t *Question) AppendAnyOf(i vocab.ObjectType) {
+	t.raw.AppendAnyOfObject(i)
 
 }
 
-// SetAnyOfLink adds a 'Link' typed value.
-func (t *Question) SetAnyOfLink(i vocab.LinkType) {
-	t.raw.AddAnyOfLink(i)
+// PrependAnyOf prepends an 'Object' typed value.
+func (t *Question) PrependAnyOf(i vocab.ObjectType) {
+	t.raw.PrependAnyOfObject(i)
+
+}
+
+// AppendAnyOfLink appends a 'Link' typed value.
+func (t *Question) AppendAnyOfLink(i vocab.LinkType) {
+	t.raw.AppendAnyOfLink(i)
+
+}
+
+// PrependAnyOfLink prepends a 'Link' typed value.
+func (t *Question) PrependAnyOfLink(i vocab.LinkType) {
+	t.raw.PrependAnyOfLink(i)
 
 }
 
@@ -78889,9 +86059,15 @@ func (t *Question) GetClosed(idx int) (r Resolution, k time.Time) {
 
 }
 
-// AddClosed appends the value for property 'closed'.
-func (t *Question) AddClosed(k time.Time) {
-	t.raw.AddClosedDateTime(k)
+// AppendClosed appends the value for property 'closed'.
+func (t *Question) AppendClosed(k time.Time) {
+	t.raw.AppendClosedDateTime(k)
+
+}
+
+// PrependClosed prepends the value for property 'closed'.
+func (t *Question) PrependClosed(k time.Time) {
+	t.raw.PrependClosedDateTime(k)
 
 }
 
@@ -78943,9 +86119,15 @@ func (t *Question) GetActor(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddActor appends the value for property 'actor'.
-func (t *Question) AddActor(k url.URL) {
-	t.raw.AddActorIRI(k)
+// AppendActor appends the value for property 'actor'.
+func (t *Question) AppendActor(k url.URL) {
+	t.raw.AppendActorIRI(k)
+
+}
+
+// PrependActor prepends the value for property 'actor'.
+func (t *Question) PrependActor(k url.URL) {
+	t.raw.PrependActorIRI(k)
 
 }
 
@@ -78993,9 +86175,15 @@ func (t *Question) GetTarget(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTarget appends the value for property 'target'.
-func (t *Question) AddTarget(k url.URL) {
-	t.raw.AddTargetIRI(k)
+// AppendTarget appends the value for property 'target'.
+func (t *Question) AppendTarget(k url.URL) {
+	t.raw.AppendTargetIRI(k)
+
+}
+
+// PrependTarget prepends the value for property 'target'.
+func (t *Question) PrependTarget(k url.URL) {
+	t.raw.PrependTargetIRI(k)
 
 }
 
@@ -79060,15 +86248,27 @@ func (t *Question) HasResult(idx int) (p Presence) {
 
 }
 
-// AddResult adds an 'Object' typed value.
-func (t *Question) AddResult(i vocab.ObjectType) {
-	t.raw.AddResultObject(i)
+// AppendResult appends an 'Object' typed value.
+func (t *Question) AppendResult(i vocab.ObjectType) {
+	t.raw.AppendResultObject(i)
 
 }
 
-// SetResultLink adds a 'Link' typed value.
-func (t *Question) SetResultLink(i vocab.LinkType) {
-	t.raw.AddResultLink(i)
+// PrependResult prepends an 'Object' typed value.
+func (t *Question) PrependResult(i vocab.ObjectType) {
+	t.raw.PrependResultObject(i)
+
+}
+
+// AppendResultLink appends a 'Link' typed value.
+func (t *Question) AppendResultLink(i vocab.LinkType) {
+	t.raw.AppendResultLink(i)
+
+}
+
+// PrependResultLink prepends a 'Link' typed value.
+func (t *Question) PrependResultLink(i vocab.LinkType) {
+	t.raw.PrependResultLink(i)
 
 }
 
@@ -79113,15 +86313,27 @@ func (t *Question) HasOrigin(idx int) (p Presence) {
 
 }
 
-// AddOrigin adds an 'Object' typed value.
-func (t *Question) AddOrigin(i vocab.ObjectType) {
-	t.raw.AddOriginObject(i)
+// AppendOrigin appends an 'Object' typed value.
+func (t *Question) AppendOrigin(i vocab.ObjectType) {
+	t.raw.AppendOriginObject(i)
 
 }
 
-// SetOriginLink adds a 'Link' typed value.
-func (t *Question) SetOriginLink(i vocab.LinkType) {
-	t.raw.AddOriginLink(i)
+// PrependOrigin prepends an 'Object' typed value.
+func (t *Question) PrependOrigin(i vocab.ObjectType) {
+	t.raw.PrependOriginObject(i)
+
+}
+
+// AppendOriginLink appends a 'Link' typed value.
+func (t *Question) AppendOriginLink(i vocab.LinkType) {
+	t.raw.AppendOriginLink(i)
+
+}
+
+// PrependOriginLink prepends a 'Link' typed value.
+func (t *Question) PrependOriginLink(i vocab.LinkType) {
+	t.raw.PrependOriginLink(i)
 
 }
 
@@ -79166,15 +86378,27 @@ func (t *Question) HasInstrument(idx int) (p Presence) {
 
 }
 
-// AddInstrument adds an 'Object' typed value.
-func (t *Question) AddInstrument(i vocab.ObjectType) {
-	t.raw.AddInstrumentObject(i)
+// AppendInstrument appends an 'Object' typed value.
+func (t *Question) AppendInstrument(i vocab.ObjectType) {
+	t.raw.AppendInstrumentObject(i)
 
 }
 
-// SetInstrumentLink adds a 'Link' typed value.
-func (t *Question) SetInstrumentLink(i vocab.LinkType) {
-	t.raw.AddInstrumentLink(i)
+// PrependInstrument prepends an 'Object' typed value.
+func (t *Question) PrependInstrument(i vocab.ObjectType) {
+	t.raw.PrependInstrumentObject(i)
+
+}
+
+// AppendInstrumentLink appends a 'Link' typed value.
+func (t *Question) AppendInstrumentLink(i vocab.LinkType) {
+	t.raw.AppendInstrumentLink(i)
+
+}
+
+// PrependInstrumentLink prepends a 'Link' typed value.
+func (t *Question) PrependInstrumentLink(i vocab.LinkType) {
+	t.raw.PrependInstrumentLink(i)
 
 }
 
@@ -79253,15 +86477,27 @@ func (t *Question) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Question) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Question) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Question) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Question) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Question) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Question) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -79289,9 +86525,15 @@ func (t *Question) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Question) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Question) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Question) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -79339,9 +86581,15 @@ func (t *Question) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Question) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Question) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Question) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -79389,9 +86637,15 @@ func (t *Question) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Question) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Question) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Question) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -79474,15 +86728,27 @@ func (t *Question) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Question) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Question) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Question) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Question) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Question) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Question) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -79510,9 +86776,15 @@ func (t *Question) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Question) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Question) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Question) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -79629,15 +86901,27 @@ func (t *Question) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Question) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Question) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Question) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Question) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Question) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Question) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -79665,9 +86949,15 @@ func (t *Question) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Question) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Question) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Question) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -79745,9 +87035,15 @@ func (t *Question) ResolveImage(r *Resolver, idx int) (s Resolution, err error) 
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Question) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Question) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Question) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -79795,9 +87091,15 @@ func (t *Question) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Question) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Question) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Question) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -79862,15 +87164,27 @@ func (t *Question) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Question) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Question) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Question) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Question) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Question) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Question) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -79915,15 +87229,27 @@ func (t *Question) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Question) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Question) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Question) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Question) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Question) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Question) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -80053,9 +87379,15 @@ func (t *Question) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Question) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Question) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Question) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -80138,15 +87470,27 @@ func (t *Question) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Question) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Question) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Question) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Question) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Question) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Question) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -80171,9 +87515,15 @@ func (t *Question) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Question) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Question) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Question) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -80239,9 +87589,15 @@ func (t *Question) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Question) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Question) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Question) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -80287,9 +87643,15 @@ func (t *Question) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Question) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Question) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Question) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -80337,9 +87699,15 @@ func (t *Question) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Question) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Question) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Question) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -80387,9 +87755,15 @@ func (t *Question) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Question) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Question) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Question) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -80437,9 +87811,15 @@ func (t *Question) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Question) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Question) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Question) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -80805,9 +88185,15 @@ func (t *Question) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Question) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Question) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Question) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -81176,15 +88562,27 @@ func (t *Application) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Application) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Application) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Application) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Application) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Application) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Application) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -81212,9 +88610,15 @@ func (t *Application) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Application) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Application) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Application) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -81262,9 +88666,15 @@ func (t *Application) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Application) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Application) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Application) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -81312,9 +88722,15 @@ func (t *Application) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Application) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Application) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Application) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -81397,15 +88813,27 @@ func (t *Application) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Application) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Application) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Application) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Application) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Application) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Application) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -81433,9 +88861,15 @@ func (t *Application) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Application) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Application) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Application) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -81552,15 +88986,27 @@ func (t *Application) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Application) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Application) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Application) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Application) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Application) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Application) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -81588,9 +89034,15 @@ func (t *Application) ResolveIcon(r *Resolver, idx int) (s Resolution, err error
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Application) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Application) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Application) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -81668,9 +89120,15 @@ func (t *Application) ResolveImage(r *Resolver, idx int) (s Resolution, err erro
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Application) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Application) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Application) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -81718,9 +89176,15 @@ func (t *Application) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Application) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Application) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Application) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -81785,15 +89249,27 @@ func (t *Application) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Application) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Application) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Application) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Application) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Application) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Application) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -81838,15 +89314,27 @@ func (t *Application) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Application) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Application) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Application) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Application) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Application) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Application) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -81976,9 +89464,15 @@ func (t *Application) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Application) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Application) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Application) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -82061,15 +89555,27 @@ func (t *Application) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Application) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Application) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Application) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Application) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Application) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Application) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -82094,9 +89600,15 @@ func (t *Application) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Application) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Application) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Application) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -82162,9 +89674,15 @@ func (t *Application) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Application) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Application) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Application) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -82210,9 +89728,15 @@ func (t *Application) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Application) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Application) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Application) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -82260,9 +89784,15 @@ func (t *Application) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Application) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Application) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Application) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -82310,9 +89840,15 @@ func (t *Application) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Application) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Application) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Application) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -82360,9 +89896,15 @@ func (t *Application) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Application) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Application) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Application) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -82728,9 +90270,15 @@ func (t *Application) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Application) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Application) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Application) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -83099,15 +90647,27 @@ func (t *Group) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Group) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Group) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Group) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Group) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Group) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Group) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -83135,9 +90695,15 @@ func (t *Group) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Group) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Group) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Group) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -83185,9 +90751,15 @@ func (t *Group) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Group) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Group) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Group) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -83235,9 +90807,15 @@ func (t *Group) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Group) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Group) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Group) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -83320,15 +90898,27 @@ func (t *Group) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Group) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Group) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Group) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Group) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Group) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Group) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -83356,9 +90946,15 @@ func (t *Group) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Group) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Group) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Group) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -83475,15 +91071,27 @@ func (t *Group) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Group) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Group) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Group) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Group) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Group) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Group) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -83511,9 +91119,15 @@ func (t *Group) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Group) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Group) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Group) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -83591,9 +91205,15 @@ func (t *Group) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Group) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Group) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Group) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -83641,9 +91261,15 @@ func (t *Group) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Group) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Group) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Group) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -83708,15 +91334,27 @@ func (t *Group) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Group) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Group) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Group) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Group) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Group) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Group) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -83761,15 +91399,27 @@ func (t *Group) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Group) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Group) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Group) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Group) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Group) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Group) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -83899,9 +91549,15 @@ func (t *Group) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Group) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Group) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Group) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -83984,15 +91640,27 @@ func (t *Group) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Group) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Group) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Group) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Group) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Group) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Group) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -84017,9 +91685,15 @@ func (t *Group) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Group) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Group) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Group) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -84085,9 +91759,15 @@ func (t *Group) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Group) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Group) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Group) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -84133,9 +91813,15 @@ func (t *Group) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Group) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Group) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Group) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -84183,9 +91869,15 @@ func (t *Group) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Group) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Group) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Group) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -84233,9 +91925,15 @@ func (t *Group) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Group) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Group) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Group) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -84283,9 +91981,15 @@ func (t *Group) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Group) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Group) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Group) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -84651,9 +92355,15 @@ func (t *Group) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Group) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Group) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Group) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -85022,15 +92732,27 @@ func (t *Organization) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Organization) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Organization) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Organization) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Organization) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Organization) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Organization) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -85058,9 +92780,15 @@ func (t *Organization) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Organization) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Organization) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Organization) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -85108,9 +92836,15 @@ func (t *Organization) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Organization) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Organization) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Organization) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -85158,9 +92892,15 @@ func (t *Organization) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Organization) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Organization) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Organization) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -85243,15 +92983,27 @@ func (t *Organization) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Organization) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Organization) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Organization) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Organization) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Organization) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Organization) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -85279,9 +93031,15 @@ func (t *Organization) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Organization) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Organization) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Organization) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -85398,15 +93156,27 @@ func (t *Organization) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Organization) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Organization) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Organization) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Organization) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Organization) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Organization) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -85434,9 +93204,15 @@ func (t *Organization) ResolveIcon(r *Resolver, idx int) (s Resolution, err erro
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Organization) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Organization) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Organization) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -85514,9 +93290,15 @@ func (t *Organization) ResolveImage(r *Resolver, idx int) (s Resolution, err err
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Organization) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Organization) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Organization) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -85564,9 +93346,15 @@ func (t *Organization) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Organization) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Organization) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Organization) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -85631,15 +93419,27 @@ func (t *Organization) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Organization) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Organization) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Organization) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Organization) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Organization) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Organization) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -85684,15 +93484,27 @@ func (t *Organization) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Organization) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Organization) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Organization) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Organization) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Organization) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Organization) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -85822,9 +93634,15 @@ func (t *Organization) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Organization) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Organization) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Organization) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -85907,15 +93725,27 @@ func (t *Organization) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Organization) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Organization) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Organization) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Organization) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Organization) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Organization) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -85940,9 +93770,15 @@ func (t *Organization) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Organization) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Organization) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Organization) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -86008,9 +93844,15 @@ func (t *Organization) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Organization) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Organization) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Organization) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -86056,9 +93898,15 @@ func (t *Organization) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Organization) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Organization) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Organization) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -86106,9 +93954,15 @@ func (t *Organization) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Organization) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Organization) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Organization) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -86156,9 +94010,15 @@ func (t *Organization) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Organization) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Organization) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Organization) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -86206,9 +94066,15 @@ func (t *Organization) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Organization) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Organization) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Organization) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -86574,9 +94440,15 @@ func (t *Organization) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Organization) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Organization) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Organization) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -86945,15 +94817,27 @@ func (t *Person) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Person) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Person) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Person) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Person) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Person) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Person) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -86981,9 +94865,15 @@ func (t *Person) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Person) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Person) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Person) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -87031,9 +94921,15 @@ func (t *Person) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Person) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Person) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Person) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -87081,9 +94977,15 @@ func (t *Person) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Person) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Person) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Person) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -87166,15 +95068,27 @@ func (t *Person) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Person) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Person) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Person) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Person) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Person) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Person) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -87202,9 +95116,15 @@ func (t *Person) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Person) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Person) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Person) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -87321,15 +95241,27 @@ func (t *Person) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Person) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Person) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Person) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Person) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Person) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Person) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -87357,9 +95289,15 @@ func (t *Person) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Person) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Person) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Person) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -87437,9 +95375,15 @@ func (t *Person) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Person) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Person) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Person) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -87487,9 +95431,15 @@ func (t *Person) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Person) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Person) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Person) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -87554,15 +95504,27 @@ func (t *Person) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Person) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Person) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Person) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Person) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Person) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Person) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -87607,15 +95569,27 @@ func (t *Person) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Person) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Person) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Person) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Person) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Person) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Person) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -87745,9 +95719,15 @@ func (t *Person) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Person) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Person) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Person) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -87830,15 +95810,27 @@ func (t *Person) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Person) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Person) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Person) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Person) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Person) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Person) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -87863,9 +95855,15 @@ func (t *Person) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Person) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Person) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Person) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -87931,9 +95929,15 @@ func (t *Person) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Person) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Person) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Person) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -87979,9 +95983,15 @@ func (t *Person) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Person) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Person) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Person) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -88029,9 +96039,15 @@ func (t *Person) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Person) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Person) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Person) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -88079,9 +96095,15 @@ func (t *Person) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Person) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Person) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Person) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -88129,9 +96151,15 @@ func (t *Person) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Person) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Person) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Person) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -88497,9 +96525,15 @@ func (t *Person) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Person) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Person) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Person) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -88868,15 +96902,27 @@ func (t *Service) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Service) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Service) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Service) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Service) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Service) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Service) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -88904,9 +96950,15 @@ func (t *Service) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Service) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Service) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Service) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -88954,9 +97006,15 @@ func (t *Service) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Service) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Service) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Service) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -89004,9 +97062,15 @@ func (t *Service) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Service) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Service) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Service) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -89089,15 +97153,27 @@ func (t *Service) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Service) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Service) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Service) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Service) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Service) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Service) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -89125,9 +97201,15 @@ func (t *Service) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Service) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Service) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Service) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -89244,15 +97326,27 @@ func (t *Service) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Service) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Service) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Service) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Service) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Service) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Service) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -89280,9 +97374,15 @@ func (t *Service) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Service) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Service) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Service) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -89360,9 +97460,15 @@ func (t *Service) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Service) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Service) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Service) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -89410,9 +97516,15 @@ func (t *Service) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Service) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Service) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Service) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -89477,15 +97589,27 @@ func (t *Service) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Service) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Service) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Service) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Service) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Service) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Service) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -89530,15 +97654,27 @@ func (t *Service) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Service) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Service) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Service) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Service) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Service) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Service) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -89668,9 +97804,15 @@ func (t *Service) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Service) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Service) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Service) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -89753,15 +97895,27 @@ func (t *Service) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Service) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Service) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Service) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Service) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Service) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Service) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -89786,9 +97940,15 @@ func (t *Service) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Service) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Service) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Service) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -89854,9 +98014,15 @@ func (t *Service) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Service) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Service) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Service) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -89902,9 +98068,15 @@ func (t *Service) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Service) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Service) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Service) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -89952,9 +98124,15 @@ func (t *Service) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Service) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Service) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Service) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -90002,9 +98180,15 @@ func (t *Service) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Service) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Service) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Service) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -90052,9 +98236,15 @@ func (t *Service) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Service) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Service) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Service) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -90420,9 +98610,15 @@ func (t *Service) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Service) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Service) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Service) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -90785,9 +98981,15 @@ func (t *Relationship) ResolveObject(r *Resolver, idx int) (s Resolution, err er
 
 }
 
-// AddObject appends the value for property 'object'.
-func (t *Relationship) AddObject(i vocab.ObjectType) {
-	t.raw.AddObject(i)
+// AppendObject appends the value for property 'object'.
+func (t *Relationship) AppendObject(i vocab.ObjectType) {
+	t.raw.AppendObject(i)
+
+}
+
+// PrependObject prepends the value for property 'object'.
+func (t *Relationship) PrependObject(i vocab.ObjectType) {
+	t.raw.PrependObject(i)
 
 }
 
@@ -90918,15 +99120,27 @@ func (t *Relationship) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Relationship) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Relationship) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Relationship) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Relationship) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Relationship) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Relationship) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -90954,9 +99168,15 @@ func (t *Relationship) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Relationship) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Relationship) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Relationship) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -91004,9 +99224,15 @@ func (t *Relationship) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Relationship) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Relationship) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Relationship) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -91054,9 +99280,15 @@ func (t *Relationship) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Relationship) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Relationship) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Relationship) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -91139,15 +99371,27 @@ func (t *Relationship) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Relationship) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Relationship) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Relationship) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Relationship) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Relationship) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Relationship) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -91175,9 +99419,15 @@ func (t *Relationship) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Relationship) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Relationship) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Relationship) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -91294,15 +99544,27 @@ func (t *Relationship) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Relationship) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Relationship) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Relationship) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Relationship) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Relationship) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Relationship) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -91330,9 +99592,15 @@ func (t *Relationship) ResolveIcon(r *Resolver, idx int) (s Resolution, err erro
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Relationship) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Relationship) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Relationship) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -91410,9 +99678,15 @@ func (t *Relationship) ResolveImage(r *Resolver, idx int) (s Resolution, err err
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Relationship) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Relationship) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Relationship) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -91460,9 +99734,15 @@ func (t *Relationship) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Relationship) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Relationship) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Relationship) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -91527,15 +99807,27 @@ func (t *Relationship) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Relationship) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Relationship) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Relationship) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Relationship) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Relationship) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Relationship) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -91580,15 +99872,27 @@ func (t *Relationship) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Relationship) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Relationship) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Relationship) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Relationship) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Relationship) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Relationship) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -91718,9 +100022,15 @@ func (t *Relationship) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Relationship) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Relationship) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Relationship) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -91803,15 +100113,27 @@ func (t *Relationship) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Relationship) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Relationship) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Relationship) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Relationship) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Relationship) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Relationship) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -91836,9 +100158,15 @@ func (t *Relationship) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Relationship) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Relationship) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Relationship) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -91904,9 +100232,15 @@ func (t *Relationship) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Relationship) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Relationship) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Relationship) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -91952,9 +100286,15 @@ func (t *Relationship) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Relationship) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Relationship) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Relationship) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -92002,9 +100342,15 @@ func (t *Relationship) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Relationship) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Relationship) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Relationship) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -92052,9 +100398,15 @@ func (t *Relationship) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Relationship) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Relationship) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Relationship) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -92102,9 +100454,15 @@ func (t *Relationship) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Relationship) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Relationship) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Relationship) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -92470,9 +100828,15 @@ func (t *Relationship) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Relationship) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Relationship) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Relationship) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -92841,15 +101205,27 @@ func (t *Article) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Article) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Article) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Article) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Article) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Article) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Article) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -92877,9 +101253,15 @@ func (t *Article) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Article) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Article) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Article) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -92927,9 +101309,15 @@ func (t *Article) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Article) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Article) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Article) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -92977,9 +101365,15 @@ func (t *Article) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Article) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Article) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Article) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -93062,15 +101456,27 @@ func (t *Article) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Article) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Article) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Article) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Article) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Article) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Article) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -93098,9 +101504,15 @@ func (t *Article) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Article) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Article) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Article) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -93217,15 +101629,27 @@ func (t *Article) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Article) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Article) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Article) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Article) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Article) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Article) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -93253,9 +101677,15 @@ func (t *Article) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Article) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Article) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Article) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -93333,9 +101763,15 @@ func (t *Article) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Article) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Article) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Article) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -93383,9 +101819,15 @@ func (t *Article) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Article) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Article) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Article) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -93450,15 +101892,27 @@ func (t *Article) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Article) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Article) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Article) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Article) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Article) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Article) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -93503,15 +101957,27 @@ func (t *Article) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Article) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Article) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Article) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Article) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Article) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Article) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -93641,9 +102107,15 @@ func (t *Article) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Article) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Article) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Article) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -93726,15 +102198,27 @@ func (t *Article) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Article) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Article) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Article) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Article) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Article) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Article) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -93759,9 +102243,15 @@ func (t *Article) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Article) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Article) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Article) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -93827,9 +102317,15 @@ func (t *Article) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Article) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Article) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Article) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -93875,9 +102371,15 @@ func (t *Article) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Article) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Article) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Article) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -93925,9 +102427,15 @@ func (t *Article) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Article) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Article) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Article) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -93975,9 +102483,15 @@ func (t *Article) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Article) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Article) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Article) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -94025,9 +102539,15 @@ func (t *Article) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Article) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Article) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Article) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -94393,9 +102913,15 @@ func (t *Article) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Article) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Article) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Article) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -94764,15 +103290,27 @@ func (t *Document) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Document) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Document) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Document) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Document) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Document) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Document) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -94800,9 +103338,15 @@ func (t *Document) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Document) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Document) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Document) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -94850,9 +103394,15 @@ func (t *Document) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Document) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Document) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Document) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -94900,9 +103450,15 @@ func (t *Document) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Document) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Document) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Document) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -94985,15 +103541,27 @@ func (t *Document) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Document) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Document) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Document) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Document) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Document) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Document) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -95021,9 +103589,15 @@ func (t *Document) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Document) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Document) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Document) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -95140,15 +103714,27 @@ func (t *Document) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Document) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Document) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Document) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Document) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Document) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Document) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -95176,9 +103762,15 @@ func (t *Document) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Document) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Document) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Document) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -95256,9 +103848,15 @@ func (t *Document) ResolveImage(r *Resolver, idx int) (s Resolution, err error) 
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Document) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Document) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Document) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -95306,9 +103904,15 @@ func (t *Document) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Document) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Document) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Document) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -95373,15 +103977,27 @@ func (t *Document) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Document) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Document) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Document) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Document) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Document) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Document) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -95426,15 +104042,27 @@ func (t *Document) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Document) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Document) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Document) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Document) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Document) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Document) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -95564,9 +104192,15 @@ func (t *Document) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Document) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Document) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Document) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -95649,15 +104283,27 @@ func (t *Document) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Document) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Document) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Document) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Document) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Document) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Document) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -95682,9 +104328,15 @@ func (t *Document) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Document) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Document) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Document) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -95750,9 +104402,15 @@ func (t *Document) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Document) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Document) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Document) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -95798,9 +104456,15 @@ func (t *Document) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Document) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Document) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Document) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -95848,9 +104512,15 @@ func (t *Document) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Document) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Document) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Document) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -95898,9 +104568,15 @@ func (t *Document) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Document) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Document) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Document) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -95948,9 +104624,15 @@ func (t *Document) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Document) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Document) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Document) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -96316,9 +104998,15 @@ func (t *Document) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Document) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Document) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Document) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -96687,15 +105375,27 @@ func (t *Audio) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Audio) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Audio) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Audio) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Audio) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Audio) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Audio) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -96723,9 +105423,15 @@ func (t *Audio) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Audio) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Audio) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Audio) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -96773,9 +105479,15 @@ func (t *Audio) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Audio) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Audio) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Audio) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -96823,9 +105535,15 @@ func (t *Audio) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Audio) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Audio) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Audio) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -96908,15 +105626,27 @@ func (t *Audio) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Audio) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Audio) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Audio) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Audio) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Audio) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Audio) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -96944,9 +105674,15 @@ func (t *Audio) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Audio) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Audio) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Audio) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -97063,15 +105799,27 @@ func (t *Audio) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Audio) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Audio) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Audio) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Audio) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Audio) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Audio) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -97099,9 +105847,15 @@ func (t *Audio) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Audio) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Audio) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Audio) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -97179,9 +105933,15 @@ func (t *Audio) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Audio) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Audio) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Audio) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -97229,9 +105989,15 @@ func (t *Audio) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Audio) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Audio) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Audio) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -97296,15 +106062,27 @@ func (t *Audio) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Audio) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Audio) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Audio) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Audio) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Audio) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Audio) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -97349,15 +106127,27 @@ func (t *Audio) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Audio) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Audio) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Audio) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Audio) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Audio) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Audio) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -97487,9 +106277,15 @@ func (t *Audio) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Audio) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Audio) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Audio) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -97572,15 +106368,27 @@ func (t *Audio) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Audio) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Audio) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Audio) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Audio) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Audio) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Audio) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -97605,9 +106413,15 @@ func (t *Audio) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Audio) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Audio) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Audio) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -97673,9 +106487,15 @@ func (t *Audio) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Audio) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Audio) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Audio) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -97721,9 +106541,15 @@ func (t *Audio) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Audio) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Audio) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Audio) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -97771,9 +106597,15 @@ func (t *Audio) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Audio) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Audio) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Audio) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -97821,9 +106653,15 @@ func (t *Audio) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Audio) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Audio) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Audio) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -97871,9 +106709,15 @@ func (t *Audio) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Audio) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Audio) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Audio) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -98239,9 +107083,15 @@ func (t *Audio) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Audio) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Audio) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Audio) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -98678,15 +107528,27 @@ func (t *Image) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Image) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Image) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Image) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Image) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Image) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Image) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -98714,9 +107576,15 @@ func (t *Image) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Image) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Image) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Image) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -98764,9 +107632,15 @@ func (t *Image) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Image) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Image) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Image) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -98814,9 +107688,15 @@ func (t *Image) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Image) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Image) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Image) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -98899,15 +107779,27 @@ func (t *Image) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Image) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Image) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Image) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Image) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Image) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Image) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -98935,9 +107827,15 @@ func (t *Image) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Image) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Image) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Image) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -99054,15 +107952,27 @@ func (t *Image) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Image) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Image) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Image) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Image) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Image) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Image) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -99090,9 +108000,15 @@ func (t *Image) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Image) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Image) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Image) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -99170,9 +108086,15 @@ func (t *Image) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Image) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Image) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Image) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -99220,9 +108142,15 @@ func (t *Image) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Image) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Image) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Image) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -99287,15 +108215,27 @@ func (t *Image) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Image) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Image) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Image) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Image) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Image) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Image) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -99340,15 +108280,27 @@ func (t *Image) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Image) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Image) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Image) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Image) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Image) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Image) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -99478,9 +108430,15 @@ func (t *Image) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Image) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Image) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Image) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -99563,15 +108521,27 @@ func (t *Image) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Image) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Image) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Image) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Image) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Image) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Image) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -99596,9 +108566,15 @@ func (t *Image) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Image) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Image) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Image) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -99664,9 +108640,15 @@ func (t *Image) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Image) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Image) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Image) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -99712,9 +108694,15 @@ func (t *Image) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Image) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Image) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Image) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -99762,9 +108750,15 @@ func (t *Image) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Image) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Image) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Image) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -99812,9 +108806,15 @@ func (t *Image) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Image) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Image) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Image) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -99862,9 +108862,15 @@ func (t *Image) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Image) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Image) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Image) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -100230,9 +109236,15 @@ func (t *Image) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Image) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Image) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Image) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -100601,15 +109613,27 @@ func (t *Video) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Video) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Video) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Video) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Video) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Video) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Video) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -100637,9 +109661,15 @@ func (t *Video) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Video) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Video) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Video) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -100687,9 +109717,15 @@ func (t *Video) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Video) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Video) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Video) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -100737,9 +109773,15 @@ func (t *Video) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Video) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Video) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Video) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -100822,15 +109864,27 @@ func (t *Video) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Video) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Video) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Video) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Video) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Video) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Video) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -100858,9 +109912,15 @@ func (t *Video) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Video) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Video) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Video) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -100977,15 +110037,27 @@ func (t *Video) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Video) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Video) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Video) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Video) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Video) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Video) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -101013,9 +110085,15 @@ func (t *Video) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Video) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Video) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Video) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -101093,9 +110171,15 @@ func (t *Video) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Video) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Video) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Video) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -101143,9 +110227,15 @@ func (t *Video) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Video) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Video) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Video) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -101210,15 +110300,27 @@ func (t *Video) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Video) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Video) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Video) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Video) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Video) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Video) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -101263,15 +110365,27 @@ func (t *Video) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Video) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Video) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Video) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Video) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Video) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Video) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -101401,9 +110515,15 @@ func (t *Video) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Video) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Video) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Video) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -101486,15 +110606,27 @@ func (t *Video) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Video) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Video) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Video) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Video) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Video) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Video) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -101519,9 +110651,15 @@ func (t *Video) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Video) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Video) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Video) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -101587,9 +110725,15 @@ func (t *Video) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Video) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Video) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Video) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -101635,9 +110779,15 @@ func (t *Video) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Video) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Video) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Video) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -101685,9 +110835,15 @@ func (t *Video) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Video) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Video) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Video) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -101735,9 +110891,15 @@ func (t *Video) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Video) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Video) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Video) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -101785,9 +110947,15 @@ func (t *Video) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Video) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Video) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Video) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -102153,9 +111321,15 @@ func (t *Video) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Video) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Video) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Video) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -102524,15 +111698,27 @@ func (t *Note) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Note) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Note) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Note) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Note) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Note) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Note) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -102560,9 +111746,15 @@ func (t *Note) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Note) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Note) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Note) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -102610,9 +111802,15 @@ func (t *Note) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Note) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Note) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Note) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -102660,9 +111858,15 @@ func (t *Note) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Note) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Note) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Note) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -102745,15 +111949,27 @@ func (t *Note) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Note) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Note) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Note) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Note) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Note) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Note) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -102781,9 +111997,15 @@ func (t *Note) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Note) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Note) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Note) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -102900,15 +112122,27 @@ func (t *Note) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Note) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Note) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Note) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Note) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Note) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Note) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -102936,9 +112170,15 @@ func (t *Note) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Note) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Note) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Note) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -103016,9 +112256,15 @@ func (t *Note) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Note) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Note) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Note) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -103066,9 +112312,15 @@ func (t *Note) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Note) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Note) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Note) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -103133,15 +112385,27 @@ func (t *Note) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Note) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Note) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Note) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Note) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Note) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Note) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -103186,15 +112450,27 @@ func (t *Note) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Note) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Note) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Note) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Note) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Note) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Note) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -103324,9 +112600,15 @@ func (t *Note) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Note) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Note) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Note) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -103409,15 +112691,27 @@ func (t *Note) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Note) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Note) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Note) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Note) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Note) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Note) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -103442,9 +112736,15 @@ func (t *Note) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Note) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Note) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Note) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -103510,9 +112810,15 @@ func (t *Note) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Note) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Note) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Note) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -103558,9 +112864,15 @@ func (t *Note) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Note) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Note) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Note) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -103608,9 +112920,15 @@ func (t *Note) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Note) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Note) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Note) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -103658,9 +112976,15 @@ func (t *Note) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Note) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Note) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Note) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -103708,9 +113032,15 @@ func (t *Note) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Note) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Note) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Note) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -104076,9 +113406,15 @@ func (t *Note) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Note) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Note) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Note) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -104447,15 +113783,27 @@ func (t *Page) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Page) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Page) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Page) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Page) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Page) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Page) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -104483,9 +113831,15 @@ func (t *Page) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Page) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Page) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Page) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -104533,9 +113887,15 @@ func (t *Page) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Page) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Page) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Page) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -104583,9 +113943,15 @@ func (t *Page) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Page) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Page) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Page) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -104668,15 +114034,27 @@ func (t *Page) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Page) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Page) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Page) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Page) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Page) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Page) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -104704,9 +114082,15 @@ func (t *Page) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Page) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Page) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Page) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -104823,15 +114207,27 @@ func (t *Page) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Page) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Page) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Page) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Page) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Page) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Page) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -104859,9 +114255,15 @@ func (t *Page) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Page) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Page) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Page) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -104939,9 +114341,15 @@ func (t *Page) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Page) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Page) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Page) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -104989,9 +114397,15 @@ func (t *Page) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Page) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Page) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Page) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -105056,15 +114470,27 @@ func (t *Page) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Page) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Page) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Page) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Page) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Page) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Page) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -105109,15 +114535,27 @@ func (t *Page) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Page) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Page) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Page) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Page) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Page) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Page) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -105247,9 +114685,15 @@ func (t *Page) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Page) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Page) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Page) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -105332,15 +114776,27 @@ func (t *Page) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Page) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Page) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Page) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Page) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Page) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Page) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -105365,9 +114821,15 @@ func (t *Page) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Page) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Page) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Page) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -105433,9 +114895,15 @@ func (t *Page) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Page) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Page) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Page) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -105481,9 +114949,15 @@ func (t *Page) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Page) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Page) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Page) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -105531,9 +115005,15 @@ func (t *Page) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Page) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Page) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Page) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -105581,9 +115061,15 @@ func (t *Page) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Page) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Page) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Page) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -105631,9 +115117,15 @@ func (t *Page) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Page) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Page) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Page) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -105999,9 +115491,15 @@ func (t *Page) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Page) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Page) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Page) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -106370,15 +115868,27 @@ func (t *Event) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Event) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Event) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Event) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Event) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Event) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Event) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -106406,9 +115916,15 @@ func (t *Event) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Event) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Event) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Event) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -106456,9 +115972,15 @@ func (t *Event) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Event) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Event) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Event) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -106506,9 +116028,15 @@ func (t *Event) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Event) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Event) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Event) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -106591,15 +116119,27 @@ func (t *Event) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Event) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Event) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Event) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Event) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Event) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Event) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -106627,9 +116167,15 @@ func (t *Event) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Event) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Event) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Event) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -106746,15 +116292,27 @@ func (t *Event) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Event) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Event) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Event) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Event) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Event) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Event) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -106782,9 +116340,15 @@ func (t *Event) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Event) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Event) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Event) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -106862,9 +116426,15 @@ func (t *Event) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Event) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Event) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Event) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -106912,9 +116482,15 @@ func (t *Event) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Event) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Event) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Event) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -106979,15 +116555,27 @@ func (t *Event) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Event) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Event) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Event) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Event) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Event) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Event) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -107032,15 +116620,27 @@ func (t *Event) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Event) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Event) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Event) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Event) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Event) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Event) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -107170,9 +116770,15 @@ func (t *Event) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Event) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Event) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Event) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -107255,15 +116861,27 @@ func (t *Event) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Event) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Event) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Event) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Event) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Event) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Event) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -107288,9 +116906,15 @@ func (t *Event) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Event) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Event) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Event) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -107356,9 +116980,15 @@ func (t *Event) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Event) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Event) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Event) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -107404,9 +117034,15 @@ func (t *Event) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Event) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Event) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Event) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -107454,9 +117090,15 @@ func (t *Event) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Event) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Event) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Event) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -107504,9 +117146,15 @@ func (t *Event) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Event) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Event) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Event) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -107554,9 +117202,15 @@ func (t *Event) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Event) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Event) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Event) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -107922,9 +117576,15 @@ func (t *Event) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Event) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Event) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Event) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -108463,15 +118123,27 @@ func (t *Place) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Place) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Place) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Place) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Place) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Place) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Place) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -108499,9 +118171,15 @@ func (t *Place) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Place) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Place) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Place) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -108549,9 +118227,15 @@ func (t *Place) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Place) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Place) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Place) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -108599,9 +118283,15 @@ func (t *Place) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Place) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Place) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Place) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -108684,15 +118374,27 @@ func (t *Place) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Place) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Place) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Place) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Place) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Place) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Place) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -108720,9 +118422,15 @@ func (t *Place) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Place) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Place) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Place) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -108839,15 +118547,27 @@ func (t *Place) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Place) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Place) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Place) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Place) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Place) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Place) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -108875,9 +118595,15 @@ func (t *Place) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Place) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Place) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Place) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -108955,9 +118681,15 @@ func (t *Place) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Place) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Place) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Place) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -109005,9 +118737,15 @@ func (t *Place) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Place) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Place) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Place) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -109072,15 +118810,27 @@ func (t *Place) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Place) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Place) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Place) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Place) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Place) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Place) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -109125,15 +118875,27 @@ func (t *Place) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Place) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Place) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Place) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Place) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Place) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Place) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -109263,9 +119025,15 @@ func (t *Place) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Place) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Place) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Place) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -109348,15 +119116,27 @@ func (t *Place) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Place) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Place) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Place) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Place) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Place) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Place) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -109381,9 +119161,15 @@ func (t *Place) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Place) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Place) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Place) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -109449,9 +119235,15 @@ func (t *Place) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Place) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Place) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Place) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -109497,9 +119289,15 @@ func (t *Place) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Place) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Place) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Place) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -109547,9 +119345,15 @@ func (t *Place) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Place) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Place) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Place) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -109597,9 +119401,15 @@ func (t *Place) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Place) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Place) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Place) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -109647,9 +119457,15 @@ func (t *Place) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Place) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Place) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Place) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -110015,9 +119831,15 @@ func (t *Place) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Place) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Place) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Place) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -110420,15 +120242,27 @@ func (t *Profile) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Profile) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Profile) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Profile) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Profile) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Profile) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Profile) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -110456,9 +120290,15 @@ func (t *Profile) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Profile) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Profile) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Profile) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -110506,9 +120346,15 @@ func (t *Profile) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Profile) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Profile) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Profile) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -110556,9 +120402,15 @@ func (t *Profile) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Profile) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Profile) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Profile) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -110641,15 +120493,27 @@ func (t *Profile) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Profile) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Profile) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Profile) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Profile) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Profile) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Profile) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -110677,9 +120541,15 @@ func (t *Profile) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Profile) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Profile) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Profile) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -110796,15 +120666,27 @@ func (t *Profile) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Profile) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Profile) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Profile) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Profile) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Profile) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Profile) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -110832,9 +120714,15 @@ func (t *Profile) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Profile) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Profile) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Profile) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -110912,9 +120800,15 @@ func (t *Profile) ResolveImage(r *Resolver, idx int) (s Resolution, err error) {
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Profile) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Profile) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Profile) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -110962,9 +120856,15 @@ func (t *Profile) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Profile) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Profile) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Profile) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -111029,15 +120929,27 @@ func (t *Profile) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Profile) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Profile) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Profile) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Profile) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Profile) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Profile) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -111082,15 +120994,27 @@ func (t *Profile) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Profile) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Profile) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Profile) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Profile) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Profile) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Profile) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -111220,9 +121144,15 @@ func (t *Profile) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Profile) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Profile) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Profile) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -111305,15 +121235,27 @@ func (t *Profile) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Profile) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Profile) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Profile) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Profile) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Profile) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Profile) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -111338,9 +121280,15 @@ func (t *Profile) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Profile) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Profile) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Profile) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -111406,9 +121354,15 @@ func (t *Profile) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Profile) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Profile) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Profile) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -111454,9 +121408,15 @@ func (t *Profile) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Profile) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Profile) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Profile) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -111504,9 +121464,15 @@ func (t *Profile) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Profile) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Profile) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Profile) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -111554,9 +121520,15 @@ func (t *Profile) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Profile) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Profile) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Profile) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -111604,9 +121576,15 @@ func (t *Profile) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Profile) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Profile) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Profile) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -111972,9 +121950,15 @@ func (t *Profile) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Profile) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Profile) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Profile) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -112292,9 +122276,15 @@ func (t *Tombstone) GetFormerType(idx int) (r Resolution, k string) {
 
 }
 
-// AddFormerType appends the value for property 'formerType'.
-func (t *Tombstone) AddFormerType(k string) {
-	t.raw.AddFormerTypeString(k)
+// AppendFormerType appends the value for property 'formerType'.
+func (t *Tombstone) AppendFormerType(k string) {
+	t.raw.AppendFormerTypeString(k)
+
+}
+
+// PrependFormerType prepends the value for property 'formerType'.
+func (t *Tombstone) PrependFormerType(k string) {
+	t.raw.PrependFormerTypeString(k)
 
 }
 
@@ -112427,15 +122417,27 @@ func (t *Tombstone) HasAttachment(idx int) (p Presence) {
 
 }
 
-// AddAttachment adds an 'Object' typed value.
-func (t *Tombstone) AddAttachment(i vocab.ObjectType) {
-	t.raw.AddAttachmentObject(i)
+// AppendAttachment appends an 'Object' typed value.
+func (t *Tombstone) AppendAttachment(i vocab.ObjectType) {
+	t.raw.AppendAttachmentObject(i)
 
 }
 
-// SetAttachmentLink adds a 'Link' typed value.
-func (t *Tombstone) SetAttachmentLink(i vocab.LinkType) {
-	t.raw.AddAttachmentLink(i)
+// PrependAttachment prepends an 'Object' typed value.
+func (t *Tombstone) PrependAttachment(i vocab.ObjectType) {
+	t.raw.PrependAttachmentObject(i)
+
+}
+
+// AppendAttachmentLink appends a 'Link' typed value.
+func (t *Tombstone) AppendAttachmentLink(i vocab.LinkType) {
+	t.raw.AppendAttachmentLink(i)
+
+}
+
+// PrependAttachmentLink prepends a 'Link' typed value.
+func (t *Tombstone) PrependAttachmentLink(i vocab.LinkType) {
+	t.raw.PrependAttachmentLink(i)
 
 }
 
@@ -112463,9 +122465,15 @@ func (t *Tombstone) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Tombstone) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Tombstone) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Tombstone) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -112513,9 +122521,15 @@ func (t *Tombstone) GetAudience(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAudience appends the value for property 'audience'.
-func (t *Tombstone) AddAudience(k url.URL) {
-	t.raw.AddAudienceIRI(k)
+// AppendAudience appends the value for property 'audience'.
+func (t *Tombstone) AppendAudience(k url.URL) {
+	t.raw.AppendAudienceIRI(k)
+
+}
+
+// PrependAudience prepends the value for property 'audience'.
+func (t *Tombstone) PrependAudience(k url.URL) {
+	t.raw.PrependAudienceIRI(k)
 
 }
 
@@ -112563,9 +122577,15 @@ func (t *Tombstone) GetContent(idx int) (r Resolution, k string) {
 
 }
 
-// AddContent appends the value for property 'content'.
-func (t *Tombstone) AddContent(k string) {
-	t.raw.AddContentString(k)
+// AppendContent appends the value for property 'content'.
+func (t *Tombstone) AppendContent(k string) {
+	t.raw.AppendContentString(k)
+
+}
+
+// PrependContent prepends the value for property 'content'.
+func (t *Tombstone) PrependContent(k string) {
+	t.raw.PrependContentString(k)
 
 }
 
@@ -112648,15 +122668,27 @@ func (t *Tombstone) HasContext(idx int) (p Presence) {
 
 }
 
-// AddContext adds an 'Object' typed value.
-func (t *Tombstone) AddContext(i vocab.ObjectType) {
-	t.raw.AddContextObject(i)
+// AppendContext appends an 'Object' typed value.
+func (t *Tombstone) AppendContext(i vocab.ObjectType) {
+	t.raw.AppendContextObject(i)
 
 }
 
-// SetContextLink adds a 'Link' typed value.
-func (t *Tombstone) SetContextLink(i vocab.LinkType) {
-	t.raw.AddContextLink(i)
+// PrependContext prepends an 'Object' typed value.
+func (t *Tombstone) PrependContext(i vocab.ObjectType) {
+	t.raw.PrependContextObject(i)
+
+}
+
+// AppendContextLink appends a 'Link' typed value.
+func (t *Tombstone) AppendContextLink(i vocab.LinkType) {
+	t.raw.AppendContextLink(i)
+
+}
+
+// PrependContextLink prepends a 'Link' typed value.
+func (t *Tombstone) PrependContextLink(i vocab.LinkType) {
+	t.raw.PrependContextLink(i)
 
 }
 
@@ -112684,9 +122716,15 @@ func (t *Tombstone) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Tombstone) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Tombstone) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Tombstone) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -112803,15 +122841,27 @@ func (t *Tombstone) HasGenerator(idx int) (p Presence) {
 
 }
 
-// AddGenerator adds an 'Object' typed value.
-func (t *Tombstone) AddGenerator(i vocab.ObjectType) {
-	t.raw.AddGeneratorObject(i)
+// AppendGenerator appends an 'Object' typed value.
+func (t *Tombstone) AppendGenerator(i vocab.ObjectType) {
+	t.raw.AppendGeneratorObject(i)
 
 }
 
-// SetGeneratorLink adds a 'Link' typed value.
-func (t *Tombstone) SetGeneratorLink(i vocab.LinkType) {
-	t.raw.AddGeneratorLink(i)
+// PrependGenerator prepends an 'Object' typed value.
+func (t *Tombstone) PrependGenerator(i vocab.ObjectType) {
+	t.raw.PrependGeneratorObject(i)
+
+}
+
+// AppendGeneratorLink appends a 'Link' typed value.
+func (t *Tombstone) AppendGeneratorLink(i vocab.LinkType) {
+	t.raw.AppendGeneratorLink(i)
+
+}
+
+// PrependGeneratorLink prepends a 'Link' typed value.
+func (t *Tombstone) PrependGeneratorLink(i vocab.LinkType) {
+	t.raw.PrependGeneratorLink(i)
 
 }
 
@@ -112839,9 +122889,15 @@ func (t *Tombstone) ResolveIcon(r *Resolver, idx int) (s Resolution, err error) 
 
 }
 
-// AddIcon appends the value for property 'icon'.
-func (t *Tombstone) AddIcon(i vocab.ImageType) {
-	t.raw.AddIconImage(i)
+// AppendIcon appends the value for property 'icon'.
+func (t *Tombstone) AppendIcon(i vocab.ImageType) {
+	t.raw.AppendIconImage(i)
+
+}
+
+// PrependIcon prepends the value for property 'icon'.
+func (t *Tombstone) PrependIcon(i vocab.ImageType) {
+	t.raw.PrependIconImage(i)
 
 }
 
@@ -112919,9 +122975,15 @@ func (t *Tombstone) ResolveImage(r *Resolver, idx int) (s Resolution, err error)
 
 }
 
-// AddImage appends the value for property 'image'.
-func (t *Tombstone) AddImage(i vocab.ImageType) {
-	t.raw.AddImageImage(i)
+// AppendImage appends the value for property 'image'.
+func (t *Tombstone) AppendImage(i vocab.ImageType) {
+	t.raw.AppendImageImage(i)
+
+}
+
+// PrependImage prepends the value for property 'image'.
+func (t *Tombstone) PrependImage(i vocab.ImageType) {
+	t.raw.PrependImageImage(i)
 
 }
 
@@ -112969,9 +123031,15 @@ func (t *Tombstone) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddInReplyTo appends the value for property 'inReplyTo'.
-func (t *Tombstone) AddInReplyTo(k url.URL) {
-	t.raw.AddInReplyToIRI(k)
+// AppendInReplyTo appends the value for property 'inReplyTo'.
+func (t *Tombstone) AppendInReplyTo(k url.URL) {
+	t.raw.AppendInReplyToIRI(k)
+
+}
+
+// PrependInReplyTo prepends the value for property 'inReplyTo'.
+func (t *Tombstone) PrependInReplyTo(k url.URL) {
+	t.raw.PrependInReplyToIRI(k)
 
 }
 
@@ -113036,15 +123104,27 @@ func (t *Tombstone) HasLocation(idx int) (p Presence) {
 
 }
 
-// AddLocation adds an 'Object' typed value.
-func (t *Tombstone) AddLocation(i vocab.ObjectType) {
-	t.raw.AddLocationObject(i)
+// AppendLocation appends an 'Object' typed value.
+func (t *Tombstone) AppendLocation(i vocab.ObjectType) {
+	t.raw.AppendLocationObject(i)
 
 }
 
-// SetLocationLink adds a 'Link' typed value.
-func (t *Tombstone) SetLocationLink(i vocab.LinkType) {
-	t.raw.AddLocationLink(i)
+// PrependLocation prepends an 'Object' typed value.
+func (t *Tombstone) PrependLocation(i vocab.ObjectType) {
+	t.raw.PrependLocationObject(i)
+
+}
+
+// AppendLocationLink appends a 'Link' typed value.
+func (t *Tombstone) AppendLocationLink(i vocab.LinkType) {
+	t.raw.AppendLocationLink(i)
+
+}
+
+// PrependLocationLink prepends a 'Link' typed value.
+func (t *Tombstone) PrependLocationLink(i vocab.LinkType) {
+	t.raw.PrependLocationLink(i)
 
 }
 
@@ -113089,15 +123169,27 @@ func (t *Tombstone) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Tombstone) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Tombstone) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Tombstone) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Tombstone) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Tombstone) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Tombstone) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }
 
@@ -113227,9 +123319,15 @@ func (t *Tombstone) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Tombstone) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Tombstone) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Tombstone) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -113312,15 +123410,27 @@ func (t *Tombstone) HasTag(idx int) (p Presence) {
 
 }
 
-// AddTag adds an 'Object' typed value.
-func (t *Tombstone) AddTag(i vocab.ObjectType) {
-	t.raw.AddTagObject(i)
+// AppendTag appends an 'Object' typed value.
+func (t *Tombstone) AppendTag(i vocab.ObjectType) {
+	t.raw.AppendTagObject(i)
 
 }
 
-// SetTagLink adds a 'Link' typed value.
-func (t *Tombstone) SetTagLink(i vocab.LinkType) {
-	t.raw.AddTagLink(i)
+// PrependTag prepends an 'Object' typed value.
+func (t *Tombstone) PrependTag(i vocab.ObjectType) {
+	t.raw.PrependTagObject(i)
+
+}
+
+// AppendTagLink appends a 'Link' typed value.
+func (t *Tombstone) AppendTagLink(i vocab.LinkType) {
+	t.raw.AppendTagLink(i)
+
+}
+
+// PrependTagLink prepends a 'Link' typed value.
+func (t *Tombstone) PrependTagLink(i vocab.LinkType) {
+	t.raw.PrependTagLink(i)
 
 }
 
@@ -113345,9 +123455,15 @@ func (t *Tombstone) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Tombstone) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Tombstone) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Tombstone) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -113413,9 +123529,15 @@ func (t *Tombstone) GetUrl(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddUrl appends the value for property 'url'.
-func (t *Tombstone) AddUrl(k url.URL) {
-	t.raw.AddUrlAnyURI(k)
+// AppendUrl appends the value for property 'url'.
+func (t *Tombstone) AppendUrl(k url.URL) {
+	t.raw.AppendUrlAnyURI(k)
+
+}
+
+// PrependUrl prepends the value for property 'url'.
+func (t *Tombstone) PrependUrl(k url.URL) {
+	t.raw.PrependUrlAnyURI(k)
 
 }
 
@@ -113461,9 +123583,15 @@ func (t *Tombstone) GetTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddTo appends the value for property 'to'.
-func (t *Tombstone) AddTo(k url.URL) {
-	t.raw.AddToIRI(k)
+// AppendTo appends the value for property 'to'.
+func (t *Tombstone) AppendTo(k url.URL) {
+	t.raw.AppendToIRI(k)
+
+}
+
+// PrependTo prepends the value for property 'to'.
+func (t *Tombstone) PrependTo(k url.URL) {
+	t.raw.PrependToIRI(k)
 
 }
 
@@ -113511,9 +123639,15 @@ func (t *Tombstone) GetBto(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBto appends the value for property 'bto'.
-func (t *Tombstone) AddBto(k url.URL) {
-	t.raw.AddBtoIRI(k)
+// AppendBto appends the value for property 'bto'.
+func (t *Tombstone) AppendBto(k url.URL) {
+	t.raw.AppendBtoIRI(k)
+
+}
+
+// PrependBto prepends the value for property 'bto'.
+func (t *Tombstone) PrependBto(k url.URL) {
+	t.raw.PrependBtoIRI(k)
 
 }
 
@@ -113561,9 +123695,15 @@ func (t *Tombstone) GetCc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddCc appends the value for property 'cc'.
-func (t *Tombstone) AddCc(k url.URL) {
-	t.raw.AddCcIRI(k)
+// AppendCc appends the value for property 'cc'.
+func (t *Tombstone) AppendCc(k url.URL) {
+	t.raw.AppendCcIRI(k)
+
+}
+
+// PrependCc prepends the value for property 'cc'.
+func (t *Tombstone) PrependCc(k url.URL) {
+	t.raw.PrependCcIRI(k)
 
 }
 
@@ -113611,9 +123751,15 @@ func (t *Tombstone) GetBcc(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddBcc appends the value for property 'bcc'.
-func (t *Tombstone) AddBcc(k url.URL) {
-	t.raw.AddBccIRI(k)
+// AppendBcc appends the value for property 'bcc'.
+func (t *Tombstone) AppendBcc(k url.URL) {
+	t.raw.AppendBccIRI(k)
+
+}
+
+// PrependBcc prepends the value for property 'bcc'.
+func (t *Tombstone) PrependBcc(k url.URL) {
+	t.raw.PrependBccIRI(k)
 
 }
 
@@ -113979,9 +124125,15 @@ func (t *Tombstone) GetStreams(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddStreams appends the value for property 'streams'.
-func (t *Tombstone) AddStreams(k url.URL) {
-	t.raw.AddStreams(k)
+// AppendStreams appends the value for property 'streams'.
+func (t *Tombstone) AppendStreams(k url.URL) {
+	t.raw.AppendStreams(k)
+
+}
+
+// PrependStreams prepends the value for property 'streams'.
+func (t *Tombstone) PrependStreams(k url.URL) {
+	t.raw.PrependStreams(k)
 
 }
 
@@ -114299,9 +124451,15 @@ func (t *Mention) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 
 }
 
-// AddAttributedTo appends the value for property 'attributedTo'.
-func (t *Mention) AddAttributedTo(k url.URL) {
-	t.raw.AddAttributedToIRI(k)
+// AppendAttributedTo appends the value for property 'attributedTo'.
+func (t *Mention) AppendAttributedTo(k url.URL) {
+	t.raw.AppendAttributedToIRI(k)
+
+}
+
+// PrependAttributedTo prepends the value for property 'attributedTo'.
+func (t *Mention) PrependAttributedTo(k url.URL) {
+	t.raw.PrependAttributedToIRI(k)
 
 }
 
@@ -114407,9 +124565,15 @@ func (t *Mention) GetRel(idx int) (r Resolution, k string) {
 
 }
 
-// AddRel appends the value for property 'rel'.
-func (t *Mention) AddRel(k string) {
-	t.raw.AddRel(k)
+// AppendRel appends the value for property 'rel'.
+func (t *Mention) AppendRel(k string) {
+	t.raw.AppendRel(k)
+
+}
+
+// PrependRel prepends the value for property 'rel'.
+func (t *Mention) PrependRel(k string) {
+	t.raw.PrependRel(k)
 
 }
 
@@ -114452,9 +124616,15 @@ func (t *Mention) GetType(idx int) (r Resolution, s string) {
 
 }
 
-// AddType appends the value for property 'type'.
-func (t *Mention) AddType(i interface{}) {
-	t.raw.AddType(i)
+// AppendType appends the value for property 'type'.
+func (t *Mention) AppendType(i interface{}) {
+	t.raw.AppendType(i)
+
+}
+
+// PrependType prepends the value for property 'type'.
+func (t *Mention) PrependType(i interface{}) {
+	t.raw.PrependType(i)
 
 }
 
@@ -114522,9 +124692,15 @@ func (t *Mention) GetName(idx int) (r Resolution, k string) {
 
 }
 
-// AddName appends the value for property 'name'.
-func (t *Mention) AddName(k string) {
-	t.raw.AddNameString(k)
+// AppendName appends the value for property 'name'.
+func (t *Mention) AppendName(k string) {
+	t.raw.AppendNameString(k)
+
+}
+
+// PrependName prepends the value for property 'name'.
+func (t *Mention) PrependName(k string) {
+	t.raw.PrependNameString(k)
 
 }
 
@@ -114590,9 +124766,15 @@ func (t *Mention) GetSummary(idx int) (r Resolution, k string) {
 
 }
 
-// AddSummary appends the value for property 'summary'.
-func (t *Mention) AddSummary(k string) {
-	t.raw.AddSummaryString(k)
+// AppendSummary appends the value for property 'summary'.
+func (t *Mention) AppendSummary(k string) {
+	t.raw.AppendSummaryString(k)
+
+}
+
+// PrependSummary prepends the value for property 'summary'.
+func (t *Mention) PrependSummary(k string) {
+	t.raw.PrependSummaryString(k)
 
 }
 
@@ -114777,14 +124959,26 @@ func (t *Mention) HasPreview(idx int) (p Presence) {
 
 }
 
-// AddPreview adds an 'Object' typed value.
-func (t *Mention) AddPreview(i vocab.ObjectType) {
-	t.raw.AddPreviewObject(i)
+// AppendPreview appends an 'Object' typed value.
+func (t *Mention) AppendPreview(i vocab.ObjectType) {
+	t.raw.AppendPreviewObject(i)
 
 }
 
-// SetPreviewLink adds a 'Link' typed value.
-func (t *Mention) SetPreviewLink(i vocab.LinkType) {
-	t.raw.AddPreviewLink(i)
+// PrependPreview prepends an 'Object' typed value.
+func (t *Mention) PrependPreview(i vocab.ObjectType) {
+	t.raw.PrependPreviewObject(i)
+
+}
+
+// AppendPreviewLink appends a 'Link' typed value.
+func (t *Mention) AppendPreviewLink(i vocab.LinkType) {
+	t.raw.AppendPreviewLink(i)
+
+}
+
+// PrependPreviewLink prepends a 'Link' typed value.
+func (t *Mention) PrependPreviewLink(i vocab.LinkType) {
+	t.raw.PrependPreviewLink(i)
 
 }

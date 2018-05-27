@@ -165,54 +165,54 @@ func postToOutbox(c HttpClient, b []byte, to url.URL, agent string, creds *creds
 // properties. It will also copy over the published time if present.
 func (f *federator) wrapInCreate(o vocab.ObjectType, actor url.URL) *vocab.Create {
 	c := &vocab.Create{}
-	c.AddObject(o)
-	c.AddActorIRI(actor)
+	c.AppendObject(o)
+	c.AppendActorIRI(actor)
 	if o.IsPublished() {
 		c.SetPublished(o.GetPublished())
 	}
 	for i := 0; i < o.ToLen(); i++ {
 		if o.IsToObject(i) {
-			c.AddToObject(o.GetToObject(i))
+			c.AppendToObject(o.GetToObject(i))
 		} else if o.IsToLink(i) {
-			c.AddToLink(o.GetToLink(i))
+			c.AppendToLink(o.GetToLink(i))
 		} else if o.IsToIRI(i) {
-			c.AddToIRI(o.GetToIRI(i))
+			c.AppendToIRI(o.GetToIRI(i))
 		}
 	}
 	for i := 0; i < o.BtoLen(); i++ {
 		if o.IsBtoObject(i) {
-			c.AddBtoObject(o.GetBtoObject(i))
+			c.AppendBtoObject(o.GetBtoObject(i))
 		} else if o.IsBtoLink(i) {
-			c.AddBtoLink(o.GetBtoLink(i))
+			c.AppendBtoLink(o.GetBtoLink(i))
 		} else if o.IsBtoIRI(i) {
-			c.AddBtoIRI(o.GetBtoIRI(i))
+			c.AppendBtoIRI(o.GetBtoIRI(i))
 		}
 	}
 	for i := 0; i < o.CcLen(); i++ {
 		if o.IsCcObject(i) {
-			c.AddCcObject(o.GetCcObject(i))
+			c.AppendCcObject(o.GetCcObject(i))
 		} else if o.IsCcLink(i) {
-			c.AddCcLink(o.GetCcLink(i))
+			c.AppendCcLink(o.GetCcLink(i))
 		} else if o.IsCcIRI(i) {
-			c.AddCcIRI(o.GetCcIRI(i))
+			c.AppendCcIRI(o.GetCcIRI(i))
 		}
 	}
 	for i := 0; i < o.BccLen(); i++ {
 		if o.IsBccObject(i) {
-			c.AddBccObject(o.GetBccObject(i))
+			c.AppendBccObject(o.GetBccObject(i))
 		} else if o.IsBccLink(i) {
-			c.AddBccLink(o.GetBccLink(i))
+			c.AppendBccLink(o.GetBccLink(i))
 		} else if o.IsBccIRI(i) {
-			c.AddBccIRI(o.GetBccIRI(i))
+			c.AppendBccIRI(o.GetBccIRI(i))
 		}
 	}
 	for i := 0; i < o.AudienceLen(); i++ {
 		if o.IsAudienceObject(i) {
-			c.AddAudienceObject(o.GetAudienceObject(i))
+			c.AppendAudienceObject(o.GetAudienceObject(i))
 		} else if o.IsAudienceLink(i) {
-			c.AddAudienceLink(o.GetAudienceLink(i))
+			c.AppendAudienceLink(o.GetAudienceLink(i))
 		} else if o.IsAudienceIRI(i) {
-			c.AddAudienceIRI(o.GetAudienceIRI(i))
+			c.AppendAudienceIRI(o.GetAudienceIRI(i))
 		}
 	}
 	return c
@@ -396,11 +396,11 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 		for i := 0; i < a.ObjectLen(); i++ {
 			if _, ok := to[i][k]; !ok {
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.GetObject(i).AddToObject(vObj)
+					a.GetObject(i).AppendToObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.GetObject(i).AddToLink(vLink)
+					a.GetObject(i).AppendToLink(vLink)
 				} else if vIRI, ok := v.(url.URL); ok {
-					a.GetObject(i).AddToIRI(vIRI)
+					a.GetObject(i).AppendToIRI(vIRI)
 				}
 			}
 		}
@@ -409,11 +409,11 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 		for i := 0; i < a.ObjectLen(); i++ {
 			if _, ok := bto[i][k]; !ok {
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.GetObject(i).AddBtoObject(vObj)
+					a.GetObject(i).AppendBtoObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.GetObject(i).AddBtoLink(vLink)
+					a.GetObject(i).AppendBtoLink(vLink)
 				} else if vIRI, ok := v.(url.URL); ok {
-					a.GetObject(i).AddBtoIRI(vIRI)
+					a.GetObject(i).AppendBtoIRI(vIRI)
 				}
 			}
 		}
@@ -422,11 +422,11 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 		for i := 0; i < a.ObjectLen(); i++ {
 			if _, ok := cc[i][k]; !ok {
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.GetObject(i).AddCcObject(vObj)
+					a.GetObject(i).AppendCcObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.GetObject(i).AddCcLink(vLink)
+					a.GetObject(i).AppendCcLink(vLink)
 				} else if vIRI, ok := v.(url.URL); ok {
-					a.GetObject(i).AddCcIRI(vIRI)
+					a.GetObject(i).AppendCcIRI(vIRI)
 				}
 			}
 		}
@@ -435,11 +435,11 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 		for i := 0; i < a.ObjectLen(); i++ {
 			if _, ok := bcc[i][k]; !ok {
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.GetObject(i).AddBccObject(vObj)
+					a.GetObject(i).AppendBccObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.GetObject(i).AddBccLink(vLink)
+					a.GetObject(i).AppendBccLink(vLink)
 				} else if vIRI, ok := v.(url.URL); ok {
-					a.GetObject(i).AddBccIRI(vIRI)
+					a.GetObject(i).AppendBccIRI(vIRI)
 				}
 			}
 		}
@@ -448,11 +448,11 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 		for i := 0; i < a.ObjectLen(); i++ {
 			if _, ok := audience[i][k]; !ok {
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.GetObject(i).AddAudienceObject(vObj)
+					a.GetObject(i).AppendAudienceObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.GetObject(i).AddAudienceLink(vLink)
+					a.GetObject(i).AppendAudienceLink(vLink)
 				} else if vIRI, ok := v.(url.URL); ok {
-					a.GetObject(i).AddAudienceIRI(vIRI)
+					a.GetObject(i).AppendAudienceIRI(vIRI)
 				}
 			}
 		}
@@ -463,55 +463,55 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 		for k, v := range to[i] {
 			if _, ok := toActivity[k]; !ok {
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.AddToObject(vObj)
+					a.AppendToObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.AddToLink(vLink)
+					a.AppendToLink(vLink)
 				} else if vIRI, ok := v.(url.URL); ok {
-					a.AddToIRI(vIRI)
+					a.AppendToIRI(vIRI)
 				}
 			}
 		}
 		for k, v := range bto[i] {
 			if _, ok := btoActivity[k]; !ok {
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.AddBtoObject(vObj)
+					a.AppendBtoObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.AddBtoLink(vLink)
+					a.AppendBtoLink(vLink)
 				} else if vIRI, ok := v.(url.URL); ok {
-					a.AddBtoIRI(vIRI)
+					a.AppendBtoIRI(vIRI)
 				}
 			}
 		}
 		for k, v := range cc[i] {
 			if _, ok := ccActivity[k]; !ok {
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.AddCcObject(vObj)
+					a.AppendCcObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.AddCcLink(vLink)
+					a.AppendCcLink(vLink)
 				} else if vIRI, ok := v.(url.URL); ok {
-					a.AddCcIRI(vIRI)
+					a.AppendCcIRI(vIRI)
 				}
 			}
 		}
 		for k, v := range bcc[i] {
 			if _, ok := bccActivity[k]; !ok {
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.AddBccObject(vObj)
+					a.AppendBccObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.AddBccLink(vLink)
+					a.AppendBccLink(vLink)
 				} else if vIRI, ok := v.(url.URL); ok {
-					a.AddBccIRI(vIRI)
+					a.AppendBccIRI(vIRI)
 				}
 			}
 		}
 		for k, v := range audience[i] {
 			if _, ok := audienceActivity[k]; !ok {
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.AddAudienceObject(vObj)
+					a.AppendAudienceObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.AddAudienceLink(vLink)
+					a.AppendAudienceLink(vLink)
 				} else if vIRI, ok := v.(url.URL); ok {
-					a.AddAudienceIRI(vIRI)
+					a.AppendAudienceIRI(vIRI)
 				}
 			}
 		}
@@ -1246,9 +1246,9 @@ func toTombstone(obj vocab.ObjectType, id url.URL, now time.Time) vocab.Tombston
 	tomb.SetId(id)
 	for i := 0; i < obj.TypeLen(); i++ {
 		if s, ok := obj.GetType(i).(string); ok {
-			tomb.AddFormerTypeString(s)
+			tomb.AppendFormerTypeString(s)
 		} else if fObj, ok := obj.GetType(i).(vocab.ObjectType); ok {
-			tomb.AddFormerTypeObject(fObj)
+			tomb.AppendFormerTypeObject(fObj)
 		}
 	}
 	if obj.IsPublished() {
@@ -1323,9 +1323,9 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 					continue
 				}
 				if lc != nil {
-					lc.AddItemsIRI(iri)
+					lc.AppendItemsIRI(iri)
 				} else if loc != nil {
-					loc.AddOrderedItemsIRI(iri)
+					loc.AppendOrderedItemsIRI(iri)
 				}
 			} else if c.IsObject(i) {
 				obj := c.GetObject(i)
@@ -1337,9 +1337,9 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 					continue
 				}
 				if lc != nil {
-					lc.AddItemsObject(obj)
+					lc.AppendItemsObject(obj)
 				} else if loc != nil {
-					loc.AddOrderedItemsObject(obj)
+					loc.AppendOrderedItemsObject(obj)
 				}
 			}
 		}
@@ -1413,9 +1413,9 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 					continue
 				}
 				if lc != nil {
-					lc.AddItemsIRI(iri)
+					lc.AppendItemsIRI(iri)
 				} else if loc != nil {
-					loc.AddOrderedItemsIRI(iri)
+					loc.AppendOrderedItemsIRI(iri)
 				}
 			} else if c.IsActorObject(i) {
 				obj := c.GetActorObject(i)
@@ -1427,9 +1427,9 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 					continue
 				}
 				if lc != nil {
-					lc.AddItemsObject(obj)
+					lc.AppendItemsObject(obj)
 				} else if loc != nil {
-					loc.AddOrderedItemsObject(obj)
+					loc.AppendOrderedItemsObject(obj)
 				}
 			} else if c.IsActorLink(i) {
 				l := c.GetActorLink(i)
@@ -1441,9 +1441,9 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 					continue
 				}
 				if lc != nil {
-					lc.AddItemsLink(l)
+					lc.AppendItemsLink(l)
 				} else if loc != nil {
-					loc.AddOrderedItemsLink(l)
+					loc.AppendOrderedItemsLink(l)
 				}
 			}
 		}
@@ -1488,7 +1488,7 @@ func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string
 	if err != nil {
 		return err
 	}
-	outbox.AddOrderedItemsObject(activity)
+	outbox.AppendOrderedItemsObject(activity)
 	return f.App.Set(c, outbox)
 }
 
@@ -1506,7 +1506,7 @@ func (f *federator) addToInbox(c context.Context, r *http.Request, m map[string]
 		return err
 	}
 	if !iriSet[activity.GetId()] {
-		inbox.AddOrderedItemsObject(activity)
+		inbox.AppendOrderedItemsObject(activity)
 		return f.App.Set(c, inbox)
 	}
 	return nil

@@ -31,8 +31,8 @@ func TestServeActivityPubObject(t *testing.T) {
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(*noteIRI)
-					testNote.AddNameString(noteName)
-					testNote.AddContentString("This is a simple note")
+					testNote.AppendNameString(noteName)
+					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
 				owns: func(c context.Context, id url.URL) bool {
@@ -48,8 +48,8 @@ func TestServeActivityPubObject(t *testing.T) {
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
 				testNote.SetId(*noteIRI)
-				testNote.AddNameString(noteName)
-				testNote.AddContentString("This is a simple note")
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
 				return testNote
 			},
 			expectHandled: true,
@@ -73,8 +73,8 @@ func TestServeActivityPubObject(t *testing.T) {
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(*noteIRI)
-					testNote.AddNameString(noteName)
-					testNote.AddContentString("This is a simple note")
+					testNote.AppendNameString(noteName)
+					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
 				owns: func(c context.Context, id url.URL) bool {
@@ -89,8 +89,8 @@ func TestServeActivityPubObject(t *testing.T) {
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
 				testNote.SetId(*noteIRI)
-				testNote.AddNameString(noteName)
-				testNote.AddContentString("This is a simple note")
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
 				return testNote
 			},
 			expectHandled: true,
@@ -178,8 +178,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(*noteIRI)
-					testNote.AddNameString(noteName)
-					testNote.AddContentString("This is a simple note")
+					testNote.AppendNameString(noteName)
+					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
 				owns: func(c context.Context, id url.URL) bool {
@@ -195,8 +195,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
 				testNote.SetId(*noteIRI)
-				testNote.AddNameString(noteName)
-				testNote.AddContentString("This is a simple note")
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
 				return testNote
 			},
 			expectHandled: true,
@@ -220,8 +220,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(*noteIRI)
-					testNote.AddNameString(noteName)
-					testNote.AddContentString("This is a simple note")
+					testNote.AppendNameString(noteName)
+					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
 				owns: func(c context.Context, id url.URL) bool {
@@ -236,8 +236,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
 				testNote.SetId(*noteIRI)
-				testNote.AddNameString(noteName)
-				testNote.AddContentString("This is a simple note")
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
 				return testNote
 			},
 			expectHandled: true,
@@ -295,8 +295,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(*noteIRI)
-					testNote.AddNameString(noteName)
-					testNote.AddContentString("This is a simple note")
+					testNote.AppendNameString(noteName)
+					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
 				owns: func(c context.Context, id url.URL) bool {
@@ -318,8 +318,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
 				testNote.SetId(*noteIRI)
-				testNote.AddNameString(noteName)
-				testNote.AddContentString("This is a simple note")
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
 				return testNote
 			},
 			expectHandled: true,
@@ -337,8 +337,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(*noteIRI)
-					testNote.AddNameString(noteName)
-					testNote.AddContentString("This is a simple note")
+					testNote.AppendNameString(noteName)
+					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
 				owns: func(c context.Context, id url.URL) bool {
@@ -359,8 +359,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
 				testNote.SetId(*noteIRI)
-				testNote.AddNameString(noteName)
-				testNote.AddContentString("This is a simple note")
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
 				return testNote
 			},
 			expectHandled: true,
@@ -450,8 +450,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(*noteIRI)
-					testNote.AddNameString(noteName)
-					testNote.AddContentString("This is a simple note")
+					testNote.AppendNameString(noteName)
+					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
 				owns: func(c context.Context, id url.URL) bool {
@@ -472,8 +472,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
 				testNote.SetId(*noteIRI)
-				testNote.AddNameString(noteName)
-				testNote.AddContentString("This is a simple note")
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
 				return testNote
 			},
 			expectHandled: true,

@@ -153,7 +153,7 @@ func init() {
 	samActor = &vocab.Person{}
 	samActor.SetInboxAnyURI(*samIRIInbox)
 	samActor.SetId(*samIRI)
-	samActor.AddNameString("Sam")
+	samActor.AppendNameString("Sam")
 	m, err := samActor.Serialize()
 	if err != nil {
 		panic(err)
@@ -171,7 +171,7 @@ func init() {
 		panic(err)
 	}
 	sallyActor = &vocab.Person{}
-	sallyActor.AddNameString("Sally")
+	sallyActor.AppendNameString("Sally")
 	sallyActor.SetId(*sallyIRI)
 	sallyActor.SetInboxAnyURI(*sallyInbox)
 	sallyActor.SetOutboxAnyURI(*sallyOutbox)
@@ -185,90 +185,90 @@ func init() {
 	}
 	testNote = &vocab.Note{}
 	testNote.SetId(*noteIRI)
-	testNote.AddNameString(noteName)
-	testNote.AddContentString("This is a simple note")
+	testNote.AppendNameString(noteName)
+	testNote.AppendContentString("This is a simple note")
 	testSingleOrderedCollection = &vocab.OrderedCollection{}
-	testSingleOrderedCollection.AddItemsObject(testNote)
+	testSingleOrderedCollection.AppendItemsObject(testNote)
 	testCreateNote = &vocab.Create{}
 	testCreateNote.SetId(*noteActivityIRI)
-	testCreateNote.AddSummaryString("Sally created a note")
-	testCreateNote.AddActorObject(sallyActor)
-	testCreateNote.AddObject(testNote)
-	testCreateNote.AddToObject(samActor)
+	testCreateNote.AppendSummaryString("Sally created a note")
+	testCreateNote.AppendActorObject(sallyActor)
+	testCreateNote.AppendObject(testNote)
+	testCreateNote.AppendToObject(samActor)
 	testUpdateNote = &vocab.Update{}
 	testUpdateNote.SetId(*updateActivityIRI)
-	testUpdateNote.AddSummaryString("Sally updated a note")
-	testUpdateNote.AddActorObject(sallyActor)
-	testUpdateNote.AddObject(testNote)
-	testUpdateNote.AddToObject(samActor)
+	testUpdateNote.AppendSummaryString("Sally updated a note")
+	testUpdateNote.AppendActorObject(sallyActor)
+	testUpdateNote.AppendObject(testNote)
+	testUpdateNote.AppendToObject(samActor)
 	testDeleteNote = &vocab.Delete{}
 	testDeleteNote.SetId(*noteActivityIRI)
-	testDeleteNote.AddActorObject(sallyActor)
-	testDeleteNote.AddObject(testNote)
-	testDeleteNote.AddToObject(samActor)
+	testDeleteNote.AppendActorObject(sallyActor)
+	testDeleteNote.AppendObject(testNote)
+	testDeleteNote.AppendToObject(samActor)
 	testTombstoneNote = &vocab.Tombstone{}
 	testTombstoneNote.SetId(*noteIRI)
-	testTombstoneNote.AddFormerTypeString("Note")
+	testTombstoneNote.AppendFormerTypeString("Note")
 	testTombstoneNote.SetDeleted(now)
 	testFollow = &vocab.Follow{}
 	testFollow.SetId(*noteActivityIRI)
-	testFollow.AddActorObject(sallyActor)
-	testFollow.AddObject(samActor)
-	testFollow.AddToObject(samActor)
+	testFollow.AppendActorObject(sallyActor)
+	testFollow.AppendObject(samActor)
+	testFollow.AppendToObject(samActor)
 	testAcceptNote = &vocab.Accept{}
 	testAcceptNote.SetId(*noteActivityIRI)
-	testAcceptNote.AddActorObject(sallyActor)
-	testAcceptNote.AddObject(&vocab.Offer{})
-	testAcceptNote.AddToObject(samActor)
+	testAcceptNote.AppendActorObject(sallyActor)
+	testAcceptNote.AppendObject(&vocab.Offer{})
+	testAcceptNote.AppendToObject(samActor)
 	testAcceptFollow = &vocab.Accept{}
 	testAcceptFollow.SetId(*noteActivityIRI)
-	testAcceptFollow.AddActorObject(samActor)
-	testAcceptFollow.AddObject(testFollow)
-	testAcceptFollow.AddToObject(sallyActor)
+	testAcceptFollow.AppendActorObject(samActor)
+	testAcceptFollow.AppendObject(testFollow)
+	testAcceptFollow.AppendToObject(sallyActor)
 	testRejectFollow = &vocab.Reject{}
 	testRejectFollow.SetId(*noteActivityIRI)
-	testRejectFollow.AddActorObject(samActor)
-	testRejectFollow.AddObject(testFollow)
-	testRejectFollow.AddToObject(sallyActor)
+	testRejectFollow.AppendActorObject(samActor)
+	testRejectFollow.AppendObject(testFollow)
+	testRejectFollow.AppendToObject(sallyActor)
 	testAddNote = &vocab.Add{}
 	testAddNote.SetId(*noteActivityIRI)
-	testAddNote.AddActorObject(sallyActor)
-	testAddNote.AddObject(testNote)
-	testAddNote.AddTargetIRI(*iri)
-	testAddNote.AddToObject(samActor)
+	testAddNote.AppendActorObject(sallyActor)
+	testAddNote.AppendObject(testNote)
+	testAddNote.AppendTargetIRI(*iri)
+	testAddNote.AppendToObject(samActor)
 	testRemoveNote = &vocab.Remove{}
 	testRemoveNote.SetId(*noteActivityIRI)
-	testRemoveNote.AddActorObject(sallyActor)
-	testRemoveNote.AddObject(testNote)
-	testRemoveNote.AddTargetIRI(*iri)
-	testRemoveNote.AddToObject(samActor)
+	testRemoveNote.AppendActorObject(sallyActor)
+	testRemoveNote.AppendObject(testNote)
+	testRemoveNote.AppendTargetIRI(*iri)
+	testRemoveNote.AppendToObject(samActor)
 	testLikeNote = &vocab.Like{}
 	testLikeNote.SetId(*noteActivityIRI)
-	testLikeNote.AddActorObject(sallyActor)
-	testLikeNote.AddObject(testNote)
-	testLikeNote.AddToObject(samActor)
+	testLikeNote.AppendActorObject(sallyActor)
+	testLikeNote.AppendObject(testNote)
+	testLikeNote.AppendToObject(samActor)
 	testUndoLike = &vocab.Undo{}
 	testUndoLike.SetId(*noteActivityIRI)
-	testUndoLike.AddActorObject(sallyActor)
-	testUndoLike.AddObject(testLikeNote)
-	testUndoLike.AddToObject(samActor)
+	testUndoLike.AppendActorObject(sallyActor)
+	testUndoLike.AppendObject(testLikeNote)
+	testUndoLike.AppendToObject(samActor)
 	testBlock = &vocab.Block{}
 	testBlock.SetId(*noteActivityIRI)
-	testBlock.AddActorObject(sallyActor)
-	testBlock.AddObject(samActor)
+	testBlock.AppendActorObject(sallyActor)
+	testBlock.AppendObject(samActor)
 
 	testClientExpectedNote = &vocab.Note{}
 	testClientExpectedNote.SetId(*noteIRI)
-	testClientExpectedNote.AddNameString(noteName)
-	testClientExpectedNote.AddContentString("This is a simple note")
-	testClientExpectedNote.AddAttributedToObject(sallyActor)
-	testClientExpectedNote.AddToObject(samActor)
+	testClientExpectedNote.AppendNameString(noteName)
+	testClientExpectedNote.AppendContentString("This is a simple note")
+	testClientExpectedNote.AppendAttributedToObject(sallyActor)
+	testClientExpectedNote.AppendToObject(samActor)
 	testClientExpectedCreateNote = &vocab.Create{}
 	testClientExpectedCreateNote.SetId(*testNewIRI)
-	testClientExpectedCreateNote.AddSummaryString("Sally created a note")
-	testClientExpectedCreateNote.AddActorObject(sallyActor)
-	testClientExpectedCreateNote.AddObject(testClientExpectedNote)
-	testClientExpectedCreateNote.AddToObject(samActor)
+	testClientExpectedCreateNote.AppendSummaryString("Sally created a note")
+	testClientExpectedCreateNote.AppendActorObject(sallyActor)
+	testClientExpectedCreateNote.AppendObject(testClientExpectedNote)
+	testClientExpectedCreateNote.AppendToObject(samActor)
 	testDeleteSubFields = `
         {
           "@context": "https://www.w3.org/ns/activitystreams",
@@ -336,70 +336,70 @@ func init() {
 	sammActor := &vocab.Person{}
 	sammActor.SetInboxAnyURI(*samIRIInbox)
 	sammActor.SetId(*samIRI)
-	sammActor.AddNameString("Samm")
+	sammActor.AppendNameString("Samm")
 	testUpdateNote := &vocab.Note{}
 	testUpdateNote.SetId(*noteIRI)
-	testUpdateNote.AddNameString(noteName)
-	testUpdateNote.AddContentString("This is a simple note")
-	testUpdateNote.AddToObject(sammActor)
+	testUpdateNote.AppendNameString(noteName)
+	testUpdateNote.AppendContentString("This is a simple note")
+	testUpdateNote.AppendToObject(sammActor)
 	testClientUpdateNote = &vocab.Update{}
 	testClientUpdateNote.SetId(*updateActivityIRI)
-	testClientUpdateNote.AddSummaryString("Sally updated a note")
-	testClientUpdateNote.AddActorObject(sallyActor)
-	testClientUpdateNote.AddObject(testUpdateNote)
-	testClientUpdateNote.AddToObject(samActor)
+	testClientUpdateNote.AppendSummaryString("Sally updated a note")
+	testClientUpdateNote.AppendActorObject(sallyActor)
+	testClientUpdateNote.AppendObject(testUpdateNote)
+	testClientUpdateNote.AppendToObject(samActor)
 	testClientExpectedUpdateNote = &vocab.Update{}
 	testClientExpectedUpdateNote.SetId(*testNewIRI)
-	testClientExpectedUpdateNote.AddSummaryString("Sally updated a note")
-	testClientExpectedUpdateNote.AddActorObject(sallyActor)
-	testClientExpectedUpdateNote.AddObject(testNote)
-	testClientExpectedUpdateNote.AddToObject(samActor)
+	testClientExpectedUpdateNote.AppendSummaryString("Sally updated a note")
+	testClientExpectedUpdateNote.AppendActorObject(sallyActor)
+	testClientExpectedUpdateNote.AppendObject(testNote)
+	testClientExpectedUpdateNote.AppendToObject(samActor)
 	testClientExpectedDeleteNote = &vocab.Delete{}
 	testClientExpectedDeleteNote.SetId(*testNewIRI)
-	testClientExpectedDeleteNote.AddActorObject(sallyActor)
-	testClientExpectedDeleteNote.AddObject(testNote)
-	testClientExpectedDeleteNote.AddToObject(samActor)
+	testClientExpectedDeleteNote.AppendActorObject(sallyActor)
+	testClientExpectedDeleteNote.AppendObject(testNote)
+	testClientExpectedDeleteNote.AppendToObject(samActor)
 	testClientExpectedFollow = &vocab.Follow{}
 	testClientExpectedFollow.SetId(*testNewIRI)
-	testClientExpectedFollow.AddActorObject(sallyActor)
-	testClientExpectedFollow.AddObject(samActor)
-	testClientExpectedFollow.AddToObject(samActor)
+	testClientExpectedFollow.AppendActorObject(sallyActor)
+	testClientExpectedFollow.AppendObject(samActor)
+	testClientExpectedFollow.AppendToObject(samActor)
 	testClientExpectedAcceptFollow = &vocab.Accept{}
 	testClientExpectedAcceptFollow.SetId(*testNewIRI)
-	testClientExpectedAcceptFollow.AddActorObject(samActor)
-	testClientExpectedAcceptFollow.AddObject(testFollow)
-	testClientExpectedAcceptFollow.AddToObject(sallyActor)
+	testClientExpectedAcceptFollow.AppendActorObject(samActor)
+	testClientExpectedAcceptFollow.AppendObject(testFollow)
+	testClientExpectedAcceptFollow.AppendToObject(sallyActor)
 	testClientExpectedRejectFollow = &vocab.Reject{}
 	testClientExpectedRejectFollow.SetId(*testNewIRI)
-	testClientExpectedRejectFollow.AddActorObject(samActor)
-	testClientExpectedRejectFollow.AddObject(testFollow)
-	testClientExpectedRejectFollow.AddToObject(sallyActor)
+	testClientExpectedRejectFollow.AppendActorObject(samActor)
+	testClientExpectedRejectFollow.AppendObject(testFollow)
+	testClientExpectedRejectFollow.AppendToObject(sallyActor)
 	testClientExpectedAdd = &vocab.Add{}
 	testClientExpectedAdd.SetId(*testNewIRI)
-	testClientExpectedAdd.AddActorObject(sallyActor)
-	testClientExpectedAdd.AddObject(testNote)
-	testClientExpectedAdd.AddTargetIRI(*iri)
-	testClientExpectedAdd.AddToObject(samActor)
+	testClientExpectedAdd.AppendActorObject(sallyActor)
+	testClientExpectedAdd.AppendObject(testNote)
+	testClientExpectedAdd.AppendTargetIRI(*iri)
+	testClientExpectedAdd.AppendToObject(samActor)
 	testClientExpectedRemove = &vocab.Remove{}
 	testClientExpectedRemove.SetId(*testNewIRI)
-	testClientExpectedRemove.AddActorObject(sallyActor)
-	testClientExpectedRemove.AddObject(testNote)
-	testClientExpectedRemove.AddTargetIRI(*iri)
-	testClientExpectedRemove.AddToObject(samActor)
+	testClientExpectedRemove.AppendActorObject(sallyActor)
+	testClientExpectedRemove.AppendObject(testNote)
+	testClientExpectedRemove.AppendTargetIRI(*iri)
+	testClientExpectedRemove.AppendToObject(samActor)
 	testClientExpectedLike = &vocab.Like{}
 	testClientExpectedLike.SetId(*testNewIRI)
-	testClientExpectedLike.AddActorObject(sallyActor)
-	testClientExpectedLike.AddObject(testNote)
-	testClientExpectedLike.AddToObject(samActor)
+	testClientExpectedLike.AppendActorObject(sallyActor)
+	testClientExpectedLike.AppendObject(testNote)
+	testClientExpectedLike.AppendToObject(samActor)
 	testClientExpectedUndo = &vocab.Undo{}
 	testClientExpectedUndo.SetId(*testNewIRI)
-	testClientExpectedUndo.AddActorObject(sallyActor)
-	testClientExpectedUndo.AddObject(testLikeNote)
-	testClientExpectedUndo.AddToObject(samActor)
+	testClientExpectedUndo.AppendActorObject(sallyActor)
+	testClientExpectedUndo.AppendObject(testLikeNote)
+	testClientExpectedUndo.AppendToObject(samActor)
 	testClientExpectedBlock = &vocab.Block{}
 	testClientExpectedBlock.SetId(*testNewIRI)
-	testClientExpectedBlock.AddActorObject(sallyActor)
-	testClientExpectedBlock.AddObject(samActor)
+	testClientExpectedBlock.AppendActorObject(sallyActor)
+	testClientExpectedBlock.AppendObject(samActor)
 
 	testPrivateKey, err = rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
@@ -950,7 +950,7 @@ func PreparePostInboxTest(t *testing.T, app *MockApplication, socialApp *MockSoc
 	}
 	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
 		oc := &vocab.OrderedCollection{}
-		oc.AddType("OrderedCollection")
+		oc.AppendType("OrderedCollection")
 		return oc, nil
 	}
 	app.set = func(c context.Context, o PubObject) error {
@@ -984,7 +984,7 @@ func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSo
 	}
 	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
 		oc := &vocab.OrderedCollection{}
-		oc.AddType("OrderedCollection")
+		oc.AppendType("OrderedCollection")
 		return oc, nil
 	}
 	app.set = func(c context.Context, o PubObject) error {
@@ -1090,7 +1090,7 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
 		gotOutbox++
 		oc := &vocab.OrderedCollection{}
-		oc.AddType("OrderedCollection")
+		oc.AppendType("OrderedCollection")
 		return oc, nil
 	}
 	gotSet := 0
@@ -1184,7 +1184,7 @@ func TestSocialPubber_PostOutbox_SocialAPIVerified(t *testing.T) {
 	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
 		gotOutbox++
 		oc := &vocab.OrderedCollection{}
-		oc.AddType("OrderedCollection")
+		oc.AppendType("OrderedCollection")
 		return oc, nil
 	}
 	gotSet := 0
@@ -1288,7 +1288,7 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
 		gotInbox++
 		oc := &vocab.OrderedCollection{}
-		oc.AddType("OrderedCollection")
+		oc.AppendType("OrderedCollection")
 		return oc, nil
 	}
 	gotSet := 0
@@ -1449,7 +1449,7 @@ func TestPubber_PostInbox(t *testing.T) {
 	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
 		gotInbox++
 		oc := &vocab.OrderedCollection{}
-		oc.AddType("OrderedCollection")
+		oc.AppendType("OrderedCollection")
 		return oc, nil
 	}
 	gotSet := 0
@@ -1597,7 +1597,7 @@ func TestPubber_PostOutbox(t *testing.T) {
 	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
 		gotOutbox++
 		oc := &vocab.OrderedCollection{}
-		oc.AddType("OrderedCollection")
+		oc.AppendType("OrderedCollection")
 		return oc, nil
 	}
 	gotSet := 0
@@ -1801,9 +1801,9 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Create{}
 				v.SetId(*noteActivityIRI)
-				v.AddSummaryString("Sally created a note")
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendSummaryString("Sally created a note")
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -1812,9 +1812,9 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Update{}
 				v.SetId(*noteActivityIRI)
-				v.AddSummaryString("Sally updated a note")
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendSummaryString("Sally updated a note")
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -1823,8 +1823,8 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Delete{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -1833,8 +1833,8 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Follow{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -1843,9 +1843,9 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Add{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
-				v.AddTargetObject(testNote)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
+				v.AppendTargetObject(testNote)
 				return v
 			},
 		},
@@ -1854,9 +1854,9 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Remove{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
-				v.AddTargetObject(testNote)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
+				v.AppendTargetObject(testNote)
 				return v
 			},
 		},
@@ -1865,8 +1865,8 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Like{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -1875,8 +1875,8 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Block{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -1885,8 +1885,8 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Undo{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -1918,9 +1918,9 @@ func TestPostInbox_RequiresTarget(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Add{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
-				v.AddObject(testNote)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
+				v.AppendObject(testNote)
 				return v
 			},
 		},
@@ -1929,9 +1929,9 @@ func TestPostInbox_RequiresTarget(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Remove{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
-				v.AddObject(testNote)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
+				v.AppendObject(testNote)
 				return v
 			},
 		},
@@ -1965,7 +1965,7 @@ func TestPostInbox_DoesNotAddToInboxIfDuplicate(t *testing.T) {
 	}
 	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
 		inbox := &vocab.OrderedCollection{}
-		inbox.AddOrderedItemsIRI(*noteActivityIRI)
+		inbox.AppendOrderedItemsIRI(*noteActivityIRI)
 		return inbox, nil
 	}
 	fedCb.create = func(c context.Context, s *streams.Create) error {
@@ -1973,7 +1973,7 @@ func TestPostInbox_DoesNotAddToInboxIfDuplicate(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expectedInbox := &vocab.OrderedCollection{}
-	expectedInbox.AddOrderedItemsIRI(*noteActivityIRI)
+	expectedInbox.AppendOrderedItemsIRI(*noteActivityIRI)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -1993,8 +1993,8 @@ func TestPostInbox_OriginMustMatch(t *testing.T) {
 			input: func() vocab.ActivityType {
 				a := &vocab.Update{}
 				a.SetId(*otherOriginIRI)
-				a.AddActorIRI(*otherOriginActorIRI)
-				a.AddObject(testCreateNote)
+				a.AppendActorIRI(*otherOriginActorIRI)
+				a.AppendObject(testCreateNote)
 				return a
 			},
 		},
@@ -2003,8 +2003,8 @@ func TestPostInbox_OriginMustMatch(t *testing.T) {
 			input: func() vocab.ActivityType {
 				a := &vocab.Delete{}
 				a.SetId(*otherOriginIRI)
-				a.AddActorIRI(*otherOriginActorIRI)
-				a.AddObjectIRI(*noteIRI)
+				a.AppendActorIRI(*otherOriginActorIRI)
+				a.AppendObjectIRI(*noteIRI)
 				return a
 			},
 		},
@@ -2034,8 +2034,8 @@ func TestPostInbox_ActivityActorsMustCoverObjectActors(t *testing.T) {
 			input: func() vocab.ActivityType {
 				a := &vocab.Undo{}
 				a.SetId(*noteActivityIRI)
-				a.AddActorObject(samActor)
-				a.AddObject(testLikeNote)
+				a.AppendActorObject(samActor)
+				a.AppendObject(testLikeNote)
 				return a
 			},
 		},
@@ -2204,16 +2204,16 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 			input: func() PubObject {
 				testNote := &vocab.Note{}
 				testNote.SetId(*noteIRI)
-				testNote.AddType("Note")
-				testNote.AddNameString(noteName)
-				testNote.AddContentString("This is a simple note")
+				testNote.AppendType("Note")
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
 				testNote.SetPublished(now)
 				return testNote
 			},
 			expected: func() vocab.Serializer {
 				testTombstoneNote := &vocab.Tombstone{}
 				testTombstoneNote.SetId(*noteIRI)
-				testTombstoneNote.AddFormerTypeString("Note")
+				testTombstoneNote.AppendFormerTypeString("Note")
 				testTombstoneNote.SetDeleted(now)
 				testTombstoneNote.SetPublished(now)
 				return testTombstoneNote
@@ -2224,16 +2224,16 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 			input: func() PubObject {
 				testNote := &vocab.Note{}
 				testNote.SetId(*noteIRI)
-				testNote.AddType("Note")
-				testNote.AddNameString(noteName)
-				testNote.AddContentString("This is a simple note")
+				testNote.AppendType("Note")
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
 				testNote.SetPublishedIRI(*iri)
 				return testNote
 			},
 			expected: func() vocab.Serializer {
 				testTombstoneNote := &vocab.Tombstone{}
 				testTombstoneNote.SetId(*noteIRI)
-				testTombstoneNote.AddFormerTypeString("Note")
+				testTombstoneNote.AppendFormerTypeString("Note")
 				testTombstoneNote.SetDeleted(now)
 				testTombstoneNote.SetPublishedIRI(*iri)
 				return testTombstoneNote
@@ -2244,16 +2244,16 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 			input: func() PubObject {
 				testNote := &vocab.Note{}
 				testNote.SetId(*noteIRI)
-				testNote.AddType("Note")
-				testNote.AddNameString(noteName)
-				testNote.AddContentString("This is a simple note")
+				testNote.AppendType("Note")
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
 				testNote.SetUpdated(now)
 				return testNote
 			},
 			expected: func() vocab.Serializer {
 				testTombstoneNote := &vocab.Tombstone{}
 				testTombstoneNote.SetId(*noteIRI)
-				testTombstoneNote.AddFormerTypeString("Note")
+				testTombstoneNote.AppendFormerTypeString("Note")
 				testTombstoneNote.SetDeleted(now)
 				testTombstoneNote.SetUpdated(now)
 				return testTombstoneNote
@@ -2264,16 +2264,16 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 			input: func() PubObject {
 				testNote := &vocab.Note{}
 				testNote.SetId(*noteIRI)
-				testNote.AddType("Note")
-				testNote.AddNameString(noteName)
-				testNote.AddContentString("This is a simple note")
+				testNote.AppendType("Note")
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
 				testNote.SetUpdatedIRI(*iri)
 				return testNote
 			},
 			expected: func() vocab.Serializer {
 				testTombstoneNote := &vocab.Tombstone{}
 				testTombstoneNote.SetId(*noteIRI)
-				testTombstoneNote.AddFormerTypeString("Note")
+				testTombstoneNote.AppendFormerTypeString("Note")
 				testTombstoneNote.SetDeleted(now)
 				testTombstoneNote.SetUpdatedIRI(*iri)
 				return testTombstoneNote
@@ -2435,8 +2435,8 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 		}
 	}
 	expected := &vocab.Reject{}
-	expected.AddObject(testFollow)
-	expected.AddToObject(sallyActor)
+	expected.AppendObject(testFollow)
+	expected.AppendToObject(sallyActor)
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	if err != nil {
 		t.Fatal(err)
@@ -2559,10 +2559,10 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 		return nil
 	}
 	expected := &vocab.Accept{}
-	expected.AddObject(testFollow)
-	expected.AddToObject(sallyActor)
+	expected.AppendObject(testFollow)
+	expected.AppendToObject(sallyActor)
 	expectedFollowers := &vocab.Collection{}
-	expectedFollowers.AddItemsObject(sallyActor)
+	expectedFollowers.AppendItemsObject(sallyActor)
 	expectedActor := &vocab.Person{}
 	expectedActor.SetInboxAnyURI(*samIRIInbox)
 	expectedActor.SetId(*samIRI)
@@ -2656,7 +2656,7 @@ func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) 
 	}
 	app.get = func(c context.Context, id url.URL) (PubObject, error) {
 		followers := &vocab.Collection{}
-		followers.AddItemsIRI(*sallyIRI)
+		followers.AppendItemsIRI(*sallyIRI)
 		samActor := &vocab.Person{}
 		samActor.SetInboxAnyURI(*samIRIInbox)
 		samActor.SetId(*samIRI)
@@ -2673,7 +2673,7 @@ func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) 
 		return nil
 	}
 	expectedFollowers := &vocab.Collection{}
-	expectedFollowers.AddItemsIRI(*sallyIRI)
+	expectedFollowers.AppendItemsIRI(*sallyIRI)
 	expectedActor := &vocab.Person{}
 	expectedActor.SetInboxAnyURI(*samIRIInbox)
 	expectedActor.SetId(*samIRI)
@@ -2755,7 +2755,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expectedFollowers := &vocab.OrderedCollection{}
-	expectedFollowers.AddOrderedItemsObject(sallyActor)
+	expectedFollowers.AppendOrderedItemsObject(sallyActor)
 	expectedActor := &vocab.Person{}
 	expectedActor.SetInboxAnyURI(*samIRIInbox)
 	expectedActor.SetId(*samIRI)
@@ -2840,7 +2840,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expectedFollowers := &vocab.Collection{}
-	expectedFollowers.AddItemsObject(sallyActor)
+	expectedFollowers.AppendItemsObject(sallyActor)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -2973,7 +2973,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 		return nil
 	}
 	expectedFollowing := &vocab.Collection{}
-	expectedFollowing.AddItemsObject(samActor)
+	expectedFollowing.AppendItemsObject(samActor)
 	expectedActor := &vocab.Person{}
 	expectedActor.SetInboxAnyURI(*sallyIRIInbox)
 	expectedActor.SetId(*sallyIRI)
@@ -3008,7 +3008,7 @@ func TestPostInbox_Accept_AcceptFollowDoesNotAddIfAlreadyInCollection(t *testing
 	}
 	app.get = func(c context.Context, id url.URL) (PubObject, error) {
 		following := &vocab.Collection{}
-		following.AddItemsIRI(*samIRI)
+		following.AppendItemsIRI(*samIRI)
 		sallyActor := &vocab.Person{}
 		sallyActor.SetInboxAnyURI(*sallyIRIInbox)
 		sallyActor.SetId(*sallyIRI)
@@ -3028,7 +3028,7 @@ func TestPostInbox_Accept_AcceptFollowDoesNotAddIfAlreadyInCollection(t *testing
 		return nil
 	}
 	expectedFollowing := &vocab.Collection{}
-	expectedFollowing.AddItemsIRI(*samIRI)
+	expectedFollowing.AppendItemsIRI(*samIRI)
 	expectedActor := &vocab.Person{}
 	expectedActor.SetInboxAnyURI(*sallyIRIInbox)
 	expectedActor.SetId(*sallyIRI)
@@ -3073,7 +3073,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersOrderedCollection(t *testin
 		return nil
 	}
 	expectedFollowing := &vocab.OrderedCollection{}
-	expectedFollowing.AddOrderedItemsObject(samActor)
+	expectedFollowing.AppendOrderedItemsObject(samActor)
 	expectedActor := &vocab.Person{}
 	expectedActor.SetInboxAnyURI(*sallyIRIInbox)
 	expectedActor.SetId(*sallyIRI)
@@ -3122,7 +3122,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIRI(t *testing.T) {
 		return nil
 	}
 	expectedFollowing := &vocab.OrderedCollection{}
-	expectedFollowing.AddOrderedItemsObject(samActor)
+	expectedFollowing.AppendOrderedItemsObject(samActor)
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	if err != nil {
 		t.Fatal(err)
@@ -3183,7 +3183,7 @@ func TestPostInbox_Accept_CallsCallback(t *testing.T) {
 		return nil
 	}
 	expectedFollowing := &vocab.Collection{}
-	expectedFollowing.AddItemsObject(samActor)
+	expectedFollowing.AppendItemsObject(samActor)
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	if err != nil {
 		t.Fatal(err)
@@ -3290,7 +3290,7 @@ func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.Collection{}
-	expected.AddItemsObject(testNote)
+	expected.AppendItemsObject(testNote)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -3449,7 +3449,7 @@ func TestPostInbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 		gotGet++
 		gotGetId = id
 		v := &vocab.Collection{}
-		v.AddItemsObject(testNote)
+		v.AppendItemsObject(testNote)
 		return v, nil
 	}
 	gotCanRemove := 0
@@ -3517,7 +3517,7 @@ func TestPostInbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 		gotGet++
 		gotGetId = id
 		v := &vocab.Collection{}
-		v.AddItemsObject(testNote)
+		v.AppendItemsObject(testNote)
 		return v, nil
 	}
 	gotCanRemove := 0
@@ -3534,7 +3534,7 @@ func TestPostInbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.Collection{}
-	expected.AddItemsObject(testNote)
+	expected.AppendItemsObject(testNote)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -3609,8 +3609,8 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 		gotGetId = id
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
-		v.AddNameString(noteName)
-		v.AddContentString("This is a simple note")
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
 		v.SetLikesCollection(&vocab.Collection{})
 		return v, nil
 	}
@@ -3628,11 +3628,11 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.Collection{}
-	expected.AddItemsObject(sallyActor)
+	expected.AppendItemsObject(sallyActor)
 	expectedNote := &vocab.Note{}
 	expectedNote.SetId(*noteIRI)
-	expectedNote.AddNameString(noteName)
-	expectedNote.AddContentString("This is a simple note")
+	expectedNote.AppendNameString(noteName)
+	expectedNote.AppendContentString("This is a simple note")
 	expectedNote.SetLikesCollection(expected)
 	if err != nil {
 		t.Fatal(err)
@@ -3663,11 +3663,11 @@ func TestPostInbox_Like_DoesNotAddLikeToCollectionIfAlreadyPresent(t *testing.T)
 	}
 	app.get = func(c context.Context, id url.URL) (PubObject, error) {
 		likes := &vocab.Collection{}
-		likes.AddItemsIRI(*sallyIRI)
+		likes.AppendItemsIRI(*sallyIRI)
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
-		v.AddNameString(noteName)
-		v.AddContentString("This is a simple note")
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
 		v.SetLikesCollection(likes)
 		return v, nil
 	}
@@ -3685,11 +3685,11 @@ func TestPostInbox_Like_DoesNotAddLikeToCollectionIfAlreadyPresent(t *testing.T)
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.Collection{}
-	expected.AddItemsIRI(*sallyIRI)
+	expected.AppendItemsIRI(*sallyIRI)
 	expectedNote := &vocab.Note{}
 	expectedNote.SetId(*noteIRI)
-	expectedNote.AddNameString(noteName)
-	expectedNote.AddContentString("This is a simple note")
+	expectedNote.AppendNameString(noteName)
+	expectedNote.AppendContentString("This is a simple note")
 	expectedNote.SetLikesCollection(expected)
 	if err != nil {
 		t.Fatal(err)
@@ -3713,8 +3713,8 @@ func TestPostInbox_Like_AddsToLikeOrderedCollection(t *testing.T) {
 	app.get = func(c context.Context, id url.URL) (PubObject, error) {
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
-		v.AddNameString(noteName)
-		v.AddContentString("This is a simple note")
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
 		v.SetLikesOrderedCollection(&vocab.OrderedCollection{})
 		return v, nil
 	}
@@ -3732,11 +3732,11 @@ func TestPostInbox_Like_AddsToLikeOrderedCollection(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.OrderedCollection{}
-	expected.AddOrderedItemsObject(sallyActor)
+	expected.AppendOrderedItemsObject(sallyActor)
 	expectedNote := &vocab.Note{}
 	expectedNote.SetId(*noteIRI)
-	expectedNote.AddNameString(noteName)
-	expectedNote.AddContentString("This is a simple note")
+	expectedNote.AppendNameString(noteName)
+	expectedNote.AppendContentString("This is a simple note")
 	expectedNote.SetLikesOrderedCollection(expected)
 	if err != nil {
 		t.Fatal(err)
@@ -3759,8 +3759,8 @@ func TestPostInbox_Like_AddsToLikeIRI(t *testing.T) {
 		if id == *noteIRI {
 			v := &vocab.Note{}
 			v.SetId(*noteIRI)
-			v.AddNameString(noteName)
-			v.AddContentString("This is a simple note")
+			v.AppendNameString(noteName)
+			v.AppendContentString("This is a simple note")
 			v.SetLikesAnyURI(*testNewIRI)
 			return v, nil
 		} else if id == *testNewIRI {
@@ -3783,7 +3783,7 @@ func TestPostInbox_Like_AddsToLikeIRI(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.OrderedCollection{}
-	expected.AddOrderedItemsObject(sallyActor)
+	expected.AppendOrderedItemsObject(sallyActor)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -3804,8 +3804,8 @@ func TestPostInbox_Like_CallsCallback(t *testing.T) {
 	app.get = func(c context.Context, id url.URL) (PubObject, error) {
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
-		v.AddNameString(noteName)
-		v.AddContentString("This is a simple note")
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
 		v.SetLikesCollection(&vocab.Collection{})
 		return v, nil
 	}
@@ -3892,15 +3892,15 @@ func TestGetInbox_DeduplicateInboxItems(t *testing.T) {
 	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
 	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
 		v := &vocab.OrderedCollection{}
-		v.AddOrderedItemsObject(testCreateNote)
-		v.AddOrderedItemsObject(testCreateNote)
-		v.AddOrderedItemsObject(testUpdateNote)
+		v.AppendOrderedItemsObject(testCreateNote)
+		v.AppendOrderedItemsObject(testCreateNote)
+		v.AppendOrderedItemsObject(testUpdateNote)
 		return v, nil
 	}
 	handled, err := p.GetInbox(context.Background(), resp, req)
 	expected := &vocab.OrderedCollection{}
-	expected.AddOrderedItemsObject(testCreateNote)
-	expected.AddOrderedItemsObject(testUpdateNote)
+	expected.AppendOrderedItemsObject(testCreateNote)
+	expected.AppendOrderedItemsObject(testUpdateNote)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -4100,21 +4100,21 @@ func TestPostOutbox_WrapInCreateActivity(t *testing.T) {
 	// Raw Note
 	rawNote := &vocab.Note{}
 	rawNote.SetId(*noteIRI)
-	rawNote.AddNameString(noteName)
-	rawNote.AddContentString("This is a simple note")
-	rawNote.AddToObject(samActor)
+	rawNote.AppendNameString(noteName)
+	rawNote.AppendContentString("This is a simple note")
+	rawNote.AppendToObject(samActor)
 	// Expected result
 	expectedNote := &vocab.Note{}
 	expectedNote.SetId(*noteIRI)
-	expectedNote.AddNameString(noteName)
-	expectedNote.AddContentString("This is a simple note")
-	expectedNote.AddToObject(samActor)
-	expectedNote.AddAttributedToIRI(*sallyIRI)
+	expectedNote.AppendNameString(noteName)
+	expectedNote.AppendContentString("This is a simple note")
+	expectedNote.AppendToObject(samActor)
+	expectedNote.AppendAttributedToIRI(*sallyIRI)
 	expectedCreate := &vocab.Create{}
 	expectedCreate.SetId(*testNewIRI)
-	expectedCreate.AddActorIRI(*sallyIRI)
-	expectedCreate.AddObject(expectedNote)
-	expectedCreate.AddToObject(samActor)
+	expectedCreate.AppendActorIRI(*sallyIRI)
+	expectedCreate.AppendObject(expectedNote)
+	expectedCreate.AppendToObject(samActor)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(rawNote)))))
 	gotActorIRI := 0
@@ -4153,9 +4153,9 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Create{}
 				v.SetId(*noteActivityIRI)
-				v.AddSummaryString("Sally created a note")
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendSummaryString("Sally created a note")
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -4164,9 +4164,9 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Update{}
 				v.SetId(*noteActivityIRI)
-				v.AddSummaryString("Sally updated a note")
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendSummaryString("Sally updated a note")
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -4175,8 +4175,8 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Delete{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -4185,8 +4185,8 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Follow{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -4195,9 +4195,9 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Add{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
-				v.AddTargetObject(testNote)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
+				v.AppendTargetObject(testNote)
 				return v
 			},
 		},
@@ -4206,9 +4206,9 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Remove{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
-				v.AddTargetObject(testNote)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
+				v.AppendTargetObject(testNote)
 				return v
 			},
 		},
@@ -4217,8 +4217,8 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Like{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -4227,8 +4227,8 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Block{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -4237,8 +4237,8 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Undo{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
 				return v
 			},
 		},
@@ -4268,9 +4268,9 @@ func TestPostOutbox_RequiresTarget(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Add{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
-				v.AddObject(testNote)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
+				v.AppendObject(testNote)
 				return v
 			},
 		},
@@ -4279,9 +4279,9 @@ func TestPostOutbox_RequiresTarget(t *testing.T) {
 			input: func() vocab.Serializer {
 				v := &vocab.Remove{}
 				v.SetId(*noteActivityIRI)
-				v.AddActorObject(sallyActor)
-				v.AddToObject(samActor)
-				v.AddObject(testNote)
+				v.AppendActorObject(sallyActor)
+				v.AppendToObject(samActor)
+				v.AppendObject(testNote)
 				return v
 			},
 		},
@@ -4347,8 +4347,8 @@ func TestPostOutbox_Create_SetCreatedObject(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedOutbox := &vocab.OrderedCollection{}
-	expectedOutbox.AddType("OrderedCollection")
-	expectedOutbox.AddOrderedItemsObject(testClientExpectedCreateNote)
+	expectedOutbox.AppendType("OrderedCollection")
+	expectedOutbox.AppendOrderedItemsObject(testClientExpectedCreateNote)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -4451,12 +4451,12 @@ func TestPostOutbox_Update_DeleteSubFields(t *testing.T) {
 		samActor := &vocab.Person{}
 		samActor.SetInboxAnyURI(*samIRIInbox)
 		samActor.SetId(*samIRI)
-		samActor.AddNameString("Sam")
+		samActor.AppendNameString("Sam")
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
-		v.AddNameString(noteName)
-		v.AddContentString("This is a simple note")
-		v.AddToObject(samActor)
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
+		v.AppendToObject(samActor)
 		return v, nil
 	}
 	gotSet := 0
@@ -4474,9 +4474,9 @@ func TestPostOutbox_Update_DeleteSubFields(t *testing.T) {
 	expectedSamActor.SetId(*samIRI)
 	expectedUpdatedNote := &vocab.Note{}
 	expectedUpdatedNote.SetId(*noteIRI)
-	expectedUpdatedNote.AddNameString(noteName)
-	expectedUpdatedNote.AddContentString("This is a simple note")
-	expectedUpdatedNote.AddToObject(expectedSamActor)
+	expectedUpdatedNote.AppendNameString(noteName)
+	expectedUpdatedNote.AppendContentString("This is a simple note")
+	expectedUpdatedNote.AppendToObject(expectedSamActor)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -4507,12 +4507,12 @@ func TestPostOutbox_Update_DeleteFields(t *testing.T) {
 		samActor := &vocab.Person{}
 		samActor.SetInboxAnyURI(*samIRIInbox)
 		samActor.SetId(*samIRI)
-		samActor.AddNameString("Sam")
+		samActor.AppendNameString("Sam")
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
-		v.AddNameString(noteName)
-		v.AddContentString("This is a simple note")
-		v.AddToObject(samActor)
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
+		v.AppendToObject(samActor)
 		return v, nil
 	}
 	gotSet := 0
@@ -4527,8 +4527,8 @@ func TestPostOutbox_Update_DeleteFields(t *testing.T) {
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedUpdatedNote := &vocab.Note{}
 	expectedUpdatedNote.SetId(*noteIRI)
-	expectedUpdatedNote.AddNameString(noteName)
-	expectedUpdatedNote.AddContentString("This is a simple note")
+	expectedUpdatedNote.AppendNameString(noteName)
+	expectedUpdatedNote.AppendContentString("This is a simple note")
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -4558,22 +4558,22 @@ func TestPostOutbox_Update_DeleteSubFieldsMultipleObjects(t *testing.T) {
 			samActor := &vocab.Person{}
 			samActor.SetInboxAnyURI(*samIRIInbox)
 			samActor.SetId(*samIRI)
-			samActor.AddNameString("Sam")
+			samActor.AppendNameString("Sam")
 			v = &vocab.Note{}
 			v.SetId(*noteIRI)
-			v.AddNameString(noteName)
-			v.AddContentString("This is a simple note")
-			v.AddToObject(samActor)
+			v.AppendNameString(noteName)
+			v.AppendContentString("This is a simple note")
+			v.AppendToObject(samActor)
 		} else if id == *updateActivityIRI {
 			samActor := &vocab.Person{}
 			samActor.SetInboxAnyURI(*samIRIInbox)
 			samActor.SetId(*samIRI)
-			samActor.AddNameString("Sam")
+			samActor.AppendNameString("Sam")
 			v = &vocab.Note{}
 			v.SetId(*updateActivityIRI)
-			v.AddNameString(noteName)
-			v.AddContentString("This is a simple note")
-			v.AddToObject(samActor)
+			v.AppendNameString(noteName)
+			v.AppendContentString("This is a simple note")
+			v.AppendToObject(samActor)
 		} else {
 			t.Fatalf("unexpected app.Get id: %s", id)
 		}
@@ -4597,14 +4597,14 @@ func TestPostOutbox_Update_DeleteSubFieldsMultipleObjects(t *testing.T) {
 	expectedSamActor.SetId(*samIRI)
 	expectedUpdatedNote := &vocab.Note{}
 	expectedUpdatedNote.SetId(*noteIRI)
-	expectedUpdatedNote.AddNameString(noteName)
-	expectedUpdatedNote.AddContentString("This is a simple note")
-	expectedUpdatedNote.AddToObject(expectedSamActor)
+	expectedUpdatedNote.AppendNameString(noteName)
+	expectedUpdatedNote.AppendContentString("This is a simple note")
+	expectedUpdatedNote.AppendToObject(expectedSamActor)
 	expectedUpdatedNote2 := &vocab.Note{}
 	expectedUpdatedNote2.SetId(*updateActivityIRI)
-	expectedUpdatedNote2.AddNameString(noteName)
-	expectedUpdatedNote2.AddContentString("This is a simple note")
-	expectedUpdatedNote2.AddToObject(expectedSamActor)
+	expectedUpdatedNote2.AppendNameString(noteName)
+	expectedUpdatedNote2.AppendContentString("This is a simple note")
+	expectedUpdatedNote2.AppendToObject(expectedSamActor)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -4637,12 +4637,12 @@ func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
 		samActor := &vocab.Person{}
 		samActor.SetInboxAnyURI(*samIRIInbox)
 		samActor.SetId(*samIRI)
-		samActor.AddNameString("Sam")
+		samActor.AppendNameString("Sam")
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
-		v.AddNameString(noteName)
-		v.AddContentString("This is a simple note")
-		v.AddToObject(samActor)
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
+		v.AppendToObject(samActor)
 		return v, nil
 	}
 	gotSet := 0
@@ -4658,12 +4658,12 @@ func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
 	samActor := &vocab.Person{}
 	samActor.SetInboxAnyURI(*samIRIInbox)
 	samActor.SetId(*samIRI)
-	samActor.AddNameString("Samm")
+	samActor.AppendNameString("Samm")
 	expectedUpdatedNote := &vocab.Note{}
 	expectedUpdatedNote.SetId(*noteIRI)
-	expectedUpdatedNote.AddNameString(noteName)
-	expectedUpdatedNote.AddContentString("This is a simple note")
-	expectedUpdatedNote.AddToObject(samActor)
+	expectedUpdatedNote.AppendNameString(noteName)
+	expectedUpdatedNote.AppendContentString("This is a simple note")
+	expectedUpdatedNote.AppendToObject(samActor)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -4693,12 +4693,12 @@ func TestPostOutbox_Update_CallsCallback(t *testing.T) {
 		samActor := &vocab.Person{}
 		samActor.SetInboxAnyURI(*samIRIInbox)
 		samActor.SetId(*samIRI)
-		samActor.AddNameString("Sam")
+		samActor.AppendNameString("Sam")
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
-		v.AddNameString(noteName)
-		v.AddContentString("This is a simple note")
-		v.AddToObject(samActor)
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
+		v.AppendToObject(samActor)
 		return v, nil
 	}
 	app.set = func(c context.Context, p PubObject) error {
@@ -4754,12 +4754,12 @@ func TestPostOutbox_Update_IsDelivered(t *testing.T) {
 		samActor := &vocab.Person{}
 		samActor.SetInboxAnyURI(*samIRIInbox)
 		samActor.SetId(*samIRI)
-		samActor.AddNameString("Sam")
+		samActor.AppendNameString("Sam")
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
-		v.AddNameString(noteName)
-		v.AddContentString("This is a simple note")
-		v.AddToObject(samActor)
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
+		v.AppendToObject(samActor)
 		return v, nil
 	}
 	app.set = func(c context.Context, p PubObject) error {
@@ -4794,7 +4794,7 @@ func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
 		}
 		v := &vocab.Note{}
-		v.AddType("Note")
+		v.AppendType("Note")
 		v.SetId(*noteIRI)
 		v.SetPublished(testPublishedTime)
 		v.SetUpdated(testUpdateTime)
@@ -4815,7 +4815,7 @@ func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 	expectedTombstone.SetPublished(testPublishedTime)
 	expectedTombstone.SetUpdated(testUpdateTime)
 	expectedTombstone.SetDeleted(now)
-	expectedTombstone.AddFormerTypeString("Note")
+	expectedTombstone.AppendFormerTypeString("Note")
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -5170,7 +5170,7 @@ func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
-		col.AddType("Collection")
+		col.AppendType("Collection")
 		return col, nil
 	}
 	gotCanAdd := 0
@@ -5196,8 +5196,8 @@ func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedTarget := &vocab.Collection{}
-	expectedTarget.AddType("Collection")
-	expectedTarget.AddItemsObject(testNote)
+	expectedTarget.AppendType("Collection")
+	expectedTarget.AppendItemsObject(testNote)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -5233,7 +5233,7 @@ func TestPostOutbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
-		col.AddType("Collection")
+		col.AppendType("Collection")
 		return col, nil
 	}
 	gotCanAdd := 0
@@ -5250,7 +5250,7 @@ func TestPostOutbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedTarget := &vocab.Collection{}
-	expectedTarget.AddType("Collection")
+	expectedTarget.AppendType("Collection")
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -5387,8 +5387,8 @@ func TestPostOutbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
-		col.AddType("Collection")
-		col.AddItemsObject(testNote)
+		col.AppendType("Collection")
+		col.AppendItemsObject(testNote)
 		return col, nil
 	}
 	gotCanRemove := 0
@@ -5414,7 +5414,7 @@ func TestPostOutbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedTarget := &vocab.Collection{}
-	expectedTarget.AddType("Collection")
+	expectedTarget.AppendType("Collection")
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -5450,8 +5450,8 @@ func TestPostOutbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
-		col.AddType("Collection")
-		col.AddItemsObject(testNote)
+		col.AppendType("Collection")
+		col.AppendItemsObject(testNote)
 		return col, nil
 	}
 	gotCanRemove := 0
@@ -5468,8 +5468,8 @@ func TestPostOutbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedTarget := &vocab.Collection{}
-	expectedTarget.AddType("Collection")
-	expectedTarget.AddItemsObject(testNote)
+	expectedTarget.AppendType("Collection")
+	expectedTarget.AppendItemsObject(testNote)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -5583,7 +5583,7 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 		gotGet++
 		gotGetIri = iri
 		v := &vocab.Person{}
-		v.AddNameString("Sally")
+		v.AppendNameString("Sally")
 		v.SetId(*sallyIRI)
 		v.SetLikedCollection(&vocab.Collection{})
 		return v, nil
@@ -5602,9 +5602,9 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedLikes := &vocab.Collection{}
-	expectedLikes.AddItemsObject(testNote)
+	expectedLikes.AppendItemsObject(testNote)
 	expectedActor := &vocab.Person{}
-	expectedActor.AddNameString("Sally")
+	expectedActor.AppendNameString("Sally")
 	expectedActor.SetId(*sallyIRI)
 	expectedActor.SetLikedCollection(expectedLikes)
 	if err != nil {
@@ -5636,9 +5636,9 @@ func TestPostOutbox_Like_DoesNotAddIfAlreadyLiked(t *testing.T) {
 	}
 	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
 		liked := &vocab.Collection{}
-		liked.AddItemsIRI(*noteIRI)
+		liked.AppendItemsIRI(*noteIRI)
 		v := &vocab.Person{}
-		v.AddNameString("Sally")
+		v.AppendNameString("Sally")
 		v.SetId(*sallyIRI)
 		v.SetLikedCollection(liked)
 		return v, nil
@@ -5657,9 +5657,9 @@ func TestPostOutbox_Like_DoesNotAddIfAlreadyLiked(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedLikes := &vocab.Collection{}
-	expectedLikes.AddItemsIRI(*noteIRI)
+	expectedLikes.AppendItemsIRI(*noteIRI)
 	expectedActor := &vocab.Person{}
-	expectedActor.AddNameString("Sally")
+	expectedActor.AppendNameString("Sally")
 	expectedActor.SetId(*sallyIRI)
 	expectedActor.SetLikedCollection(expectedLikes)
 	if err != nil {
@@ -5683,7 +5683,7 @@ func TestPostOutbox_Like_AddsToLikedOrderedCollection(t *testing.T) {
 	}
 	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
 		v := &vocab.Person{}
-		v.AddNameString("Sally")
+		v.AppendNameString("Sally")
 		v.SetId(*sallyIRI)
 		v.SetLikedOrderedCollection(&vocab.OrderedCollection{})
 		return v, nil
@@ -5702,9 +5702,9 @@ func TestPostOutbox_Like_AddsToLikedOrderedCollection(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedLikes := &vocab.OrderedCollection{}
-	expectedLikes.AddOrderedItemsObject(testNote)
+	expectedLikes.AppendOrderedItemsObject(testNote)
 	expectedActor := &vocab.Person{}
-	expectedActor.AddNameString("Sally")
+	expectedActor.AppendNameString("Sally")
 	expectedActor.SetId(*sallyIRI)
 	expectedActor.SetLikedOrderedCollection(expectedLikes)
 	if err != nil {
@@ -5753,7 +5753,7 @@ func TestPostOutbox_Like_CallsCallback(t *testing.T) {
 	}
 	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
 		v := &vocab.Person{}
-		v.AddNameString("Sally")
+		v.AppendNameString("Sally")
 		v.SetId(*sallyIRI)
 		v.SetLikedOrderedCollection(&vocab.OrderedCollection{})
 		return v, nil
@@ -5790,7 +5790,7 @@ func TestPostOutbox_Like_IsDelivered(t *testing.T) {
 	}
 	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
 		v := &vocab.Person{}
-		v.AddNameString("Sally")
+		v.AppendNameString("Sally")
 		v.SetId(*sallyIRI)
 		v.SetLikedOrderedCollection(&vocab.OrderedCollection{})
 		return v, nil

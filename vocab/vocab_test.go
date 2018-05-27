@@ -1041,16 +1041,16 @@ func TestSerialization(t *testing.T) {
 func TestSerializationWithoutTypeSet(t *testing.T) {
 	obj := &Object{}
 	obj.SetId(MustParseURL("http://www.test.example/object/1"))
-	obj.AddNameString("A Simple, non-specific object")
+	obj.AppendNameString("A Simple, non-specific object")
 
 	person := &Person{}
-	person.AddNameString("Sally")
+	person.AppendNameString("Sally")
 	place := &Place{}
-	place.AddNameString("Work")
+	place.AppendNameString("Work")
 	obj4 := &Travel{}
-	obj4.AddSummaryString("Sally went to work")
-	obj4.AddActorObject(person)
-	obj4.AddTargetObject(place)
+	obj4.AppendSummaryString("Sally went to work")
+	obj4.AppendActorObject(person)
+	obj4.AppendTargetObject(place)
 
 	tables := []struct {
 		name         string
@@ -1121,14 +1121,14 @@ func TestReserializationAbility(t *testing.T) {
 	expectedSamActor.SetId(*samIRI)
 	expectedNote := &Note{}
 	expectedNote.SetId(*noteIRI)
-	expectedNote.AddNameString("A Note")
-	expectedNote.AddContentString("This is a simple note")
-	expectedNote.AddToObject(expectedSamActor)
+	expectedNote.AppendNameString("A Note")
+	expectedNote.AppendContentString("This is a simple note")
+	expectedNote.AppendToObject(expectedSamActor)
 	expectedUpdate := &Update{}
-	expectedUpdate.AddActorIRI(*sallyIRI)
-	expectedUpdate.AddSummaryString("Sally updated her note")
+	expectedUpdate.AppendActorIRI(*sallyIRI)
+	expectedUpdate.AppendSummaryString("Sally updated her note")
 	expectedUpdate.SetId(*activityIRI)
-	expectedUpdate.AddObject(expectedNote)
+	expectedUpdate.AppendObject(expectedNote)
 	tables := []struct {
 		name         string
 		expected     Serializer

@@ -274,7 +274,7 @@ type PubObject interface {
 	GetId() url.URL
 	SetId(url.URL)
 	HasId() bool
-	AddType(interface{})
+	AppendType(interface{})
 	RemoveType(int)
 }
 

@@ -758,16 +758,31 @@ func generateNonFunctionalIRI(p *defs.PropertyType, this *defs.StructDef) {
 			},
 		},
 		{
-			Name:    fmt.Sprintf("Add%s", titleName),
-			Comment: fmt.Sprintf("Add%s appends the value for property '%s'.", titleName, p.Name),
+			Name:    fmt.Sprintf("Append%s", titleName),
+			Comment: fmt.Sprintf("Append%s appends the value for property '%s'.", titleName, p.Name),
 			P:       this,
 			Args:    []*defs.FunctionVarDef{{"k", kind}},
 			Body: func() string {
 				var b bytes.Buffer
 				if onlyType {
-					b.WriteString(fmt.Sprintf("t.%s.Add%s%s(k)\n", rawMemberName, titleName, iri))
+					b.WriteString(fmt.Sprintf("t.%s.Append%s%s(k)\n", rawMemberName, titleName, iri))
 				} else {
-					b.WriteString(fmt.Sprintf("t.%s.Add%s%s(k)\n", rawMemberName, titleName, iri))
+					b.WriteString(fmt.Sprintf("t.%s.Append%s%s(k)\n", rawMemberName, titleName, iri))
+				}
+				return b.String()
+			},
+		},
+		{
+			Name:    fmt.Sprintf("Prepend%s", titleName),
+			Comment: fmt.Sprintf("Prepend%s prepends the value for property '%s'.", titleName, p.Name),
+			P:       this,
+			Args:    []*defs.FunctionVarDef{{"k", kind}},
+			Body: func() string {
+				var b bytes.Buffer
+				if onlyType {
+					b.WriteString(fmt.Sprintf("t.%s.Prepend%s%s(k)\n", rawMemberName, titleName, iri))
+				} else {
+					b.WriteString(fmt.Sprintf("t.%s.Prepend%s%s(k)\n", rawMemberName, titleName, iri))
 				}
 				return b.String()
 			},
@@ -904,24 +919,46 @@ func generateNonFunctionalObjectLink(p *defs.PropertyType, this *defs.StructDef,
 			},
 		},
 		{
-			Name:    fmt.Sprintf("Add%s", titleName),
-			Comment: fmt.Sprintf("Add%s adds an 'Object' typed value.", titleName),
+			Name:    fmt.Sprintf("Append%s", titleName),
+			Comment: fmt.Sprintf("Append%s appends an 'Object' typed value.", titleName),
 			P:       this,
 			Args:    []*defs.FunctionVarDef{{"i", "vocab.ObjectType"}},
 			Body: func() string {
 				var b bytes.Buffer
-				b.WriteString(fmt.Sprintf("t.%s.Add%sObject(i)\n", rawMemberName, titleName))
+				b.WriteString(fmt.Sprintf("t.%s.Append%sObject(i)\n", rawMemberName, titleName))
 				return b.String()
 			},
 		},
 		{
-			Name:    fmt.Sprintf("Set%sLink", titleName),
-			Comment: fmt.Sprintf("Set%sLink adds a 'Link' typed value.", titleName),
+			Name:    fmt.Sprintf("Prepend%s", titleName),
+			Comment: fmt.Sprintf("Prepend%s prepends an 'Object' typed value.", titleName),
+			P:       this,
+			Args:    []*defs.FunctionVarDef{{"i", "vocab.ObjectType"}},
+			Body: func() string {
+				var b bytes.Buffer
+				b.WriteString(fmt.Sprintf("t.%s.Prepend%sObject(i)\n", rawMemberName, titleName))
+				return b.String()
+			},
+		},
+		{
+			Name:    fmt.Sprintf("Append%sLink", titleName),
+			Comment: fmt.Sprintf("Append%sLink appends a 'Link' typed value.", titleName),
 			P:       this,
 			Args:    []*defs.FunctionVarDef{{"i", "vocab.LinkType"}},
 			Body: func() string {
 				var b bytes.Buffer
-				b.WriteString(fmt.Sprintf("t.%s.Add%sLink(i)\n", rawMemberName, titleName))
+				b.WriteString(fmt.Sprintf("t.%s.Append%sLink(i)\n", rawMemberName, titleName))
+				return b.String()
+			},
+		},
+		{
+			Name:    fmt.Sprintf("Prepend%sLink", titleName),
+			Comment: fmt.Sprintf("Prepend%sLink prepends a 'Link' typed value.", titleName),
+			P:       this,
+			Args:    []*defs.FunctionVarDef{{"i", "vocab.LinkType"}},
+			Body: func() string {
+				var b bytes.Buffer
+				b.WriteString(fmt.Sprintf("t.%s.Prepend%sLink(i)\n", rawMemberName, titleName))
 				return b.String()
 			},
 		},
@@ -980,16 +1017,31 @@ func generateNonFunctionalPropertyType(p *defs.PropertyType, this *defs.StructDe
 			},
 		},
 		{
-			Name:    fmt.Sprintf("Add%s", titleName),
-			Comment: fmt.Sprintf("Add%s appends the value for property '%s'.", titleName, p.Name),
+			Name:    fmt.Sprintf("Append%s", titleName),
+			Comment: fmt.Sprintf("Append%s appends the value for property '%s'.", titleName, p.Name),
 			P:       this,
 			Args:    []*defs.FunctionVarDef{{"i", "vocab." + gen.InterfaceName(ref)}},
 			Body: func() string {
 				var b bytes.Buffer
 				if onlyType {
-					b.WriteString(fmt.Sprintf("t.%s.Add%s(i)\n", rawMemberName, titleName))
+					b.WriteString(fmt.Sprintf("t.%s.Append%s(i)\n", rawMemberName, titleName))
 				} else {
-					b.WriteString(fmt.Sprintf("t.%s.Add%s%s(i)\n", rawMemberName, titleName, additionalTitleName))
+					b.WriteString(fmt.Sprintf("t.%s.Append%s%s(i)\n", rawMemberName, titleName, additionalTitleName))
+				}
+				return b.String()
+			},
+		},
+		{
+			Name:    fmt.Sprintf("Prepend%s", titleName),
+			Comment: fmt.Sprintf("Prepend%s prepends the value for property '%s'.", titleName, p.Name),
+			P:       this,
+			Args:    []*defs.FunctionVarDef{{"i", "vocab." + gen.InterfaceName(ref)}},
+			Body: func() string {
+				var b bytes.Buffer
+				if onlyType {
+					b.WriteString(fmt.Sprintf("t.%s.Prepend%s(i)\n", rawMemberName, titleName))
+				} else {
+					b.WriteString(fmt.Sprintf("t.%s.Prepend%s%s(i)\n", rawMemberName, titleName, additionalTitleName))
 				}
 				return b.String()
 			},
@@ -1093,16 +1145,31 @@ func generateNonFunctionalPropertyValue(p *defs.PropertyType, this *defs.StructD
 			},
 		},
 		{
-			Name:    fmt.Sprintf("Add%s", titleName),
-			Comment: fmt.Sprintf("Add%s appends the value for property '%s'.", titleName, p.Name),
+			Name:    fmt.Sprintf("Append%s", titleName),
+			Comment: fmt.Sprintf("Append%s appends the value for property '%s'.", titleName, p.Name),
 			P:       this,
 			Args:    []*defs.FunctionVarDef{{"k", kind}},
 			Body: func() string {
 				var b bytes.Buffer
 				if onlyType {
-					b.WriteString(fmt.Sprintf("t.%s.Add%s(k)\n", rawMemberName, titleName))
+					b.WriteString(fmt.Sprintf("t.%s.Append%s(k)\n", rawMemberName, titleName))
 				} else {
-					b.WriteString(fmt.Sprintf("t.%s.Add%s%s(k)\n", rawMemberName, titleName, additionalTitleName))
+					b.WriteString(fmt.Sprintf("t.%s.Append%s%s(k)\n", rawMemberName, titleName, additionalTitleName))
+				}
+				return b.String()
+			},
+		},
+		{
+			Name:    fmt.Sprintf("Prepend%s", titleName),
+			Comment: fmt.Sprintf("Prepend%s prepends the value for property '%s'.", titleName, p.Name),
+			P:       this,
+			Args:    []*defs.FunctionVarDef{{"k", kind}},
+			Body: func() string {
+				var b bytes.Buffer
+				if onlyType {
+					b.WriteString(fmt.Sprintf("t.%s.Prepend%s(k)\n", rawMemberName, titleName))
+				} else {
+					b.WriteString(fmt.Sprintf("t.%s.Prepend%s%s(k)\n", rawMemberName, titleName, additionalTitleName))
 				}
 				return b.String()
 			},
@@ -1189,13 +1256,24 @@ func generateNonFunctionalPropertyAny(p *defs.PropertyType, this *defs.StructDef
 			},
 		},
 		{
-			Name:    fmt.Sprintf("Add%s", titleName),
-			Comment: fmt.Sprintf("Add%s appends the value for property '%s'.", titleName, p.Name),
+			Name:    fmt.Sprintf("Append%s", titleName),
+			Comment: fmt.Sprintf("Append%s appends the value for property '%s'.", titleName, p.Name),
 			P:       this,
 			Args:    []*defs.FunctionVarDef{{"i", "interface{}"}},
 			Body: func() string {
 				var b bytes.Buffer
-				b.WriteString(fmt.Sprintf("t.%s.Add%s(i)\n", rawMemberName, titleName))
+				b.WriteString(fmt.Sprintf("t.%s.Append%s(i)\n", rawMemberName, titleName))
+				return b.String()
+			},
+		},
+		{
+			Name:    fmt.Sprintf("Prepend%s", titleName),
+			Comment: fmt.Sprintf("Prepend%s prepends the value for property '%s'.", titleName, p.Name),
+			P:       this,
+			Args:    []*defs.FunctionVarDef{{"i", "interface{}"}},
+			Body: func() string {
+				var b bytes.Buffer
+				b.WriteString(fmt.Sprintf("t.%s.Prepend%s(i)\n", rawMemberName, titleName))
 				return b.String()
 			},
 		},

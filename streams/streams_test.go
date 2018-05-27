@@ -246,14 +246,14 @@ func TestNulls(t *testing.T) {
 	expectedSamActor.SetId(*samIRI)
 	expectedNote := &vocab.Note{}
 	expectedNote.SetId(*noteIRI)
-	expectedNote.AddNameString("A Note")
-	expectedNote.AddContentString("This is a simple note")
-	expectedNote.AddToObject(expectedSamActor)
+	expectedNote.AppendNameString("A Note")
+	expectedNote.AppendContentString("This is a simple note")
+	expectedNote.AppendToObject(expectedSamActor)
 	expectedUpdate := &vocab.Update{}
-	expectedUpdate.AddActorIRI(*sallyIRI)
-	expectedUpdate.AddSummaryString("Sally updated her note")
+	expectedUpdate.AppendActorIRI(*sallyIRI)
+	expectedUpdate.AppendSummaryString("Sally updated her note")
 	expectedUpdate.SetId(*activityIRI)
-	expectedUpdate.AddObject(expectedNote)
+	expectedUpdate.AppendObject(expectedNote)
 	tables := []struct {
 		name     string
 		expected vocab.Serializer

@@ -14,9 +14,9 @@ const example1 = `{
 var example1Type = &Object{}
 
 func init() {
-	example1Type.AddType("Object")
+	example1Type.AppendType("Object")
 	example1Type.SetId(MustParseURL("http://www.test.example/object/1"))
-	example1Type.AddNameString("A Simple, non-specific object")
+	example1Type.AppendNameString("A Simple, non-specific object")
 }
 
 const example2 = `{
@@ -32,11 +32,11 @@ var example2Type = &Link{}
 
 func init() {
 	href := MustParseURL("http://example.org/abc")
-	example2Type.AddType("Link")
+	example2Type.AppendType("Link")
 	example2Type.SetHref(href)
 	example2Type.SetHreflang("en")
 	example2Type.SetMediaType("text/html")
-	example2Type.AddNameString("An example link")
+	example2Type.AppendNameString("An example link")
 }
 
 const example3 = `{
@@ -57,15 +57,15 @@ var example3Type = &Activity{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	object := &Note{}
-	object.AddType("Note")
-	object.AddNameString("A Note")
-	example3Type.AddType("Activity")
-	example3Type.AddSummaryString("Sally did something to a note")
-	example3Type.AddActorObject(actor)
-	example3Type.AddObject(object)
+	object.AppendType("Note")
+	object.AppendNameString("A Note")
+	example3Type.AppendType("Activity")
+	example3Type.AppendSummaryString("Sally did something to a note")
+	example3Type.AppendActorObject(actor)
+	example3Type.AppendObject(object)
 }
 
 const example4 = `{
@@ -86,15 +86,15 @@ var example4Type = &Travel{}
 
 func init() {
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("Sally")
+	person.AppendType("Person")
+	person.AppendNameString("Sally")
 	place := &Place{}
-	place.AddType("Place")
-	place.AddNameString("Work")
-	example4Type.AddType("Travel")
-	example4Type.AddSummaryString("Sally went to work")
-	example4Type.AddActorObject(person)
-	example4Type.AddTargetObject(place)
+	place.AppendType("Place")
+	place.AppendNameString("Work")
+	example4Type.AppendType("Travel")
+	example4Type.AppendSummaryString("Sally went to work")
+	example4Type.AppendActorObject(person)
+	example4Type.AppendTargetObject(place)
 }
 
 const example5 = `{
@@ -118,16 +118,16 @@ var example5Type = &Collection{}
 
 func init() {
 	note1 := &Note{}
-	note1.AddType("Note")
-	note1.AddNameString("A Simple Note")
+	note1.AppendType("Note")
+	note1.AppendNameString("A Simple Note")
 	note2 := &Note{}
-	note2.AddType("Note")
-	note2.AddNameString("Another Simple Note")
-	example5Type.AddType("Collection")
-	example5Type.AddSummaryString("Sally's notes")
+	note2.AppendType("Note")
+	note2.AppendNameString("Another Simple Note")
+	example5Type.AppendType("Collection")
+	example5Type.AppendSummaryString("Sally's notes")
 	example5Type.SetTotalItems(2)
-	example5Type.AddItemsObject(note1)
-	example5Type.AddItemsObject(note2)
+	example5Type.AppendItemsObject(note1)
+	example5Type.AppendItemsObject(note2)
 }
 
 const example6 = `{
@@ -151,16 +151,16 @@ var example6Type = &OrderedCollection{}
 
 func init() {
 	note1 := &Note{}
-	note1.AddType("Note")
-	note1.AddNameString("A Simple Note")
+	note1.AppendType("Note")
+	note1.AppendNameString("A Simple Note")
 	note2 := &Note{}
-	note2.AddType("Note")
-	note2.AddNameString("Another Simple Note")
-	example6Type.AddType("OrderedCollection")
-	example6Type.AddSummaryString("Sally's notes")
+	note2.AppendType("Note")
+	note2.AppendNameString("Another Simple Note")
+	example6Type.AppendType("OrderedCollection")
+	example6Type.AppendSummaryString("Sally's notes")
 	example6Type.SetTotalItems(2)
-	example6Type.AddOrderedItemsObject(note1)
-	example6Type.AddOrderedItemsObject(note2)
+	example6Type.AppendOrderedItemsObject(note1)
+	example6Type.AppendOrderedItemsObject(note2)
 }
 
 const example7 = `{
@@ -185,18 +185,18 @@ var example7Type = &CollectionPage{}
 
 func init() {
 	note1 := &Note{}
-	note1.AddType("Note")
-	note1.AddNameString("A Simple Note")
+	note1.AppendType("Note")
+	note1.AppendNameString("A Simple Note")
 	note2 := &Note{}
-	note2.AddType("Note")
-	note2.AddNameString("Another Simple Note")
+	note2.AppendType("Note")
+	note2.AppendNameString("Another Simple Note")
 	link := MustParseURL("http://example.org/foo")
-	example7Type.AddType("CollectionPage")
-	example7Type.AddSummaryString("Page 1 of Sally's notes")
+	example7Type.AppendType("CollectionPage")
+	example7Type.AppendSummaryString("Page 1 of Sally's notes")
 	example7Type.SetId(MustParseURL("http://example.org/foo?page=1"))
 	example7Type.SetPartOfIRI(link)
-	example7Type.AddItemsObject(note1)
-	example7Type.AddItemsObject(note2)
+	example7Type.AppendItemsObject(note1)
+	example7Type.AppendItemsObject(note2)
 }
 
 const example8 = `{
@@ -221,18 +221,18 @@ var example8Type = &OrderedCollectionPage{}
 
 func init() {
 	note1 := &Note{}
-	note1.AddType("Note")
-	note1.AddNameString("A Simple Note")
+	note1.AppendType("Note")
+	note1.AppendNameString("A Simple Note")
 	note2 := &Note{}
-	note2.AddType("Note")
-	note2.AddNameString("Another Simple Note")
+	note2.AppendType("Note")
+	note2.AppendNameString("Another Simple Note")
 	link := MustParseURL("http://example.org/foo")
-	example8Type.AddType("OrderedCollectionPage")
-	example8Type.AddSummaryString("Page 1 of Sally's notes")
+	example8Type.AppendType("OrderedCollectionPage")
+	example8Type.AppendSummaryString("Page 1 of Sally's notes")
 	example8Type.SetId(MustParseURL("http://example.org/foo?page=1"))
 	example8Type.SetPartOfIRI(link)
-	example8Type.AddOrderedItemsObject(note1)
-	example8Type.AddOrderedItemsObject(note2)
+	example8Type.AppendOrderedItemsObject(note1)
+	example8Type.AppendOrderedItemsObject(note2)
 }
 
 const example9 = `{
@@ -257,20 +257,20 @@ var example9Type = &Accept{}
 
 func init() {
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("Sally")
+	person.AppendType("Person")
+	person.AppendNameString("Sally")
 	event := &Event{}
-	event.AddType("Event")
-	event.AddNameString("Going-Away Party for Jim")
+	event.AppendType("Event")
+	event.AppendNameString("Going-Away Party for Jim")
 	link := MustParseURL("http://john.example.org")
 	invite := &Invite{}
-	invite.AddType("Invite")
-	invite.AddActorIRI(link)
-	invite.AddObject(event)
-	example9Type.AddType("Accept")
-	example9Type.AddSummaryString("Sally accepted an invitation to a party")
-	example9Type.AddActorObject(person)
-	example9Type.AddObject(invite)
+	invite.AppendType("Invite")
+	invite.AppendActorIRI(link)
+	invite.AppendObject(event)
+	example9Type.AppendType("Accept")
+	example9Type.AppendSummaryString("Sally accepted an invitation to a party")
+	example9Type.AppendActorObject(person)
+	example9Type.AppendObject(invite)
 }
 
 const example10 = `{
@@ -295,19 +295,19 @@ var example10Type = &Accept{}
 
 func init() {
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("Sally")
+	person.AppendType("Person")
+	person.AppendNameString("Sally")
 	object := &Person{}
-	object.AddType("Person")
-	object.AddNameString("Joe")
+	object.AppendType("Person")
+	object.AppendNameString("Joe")
 	target := &Group{}
-	target.AddType("Group")
-	target.AddNameString("The Club")
-	example10Type.AddType("Accept")
-	example10Type.AddSummaryString("Sally accepted Joe into the club")
-	example10Type.AddActorObject(person)
-	example10Type.AddObject(object)
-	example10Type.AddTargetObject(target)
+	target.AppendType("Group")
+	target.AppendNameString("The Club")
+	example10Type.AppendType("Accept")
+	example10Type.AppendSummaryString("Sally accepted Joe into the club")
+	example10Type.AppendActorObject(person)
+	example10Type.AppendObject(object)
+	example10Type.AppendTargetObject(target)
 }
 
 const example11 = `{
@@ -332,20 +332,20 @@ var example11Type = &TentativeAccept{}
 
 func init() {
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("Sally")
+	person.AppendType("Person")
+	person.AppendNameString("Sally")
 	event := &Event{}
-	event.AddType("Event")
-	event.AddNameString("Going-Away Party for Jim")
+	event.AppendType("Event")
+	event.AppendNameString("Going-Away Party for Jim")
 	link := MustParseURL("http://john.example.org")
 	invite := &Invite{}
-	invite.AddType("Invite")
-	invite.AddActorIRI(link)
-	invite.AddObject(event)
-	example11Type.AddType("TentativeAccept")
-	example11Type.AddSummaryString("Sally tentatively accepted an invitation to a party")
-	example11Type.AddActorObject(person)
-	example11Type.AddObject(invite)
+	invite.AppendType("Invite")
+	invite.AppendActorIRI(link)
+	invite.AppendObject(event)
+	example11Type.AppendType("TentativeAccept")
+	example11Type.AppendSummaryString("Sally tentatively accepted an invitation to a party")
+	example11Type.AppendActorObject(person)
+	example11Type.AppendObject(invite)
 }
 
 const example12 = `{
@@ -363,13 +363,13 @@ var example12Type = &Add{}
 
 func init() {
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("Sally")
+	person.AppendType("Person")
+	person.AppendNameString("Sally")
 	link := MustParseURL("http://example.org/abc")
-	example12Type.AddType("Add")
-	example12Type.AddSummaryString("Sally added an object")
-	example12Type.AddActorObject(person)
-	example12Type.AddObjectIRI(link)
+	example12Type.AppendType("Add")
+	example12Type.AppendSummaryString("Sally added an object")
+	example12Type.AppendActorObject(person)
+	example12Type.AppendObjectIRI(link)
 }
 
 const example13 = `{
@@ -399,25 +399,25 @@ var example13Type = &Add{}
 
 func init() {
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("Sally")
+	person.AppendType("Person")
+	person.AppendNameString("Sally")
 	link := MustParseURL("http://example.org/img/cat.png")
 	object := &Image{}
-	object.AddType("Image")
-	object.AddNameString("A picture of my cat")
-	object.AddUrlAnyURI(link)
+	object.AppendType("Image")
+	object.AppendNameString("A picture of my cat")
+	object.AppendUrlAnyURI(link)
 	origin := &Collection{}
-	origin.AddType("Collection")
-	origin.AddNameString("Camera Roll")
+	origin.AppendType("Collection")
+	origin.AppendNameString("Camera Roll")
 	target := &Collection{}
-	target.AddType("Collection")
-	target.AddNameString("My Cat Pictures")
-	example13Type.AddType("Add")
-	example13Type.AddSummaryString("Sally added a picture of her cat to her cat picture collection")
-	example13Type.AddActorObject(person)
-	example13Type.AddObject(object)
-	example13Type.AddOriginObject(origin)
-	example13Type.AddTargetObject(target)
+	target.AppendType("Collection")
+	target.AppendNameString("My Cat Pictures")
+	example13Type.AppendType("Add")
+	example13Type.AppendSummaryString("Sally added a picture of her cat to her cat picture collection")
+	example13Type.AppendActorObject(person)
+	example13Type.AppendObject(object)
+	example13Type.AppendOriginObject(origin)
+	example13Type.AppendTargetObject(target)
 }
 
 const example14 = `{
@@ -442,19 +442,19 @@ var example14Type = &Arrive{}
 
 func init() {
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("Sally")
+	person.AppendType("Person")
+	person.AppendNameString("Sally")
 	location := &Place{}
-	location.AddType("Place")
-	location.AddNameString("Work")
+	location.AppendType("Place")
+	location.AppendNameString("Work")
 	origin := &Place{}
-	origin.AddType("Place")
-	origin.AddNameString("Home")
-	example14Type.AddType("Arrive")
-	example14Type.AddSummaryString("Sally arrived at work")
-	example14Type.AddActorObject(person)
-	example14Type.AddLocationObject(location)
-	example14Type.AddOriginObject(origin)
+	origin.AppendType("Place")
+	origin.AppendNameString("Home")
+	example14Type.AppendType("Arrive")
+	example14Type.AppendSummaryString("Sally arrived at work")
+	example14Type.AppendActorObject(person)
+	example14Type.AppendLocationObject(location)
+	example14Type.AppendOriginObject(origin)
 }
 
 const example15 = `{
@@ -476,16 +476,16 @@ var example15Type = &Create{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	object := &Note{}
-	object.AddType("Note")
-	object.AddNameString("A Simple Note")
-	object.AddContentString("This is a simple note")
-	example15Type.AddType("Create")
-	example15Type.AddSummaryString("Sally created a note")
-	example15Type.AddActorObject(actor)
-	example15Type.AddObject(object)
+	object.AppendType("Note")
+	object.AppendNameString("A Simple Note")
+	object.AppendContentString("This is a simple note")
+	example15Type.AppendType("Create")
+	example15Type.AppendSummaryString("Sally created a note")
+	example15Type.AppendActorObject(actor)
+	example15Type.AppendObject(object)
 }
 
 const example16 = `{
@@ -507,17 +507,17 @@ var example16Type = &Delete{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	origin := &Collection{}
-	origin.AddType("Collection")
-	origin.AddNameString("Sally's Notes")
+	origin.AppendType("Collection")
+	origin.AppendNameString("Sally's Notes")
 	link := MustParseURL("http://example.org/notes/1")
-	example16Type.AddType("Delete")
-	example16Type.AddSummaryString("Sally deleted a note")
-	example16Type.AddActorObject(actor)
-	example16Type.AddObjectIRI(link)
-	example16Type.AddOriginObject(origin)
+	example16Type.AppendType("Delete")
+	example16Type.AppendSummaryString("Sally deleted a note")
+	example16Type.AppendActorObject(actor)
+	example16Type.AppendObjectIRI(link)
+	example16Type.AppendOriginObject(origin)
 }
 
 const example17 = `{
@@ -538,15 +538,15 @@ var example17Type = &Follow{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	object := &Person{}
-	object.AddType("Person")
-	object.AddNameString("John")
-	example17Type.AddType("Follow")
-	example17Type.AddSummaryString("Sally followed John")
-	example17Type.AddActorObject(actor)
-	example17Type.AddObject(object)
+	object.AppendType("Person")
+	object.AppendNameString("John")
+	example17Type.AppendType("Follow")
+	example17Type.AppendSummaryString("Sally followed John")
+	example17Type.AppendActorObject(actor)
+	example17Type.AppendObject(object)
 }
 
 const example18 = `{
@@ -564,13 +564,13 @@ var example18Type = &Ignore{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	link := MustParseURL("http://example.org/notes/1")
-	example18Type.AddType("Ignore")
-	example18Type.AddSummaryString("Sally ignored a note")
-	example18Type.AddActorObject(actor)
-	example18Type.AddObjectIRI(link)
+	example18Type.AppendType("Ignore")
+	example18Type.AppendSummaryString("Sally ignored a note")
+	example18Type.AppendActorObject(actor)
+	example18Type.AppendObjectIRI(link)
 }
 
 const example19 = `{
@@ -591,15 +591,15 @@ var example19Type = &Join{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	object := &Group{}
-	object.AddType("Group")
-	object.AddNameString("A Simple Group")
-	example19Type.AddType("Join")
-	example19Type.AddSummaryString("Sally joined a group")
-	example19Type.AddActorObject(actor)
-	example19Type.AddObject(object)
+	object.AppendType("Group")
+	object.AppendNameString("A Simple Group")
+	example19Type.AppendType("Join")
+	example19Type.AppendSummaryString("Sally joined a group")
+	example19Type.AppendActorObject(actor)
+	example19Type.AppendObject(object)
 
 }
 
@@ -621,15 +621,15 @@ var example20Type = &Leave{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	object := &Place{}
-	object.AddType("Place")
-	object.AddNameString("Work")
-	example20Type.AddType("Leave")
-	example20Type.AddSummaryString("Sally left work")
-	example20Type.AddActorObject(actor)
-	example20Type.AddObject(object)
+	object.AppendType("Place")
+	object.AppendNameString("Work")
+	example20Type.AppendType("Leave")
+	example20Type.AppendSummaryString("Sally left work")
+	example20Type.AppendActorObject(actor)
+	example20Type.AppendObject(object)
 }
 
 const example21 = `{
@@ -650,15 +650,15 @@ var example21Type = &Leave{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	object := &Group{}
-	object.AddType("Group")
-	object.AddNameString("A Simple Group")
-	example21Type.AddType("Leave")
-	example21Type.AddSummaryString("Sally left a group")
-	example21Type.AddActorObject(actor)
-	example21Type.AddObject(object)
+	object.AppendType("Group")
+	object.AppendNameString("A Simple Group")
+	example21Type.AppendType("Leave")
+	example21Type.AppendSummaryString("Sally left a group")
+	example21Type.AppendActorObject(actor)
+	example21Type.AppendObject(object)
 }
 
 const example22 = `{
@@ -676,13 +676,13 @@ var example22Type = &Like{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	link := MustParseURL("http://example.org/notes/1")
-	example22Type.AddType("Like")
-	example22Type.AddSummaryString("Sally liked a note")
-	example22Type.AddActorObject(actor)
-	example22Type.AddObjectIRI(link)
+	example22Type.AppendType("Like")
+	example22Type.AppendSummaryString("Sally liked a note")
+	example22Type.AppendActorObject(actor)
+	example22Type.AppendObjectIRI(link)
 }
 
 const example23 = `{
@@ -707,19 +707,19 @@ var example23Type = &Offer{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	object := make(map[string]interface{})
 	object["type"] = "http://www.types.example/ProductOffer"
 	object["name"] = "50% Off!"
 	target := &Person{}
-	target.AddType("Person")
-	target.AddNameString("Lewis")
-	example23Type.AddType("Offer")
-	example23Type.AddSummaryString("Sally offered 50% off to Lewis")
-	example23Type.AddActorObject(actor)
+	target.AppendType("Person")
+	target.AppendNameString("Lewis")
+	example23Type.AppendType("Offer")
+	example23Type.AppendSummaryString("Sally offered 50% off to Lewis")
+	example23Type.AppendActorObject(actor)
 	example23Type.SetUnknownObject(object)
-	example23Type.AddTargetObject(target)
+	example23Type.AppendTargetObject(target)
 }
 
 const example24 = `{
@@ -750,23 +750,23 @@ var example24Type = &Invite{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	object := &Event{}
-	object.AddType("Event")
-	object.AddNameString("A Party")
+	object.AppendType("Event")
+	object.AppendNameString("A Party")
 	target1 := &Person{}
-	target1.AddType("Person")
-	target1.AddNameString("John")
+	target1.AppendType("Person")
+	target1.AppendNameString("John")
 	target2 := &Person{}
-	target2.AddType("Person")
-	target2.AddNameString("Lisa")
-	example24Type.AddType("Invite")
-	example24Type.AddSummaryString("Sally invited John and Lisa to a party")
-	example24Type.AddActorObject(actor)
-	example24Type.AddObject(object)
-	example24Type.AddTargetObject(target1)
-	example24Type.AddTargetObject(target2)
+	target2.AppendType("Person")
+	target2.AppendNameString("Lisa")
+	example24Type.AppendType("Invite")
+	example24Type.AppendSummaryString("Sally invited John and Lisa to a party")
+	example24Type.AppendActorObject(actor)
+	example24Type.AppendObject(object)
+	example24Type.AppendTargetObject(target1)
+	example24Type.AppendTargetObject(target2)
 }
 
 const example25 = `{
@@ -791,20 +791,20 @@ var example25Type = &Reject{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	link := MustParseURL("http://john.example.org")
 	inviteObject := &Event{}
-	inviteObject.AddType("Event")
-	inviteObject.AddNameString("Going-Away Party for Jim")
+	inviteObject.AppendType("Event")
+	inviteObject.AppendNameString("Going-Away Party for Jim")
 	object := &Invite{}
-	object.AddType("Invite")
-	object.AddActorIRI(link)
-	object.AddObject(inviteObject)
-	example25Type.AddType("Reject")
-	example25Type.AddSummaryString("Sally rejected an invitation to a party")
-	example25Type.AddActorObject(actor)
-	example25Type.AddObject(object)
+	object.AppendType("Invite")
+	object.AppendActorIRI(link)
+	object.AppendObject(inviteObject)
+	example25Type.AppendType("Reject")
+	example25Type.AppendSummaryString("Sally rejected an invitation to a party")
+	example25Type.AppendActorObject(actor)
+	example25Type.AppendObject(object)
 }
 
 const example26 = `{
@@ -829,20 +829,20 @@ var example26Type = &TentativeReject{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	link := MustParseURL("http://john.example.org")
 	inviteObject := &Event{}
-	inviteObject.AddType("Event")
-	inviteObject.AddNameString("Going-Away Party for Jim")
+	inviteObject.AppendType("Event")
+	inviteObject.AppendNameString("Going-Away Party for Jim")
 	object := &Invite{}
-	object.AddType("Invite")
-	object.AddActorIRI(link)
-	object.AddObject(inviteObject)
-	example26Type.AddType("TentativeReject")
-	example26Type.AddSummaryString("Sally tentatively rejected an invitation to a party")
-	example26Type.AddActorObject(actor)
-	example26Type.AddObject(object)
+	object.AppendType("Invite")
+	object.AppendActorIRI(link)
+	object.AppendObject(inviteObject)
+	example26Type.AppendType("TentativeReject")
+	example26Type.AppendSummaryString("Sally tentatively rejected an invitation to a party")
+	example26Type.AppendActorObject(actor)
+	example26Type.AppendObject(object)
 }
 
 const example27 = `{
@@ -864,17 +864,17 @@ var example27Type = &Remove{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	link := MustParseURL("http://example.org/notes/1")
 	target := &Collection{}
-	target.AddType("Collection")
-	target.AddNameString("Notes Folder")
-	example27Type.AddType("Remove")
-	example27Type.AddSummaryString("Sally removed a note from her notes folder")
-	example27Type.AddActorObject(actor)
-	example27Type.AddObjectIRI(link)
-	example27Type.AddTargetObject(target)
+	target.AppendType("Collection")
+	target.AppendNameString("Notes Folder")
+	example27Type.AppendType("Remove")
+	example27Type.AppendSummaryString("Sally removed a note from her notes folder")
+	example27Type.AppendActorObject(actor)
+	example27Type.AppendObjectIRI(link)
+	example27Type.AppendTargetObject(target)
 }
 
 const example28 = `{
@@ -902,16 +902,16 @@ func init() {
 	actor["type"] = "http://example.org/Role"
 	actor["name"] = "The Moderator"
 	object := &Person{}
-	object.AddType("Person")
-	object.AddNameString("Sally")
+	object.AppendType("Person")
+	object.AppendNameString("Sally")
 	origin := &Group{}
-	origin.AddType("Group")
-	origin.AddNameString("A Simple Group")
-	example28Type.AddType("Remove")
-	example28Type.AddSummaryString("The moderator removed Sally from a group")
+	origin.AppendType("Group")
+	origin.AppendNameString("A Simple Group")
+	example28Type.AppendType("Remove")
+	example28Type.AppendSummaryString("The moderator removed Sally from a group")
 	example28Type.SetUnknownActor(actor)
-	example28Type.AddObject(object)
-	example28Type.AddOriginObject(origin)
+	example28Type.AppendObject(object)
+	example28Type.AppendOriginObject(origin)
 }
 
 const example29 = `{
@@ -934,14 +934,14 @@ func init() {
 	objectLink := MustParseURL("http://example.org/posts/1")
 	targetLink := MustParseURL("http://john.example.org")
 	object := &Offer{}
-	object.AddType("Offer")
-	object.AddActorIRI(link)
-	object.AddObjectIRI(objectLink)
-	object.AddTargetIRI(targetLink)
-	example29Type.AddType("Undo")
-	example29Type.AddSummaryString("Sally retracted her offer to John")
-	example29Type.AddActorIRI(link)
-	example29Type.AddObject(object)
+	object.AppendType("Offer")
+	object.AppendActorIRI(link)
+	object.AppendObjectIRI(objectLink)
+	object.AppendTargetIRI(targetLink)
+	example29Type.AppendType("Undo")
+	example29Type.AppendSummaryString("Sally retracted her offer to John")
+	example29Type.AppendActorIRI(link)
+	example29Type.AppendObject(object)
 }
 
 const example30 = `{
@@ -959,13 +959,13 @@ var example30Type = &Update{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	link := MustParseURL("http://example.org/notes/1")
-	example30Type.AddType("Update")
-	example30Type.AddSummaryString("Sally updated her note")
-	example30Type.AddActorObject(actor)
-	example30Type.AddObjectIRI(link)
+	example30Type.AppendType("Update")
+	example30Type.AppendSummaryString("Sally updated her note")
+	example30Type.AppendActorObject(actor)
+	example30Type.AppendObjectIRI(link)
 }
 
 const example31 = `{
@@ -986,15 +986,15 @@ var example31Type = &View{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	object := &Article{}
-	object.AddType("Article")
-	object.AddNameString("What You Should Know About Activity Streams")
-	example31Type.AddType("View")
-	example31Type.AddSummaryString("Sally read an article")
-	example31Type.AddActorObject(actor)
-	example31Type.AddObject(object)
+	object.AppendType("Article")
+	object.AppendNameString("What You Should Know About Activity Streams")
+	example31Type.AppendType("View")
+	example31Type.AppendSummaryString("Sally read an article")
+	example31Type.AppendActorObject(actor)
+	example31Type.AppendObject(object)
 }
 
 const example32 = `{
@@ -1012,13 +1012,13 @@ var example32Type = &Listen{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	link := MustParseURL("http://example.org/music.mp3")
-	example32Type.AddType("Listen")
-	example32Type.AddSummaryString("Sally listened to a piece of music")
-	example32Type.AddActorObject(actor)
-	example32Type.AddObjectIRI(link)
+	example32Type.AppendType("Listen")
+	example32Type.AppendSummaryString("Sally listened to a piece of music")
+	example32Type.AppendActorObject(actor)
+	example32Type.AppendObjectIRI(link)
 }
 
 const example33 = `{
@@ -1036,13 +1036,13 @@ var example33Type = &Read{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	link := MustParseURL("http://example.org/posts/1")
-	example33Type.AddType("Read")
-	example33Type.AddSummaryString("Sally read a blog post")
-	example33Type.AddActorObject(actor)
-	example33Type.AddObjectIRI(link)
+	example33Type.AppendType("Read")
+	example33Type.AppendSummaryString("Sally read a blog post")
+	example33Type.AppendActorObject(actor)
+	example33Type.AppendObjectIRI(link)
 }
 
 const example34 = `{
@@ -1068,21 +1068,21 @@ var example34Type = &Move{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	link := MustParseURL("http://example.org/posts/1")
 	target := &Collection{}
-	target.AddType("Collection")
-	target.AddNameString("List B")
+	target.AppendType("Collection")
+	target.AppendNameString("List B")
 	origin := &Collection{}
-	origin.AddType("Collection")
-	origin.AddNameString("List A")
-	example34Type.AddType("Move")
-	example34Type.AddSummaryString("Sally moved a post from List A to List B")
-	example34Type.AddActorObject(actor)
-	example34Type.AddObjectIRI(link)
-	example34Type.AddTargetObject(target)
-	example34Type.AddOriginObject(origin)
+	origin.AppendType("Collection")
+	origin.AppendNameString("List A")
+	example34Type.AppendType("Move")
+	example34Type.AppendSummaryString("Sally moved a post from List A to List B")
+	example34Type.AppendActorObject(actor)
+	example34Type.AppendObjectIRI(link)
+	example34Type.AppendTargetObject(target)
+	example34Type.AppendOriginObject(origin)
 }
 
 const example35 = `{
@@ -1107,19 +1107,19 @@ var example35Type = &Travel{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	target := &Place{}
-	target.AddType("Place")
-	target.AddNameString("Home")
+	target.AppendType("Place")
+	target.AppendNameString("Home")
 	origin := &Place{}
-	origin.AddType("Place")
-	origin.AddNameString("Work")
-	example35Type.AddType("Travel")
-	example35Type.AddSummaryString("Sally went home from work")
-	example35Type.AddActorObject(actor)
-	example35Type.AddTargetObject(target)
-	example35Type.AddOriginObject(origin)
+	origin.AppendType("Place")
+	origin.AppendNameString("Work")
+	example35Type.AppendType("Travel")
+	example35Type.AppendSummaryString("Sally went home from work")
+	example35Type.AppendActorObject(actor)
+	example35Type.AppendTargetObject(target)
+	example35Type.AppendOriginObject(origin)
 }
 
 const example36 = `{
@@ -1146,20 +1146,20 @@ var example36Type = &Announce{}
 func init() {
 	link := MustParseURL("http://sally.example.org")
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	actor.SetId(link)
 	loc := &Place{}
-	loc.AddType("Place")
-	loc.AddNameString("Work")
+	loc.AppendType("Place")
+	loc.AppendNameString("Work")
 	object := &Arrive{}
-	object.AddType("Arrive")
-	object.AddActorIRI(link)
-	object.AddLocationObject(loc)
-	example36Type.AddType("Announce")
-	example36Type.AddSummaryString("Sally announced that she had arrived at work")
-	example36Type.AddActorObject(actor)
-	example36Type.AddObject(object)
+	object.AppendType("Arrive")
+	object.AppendActorIRI(link)
+	object.AppendLocationObject(loc)
+	example36Type.AppendType("Announce")
+	example36Type.AppendSummaryString("Sally announced that she had arrived at work")
+	example36Type.AppendActorObject(actor)
+	example36Type.AppendObject(object)
 }
 
 const example37 = `{
@@ -1175,10 +1175,10 @@ var example37Type = &Block{}
 func init() {
 	link := MustParseURL("http://sally.example.org")
 	objLink := MustParseURL("http://joe.example.org")
-	example37Type.AddType("Block")
-	example37Type.AddSummaryString("Sally blocked Joe")
-	example37Type.AddActorIRI(link)
-	example37Type.AddObjectIRI(objLink)
+	example37Type.AppendType("Block")
+	example37Type.AppendSummaryString("Sally blocked Joe")
+	example37Type.AppendActorIRI(link)
+	example37Type.AppendObjectIRI(objLink)
 }
 
 const example38 = `{
@@ -1197,12 +1197,12 @@ var example38Type = &Flag{}
 func init() {
 	link := MustParseURL("http://sally.example.org")
 	object := &Note{}
-	object.AddType("Note")
-	object.AddContentString("An inappropriate note")
-	example38Type.AddType("Flag")
-	example38Type.AddSummaryString("Sally flagged an inappropriate note")
-	example38Type.AddActorIRI(link)
-	example38Type.AddObject(object)
+	object.AppendType("Note")
+	object.AppendContentString("An inappropriate note")
+	example38Type.AppendType("Flag")
+	example38Type.AppendSummaryString("Sally flagged an inappropriate note")
+	example38Type.AppendActorIRI(link)
+	example38Type.AppendObject(object)
 }
 
 const example39 = `{
@@ -1218,10 +1218,10 @@ var example39Type = &Dislike{}
 func init() {
 	link := MustParseURL("http://sally.example.org")
 	objLink := MustParseURL("http://example.org/posts/1")
-	example39Type.AddType("Dislike")
-	example39Type.AddSummaryString("Sally disliked a post")
-	example39Type.AddActorIRI(link)
-	example39Type.AddObjectIRI(objLink)
+	example39Type.AppendType("Dislike")
+	example39Type.AppendSummaryString("Sally disliked a post")
+	example39Type.AppendActorIRI(link)
+	example39Type.AppendObjectIRI(objLink)
 }
 
 const example40 = `{
@@ -1244,15 +1244,15 @@ var example40Type = &Question{}
 
 func init() {
 	note1 := &Note{}
-	note1.AddType("Note")
-	note1.AddNameString("Option A")
+	note1.AppendType("Note")
+	note1.AppendNameString("Option A")
 	note2 := &Note{}
-	note2.AddType("Note")
-	note2.AddNameString("Option B")
-	example40Type.AddType("Question")
-	example40Type.AddNameString("What is the answer?")
-	example40Type.AddOneOfObject(note1)
-	example40Type.AddOneOfObject(note2)
+	note2.AppendType("Note")
+	note2.AppendNameString("Option B")
+	example40Type.AppendType("Question")
+	example40Type.AppendNameString("What is the answer?")
+	example40Type.AppendOneOfObject(note1)
+	example40Type.AppendOneOfObject(note2)
 }
 
 const example41 = `{
@@ -1269,9 +1269,9 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	example41Type.AddType("Question")
-	example41Type.AddNameString("What is the answer?")
-	example41Type.AddClosedDateTime(t)
+	example41Type.AppendType("Question")
+	example41Type.AppendNameString("What is the answer?")
+	example41Type.AppendClosedDateTime(t)
 }
 
 const example42 = `{
@@ -1283,8 +1283,8 @@ const example42 = `{
 var example42Type = &Application{}
 
 func init() {
-	example42Type.AddType("Application")
-	example42Type.AddNameString("Exampletron 3000")
+	example42Type.AppendType("Application")
+	example42Type.AppendNameString("Exampletron 3000")
 }
 
 const example43 = `{
@@ -1296,8 +1296,8 @@ const example43 = `{
 var example43Type = &Group{}
 
 func init() {
-	example43Type.AddType("Group")
-	example43Type.AddNameString("Big Beards of Austin")
+	example43Type.AppendType("Group")
+	example43Type.AppendNameString("Big Beards of Austin")
 }
 
 const example44 = `{
@@ -1309,8 +1309,8 @@ const example44 = `{
 var example44Type = &Organization{}
 
 func init() {
-	example44Type.AddType("Organization")
-	example44Type.AddNameString("Example Co.")
+	example44Type.AppendType("Organization")
+	example44Type.AppendNameString("Example Co.")
 }
 
 const example45 = `{
@@ -1322,8 +1322,8 @@ const example45 = `{
 var example45Type = &Person{}
 
 func init() {
-	example45Type.AddType("Person")
-	example45Type.AddNameString("Sally Smith")
+	example45Type.AppendType("Person")
+	example45Type.AppendNameString("Sally Smith")
 }
 
 const example46 = `{
@@ -1335,8 +1335,8 @@ const example46 = `{
 var example46Type = &Service{}
 
 func init() {
-	example46Type.AddType("Service")
-	example46Type.AddNameString("Acme Web Service")
+	example46Type.AppendType("Service")
+	example46Type.AppendNameString("Acme Web Service")
 }
 
 const example47 = `{
@@ -1358,16 +1358,16 @@ var example47Type = &Relationship{}
 
 func init() {
 	subject := &Person{}
-	subject.AddType("Person")
-	subject.AddNameString("Sally")
+	subject.AppendType("Person")
+	subject.AppendNameString("Sally")
 	object := &Person{}
-	object.AddType("Person")
-	object.AddNameString("John")
+	object.AppendType("Person")
+	object.AppendNameString("John")
 	rel := MustParseURL("http://purl.org/vocab/relationship/acquaintanceOf")
-	example47Type.AddType("Relationship")
-	example47Type.AddSummaryString("Sally is an acquaintance of John")
+	example47Type.AppendType("Relationship")
+	example47Type.AppendSummaryString("Sally is an acquaintance of John")
 	example47Type.SetSubjectObject(subject)
-	example47Type.AddObject(object)
+	example47Type.AppendObject(object)
 	example47Type.SetRelationshipIRI(rel)
 }
 
@@ -1383,10 +1383,10 @@ var example48Type = &Article{}
 
 func init() {
 	att := MustParseURL("http://sally.example.org")
-	example48Type.AddType("Article")
-	example48Type.AddNameString("What a Crazy Day I Had")
-	example48Type.AddAttributedToIRI(att)
-	example48Type.AddContentString("<div>... you will never believe ...</div>")
+	example48Type.AppendType("Article")
+	example48Type.AppendNameString("What a Crazy Day I Had")
+	example48Type.AppendAttributedToIRI(att)
+	example48Type.AppendContentString("<div>... you will never believe ...</div>")
 }
 
 const example49 = `{
@@ -1400,9 +1400,9 @@ var example49Type = &Document{}
 
 func init() {
 	l := MustParseURL("http://example.org/4q-sales-forecast.pdf")
-	example49Type.AddType("Document")
-	example49Type.AddNameString("4Q Sales Forecast")
-	example49Type.AddUrlAnyURI(l)
+	example49Type.AppendType("Document")
+	example49Type.AppendNameString("4Q Sales Forecast")
+	example49Type.AppendUrlAnyURI(l)
 }
 
 const example50 = `{
@@ -1421,12 +1421,12 @@ var example50Type = &Audio{}
 func init() {
 	l := MustParseURL("http://example.org/podcast.mp3")
 	link := &Link{}
-	link.AddType("Link")
+	link.AppendType("Link")
 	link.SetHref(l)
 	link.SetMediaType("audio/mp3")
-	example50Type.AddType("Audio")
-	example50Type.AddNameString("Interview With A Famous Technologist")
-	example50Type.AddUrlLink(link)
+	example50Type.AppendType("Audio")
+	example50Type.AppendNameString("Interview With A Famous Technologist")
+	example50Type.AppendUrlLink(link)
 }
 
 const example51 = `{
@@ -1453,17 +1453,17 @@ func init() {
 	l1 := MustParseURL("http://example.org/image.jpeg")
 	l2 := MustParseURL("http://example.org/image.png")
 	link1 := &Link{}
-	link1.AddType("Link")
+	link1.AppendType("Link")
 	link1.SetHref(l1)
 	link1.SetMediaType("image/jpeg")
 	link2 := &Link{}
-	link2.AddType("Link")
+	link2.AppendType("Link")
 	link2.SetHref(l2)
 	link2.SetMediaType("image/png")
-	example51Type.AddType("Image")
-	example51Type.AddNameString("Cat Jumping on Wagon")
-	example51Type.AddUrlLink(link1)
-	example51Type.AddUrlLink(link2)
+	example51Type.AppendType("Image")
+	example51Type.AppendNameString("Cat Jumping on Wagon")
+	example51Type.AppendUrlLink(link1)
+	example51Type.AppendUrlLink(link2)
 }
 
 const example52 = `{
@@ -1478,9 +1478,9 @@ var example52Type = &Video{}
 
 func init() {
 	l := MustParseURL("http://example.org/video.mkv")
-	example52Type.AddType("Video")
-	example52Type.AddNameString("Puppy Plays With Ball")
-	example52Type.AddUrlAnyURI(l)
+	example52Type.AppendType("Video")
+	example52Type.AppendNameString("Puppy Plays With Ball")
+	example52Type.AppendUrlAnyURI(l)
 	example52Type.SetDuration(time.Hour * 2)
 }
 
@@ -1494,9 +1494,9 @@ const example53 = `{
 var example53Type = &Note{}
 
 func init() {
-	example53Type.AddType("Note")
-	example53Type.AddNameString("A Word of Warning")
-	example53Type.AddContentString("Looks like it is going to rain today. Bring an umbrella!")
+	example53Type.AppendType("Note")
+	example53Type.AppendNameString("A Word of Warning")
+	example53Type.AppendContentString("Looks like it is going to rain today. Bring an umbrella!")
 }
 
 const example54 = `{
@@ -1510,9 +1510,9 @@ var example54Type = &Page{}
 
 func init() {
 	l := MustParseURL("http://example.org/weather-in-omaha.html")
-	example54Type.AddType("Page")
-	example54Type.AddNameString("Omaha Weather Report")
-	example54Type.AddUrlAnyURI(l)
+	example54Type.AppendType("Page")
+	example54Type.AppendNameString("Omaha Weather Report")
+	example54Type.AppendUrlAnyURI(l)
 }
 
 const example55 = `{
@@ -1534,8 +1534,8 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	example55Type.AddType("Event")
-	example55Type.AddNameString("Going-Away Party for Jim")
+	example55Type.AppendType("Event")
+	example55Type.AppendNameString("Going-Away Party for Jim")
 	example55Type.SetStartTime(t1)
 	example55Type.SetEndTime(t2)
 }
@@ -1549,8 +1549,8 @@ const example56 = `{
 var example56Type = &Place{}
 
 func init() {
-	example56Type.AddType("Place")
-	example56Type.AddNameString("Work")
+	example56Type.AppendType("Place")
+	example56Type.AppendNameString("Work")
 }
 
 const example57 = `{
@@ -1566,8 +1566,8 @@ const example57 = `{
 var example57Type = &Place{}
 
 func init() {
-	example57Type.AddType("Place")
-	example57Type.AddNameString("Fresno Area")
+	example57Type.AppendType("Place")
+	example57Type.AppendNameString("Fresno Area")
 	example57Type.SetLatitude(36.75)
 	example57Type.SetLongitude(119.7667)
 	example57Type.SetRadius(15)
@@ -1586,10 +1586,10 @@ var example58Type = &Mention{}
 
 func init() {
 	l := MustParseURL("http://example.org/joe")
-	example58Type.AddType("Mention")
-	example58Type.AddSummaryString("Mention of Joe by Carrie in her note")
+	example58Type.AppendType("Mention")
+	example58Type.AppendSummaryString("Mention of Joe by Carrie in her note")
 	example58Type.SetHref(l)
-	example58Type.AddNameString("Joe")
+	example58Type.AppendNameString("Joe")
 }
 
 const example59 = `{
@@ -1606,10 +1606,10 @@ var example59Type = &Profile{}
 
 func init() {
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("Sally Smith")
-	example59Type.AddType("Profile")
-	example59Type.AddSummaryString("Sally's Profile")
+	person.AppendType("Person")
+	person.AppendNameString("Sally Smith")
+	example59Type.AppendType("Profile")
+	example59Type.AppendSummaryString("Sally's Profile")
 	example59Type.SetDescribes(person)
 }
 
@@ -1645,22 +1645,22 @@ func init() {
 		panic(err)
 	}
 	image1 := &Image{}
-	image1.AddType("Image")
+	image1.AppendType("Image")
 	image1.SetId(MustParseURL("http://image.example/1"))
 	tombstone := &Tombstone{}
-	tombstone.AddType("Tombstone")
-	tombstone.AddFormerTypeString("Image")
+	tombstone.AppendType("Tombstone")
+	tombstone.AppendFormerTypeString("Image")
 	tombstone.SetId(MustParseURL("http://image.example/2"))
 	tombstone.SetDeleted(t)
 	image2 := &Image{}
-	image2.AddType("Image")
+	image2.AppendType("Image")
 	image2.SetId(MustParseURL("http://image.example/3"))
-	example60Type.AddType("OrderedCollection")
+	example60Type.AppendType("OrderedCollection")
 	example60Type.SetTotalItems(3)
-	example60Type.AddNameString("Vacation photos 2016")
-	example60Type.AddOrderedItemsObject(image1)
-	example60Type.AddOrderedItemsObject(tombstone)
-	example60Type.AddOrderedItemsObject(image2)
+	example60Type.AppendNameString("Vacation photos 2016")
+	example60Type.AppendOrderedItemsObject(image1)
+	example60Type.AppendOrderedItemsObject(tombstone)
+	example60Type.AppendOrderedItemsObject(image2)
 }
 
 const example61 = `{
@@ -1702,10 +1702,10 @@ var example63Type = &Offer{}
 func init() {
 	l := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/foo")
-	example63Type.AddType("Offer")
-	example63Type.AddSummaryString("Sally offered the Foo object")
-	example63Type.AddActorIRI(l)
-	example63Type.AddObjectIRI(o)
+	example63Type.AppendType("Offer")
+	example63Type.AppendSummaryString("Sally offered the Foo object")
+	example63Type.AppendActorIRI(l)
+	example63Type.AppendObjectIRI(o)
 }
 
 const example64 = `{
@@ -1724,14 +1724,14 @@ var example64Type = &Offer{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
+	actor.AppendType("Person")
 	actor.SetId(MustParseURL("http://sally.example.org"))
-	actor.AddSummaryString("Sally")
+	actor.AppendSummaryString("Sally")
 	o := MustParseURL("http://example.org/foo")
-	example64Type.AddType("Offer")
-	example64Type.AddSummaryString("Sally offered the Foo object")
-	example64Type.AddActorObject(actor)
-	example64Type.AddObjectIRI(o)
+	example64Type.AppendType("Offer")
+	example64Type.AppendSummaryString("Sally offered the Foo object")
+	example64Type.AppendActorObject(actor)
+	example64Type.AppendObjectIRI(o)
 }
 
 const example65 = `{
@@ -1753,16 +1753,16 @@ var example65Type = &Offer{}
 
 func init() {
 	actor := &Person{}
-	actor.AddType("Person")
+	actor.AppendType("Person")
 	actor.SetId(MustParseURL("http://sally.example.org"))
-	actor.AddNameString("Sally")
+	actor.AppendNameString("Sally")
 	o := MustParseURL("http://example.org/foo")
 	l := MustParseURL("http://joe.example.org")
-	example65Type.AddType("Offer")
-	example65Type.AddSummaryString("Sally and Joe offered the Foo object")
-	example65Type.AddObjectIRI(o)
-	example65Type.AddActorIRI(l)
-	example65Type.AddActorObject(actor)
+	example65Type.AppendType("Offer")
+	example65Type.AppendSummaryString("Sally and Joe offered the Foo object")
+	example65Type.AppendObjectIRI(o)
+	example65Type.AppendActorIRI(l)
+	example65Type.AppendActorObject(actor)
 }
 
 // NOTE: Changed to not be an array value for "attachment" to keep in line with other examples in spec!
@@ -1782,12 +1782,12 @@ var example66Type = &Note{}
 func init() {
 	l := MustParseURL("http://example.org/cat.jpeg")
 	image := &Image{}
-	image.AddType("Image")
-	image.AddContentString("This is what he looks like.")
-	image.AddUrlAnyURI(l)
-	example66Type.AddType("Note")
-	example66Type.AddNameString("Have you seen my cat?")
-	example66Type.AddAttachmentObject(image)
+	image.AppendType("Image")
+	image.AppendContentString("This is what he looks like.")
+	image.AppendUrlAnyURI(l)
+	example66Type.AppendType("Note")
+	example66Type.AppendNameString("Have you seen my cat?")
+	example66Type.AppendAttachmentObject(image)
 }
 
 // NOTE: Changed to not be an array value for "attributedTo" to keep in line with other examples in spec!
@@ -1807,12 +1807,12 @@ var example67Type = &Image{}
 func init() {
 	l := MustParseURL("http://example.org/cat.jpeg")
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("Sally")
-	example67Type.AddType("Image")
-	example67Type.AddNameString("My cat taking a nap")
-	example67Type.AddUrlAnyURI(l)
-	example67Type.AddAttributedToObject(person)
+	person.AppendType("Person")
+	person.AppendNameString("Sally")
+	example67Type.AppendType("Image")
+	example67Type.AppendNameString("My cat taking a nap")
+	example67Type.AppendUrlAnyURI(l)
+	example67Type.AppendAttributedToObject(person)
 }
 
 const example68 = `{
@@ -1835,13 +1835,13 @@ func init() {
 	l := MustParseURL("http://example.org/cat.jpeg")
 	a := MustParseURL("http://joe.example.org")
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("Sally")
-	example68Type.AddType("Image")
-	example68Type.AddNameString("My cat taking a nap")
-	example68Type.AddUrlAnyURI(l)
-	example68Type.AddAttributedToIRI(a)
-	example68Type.AddAttributedToObject(person)
+	person.AppendType("Person")
+	person.AppendNameString("Sally")
+	example68Type.AppendType("Image")
+	example68Type.AppendNameString("My cat taking a nap")
+	example68Type.AppendUrlAnyURI(l)
+	example68Type.AppendAttributedToIRI(a)
+	example68Type.AppendAttributedToObject(person)
 }
 
 const example69 = `{
@@ -1861,9 +1861,9 @@ func init() {
 	audience := make(map[string]interface{})
 	audience["type"] = "http://example.org/Organization"
 	audience["name"] = "ExampleCo LLC"
-	example69Type.AddType("Note")
-	example69Type.AddNameString("Holiday announcement")
-	example69Type.AddContentString("Thursday will be a company-wide holiday. Enjoy your day off!")
+	example69Type.AppendType("Note")
+	example69Type.AppendNameString("Holiday announcement")
+	example69Type.AppendContentString("Thursday will be a company-wide holiday. Enjoy your day off!")
 	example69Type.AddUnknown("audience", audience)
 }
 
@@ -1885,12 +1885,12 @@ func init() {
 	a := MustParseURL("http://sally.example.org")
 	t := MustParseURL("http://john.example.org")
 	b := MustParseURL("http://joe.example.org")
-	example70Type.AddType("Offer")
-	example70Type.AddSummaryString("Sally offered a post to John")
-	example70Type.AddActorIRI(a)
-	example70Type.AddObjectIRI(o)
-	example70Type.AddTargetIRI(t)
-	example70Type.AddBccIRI(b)
+	example70Type.AppendType("Offer")
+	example70Type.AppendSummaryString("Sally offered a post to John")
+	example70Type.AppendActorIRI(a)
+	example70Type.AppendObjectIRI(o)
+	example70Type.AppendTargetIRI(t)
+	example70Type.AppendBccIRI(b)
 }
 
 // NOTE: Changed to not be an array value for "bto" to keep in line with other examples in spec!
@@ -1911,12 +1911,12 @@ func init() {
 	a := MustParseURL("http://sally.example.org")
 	t := MustParseURL("http://john.example.org")
 	b := MustParseURL("http://joe.example.org")
-	example71Type.AddType("Offer")
-	example71Type.AddSummaryString("Sally offered a post to John")
-	example71Type.AddActorIRI(a)
-	example71Type.AddObjectIRI(o)
-	example71Type.AddTargetIRI(t)
-	example71Type.AddBtoIRI(b)
+	example71Type.AppendType("Offer")
+	example71Type.AppendSummaryString("Sally offered a post to John")
+	example71Type.AppendActorIRI(a)
+	example71Type.AppendObjectIRI(o)
+	example71Type.AppendTargetIRI(t)
+	example71Type.AppendBtoIRI(b)
 }
 
 // NOTE: Changed to not be an array value for "cc" to keep in line with other examples in spec!
@@ -1937,12 +1937,12 @@ func init() {
 	a := MustParseURL("http://sally.example.org")
 	t := MustParseURL("http://john.example.org")
 	b := MustParseURL("http://joe.example.org")
-	example72Type.AddType("Offer")
-	example72Type.AddSummaryString("Sally offered a post to John")
-	example72Type.AddActorIRI(a)
-	example72Type.AddObjectIRI(o)
-	example72Type.AddTargetIRI(t)
-	example72Type.AddCcIRI(b)
+	example72Type.AppendType("Offer")
+	example72Type.AppendSummaryString("Sally offered a post to John")
+	example72Type.AppendActorIRI(a)
+	example72Type.AppendObjectIRI(o)
+	example72Type.AppendTargetIRI(t)
+	example72Type.AppendCcIRI(b)
 }
 
 const example73 = `{
@@ -1974,23 +1974,23 @@ func init() {
 	ot := MustParseURL("http://john.example.org")
 	oc := MustParseURL("http://example.org/contexts/1")
 	offer := &Offer{}
-	offer.AddType("Offer")
-	offer.AddActorIRI(oa)
-	offer.AddObjectIRI(oo)
-	offer.AddTargetIRI(ot)
-	offer.AddContextIRI(oc)
+	offer.AppendType("Offer")
+	offer.AppendActorIRI(oa)
+	offer.AppendObjectIRI(oo)
+	offer.AppendTargetIRI(ot)
+	offer.AppendContextIRI(oc)
 	la := MustParseURL("http://joe.example.org")
 	lo := MustParseURL("http://example.org/posts/2")
 	lc := MustParseURL("http://example.org/contexts/1")
 	like := &Like{}
-	like.AddType("Like")
-	like.AddActorIRI(la)
-	like.AddObjectIRI(lo)
-	like.AddContextIRI(lc)
-	example73Type.AddType("Collection")
-	example73Type.AddSummaryString("Activities in context 1")
-	example73Type.AddItemsObject(offer)
-	example73Type.AddItemsObject(like)
+	like.AppendType("Like")
+	like.AppendActorIRI(la)
+	like.AppendObjectIRI(lo)
+	like.AppendContextIRI(lc)
+	example73Type.AppendType("Collection")
+	example73Type.AppendSummaryString("Activities in context 1")
+	example73Type.AppendItemsObject(offer)
+	example73Type.AppendItemsObject(like)
 }
 
 const example74 = `{
@@ -2013,13 +2013,13 @@ func init() {
 	i1 := MustParseURL("http://example.org/posts/1")
 	i2 := MustParseURL("http://example.org/posts/2")
 	i3 := MustParseURL("http://example.org/posts/3")
-	example74Type.AddType("Collection")
+	example74Type.AppendType("Collection")
 	example74Type.SetTotalItems(3)
-	example74Type.AddSummaryString("Sally's blog posts")
+	example74Type.AppendSummaryString("Sally's blog posts")
 	example74Type.SetCurrentIRI(c)
-	example74Type.AddItemsIRI(i1)
-	example74Type.AddItemsIRI(i2)
-	example74Type.AddItemsIRI(i3)
+	example74Type.AppendItemsIRI(i1)
+	example74Type.AppendItemsIRI(i2)
+	example74Type.AppendItemsIRI(i3)
 }
 
 const example75 = `{
@@ -2047,16 +2047,16 @@ func init() {
 	i3 := MustParseURL("http://example.org/posts/3")
 	href := MustParseURL("http://example.org/collection")
 	link := &Link{}
-	link.AddType("Link")
-	link.AddSummaryString("Most Recent Items")
+	link.AppendType("Link")
+	link.AppendSummaryString("Most Recent Items")
 	link.SetHref(href)
-	example75Type.AddType("Collection")
+	example75Type.AppendType("Collection")
 	example75Type.SetTotalItems(3)
-	example75Type.AddSummaryString("Sally's blog posts")
+	example75Type.AppendSummaryString("Sally's blog posts")
 	example75Type.SetCurrentLink(link)
-	example75Type.AddItemsIRI(i1)
-	example75Type.AddItemsIRI(i2)
-	example75Type.AddItemsIRI(i3)
+	example75Type.AppendItemsIRI(i1)
+	example75Type.AppendItemsIRI(i2)
+	example75Type.AppendItemsIRI(i3)
 }
 
 const example76 = `{
@@ -2071,9 +2071,9 @@ var example76Type = &Collection{}
 
 func init() {
 	f := MustParseURL("http://example.org/collection?page=0")
-	example76Type.AddType("Collection")
+	example76Type.AppendType("Collection")
 	example76Type.SetTotalItems(3)
-	example76Type.AddSummaryString("Sally's blog posts")
+	example76Type.AppendSummaryString("Sally's blog posts")
 	example76Type.SetFirstIRI(f)
 }
 
@@ -2094,12 +2094,12 @@ var example77Type = &Collection{}
 func init() {
 	href := MustParseURL("http://example.org/collection?page=0")
 	link := &Link{}
-	link.AddType("Link")
-	link.AddSummaryString("First Page")
+	link.AppendType("Link")
+	link.AppendSummaryString("First Page")
 	link.SetHref(href)
-	example77Type.AddType("Collection")
+	example77Type.AppendType("Collection")
 	example77Type.SetTotalItems(3)
-	example77Type.AddSummaryString("Sally's blog posts")
+	example77Type.AppendSummaryString("Sally's blog posts")
 	example77Type.SetFirstLink(link)
 }
 
@@ -2118,12 +2118,12 @@ var example78Type = &Note{}
 
 func init() {
 	app := &Application{}
-	app.AddType("Application")
-	app.AddNameString("Exampletron 3000")
-	example78Type.AddType("Note")
-	example78Type.AddSummaryString("A simple note")
-	example78Type.AddContentString("This is all there is.")
-	example78Type.AddGeneratorObject(app)
+	app.AppendType("Application")
+	app.AppendNameString("Exampletron 3000")
+	example78Type.AppendType("Note")
+	example78Type.AppendSummaryString("A simple note")
+	example78Type.AppendContentString("This is all there is.")
+	example78Type.AppendGeneratorObject(app)
 }
 
 const example79 = `{
@@ -2145,15 +2145,15 @@ var example79Type = &Note{}
 func init() {
 	u := MustParseURL("http://example.org/note.png")
 	image := &Image{}
-	image.AddType("Image")
-	image.AddNameString("Note icon")
-	image.AddUrlAnyURI(u)
+	image.AppendType("Image")
+	image.AppendNameString("Note icon")
+	image.AppendUrlAnyURI(u)
 	image.SetWidth(16)
 	image.SetHeight(16)
-	example79Type.AddType("Note")
-	example79Type.AddSummaryString("A simple note")
-	example79Type.AddContentString("This is all there is.")
-	example79Type.AddIconImage(image)
+	example79Type.AppendType("Note")
+	example79Type.AppendSummaryString("A simple note")
+	example79Type.AppendContentString("This is all there is.")
+	example79Type.AppendIconImage(image)
 }
 
 const example80 = `{
@@ -2185,22 +2185,22 @@ func init() {
 	u1 := MustParseURL("http://example.org/note1.png")
 	u2 := MustParseURL("http://example.org/note2.png")
 	image1 := &Image{}
-	image1.AddType("Image")
-	image1.AddSummaryString("Note (16x16)")
-	image1.AddUrlAnyURI(u1)
+	image1.AppendType("Image")
+	image1.AppendSummaryString("Note (16x16)")
+	image1.AppendUrlAnyURI(u1)
 	image1.SetWidth(16)
 	image1.SetHeight(16)
 	image2 := &Image{}
-	image2.AddType("Image")
-	image2.AddSummaryString("Note (32x32)")
-	image2.AddUrlAnyURI(u2)
+	image2.AppendType("Image")
+	image2.AppendSummaryString("Note (32x32)")
+	image2.AppendUrlAnyURI(u2)
 	image2.SetWidth(32)
 	image2.SetHeight(32)
-	example80Type.AddType("Note")
-	example80Type.AddSummaryString("A simple note")
-	example80Type.AddContentString("A simple note")
-	example80Type.AddIconImage(image1)
-	example80Type.AddIconImage(image2)
+	example80Type.AppendType("Note")
+	example80Type.AppendSummaryString("A simple note")
+	example80Type.AppendContentString("A simple note")
+	example80Type.AppendIconImage(image1)
+	example80Type.AppendIconImage(image2)
 }
 
 const example81 = `{
@@ -2220,13 +2220,13 @@ var example81Type = &Note{}
 func init() {
 	u := MustParseURL("http://example.org/cat.png")
 	image := &Image{}
-	image.AddType("Image")
-	image.AddNameString("A Cat")
-	image.AddUrlAnyURI(u)
-	example81Type.AddType("Note")
-	example81Type.AddNameString("A simple note")
-	example81Type.AddContentString("This is all there is.")
-	example81Type.AddImageImage(image)
+	image.AppendType("Image")
+	image.AppendNameString("A Cat")
+	image.AppendUrlAnyURI(u)
+	example81Type.AppendType("Note")
+	example81Type.AppendNameString("A simple note")
+	example81Type.AppendContentString("This is all there is.")
+	example81Type.AppendImageImage(image)
 }
 
 const example82 = `{
@@ -2254,18 +2254,18 @@ func init() {
 	u1 := MustParseURL("http://example.org/cat1.png")
 	u2 := MustParseURL("http://example.org/cat2.png")
 	image1 := &Image{}
-	image1.AddType("Image")
-	image1.AddNameString("Cat 1")
-	image1.AddUrlAnyURI(u1)
+	image1.AppendType("Image")
+	image1.AppendNameString("Cat 1")
+	image1.AppendUrlAnyURI(u1)
 	image2 := &Image{}
-	image2.AddType("Image")
-	image2.AddNameString("Cat 2")
-	image2.AddUrlAnyURI(u2)
-	example82Type.AddType("Note")
-	example82Type.AddNameString("A simple note")
-	example82Type.AddContentString("This is all there is.")
-	example82Type.AddImageImage(image1)
-	example82Type.AddImageImage(image2)
+	image2.AppendType("Image")
+	image2.AppendNameString("Cat 2")
+	image2.AppendUrlAnyURI(u2)
+	example82Type.AppendType("Note")
+	example82Type.AppendNameString("A simple note")
+	example82Type.AppendContentString("This is all there is.")
+	example82Type.AppendImageImage(image1)
+	example82Type.AppendImageImage(image2)
 }
 
 const example83 = `{
@@ -2284,13 +2284,13 @@ var example83Type = &Note{}
 
 func init() {
 	note := &Note{}
-	note.AddType("Note")
-	note.AddSummaryString("Previous note")
-	note.AddContentString("What else is there?")
-	example83Type.AddType("Note")
-	example83Type.AddSummaryString("A simple note")
-	example83Type.AddContentString("This is all there is.")
-	example83Type.AddInReplyToObject(note)
+	note.AppendType("Note")
+	note.AppendSummaryString("Previous note")
+	note.AppendContentString("What else is there?")
+	example83Type.AppendType("Note")
+	example83Type.AppendSummaryString("A simple note")
+	example83Type.AppendContentString("This is all there is.")
+	example83Type.AppendInReplyToObject(note)
 }
 
 const example84 = `{
@@ -2305,10 +2305,10 @@ var example84Type = &Note{}
 
 func init() {
 	u := MustParseURL("http://example.org/posts/1")
-	example84Type.AddType("Note")
-	example84Type.AddSummaryString("A simple note")
-	example84Type.AddContentString("This is all there is.")
-	example84Type.AddInReplyToIRI(u)
+	example84Type.AppendType("Note")
+	example84Type.AppendSummaryString("A simple note")
+	example84Type.AppendContentString("This is all there is.")
+	example84Type.AppendInReplyToIRI(u)
 }
 
 const example85 = `{
@@ -2331,16 +2331,16 @@ var example85Type = &Listen{}
 func init() {
 	u := MustParseURL("http://example.org/foo.mp3")
 	actor := &Person{}
-	actor.AddType("Person")
-	actor.AddNameString("Sally")
+	actor.AppendType("Person")
+	actor.AppendNameString("Sally")
 	service := &Service{}
-	service.AddType("Service")
-	service.AddNameString("Acme Music Service")
-	example85Type.AddType("Listen")
-	example85Type.AddSummaryString("Sally listened to a piece of music on the Acme Music Service")
-	example85Type.AddActorObject(actor)
-	example85Type.AddObjectIRI(u)
-	example85Type.AddInstrumentObject(service)
+	service.AppendType("Service")
+	service.AppendNameString("Acme Music Service")
+	example85Type.AppendType("Listen")
+	example85Type.AppendSummaryString("Sally listened to a piece of music on the Acme Music Service")
+	example85Type.AppendActorObject(actor)
+	example85Type.AppendObjectIRI(u)
+	example85Type.AppendInstrumentObject(service)
 }
 
 const example86 = `{
@@ -2355,9 +2355,9 @@ var example86Type = &Collection{}
 
 func init() {
 	u := MustParseURL("http://example.org/collection?page=1")
-	example86Type.AddType("Collection")
+	example86Type.AppendType("Collection")
 	example86Type.SetTotalItems(3)
-	example86Type.AddSummaryString("A collection")
+	example86Type.AppendSummaryString("A collection")
 	example86Type.SetLastIRI(u)
 }
 
@@ -2378,11 +2378,11 @@ var example87Type = &Collection{}
 func init() {
 	u := MustParseURL("http://example.org/collection?page=1")
 	link := &Link{}
-	link.AddType("Link")
-	link.AddSummaryString("Last Page")
+	link.AppendType("Link")
+	link.AppendSummaryString("Last Page")
 	link.SetHref(u)
-	example87Type.AddType("Collection")
-	example87Type.AddSummaryString("A collection")
+	example87Type.AppendType("Collection")
+	example87Type.AppendSummaryString("A collection")
 	example87Type.SetTotalItems(5)
 	example87Type.SetLastLink(link)
 }
@@ -2405,15 +2405,15 @@ var example88Type = &Person{}
 
 func init() {
 	place := &Place{}
-	place.AddType("Place")
-	place.AddNameString("Over the Arabian Sea, east of Socotra Island Nature Sanctuary")
+	place.AppendType("Place")
+	place.AppendNameString("Over the Arabian Sea, east of Socotra Island Nature Sanctuary")
 	place.SetLongitude(12.34)
 	place.SetLatitude(56.78)
 	place.SetAltitude(90)
 	place.SetUnitsUnitsValue("m")
-	example88Type.AddType("Person")
-	example88Type.AddNameString("Sally")
-	example88Type.AddLocationObject(place)
+	example88Type.AppendType("Person")
+	example88Type.AppendNameString("Sally")
+	example88Type.AppendLocationObject(place)
 }
 
 const example89 = `{
@@ -2437,16 +2437,16 @@ var example89Type = &Collection{}
 
 func init() {
 	note1 := &Note{}
-	note1.AddType("Note")
-	note1.AddNameString("Reminder for Going-Away Party")
+	note1.AppendType("Note")
+	note1.AppendNameString("Reminder for Going-Away Party")
 	note2 := &Note{}
-	note2.AddType("Note")
-	note2.AddNameString("Meeting 2016-11-17")
-	example89Type.AddType("Collection")
-	example89Type.AddSummaryString("Sally's notes")
+	note2.AppendType("Note")
+	note2.AppendNameString("Meeting 2016-11-17")
+	example89Type.AppendType("Collection")
+	example89Type.AppendSummaryString("Sally's notes")
 	example89Type.SetTotalItems(2)
-	example89Type.AddItemsObject(note1)
-	example89Type.AddItemsObject(note2)
+	example89Type.AppendItemsObject(note1)
+	example89Type.AppendItemsObject(note2)
 }
 
 const example90 = `{
@@ -2470,16 +2470,16 @@ var example90Type = &OrderedCollection{}
 
 func init() {
 	note1 := &Note{}
-	note1.AddType("Note")
-	note1.AddNameString("Meeting 2016-11-17")
+	note1.AppendType("Note")
+	note1.AppendNameString("Meeting 2016-11-17")
 	note2 := &Note{}
-	note2.AddType("Note")
-	note2.AddNameString("Reminder for Going-Away Party")
-	example90Type.AddType("OrderedCollection")
-	example90Type.AddSummaryString("Sally's notes")
+	note2.AppendType("Note")
+	note2.AppendNameString("Reminder for Going-Away Party")
+	example90Type.AppendType("OrderedCollection")
+	example90Type.AppendSummaryString("Sally's notes")
 	example90Type.SetTotalItems(2)
-	example90Type.AddOrderedItemsObject(note1)
-	example90Type.AddOrderedItemsObject(note2)
+	example90Type.AppendOrderedItemsObject(note1)
+	example90Type.AppendOrderedItemsObject(note2)
 }
 
 const example91 = `{
@@ -2502,15 +2502,15 @@ var example91Type = &Question{}
 
 func init() {
 	note1 := &Note{}
-	note1.AddType("Note")
-	note1.AddNameString("Option A")
+	note1.AppendType("Note")
+	note1.AppendNameString("Option A")
 	note2 := &Note{}
-	note2.AddType("Note")
-	note2.AddNameString("Option B")
-	example91Type.AddType("Question")
-	example91Type.AddNameString("What is the answer?")
-	example91Type.AddOneOfObject(note1)
-	example91Type.AddOneOfObject(note2)
+	note2.AppendType("Note")
+	note2.AppendNameString("Option B")
+	example91Type.AppendType("Question")
+	example91Type.AppendNameString("What is the answer?")
+	example91Type.AppendOneOfObject(note1)
+	example91Type.AppendOneOfObject(note2)
 }
 
 const example92 = `{
@@ -2533,15 +2533,15 @@ var example92Type = &Question{}
 
 func init() {
 	note1 := &Note{}
-	note1.AddType("Note")
-	note1.AddNameString("Option A")
+	note1.AppendType("Note")
+	note1.AppendNameString("Option A")
 	note2 := &Note{}
-	note2.AddType("Note")
-	note2.AddNameString("Option B")
-	example92Type.AddType("Question")
-	example92Type.AddNameString("What is the answer?")
-	example92Type.AddAnyOfObject(note1)
-	example92Type.AddAnyOfObject(note2)
+	note2.AppendType("Note")
+	note2.AppendNameString("Option B")
+	example92Type.AppendType("Question")
+	example92Type.AppendNameString("What is the answer?")
+	example92Type.AppendAnyOfObject(note1)
+	example92Type.AppendAnyOfObject(note2)
 }
 
 const example93 = `{
@@ -2558,9 +2558,9 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	example93Type.AddType("Question")
-	example93Type.AddNameString("What is the answer?")
-	example93Type.AddClosedDateTime(t)
+	example93Type.AppendType("Question")
+	example93Type.AppendNameString("What is the answer?")
+	example93Type.AppendClosedDateTime(t)
 }
 
 const example94 = `{
@@ -2585,17 +2585,17 @@ func init() {
 	a := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/posts/1")
 	target := &Collection{}
-	target.AddType("Collection")
-	target.AddNameString("List B")
+	target.AppendType("Collection")
+	target.AppendNameString("List B")
 	origin := &Collection{}
-	origin.AddType("Collection")
-	origin.AddNameString("List A")
-	example94Type.AddType("Move")
-	example94Type.AddSummaryString("Sally moved a post from List A to List B")
-	example94Type.AddActorIRI(a)
-	example94Type.AddObjectIRI(o)
-	example94Type.AddTargetObject(target)
-	example94Type.AddOriginObject(origin)
+	origin.AppendType("Collection")
+	origin.AppendNameString("List A")
+	example94Type.AppendType("Move")
+	example94Type.AppendSummaryString("Sally moved a post from List A to List B")
+	example94Type.AppendActorIRI(a)
+	example94Type.AppendObjectIRI(o)
+	example94Type.AppendTargetObject(target)
+	example94Type.AppendOriginObject(origin)
 }
 
 const example95 = `{
@@ -2617,12 +2617,12 @@ func init() {
 	u1 := MustParseURL("http://example.org/posts/1")
 	u2 := MustParseURL("http://example.org/posts/2")
 	u3 := MustParseURL("http://example.org/posts/3")
-	example95Type.AddType("CollectionPage")
-	example95Type.AddSummaryString("Page 2 of Sally's blog posts")
+	example95Type.AppendType("CollectionPage")
+	example95Type.AppendSummaryString("Page 2 of Sally's blog posts")
 	example95Type.SetNextIRI(i)
-	example95Type.AddItemsIRI(u1)
-	example95Type.AddItemsIRI(u2)
-	example95Type.AddItemsIRI(u3)
+	example95Type.AppendItemsIRI(u1)
+	example95Type.AppendItemsIRI(u2)
+	example95Type.AppendItemsIRI(u3)
 }
 
 const example96 = `{
@@ -2649,15 +2649,15 @@ func init() {
 	u2 := MustParseURL("http://example.org/posts/2")
 	u3 := MustParseURL("http://example.org/posts/3")
 	link := &Link{}
-	link.AddType("Link")
-	link.AddNameString("Next Page")
+	link.AppendType("Link")
+	link.AppendNameString("Next Page")
 	link.SetHref(href)
-	example96Type.AddType("CollectionPage")
-	example96Type.AddSummaryString("Page 2 of Sally's blog posts")
+	example96Type.AppendType("CollectionPage")
+	example96Type.AppendSummaryString("Page 2 of Sally's blog posts")
 	example96Type.SetNextLink(link)
-	example96Type.AddItemsIRI(u1)
-	example96Type.AddItemsIRI(u2)
-	example96Type.AddItemsIRI(u3)
+	example96Type.AppendItemsIRI(u1)
+	example96Type.AppendItemsIRI(u2)
+	example96Type.AppendItemsIRI(u3)
 }
 
 const example97 = `{
@@ -2673,10 +2673,10 @@ var example97Type = &Like{}
 func init() {
 	a := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/posts/1")
-	example97Type.AddType("Like")
-	example97Type.AddSummaryString("Sally liked a post")
-	example97Type.AddActorIRI(a)
-	example97Type.AddObjectIRI(o)
+	example97Type.AppendType("Like")
+	example97Type.AppendSummaryString("Sally liked a post")
+	example97Type.AppendActorIRI(a)
+	example97Type.AppendObjectIRI(o)
 }
 
 const example98 = `{
@@ -2694,11 +2694,11 @@ var example98Type = &Like{}
 func init() {
 	a := MustParseURL("http://sally.example.org")
 	note := &Note{}
-	note.AddType("Note")
-	note.AddContentString("A simple note")
-	example98Type.AddType("Like")
-	example98Type.AddActorIRI(a)
-	example98Type.AddObject(note)
+	note.AppendType("Note")
+	note.AppendContentString("A simple note")
+	example98Type.AppendType("Like")
+	example98Type.AppendActorIRI(a)
+	example98Type.AppendObject(note)
 }
 
 const example99 = `{
@@ -2722,14 +2722,14 @@ func init() {
 	a := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/posts/1")
 	note := &Note{}
-	note.AddType("Note")
-	note.AddSummaryString("A simple note")
-	note.AddContentString("That is a tree.")
-	example99Type.AddType("Like")
-	example99Type.AddSummaryString("Sally liked a note")
-	example99Type.AddActorIRI(a)
-	example99Type.AddObjectIRI(o)
-	example99Type.AddObject(note)
+	note.AppendType("Note")
+	note.AppendSummaryString("A simple note")
+	note.AppendContentString("That is a tree.")
+	example99Type.AppendType("Like")
+	example99Type.AppendSummaryString("Sally liked a note")
+	example99Type.AppendActorIRI(a)
+	example99Type.AppendObjectIRI(o)
+	example99Type.AppendObject(note)
 }
 
 const example100 = `{
@@ -2751,12 +2751,12 @@ func init() {
 	u1 := MustParseURL("http://example.org/posts/1")
 	u2 := MustParseURL("http://example.org/posts/2")
 	u3 := MustParseURL("http://example.org/posts/3")
-	example100Type.AddType("CollectionPage")
-	example100Type.AddSummaryString("Page 1 of Sally's blog posts")
+	example100Type.AppendType("CollectionPage")
+	example100Type.AppendSummaryString("Page 1 of Sally's blog posts")
 	example100Type.SetPrevIRI(p)
-	example100Type.AddItemsIRI(u1)
-	example100Type.AddItemsIRI(u2)
-	example100Type.AddItemsIRI(u3)
+	example100Type.AppendItemsIRI(u1)
+	example100Type.AppendItemsIRI(u2)
+	example100Type.AppendItemsIRI(u3)
 }
 
 const example101 = `{
@@ -2783,15 +2783,15 @@ func init() {
 	u2 := MustParseURL("http://example.org/posts/2")
 	u3 := MustParseURL("http://example.org/posts/3")
 	link := &Link{}
-	link.AddType("Link")
-	link.AddNameString("Previous Page")
+	link.AppendType("Link")
+	link.AppendNameString("Previous Page")
 	link.SetHref(p)
-	example101Type.AddType("CollectionPage")
-	example101Type.AddSummaryString("Page 1 of Sally's blog posts")
+	example101Type.AppendType("CollectionPage")
+	example101Type.AppendSummaryString("Page 1 of Sally's blog posts")
 	example101Type.SetPrevLink(link)
-	example101Type.AddItemsIRI(u1)
-	example101Type.AddItemsIRI(u2)
-	example101Type.AddItemsIRI(u3)
+	example101Type.AppendItemsIRI(u1)
+	example101Type.AppendItemsIRI(u2)
+	example101Type.AppendItemsIRI(u3)
 }
 
 // NOTE: The 'url' field has added the 'type' property
@@ -2817,18 +2817,18 @@ var example102Type = &Video{}
 func init() {
 	u := MustParseURL("http://example.org/trailer.mkv")
 	link := &Link{}
-	link.AddType("Link")
+	link.AppendType("Link")
 	link.SetMediaType("video/mkv")
 	link.SetHref(u)
 	video := &Video{}
-	video.AddType("Video")
-	video.AddNameString("Trailer")
+	video.AppendType("Video")
+	video.AppendNameString("Trailer")
 	video.SetDuration(time.Minute)
-	video.AddUrlLink(link)
-	example102Type.AddType("Video")
-	example102Type.AddNameString("Cool New Movie")
+	video.AppendUrlLink(link)
+	example102Type.AppendType("Video")
+	example102Type.AppendNameString("Cool New Movie")
 	example102Type.SetDuration(time.Hour*2 + time.Minute*30)
-	example102Type.AddPreviewObject(video)
+	example102Type.AppendPreviewObject(video)
 }
 
 const example103 = `{
@@ -2851,11 +2851,11 @@ func init() {
 	status := make(map[string]interface{})
 	status["type"] = "http://www.types.example/flightstatus"
 	status["name"] = "On Time"
-	example103Type.AddType("Activity")
-	example103Type.AddType("http://www.verbs.example/Check")
-	example103Type.AddSummaryString("Sally checked that her flight was on time")
-	example103Type.AddActorIRI(a)
-	example103Type.AddObjectIRI(o)
+	example103Type.AppendType("Activity")
+	example103Type.AppendType("http://www.verbs.example/Check")
+	example103Type.AppendSummaryString("Sally checked that her flight was on time")
+	example103Type.AppendActorIRI(a)
+	example103Type.AppendObjectIRI(o)
 	example103Type.AddUnknown("result", status)
 }
 
@@ -2883,18 +2883,18 @@ var example104Type = &Note{}
 func init() {
 	i := MustParseURL("http://www.test.example/notes/1")
 	note := &Note{}
-	note.AddType("Note")
-	note.AddSummaryString("A response to the note")
-	note.AddContentString("I am glad to hear it.")
-	note.AddInReplyToIRI(i)
+	note.AppendType("Note")
+	note.AppendSummaryString("A response to the note")
+	note.AppendContentString("I am glad to hear it.")
+	note.AppendInReplyToIRI(i)
 	replies := &Collection{}
-	replies.AddType("Collection")
+	replies.AppendType("Collection")
 	replies.SetTotalItems(1)
-	replies.AddItemsObject(note)
-	example104Type.AddType("Note")
-	example104Type.AddSummaryString("A simple note")
+	replies.AppendItemsObject(note)
+	example104Type.AppendType("Note")
+	example104Type.AppendSummaryString("A simple note")
 	example104Type.SetId(MustParseURL("http://www.test.example/notes/1"))
-	example104Type.AddContentString("I am fine.")
+	example104Type.AppendContentString("I am fine.")
 	example104Type.SetReplies(replies)
 }
 
@@ -2916,13 +2916,13 @@ var example105Type = &Image{}
 func init() {
 	u := MustParseURL("http://example.org/sally.jpg")
 	person := &Person{}
-	person.AddType("Person")
+	person.AppendType("Person")
 	person.SetId(MustParseURL("http://sally.example.org"))
-	person.AddNameString("Sally")
-	example105Type.AddType("Image")
-	example105Type.AddSummaryString("Picture of Sally")
-	example105Type.AddUrlAnyURI(u)
-	example105Type.AddTagObject(person)
+	person.AppendNameString("Sally")
+	example105Type.AppendType("Image")
+	example105Type.AppendSummaryString("Picture of Sally")
+	example105Type.AppendUrlAnyURI(u)
+	example105Type.AppendTagObject(person)
 }
 
 const example106 = `{
@@ -2940,11 +2940,11 @@ func init() {
 	a := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/posts/1")
 	t := MustParseURL("http://john.example.org")
-	example106Type.AddType("Offer")
-	example106Type.AddSummaryString("Sally offered the post to John")
-	example106Type.AddActorIRI(a)
-	example106Type.AddObjectIRI(o)
-	example106Type.AddTargetIRI(t)
+	example106Type.AppendType("Offer")
+	example106Type.AppendSummaryString("Sally offered the post to John")
+	example106Type.AppendActorIRI(a)
+	example106Type.AppendObjectIRI(o)
+	example106Type.AppendTargetIRI(t)
 }
 
 const example107 = `{
@@ -2965,13 +2965,13 @@ func init() {
 	a := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/posts/1")
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("John")
-	example107Type.AddType("Offer")
-	example107Type.AddSummaryString("Sally offered the post to John")
-	example107Type.AddActorIRI(a)
-	example107Type.AddObjectIRI(o)
-	example107Type.AddTargetObject(person)
+	person.AppendType("Person")
+	person.AppendNameString("John")
+	example107Type.AppendType("Offer")
+	example107Type.AppendSummaryString("Sally offered the post to John")
+	example107Type.AppendActorIRI(a)
+	example107Type.AppendObjectIRI(o)
+	example107Type.AppendTargetObject(person)
 }
 
 // NOTE: Changed to not be an array value for "to" to keep in line with other examples in spec!
@@ -2992,12 +2992,12 @@ func init() {
 	o := MustParseURL("http://example.org/posts/1")
 	t := MustParseURL("http://john.example.org")
 	z := MustParseURL("http://joe.example.org")
-	example108Type.AddType("Offer")
-	example108Type.AddSummaryString("Sally offered the post to John")
-	example108Type.AddActorIRI(a)
-	example108Type.AddObjectIRI(o)
-	example108Type.AddTargetIRI(t)
-	example108Type.AddToIRI(z)
+	example108Type.AppendType("Offer")
+	example108Type.AppendSummaryString("Sally offered the post to John")
+	example108Type.AppendActorIRI(a)
+	example108Type.AppendObjectIRI(o)
+	example108Type.AppendTargetIRI(t)
+	example108Type.AppendToIRI(z)
 }
 
 const example109 = `{
@@ -3011,9 +3011,9 @@ var example109Type = &Document{}
 
 func init() {
 	u := MustParseURL("http://example.org/4q-sales-forecast.pdf")
-	example109Type.AddType("Document")
-	example109Type.AddNameString("4Q Sales Forecast")
-	example109Type.AddUrlAnyURI(u)
+	example109Type.AppendType("Document")
+	example109Type.AppendNameString("4Q Sales Forecast")
+	example109Type.AppendUrlAnyURI(u)
 }
 
 const example110 = `{
@@ -3031,11 +3031,11 @@ var example110Type = &Document{}
 func init() {
 	u := MustParseURL("http://example.org/4q-sales-forecast.pdf")
 	link := &Link{}
-	link.AddType("Link")
+	link.AppendType("Link")
 	link.SetHref(u)
-	example110Type.AddType("Document")
-	example110Type.AddNameString("4Q Sales Forecast")
-	example110Type.AddUrlLink(link)
+	example110Type.AppendType("Document")
+	example110Type.AppendNameString("4Q Sales Forecast")
+	example110Type.AppendUrlLink(link)
 }
 
 const example111 = `{
@@ -3062,17 +3062,17 @@ func init() {
 	u1 := MustParseURL("http://example.org/4q-sales-forecast.pdf")
 	u2 := MustParseURL("http://example.org/4q-sales-forecast.html")
 	link1 := &Link{}
-	link1.AddType("Link")
+	link1.AppendType("Link")
 	link1.SetHref(u1)
 	link1.SetMediaType("application/pdf")
 	link2 := &Link{}
-	link2.AddType("Link")
+	link2.AppendType("Link")
 	link2.SetHref(u2)
 	link2.SetMediaType("text/html")
-	example111Type.AddType("Document")
-	example111Type.AddNameString("4Q Sales Forecast")
-	example111Type.AddUrlLink(link1)
-	example111Type.AddUrlLink(link2)
+	example111Type.AppendType("Document")
+	example111Type.AppendNameString("4Q Sales Forecast")
+	example111Type.AppendUrlLink(link1)
+	example111Type.AppendUrlLink(link2)
 }
 
 const example112 = `{
@@ -3087,8 +3087,8 @@ const example112 = `{
 var example112Type = &Place{}
 
 func init() {
-	example112Type.AddType("Place")
-	example112Type.AddNameString("Liu Gu Lu Cun, Pingdu, Qingdao, Shandong, China")
+	example112Type.AppendType("Place")
+	example112Type.AppendNameString("Liu Gu Lu Cun, Pingdu, Qingdao, Shandong, China")
 	example112Type.SetLatitude(36.75)
 	example112Type.SetLongitude(119.7667)
 	example112Type.SetAccuracy(94.5)
@@ -3107,8 +3107,8 @@ const example113 = `{
 var example113Type = &Place{}
 
 func init() {
-	example113Type.AddType("Place")
-	example113Type.AddNameString("Fresno Area")
+	example113Type.AppendType("Place")
+	example113Type.AppendNameString("Fresno Area")
 	example113Type.SetAltitude(15.0)
 	example113Type.SetLatitude(36.75)
 	example113Type.SetLongitude(119.7667)
@@ -3125,9 +3125,9 @@ const example114 = `{
 var example114Type = &Note{}
 
 func init() {
-	example114Type.AddType("Note")
-	example114Type.AddSummaryString("A simple note")
-	example114Type.AddContentString("A <em>simple</em> note")
+	example114Type.AppendType("Note")
+	example114Type.AppendSummaryString("A simple note")
+	example114Type.AppendContentString("A <em>simple</em> note")
 }
 
 const example115 = `{
@@ -3144,8 +3144,8 @@ const example115 = `{
 var example115Type = &Note{}
 
 func init() {
-	example115Type.AddType("Note")
-	example115Type.AddSummaryString("A simple note")
+	example115Type.AppendType("Note")
+	example115Type.AppendSummaryString("A simple note")
 	example115Type.SetContentMap("en", "A <em>simple</em> note")
 	example115Type.SetContentMap("es", "Una nota <em>sencilla</em>")
 	example115Type.SetContentMap("zh-Hans", "一段<em>简单的</em>笔记")
@@ -3162,10 +3162,10 @@ const example116 = `{
 var example116Type = &Note{}
 
 func init() {
-	example116Type.AddType("Note")
-	example116Type.AddSummaryString("A simple note")
+	example116Type.AppendType("Note")
+	example116Type.AppendSummaryString("A simple note")
 	example116Type.SetMediaType("text/markdown")
-	example116Type.AddContentString("## A simple note\nA simple markdown `note`")
+	example116Type.AppendContentString("## A simple note\nA simple markdown `note`")
 }
 
 const example117 = `{
@@ -3177,8 +3177,8 @@ const example117 = `{
 var example117Type = &Note{}
 
 func init() {
-	example117Type.AddType("Note")
-	example117Type.AddNameString("A simple note")
+	example117Type.AppendType("Note")
+	example117Type.AppendNameString("A simple note")
 }
 
 const example118 = `{
@@ -3194,7 +3194,7 @@ const example118 = `{
 var example118Type = &Note{}
 
 func init() {
-	example118Type.AddType("Note")
+	example118Type.AppendType("Note")
 	example118Type.SetNameMap("en", "A simple note")
 	example118Type.SetNameMap("es", "Una nota sencilla")
 	example118Type.SetNameMap("zh-Hans", "一段简单的笔记")
@@ -3212,9 +3212,9 @@ var example119Type = &Video{}
 
 func init() {
 	u := MustParseURL("http://example.org/video.mkv")
-	example119Type.AddType("Video")
-	example119Type.AddNameString("Birds Flying")
-	example119Type.AddUrlAnyURI(u)
+	example119Type.AppendType("Video")
+	example119Type.AppendNameString("Birds Flying")
+	example119Type.AppendUrlAnyURI(u)
 	example119Type.SetDuration(time.Hour * 2)
 }
 
@@ -3230,7 +3230,7 @@ var example120Type = &Link{}
 
 func init() {
 	u := MustParseURL("http://example.org/image.png")
-	example120Type.AddType("Link")
+	example120Type.AppendType("Link")
 	example120Type.SetHref(u)
 	example120Type.SetHeight(100)
 	example120Type.SetWidth(100)
@@ -3248,10 +3248,10 @@ var example121Type = &Link{}
 
 func init() {
 	u := MustParseURL("http://example.org/abc")
-	example121Type.AddType("Link")
+	example121Type.AppendType("Link")
 	example121Type.SetHref(u)
 	example121Type.SetMediaType("text/html")
-	example121Type.AddNameString("Previous")
+	example121Type.AppendNameString("Previous")
 }
 
 const example122 = `{
@@ -3267,10 +3267,10 @@ var example122Type = &Link{}
 
 func init() {
 	u := MustParseURL("http://example.org/abc")
-	example122Type.AddType("Link")
+	example122Type.AppendType("Link")
 	example122Type.SetHref(u)
 	example122Type.SetMediaType("text/html")
-	example122Type.AddNameString("Previous")
+	example122Type.AppendNameString("Previous")
 	example122Type.SetHreflang("en")
 }
 
@@ -3297,17 +3297,17 @@ var example123Type = &CollectionPage{}
 func init() {
 	u := MustParseURL("http://example.org/collection")
 	note1 := &Note{}
-	note1.AddType("Note")
-	note1.AddNameString("Pizza Toppings to Try")
+	note1.AppendType("Note")
+	note1.AppendNameString("Pizza Toppings to Try")
 	note2 := &Note{}
-	note2.AddType("Note")
-	note2.AddNameString("Thought about California")
-	example123Type.AddType("CollectionPage")
-	example123Type.AddSummaryString("Page 1 of Sally's notes")
+	note2.AppendType("Note")
+	note2.AppendNameString("Thought about California")
+	example123Type.AppendType("CollectionPage")
+	example123Type.AppendSummaryString("Page 1 of Sally's notes")
 	example123Type.SetId(MustParseURL("http://example.org/collection?page=1"))
 	example123Type.SetPartOfIRI(u)
-	example123Type.AddItemsObject(note1)
-	example123Type.AddItemsObject(note2)
+	example123Type.AppendItemsObject(note1)
+	example123Type.AppendItemsObject(note2)
 }
 
 const example124 = `{
@@ -3323,8 +3323,8 @@ const example124 = `{
 var example124Type = &Place{}
 
 func init() {
-	example124Type.AddType("Place")
-	example124Type.AddNameString("Fresno Area")
+	example124Type.AppendType("Place")
+	example124Type.AppendNameString("Fresno Area")
 	example124Type.SetLatitude(36.75)
 	example124Type.SetLongitude(119.7667)
 	example124Type.SetRadius(15)
@@ -3344,8 +3344,8 @@ const example125 = `{
 var example125Type = &Place{}
 
 func init() {
-	example125Type.AddType("Place")
-	example125Type.AddNameString("Fresno Area")
+	example125Type.AppendType("Place")
+	example125Type.AppendNameString("Fresno Area")
 	example125Type.SetLatitude(36.75)
 	example125Type.SetLongitude(119.7667)
 	example125Type.SetRadius(15)
@@ -3365,11 +3365,11 @@ var example126Type = &Link{}
 
 func init() {
 	u := MustParseURL("http://example.org/abc")
-	example126Type.AddType("Link")
+	example126Type.AppendType("Link")
 	example126Type.SetHref(u)
 	example126Type.SetHreflang("en")
 	example126Type.SetMediaType("text/html")
-	example126Type.AddNameString("Next")
+	example126Type.AppendNameString("Next")
 }
 
 const example127 = `{
@@ -3391,8 +3391,8 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	example127Type.AddType("Event")
-	example127Type.AddNameString("Going-Away Party for Jim")
+	example127Type.AppendType("Event")
+	example127Type.AppendNameString("Going-Away Party for Jim")
 	example127Type.SetStartTime(t1)
 	example127Type.SetEndTime(t2)
 }
@@ -3412,9 +3412,9 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	example128Type.AddType("Note")
-	example128Type.AddSummaryString("A simple note")
-	example128Type.AddContentString("Fish swim.")
+	example128Type.AppendType("Note")
+	example128Type.AppendSummaryString("A simple note")
+	example128Type.AppendContentString("Fish swim.")
 	example128Type.SetPublished(t)
 }
 
@@ -3437,8 +3437,8 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	example129Type.AddType("Event")
-	example129Type.AddNameString("Going-Away Party for Jim")
+	example129Type.AppendType("Event")
+	example129Type.AppendNameString("Going-Away Party for Jim")
 	example129Type.SetStartTime(t1)
 	example129Type.SetEndTime(t2)
 }
@@ -3456,8 +3456,8 @@ const example130 = `{
 var example130Type = &Place{}
 
 func init() {
-	example130Type.AddType("Place")
-	example130Type.AddNameString("Fresno Area")
+	example130Type.AppendType("Place")
+	example130Type.AppendNameString("Fresno Area")
 	example130Type.SetLatitude(36.75)
 	example130Type.SetLongitude(119.7667)
 	example130Type.SetRadius(15)
@@ -3478,13 +3478,13 @@ var example131Type = &Link{}
 
 func init() {
 	u := MustParseURL("http://example.org/abc")
-	example131Type.AddType("Link")
+	example131Type.AppendType("Link")
 	example131Type.SetHref(u)
 	example131Type.SetHreflang("en")
 	example131Type.SetMediaType("text/html")
-	example131Type.AddNameString("Preview")
-	example131Type.AddRel("canonical")
-	example131Type.AddRel("preview")
+	example131Type.AppendNameString("Preview")
+	example131Type.AppendRel("canonical")
+	example131Type.AppendRel("preview")
 }
 
 const example132 = `{
@@ -3508,16 +3508,16 @@ var example132Type = &OrderedCollectionPage{}
 
 func init() {
 	note1 := &Note{}
-	note1.AddType("Note")
-	note1.AddNameString("Density of Water")
+	note1.AppendType("Note")
+	note1.AppendNameString("Density of Water")
 	note2 := &Note{}
-	note2.AddType("Note")
-	note2.AddNameString("Air Mattress Idea")
-	example132Type.AddType("OrderedCollectionPage")
-	example132Type.AddSummaryString("Page 1 of Sally's notes")
+	note2.AppendType("Note")
+	note2.AppendNameString("Air Mattress Idea")
+	example132Type.AppendType("OrderedCollectionPage")
+	example132Type.AppendSummaryString("Page 1 of Sally's notes")
 	example132Type.SetStartIndex(0)
-	example132Type.AddOrderedItemsObject(note1)
-	example132Type.AddOrderedItemsObject(note2)
+	example132Type.AppendOrderedItemsObject(note1)
+	example132Type.AppendOrderedItemsObject(note2)
 }
 
 const example133 = `{
@@ -3530,9 +3530,9 @@ const example133 = `{
 var example133Type = &Note{}
 
 func init() {
-	example133Type.AddType("Note")
-	example133Type.AddNameString("Cane Sugar Processing")
-	example133Type.AddSummaryString("A simple <em>note</em>")
+	example133Type.AppendType("Note")
+	example133Type.AppendNameString("Cane Sugar Processing")
+	example133Type.AppendSummaryString("A simple <em>note</em>")
 }
 
 const example134 = `{
@@ -3549,8 +3549,8 @@ const example134 = `{
 var example134Type = &Note{}
 
 func init() {
-	example134Type.AddType("Note")
-	example134Type.AddNameString("Cane Sugar Processing")
+	example134Type.AppendType("Note")
+	example134Type.AppendNameString("Cane Sugar Processing")
 	example134Type.SetSummaryMap("en", "A simple <em>note</em>")
 	example134Type.SetSummaryMap("es", "Una <em>nota</em> sencilla")
 	example134Type.SetSummaryMap("zh-Hans", "一段<em>简单的</em>笔记")
@@ -3577,16 +3577,16 @@ var example135Type = &Collection{}
 
 func init() {
 	note1 := &Note{}
-	note1.AddType("Note")
-	note1.AddNameString("Which Staircase Should I Use")
+	note1.AppendType("Note")
+	note1.AppendNameString("Which Staircase Should I Use")
 	note2 := &Note{}
-	note2.AddType("Note")
-	note2.AddNameString("Something to Remember")
-	example135Type.AddType("Collection")
-	example135Type.AddSummaryString("Sally's notes")
+	note2.AppendType("Note")
+	note2.AppendNameString("Something to Remember")
+	example135Type.AppendType("Collection")
+	example135Type.AppendSummaryString("Sally's notes")
 	example135Type.SetTotalItems(2)
-	example135Type.AddItemsObject(note1)
-	example135Type.AddItemsObject(note2)
+	example135Type.AppendItemsObject(note1)
+	example135Type.AppendItemsObject(note2)
 }
 
 const example136 = `{
@@ -3602,8 +3602,8 @@ const example136 = `{
 var example136Type = &Place{}
 
 func init() {
-	example136Type.AddType("Place")
-	example136Type.AddNameString("Fresno Area")
+	example136Type.AppendType("Place")
+	example136Type.AppendNameString("Fresno Area")
 	example136Type.SetLatitude(36.75)
 	example136Type.SetLongitude(119.7667)
 	example136Type.SetRadius(15)
@@ -3625,9 +3625,9 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	example137Type.AddType("Note")
-	example137Type.AddNameString("Cranberry Sauce Idea")
-	example137Type.AddContentString("Mush it up so it does not have the same shape as the can.")
+	example137Type.AppendType("Note")
+	example137Type.AppendNameString("Cranberry Sauce Idea")
+	example137Type.AppendContentString("Mush it up so it does not have the same shape as the can.")
 	example137Type.SetUpdated(t)
 }
 
@@ -3643,7 +3643,7 @@ var example138Type = &Link{}
 
 func init() {
 	u := MustParseURL("http://example.org/image.png")
-	example138Type.AddType("Link")
+	example138Type.AppendType("Link")
 	example138Type.SetHref(u)
 	example138Type.SetHeight(100)
 	example138Type.SetWidth(100)
@@ -3669,15 +3669,15 @@ var example139Type = &Relationship{}
 func init() {
 	u := MustParseURL("http://purl.org/vocab/relationship/acquaintanceOf")
 	subject := &Person{}
-	subject.AddType("Person")
-	subject.AddNameString("Sally")
+	subject.AppendType("Person")
+	subject.AppendNameString("Sally")
 	object := &Person{}
-	object.AddType("Person")
-	object.AddNameString("John")
-	example139Type.AddType("Relationship")
-	example139Type.AddSummaryString("Sally is an acquaintance of John's")
+	object.AppendType("Person")
+	object.AppendNameString("John")
+	example139Type.AppendType("Relationship")
+	example139Type.AppendSummaryString("Sally is an acquaintance of John's")
 	example139Type.SetSubjectObject(subject)
-	example139Type.AddObject(object)
+	example139Type.AppendObject(object)
 	example139Type.SetRelationshipIRI(u)
 }
 
@@ -3701,15 +3701,15 @@ var example140Type = &Relationship{}
 func init() {
 	u := MustParseURL("http://purl.org/vocab/relationship/acquaintanceOf")
 	subject := &Person{}
-	subject.AddType("Person")
-	subject.AddNameString("Sally")
+	subject.AppendType("Person")
+	subject.AppendNameString("Sally")
 	object := &Person{}
-	object.AddType("Person")
-	object.AddNameString("John")
-	example140Type.AddType("Relationship")
-	example140Type.AddSummaryString("Sally is an acquaintance of John's")
+	object.AppendType("Person")
+	object.AppendNameString("John")
+	example140Type.AppendType("Relationship")
+	example140Type.AppendSummaryString("Sally is an acquaintance of John's")
 	example140Type.SetSubjectObject(subject)
-	example140Type.AddObject(object)
+	example140Type.AppendObject(object)
 	example140Type.SetRelationshipIRI(u)
 }
 
@@ -3729,11 +3729,11 @@ var example141Type = &Profile{}
 func init() {
 	u := MustParseURL("http://sally.example.org")
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("Sally")
-	example141Type.AddType("Profile")
-	example141Type.AddSummaryString("Sally's profile")
-	example141Type.AddUrlAnyURI(u)
+	person.AppendType("Person")
+	person.AppendNameString("Sally")
+	example141Type.AppendType("Profile")
+	example141Type.AppendSummaryString("Sally's profile")
+	example141Type.AppendUrlAnyURI(u)
 	example141Type.SetDescribes(person)
 }
 
@@ -3749,10 +3749,10 @@ var example142Type = &Tombstone{}
 
 func init() {
 	u := MustParseURL("http://example.org/image/2")
-	example142Type.AddType("Tombstone")
-	example142Type.AddSummaryString("This image has been deleted")
-	example142Type.AddFormerTypeString("Image")
-	example142Type.AddUrlAnyURI(u)
+	example142Type.AppendType("Tombstone")
+	example142Type.AppendSummaryString("This image has been deleted")
+	example142Type.AppendFormerTypeString("Image")
+	example142Type.AppendUrlAnyURI(u)
 }
 
 const example143 = `{
@@ -3769,8 +3769,8 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	example143Type.AddType("Tombstone")
-	example143Type.AddSummaryString("This image has been deleted")
+	example143Type.AppendType("Tombstone")
+	example143Type.AppendSummaryString("This image has been deleted")
 	example143Type.SetDeleted(t)
 }
 
@@ -3829,35 +3829,35 @@ func init() {
 	context["type"] = "http://example.org/Project"
 	context["name"] = "Project XYZ"
 	audience := &Group{}
-	audience.AddType("Group")
-	audience.AddNameString("Project XYZ Working Group")
+	audience.AppendType("Group")
+	audience.AppendNameString("Project XYZ Working Group")
 	note := &Note{}
-	note.AddType("Note")
-	note.AddSummaryString("A note")
+	note.AppendType("Note")
+	note.AppendSummaryString("A note")
 	note.SetId(MustParseURL("http://notes.example.com/1"))
-	note.AddContentString("A note")
+	note.AppendContentString("A note")
 	create := &Create{}
-	create.AddType("Create")
-	create.AddSummaryString("Sally created a note")
+	create.AppendType("Create")
+	create.AppendSummaryString("Sally created a note")
 	create.SetId(MustParseURL("http://activities.example.com/1"))
-	create.AddActorIRI(sally)
-	create.AddObject(note)
+	create.AppendActorIRI(sally)
+	create.AppendObject(note)
 	create.SetUnknownContext(context)
-	create.AddAudienceObject(audience)
-	create.AddToIRI(john)
+	create.AppendAudienceObject(audience)
+	create.AppendToIRI(john)
 	like := &Like{}
-	like.AddType("Like")
-	like.AddSummaryString("John liked Sally's note")
+	like.AppendType("Like")
+	like.AppendSummaryString("John liked Sally's note")
 	like.SetId(MustParseURL("http://activities.example.com/1"))
-	like.AddActorIRI(john)
-	like.AddObjectIRI(o)
+	like.AppendActorIRI(john)
+	like.AppendObjectIRI(o)
 	like.SetUnknownContext(context)
-	like.AddAudienceObject(audience)
-	like.AddToIRI(sally)
-	example144Type.AddType("Collection")
-	example144Type.AddSummaryString("Activities in Project XYZ")
-	example144Type.AddItemsObject(create)
-	example144Type.AddItemsObject(like)
+	like.AppendAudienceObject(audience)
+	like.AppendToIRI(sally)
+	example144Type.AppendType("Collection")
+	example144Type.AppendSummaryString("Activities in Project XYZ")
+	example144Type.AppendItemsObject(create)
+	example144Type.AppendItemsObject(like)
 }
 
 const example145 = `{
@@ -3900,30 +3900,30 @@ func init() {
 	friend := MustParseURL("http://purl.org/vocab/relationship/friendOf")
 	influenced := MustParseURL("http://purl.org/vocab/relationship/influencedBy")
 	sally := &Person{}
-	sally.AddType("Person")
-	sally.AddNameString("Sally")
+	sally.AppendType("Person")
+	sally.AppendNameString("Sally")
 	jane := &Person{}
-	jane.AddType("Person")
-	jane.AddNameString("Jane")
+	jane.AppendType("Person")
+	jane.AppendNameString("Jane")
 	joe := &Person{}
-	joe.AddType("Person")
-	joe.AddNameString("Joe")
+	joe.AppendType("Person")
+	joe.AppendNameString("Joe")
 	joeRel := &Relationship{}
-	joeRel.AddType("Relationship")
-	joeRel.AddSummaryString("Sally is influenced by Joe")
+	joeRel.AppendType("Relationship")
+	joeRel.AppendSummaryString("Sally is influenced by Joe")
 	joeRel.SetSubjectObject(sally)
-	joeRel.AddObject(joe)
+	joeRel.AppendObject(joe)
 	joeRel.SetRelationshipIRI(influenced)
 	janeRel := &Relationship{}
-	janeRel.AddType("Relationship")
-	janeRel.AddSummaryString("Sally is a friend of Jane")
+	janeRel.AppendType("Relationship")
+	janeRel.AppendSummaryString("Sally is a friend of Jane")
 	janeRel.SetSubjectObject(sally)
-	janeRel.AddObject(jane)
+	janeRel.AppendObject(jane)
 	janeRel.SetRelationshipIRI(friend)
-	example145Type.AddType("Collection")
-	example145Type.AddSummaryString("Sally's friends list")
-	example145Type.AddItemsObject(joeRel)
-	example145Type.AddItemsObject(janeRel)
+	example145Type.AppendType("Collection")
+	example145Type.AppendSummaryString("Sally's friends list")
+	example145Type.AppendItemsObject(joeRel)
+	example145Type.AppendItemsObject(janeRel)
 }
 
 // NOTE: Added `Z` to `startTime` to make align to spec!
@@ -3952,15 +3952,15 @@ func init() {
 		panic(err)
 	}
 	relationship := &Relationship{}
-	relationship.AddType("Relationship")
+	relationship.AppendType("Relationship")
 	relationship.SetSubjectIRI(s)
 	relationship.SetRelationshipIRI(friend)
-	relationship.AddObjectIRI(m)
+	relationship.AppendObjectIRI(m)
 	relationship.SetStartTime(t)
-	example146Type.AddType("Create")
-	example146Type.AddSummaryString("Sally became a friend of Matt")
-	example146Type.AddActorIRI(s)
-	example146Type.AddObject(relationship)
+	example146Type.AppendType("Create")
+	example146Type.AppendSummaryString("Sally became a friend of Matt")
+	example146Type.AppendActorIRI(s)
+	example146Type.AppendObject(relationship)
 }
 
 const example147 = `{
@@ -3987,18 +3987,18 @@ func init() {
 	s := MustParseURL("acct:sally@example.org")
 	t := MustParseURL("acct:john@example.org")
 	rel := &Relationship{}
-	rel.AddType("Relationship")
-	rel.AddSummaryString("Sally and John's friendship")
+	rel.AppendType("Relationship")
+	rel.AppendSummaryString("Sally and John's friendship")
 	rel.SetId(MustParseURL("http://example.org/connections/123"))
 	rel.SetSubjectIRI(s)
-	rel.AddObjectIRI(t)
+	rel.AppendObjectIRI(t)
 	rel.SetRelationshipIRI(friend)
-	example147Type.AddType("Offer")
-	example147Type.AddSummaryString("Sally requested to be a friend of John")
+	example147Type.AppendType("Offer")
+	example147Type.AppendSummaryString("Sally requested to be a friend of John")
 	example147Type.SetId(MustParseURL("http://example.org/connection-requests/123"))
-	example147Type.AddActorIRI(s)
-	example147Type.AddObject(rel)
-	example147Type.AddTargetIRI(t)
+	example147Type.AppendActorIRI(s)
+	example147Type.AppendObject(rel)
+	example147Type.AppendTargetIRI(t)
 }
 
 const example148 = `{
@@ -4076,60 +4076,60 @@ func init() {
 	a125 := MustParseURL("http://example.org/activities/125")
 	a126 := MustParseURL("http://example.org/activities/126")
 	jc := &Collection{}
-	jc.AddType("Collection")
-	jc.AddSummaryString("John's Connections")
+	jc.AppendType("Collection")
+	jc.AppendSummaryString("John's Connections")
 	sc := &Collection{}
-	sc.AddType("Collection")
-	sc.AddSummaryString("Sally's Connections")
+	sc.AppendType("Collection")
+	sc.AppendSummaryString("Sally's Connections")
 	o1 := &Accept{}
-	o1.AddType("Accept")
+	o1.AppendType("Accept")
 	o1.SetId(MustParseURL("http://example.org/activities/122"))
-	o1.AddSummaryString("John accepted Sally's friend request")
-	o1.AddObjectIRI(req123)
-	o1.AddInReplyToIRI(req123)
-	o1.AddContextIRI(conn123)
-	o1.AddResultIRI(a123)
-	o1.AddResultIRI(a124)
-	o1.AddResultIRI(a125)
-	o1.AddResultIRI(a126)
-	o1.AddActorIRI(john)
+	o1.AppendSummaryString("John accepted Sally's friend request")
+	o1.AppendObjectIRI(req123)
+	o1.AppendInReplyToIRI(req123)
+	o1.AppendContextIRI(conn123)
+	o1.AppendResultIRI(a123)
+	o1.AppendResultIRI(a124)
+	o1.AppendResultIRI(a125)
+	o1.AppendResultIRI(a126)
+	o1.AppendActorIRI(john)
 	o2 := &Follow{}
-	o2.AddType("Follow")
+	o2.AppendType("Follow")
 	o2.SetId(MustParseURL("http://example.org/activities/123"))
-	o2.AddActorIRI(john)
-	o2.AddObjectIRI(sally)
-	o2.AddContextIRI(conn123)
-	o2.AddSummaryString("John followed Sally")
+	o2.AppendActorIRI(john)
+	o2.AppendObjectIRI(sally)
+	o2.AppendContextIRI(conn123)
+	o2.AppendSummaryString("John followed Sally")
 	o3 := &Follow{}
-	o3.AddType("Follow")
+	o3.AppendType("Follow")
 	o3.SetId(MustParseURL("http://example.org/activities/124"))
-	o3.AddActorIRI(sally)
-	o3.AddObjectIRI(john)
-	o3.AddContextIRI(conn123)
-	o3.AddSummaryString("Sally followed John")
+	o3.AppendActorIRI(sally)
+	o3.AppendObjectIRI(john)
+	o3.AppendContextIRI(conn123)
+	o3.AppendSummaryString("Sally followed John")
 	o4 := &Add{}
-	o4.AddType("Add")
+	o4.AppendType("Add")
 	o4.SetId(MustParseURL("http://example.org/activities/125"))
-	o4.AddSummaryString("John added Sally to his friends list")
-	o4.AddActorIRI(john)
-	o4.AddObjectIRI(conn123)
-	o4.AddContextIRI(conn123)
-	o4.AddTargetObject(jc)
+	o4.AppendSummaryString("John added Sally to his friends list")
+	o4.AppendActorIRI(john)
+	o4.AppendObjectIRI(conn123)
+	o4.AppendContextIRI(conn123)
+	o4.AppendTargetObject(jc)
 	o5 := &Add{}
-	o5.AddType("Add")
+	o5.AppendType("Add")
 	o5.SetId(MustParseURL("http://example.org/activities/126"))
-	o5.AddSummaryString("Sally added John to her friends list")
-	o5.AddActorIRI(sally)
-	o5.AddObjectIRI(conn123)
-	o5.AddContextIRI(conn123)
-	o5.AddTargetObject(sc)
-	example148Type.AddType("Collection")
-	example148Type.AddSummaryString("Sally and John's relationship history")
-	example148Type.AddItemsObject(o1)
-	example148Type.AddItemsObject(o2)
-	example148Type.AddItemsObject(o3)
-	example148Type.AddItemsObject(o4)
-	example148Type.AddItemsObject(o5)
+	o5.AppendSummaryString("Sally added John to her friends list")
+	o5.AppendActorIRI(sally)
+	o5.AppendObjectIRI(conn123)
+	o5.AppendContextIRI(conn123)
+	o5.AppendTargetObject(sc)
+	example148Type.AppendType("Collection")
+	example148Type.AppendSummaryString("Sally and John's relationship history")
+	example148Type.AppendItemsObject(o1)
+	example148Type.AppendItemsObject(o2)
+	example148Type.AppendItemsObject(o3)
+	example148Type.AppendItemsObject(o4)
+	example148Type.AppendItemsObject(o5)
 }
 
 const example149 = `{
@@ -4141,8 +4141,8 @@ const example149 = `{
 var example149Type = &Place{}
 
 func init() {
-	example149Type.AddType("Place")
-	example149Type.AddNameString("San Francisco, CA")
+	example149Type.AppendType("Place")
+	example149Type.AppendNameString("San Francisco, CA")
 }
 
 // NOTE: Un-stringified the longitude and latitude values.
@@ -4157,8 +4157,8 @@ const example150 = `{
 var example150Type = &Place{}
 
 func init() {
-	example150Type.AddType("Place")
-	example150Type.AddNameString("San Francisco, CA")
+	example150Type.AppendType("Place")
+	example150Type.AppendNameString("San Francisco, CA")
 	example150Type.SetLongitude(122.4167)
 	example150Type.SetLatitude(37.7833)
 }
@@ -4174,10 +4174,10 @@ const example151 = `{
 var example151Type = &Question{}
 
 func init() {
-	example151Type.AddType("Question")
-	example151Type.AddNameString("A question about robots")
+	example151Type.AppendType("Question")
+	example151Type.AppendNameString("A question about robots")
 	example151Type.SetId(MustParseURL("http://help.example.org/question/1"))
-	example151Type.AddContentString("I'd like to build a robot to feed my cat. Should I use Arduino or Raspberry Pi?")
+	example151Type.AppendContentString("I'd like to build a robot to feed my cat. Should I use Arduino or Raspberry Pi?")
 }
 
 const example152 = `{
@@ -4200,10 +4200,10 @@ func init() {
 	ras := make(map[string]interface{})
 	ras["name"] = "raspberry pi"
 	oneOf := []interface{}{ard, ras}
-	example152Type.AddType("Question")
-	example152Type.AddNameString("A question about robots")
+	example152Type.AppendType("Question")
+	example152Type.AppendNameString("A question about robots")
 	example152Type.SetId(MustParseURL("http://polls.example.org/question/1"))
-	example152Type.AddContentString("I'd like to build a robot to feed my cat. Which platform is best?")
+	example152Type.AppendContentString("I'd like to build a robot to feed my cat. Which platform is best?")
 	example152Type.SetUnknownOneOf(oneOf)
 }
 
@@ -4281,19 +4281,19 @@ func init() {
 	three["name"] = "raspberry pi"
 	items := []interface{}{one, two, three}
 	replies := &Collection{}
-	replies.AddType("Collection")
+	replies.AppendType("Collection")
 	replies.SetTotalItems(3)
 	replies.SetUnknownItems(items)
 	note := &Note{}
-	note.AddType("Note")
-	note.AddContentString("Users are favoriting &quot;arduino&quot; by a 33% margin.")
-	example154Type.AddType("Question")
-	example154Type.AddNameString("A question about robots")
+	note.AppendType("Note")
+	note.AppendContentString("Users are favoriting &quot;arduino&quot; by a 33% margin.")
+	example154Type.AppendType("Question")
+	example154Type.AppendNameString("A question about robots")
 	example154Type.SetId(MustParseURL("http://polls.example.org/question/1"))
-	example154Type.AddContentString("I'd like to build a robot to feed my cat. Which platform is best?")
+	example154Type.AppendContentString("I'd like to build a robot to feed my cat. Which platform is best?")
 	example154Type.SetUnknownOneOf(oneOf)
 	example154Type.SetReplies(replies)
-	example154Type.AddResultObject(note)
+	example154Type.AppendResultObject(note)
 }
 
 const example155 = `{
@@ -4346,29 +4346,29 @@ func init() {
 		panic(err)
 	}
 	note := &Note{}
-	note.AddType("Note")
-	note.AddSummaryString("John's note")
+	note.AppendType("Note")
+	note.AppendSummaryString("John's note")
 	note.SetId(MustParseURL("http://notes.example.com/1"))
-	note.AddContentString("My note")
-	note.AddAttributedToIRI(john)
+	note.AppendContentString("My note")
+	note.AppendAttributedToIRI(john)
 	like := &Like{}
-	like.AddType("Like")
-	like.AddSummaryString("Sally liked John's note")
+	like.AppendType("Like")
+	like.AppendSummaryString("Sally liked John's note")
 	like.SetId(MustParseURL("http://activities.example.com/1"))
-	like.AddActorIRI(sally)
+	like.AppendActorIRI(sally)
 	like.SetPublished(t1)
-	like.AddObject(note)
+	like.AppendObject(note)
 	dislike := &Dislike{}
-	dislike.AddType("Dislike")
-	dislike.AddSummaryString("Sally disliked John's note")
+	dislike.AppendType("Dislike")
+	dislike.AppendSummaryString("Sally disliked John's note")
 	dislike.SetId(MustParseURL("http://activities.example.com/2"))
-	dislike.AddActorIRI(sally)
+	dislike.AppendActorIRI(sally)
 	dislike.SetPublished(t2)
-	dislike.AddObject(note)
-	example155Type.AddType("Collection")
-	example155Type.AddSummaryString("History of John's note")
-	example155Type.AddItemsObject(like)
-	example155Type.AddItemsObject(dislike)
+	dislike.AppendObject(note)
+	example155Type.AppendType("Collection")
+	example155Type.AppendSummaryString("History of John's note")
+	example155Type.AppendItemsObject(like)
+	example155Type.AppendItemsObject(dislike)
 }
 
 const example156 = `{
@@ -4416,29 +4416,29 @@ func init() {
 		panic(err)
 	}
 	note := &Note{}
-	note.AddType("Note")
+	note.AppendType("Note")
 	note.SetId(MustParseURL("http://notes.example.com/1"))
-	note.AddSummaryString("John's note")
-	note.AddAttributedToIRI(john)
-	note.AddContentString("My note")
+	note.AppendSummaryString("John's note")
+	note.AppendAttributedToIRI(john)
+	note.AppendContentString("My note")
 	like := &Like{}
-	like.AddType("Like")
+	like.AppendType("Like")
 	like.SetId(MustParseURL("http://activities.example.com/1"))
-	like.AddSummaryString("Sally liked John's note")
-	like.AddActorIRI(sally)
+	like.AppendSummaryString("Sally liked John's note")
+	like.AppendActorIRI(sally)
 	like.SetPublished(t1)
-	like.AddObject(note)
+	like.AppendObject(note)
 	undo := &Undo{}
-	undo.AddType("Undo")
+	undo.AppendType("Undo")
 	undo.SetId(MustParseURL("http://activities.example.com/2"))
-	undo.AddSummaryString("Sally no longer likes John's note")
-	undo.AddActorIRI(sally)
+	undo.AppendSummaryString("Sally no longer likes John's note")
+	undo.AppendActorIRI(sally)
 	undo.SetPublished(t2)
-	undo.AddObjectIRI(a)
-	example156Type.AddType("Collection")
-	example156Type.AddSummaryString("History of John's note")
-	example156Type.AddItemsObject(like)
-	example156Type.AddItemsObject(undo)
+	undo.AppendObjectIRI(a)
+	example156Type.AppendType("Collection")
+	example156Type.AppendSummaryString("History of John's note")
+	example156Type.AppendItemsObject(like)
+	example156Type.AppendItemsObject(undo)
 }
 
 // NOTE: The `content` field has been inlined to keep within JSON spec.
@@ -4465,13 +4465,13 @@ func init() {
 	tag["id"] = "http://example.org/tags/givingthanks"
 	tag["name"] = "#givingthanks"
 	person := &Person{}
-	person.AddType("Person")
-	person.AddNameString("Sally")
+	person.AppendType("Person")
+	person.AppendNameString("Sally")
 	person.SetId(MustParseURL("http://sally.example.org"))
-	example157Type.AddType("Note")
-	example157Type.AddNameString("A thank-you note")
-	example157Type.AddContentString("Thank you <a href='http://sally.example.org'>@sally</a> for all your hard work! <a href='http://example.org/tags/givingthanks'>#givingthanks</a>")
-	example157Type.AddToObject(person)
+	example157Type.AppendType("Note")
+	example157Type.AppendNameString("A thank-you note")
+	example157Type.AppendContentString("Thank you <a href='http://sally.example.org'>@sally</a> for all your hard work! <a href='http://example.org/tags/givingthanks'>#givingthanks</a>")
+	example157Type.AppendToObject(person)
 	example157Type.SetUnknownTag(tag)
 }
 
@@ -4501,13 +4501,13 @@ func init() {
 	tag["id"] = "http://example.org/tags/givingthanks"
 	tag["name"] = "#givingthanks"
 	mention := &Mention{}
-	mention.AddType("Mention")
+	mention.AppendType("Mention")
 	mention.SetHref(u)
-	mention.AddNameString("@sally")
-	example158Type.AddType("Note")
-	example158Type.AddNameString("A thank-you note")
-	example158Type.AddContentString("Thank you @sally for all your hard work! #givingthanks")
-	example158Type.AddTagLink(mention)
+	mention.AppendNameString("@sally")
+	example158Type.AppendType("Note")
+	example158Type.AppendNameString("A thank-you note")
+	example158Type.AppendContentString("Thank you @sally for all your hard work! #givingthanks")
+	example158Type.AppendTagLink(mention)
 	example158Type.SetUnknownTag(tag)
 }
 
@@ -4535,18 +4535,18 @@ var example159Type = &Move{}
 func init() {
 	sally := MustParseURL("http://sally.example.org")
 	obj := &Document{}
-	obj.AddType("Document")
-	obj.AddNameString("sales figures")
+	obj.AppendType("Document")
+	obj.AppendNameString("sales figures")
 	origin := &Collection{}
-	origin.AddType("Collection")
-	origin.AddNameString("Folder A")
+	origin.AppendType("Collection")
+	origin.AppendNameString("Folder A")
 	target := &Collection{}
-	target.AddType("Collection")
-	target.AddNameString("Folder B")
-	example159Type.AddType("Move")
-	example159Type.AddSummaryString("Sally moved the sales figures from Folder A to Folder B")
-	example159Type.AddActorIRI(sally)
-	example159Type.AddObject(obj)
-	example159Type.AddOriginObject(origin)
-	example159Type.AddTargetObject(target)
+	target.AppendType("Collection")
+	target.AppendNameString("Folder B")
+	example159Type.AppendType("Move")
+	example159Type.AppendSummaryString("Sally moved the sales figures from Folder A to Folder B")
+	example159Type.AppendActorIRI(sally)
+	example159Type.AppendObject(obj)
+	example159Type.AppendOriginObject(origin)
+	example159Type.AppendTargetObject(target)
 }

@@ -224,13 +224,23 @@ func generateNonFunctionalAnyDefinition(t *defs.PropertyType, this *defs.StructD
 			return b.String()
 		},
 	}, &defs.MemberFunctionDef{
-		Name:    fmt.Sprintf("Add%s", titleName),
-		Comment: fmt.Sprintf("Add%s adds another value of %s", titleName, t.Name),
+		Name:    fmt.Sprintf("Append%s", titleName),
+		Comment: fmt.Sprintf("Append%s adds a value to the back of %s", titleName, t.Name),
 		P:       this,
 		Args:    []*defs.FunctionVarDef{{"v", deSlice(anyMember.Type)}},
 		Body: func() string {
 			var b bytes.Buffer
 			b.WriteString(fmt.Sprintf("t.%s = append(t.%s, v)\n", anyMember.Name, anyMember.Name))
+			return b.String()
+		},
+	}, &defs.MemberFunctionDef{
+		Name:    fmt.Sprintf("Prepend%s", titleName),
+		Comment: fmt.Sprintf("Prepend%s adds a value to the front of %s", titleName, t.Name),
+		P:       this,
+		Args:    []*defs.FunctionVarDef{{"v", deSlice(anyMember.Type)}},
+		Body: func() string {
+			var b bytes.Buffer
+			b.WriteString(fmt.Sprintf("t.%s = append(%s{v}, t.%s...)\n", anyMember.Name, anyMember.Type, anyMember.Name))
 			return b.String()
 		},
 	}, &defs.MemberFunctionDef{
@@ -260,8 +270,13 @@ func generateNonFunctionalAnyDefinition(t *defs.PropertyType, this *defs.StructD
 			Return:  []*defs.FunctionVarDef{{"v", deSlice(anyMember.Type)}},
 		},
 		{
-			Name:    fmt.Sprintf("Add%s", titleName),
-			Comment: fmt.Sprintf("Add%s adds another value of %s", titleName, t.Name),
+			Name:    fmt.Sprintf("Append%s", titleName),
+			Comment: fmt.Sprintf("Append%s adds a value to the back of %s", titleName, t.Name),
+			Args:    []*defs.FunctionVarDef{{"v", deSlice(anyMember.Type)}},
+		},
+		{
+			Name:    fmt.Sprintf("Prepend%s", titleName),
+			Comment: fmt.Sprintf("Prepend%s adds a value to the front of %s", titleName, t.Name),
 			Args:    []*defs.FunctionVarDef{{"v", deSlice(anyMember.Type)}},
 		},
 		{
@@ -449,13 +464,23 @@ func generateNonFunctionalSingleTypeDefinition(t *defs.PropertyType, this *defs.
 			return b.String()
 		},
 	}, &defs.MemberFunctionDef{
-		Name:    fmt.Sprintf("Add%s", titleName),
-		Comment: fmt.Sprintf("Add%s adds another value of %s", titleName, t.Name),
+		Name:    fmt.Sprintf("Append%s", titleName),
+		Comment: fmt.Sprintf("Append%s adds a value to the back of %s", titleName, t.Name),
 		P:       this,
 		Args:    []*defs.FunctionVarDef{{"v", deSlice(member.Type)}},
 		Body: func() string {
 			var b bytes.Buffer
 			b.WriteString(fmt.Sprintf("t.%s = append(t.%s, v)\n", member.Name, member.Name))
+			return b.String()
+		},
+	}, &defs.MemberFunctionDef{
+		Name:    fmt.Sprintf("Prepend%s", titleName),
+		Comment: fmt.Sprintf("Prepend%s adds a value to the front of %s", titleName, t.Name),
+		P:       this,
+		Args:    []*defs.FunctionVarDef{{"v", deSlice(member.Type)}},
+		Body: func() string {
+			var b bytes.Buffer
+			b.WriteString(fmt.Sprintf("t.%s = append(%s{v}, t.%s...)\n", member.Name, member.Type, member.Name))
 			return b.String()
 		},
 	}, &defs.MemberFunctionDef{
@@ -518,8 +543,13 @@ func generateNonFunctionalSingleTypeDefinition(t *defs.PropertyType, this *defs.
 			Return:  []*defs.FunctionVarDef{{"v", deSlice(member.Type)}},
 		},
 		{
-			Name:    fmt.Sprintf("Add%s", titleName),
-			Comment: fmt.Sprintf("Add%s adds another value of %s", titleName, t.Name),
+			Name:    fmt.Sprintf("Append%s", titleName),
+			Comment: fmt.Sprintf("Append%s adds a value to the back of %s", titleName, t.Name),
+			Args:    []*defs.FunctionVarDef{{"v", deSlice(member.Type)}},
+		},
+		{
+			Name:    fmt.Sprintf("Prepend%s", titleName),
+			Comment: fmt.Sprintf("Prepend%s adds a value to the front of %s", titleName, t.Name),
 			Args:    []*defs.FunctionVarDef{{"v", deSlice(member.Type)}},
 		},
 		{
@@ -731,8 +761,8 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 				},
 			},
 			{
-				Name:    fmt.Sprintf("Add%s%s", titleName, typeExtensionName),
-				Comment: fmt.Sprintf("Add%s%s adds another value of %s to be of %s type", titleName, typeExtensionName, cleanName(t.Name), retKind),
+				Name:    fmt.Sprintf("Append%s%s", titleName, typeExtensionName),
+				Comment: fmt.Sprintf("Append%s%s adds to the back of %s a %s type", titleName, typeExtensionName, cleanName(t.Name), retKind),
 				P:       this,
 				Args:    []*defs.FunctionVarDef{{"v", retKind}},
 				Body: func() string {
@@ -742,6 +772,21 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 						b.WriteString("&")
 					}
 					b.WriteString("v})\n")
+					return b.String()
+				},
+			},
+			{
+				Name:    fmt.Sprintf("Prepend%s%s", titleName, typeExtensionName),
+				Comment: fmt.Sprintf("Prepend%s%s adds to the front of %s a %s type", titleName, typeExtensionName, cleanName(t.Name), retKind),
+				P:       this,
+				Args:    []*defs.FunctionVarDef{{"v", retKind}},
+				Body: func() string {
+					var b bytes.Buffer
+					b.WriteString(fmt.Sprintf("t.%s = append([]*%s{&%s{%s:", thisIntermed.Name, intermed.Typename, intermed.Typename, member.Name))
+					if isPtrType(Type(r)) {
+						b.WriteString("&")
+					}
+					b.WriteString(fmt.Sprintf("v}}, t.%s...)\n", thisIntermed.Name))
 					return b.String()
 				},
 			},
@@ -774,8 +819,13 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 				Return:  []*defs.FunctionVarDef{{"v", retKind}},
 			},
 			{
-				Name:    fmt.Sprintf("Add%s%s", titleName, typeExtensionName),
-				Comment: fmt.Sprintf("Add%s%s adds another value of %s to be of %s type", titleName, typeExtensionName, cleanName(t.Name), retKind),
+				Name:    fmt.Sprintf("Append%s%s", titleName, typeExtensionName),
+				Comment: fmt.Sprintf("Append%s%s adds to the back of %s a %s type", titleName, typeExtensionName, cleanName(t.Name), retKind),
+				Args:    []*defs.FunctionVarDef{{"v", retKind}},
+			},
+			{
+				Name:    fmt.Sprintf("Prepend%s%s", titleName, typeExtensionName),
+				Comment: fmt.Sprintf("Prepend%s%s adds to the front of %s a %s type", titleName, typeExtensionName, cleanName(t.Name), retKind),
 				Args:    []*defs.FunctionVarDef{{"v", retKind}},
 			},
 			{

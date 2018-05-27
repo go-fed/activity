@@ -422,11 +422,11 @@ func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool, t
 			for i, attributedToMap := range objectAttributedToIds {
 				if _, ok := attributedToMap[k]; !ok {
 					if vObj, ok := v.(vocab.ObjectType); ok {
-						obj[i].AddAttributedToObject(vObj)
+						obj[i].AppendAttributedToObject(vObj)
 					} else if vLink, ok := v.(vocab.LinkType); ok {
-						obj[i].AddAttributedToLink(vLink)
+						obj[i].AppendAttributedToLink(vLink)
 					} else if vIRI, ok := v.(url.URL); ok {
-						obj[i].AddAttributedToIRI(vIRI)
+						obj[i].AppendAttributedToIRI(vIRI)
 					}
 				}
 			}
@@ -435,11 +435,11 @@ func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool, t
 			for k, v := range attributedToMap {
 				if _, ok := createActorIds[k]; !ok {
 					if vObj, ok := v.(vocab.ObjectType); ok {
-						c.AddActorObject(vObj)
+						c.AppendActorObject(vObj)
 					} else if vLink, ok := v.(vocab.LinkType); ok {
-						c.AddActorLink(vLink)
+						c.AppendActorLink(vLink)
 					} else if vIRI, ok := v.(url.URL); ok {
-						c.AddActorIRI(vIRI)
+						c.AppendActorIRI(vIRI)
 					}
 				}
 			}
@@ -623,9 +623,9 @@ func (f *federator) handleClientAdd(c context.Context, deliverable *bool) func(s
 					continue
 				}
 				if ct, ok := target.(vocab.CollectionType); ok {
-					ct.AddItemsObject(obj)
+					ct.AppendItemsObject(obj)
 				} else if oct, ok := target.(vocab.OrderedCollectionType); ok {
-					oct.AddOrderedItemsObject(obj)
+					oct.AppendOrderedItemsObject(obj)
 				}
 				if err := f.App.Set(c, target); err != nil {
 					return err
@@ -867,14 +867,14 @@ func (f *federator) handleFollow(c context.Context, inboxURL url.URL) func(s *st
 				activity = &vocab.Reject{}
 			}
 			raw := s.Raw()
-			activity.AddObject(raw)
+			activity.AppendObject(raw)
 			for i := 0; i < raw.ActorLen(); i++ {
 				if raw.IsActorObject(i) {
-					activity.AddToObject(raw.GetActorObject(i))
+					activity.AppendToObject(raw.GetActorObject(i))
 				} else if raw.IsActorLink(i) {
-					activity.AddToLink(raw.GetActorLink(i))
+					activity.AppendToLink(raw.GetActorLink(i))
 				} else if raw.IsActorIRI(i) {
-					activity.AddToIRI(raw.GetActorIRI(i))
+					activity.AppendToIRI(raw.GetActorIRI(i))
 				}
 			}
 			ownsAny := false
@@ -1027,9 +1027,9 @@ func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 					continue
 				}
 				if ct, ok := target.(vocab.CollectionType); ok {
-					ct.AddItemsObject(obj)
+					ct.AppendItemsObject(obj)
 				} else if oct, ok := target.(vocab.OrderedCollectionType); ok {
-					oct.AddOrderedItemsObject(obj)
+					oct.AppendOrderedItemsObject(obj)
 				}
 				if err := f.App.Set(c, target); err != nil {
 					return err
