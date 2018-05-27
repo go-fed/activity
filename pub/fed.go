@@ -202,7 +202,7 @@ func (f *federator) GetInbox(c context.Context, w http.ResponseWriter, r *http.R
 	if !isActivityPubGet(r) {
 		return false, nil
 	}
-	oc, err := f.App.GetInbox(c, r)
+	oc, err := f.App.GetInbox(c, r, Read)
 	if err != nil {
 		return true, err
 	}
@@ -324,7 +324,7 @@ func (f *federator) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 	if !isActivityPubGet(r) {
 		return false, nil
 	}
-	oc, err := f.App.GetOutbox(c, r)
+	oc, err := f.App.GetOutbox(c, r, Read)
 	if err != nil {
 		return true, err
 	}
@@ -483,7 +483,7 @@ func (f *federator) handleClientUpdate(c context.Context, rawJson map[string]int
 			return fmt.Errorf("update has no id: %v", s)
 		}
 		for idx, id := range ids {
-			pObj, err := f.App.Get(c, id)
+			pObj, err := f.App.Get(c, id, ReadWrite)
 			if err != nil {
 				return err
 			}
@@ -531,7 +531,7 @@ func (f *federator) handleClientDelete(c context.Context, deliverable *bool) fun
 			return fmt.Errorf("delete has no id: %v", s)
 		}
 		for _, id := range ids {
-			pObj, err := f.App.Get(c, id)
+			pObj, err := f.App.Get(c, id, ReadWrite)
 			if err != nil {
 				return err
 			}
@@ -598,7 +598,7 @@ func (f *federator) handleClientAdd(c context.Context, deliverable *bool) func(s
 			if !f.App.Owns(c, id) {
 				continue
 			}
-			target, err := f.App.Get(c, id)
+			target, err := f.App.Get(c, id, ReadWrite)
 			if err != nil {
 				return err
 			}
@@ -662,7 +662,7 @@ func (f *federator) handleClientRemove(c context.Context, deliverable *bool) fun
 			if !f.App.Owns(c, id) {
 				continue
 			}
-			target, err := f.App.Get(c, id)
+			target, err := f.App.Get(c, id, ReadWrite)
 			if err != nil {
 				return err
 			}
@@ -708,7 +708,7 @@ func (f *federator) handleClientLike(ctx context.Context, deliverable *bool) fun
 		}
 		getter := func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
 			if actor.IsLikedAnyURI() {
-				pObj, err := f.App.Get(ctx, actor.GetLikedAnyURI())
+				pObj, err := f.App.Get(ctx, actor.GetLikedAnyURI(), ReadWrite)
 				if err != nil {
 					return true, err
 				}
@@ -834,7 +834,7 @@ func (f *federator) handleDelete(c context.Context) func(s *streams.Delete) erro
 			return fmt.Errorf("delete has no id: %v", s)
 		}
 		for _, id := range ids {
-			pObj, err := f.App.Get(c, id)
+			pObj, err := f.App.Get(c, id, ReadWrite)
 			if err != nil {
 				return err
 			}
@@ -881,7 +881,7 @@ func (f *federator) handleFollow(c context.Context, inboxURL url.URL) func(s *st
 			if todo == AutomaticAccept {
 				getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
 					if object.IsFollowersAnyURI() {
-						pObj, err := f.App.Get(c, object.GetFollowersAnyURI())
+						pObj, err := f.App.Get(c, object.GetFollowersAnyURI(), ReadWrite)
 						if err != nil {
 							return true, err
 						}
@@ -937,7 +937,7 @@ func (f *federator) handleAccept(c context.Context) func(s *streams.Accept) erro
 				}
 				getter := func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
 					if actor.IsFollowingAnyURI() {
-						pObj, err := f.App.Get(c, actor.GetFollowingAnyURI())
+						pObj, err := f.App.Get(c, actor.GetFollowingAnyURI(), ReadWrite)
 						if err != nil {
 							return true, err
 						}
@@ -1003,7 +1003,7 @@ func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 			if !f.App.Owns(c, id) {
 				continue
 			}
-			target, err := f.App.Get(c, id)
+			target, err := f.App.Get(c, id, ReadWrite)
 			if err != nil {
 				return err
 			}
@@ -1067,7 +1067,7 @@ func (f *federator) handleRemove(c context.Context) func(s *streams.Remove) erro
 			if !f.App.Owns(c, id) {
 				continue
 			}
-			target, err := f.App.Get(c, id)
+			target, err := f.App.Get(c, id, ReadWrite)
 			if err != nil {
 				return err
 			}
@@ -1111,7 +1111,7 @@ func (f *federator) handleLike(c context.Context) func(s *streams.Like) error {
 		}
 		getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
 			if object.IsLikesAnyURI() {
-				pObj, err := f.App.Get(c, object.GetLikesAnyURI())
+				pObj, err := f.App.Get(c, object.GetLikesAnyURI(), ReadWrite)
 				if err != nil {
 					return true, err
 				}

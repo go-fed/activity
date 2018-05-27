@@ -25,8 +25,10 @@ func TestServeActivityPubObject(t *testing.T) {
 			name: "unsigned request",
 			app: &MockApplication{
 				t: t,
-				get: func(c context.Context, id url.URL) (PubObject, error) {
-					if s := (&id).String(); s != noteURIString {
+				get: func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+					if rw != Read {
+						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+					} else if s := (&id).String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					testNote = &vocab.Note{}
@@ -65,8 +67,10 @@ func TestServeActivityPubObject(t *testing.T) {
 					}
 					return testPrivateKey.Public(), httpsig.RSA_SHA256, *samIRI, nil
 				},
-				getAsVerifiedUser: func(c context.Context, id, user url.URL) (PubObject, error) {
-					if s := (&id).String(); s != noteURIString {
+				getAsVerifiedUser: func(c context.Context, id, user url.URL, rw RWType) (PubObject, error) {
+					if rw != Read {
+						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+					} else if s := (&id).String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					} else if u := (&user).String(); u != samIRIString {
 						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
@@ -172,8 +176,10 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			name: "unsigned request",
 			app: &MockApplication{
 				t: t,
-				get: func(c context.Context, id url.URL) (PubObject, error) {
-					if s := (&id).String(); s != noteURIString {
+				get: func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+					if rw != Read {
+						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+					} else if s := (&id).String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					testNote = &vocab.Note{}
@@ -212,8 +218,10 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 					}
 					return testPrivateKey.Public(), httpsig.RSA_SHA256, *samIRI, nil
 				},
-				getAsVerifiedUser: func(c context.Context, id, user url.URL) (PubObject, error) {
-					if s := (&id).String(); s != noteURIString {
+				getAsVerifiedUser: func(c context.Context, id, user url.URL, rw RWType) (PubObject, error) {
+					if rw != Read {
+						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+					} else if s := (&id).String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					} else if u := (&user).String(); u != samIRIString {
 						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
@@ -287,8 +295,10 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			name: "unsigned request passes verifier",
 			app: &MockApplication{
 				t: t,
-				getAsVerifiedUser: func(c context.Context, id, user url.URL) (PubObject, error) {
-					if s := (&id).String(); s != noteURIString {
+				getAsVerifiedUser: func(c context.Context, id, user url.URL, rw RWType) (PubObject, error) {
+					if rw != Read {
+						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+					} else if s := (&id).String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					} else if u := (&user).String(); u != samIRIString {
 						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
@@ -329,8 +339,10 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			input: Sign(ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil))),
 			app: &MockApplication{
 				t: t,
-				getAsVerifiedUser: func(c context.Context, id, user url.URL) (PubObject, error) {
-					if s := (&id).String(); s != noteURIString {
+				getAsVerifiedUser: func(c context.Context, id, user url.URL, rw RWType) (PubObject, error) {
+					if rw != Read {
+						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+					} else if s := (&id).String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					} else if u := (&user).String(); u != samIRIString {
 						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
@@ -442,8 +454,10 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 					}
 					return testPrivateKey.Public(), httpsig.RSA_SHA256, *samIRI, nil
 				},
-				getAsVerifiedUser: func(c context.Context, id, user url.URL) (PubObject, error) {
-					if s := (&id).String(); s != noteURIString {
+				getAsVerifiedUser: func(c context.Context, id, user url.URL, rw RWType) (PubObject, error) {
+					if rw != Read {
+						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+					} else if s := (&id).String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					} else if u := (&user).String(); u != samIRIString {
 						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)

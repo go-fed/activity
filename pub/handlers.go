@@ -93,9 +93,9 @@ func serveActivityPubObject(c context.Context, a Application, clock Clock, w htt
 	}
 	var pObj PubObject
 	if verifiedUser != nil {
-		pObj, err = a.GetAsVerifiedUser(c, *r.URL, *verifiedUser)
+		pObj, err = a.GetAsVerifiedUser(c, *r.URL, *verifiedUser, Read)
 	} else {
-		pObj, err = a.Get(c, *r.URL)
+		pObj, err = a.Get(c, *r.URL, Read)
 	}
 	if err != nil {
 		return

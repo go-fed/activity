@@ -556,12 +556,12 @@ var _ Application = &MockApplication{}
 type MockApplication struct {
 	t                 *testing.T
 	owns              func(c context.Context, id url.URL) bool
-	get               func(c context.Context, id url.URL) (PubObject, error)
-	getAsVerifiedUser func(c context.Context, id, authdUser url.URL) (PubObject, error)
+	get               func(c context.Context, id url.URL, rw RWType) (PubObject, error)
+	getAsVerifiedUser func(c context.Context, id, authdUser url.URL, rw RWType) (PubObject, error)
 	has               func(c context.Context, id url.URL) (bool, error)
 	set               func(c context.Context, o PubObject) error
-	getInbox          func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
-	getOutbox         func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
+	getInbox          func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error)
+	getOutbox         func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error)
 	newId             func(c context.Context, t Typer) url.URL
 	getPublicKey      func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, url.URL, error)
 }
@@ -573,18 +573,18 @@ func (m *MockApplication) Owns(c context.Context, id url.URL) bool {
 	return m.owns(c, id)
 }
 
-func (m *MockApplication) Get(c context.Context, id url.URL) (PubObject, error) {
+func (m *MockApplication) Get(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 	if m.get == nil {
 		m.t.Fatal("unexpected call to MockApplication Get")
 	}
-	return m.get(c, id)
+	return m.get(c, id, rw)
 }
 
-func (m *MockApplication) GetAsVerifiedUser(c context.Context, id, authdUser url.URL) (PubObject, error) {
+func (m *MockApplication) GetAsVerifiedUser(c context.Context, id, authdUser url.URL, rw RWType) (PubObject, error) {
 	if m.getAsVerifiedUser == nil {
 		m.t.Fatal("unexpected call to MockApplication GetAsVerifiedUser")
 	}
-	return m.getAsVerifiedUser(c, id, authdUser)
+	return m.getAsVerifiedUser(c, id, authdUser, rw)
 }
 
 func (m *MockApplication) Has(c context.Context, id url.URL) (bool, error) {
@@ -601,18 +601,18 @@ func (m *MockApplication) Set(c context.Context, o PubObject) error {
 	return m.set(c, o)
 }
 
-func (m *MockApplication) GetInbox(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+func (m *MockApplication) GetInbox(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 	if m.getInbox == nil {
 		m.t.Fatal("unexpected call to MockApplication GetInbox")
 	}
-	return m.getInbox(c, r)
+	return m.getInbox(c, r, rw)
 }
 
-func (m *MockApplication) GetOutbox(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+func (m *MockApplication) GetOutbox(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 	if m.getOutbox == nil {
 		m.t.Fatal("unexpected call to MockApplication GetOutbox")
 	}
-	return m.getOutbox(c, r)
+	return m.getOutbox(c, r, rw)
 }
 
 func (m *MockApplication) NewId(c context.Context, t Typer) url.URL {
@@ -948,7 +948,10 @@ func PreparePostInboxTest(t *testing.T, app *MockApplication, socialApp *MockSoc
 	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
 		return nil
 	}
-	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		oc := &vocab.OrderedCollection{}
 		oc.AppendType("OrderedCollection")
 		return oc, nil
@@ -982,7 +985,10 @@ func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSo
 	app.newId = func(c context.Context, t Typer) url.URL {
 		return *testNewIRI
 	}
-	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		oc := &vocab.OrderedCollection{}
 		oc.AppendType("OrderedCollection")
 		return oc, nil
@@ -1041,7 +1047,10 @@ func TestSocialPubber_GetInbox(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
 	gotInbox := 0
-	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != Read {
+			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+		}
 		gotInbox++
 		return testSingleOrderedCollection, nil
 	}
@@ -1087,7 +1096,10 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 		return *testNewIRI
 	}
 	gotOutbox := 0
-	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotOutbox++
 		oc := &vocab.OrderedCollection{}
 		oc.AppendType("OrderedCollection")
@@ -1181,7 +1193,10 @@ func TestSocialPubber_PostOutbox_SocialAPIVerified(t *testing.T) {
 		return *testNewIRI
 	}
 	gotOutbox := 0
-	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotOutbox++
 		oc := &vocab.OrderedCollection{}
 		oc.AppendType("OrderedCollection")
@@ -1251,7 +1266,10 @@ func TestSocialPubber_GetOutbox(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testOutboxURI, nil))
 	gotOutbox := 0
-	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != Read {
+			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+		}
 		gotOutbox++
 		return testSingleOrderedCollection, nil
 	}
@@ -1285,7 +1303,10 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 		return nil
 	}
 	gotInbox := 0
-	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotInbox++
 		oc := &vocab.OrderedCollection{}
 		oc.AppendType("OrderedCollection")
@@ -1318,7 +1339,10 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 	}
 	gotGet := 0
 	var gotIri url.URL
-	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+		if rw != Read {
+			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+		}
 		gotGet++
 		gotIri = iri
 		return samActor, nil
@@ -1371,7 +1395,10 @@ func TestFederatingPubber_GetInbox(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
 	gotInbox := 0
-	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != Read {
+			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+		}
 		gotInbox++
 		return testSingleOrderedCollection, nil
 	}
@@ -1412,7 +1439,10 @@ func TestFederatingPubber_GetOutbox(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testOutboxURI, nil))
 	gotOutbox := 0
-	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != Read {
+			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+		}
 		gotOutbox++
 		return testSingleOrderedCollection, nil
 	}
@@ -1446,7 +1476,10 @@ func TestPubber_PostInbox(t *testing.T) {
 		return nil
 	}
 	gotInbox := 0
-	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotInbox++
 		oc := &vocab.OrderedCollection{}
 		oc.AppendType("OrderedCollection")
@@ -1479,7 +1512,10 @@ func TestPubber_PostInbox(t *testing.T) {
 	}
 	gotGet := 0
 	var gotIri url.URL
-	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+		if rw != Read {
+			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+		}
 		gotGet++
 		gotIri = iri
 		return samActor, nil
@@ -1532,7 +1568,10 @@ func TestPubber_GetInbox(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
 	gotInbox := 0
-	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != Read {
+			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+		}
 		gotInbox++
 		return testSingleOrderedCollection, nil
 	}
@@ -1594,7 +1633,10 @@ func TestPubber_PostOutbox(t *testing.T) {
 		return *testNewIRI
 	}
 	gotOutbox := 0
-	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotOutbox++
 		oc := &vocab.OrderedCollection{}
 		oc.AppendType("OrderedCollection")
@@ -1737,7 +1779,10 @@ func TestPubber_GetOutbox(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testOutboxURI, nil))
 	gotOutbox := 0
-	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		if rw != Read {
+			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+		}
 		gotOutbox++
 		return testSingleOrderedCollection, nil
 	}
@@ -1963,7 +2008,7 @@ func TestPostInbox_DoesNotAddToInboxIfDuplicate(t *testing.T) {
 		gotSet++
 		return nil
 	}
-	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		inbox := &vocab.OrderedCollection{}
 		inbox.AppendOrderedItemsIRI(*noteActivityIRI)
 		return inbox, nil
@@ -2166,8 +2211,10 @@ func TestPostInbox_Delete_FetchesObject(t *testing.T) {
 	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
-		if id != *noteIRI {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		} else if id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
 		}
 		return testNote, nil
@@ -2296,7 +2343,7 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
-		app.get = func(c context.Context, id url.URL) (PubObject, error) {
+		app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 			return test.input(), nil
 		}
 		gotSet = 0
@@ -2320,7 +2367,7 @@ func TestPostInbox_Delete_CallsCallback(t *testing.T) {
 	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		return testNote, nil
 	}
 	gotCallback := 0
@@ -2540,7 +2587,10 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	}
 	gotGet := 0
 	var getIRI url.URL
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotGet++
 		getIRI = id
 		samActor := &vocab.Person{}
@@ -2654,7 +2704,10 @@ func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) 
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		followers := &vocab.Collection{}
 		followers.AppendItemsIRI(*sallyIRI)
 		samActor := &vocab.Person{}
@@ -2737,7 +2790,10 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		samActor := &vocab.Person{}
 		samActor.SetInboxAnyURI(*samIRIInbox)
 		samActor.SetId(*samIRI)
@@ -2816,7 +2872,10 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		if id == *samIRI {
 			samActor := &vocab.Person{}
 			samActor.SetInboxAnyURI(*samIRIInbox)
@@ -2951,7 +3010,10 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 	}
 	gotGet := 0
 	var getIRI url.URL
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotGet++
 		getIRI = id
 		sallyActor := &vocab.Person{}
@@ -3006,7 +3068,7 @@ func TestPostInbox_Accept_AcceptFollowDoesNotAddIfAlreadyInCollection(t *testing
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		following := &vocab.Collection{}
 		following.AppendItemsIRI(*samIRI)
 		sallyActor := &vocab.Person{}
@@ -3053,7 +3115,10 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersOrderedCollection(t *testin
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		sallyActor := &vocab.Person{}
 		sallyActor.SetInboxAnyURI(*sallyIRIInbox)
 		sallyActor.SetId(*sallyIRI)
@@ -3096,7 +3161,10 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIRI(t *testing.T) {
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		if id == *sallyIRI {
 			sallyActor := &vocab.Person{}
 			sallyActor.SetInboxAnyURI(*sallyIRIInbox)
@@ -3168,7 +3236,7 @@ func TestPostInbox_Accept_CallsCallback(t *testing.T) {
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		sallyActor := &vocab.Person{}
 		sallyActor.SetInboxAnyURI(*sallyIRIInbox)
 		sallyActor.SetId(*sallyIRI)
@@ -3261,7 +3329,10 @@ func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	}
 	gotGet := 0
 	var gotGetId url.URL
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotGet++
 		gotGetId = id
 		v := &vocab.Collection{}
@@ -3330,7 +3401,7 @@ func TestPostInbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	}
 	gotGet := 0
 	var gotGetId url.URL
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetId = id
 		v := &vocab.Collection{}
@@ -3378,7 +3449,7 @@ func TestPostInbox_Add_CallsCallback(t *testing.T) {
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Collection{}
 		return v, nil
 	}
@@ -3445,7 +3516,10 @@ func TestPostInbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	}
 	gotGet := 0
 	var gotGetId url.URL
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotGet++
 		gotGetId = id
 		v := &vocab.Collection{}
@@ -3513,7 +3587,7 @@ func TestPostInbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 	}
 	gotGet := 0
 	var gotGetId url.URL
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetId = id
 		v := &vocab.Collection{}
@@ -3564,7 +3638,7 @@ func TestPostInbox_Remove_CallsCallback(t *testing.T) {
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Collection{}
 		return v, nil
 	}
@@ -3604,7 +3678,10 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	}
 	gotGet := 0
 	var gotGetId url.URL
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotGet++
 		gotGetId = id
 		v := &vocab.Note{}
@@ -3661,7 +3738,7 @@ func TestPostInbox_Like_DoesNotAddLikeToCollectionIfAlreadyPresent(t *testing.T)
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		likes := &vocab.Collection{}
 		likes.AppendItemsIRI(*sallyIRI)
 		v := &vocab.Note{}
@@ -3710,7 +3787,7 @@ func TestPostInbox_Like_AddsToLikeOrderedCollection(t *testing.T) {
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
 		v.AppendNameString(noteName)
@@ -3755,7 +3832,7 @@ func TestPostInbox_Like_AddsToLikeIRI(t *testing.T) {
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if id == *noteIRI {
 			v := &vocab.Note{}
 			v.SetId(*noteIRI)
@@ -3801,7 +3878,7 @@ func TestPostInbox_Like_CallsCallback(t *testing.T) {
 	app.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
 		v.AppendNameString(noteName)
@@ -3856,7 +3933,7 @@ func TestGetInbox_RejectNonActivityPub(t *testing.T) {
 	app, _, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := httptest.NewRequest("GET", testInboxURI, nil)
-	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		return &vocab.OrderedCollection{}, nil
 	}
 	handled, err := p.GetInbox(context.Background(), resp, req)
@@ -3871,7 +3948,7 @@ func TestGetInbox_SetsContentTypeHeader(t *testing.T) {
 	app, _, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
-	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		return &vocab.OrderedCollection{}, nil
 	}
 	handled, err := p.GetInbox(context.Background(), resp, req)
@@ -3890,7 +3967,7 @@ func TestGetInbox_DeduplicateInboxItems(t *testing.T) {
 	app, _, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
-	app.getInbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		v := &vocab.OrderedCollection{}
 		v.AppendOrderedItemsObject(testCreateNote)
 		v.AppendOrderedItemsObject(testCreateNote)
@@ -4443,7 +4520,7 @@ func TestPostOutbox_Update_DeleteSubFields(t *testing.T) {
 		return nil
 	}
 	gotGet := 0
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		if id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
@@ -4499,7 +4576,10 @@ func TestPostOutbox_Update_DeleteFields(t *testing.T) {
 		return nil
 	}
 	gotGet := 0
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotGet++
 		if id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
@@ -4551,7 +4631,7 @@ func TestPostOutbox_Update_DeleteSubFieldsMultipleObjects(t *testing.T) {
 		return nil
 	}
 	gotGet := 0
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		var v *vocab.Note
 		if id == *noteIRI {
@@ -4629,7 +4709,7 @@ func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
 		return nil
 	}
 	gotGet := 0
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		if id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
@@ -4689,7 +4769,7 @@ func TestPostOutbox_Update_CallsCallback(t *testing.T) {
 		gotCallbackObject = s
 		return nil
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		samActor := &vocab.Person{}
 		samActor.SetInboxAnyURI(*samIRIInbox)
 		samActor.SetId(*samIRI)
@@ -4750,7 +4830,7 @@ func TestPostOutbox_Update_IsDelivered(t *testing.T) {
 		}
 		return nil, nil
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		samActor := &vocab.Person{}
 		samActor.SetInboxAnyURI(*samIRIInbox)
 		samActor.SetId(*samIRI)
@@ -4788,7 +4868,10 @@ func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 		return nil
 	}
 	gotGet := 0
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotGet++
 		if id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
@@ -4841,7 +4924,7 @@ func TestPostOutbox_Delete_CallsCallback(t *testing.T) {
 		gotCallbackObject = s
 		return nil
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		return testNote, nil
 	}
 	app.set = func(c context.Context, p PubObject) error {
@@ -4893,7 +4976,7 @@ func TestPostOutbox_Delete_IsDelivered(t *testing.T) {
 		}
 		return nil, nil
 	}
-	app.get = func(c context.Context, id url.URL) (PubObject, error) {
+	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		return testNote, nil
 	}
 	app.set = func(c context.Context, p PubObject) error {
@@ -5166,7 +5249,10 @@ func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	}
 	gotGet := 0
 	var gotGetIri url.URL
-	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
@@ -5229,7 +5315,7 @@ func TestPostOutbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	}
 	gotGet := 0
 	var gotGetIri url.URL
-	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
@@ -5383,7 +5469,7 @@ func TestPostOutbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	}
 	gotGet := 0
 	var gotGetIri url.URL
-	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
@@ -5446,7 +5532,7 @@ func TestPostOutbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 	}
 	gotGet := 0
 	var gotGetIri url.URL
-	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
@@ -5579,7 +5665,10 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 	}
 	gotGet := 0
 	var gotGetIri url.URL
-	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+		}
 		gotGet++
 		gotGetIri = iri
 		v := &vocab.Person{}
@@ -5634,7 +5723,7 @@ func TestPostOutbox_Like_DoesNotAddIfAlreadyLiked(t *testing.T) {
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		liked := &vocab.Collection{}
 		liked.AppendItemsIRI(*noteIRI)
 		v := &vocab.Person{}
@@ -5681,7 +5770,7 @@ func TestPostOutbox_Like_AddsToLikedOrderedCollection(t *testing.T) {
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Person{}
 		v.AppendNameString("Sally")
 		v.SetId(*sallyIRI)
@@ -5751,7 +5840,7 @@ func TestPostOutbox_Like_CallsCallback(t *testing.T) {
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Person{}
 		v.AppendNameString("Sally")
 		v.SetId(*sallyIRI)
@@ -5788,7 +5877,7 @@ func TestPostOutbox_Like_IsDelivered(t *testing.T) {
 	app.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, iri url.URL) (PubObject, error) {
+	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Person{}
 		v.AppendNameString("Sally")
 		v.SetId(*sallyIRI)
@@ -5983,7 +6072,7 @@ func TestGetOutbox_RejectNonActivityPub(t *testing.T) {
 	app, _, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := httptest.NewRequest("GET", testOutboxURI, nil)
-	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		return &vocab.OrderedCollection{}, nil
 	}
 	handled, err := p.GetOutbox(context.Background(), resp, req)
@@ -5998,7 +6087,7 @@ func TestGetOutbox_SetsContentTypeHeader(t *testing.T) {
 	app, _, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testOutboxURI, nil))
-	app.getOutbox = func(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error) {
+	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		return &vocab.OrderedCollection{}, nil
 	}
 	handled, err := p.GetOutbox(context.Background(), resp, req)

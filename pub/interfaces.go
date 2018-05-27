@@ -78,11 +78,11 @@ type Application interface {
 	// Owns returns true if the provided id is owned by this server.
 	Owns(c context.Context, id url.URL) bool
 	// Get fetches the ActivityStream representation of the given id.
-	Get(c context.Context, id url.URL) (PubObject, error)
+	Get(c context.Context, id url.URL, rw RWType) (PubObject, error)
 	// GetAsVerifiedUser fetches the ActivityStream representation of the
 	// given id with the provided IRI representing the authenticated user
 	// making the request.
-	GetAsVerifiedUser(c context.Context, id, authdUser url.URL) (PubObject, error)
+	GetAsVerifiedUser(c context.Context, id, authdUser url.URL, rw RWType) (PubObject, error)
 	// Has determines if the server already knows about the object or
 	// Activity specified by the given id.
 	Has(c context.Context, id url.URL) (bool, error)
@@ -92,11 +92,11 @@ type Application interface {
 	// GetInbox returns the OrderedCollection inbox of the actor for this
 	// context. It is up to the implementation to provide the correct
 	// collection for the kind of authorization given in the request.
-	GetInbox(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
+	GetInbox(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error)
 	// GetOutbox returns the OrderedCollection inbox of the actor for this
 	// context. It is up to the implementation to provide the correct
 	// collection for the kind of authorization given in the request.
-	GetOutbox(c context.Context, r *http.Request) (vocab.OrderedCollectionType, error)
+	GetOutbox(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error)
 	// NewId takes in a client id token and returns an ActivityStreams IRI
 	// id for a new Activity posted to the outbox. The object is provided
 	// as a Typer so clients can use it to decide how to generate the IRI.
@@ -106,6 +106,16 @@ type Application interface {
 	// signature.
 	GetPublicKey(c context.Context, publicKeyId string) (pubKey crypto.PublicKey, algo httpsig.Algorithm, user url.URL, err error)
 }
+
+// RWType indicates the kind of reading being done.
+type RWType int
+
+const (
+	// Read indicates the object is only being read.
+	Read RWType = iota
+	// ReadWrite indicates the object is being mutated as well.
+	ReadWrite
+)
 
 // SocialApp is provided by users of this library and designed to handle
 // receiving messages from ActivityPub clients through the Social API.

@@ -1289,7 +1289,7 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 			continue
 		}
 		var actor vocab.ObjectType
-		pObj, err := f.App.Get(ctx, iri)
+		pObj, err := f.App.Get(ctx, iri, ReadWrite)
 		if err != nil {
 			return err
 		}
@@ -1395,7 +1395,7 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 		}
 		ownsAny = true
 		var object vocab.ObjectType
-		pObj, err := f.App.Get(ctx, iri)
+		pObj, err := f.App.Get(ctx, iri, ReadWrite)
 		if err != nil {
 			return ownsAny, err
 		}
@@ -1520,7 +1520,7 @@ func (f *federator) ownsAnyObjects(c context.Context, a vocab.ActivityType) (boo
 }
 
 func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string]interface{}) error {
-	outbox, err := f.App.GetOutbox(c, r)
+	outbox, err := f.App.GetOutbox(c, r, ReadWrite)
 	if err != nil {
 		return err
 	}
@@ -1533,7 +1533,7 @@ func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string
 }
 
 func (f *federator) addToInbox(c context.Context, r *http.Request, m map[string]interface{}) error {
-	inbox, err := f.App.GetInbox(c, r)
+	inbox, err := f.App.GetInbox(c, r, ReadWrite)
 	if err != nil {
 		return err
 	}
@@ -1588,7 +1588,7 @@ func (f *federator) inboxForwarding(c context.Context, m map[string]interface{})
 		} else if !ok {
 			continue
 		}
-		obj, err := f.App.Get(c, iri)
+		obj, err := f.App.Get(c, iri, Read)
 		if err != nil {
 			return err
 		}
