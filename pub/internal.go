@@ -529,11 +529,11 @@ func (f *federator) deliver(obj vocab.ActivityType, boxIRI url.URL) error {
 		return err
 	}
 	creds := &creds{}
-	creds.signer, err = f.FederateApp.NewSigner()
+	creds.signer, err = f.FederateAPI.NewSigner()
 	if err != nil {
 		return err
 	}
-	creds.privKey, creds.pubKeyId, err = f.FederateApp.PrivateKey(boxIRI)
+	creds.privKey, creds.pubKeyId, err = f.FederateAPI.PrivateKey(boxIRI)
 	if err != nil {
 		return err
 	}
@@ -697,11 +697,11 @@ func (c *federator) dereferenceForResolvingInboxes(u, boxIRI url.URL, cr *creds)
 	// creds -- which happens at most once.
 	if (co != nil || oc != nil || cp != nil || ocp != nil) && cr == nil {
 		cr = &creds{}
-		cr.signer, err = c.FederateApp.NewSigner()
+		cr.signer, err = c.FederateAPI.NewSigner()
 		if err != nil {
 			return
 		}
-		cr.privKey, cr.pubKeyId, err = c.FederateApp.PrivateKey(boxIRI)
+		cr.privKey, cr.pubKeyId, err = c.FederateAPI.PrivateKey(boxIRI)
 		if err != nil {
 			return
 		}
@@ -1625,7 +1625,7 @@ func (f *federator) inboxForwarding(c context.Context, m map[string]interface{})
 	// Do the inbox forwarding since the above conditions hold true. Support
 	// the behavior of letting the application filter out the resulting
 	// collections to be targeted.
-	toSend, err := f.FederateApp.FilterForwarding(c, a, myIRIs)
+	toSend, err := f.FederateAPI.FilterForwarding(c, a, myIRIs)
 	if err != nil {
 		return err
 	}

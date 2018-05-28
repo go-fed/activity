@@ -117,9 +117,9 @@ const (
 	ReadWrite
 )
 
-// SocialApp is provided by users of this library and designed to handle
+// SocialAPI is provided by users of this library and designed to handle
 // receiving messages from ActivityPub clients through the Social API.
-type SocialApp interface {
+type SocialAPI interface {
 	// CanAdd returns true if the provided object is allowed to be added to
 	// the given target collection.
 	CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
@@ -146,15 +146,15 @@ type SocialApp interface {
 	GetPublicKeyForOutbox(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error)
 }
 
-// FederateApp is provided by users of this library and designed to handle
+// FederateAPI is provided by users of this library and designed to handle
 // receiving messages from ActivityPub servers through the Federative API.
-type FederateApp interface {
-	// CanAdd returns true if the provided object is allowed to be added to
+type FederateAPI interface {
+	// CanFederateAdd returns true if the provided object is allowed to be added to
 	// the given target collection.
-	CanAdd(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
-	// CanRemove returns true if the provided object is allowed to be added to
+	CanFederateAdd(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
+	// CanFederateRemove returns true if the provided object is allowed to be added to
 	// the given target collection.
-	CanRemove(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
+	CanFederateRemove(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
 	// OnFollow determines whether to take any automatic reactions in
 	// response to this follow. Note that if this application does not own
 	// an object on the activity, then the 'AutomaticAccept' and
@@ -202,6 +202,28 @@ type FederateApp interface {
 	// The given URL is the inbox or outbox for the actor whose key is
 	// needed.
 	PrivateKey(boxIRI url.URL) (privKey crypto.PrivateKey, pubKeyId string, err error)
+}
+
+// SocialApp is an implementation only for the Social API part of the
+// ActivityPub specification.
+type SocialApplication interface {
+	Application
+	SocialAPI
+}
+
+// FederateApp is an implementation only for the Federating API part of the
+// ActivityPub specification.
+type FederateApplication interface {
+	Application
+	FederateAPI
+}
+
+// SocialFederateApplication is an implementation for both the Social API and
+// the Federating API parts of the ActivityPub specification.
+type SocialFederateApplication interface {
+	Application
+	SocialAPI
+	FederateAPI
 }
 
 // FollowResponse instructs how to proceed upon immediately receiving a request

@@ -38,11 +38,11 @@ type Pubber interface {
 
 // NewSocialPubber provides a Pubber that implements only the Social API in
 // ActivityPub.
-func NewSocialPubber(clock Clock, app Application, socialApp SocialApp, cb Callbacker) Pubber {
+func NewSocialPubber(clock Clock, app SocialApplication, cb Callbacker) Pubber {
 	return &federator{
 		Clock:            clock,
 		App:              app,
-		SocialApp:        socialApp,
+		SocialAPI:        app,
 		ClientCallbacker: cb,
 		EnableClient:     true,
 	}
@@ -50,11 +50,11 @@ func NewSocialPubber(clock Clock, app Application, socialApp SocialApp, cb Callb
 
 // NewFederatingPubber provides a Pubber that implements only the Federating API
 // in ActivityPub.
-func NewFederatingPubber(clock Clock, app Application, fApp FederateApp, cb Callbacker, d Deliverer, client HttpClient, userAgent string, maxDeliveryDepth, maxForwardingDepth int) Pubber {
+func NewFederatingPubber(clock Clock, app FederateApplication, cb Callbacker, d Deliverer, client HttpClient, userAgent string, maxDeliveryDepth, maxForwardingDepth int) Pubber {
 	return &federator{
 		Clock:                   clock,
 		App:                     app,
-		FederateApp:             fApp,
+		FederateAPI:             app,
 		ServerCallbacker:        cb,
 		Client:                  client,
 		Agent:                   userAgent,
@@ -67,12 +67,12 @@ func NewFederatingPubber(clock Clock, app Application, fApp FederateApp, cb Call
 
 // NewPubber provides a Pubber that implements both the Social API and the
 // Federating API in ActivityPub.
-func NewPubber(clock Clock, app Application, sApp SocialApp, fApp FederateApp, client, server Callbacker, d Deliverer, httpClient HttpClient, userAgent string, maxDeliveryDepth, maxForwardingDepth int) Pubber {
+func NewPubber(clock Clock, app SocialFederateApplication, client, server Callbacker, d Deliverer, httpClient HttpClient, userAgent string, maxDeliveryDepth, maxForwardingDepth int) Pubber {
 	return &federator{
 		Clock:                   clock,
 		App:                     app,
-		SocialApp:               sApp,
-		FederateApp:             fApp,
+		SocialAPI:               app,
+		FederateAPI:             app,
 		Client:                  httpClient,
 		Agent:                   userAgent,
 		MaxDeliveryDepth:        maxDeliveryDepth,
@@ -100,16 +100,16 @@ type federator struct {
 	//
 	// It is always required.
 	App Application
-	// FederateApp provides utility when handling incoming messages received
+	// FederateAPI provides utility when handling incoming messages received
 	// via the Federated Protocol, or server-to-server communications.
 	//
 	// It is only required if EnableServer is true.
-	FederateApp FederateApp
-	// SocialApp provides utility when handling incoming messages
+	FederateAPI FederateAPI
+	// SocialAPI provides utility when handling incoming messages
 	// received via the Social API, or client-to-server communications.
 	//
 	// It is only required if EnableClient is true.
-	SocialApp SocialApp
+	SocialAPI SocialAPI
 	// ClientCallbacker for handing Social API messages.
 	ClientCallbacker Callbacker
 	// ServerCallbacker for handling Federated API messages.
@@ -179,7 +179,7 @@ func (f *federator) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 			iris = append(iris, ao.GetActorIRI(i))
 		}
 	}
-	if err = f.FederateApp.Unblocked(c, iris); err != nil {
+	if err = f.FederateAPI.Unblocked(c, iris); err != nil {
 		return true, err
 	}
 	if err = f.getPostInboxResolver(c, *r.URL).Deserialize(m); err != nil {
@@ -242,7 +242,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	// By default, enforce HTTP Signatures.
 	authenticated := false
 	authorized := true
-	if verifier := f.SocialApp.GetSocialAPIVerifier(c); verifier != nil {
+	if verifier := f.SocialAPI.GetSocialAPIVerifier(c); verifier != nil {
 		// Use custom Social API method to authenticate and authorize.
 		authenticated, authorized, err := verifier.VerifyForOutbox(r, *r.URL)
 		if err != nil {
@@ -262,7 +262,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 			w.WriteHeader(http.StatusBadRequest)
 			return true, nil
 		}
-		pk, algo, err := f.SocialApp.GetPublicKeyForOutbox(c, v.KeyId(), *r.URL)
+		pk, algo, err := f.SocialAPI.GetPublicKeyForOutbox(c, v.KeyId(), *r.URL)
 		if err != nil {
 			return true, err
 		}
@@ -285,7 +285,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		return true, err
 	}
 	if !isActivityType(typer) {
-		actorIri, err := f.SocialApp.ActorIRI(c, r)
+		actorIri, err := f.SocialAPI.ActorIRI(c, r)
 		if err != nil {
 			return true, err
 		}
@@ -624,7 +624,7 @@ func (f *federator) handleClientAdd(c context.Context, deliverable *bool) func(s
 			}
 			obj := raw.GetObject(i)
 			for _, target := range targets {
-				if !f.SocialApp.CanAdd(c, obj, target) {
+				if !f.SocialAPI.CanAdd(c, obj, target) {
 					continue
 				}
 				if ct, ok := target.(vocab.CollectionType); ok {
@@ -688,7 +688,7 @@ func (f *federator) handleClientRemove(c context.Context, deliverable *bool) fun
 			}
 			obj := raw.GetObject(i)
 			for _, target := range targets {
-				if !f.SocialApp.CanRemove(c, obj, target) {
+				if !f.SocialAPI.CanRemove(c, obj, target) {
 					continue
 				}
 				if ct, ok := target.(vocab.CollectionType); ok {
@@ -863,7 +863,7 @@ func (f *federator) handleFollow(c context.Context, inboxURL url.URL) func(s *st
 		if s.LenObject() == 0 {
 			return errObjectRequired
 		}
-		todo := f.FederateApp.OnFollow(c, s)
+		todo := f.FederateAPI.OnFollow(c, s)
 		if todo != DoNothing {
 			var activity vocab.ActivityType
 			if todo == AutomaticAccept {
@@ -1028,7 +1028,7 @@ func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 			}
 			obj := raw.GetObject(i)
 			for _, target := range targets {
-				if !f.FederateApp.CanAdd(c, obj, target) {
+				if !f.FederateAPI.CanFederateAdd(c, obj, target) {
 					continue
 				}
 				if ct, ok := target.(vocab.CollectionType); ok {
@@ -1092,7 +1092,7 @@ func (f *federator) handleRemove(c context.Context) func(s *streams.Remove) erro
 			}
 			obj := raw.GetObject(i)
 			for _, target := range targets {
-				if !f.FederateApp.CanRemove(c, obj, target) {
+				if !f.FederateAPI.CanFederateRemove(c, obj, target) {
 					continue
 				}
 				if ct, ok := target.(vocab.CollectionType); ok {

@@ -629,9 +629,10 @@ func (m *MockApplication) GetPublicKey(c context.Context, publicKeyId string) (c
 	return m.getPublicKey(c, publicKeyId)
 }
 
-var _ SocialApp = &MockSocialApp{}
+var _ SocialApplication = &MockSocialApp{}
 
 type MockSocialApp struct {
+	*MockApplication
 	t                     *testing.T
 	canAdd                func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
 	canRemove             func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
@@ -791,9 +792,10 @@ func (m *MockCallbacker) Reject(c context.Context, s *streams.Reject) error {
 	}
 }
 
-var _ FederateApp = &MockFederateApp{}
+var _ FederateApplication = &MockFederateApp{}
 
 type MockFederateApp struct {
+	*MockApplication
 	t                *testing.T
 	canAdd           func(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
 	canRemove        func(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
@@ -805,16 +807,16 @@ type MockFederateApp struct {
 	privateKey       func(boxIRI url.URL) (crypto.PrivateKey, string, error)
 }
 
-func (m *MockFederateApp) CanAdd(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool {
+func (m *MockFederateApp) CanFederateAdd(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool {
 	if m.canAdd == nil {
-		m.t.Fatal("unexpected call to MockFederateApp CanAdd")
+		m.t.Fatal("unexpected call to MockFederateApp CanFederateAdd")
 	}
 	return m.canAdd(c, obj, target)
 }
 
-func (m *MockFederateApp) CanRemove(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool {
+func (m *MockFederateApp) CanFederateRemove(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool {
 	if m.canRemove == nil {
-		m.t.Fatal("unexpected call to MockFederateApp CanRemove")
+		m.t.Fatal("unexpected call to MockFederateApp CanFederateRemove")
 	}
 	return m.canRemove(c, obj, target)
 }
@@ -859,6 +861,41 @@ func (m *MockFederateApp) PrivateKey(boxIRI url.URL) (privKey crypto.PrivateKey,
 		m.t.Fatal("unexpected call to MockFederateApp PrivateKey")
 	}
 	return m.privateKey(boxIRI)
+}
+
+var _ SocialFederateApplication = &MockSocialFederateApp{}
+
+type MockSocialFederateApp struct {
+	*MockFederateApp
+	*MockSocialApp
+}
+
+func (m *MockSocialFederateApp) Owns(c context.Context, id url.URL) bool {
+	return m.MockFederateApp.Owns(c, id)
+}
+func (m *MockSocialFederateApp) Get(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	return m.MockFederateApp.Get(c, id, rw)
+}
+func (m *MockSocialFederateApp) GetAsVerifiedUser(c context.Context, id, authdUser url.URL, rw RWType) (PubObject, error) {
+	return m.MockFederateApp.GetAsVerifiedUser(c, id, authdUser, rw)
+}
+func (m *MockSocialFederateApp) Has(c context.Context, id url.URL) (bool, error) {
+	return m.MockFederateApp.Has(c, id)
+}
+func (m *MockSocialFederateApp) Set(c context.Context, o PubObject) error {
+	return m.MockFederateApp.Set(c, o)
+}
+func (m *MockSocialFederateApp) GetInbox(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+	return m.MockFederateApp.GetInbox(c, r, rw)
+}
+func (m *MockSocialFederateApp) GetOutbox(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+	return m.MockFederateApp.GetOutbox(c, r, rw)
+}
+func (m *MockSocialFederateApp) NewId(c context.Context, t Typer) url.URL {
+	return m.MockFederateApp.NewId(c, t)
+}
+func (m *MockSocialFederateApp) GetPublicKey(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, url.URL, error) {
+	return m.MockFederateApp.GetPublicKey(c, publicKeyId)
 }
 
 var _ Deliverer = &MockDeliverer{}
@@ -914,34 +951,39 @@ func (m *MockSocialAPIVerifier) VerifyForOutbox(r *http.Request, outbox url.URL)
 func NewSocialPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSocialApp, cb *MockCallbacker, p Pubber) {
 	clock := &MockClock{now}
 	app = &MockApplication{t: t}
-	socialApp = &MockSocialApp{t: t}
+	socialApp = &MockSocialApp{MockApplication: app, t: t}
 	cb = &MockCallbacker{t: t}
-	p = NewSocialPubber(clock, app, socialApp, cb)
+	p = NewSocialPubber(clock, socialApp, cb)
 	return
 }
 
 func NewFederatingPubberTest(t *testing.T) (app *MockApplication, fedApp *MockFederateApp, cb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
 	clock := &MockClock{now}
 	app = &MockApplication{t: t}
-	fedApp = &MockFederateApp{t: t}
+	fedApp = &MockFederateApp{MockApplication: app, t: t}
 	cb = &MockCallbacker{t: t}
 	d = &MockDeliverer{t: t}
 	h = &MockHttpClient{t: t}
-	p = NewFederatingPubber(clock, app, fedApp, cb, d, h, testAgent, 1, 1)
+	p = NewFederatingPubber(clock, fedApp, cb, d, h, testAgent, 1, 1)
 	return
 }
 
-func NewPubberTest(t *testing.T) (app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
+func NewPubberTest(t *testing.T) (app *MockSocialFederateApp, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
 	clock := &MockClock{now}
-	app = &MockApplication{t: t}
+	appl := &MockApplication{t: t}
 	socialApp = &MockSocialApp{t: t}
-	fedApp = &MockFederateApp{t: t}
+	fedApp = &MockFederateApp{MockApplication: appl, t: t}
+	app = &MockSocialFederateApp{MockSocialApp: socialApp, MockFederateApp: fedApp}
 	socialCb = &MockCallbacker{t: t}
 	fedCb = &MockCallbacker{t: t}
 	d = &MockDeliverer{t: t}
 	h = &MockHttpClient{t: t}
-	p = NewPubber(clock, app, socialApp, fedApp, socialCb, fedCb, d, h, testAgent, 1, 1)
+	p = NewPubber(clock, app, socialCb, fedCb, d, h, testAgent, 1, 1)
 	return
+}
+
+func PreparePubberPostInboxTest(t *testing.T, app *MockSocialFederateApp, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
+	PreparePostInboxTest(t, app.MockFederateApp.MockApplication, socialApp, fedApp, socialCb, fedCb, d, h, p)
 }
 
 func PreparePostInboxTest(t *testing.T, app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
@@ -963,6 +1005,10 @@ func PreparePostInboxTest(t *testing.T, app *MockApplication, socialApp *MockSoc
 		return false, nil
 	}
 	return
+}
+
+func PreparePubberPostOutboxTest(t *testing.T, app *MockSocialFederateApp, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
+	PreparePostOutboxTest(t, app.MockFederateApp.MockApplication, socialApp, fedApp, socialCb, fedCb, d, h, p)
 }
 
 func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
@@ -1476,7 +1522,7 @@ func TestPubber_PostInbox(t *testing.T) {
 		return nil
 	}
 	gotInbox := 0
-	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+	app.MockFederateApp.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -1488,7 +1534,7 @@ func TestPubber_PostInbox(t *testing.T) {
 	gotSet := 0
 	var setObject PubObject
 	var inboxObject PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			setObject = o
@@ -1500,7 +1546,7 @@ func TestPubber_PostInbox(t *testing.T) {
 	gotHas := 0
 	var hasIriActivity url.URL
 	var hasIriTo url.URL
-	app.has = func(c context.Context, id url.URL) (bool, error) {
+	app.MockFederateApp.has = func(c context.Context, id url.URL) (bool, error) {
 		gotHas++
 		if gotHas == 1 {
 			hasIriActivity = id
@@ -1512,7 +1558,7 @@ func TestPubber_PostInbox(t *testing.T) {
 	}
 	gotGet := 0
 	var gotIri url.URL
-	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		if rw != Read {
 			t.Fatalf("expected RWType of %d, got %d", Read, rw)
 		}
@@ -1568,7 +1614,7 @@ func TestPubber_GetInbox(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
 	gotInbox := 0
-	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+	app.MockFederateApp.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != Read {
 			t.Fatalf("expected RWType of %d, got %d", Read, rw)
 		}
@@ -1628,12 +1674,12 @@ func TestPubber_PostOutbox(t *testing.T) {
 		return testPrivateKey, testPublicKeyId, nil
 	}
 	gotNewId := 0
-	app.newId = func(c context.Context, t Typer) url.URL {
+	app.MockFederateApp.newId = func(c context.Context, t Typer) url.URL {
 		gotNewId++
 		return *testNewIRI
 	}
 	gotOutbox := 0
-	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+	app.MockFederateApp.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -1645,7 +1691,7 @@ func TestPubber_PostOutbox(t *testing.T) {
 	gotSet := 0
 	var gotSetOutbox PubObject
 	var gotSetCreateObject PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetCreateObject = o
@@ -1779,7 +1825,7 @@ func TestPubber_GetOutbox(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testOutboxURI, nil))
 	gotOutbox := 0
-	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+	app.MockFederateApp.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != Read {
 			t.Fatalf("expected RWType of %d, got %d", Read, rw)
 		}
@@ -2004,15 +2050,15 @@ func TestPostInbox_RequiresTarget(t *testing.T) {
 
 func TestPostInbox_DoesNotAddToInboxIfDuplicate(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
 	gotSet := 0
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		return nil
 	}
-	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+	app.MockFederateApp.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		inbox := &vocab.OrderedCollection{}
 		inbox.AppendOrderedItemsIRI(*noteActivityIRI)
 		return inbox, nil
@@ -2061,7 +2107,7 @@ func TestPostInbox_OriginMustMatch(t *testing.T) {
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
 		app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-		PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+		PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 		resp := httptest.NewRecorder()
 		req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
 		handled, err := p.PostInbox(context.Background(), resp, req)
@@ -2092,7 +2138,7 @@ func TestPostInbox_ActivityActorsMustCoverObjectActors(t *testing.T) {
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
 		app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-		PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+		PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 		resp := httptest.NewRecorder()
 		req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(test.input()))))
 		handled, err := p.PostInbox(context.Background(), resp, req)
@@ -2106,12 +2152,12 @@ func TestPostInbox_ActivityActorsMustCoverObjectActors(t *testing.T) {
 
 func TestPostInbox_Create_SetsObject(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
 	gotSet := 0
 	var setObject PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			setObject = o
@@ -2135,7 +2181,7 @@ func TestPostInbox_Create_SetsObject(t *testing.T) {
 
 func TestPostInbox_Create_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
 	gotCreate := 0
@@ -2159,12 +2205,12 @@ func TestPostInbox_Create_CallsCallback(t *testing.T) {
 
 func TestPostInbox_Update_SetsObject(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote))))
 	gotSet := 0
 	var setObject PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			setObject = o
@@ -2188,7 +2234,7 @@ func TestPostInbox_Update_SetsObject(t *testing.T) {
 
 func TestPostInbox_Update_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote))))
 	gotCallback := 0
@@ -2212,10 +2258,10 @@ func TestPostInbox_Update_CallsCallback(t *testing.T) {
 
 func TestPostInbox_Delete_FetchesObject(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		} else if id != *noteIRI {
@@ -2332,10 +2378,10 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 		},
 	}
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	gotSet := 0
 	var gotSetObject PubObject
-	app.set = func(c context.Context, p PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, p PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObject = p
@@ -2347,7 +2393,7 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
-		app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 			return test.input(), nil
 		}
 		gotSet = 0
@@ -2368,10 +2414,10 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 
 func TestPostInbox_Delete_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		return testNote, nil
 	}
 	gotCallback := 0
@@ -2395,7 +2441,7 @@ func TestPostInbox_Delete_CallsCallback(t *testing.T) {
 
 func TestPostInbox_Follow_DoNothing(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
 	gotOnFollow := 0
@@ -2418,7 +2464,7 @@ func TestPostInbox_Follow_DoNothing(t *testing.T) {
 
 func TestPostInbox_Follow_AutoReject(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
 	gotOnFollow := 0
@@ -2447,7 +2493,7 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 	}
 	gotOwns := 0
 	var ownsIRI url.URL
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		gotOwns++
 		ownsIRI = id
 		return true
@@ -2522,7 +2568,7 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 
 func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
 	gotOnFollow := 0
@@ -2584,14 +2630,14 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	}
 	gotOwns := 0
 	var ownsIRI url.URL
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		gotOwns++
 		ownsIRI = id
 		return true
 	}
 	gotGet := 0
 	var getIRI url.URL
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -2605,7 +2651,7 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	}
 	gotSet := 0
 	var setObject PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			setObject = o
@@ -2663,7 +2709,7 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 
 func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
@@ -2705,10 +2751,10 @@ func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) 
 			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
 		}
 	}
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -2722,7 +2768,7 @@ func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) 
 	}
 	gotSet := 0
 	var setObject PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			setObject = o
@@ -2749,7 +2795,7 @@ func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) 
 
 func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
@@ -2791,10 +2837,10 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
 		}
 	}
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -2806,7 +2852,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 	}
 	gotSet := 0
 	var setObject PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			setObject = o
@@ -2831,7 +2877,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 
 func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
@@ -2873,10 +2919,10 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
 			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
 		}
 	}
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -2894,7 +2940,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
 	}
 	gotSet := 0
 	var setObject PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			setObject = o
@@ -2915,7 +2961,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
 
 func TestPostInbox_Follow_DoesNotAutoAcceptIfNotOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
@@ -2924,7 +2970,7 @@ func TestPostInbox_Follow_DoesNotAutoAcceptIfNotOwned(t *testing.T) {
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
 	}
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return false
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
@@ -2937,7 +2983,7 @@ func TestPostInbox_Follow_DoesNotAutoAcceptIfNotOwned(t *testing.T) {
 
 func TestPostInbox_Follow_DoesNotAutoRejectIfNotOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
@@ -2946,7 +2992,7 @@ func TestPostInbox_Follow_DoesNotAutoRejectIfNotOwned(t *testing.T) {
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
 	}
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return false
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
@@ -2959,7 +3005,7 @@ func TestPostInbox_Follow_DoesNotAutoRejectIfNotOwned(t *testing.T) {
 
 func TestPostInbox_Follow_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testFollow))))
 	fedApp.onFollow = func(c context.Context, s *streams.Follow) FollowResponse {
@@ -2986,7 +3032,7 @@ func TestPostInbox_Follow_CallsCallback(t *testing.T) {
 
 func TestPostInbox_Accept_DoesNothingIfNotAcceptingFollow(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptNote))))
 	fedCb.accept = func(c context.Context, s *streams.Accept) error {
@@ -3002,19 +3048,19 @@ func TestPostInbox_Accept_DoesNothingIfNotAcceptingFollow(t *testing.T) {
 
 func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
 	gotOwns := 0
 	var ownsIRI url.URL
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		gotOwns++
 		ownsIRI = id
 		return true
 	}
 	gotGet := 0
 	var getIRI url.URL
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -3028,7 +3074,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 	}
 	gotSet := 0
 	var setObject PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			setObject = o
@@ -3066,13 +3112,13 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 
 func TestPostInbox_Accept_AcceptFollowDoesNotAddIfAlreadyInCollection(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		following := &vocab.Collection{}
 		following.AppendItemsIRI(*samIRI)
 		sallyActor := &vocab.Person{}
@@ -3083,7 +3129,7 @@ func TestPostInbox_Accept_AcceptFollowDoesNotAddIfAlreadyInCollection(t *testing
 	}
 	gotSet := 0
 	var setObject PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			setObject = o
@@ -3113,13 +3159,13 @@ func TestPostInbox_Accept_AcceptFollowDoesNotAddIfAlreadyInCollection(t *testing
 
 func TestPostInbox_Accept_AcceptFollowAddsToFollowersOrderedCollection(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -3131,7 +3177,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersOrderedCollection(t *testin
 	}
 	gotSet := 0
 	var setObject PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			setObject = o
@@ -3159,13 +3205,13 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersOrderedCollection(t *testin
 
 func TestPostInbox_Accept_AcceptFollowAddsToFollowersIRI(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -3183,7 +3229,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIRI(t *testing.T) {
 	}
 	gotSet := 0
 	var setObject PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			setObject = o
@@ -3207,12 +3253,12 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIRI(t *testing.T) {
 
 func TestPostInbox_Accept_DoesNothingIfNotOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
 	gotOwns := 0
 	var ownsIRI url.URL
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		gotOwns++
 		ownsIRI = id
 		return false
@@ -3234,13 +3280,13 @@ func TestPostInbox_Accept_DoesNothingIfNotOwned(t *testing.T) {
 
 func TestPostInbox_Accept_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		sallyActor := &vocab.Person{}
 		sallyActor.SetInboxAnyURI(*sallyIRIInbox)
 		sallyActor.SetId(*sallyIRI)
@@ -3270,7 +3316,7 @@ func TestPostInbox_Accept_CallsCallback(t *testing.T) {
 
 func TestPostInbox_Reject_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRejectFollow))))
 	gotCallback := 0
@@ -3294,12 +3340,12 @@ func TestPostInbox_Reject_CallsCallback(t *testing.T) {
 
 func TestPostInbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
 	gotOwns := 0
 	var gotOwnsId url.URL
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return false
@@ -3321,19 +3367,19 @@ func TestPostInbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 
 func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
 	gotOwns := 0
 	var gotOwnsId url.URL
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return true
 	}
 	gotGet := 0
 	var gotGetId url.URL
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -3353,7 +3399,7 @@ func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetTarget PubObject
-	app.set = func(c context.Context, target PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, target PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetTarget = target
@@ -3393,19 +3439,19 @@ func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
 
 func TestPostInbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
 	gotOwns := 0
 	var gotOwnsId url.URL
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return true
 	}
 	gotGet := 0
 	var gotGetId url.URL
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetId = id
 		v := &vocab.Collection{}
@@ -3447,13 +3493,13 @@ func TestPostInbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 
 func TestPostInbox_Add_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Collection{}
 		return v, nil
 	}
@@ -3481,12 +3527,12 @@ func TestPostInbox_Add_CallsCallback(t *testing.T) {
 
 func TestPostInbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
 	gotOwns := 0
 	var gotOwnsId url.URL
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return false
@@ -3508,19 +3554,19 @@ func TestPostInbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
 
 func TestPostInbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
 	gotOwns := 0
 	var gotOwnsId url.URL
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return true
 	}
 	gotGet := 0
 	var gotGetId url.URL
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -3541,7 +3587,7 @@ func TestPostInbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetTarget PubObject
-	app.set = func(c context.Context, target PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, target PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetTarget = target
@@ -3579,19 +3625,19 @@ func TestPostInbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 
 func TestPostInbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
 	gotOwns := 0
 	var gotOwnsId url.URL
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return true
 	}
 	gotGet := 0
 	var gotGetId url.URL
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetId = id
 		v := &vocab.Collection{}
@@ -3636,13 +3682,13 @@ func TestPostInbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 
 func TestPostInbox_Remove_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Collection{}
 		return v, nil
 	}
@@ -3670,19 +3716,19 @@ func TestPostInbox_Remove_CallsCallback(t *testing.T) {
 
 func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
 	gotOwns := 0
 	var gotOwnsId url.URL
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return true
 	}
 	gotGet := 0
 	var gotGetId url.URL
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -3697,7 +3743,7 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetObject PubObject
-	app.set = func(c context.Context, target PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, target PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObject = target
@@ -3736,13 +3782,13 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 
 func TestPostInbox_Like_DoesNotAddLikeToCollectionIfAlreadyPresent(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		likes := &vocab.Collection{}
 		likes.AppendItemsIRI(*sallyIRI)
 		v := &vocab.Note{}
@@ -3754,7 +3800,7 @@ func TestPostInbox_Like_DoesNotAddLikeToCollectionIfAlreadyPresent(t *testing.T)
 	}
 	gotSet := 0
 	var gotSetObject PubObject
-	app.set = func(c context.Context, target PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, target PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObject = target
@@ -3785,13 +3831,13 @@ func TestPostInbox_Like_DoesNotAddLikeToCollectionIfAlreadyPresent(t *testing.T)
 
 func TestPostInbox_Like_AddsToLikeOrderedCollection(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
 		v.AppendNameString(noteName)
@@ -3801,7 +3847,7 @@ func TestPostInbox_Like_AddsToLikeOrderedCollection(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetObject PubObject
-	app.set = func(c context.Context, target PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, target PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObject = target
@@ -3830,13 +3876,13 @@ func TestPostInbox_Like_AddsToLikeOrderedCollection(t *testing.T) {
 
 func TestPostInbox_Like_AddsToLikeIRI(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if id == *noteIRI {
 			v := &vocab.Note{}
 			v.SetId(*noteIRI)
@@ -3852,7 +3898,7 @@ func TestPostInbox_Like_AddsToLikeIRI(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetObject PubObject
-	app.set = func(c context.Context, target PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, target PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObject = target
@@ -3876,13 +3922,13 @@ func TestPostInbox_Like_AddsToLikeIRI(t *testing.T) {
 
 func TestPostInbox_Like_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
-	app.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Note{}
 		v.SetId(*noteIRI)
 		v.AppendNameString(noteName)
@@ -3911,7 +3957,7 @@ func TestPostInbox_Like_CallsCallback(t *testing.T) {
 
 func TestPostInbox_Undo_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testUndoLike))))
 	gotCallback := 0
@@ -3937,7 +3983,7 @@ func TestGetInbox_RejectNonActivityPub(t *testing.T) {
 	app, _, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := httptest.NewRequest("GET", testInboxURI, nil)
-	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+	app.MockFederateApp.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		return &vocab.OrderedCollection{}, nil
 	}
 	handled, err := p.GetInbox(context.Background(), resp, req)
@@ -3952,7 +3998,7 @@ func TestGetInbox_SetsContentTypeHeader(t *testing.T) {
 	app, _, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
-	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+	app.MockFederateApp.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		return &vocab.OrderedCollection{}, nil
 	}
 	handled, err := p.GetInbox(context.Background(), resp, req)
@@ -3971,7 +4017,7 @@ func TestGetInbox_DeduplicateInboxItems(t *testing.T) {
 	app, _, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testInboxURI, nil))
-	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+	app.MockFederateApp.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		v := &vocab.OrderedCollection{}
 		v.AppendOrderedItemsObject(testCreateNote)
 		v.AppendOrderedItemsObject(testCreateNote)
@@ -4177,7 +4223,7 @@ func TestPostOutbox_RejectUnauthorized_WrongSignature(t *testing.T) {
 
 func TestPostOutbox_WrapInCreateActivity(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	// Raw Note
 	rawNote := &vocab.Note{}
 	rawNote.SetId(*noteIRI)
@@ -4325,7 +4371,7 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 		},
 	}
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
 		resp := httptest.NewRecorder()
@@ -4370,7 +4416,7 @@ func TestPostOutbox_RequiresTarget(t *testing.T) {
 		},
 	}
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
 		resp := httptest.NewRecorder()
@@ -4388,7 +4434,7 @@ func TestPostOutbox_RequiresTarget(t *testing.T) {
 
 func TestPostOutbox_Create_CopyToAttributedTo(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
 	gotCallback := 0
@@ -4412,7 +4458,7 @@ func TestPostOutbox_Create_CopyToAttributedTo(t *testing.T) {
 
 func TestPostOutbox_Create_SetCreatedObject(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
 	socialCb.create = func(c context.Context, s *streams.Create) error {
@@ -4421,7 +4467,7 @@ func TestPostOutbox_Create_SetCreatedObject(t *testing.T) {
 	gotSet := 0
 	var gotSetOutbox PubObject
 	var gotSetCreate PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetCreate = o
@@ -4449,7 +4495,7 @@ func TestPostOutbox_Create_SetCreatedObject(t *testing.T) {
 
 func TestPostOutbox_Create_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
 	gotCallback := 0
@@ -4473,7 +4519,7 @@ func TestPostOutbox_Create_CallsCallback(t *testing.T) {
 
 func TestPostOutbox_Create_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
 	socialCb.create = func(c context.Context, s *streams.Create) error {
@@ -4521,14 +4567,14 @@ func TestPostOutbox_Create_IsDelivered(t *testing.T) {
 
 func TestPostOutbox_Update_DeleteSubFields(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer([]byte(testDeleteSubFields)))))
 	socialCb.update = func(c context.Context, s *streams.Update) error {
 		return nil
 	}
 	gotGet := 0
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		if id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
@@ -4546,7 +4592,7 @@ func TestPostOutbox_Update_DeleteSubFields(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetObject PubObject
-	app.set = func(c context.Context, p PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, p PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObject = p
@@ -4577,14 +4623,14 @@ func TestPostOutbox_Update_DeleteSubFields(t *testing.T) {
 
 func TestPostOutbox_Update_DeleteFields(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer([]byte(testDeleteFields)))))
 	socialCb.update = func(c context.Context, s *streams.Update) error {
 		return nil
 	}
 	gotGet := 0
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -4605,7 +4651,7 @@ func TestPostOutbox_Update_DeleteFields(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetObject PubObject
-	app.set = func(c context.Context, p PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, p PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObject = p
@@ -4632,14 +4678,14 @@ func TestPostOutbox_Update_DeleteFields(t *testing.T) {
 
 func TestPostOutbox_Update_DeleteSubFieldsMultipleObjects(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer([]byte(testDeleteFieldsDifferentObjects)))))
 	socialCb.update = func(c context.Context, s *streams.Update) error {
 		return nil
 	}
 	gotGet := 0
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		var v *vocab.Note
 		if id == *noteIRI {
@@ -4663,14 +4709,14 @@ func TestPostOutbox_Update_DeleteSubFieldsMultipleObjects(t *testing.T) {
 			v.AppendContentString("This is a simple note")
 			v.AppendToObject(samActor)
 		} else {
-			t.Fatalf("unexpected app.Get id: %s", id)
+			t.Fatalf("unexpected app.MockFederateApp.Get id: %s", id)
 		}
 		return v, nil
 	}
 	gotSet := 0
 	var gotSetObject PubObject
 	var gotSetObject2 PubObject
-	app.set = func(c context.Context, p PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, p PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObject = p
@@ -4710,14 +4756,14 @@ func TestPostOutbox_Update_DeleteSubFieldsMultipleObjects(t *testing.T) {
 
 func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testClientUpdateNote)))))
 	socialCb.update = func(c context.Context, s *streams.Update) error {
 		return nil
 	}
 	gotGet := 0
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		if id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
@@ -4735,7 +4781,7 @@ func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetObject PubObject
-	app.set = func(c context.Context, p PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, p PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObject = p
@@ -4767,7 +4813,7 @@ func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
 
 func TestPostOutbox_Update_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote)))))
 	gotCallback := 0
@@ -4777,7 +4823,7 @@ func TestPostOutbox_Update_CallsCallback(t *testing.T) {
 		gotCallbackObject = s
 		return nil
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		samActor := &vocab.Person{}
 		samActor.SetInboxAnyURI(*samIRIInbox)
 		samActor.SetId(*samIRI)
@@ -4789,7 +4835,7 @@ func TestPostOutbox_Update_CallsCallback(t *testing.T) {
 		v.AppendToObject(samActor)
 		return v, nil
 	}
-	app.set = func(c context.Context, p PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, p PubObject) error {
 		return nil
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
@@ -4806,7 +4852,7 @@ func TestPostOutbox_Update_CallsCallback(t *testing.T) {
 
 func TestPostOutbox_Update_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUpdateNote)))))
 	socialCb.update = func(c context.Context, s *streams.Update) error {
@@ -4838,7 +4884,7 @@ func TestPostOutbox_Update_IsDelivered(t *testing.T) {
 		}
 		return nil, nil
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		samActor := &vocab.Person{}
 		samActor.SetInboxAnyURI(*samIRIInbox)
 		samActor.SetId(*samIRI)
@@ -4850,7 +4896,7 @@ func TestPostOutbox_Update_IsDelivered(t *testing.T) {
 		v.AppendToObject(samActor)
 		return v, nil
 	}
-	app.set = func(c context.Context, p PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, p PubObject) error {
 		return nil
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
@@ -4869,14 +4915,14 @@ func TestPostOutbox_Update_IsDelivered(t *testing.T) {
 
 func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote)))))
 	socialCb.delete = func(c context.Context, s *streams.Delete) error {
 		return nil
 	}
 	gotGet := 0
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -4893,7 +4939,7 @@ func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetObject PubObject
-	app.set = func(c context.Context, p PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, p PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObject = p
@@ -4922,7 +4968,7 @@ func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 
 func TestPostOutbox_Delete_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote)))))
 	gotCallback := 0
@@ -4932,10 +4978,10 @@ func TestPostOutbox_Delete_CallsCallback(t *testing.T) {
 		gotCallbackObject = s
 		return nil
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		return testNote, nil
 	}
-	app.set = func(c context.Context, p PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, p PubObject) error {
 		return nil
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
@@ -4952,7 +4998,7 @@ func TestPostOutbox_Delete_CallsCallback(t *testing.T) {
 
 func TestPostOutbox_Delete_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote)))))
 	socialCb.delete = func(c context.Context, s *streams.Delete) error {
@@ -4984,10 +5030,10 @@ func TestPostOutbox_Delete_IsDelivered(t *testing.T) {
 		}
 		return nil, nil
 	}
-	app.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
 		return testNote, nil
 	}
-	app.set = func(c context.Context, p PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, p PubObject) error {
 		return nil
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
@@ -5006,7 +5052,7 @@ func TestPostOutbox_Delete_IsDelivered(t *testing.T) {
 
 func TestPostOutbox_Follow_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testFollow)))))
 	gotCallback := 0
@@ -5030,7 +5076,7 @@ func TestPostOutbox_Follow_CallsCallback(t *testing.T) {
 
 func TestPostOutbox_Follow_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testFollow)))))
 	socialCb.follow = func(c context.Context, s *streams.Follow) error {
@@ -5078,7 +5124,7 @@ func TestPostOutbox_Follow_IsDelivered(t *testing.T) {
 
 func TestPostOutbox_Accept_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow)))))
 	gotCallback := 0
@@ -5102,7 +5148,7 @@ func TestPostOutbox_Accept_CallsCallback(t *testing.T) {
 
 func TestPostOutbox_Accept_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow)))))
 	socialCb.accept = func(c context.Context, s *streams.Accept) error {
@@ -5150,7 +5196,7 @@ func TestPostOutbox_Accept_IsDelivered(t *testing.T) {
 
 func TestPostOutbox_Reject_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRejectFollow)))))
 	gotCallback := 0
@@ -5174,7 +5220,7 @@ func TestPostOutbox_Reject_CallsCallback(t *testing.T) {
 
 func TestPostOutbox_Reject_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRejectFollow)))))
 	socialCb.reject = func(c context.Context, s *streams.Reject) error {
@@ -5222,12 +5268,12 @@ func TestPostOutbox_Reject_IsDelivered(t *testing.T) {
 
 func TestPostOutbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
 	gotOwns := 0
 	var gotOwnsIri url.URL
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		gotOwns++
 		gotOwnsIri = iri
 		return false
@@ -5249,15 +5295,15 @@ func TestPostOutbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 
 func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
 	gotGet := 0
 	var gotGetIri url.URL
-	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -5278,7 +5324,7 @@ func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetObj PubObject
-	app.set = func(c context.Context, t PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, t PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObj = t
@@ -5315,15 +5361,15 @@ func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 
 func TestPostOutbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
 	gotGet := 0
 	var gotGetIri url.URL
-	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
@@ -5364,10 +5410,10 @@ func TestPostOutbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 
 func TestPostOutbox_Add_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		return false
 	}
 	gotCallback := 0
@@ -5391,10 +5437,10 @@ func TestPostOutbox_Add_CallsCallback(t *testing.T) {
 
 func TestPostOutbox_Add_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		return false
 	}
 	socialCb.add = func(c context.Context, s *streams.Add) error {
@@ -5442,12 +5488,12 @@ func TestPostOutbox_Add_IsDelivered(t *testing.T) {
 
 func TestPostOutbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
 	gotOwns := 0
 	var gotOwnsIri url.URL
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		gotOwns++
 		gotOwnsIri = iri
 		return false
@@ -5469,15 +5515,15 @@ func TestPostOutbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
 
 func TestPostOutbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
 	gotGet := 0
 	var gotGetIri url.URL
-	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
@@ -5496,7 +5542,7 @@ func TestPostOutbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetObj PubObject
-	app.set = func(c context.Context, t PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, t PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObj = t
@@ -5532,15 +5578,15 @@ func TestPostOutbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 
 func TestPostOutbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
 	gotGet := 0
 	var gotGetIri url.URL
-	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
@@ -5583,10 +5629,10 @@ func TestPostOutbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 
 func TestPostOutbox_Remove_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		return false
 	}
 	gotCallback := 0
@@ -5610,10 +5656,10 @@ func TestPostOutbox_Remove_CallsCallback(t *testing.T) {
 
 func TestPostOutbox_Remove_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		return false
 	}
 	socialCb.remove = func(c context.Context, s *streams.Remove) error {
@@ -5661,19 +5707,19 @@ func TestPostOutbox_Remove_IsDelivered(t *testing.T) {
 
 func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
 	gotOwns := 0
 	var gotOwnsIri url.URL
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		gotOwns++
 		gotOwnsIri = iri
 		return true
 	}
 	gotGet := 0
 	var gotGetIri url.URL
-	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -5687,7 +5733,7 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetObj PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObj = o
@@ -5725,13 +5771,13 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 
 func TestPostOutbox_Like_DoesNotAddIfAlreadyLiked(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		liked := &vocab.Collection{}
 		liked.AppendItemsIRI(*noteIRI)
 		v := &vocab.Person{}
@@ -5742,7 +5788,7 @@ func TestPostOutbox_Like_DoesNotAddIfAlreadyLiked(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetObj PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObj = o
@@ -5772,13 +5818,13 @@ func TestPostOutbox_Like_DoesNotAddIfAlreadyLiked(t *testing.T) {
 
 func TestPostOutbox_Like_AddsToLikedOrderedCollection(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Person{}
 		v.AppendNameString("Sally")
 		v.SetId(*sallyIRI)
@@ -5787,7 +5833,7 @@ func TestPostOutbox_Like_AddsToLikedOrderedCollection(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetObj PubObject
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetObj = o
@@ -5815,12 +5861,12 @@ func TestPostOutbox_Like_AddsToLikedOrderedCollection(t *testing.T) {
 
 func TestPostOutbox_Like_DoesNotAddIfCollectionNotOwned(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
 	gotOwns := 0
 	var gotOwnsIri url.URL
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		gotOwns++
 		gotOwnsIri = iri
 		return false
@@ -5842,20 +5888,20 @@ func TestPostOutbox_Like_DoesNotAddIfCollectionNotOwned(t *testing.T) {
 
 func TestPostOutbox_Like_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Person{}
 		v.AppendNameString("Sally")
 		v.SetId(*sallyIRI)
 		v.SetLikedOrderedCollection(&vocab.OrderedCollection{})
 		return v, nil
 	}
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		return nil
 	}
 	gotCallback := 0
@@ -5879,20 +5925,20 @@ func TestPostOutbox_Like_CallsCallback(t *testing.T) {
 
 func TestPostOutbox_Like_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
-	app.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
 		return true
 	}
-	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Person{}
 		v.AppendNameString("Sally")
 		v.SetId(*sallyIRI)
 		v.SetLikedOrderedCollection(&vocab.OrderedCollection{})
 		return v, nil
 	}
-	app.set = func(c context.Context, o PubObject) error {
+	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		return nil
 	}
 	socialCb.like = func(c context.Context, s *streams.Like) error {
@@ -5940,7 +5986,7 @@ func TestPostOutbox_Like_IsDelivered(t *testing.T) {
 
 func TestPostOutbox_Undo_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUndoLike)))))
 	gotCallback := 0
@@ -5964,7 +6010,7 @@ func TestPostOutbox_Undo_CallsCallback(t *testing.T) {
 
 func TestPostOutbox_Undo_IsDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testUndoLike)))))
 	socialCb.undo = func(c context.Context, s *streams.Undo) error {
@@ -6012,7 +6058,7 @@ func TestPostOutbox_Undo_IsDelivered(t *testing.T) {
 
 func TestPostOutbox_Block_CallsCallback(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testBlock)))))
 	gotCallback := 0
@@ -6036,7 +6082,7 @@ func TestPostOutbox_Block_CallsCallback(t *testing.T) {
 
 func TestPostOutbox_Block_IsNotDelivered(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testBlock)))))
 	socialCb.block = func(c context.Context, s *streams.Block) error {
@@ -6056,7 +6102,7 @@ func TestPostOutbox_Block_IsNotDelivered(t *testing.T) {
 
 func TestPostOutbox_SetsLocationHeader(t *testing.T) {
 	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
 	socialCb.create = func(c context.Context, s *streams.Create) error {
@@ -6080,7 +6126,7 @@ func TestGetOutbox_RejectNonActivityPub(t *testing.T) {
 	app, _, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := httptest.NewRequest("GET", testOutboxURI, nil)
-	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+	app.MockFederateApp.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		return &vocab.OrderedCollection{}, nil
 	}
 	handled, err := p.GetOutbox(context.Background(), resp, req)
@@ -6095,7 +6141,7 @@ func TestGetOutbox_SetsContentTypeHeader(t *testing.T) {
 	app, _, _, _, _, _, _, p := NewPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("GET", testOutboxURI, nil))
-	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+	app.MockFederateApp.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		return &vocab.OrderedCollection{}, nil
 	}
 	handled, err := p.GetOutbox(context.Background(), resp, req)
