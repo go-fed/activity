@@ -163,7 +163,7 @@ func (f *federator) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	if err != nil {
 		return true, err
 	}
-	var iris []url.URL
+	var iris []*url.URL
 	for i := 0; i < ao.ActorLen(); i++ {
 		if ao.IsActorObject(i) {
 			obj := ao.GetActorObject(i)
@@ -182,7 +182,7 @@ func (f *federator) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	if err = f.FederateAPI.Unblocked(c, iris); err != nil {
 		return true, err
 	}
-	if err = f.getPostInboxResolver(c, *r.URL).Deserialize(m); err != nil {
+	if err = f.getPostInboxResolver(c, r.URL).Deserialize(m); err != nil {
 		if err == errObjectRequired || err == errTargetRequired {
 			w.WriteHeader(http.StatusBadRequest)
 			return true, nil
@@ -244,7 +244,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	authorized := true
 	if verifier := f.SocialAPI.GetSocialAPIVerifier(c); verifier != nil {
 		// Use custom Social API method to authenticate and authorize.
-		authenticated, authorized, err := verifier.VerifyForOutbox(r, *r.URL)
+		authenticated, authorized, err := verifier.VerifyForOutbox(r, r.URL)
 		if err != nil {
 			return true, err
 		} else if authenticated && !authorized {
@@ -262,7 +262,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 			w.WriteHeader(http.StatusBadRequest)
 			return true, nil
 		}
-		pk, algo, err := f.SocialAPI.GetPublicKeyForOutbox(c, v.KeyId(), *r.URL)
+		pk, algo, err := f.SocialAPI.GetPublicKeyForOutbox(c, v.KeyId(), r.URL)
 		if err != nil {
 			return true, err
 		}
@@ -316,7 +316,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		if err != nil {
 			return true, err
 		}
-		if err := f.deliver(obj, *r.URL); err != nil {
+		if err := f.deliver(obj, r.URL); err != nil {
 			return true, err
 		}
 	}
@@ -386,14 +386,14 @@ func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool, t
 			if c.IsActorObject(i) {
 				obj := c.GetActorObject(i)
 				id := obj.GetId()
-				createActorIds[(&id).String()] = obj
+				createActorIds[id.String()] = obj
 			} else if c.IsActorLink(i) {
 				l := c.GetActorLink(i)
 				href := l.GetHref()
-				createActorIds[(&href).String()] = l
+				createActorIds[href.String()] = l
 			} else if c.IsActorIRI(i) {
 				iri := c.GetActorIRI(i)
-				createActorIds[(&iri).String()] = iri
+				createActorIds[iri.String()] = iri
 			}
 		}
 		var obj []vocab.ObjectType
@@ -412,14 +412,14 @@ func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool, t
 				if o.IsAttributedToObject(i) {
 					at := o.GetAttributedToObject(i)
 					id := o.GetId()
-					objectAttributedToIds[k][(&id).String()] = at
+					objectAttributedToIds[k][id.String()] = at
 				} else if o.IsAttributedToLink(i) {
 					at := o.GetAttributedToLink(i)
 					href := at.GetHref()
-					objectAttributedToIds[k][(&href).String()] = at
+					objectAttributedToIds[k][href.String()] = at
 				} else if o.IsAttributedToIRI(i) {
 					iri := o.GetAttributedToIRI(i)
-					objectAttributedToIds[k][(&iri).String()] = iri
+					objectAttributedToIds[k][iri.String()] = iri
 				}
 			}
 		}
@@ -430,7 +430,7 @@ func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool, t
 						obj[i].AppendAttributedToObject(vObj)
 					} else if vLink, ok := v.(vocab.LinkType); ok {
 						obj[i].AppendAttributedToLink(vLink)
-					} else if vIRI, ok := v.(url.URL); ok {
+					} else if vIRI, ok := v.(*url.URL); ok {
 						obj[i].AppendAttributedToIRI(vIRI)
 					}
 				}
@@ -443,7 +443,7 @@ func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool, t
 						c.AppendActorObject(vObj)
 					} else if vLink, ok := v.(vocab.LinkType); ok {
 						c.AppendActorLink(vLink)
-					} else if vIRI, ok := v.(url.URL); ok {
+					} else if vIRI, ok := v.(*url.URL); ok {
 						c.AppendActorIRI(vIRI)
 					}
 				}
@@ -761,7 +761,7 @@ func (f *federator) handleClientBlock(c context.Context, deliverable *bool) func
 	}
 }
 
-func (f *federator) getPostInboxResolver(c context.Context, inboxURL url.URL) *streams.Resolver {
+func (f *federator) getPostInboxResolver(c context.Context, inboxURL *url.URL) *streams.Resolver {
 	return &streams.Resolver{
 		CreateCallback: f.handleCreate(c),
 		UpdateCallback: f.handleUpdate(c),
@@ -856,7 +856,7 @@ func (f *federator) handleDelete(c context.Context) func(s *streams.Delete) erro
 	}
 }
 
-func (f *federator) handleFollow(c context.Context, inboxURL url.URL) func(s *streams.Follow) error {
+func (f *federator) handleFollow(c context.Context, inboxURL *url.URL) func(s *streams.Follow) error {
 	return func(s *streams.Follow) error {
 		// Permit either human-triggered or automatically triggering
 		// 'Accept'/'Reject'.

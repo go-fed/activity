@@ -75,7 +75,7 @@ func Deserialize(r defs.RangeReference, mapName, field string, slice bool) strin
 	} else if r.V != nil {
 		var b bytes.Buffer
 		b.WriteString("// Begin generation by RangeReference.Deserialize for Value\n")
-		deserializeCode(&b, fmt.Sprintf("tmp, err := %s(v)\n", r.V.DeserializeFn.Name), mapName, "interface{}", field, slice, true)
+		deserializeCode(&b, fmt.Sprintf("tmp, err := %s(v)\n", r.V.DeserializeFn.Name), mapName, "interface{}", field, slice, false)
 		b.WriteString("// End generation by RangeReference.Deserialize for Value\n")
 		return b.String()
 	} else {
@@ -95,7 +95,7 @@ func Serialize(r defs.RangeReference, mapName, field string, slice bool) string 
 		return b.String()
 	} else if r.V != nil {
 		deref := "*"
-		if slice {
+		if slice || isIRIType(Type(r)) {
 			deref = ""
 		}
 		var b bytes.Buffer

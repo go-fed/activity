@@ -84,7 +84,7 @@ func toActorCollectionResolver(a *actor, c **streams.Collection, oc **streams.Or
 	return r
 }
 
-func toIdResolver(ok *bool, u *url.URL) *streams.Resolver {
+func toIdResolver(ok *bool, u **url.URL) *streams.Resolver {
 	return &streams.Resolver{
 		AnyObjectCallback: func(i vocab.ObjectType) error {
 			*ok = i.HasId()

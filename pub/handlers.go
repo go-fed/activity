@@ -31,7 +31,7 @@ func serveActivityPubObject(c context.Context, a Application, clock Clock, w htt
 	if !handled {
 		return
 	}
-	id := *r.URL
+	id := r.URL
 	if !a.Owns(c, id) {
 		w.WriteHeader(http.StatusNotFound)
 		return
@@ -76,7 +76,7 @@ func serveActivityPubObject(c context.Context, a Application, clock Clock, w htt
 		} else { // Signed request
 			var publicKey crypto.PublicKey
 			var algo httpsig.Algorithm
-			var user url.URL
+			var user *url.URL
 			publicKey, algo, user, err = a.GetPublicKey(c, v.KeyId())
 			if err != nil {
 				return
@@ -87,15 +87,15 @@ func serveActivityPubObject(c context.Context, a Application, clock Clock, w htt
 				err = nil
 				return
 			} else if err == nil {
-				verifiedUser = &user
+				verifiedUser = user
 			} // Else failed HTTP Signature verification but we still allow access.
 		}
 	}
 	var pObj PubObject
 	if verifiedUser != nil {
-		pObj, err = a.GetAsVerifiedUser(c, *r.URL, *verifiedUser, Read)
+		pObj, err = a.GetAsVerifiedUser(c, r.URL, verifiedUser, Read)
 	} else {
-		pObj, err = a.Get(c, *r.URL, Read)
+		pObj, err = a.Get(c, r.URL, Read)
 	}
 	if err != nil {
 		return

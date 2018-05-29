@@ -295,7 +295,7 @@ func generateFunctionalPropertyHelper(p *defs.PropertyType, this *defs.StructDef
 }
 
 func generateFunctionalIRI(p *defs.PropertyType, this *defs.StructDef) {
-	kind := deref(defs.IriValueType.DefinitionType)
+	kind := defs.IriValueType.DefinitionType
 	titleName := strings.Title(p.Name)
 	onlyType := len(p.Range) == 1
 	iri := "IRI"
@@ -569,6 +569,9 @@ func generateFunctionalPropertyValue(p *defs.PropertyType, this *defs.StructDef,
 		additionalTitleName = ""
 	}
 	kind := deref(value.DefinitionType)
+	if defs.IsIRIValueTypeString(value) {
+		kind = value.DefinitionType
+	}
 	titleName := strings.Title(p.Name)
 	this.F = append(this.F, []*defs.MemberFunctionDef{
 		{
@@ -705,7 +708,7 @@ func generateNonFunctionalPropertyHelper(p *defs.PropertyType, this *defs.Struct
 }
 
 func generateNonFunctionalIRI(p *defs.PropertyType, this *defs.StructDef) {
-	kind := deref(defs.IriValueType.DefinitionType)
+	kind := defs.IriValueType.DefinitionType
 	titleName := strings.Title(p.Name)
 	onlyType := len(p.Range) == 1
 	iri := "IRI"
@@ -1098,6 +1101,9 @@ func generateNonFunctionalPropertyValue(p *defs.PropertyType, this *defs.StructD
 		additionalTitleName = ""
 	}
 	kind := deref(value.DefinitionType)
+	if defs.IsIRIValueTypeString(value) {
+		kind = value.DefinitionType
+	}
 	titleName := strings.Title(p.Name)
 	this.F = append(this.F, []*defs.MemberFunctionDef{
 		{

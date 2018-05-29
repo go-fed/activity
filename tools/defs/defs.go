@@ -1308,7 +1308,7 @@ var (
 		SerializeFn: &FunctionDef{
 			Name:    "anyURISerialize",
 			Comment: "anyURISerialize turns a URI into a string",
-			Args:    []*FunctionVarDef{{"u", "url.URL"}},
+			Args:    []*FunctionVarDef{{"u", "*url.URL"}},
 			Return:  []*FunctionVarDef{{"s", "string"}},
 			Body: func() string {
 				var b bytes.Buffer
@@ -1895,7 +1895,7 @@ var IriValueType = &ValueType{
 	SerializeFn: &FunctionDef{
 		Name:    "IRISerialize",
 		Comment: "IRISerialize turns an IRI into a string",
-		Args:    []*FunctionVarDef{{"u", "url.URL"}},
+		Args:    []*FunctionVarDef{{"u", "*url.URL"}},
 		Return:  []*FunctionVarDef{{"s", "string"}},
 		Body: func() string {
 			var b bytes.Buffer
@@ -1921,6 +1921,10 @@ func HasAnyURI(r []RangeReference) bool {
 		}
 	}
 	return false
+}
+
+func IsIRIValueTypeString(v *ValueType) bool {
+	return v.DefinitionType == "*url.URL"
 }
 
 func IsIRIValueType(v *ValueType) bool {

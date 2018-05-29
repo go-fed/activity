@@ -25,20 +25,20 @@ func TestServeActivityPubObject(t *testing.T) {
 			name: "unsigned request",
 			app: &MockApplication{
 				t: t,
-				get: func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+				get: func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
-					} else if s := (&id).String(); s != noteURIString {
+					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					testNote = &vocab.Note{}
-					testNote.SetId(*noteIRI)
+					testNote.SetId(noteIRI)
 					testNote.AppendNameString(noteName)
 					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true
@@ -49,7 +49,7 @@ func TestServeActivityPubObject(t *testing.T) {
 			expectedCode: http.StatusOK,
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
-				testNote.SetId(*noteIRI)
+				testNote.SetId(noteIRI)
 				testNote.AppendNameString(noteName)
 				testNote.AppendContentString("This is a simple note")
 				return testNote
@@ -61,28 +61,28 @@ func TestServeActivityPubObject(t *testing.T) {
 			input: Sign(ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil))),
 			app: &MockApplication{
 				t: t,
-				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, url.URL, error) {
+				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 					if publicKeyId != testPublicKeyId {
 						t.Fatalf("(%q) expected %s, got %s", testPublicKeyId, publicKeyId)
 					}
-					return testPrivateKey.Public(), httpsig.RSA_SHA256, *samIRI, nil
+					return testPrivateKey.Public(), httpsig.RSA_SHA256, samIRI, nil
 				},
-				getAsVerifiedUser: func(c context.Context, id, user url.URL, rw RWType) (PubObject, error) {
+				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
-					} else if s := (&id).String(); s != noteURIString {
+					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
-					} else if u := (&user).String(); u != samIRIString {
+					} else if u := user.String(); u != samIRIString {
 						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
 					}
 					testNote = &vocab.Note{}
-					testNote.SetId(*noteIRI)
+					testNote.SetId(noteIRI)
 					testNote.AppendNameString(noteName)
 					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true
@@ -92,7 +92,7 @@ func TestServeActivityPubObject(t *testing.T) {
 			expectedCode: http.StatusOK,
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
-				testNote.SetId(*noteIRI)
+				testNote.SetId(noteIRI)
 				testNote.AppendNameString(noteName)
 				testNote.AppendContentString("This is a simple note")
 				return testNote
@@ -104,8 +104,8 @@ func TestServeActivityPubObject(t *testing.T) {
 			input: ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil)),
 			app: &MockApplication{
 				t: t,
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return false
@@ -124,14 +124,14 @@ func TestServeActivityPubObject(t *testing.T) {
 			input: BadSignature(ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil))),
 			app: &MockApplication{
 				t: t,
-				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, url.URL, error) {
+				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 					if publicKeyId != testPublicKeyId {
 						t.Fatalf("(%q) expected %s, got %s", testPublicKeyId, publicKeyId)
 					}
-					return testPrivateKey.Public(), httpsig.RSA_SHA256, *samIRI, nil
+					return testPrivateKey.Public(), httpsig.RSA_SHA256, samIRI, nil
 				},
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true
@@ -176,20 +176,20 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			name: "unsigned request",
 			app: &MockApplication{
 				t: t,
-				get: func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+				get: func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
-					} else if s := (&id).String(); s != noteURIString {
+					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					testNote = &vocab.Note{}
-					testNote.SetId(*noteIRI)
+					testNote.SetId(noteIRI)
 					testNote.AppendNameString(noteName)
 					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true
@@ -200,7 +200,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			expectedCode: http.StatusOK,
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
-				testNote.SetId(*noteIRI)
+				testNote.SetId(noteIRI)
 				testNote.AppendNameString(noteName)
 				testNote.AppendContentString("This is a simple note")
 				return testNote
@@ -212,28 +212,28 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			input: Sign(ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil))),
 			app: &MockApplication{
 				t: t,
-				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, url.URL, error) {
+				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 					if publicKeyId != testPublicKeyId {
 						t.Fatalf("(%q) expected %s, got %s", testPublicKeyId, publicKeyId)
 					}
-					return testPrivateKey.Public(), httpsig.RSA_SHA256, *samIRI, nil
+					return testPrivateKey.Public(), httpsig.RSA_SHA256, samIRI, nil
 				},
-				getAsVerifiedUser: func(c context.Context, id, user url.URL, rw RWType) (PubObject, error) {
+				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
-					} else if s := (&id).String(); s != noteURIString {
+					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
-					} else if u := (&user).String(); u != samIRIString {
+					} else if u := user.String(); u != samIRIString {
 						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
 					}
 					testNote = &vocab.Note{}
-					testNote.SetId(*noteIRI)
+					testNote.SetId(noteIRI)
 					testNote.AppendNameString(noteName)
 					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true
@@ -243,7 +243,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			expectedCode: http.StatusOK,
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
-				testNote.SetId(*noteIRI)
+				testNote.SetId(noteIRI)
 				testNote.AppendNameString(noteName)
 				testNote.AppendContentString("This is a simple note")
 				return testNote
@@ -255,8 +255,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			input: ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil)),
 			app: &MockApplication{
 				t: t,
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return false
@@ -275,14 +275,14 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			input: BadSignature(ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil))),
 			app: &MockApplication{
 				t: t,
-				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, url.URL, error) {
+				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 					if publicKeyId != testPublicKeyId {
 						t.Fatalf("(%q) expected %s, got %s", testPublicKeyId, publicKeyId)
 					}
-					return testPrivateKey.Public(), httpsig.RSA_SHA256, *samIRI, nil
+					return testPrivateKey.Public(), httpsig.RSA_SHA256, samIRI, nil
 				},
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true
@@ -295,22 +295,22 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			name: "unsigned request passes verifier",
 			app: &MockApplication{
 				t: t,
-				getAsVerifiedUser: func(c context.Context, id, user url.URL, rw RWType) (PubObject, error) {
+				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
-					} else if s := (&id).String(); s != noteURIString {
+					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
-					} else if u := (&user).String(); u != samIRIString {
+					} else if u := user.String(); u != samIRIString {
 						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
 					}
 					testNote = &vocab.Note{}
-					testNote.SetId(*noteIRI)
+					testNote.SetId(noteIRI)
 					testNote.AppendNameString(noteName)
 					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true
@@ -327,7 +327,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			expectedCode: http.StatusOK,
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
-				testNote.SetId(*noteIRI)
+				testNote.SetId(noteIRI)
 				testNote.AppendNameString(noteName)
 				testNote.AppendContentString("This is a simple note")
 				return testNote
@@ -339,22 +339,22 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			input: Sign(ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil))),
 			app: &MockApplication{
 				t: t,
-				getAsVerifiedUser: func(c context.Context, id, user url.URL, rw RWType) (PubObject, error) {
+				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
-					} else if s := (&id).String(); s != noteURIString {
+					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
-					} else if u := (&user).String(); u != samIRIString {
+					} else if u := user.String(); u != samIRIString {
 						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
 					}
 					testNote = &vocab.Note{}
-					testNote.SetId(*noteIRI)
+					testNote.SetId(noteIRI)
 					testNote.AppendNameString(noteName)
 					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true
@@ -370,7 +370,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			expectedCode: http.StatusOK,
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
-				testNote.SetId(*noteIRI)
+				testNote.SetId(noteIRI)
 				testNote.AppendNameString(noteName)
 				testNote.AppendContentString("This is a simple note")
 				return testNote
@@ -381,8 +381,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			name: "verifier authed unauthz",
 			app: &MockApplication{
 				t: t,
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true
@@ -403,8 +403,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			name: "verifier unauthed unauthz",
 			app: &MockApplication{
 				t: t,
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true
@@ -425,8 +425,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			name: "verifier unauthed authz unsigned fails",
 			app: &MockApplication{
 				t: t,
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true
@@ -448,28 +448,28 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			input: Sign(ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil))),
 			app: &MockApplication{
 				t: t,
-				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, url.URL, error) {
+				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 					if publicKeyId != testPublicKeyId {
 						t.Fatalf("(%q) expected %s, got %s", testPublicKeyId, publicKeyId)
 					}
-					return testPrivateKey.Public(), httpsig.RSA_SHA256, *samIRI, nil
+					return testPrivateKey.Public(), httpsig.RSA_SHA256, samIRI, nil
 				},
-				getAsVerifiedUser: func(c context.Context, id, user url.URL, rw RWType) (PubObject, error) {
+				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
-					} else if s := (&id).String(); s != noteURIString {
+					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
-					} else if u := (&user).String(); u != samIRIString {
+					} else if u := user.String(); u != samIRIString {
 						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
 					}
 					testNote = &vocab.Note{}
-					testNote.SetId(*noteIRI)
+					testNote.SetId(noteIRI)
 					testNote.AppendNameString(noteName)
 					testNote.AppendContentString("This is a simple note")
 					return testNote, nil
 				},
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true
@@ -485,7 +485,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			expectedCode: http.StatusOK,
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
-				testNote.SetId(*noteIRI)
+				testNote.SetId(noteIRI)
 				testNote.AppendNameString(noteName)
 				testNote.AppendContentString("This is a simple note")
 				return testNote
@@ -496,8 +496,8 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			name: "verifier unauthed authz unsigned fails with bad impl returning user",
 			app: &MockApplication{
 				t: t,
-				owns: func(c context.Context, id url.URL) bool {
-					if s := (&id).String(); s != noteURIString {
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
 						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
 					}
 					return true

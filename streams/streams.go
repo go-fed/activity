@@ -3173,8 +3173,8 @@ func (t *Object) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -3192,13 +3192,13 @@ func (t *Object) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Object) AppendAttributedTo(k url.URL) {
+func (t *Object) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Object) PrependAttributedTo(k url.URL) {
+func (t *Object) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -3229,8 +3229,8 @@ func (t *Object) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -3248,13 +3248,13 @@ func (t *Object) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Object) AppendAudience(k url.URL) {
+func (t *Object) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Object) PrependAudience(k url.URL) {
+func (t *Object) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -3647,8 +3647,8 @@ func (t *Object) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -3672,7 +3672,7 @@ func (t *Object) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Object) SetId(k url.URL) {
+func (t *Object) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -3739,8 +3739,8 @@ func (t *Object) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -3758,13 +3758,13 @@ func (t *Object) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Object) AppendInReplyTo(k url.URL) {
+func (t *Object) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Object) PrependInReplyTo(k url.URL) {
+func (t *Object) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -4239,8 +4239,8 @@ func (t *Object) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -4256,13 +4256,13 @@ func (t *Object) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Object) AppendUrl(k url.URL) {
+func (t *Object) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Object) PrependUrl(k url.URL) {
+func (t *Object) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -4291,8 +4291,8 @@ func (t *Object) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -4310,13 +4310,13 @@ func (t *Object) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Object) AppendTo(k url.URL) {
+func (t *Object) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Object) PrependTo(k url.URL) {
+func (t *Object) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -4347,8 +4347,8 @@ func (t *Object) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -4366,13 +4366,13 @@ func (t *Object) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Object) AppendBto(k url.URL) {
+func (t *Object) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Object) PrependBto(k url.URL) {
+func (t *Object) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -4403,8 +4403,8 @@ func (t *Object) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -4422,13 +4422,13 @@ func (t *Object) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Object) AppendCc(k url.URL) {
+func (t *Object) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Object) PrependCc(k url.URL) {
+func (t *Object) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -4459,8 +4459,8 @@ func (t *Object) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -4478,13 +4478,13 @@ func (t *Object) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Object) AppendBcc(k url.URL) {
+func (t *Object) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Object) PrependBcc(k url.URL) {
+func (t *Object) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -4837,8 +4837,8 @@ func (t *Object) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -4852,13 +4852,13 @@ func (t *Object) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Object) AppendStreams(k url.URL) {
+func (t *Object) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Object) PrependStreams(k url.URL) {
+func (t *Object) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -4955,8 +4955,8 @@ func (t *Object) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -4980,13 +4980,13 @@ func (t *Object) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Object) SetProxyUrl(k url.URL) {
+func (t *Object) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -5010,13 +5010,13 @@ func (t *Object) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Object) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Object) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -5040,13 +5040,13 @@ func (t *Object) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Object) SetOauthTokenEndpoint(k url.URL) {
+func (t *Object) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -5070,13 +5070,13 @@ func (t *Object) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Object) SetProvideClientKey(k url.URL) {
+func (t *Object) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -5100,13 +5100,13 @@ func (t *Object) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Object) SetSignClientKey(k url.URL) {
+func (t *Object) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Object) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Object) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -5130,7 +5130,7 @@ func (t *Object) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Object) SetSharedInbox(k url.URL) {
+func (t *Object) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -5159,8 +5159,8 @@ func (t *Link) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Link) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Link) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -5178,13 +5178,13 @@ func (t *Link) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Link) AppendAttributedTo(k url.URL) {
+func (t *Link) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Link) PrependAttributedTo(k url.URL) {
+func (t *Link) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -5209,8 +5209,8 @@ func (t *Link) HasAttributedTo(idx int) (p Presence) {
 
 }
 
-// GetHref attempts to get this 'href' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Link) GetHref() (r Resolution, k url.URL) {
+// GetHref attempts to get this 'href' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Link) GetHref() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasHref() {
@@ -5234,13 +5234,13 @@ func (t *Link) HasHref() (p Presence) {
 }
 
 // SetHref sets the value for property 'href'.
-func (t *Link) SetHref(k url.URL) {
+func (t *Link) SetHref(k *url.URL) {
 	t.raw.SetHref(k)
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Link) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Link) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -5264,7 +5264,7 @@ func (t *Link) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Link) SetId(k url.URL) {
+func (t *Link) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -5733,8 +5733,8 @@ func (t *Activity) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -5752,13 +5752,13 @@ func (t *Activity) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Activity) AppendActor(k url.URL) {
+func (t *Activity) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Activity) PrependActor(k url.URL) {
+func (t *Activity) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -5841,8 +5841,8 @@ func (t *Activity) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -5860,13 +5860,13 @@ func (t *Activity) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Activity) AppendTarget(k url.URL) {
+func (t *Activity) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Activity) PrependTarget(k url.URL) {
+func (t *Activity) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -6191,8 +6191,8 @@ func (t *Activity) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -6210,13 +6210,13 @@ func (t *Activity) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Activity) AppendAttributedTo(k url.URL) {
+func (t *Activity) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Activity) PrependAttributedTo(k url.URL) {
+func (t *Activity) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -6247,8 +6247,8 @@ func (t *Activity) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -6266,13 +6266,13 @@ func (t *Activity) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Activity) AppendAudience(k url.URL) {
+func (t *Activity) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Activity) PrependAudience(k url.URL) {
+func (t *Activity) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -6665,8 +6665,8 @@ func (t *Activity) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -6690,7 +6690,7 @@ func (t *Activity) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Activity) SetId(k url.URL) {
+func (t *Activity) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -6757,8 +6757,8 @@ func (t *Activity) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -6776,13 +6776,13 @@ func (t *Activity) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Activity) AppendInReplyTo(k url.URL) {
+func (t *Activity) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Activity) PrependInReplyTo(k url.URL) {
+func (t *Activity) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -7257,8 +7257,8 @@ func (t *Activity) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -7274,13 +7274,13 @@ func (t *Activity) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Activity) AppendUrl(k url.URL) {
+func (t *Activity) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Activity) PrependUrl(k url.URL) {
+func (t *Activity) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -7309,8 +7309,8 @@ func (t *Activity) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -7328,13 +7328,13 @@ func (t *Activity) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Activity) AppendTo(k url.URL) {
+func (t *Activity) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Activity) PrependTo(k url.URL) {
+func (t *Activity) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -7365,8 +7365,8 @@ func (t *Activity) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -7384,13 +7384,13 @@ func (t *Activity) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Activity) AppendBto(k url.URL) {
+func (t *Activity) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Activity) PrependBto(k url.URL) {
+func (t *Activity) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -7421,8 +7421,8 @@ func (t *Activity) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -7440,13 +7440,13 @@ func (t *Activity) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Activity) AppendCc(k url.URL) {
+func (t *Activity) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Activity) PrependCc(k url.URL) {
+func (t *Activity) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -7477,8 +7477,8 @@ func (t *Activity) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -7496,13 +7496,13 @@ func (t *Activity) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Activity) AppendBcc(k url.URL) {
+func (t *Activity) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Activity) PrependBcc(k url.URL) {
+func (t *Activity) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -7855,8 +7855,8 @@ func (t *Activity) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -7870,13 +7870,13 @@ func (t *Activity) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Activity) AppendStreams(k url.URL) {
+func (t *Activity) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Activity) PrependStreams(k url.URL) {
+func (t *Activity) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -7973,8 +7973,8 @@ func (t *Activity) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -7998,13 +7998,13 @@ func (t *Activity) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Activity) SetProxyUrl(k url.URL) {
+func (t *Activity) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -8028,13 +8028,13 @@ func (t *Activity) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Activity) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Activity) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -8058,13 +8058,13 @@ func (t *Activity) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Activity) SetOauthTokenEndpoint(k url.URL) {
+func (t *Activity) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -8088,13 +8088,13 @@ func (t *Activity) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Activity) SetProvideClientKey(k url.URL) {
+func (t *Activity) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -8118,13 +8118,13 @@ func (t *Activity) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Activity) SetSignClientKey(k url.URL) {
+func (t *Activity) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Activity) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Activity) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -8148,7 +8148,7 @@ func (t *Activity) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Activity) SetSharedInbox(k url.URL) {
+func (t *Activity) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -8177,8 +8177,8 @@ func (t *IntransitiveActivity) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -8196,13 +8196,13 @@ func (t *IntransitiveActivity) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *IntransitiveActivity) AppendActor(k url.URL) {
+func (t *IntransitiveActivity) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *IntransitiveActivity) PrependActor(k url.URL) {
+func (t *IntransitiveActivity) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -8233,8 +8233,8 @@ func (t *IntransitiveActivity) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -8252,13 +8252,13 @@ func (t *IntransitiveActivity) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *IntransitiveActivity) AppendTarget(k url.URL) {
+func (t *IntransitiveActivity) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *IntransitiveActivity) PrependTarget(k url.URL) {
+func (t *IntransitiveActivity) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -8583,8 +8583,8 @@ func (t *IntransitiveActivity) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -8602,13 +8602,13 @@ func (t *IntransitiveActivity) GetAttributedTo(idx int) (r Resolution, k url.URL
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *IntransitiveActivity) AppendAttributedTo(k url.URL) {
+func (t *IntransitiveActivity) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *IntransitiveActivity) PrependAttributedTo(k url.URL) {
+func (t *IntransitiveActivity) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -8639,8 +8639,8 @@ func (t *IntransitiveActivity) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -8658,13 +8658,13 @@ func (t *IntransitiveActivity) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *IntransitiveActivity) AppendAudience(k url.URL) {
+func (t *IntransitiveActivity) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *IntransitiveActivity) PrependAudience(k url.URL) {
+func (t *IntransitiveActivity) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -9057,8 +9057,8 @@ func (t *IntransitiveActivity) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -9082,7 +9082,7 @@ func (t *IntransitiveActivity) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *IntransitiveActivity) SetId(k url.URL) {
+func (t *IntransitiveActivity) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -9149,8 +9149,8 @@ func (t *IntransitiveActivity) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -9168,13 +9168,13 @@ func (t *IntransitiveActivity) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *IntransitiveActivity) AppendInReplyTo(k url.URL) {
+func (t *IntransitiveActivity) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *IntransitiveActivity) PrependInReplyTo(k url.URL) {
+func (t *IntransitiveActivity) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -9649,8 +9649,8 @@ func (t *IntransitiveActivity) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -9666,13 +9666,13 @@ func (t *IntransitiveActivity) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *IntransitiveActivity) AppendUrl(k url.URL) {
+func (t *IntransitiveActivity) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *IntransitiveActivity) PrependUrl(k url.URL) {
+func (t *IntransitiveActivity) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -9701,8 +9701,8 @@ func (t *IntransitiveActivity) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -9720,13 +9720,13 @@ func (t *IntransitiveActivity) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *IntransitiveActivity) AppendTo(k url.URL) {
+func (t *IntransitiveActivity) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *IntransitiveActivity) PrependTo(k url.URL) {
+func (t *IntransitiveActivity) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -9757,8 +9757,8 @@ func (t *IntransitiveActivity) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -9776,13 +9776,13 @@ func (t *IntransitiveActivity) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *IntransitiveActivity) AppendBto(k url.URL) {
+func (t *IntransitiveActivity) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *IntransitiveActivity) PrependBto(k url.URL) {
+func (t *IntransitiveActivity) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -9813,8 +9813,8 @@ func (t *IntransitiveActivity) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -9832,13 +9832,13 @@ func (t *IntransitiveActivity) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *IntransitiveActivity) AppendCc(k url.URL) {
+func (t *IntransitiveActivity) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *IntransitiveActivity) PrependCc(k url.URL) {
+func (t *IntransitiveActivity) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -9869,8 +9869,8 @@ func (t *IntransitiveActivity) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -9888,13 +9888,13 @@ func (t *IntransitiveActivity) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *IntransitiveActivity) AppendBcc(k url.URL) {
+func (t *IntransitiveActivity) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *IntransitiveActivity) PrependBcc(k url.URL) {
+func (t *IntransitiveActivity) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -10247,8 +10247,8 @@ func (t *IntransitiveActivity) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -10262,13 +10262,13 @@ func (t *IntransitiveActivity) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *IntransitiveActivity) AppendStreams(k url.URL) {
+func (t *IntransitiveActivity) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *IntransitiveActivity) PrependStreams(k url.URL) {
+func (t *IntransitiveActivity) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -10365,8 +10365,8 @@ func (t *IntransitiveActivity) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -10390,13 +10390,13 @@ func (t *IntransitiveActivity) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *IntransitiveActivity) SetProxyUrl(k url.URL) {
+func (t *IntransitiveActivity) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -10420,13 +10420,13 @@ func (t *IntransitiveActivity) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *IntransitiveActivity) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *IntransitiveActivity) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -10450,13 +10450,13 @@ func (t *IntransitiveActivity) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *IntransitiveActivity) SetOauthTokenEndpoint(k url.URL) {
+func (t *IntransitiveActivity) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -10480,13 +10480,13 @@ func (t *IntransitiveActivity) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *IntransitiveActivity) SetProvideClientKey(k url.URL) {
+func (t *IntransitiveActivity) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -10510,13 +10510,13 @@ func (t *IntransitiveActivity) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *IntransitiveActivity) SetSignClientKey(k url.URL) {
+func (t *IntransitiveActivity) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *IntransitiveActivity) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *IntransitiveActivity) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -10540,7 +10540,7 @@ func (t *IntransitiveActivity) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *IntransitiveActivity) SetSharedInbox(k url.URL) {
+func (t *IntransitiveActivity) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -10597,8 +10597,8 @@ func (t *Collection) SetTotalItems(k int64) {
 
 }
 
-// GetCurrent attempts to get this 'current' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetCurrent() (r Resolution, k url.URL) {
+// GetCurrent attempts to get this 'current' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetCurrent() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCurrentIRI() {
@@ -10630,13 +10630,13 @@ func (t *Collection) HasCurrent() (p Presence) {
 }
 
 // SetCurrent sets the value for property 'current'.
-func (t *Collection) SetCurrent(k url.URL) {
+func (t *Collection) SetCurrent(k *url.URL) {
 	t.raw.SetCurrentIRI(k)
 
 }
 
-// GetFirst attempts to get this 'first' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetFirst() (r Resolution, k url.URL) {
+// GetFirst attempts to get this 'first' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetFirst() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsFirstIRI() {
@@ -10668,13 +10668,13 @@ func (t *Collection) HasFirst() (p Presence) {
 }
 
 // SetFirst sets the value for property 'first'.
-func (t *Collection) SetFirst(k url.URL) {
+func (t *Collection) SetFirst(k *url.URL) {
 	t.raw.SetFirstIRI(k)
 
 }
 
-// GetLast attempts to get this 'last' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetLast() (r Resolution, k url.URL) {
+// GetLast attempts to get this 'last' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetLast() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsLastIRI() {
@@ -10706,7 +10706,7 @@ func (t *Collection) HasLast() (p Presence) {
 }
 
 // SetLast sets the value for property 'last'.
-func (t *Collection) SetLast(k url.URL) {
+func (t *Collection) SetLast(k *url.URL) {
 	t.raw.SetLastIRI(k)
 
 }
@@ -10881,8 +10881,8 @@ func (t *Collection) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -10900,13 +10900,13 @@ func (t *Collection) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Collection) AppendAttributedTo(k url.URL) {
+func (t *Collection) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Collection) PrependAttributedTo(k url.URL) {
+func (t *Collection) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -10937,8 +10937,8 @@ func (t *Collection) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -10956,13 +10956,13 @@ func (t *Collection) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Collection) AppendAudience(k url.URL) {
+func (t *Collection) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Collection) PrependAudience(k url.URL) {
+func (t *Collection) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -11355,8 +11355,8 @@ func (t *Collection) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -11380,7 +11380,7 @@ func (t *Collection) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Collection) SetId(k url.URL) {
+func (t *Collection) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -11447,8 +11447,8 @@ func (t *Collection) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -11466,13 +11466,13 @@ func (t *Collection) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Collection) AppendInReplyTo(k url.URL) {
+func (t *Collection) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Collection) PrependInReplyTo(k url.URL) {
+func (t *Collection) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -11947,8 +11947,8 @@ func (t *Collection) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -11964,13 +11964,13 @@ func (t *Collection) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Collection) AppendUrl(k url.URL) {
+func (t *Collection) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Collection) PrependUrl(k url.URL) {
+func (t *Collection) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -11999,8 +11999,8 @@ func (t *Collection) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -12018,13 +12018,13 @@ func (t *Collection) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Collection) AppendTo(k url.URL) {
+func (t *Collection) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Collection) PrependTo(k url.URL) {
+func (t *Collection) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -12055,8 +12055,8 @@ func (t *Collection) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -12074,13 +12074,13 @@ func (t *Collection) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Collection) AppendBto(k url.URL) {
+func (t *Collection) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Collection) PrependBto(k url.URL) {
+func (t *Collection) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -12111,8 +12111,8 @@ func (t *Collection) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -12130,13 +12130,13 @@ func (t *Collection) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Collection) AppendCc(k url.URL) {
+func (t *Collection) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Collection) PrependCc(k url.URL) {
+func (t *Collection) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -12167,8 +12167,8 @@ func (t *Collection) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -12186,13 +12186,13 @@ func (t *Collection) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Collection) AppendBcc(k url.URL) {
+func (t *Collection) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Collection) PrependBcc(k url.URL) {
+func (t *Collection) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -12545,8 +12545,8 @@ func (t *Collection) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -12560,13 +12560,13 @@ func (t *Collection) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Collection) AppendStreams(k url.URL) {
+func (t *Collection) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Collection) PrependStreams(k url.URL) {
+func (t *Collection) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -12663,8 +12663,8 @@ func (t *Collection) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -12688,13 +12688,13 @@ func (t *Collection) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Collection) SetProxyUrl(k url.URL) {
+func (t *Collection) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -12718,13 +12718,13 @@ func (t *Collection) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Collection) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Collection) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -12748,13 +12748,13 @@ func (t *Collection) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Collection) SetOauthTokenEndpoint(k url.URL) {
+func (t *Collection) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -12778,13 +12778,13 @@ func (t *Collection) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Collection) SetProvideClientKey(k url.URL) {
+func (t *Collection) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -12808,13 +12808,13 @@ func (t *Collection) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Collection) SetSignClientKey(k url.URL) {
+func (t *Collection) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Collection) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Collection) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -12838,7 +12838,7 @@ func (t *Collection) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Collection) SetSharedInbox(k url.URL) {
+func (t *Collection) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -12926,8 +12926,8 @@ func (t *OrderedCollection) PrependOrderedItemsLink(i vocab.LinkType) {
 
 }
 
-// GetCurrent attempts to get this 'current' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetCurrent() (r Resolution, k url.URL) {
+// GetCurrent attempts to get this 'current' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetCurrent() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCurrentIRI() {
@@ -12959,13 +12959,13 @@ func (t *OrderedCollection) HasCurrent() (p Presence) {
 }
 
 // SetCurrent sets the value for property 'current'.
-func (t *OrderedCollection) SetCurrent(k url.URL) {
+func (t *OrderedCollection) SetCurrent(k *url.URL) {
 	t.raw.SetCurrentIRI(k)
 
 }
 
-// GetFirst attempts to get this 'first' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetFirst() (r Resolution, k url.URL) {
+// GetFirst attempts to get this 'first' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetFirst() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsFirstIRI() {
@@ -12997,13 +12997,13 @@ func (t *OrderedCollection) HasFirst() (p Presence) {
 }
 
 // SetFirst sets the value for property 'first'.
-func (t *OrderedCollection) SetFirst(k url.URL) {
+func (t *OrderedCollection) SetFirst(k *url.URL) {
 	t.raw.SetFirstIRI(k)
 
 }
 
-// GetLast attempts to get this 'last' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetLast() (r Resolution, k url.URL) {
+// GetLast attempts to get this 'last' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetLast() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsLastIRI() {
@@ -13035,7 +13035,7 @@ func (t *OrderedCollection) HasLast() (p Presence) {
 }
 
 // SetLast sets the value for property 'last'.
-func (t *OrderedCollection) SetLast(k url.URL) {
+func (t *OrderedCollection) SetLast(k *url.URL) {
 	t.raw.SetLastIRI(k)
 
 }
@@ -13179,8 +13179,8 @@ func (t *OrderedCollection) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -13198,13 +13198,13 @@ func (t *OrderedCollection) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *OrderedCollection) AppendAttributedTo(k url.URL) {
+func (t *OrderedCollection) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *OrderedCollection) PrependAttributedTo(k url.URL) {
+func (t *OrderedCollection) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -13235,8 +13235,8 @@ func (t *OrderedCollection) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -13254,13 +13254,13 @@ func (t *OrderedCollection) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *OrderedCollection) AppendAudience(k url.URL) {
+func (t *OrderedCollection) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *OrderedCollection) PrependAudience(k url.URL) {
+func (t *OrderedCollection) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -13653,8 +13653,8 @@ func (t *OrderedCollection) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -13678,7 +13678,7 @@ func (t *OrderedCollection) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *OrderedCollection) SetId(k url.URL) {
+func (t *OrderedCollection) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -13745,8 +13745,8 @@ func (t *OrderedCollection) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -13764,13 +13764,13 @@ func (t *OrderedCollection) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *OrderedCollection) AppendInReplyTo(k url.URL) {
+func (t *OrderedCollection) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *OrderedCollection) PrependInReplyTo(k url.URL) {
+func (t *OrderedCollection) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -14245,8 +14245,8 @@ func (t *OrderedCollection) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -14262,13 +14262,13 @@ func (t *OrderedCollection) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *OrderedCollection) AppendUrl(k url.URL) {
+func (t *OrderedCollection) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *OrderedCollection) PrependUrl(k url.URL) {
+func (t *OrderedCollection) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -14297,8 +14297,8 @@ func (t *OrderedCollection) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -14316,13 +14316,13 @@ func (t *OrderedCollection) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *OrderedCollection) AppendTo(k url.URL) {
+func (t *OrderedCollection) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *OrderedCollection) PrependTo(k url.URL) {
+func (t *OrderedCollection) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -14353,8 +14353,8 @@ func (t *OrderedCollection) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -14372,13 +14372,13 @@ func (t *OrderedCollection) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *OrderedCollection) AppendBto(k url.URL) {
+func (t *OrderedCollection) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *OrderedCollection) PrependBto(k url.URL) {
+func (t *OrderedCollection) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -14409,8 +14409,8 @@ func (t *OrderedCollection) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -14428,13 +14428,13 @@ func (t *OrderedCollection) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *OrderedCollection) AppendCc(k url.URL) {
+func (t *OrderedCollection) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *OrderedCollection) PrependCc(k url.URL) {
+func (t *OrderedCollection) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -14465,8 +14465,8 @@ func (t *OrderedCollection) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -14484,13 +14484,13 @@ func (t *OrderedCollection) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *OrderedCollection) AppendBcc(k url.URL) {
+func (t *OrderedCollection) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *OrderedCollection) PrependBcc(k url.URL) {
+func (t *OrderedCollection) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -14843,8 +14843,8 @@ func (t *OrderedCollection) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -14858,13 +14858,13 @@ func (t *OrderedCollection) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *OrderedCollection) AppendStreams(k url.URL) {
+func (t *OrderedCollection) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *OrderedCollection) PrependStreams(k url.URL) {
+func (t *OrderedCollection) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -14961,8 +14961,8 @@ func (t *OrderedCollection) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -14986,13 +14986,13 @@ func (t *OrderedCollection) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *OrderedCollection) SetProxyUrl(k url.URL) {
+func (t *OrderedCollection) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -15016,13 +15016,13 @@ func (t *OrderedCollection) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *OrderedCollection) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *OrderedCollection) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -15046,13 +15046,13 @@ func (t *OrderedCollection) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *OrderedCollection) SetOauthTokenEndpoint(k url.URL) {
+func (t *OrderedCollection) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -15076,13 +15076,13 @@ func (t *OrderedCollection) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *OrderedCollection) SetProvideClientKey(k url.URL) {
+func (t *OrderedCollection) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -15106,13 +15106,13 @@ func (t *OrderedCollection) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *OrderedCollection) SetSignClientKey(k url.URL) {
+func (t *OrderedCollection) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollection) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollection) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -15136,7 +15136,7 @@ func (t *OrderedCollection) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *OrderedCollection) SetSharedInbox(k url.URL) {
+func (t *OrderedCollection) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -15197,8 +15197,8 @@ func (t *CollectionPage) SetPartOf(i vocab.LinkType) {
 
 }
 
-// GetNext attempts to get this 'next' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetNext() (r Resolution, k url.URL) {
+// GetNext attempts to get this 'next' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetNext() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsNextIRI() {
@@ -15230,13 +15230,13 @@ func (t *CollectionPage) HasNext() (p Presence) {
 }
 
 // SetNext sets the value for property 'next'.
-func (t *CollectionPage) SetNext(k url.URL) {
+func (t *CollectionPage) SetNext(k *url.URL) {
 	t.raw.SetNextIRI(k)
 
 }
 
-// GetPrev attempts to get this 'prev' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetPrev() (r Resolution, k url.URL) {
+// GetPrev attempts to get this 'prev' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetPrev() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsPrevIRI() {
@@ -15268,7 +15268,7 @@ func (t *CollectionPage) HasPrev() (p Presence) {
 }
 
 // SetPrev sets the value for property 'prev'.
-func (t *CollectionPage) SetPrev(k url.URL) {
+func (t *CollectionPage) SetPrev(k *url.URL) {
 	t.raw.SetPrevIRI(k)
 
 }
@@ -15307,8 +15307,8 @@ func (t *CollectionPage) SetTotalItems(k int64) {
 
 }
 
-// GetCurrent attempts to get this 'current' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetCurrent() (r Resolution, k url.URL) {
+// GetCurrent attempts to get this 'current' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetCurrent() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCurrentIRI() {
@@ -15340,13 +15340,13 @@ func (t *CollectionPage) HasCurrent() (p Presence) {
 }
 
 // SetCurrent sets the value for property 'current'.
-func (t *CollectionPage) SetCurrent(k url.URL) {
+func (t *CollectionPage) SetCurrent(k *url.URL) {
 	t.raw.SetCurrentIRI(k)
 
 }
 
-// GetFirst attempts to get this 'first' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetFirst() (r Resolution, k url.URL) {
+// GetFirst attempts to get this 'first' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetFirst() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsFirstIRI() {
@@ -15378,13 +15378,13 @@ func (t *CollectionPage) HasFirst() (p Presence) {
 }
 
 // SetFirst sets the value for property 'first'.
-func (t *CollectionPage) SetFirst(k url.URL) {
+func (t *CollectionPage) SetFirst(k *url.URL) {
 	t.raw.SetFirstIRI(k)
 
 }
 
-// GetLast attempts to get this 'last' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetLast() (r Resolution, k url.URL) {
+// GetLast attempts to get this 'last' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetLast() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsLastIRI() {
@@ -15416,7 +15416,7 @@ func (t *CollectionPage) HasLast() (p Presence) {
 }
 
 // SetLast sets the value for property 'last'.
-func (t *CollectionPage) SetLast(k url.URL) {
+func (t *CollectionPage) SetLast(k *url.URL) {
 	t.raw.SetLastIRI(k)
 
 }
@@ -15591,8 +15591,8 @@ func (t *CollectionPage) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -15610,13 +15610,13 @@ func (t *CollectionPage) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *CollectionPage) AppendAttributedTo(k url.URL) {
+func (t *CollectionPage) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *CollectionPage) PrependAttributedTo(k url.URL) {
+func (t *CollectionPage) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -15647,8 +15647,8 @@ func (t *CollectionPage) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -15666,13 +15666,13 @@ func (t *CollectionPage) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *CollectionPage) AppendAudience(k url.URL) {
+func (t *CollectionPage) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *CollectionPage) PrependAudience(k url.URL) {
+func (t *CollectionPage) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -16065,8 +16065,8 @@ func (t *CollectionPage) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -16090,7 +16090,7 @@ func (t *CollectionPage) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *CollectionPage) SetId(k url.URL) {
+func (t *CollectionPage) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -16157,8 +16157,8 @@ func (t *CollectionPage) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -16176,13 +16176,13 @@ func (t *CollectionPage) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *CollectionPage) AppendInReplyTo(k url.URL) {
+func (t *CollectionPage) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *CollectionPage) PrependInReplyTo(k url.URL) {
+func (t *CollectionPage) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -16657,8 +16657,8 @@ func (t *CollectionPage) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -16674,13 +16674,13 @@ func (t *CollectionPage) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *CollectionPage) AppendUrl(k url.URL) {
+func (t *CollectionPage) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *CollectionPage) PrependUrl(k url.URL) {
+func (t *CollectionPage) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -16709,8 +16709,8 @@ func (t *CollectionPage) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -16728,13 +16728,13 @@ func (t *CollectionPage) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *CollectionPage) AppendTo(k url.URL) {
+func (t *CollectionPage) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *CollectionPage) PrependTo(k url.URL) {
+func (t *CollectionPage) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -16765,8 +16765,8 @@ func (t *CollectionPage) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -16784,13 +16784,13 @@ func (t *CollectionPage) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *CollectionPage) AppendBto(k url.URL) {
+func (t *CollectionPage) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *CollectionPage) PrependBto(k url.URL) {
+func (t *CollectionPage) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -16821,8 +16821,8 @@ func (t *CollectionPage) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -16840,13 +16840,13 @@ func (t *CollectionPage) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *CollectionPage) AppendCc(k url.URL) {
+func (t *CollectionPage) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *CollectionPage) PrependCc(k url.URL) {
+func (t *CollectionPage) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -16877,8 +16877,8 @@ func (t *CollectionPage) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -16896,13 +16896,13 @@ func (t *CollectionPage) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *CollectionPage) AppendBcc(k url.URL) {
+func (t *CollectionPage) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *CollectionPage) PrependBcc(k url.URL) {
+func (t *CollectionPage) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -17255,8 +17255,8 @@ func (t *CollectionPage) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -17270,13 +17270,13 @@ func (t *CollectionPage) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *CollectionPage) AppendStreams(k url.URL) {
+func (t *CollectionPage) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *CollectionPage) PrependStreams(k url.URL) {
+func (t *CollectionPage) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -17373,8 +17373,8 @@ func (t *CollectionPage) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -17398,13 +17398,13 @@ func (t *CollectionPage) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *CollectionPage) SetProxyUrl(k url.URL) {
+func (t *CollectionPage) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -17428,13 +17428,13 @@ func (t *CollectionPage) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *CollectionPage) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *CollectionPage) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -17458,13 +17458,13 @@ func (t *CollectionPage) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *CollectionPage) SetOauthTokenEndpoint(k url.URL) {
+func (t *CollectionPage) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -17488,13 +17488,13 @@ func (t *CollectionPage) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *CollectionPage) SetProvideClientKey(k url.URL) {
+func (t *CollectionPage) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -17518,13 +17518,13 @@ func (t *CollectionPage) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *CollectionPage) SetSignClientKey(k url.URL) {
+func (t *CollectionPage) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *CollectionPage) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *CollectionPage) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -17548,7 +17548,7 @@ func (t *CollectionPage) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *CollectionPage) SetSharedInbox(k url.URL) {
+func (t *CollectionPage) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -17605,8 +17605,8 @@ func (t *OrderedCollectionPage) SetStartIndex(k int64) {
 
 }
 
-// GetNext attempts to get this 'next' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetNext() (r Resolution, k url.URL) {
+// GetNext attempts to get this 'next' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetNext() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsNextIRI() {
@@ -17638,13 +17638,13 @@ func (t *OrderedCollectionPage) HasNext() (p Presence) {
 }
 
 // SetNext sets the value for property 'next'.
-func (t *OrderedCollectionPage) SetNext(k url.URL) {
+func (t *OrderedCollectionPage) SetNext(k *url.URL) {
 	t.raw.SetNextIRI(k)
 
 }
 
-// GetPrev attempts to get this 'prev' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetPrev() (r Resolution, k url.URL) {
+// GetPrev attempts to get this 'prev' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetPrev() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsPrevIRI() {
@@ -17676,7 +17676,7 @@ func (t *OrderedCollectionPage) HasPrev() (p Presence) {
 }
 
 // SetPrev sets the value for property 'prev'.
-func (t *OrderedCollectionPage) SetPrev(k url.URL) {
+func (t *OrderedCollectionPage) SetPrev(k *url.URL) {
 	t.raw.SetPrevIRI(k)
 
 }
@@ -17746,8 +17746,8 @@ func (t *OrderedCollectionPage) PrependOrderedItemsLink(i vocab.LinkType) {
 
 }
 
-// GetCurrent attempts to get this 'current' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetCurrent() (r Resolution, k url.URL) {
+// GetCurrent attempts to get this 'current' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetCurrent() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCurrentIRI() {
@@ -17779,13 +17779,13 @@ func (t *OrderedCollectionPage) HasCurrent() (p Presence) {
 }
 
 // SetCurrent sets the value for property 'current'.
-func (t *OrderedCollectionPage) SetCurrent(k url.URL) {
+func (t *OrderedCollectionPage) SetCurrent(k *url.URL) {
 	t.raw.SetCurrentIRI(k)
 
 }
 
-// GetFirst attempts to get this 'first' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetFirst() (r Resolution, k url.URL) {
+// GetFirst attempts to get this 'first' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetFirst() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsFirstIRI() {
@@ -17817,13 +17817,13 @@ func (t *OrderedCollectionPage) HasFirst() (p Presence) {
 }
 
 // SetFirst sets the value for property 'first'.
-func (t *OrderedCollectionPage) SetFirst(k url.URL) {
+func (t *OrderedCollectionPage) SetFirst(k *url.URL) {
 	t.raw.SetFirstIRI(k)
 
 }
 
-// GetLast attempts to get this 'last' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetLast() (r Resolution, k url.URL) {
+// GetLast attempts to get this 'last' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetLast() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsLastIRI() {
@@ -17855,7 +17855,7 @@ func (t *OrderedCollectionPage) HasLast() (p Presence) {
 }
 
 // SetLast sets the value for property 'last'.
-func (t *OrderedCollectionPage) SetLast(k url.URL) {
+func (t *OrderedCollectionPage) SetLast(k *url.URL) {
 	t.raw.SetLastIRI(k)
 
 }
@@ -17999,8 +17999,8 @@ func (t *OrderedCollectionPage) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -18018,13 +18018,13 @@ func (t *OrderedCollectionPage) GetAttributedTo(idx int) (r Resolution, k url.UR
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *OrderedCollectionPage) AppendAttributedTo(k url.URL) {
+func (t *OrderedCollectionPage) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *OrderedCollectionPage) PrependAttributedTo(k url.URL) {
+func (t *OrderedCollectionPage) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -18055,8 +18055,8 @@ func (t *OrderedCollectionPage) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -18074,13 +18074,13 @@ func (t *OrderedCollectionPage) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *OrderedCollectionPage) AppendAudience(k url.URL) {
+func (t *OrderedCollectionPage) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *OrderedCollectionPage) PrependAudience(k url.URL) {
+func (t *OrderedCollectionPage) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -18473,8 +18473,8 @@ func (t *OrderedCollectionPage) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -18498,7 +18498,7 @@ func (t *OrderedCollectionPage) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *OrderedCollectionPage) SetId(k url.URL) {
+func (t *OrderedCollectionPage) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -18565,8 +18565,8 @@ func (t *OrderedCollectionPage) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -18584,13 +18584,13 @@ func (t *OrderedCollectionPage) GetInReplyTo(idx int) (r Resolution, k url.URL) 
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *OrderedCollectionPage) AppendInReplyTo(k url.URL) {
+func (t *OrderedCollectionPage) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *OrderedCollectionPage) PrependInReplyTo(k url.URL) {
+func (t *OrderedCollectionPage) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -19065,8 +19065,8 @@ func (t *OrderedCollectionPage) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -19082,13 +19082,13 @@ func (t *OrderedCollectionPage) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *OrderedCollectionPage) AppendUrl(k url.URL) {
+func (t *OrderedCollectionPage) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *OrderedCollectionPage) PrependUrl(k url.URL) {
+func (t *OrderedCollectionPage) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -19117,8 +19117,8 @@ func (t *OrderedCollectionPage) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -19136,13 +19136,13 @@ func (t *OrderedCollectionPage) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *OrderedCollectionPage) AppendTo(k url.URL) {
+func (t *OrderedCollectionPage) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *OrderedCollectionPage) PrependTo(k url.URL) {
+func (t *OrderedCollectionPage) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -19173,8 +19173,8 @@ func (t *OrderedCollectionPage) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -19192,13 +19192,13 @@ func (t *OrderedCollectionPage) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *OrderedCollectionPage) AppendBto(k url.URL) {
+func (t *OrderedCollectionPage) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *OrderedCollectionPage) PrependBto(k url.URL) {
+func (t *OrderedCollectionPage) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -19229,8 +19229,8 @@ func (t *OrderedCollectionPage) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -19248,13 +19248,13 @@ func (t *OrderedCollectionPage) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *OrderedCollectionPage) AppendCc(k url.URL) {
+func (t *OrderedCollectionPage) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *OrderedCollectionPage) PrependCc(k url.URL) {
+func (t *OrderedCollectionPage) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -19285,8 +19285,8 @@ func (t *OrderedCollectionPage) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -19304,13 +19304,13 @@ func (t *OrderedCollectionPage) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *OrderedCollectionPage) AppendBcc(k url.URL) {
+func (t *OrderedCollectionPage) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *OrderedCollectionPage) PrependBcc(k url.URL) {
+func (t *OrderedCollectionPage) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -19663,8 +19663,8 @@ func (t *OrderedCollectionPage) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -19678,13 +19678,13 @@ func (t *OrderedCollectionPage) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *OrderedCollectionPage) AppendStreams(k url.URL) {
+func (t *OrderedCollectionPage) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *OrderedCollectionPage) PrependStreams(k url.URL) {
+func (t *OrderedCollectionPage) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -19781,8 +19781,8 @@ func (t *OrderedCollectionPage) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -19806,13 +19806,13 @@ func (t *OrderedCollectionPage) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *OrderedCollectionPage) SetProxyUrl(k url.URL) {
+func (t *OrderedCollectionPage) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -19836,13 +19836,13 @@ func (t *OrderedCollectionPage) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *OrderedCollectionPage) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *OrderedCollectionPage) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -19866,13 +19866,13 @@ func (t *OrderedCollectionPage) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *OrderedCollectionPage) SetOauthTokenEndpoint(k url.URL) {
+func (t *OrderedCollectionPage) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -19896,13 +19896,13 @@ func (t *OrderedCollectionPage) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *OrderedCollectionPage) SetProvideClientKey(k url.URL) {
+func (t *OrderedCollectionPage) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -19926,13 +19926,13 @@ func (t *OrderedCollectionPage) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *OrderedCollectionPage) SetSignClientKey(k url.URL) {
+func (t *OrderedCollectionPage) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *OrderedCollectionPage) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *OrderedCollectionPage) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -19956,7 +19956,7 @@ func (t *OrderedCollectionPage) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *OrderedCollectionPage) SetSharedInbox(k url.URL) {
+func (t *OrderedCollectionPage) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -20023,8 +20023,8 @@ func (t *Accept) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -20042,13 +20042,13 @@ func (t *Accept) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Accept) AppendActor(k url.URL) {
+func (t *Accept) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Accept) PrependActor(k url.URL) {
+func (t *Accept) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -20131,8 +20131,8 @@ func (t *Accept) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -20150,13 +20150,13 @@ func (t *Accept) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Accept) AppendTarget(k url.URL) {
+func (t *Accept) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Accept) PrependTarget(k url.URL) {
+func (t *Accept) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -20481,8 +20481,8 @@ func (t *Accept) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -20500,13 +20500,13 @@ func (t *Accept) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Accept) AppendAttributedTo(k url.URL) {
+func (t *Accept) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Accept) PrependAttributedTo(k url.URL) {
+func (t *Accept) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -20537,8 +20537,8 @@ func (t *Accept) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -20556,13 +20556,13 @@ func (t *Accept) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Accept) AppendAudience(k url.URL) {
+func (t *Accept) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Accept) PrependAudience(k url.URL) {
+func (t *Accept) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -20955,8 +20955,8 @@ func (t *Accept) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -20980,7 +20980,7 @@ func (t *Accept) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Accept) SetId(k url.URL) {
+func (t *Accept) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -21047,8 +21047,8 @@ func (t *Accept) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -21066,13 +21066,13 @@ func (t *Accept) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Accept) AppendInReplyTo(k url.URL) {
+func (t *Accept) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Accept) PrependInReplyTo(k url.URL) {
+func (t *Accept) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -21547,8 +21547,8 @@ func (t *Accept) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -21564,13 +21564,13 @@ func (t *Accept) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Accept) AppendUrl(k url.URL) {
+func (t *Accept) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Accept) PrependUrl(k url.URL) {
+func (t *Accept) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -21599,8 +21599,8 @@ func (t *Accept) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -21618,13 +21618,13 @@ func (t *Accept) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Accept) AppendTo(k url.URL) {
+func (t *Accept) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Accept) PrependTo(k url.URL) {
+func (t *Accept) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -21655,8 +21655,8 @@ func (t *Accept) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -21674,13 +21674,13 @@ func (t *Accept) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Accept) AppendBto(k url.URL) {
+func (t *Accept) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Accept) PrependBto(k url.URL) {
+func (t *Accept) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -21711,8 +21711,8 @@ func (t *Accept) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -21730,13 +21730,13 @@ func (t *Accept) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Accept) AppendCc(k url.URL) {
+func (t *Accept) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Accept) PrependCc(k url.URL) {
+func (t *Accept) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -21767,8 +21767,8 @@ func (t *Accept) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -21786,13 +21786,13 @@ func (t *Accept) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Accept) AppendBcc(k url.URL) {
+func (t *Accept) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Accept) PrependBcc(k url.URL) {
+func (t *Accept) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -22145,8 +22145,8 @@ func (t *Accept) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -22160,13 +22160,13 @@ func (t *Accept) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Accept) AppendStreams(k url.URL) {
+func (t *Accept) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Accept) PrependStreams(k url.URL) {
+func (t *Accept) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -22263,8 +22263,8 @@ func (t *Accept) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -22288,13 +22288,13 @@ func (t *Accept) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Accept) SetProxyUrl(k url.URL) {
+func (t *Accept) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -22318,13 +22318,13 @@ func (t *Accept) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Accept) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Accept) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -22348,13 +22348,13 @@ func (t *Accept) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Accept) SetOauthTokenEndpoint(k url.URL) {
+func (t *Accept) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -22378,13 +22378,13 @@ func (t *Accept) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Accept) SetProvideClientKey(k url.URL) {
+func (t *Accept) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -22408,13 +22408,13 @@ func (t *Accept) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Accept) SetSignClientKey(k url.URL) {
+func (t *Accept) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Accept) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Accept) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -22438,7 +22438,7 @@ func (t *Accept) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Accept) SetSharedInbox(k url.URL) {
+func (t *Accept) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -22467,8 +22467,8 @@ func (t *TentativeAccept) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -22486,13 +22486,13 @@ func (t *TentativeAccept) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *TentativeAccept) AppendActor(k url.URL) {
+func (t *TentativeAccept) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *TentativeAccept) PrependActor(k url.URL) {
+func (t *TentativeAccept) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -22575,8 +22575,8 @@ func (t *TentativeAccept) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -22594,13 +22594,13 @@ func (t *TentativeAccept) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *TentativeAccept) AppendTarget(k url.URL) {
+func (t *TentativeAccept) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *TentativeAccept) PrependTarget(k url.URL) {
+func (t *TentativeAccept) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -22925,8 +22925,8 @@ func (t *TentativeAccept) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -22944,13 +22944,13 @@ func (t *TentativeAccept) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *TentativeAccept) AppendAttributedTo(k url.URL) {
+func (t *TentativeAccept) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *TentativeAccept) PrependAttributedTo(k url.URL) {
+func (t *TentativeAccept) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -22981,8 +22981,8 @@ func (t *TentativeAccept) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -23000,13 +23000,13 @@ func (t *TentativeAccept) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *TentativeAccept) AppendAudience(k url.URL) {
+func (t *TentativeAccept) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *TentativeAccept) PrependAudience(k url.URL) {
+func (t *TentativeAccept) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -23399,8 +23399,8 @@ func (t *TentativeAccept) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -23424,7 +23424,7 @@ func (t *TentativeAccept) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *TentativeAccept) SetId(k url.URL) {
+func (t *TentativeAccept) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -23491,8 +23491,8 @@ func (t *TentativeAccept) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -23510,13 +23510,13 @@ func (t *TentativeAccept) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *TentativeAccept) AppendInReplyTo(k url.URL) {
+func (t *TentativeAccept) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *TentativeAccept) PrependInReplyTo(k url.URL) {
+func (t *TentativeAccept) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -23991,8 +23991,8 @@ func (t *TentativeAccept) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -24008,13 +24008,13 @@ func (t *TentativeAccept) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *TentativeAccept) AppendUrl(k url.URL) {
+func (t *TentativeAccept) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *TentativeAccept) PrependUrl(k url.URL) {
+func (t *TentativeAccept) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -24043,8 +24043,8 @@ func (t *TentativeAccept) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -24062,13 +24062,13 @@ func (t *TentativeAccept) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *TentativeAccept) AppendTo(k url.URL) {
+func (t *TentativeAccept) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *TentativeAccept) PrependTo(k url.URL) {
+func (t *TentativeAccept) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -24099,8 +24099,8 @@ func (t *TentativeAccept) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -24118,13 +24118,13 @@ func (t *TentativeAccept) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *TentativeAccept) AppendBto(k url.URL) {
+func (t *TentativeAccept) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *TentativeAccept) PrependBto(k url.URL) {
+func (t *TentativeAccept) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -24155,8 +24155,8 @@ func (t *TentativeAccept) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -24174,13 +24174,13 @@ func (t *TentativeAccept) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *TentativeAccept) AppendCc(k url.URL) {
+func (t *TentativeAccept) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *TentativeAccept) PrependCc(k url.URL) {
+func (t *TentativeAccept) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -24211,8 +24211,8 @@ func (t *TentativeAccept) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -24230,13 +24230,13 @@ func (t *TentativeAccept) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *TentativeAccept) AppendBcc(k url.URL) {
+func (t *TentativeAccept) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *TentativeAccept) PrependBcc(k url.URL) {
+func (t *TentativeAccept) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -24589,8 +24589,8 @@ func (t *TentativeAccept) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -24604,13 +24604,13 @@ func (t *TentativeAccept) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *TentativeAccept) AppendStreams(k url.URL) {
+func (t *TentativeAccept) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *TentativeAccept) PrependStreams(k url.URL) {
+func (t *TentativeAccept) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -24707,8 +24707,8 @@ func (t *TentativeAccept) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -24732,13 +24732,13 @@ func (t *TentativeAccept) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *TentativeAccept) SetProxyUrl(k url.URL) {
+func (t *TentativeAccept) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -24762,13 +24762,13 @@ func (t *TentativeAccept) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *TentativeAccept) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *TentativeAccept) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -24792,13 +24792,13 @@ func (t *TentativeAccept) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *TentativeAccept) SetOauthTokenEndpoint(k url.URL) {
+func (t *TentativeAccept) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -24822,13 +24822,13 @@ func (t *TentativeAccept) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *TentativeAccept) SetProvideClientKey(k url.URL) {
+func (t *TentativeAccept) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -24852,13 +24852,13 @@ func (t *TentativeAccept) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *TentativeAccept) SetSignClientKey(k url.URL) {
+func (t *TentativeAccept) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeAccept) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeAccept) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -24882,7 +24882,7 @@ func (t *TentativeAccept) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *TentativeAccept) SetSharedInbox(k url.URL) {
+func (t *TentativeAccept) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -24911,8 +24911,8 @@ func (t *Add) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -24930,13 +24930,13 @@ func (t *Add) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Add) AppendActor(k url.URL) {
+func (t *Add) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Add) PrependActor(k url.URL) {
+func (t *Add) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -25019,8 +25019,8 @@ func (t *Add) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -25038,13 +25038,13 @@ func (t *Add) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Add) AppendTarget(k url.URL) {
+func (t *Add) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Add) PrependTarget(k url.URL) {
+func (t *Add) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -25369,8 +25369,8 @@ func (t *Add) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -25388,13 +25388,13 @@ func (t *Add) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Add) AppendAttributedTo(k url.URL) {
+func (t *Add) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Add) PrependAttributedTo(k url.URL) {
+func (t *Add) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -25425,8 +25425,8 @@ func (t *Add) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -25444,13 +25444,13 @@ func (t *Add) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Add) AppendAudience(k url.URL) {
+func (t *Add) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Add) PrependAudience(k url.URL) {
+func (t *Add) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -25843,8 +25843,8 @@ func (t *Add) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -25868,7 +25868,7 @@ func (t *Add) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Add) SetId(k url.URL) {
+func (t *Add) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -25935,8 +25935,8 @@ func (t *Add) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -25954,13 +25954,13 @@ func (t *Add) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Add) AppendInReplyTo(k url.URL) {
+func (t *Add) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Add) PrependInReplyTo(k url.URL) {
+func (t *Add) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -26435,8 +26435,8 @@ func (t *Add) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -26452,13 +26452,13 @@ func (t *Add) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Add) AppendUrl(k url.URL) {
+func (t *Add) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Add) PrependUrl(k url.URL) {
+func (t *Add) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -26487,8 +26487,8 @@ func (t *Add) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -26506,13 +26506,13 @@ func (t *Add) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Add) AppendTo(k url.URL) {
+func (t *Add) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Add) PrependTo(k url.URL) {
+func (t *Add) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -26543,8 +26543,8 @@ func (t *Add) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -26562,13 +26562,13 @@ func (t *Add) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Add) AppendBto(k url.URL) {
+func (t *Add) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Add) PrependBto(k url.URL) {
+func (t *Add) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -26599,8 +26599,8 @@ func (t *Add) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -26618,13 +26618,13 @@ func (t *Add) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Add) AppendCc(k url.URL) {
+func (t *Add) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Add) PrependCc(k url.URL) {
+func (t *Add) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -26655,8 +26655,8 @@ func (t *Add) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -26674,13 +26674,13 @@ func (t *Add) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Add) AppendBcc(k url.URL) {
+func (t *Add) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Add) PrependBcc(k url.URL) {
+func (t *Add) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -27033,8 +27033,8 @@ func (t *Add) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -27048,13 +27048,13 @@ func (t *Add) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Add) AppendStreams(k url.URL) {
+func (t *Add) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Add) PrependStreams(k url.URL) {
+func (t *Add) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -27151,8 +27151,8 @@ func (t *Add) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -27176,13 +27176,13 @@ func (t *Add) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Add) SetProxyUrl(k url.URL) {
+func (t *Add) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -27206,13 +27206,13 @@ func (t *Add) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Add) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Add) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -27236,13 +27236,13 @@ func (t *Add) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Add) SetOauthTokenEndpoint(k url.URL) {
+func (t *Add) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -27266,13 +27266,13 @@ func (t *Add) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Add) SetProvideClientKey(k url.URL) {
+func (t *Add) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -27296,13 +27296,13 @@ func (t *Add) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Add) SetSignClientKey(k url.URL) {
+func (t *Add) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Add) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Add) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -27326,7 +27326,7 @@ func (t *Add) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Add) SetSharedInbox(k url.URL) {
+func (t *Add) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -27355,8 +27355,8 @@ func (t *Arrive) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -27374,13 +27374,13 @@ func (t *Arrive) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Arrive) AppendActor(k url.URL) {
+func (t *Arrive) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Arrive) PrependActor(k url.URL) {
+func (t *Arrive) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -27411,8 +27411,8 @@ func (t *Arrive) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -27430,13 +27430,13 @@ func (t *Arrive) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Arrive) AppendTarget(k url.URL) {
+func (t *Arrive) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Arrive) PrependTarget(k url.URL) {
+func (t *Arrive) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -27761,8 +27761,8 @@ func (t *Arrive) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -27780,13 +27780,13 @@ func (t *Arrive) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Arrive) AppendAttributedTo(k url.URL) {
+func (t *Arrive) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Arrive) PrependAttributedTo(k url.URL) {
+func (t *Arrive) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -27817,8 +27817,8 @@ func (t *Arrive) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -27836,13 +27836,13 @@ func (t *Arrive) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Arrive) AppendAudience(k url.URL) {
+func (t *Arrive) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Arrive) PrependAudience(k url.URL) {
+func (t *Arrive) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -28235,8 +28235,8 @@ func (t *Arrive) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -28260,7 +28260,7 @@ func (t *Arrive) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Arrive) SetId(k url.URL) {
+func (t *Arrive) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -28327,8 +28327,8 @@ func (t *Arrive) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -28346,13 +28346,13 @@ func (t *Arrive) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Arrive) AppendInReplyTo(k url.URL) {
+func (t *Arrive) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Arrive) PrependInReplyTo(k url.URL) {
+func (t *Arrive) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -28827,8 +28827,8 @@ func (t *Arrive) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -28844,13 +28844,13 @@ func (t *Arrive) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Arrive) AppendUrl(k url.URL) {
+func (t *Arrive) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Arrive) PrependUrl(k url.URL) {
+func (t *Arrive) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -28879,8 +28879,8 @@ func (t *Arrive) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -28898,13 +28898,13 @@ func (t *Arrive) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Arrive) AppendTo(k url.URL) {
+func (t *Arrive) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Arrive) PrependTo(k url.URL) {
+func (t *Arrive) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -28935,8 +28935,8 @@ func (t *Arrive) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -28954,13 +28954,13 @@ func (t *Arrive) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Arrive) AppendBto(k url.URL) {
+func (t *Arrive) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Arrive) PrependBto(k url.URL) {
+func (t *Arrive) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -28991,8 +28991,8 @@ func (t *Arrive) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -29010,13 +29010,13 @@ func (t *Arrive) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Arrive) AppendCc(k url.URL) {
+func (t *Arrive) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Arrive) PrependCc(k url.URL) {
+func (t *Arrive) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -29047,8 +29047,8 @@ func (t *Arrive) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -29066,13 +29066,13 @@ func (t *Arrive) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Arrive) AppendBcc(k url.URL) {
+func (t *Arrive) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Arrive) PrependBcc(k url.URL) {
+func (t *Arrive) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -29425,8 +29425,8 @@ func (t *Arrive) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -29440,13 +29440,13 @@ func (t *Arrive) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Arrive) AppendStreams(k url.URL) {
+func (t *Arrive) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Arrive) PrependStreams(k url.URL) {
+func (t *Arrive) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -29543,8 +29543,8 @@ func (t *Arrive) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -29568,13 +29568,13 @@ func (t *Arrive) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Arrive) SetProxyUrl(k url.URL) {
+func (t *Arrive) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -29598,13 +29598,13 @@ func (t *Arrive) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Arrive) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Arrive) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -29628,13 +29628,13 @@ func (t *Arrive) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Arrive) SetOauthTokenEndpoint(k url.URL) {
+func (t *Arrive) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -29658,13 +29658,13 @@ func (t *Arrive) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Arrive) SetProvideClientKey(k url.URL) {
+func (t *Arrive) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -29688,13 +29688,13 @@ func (t *Arrive) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Arrive) SetSignClientKey(k url.URL) {
+func (t *Arrive) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Arrive) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Arrive) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -29718,7 +29718,7 @@ func (t *Arrive) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Arrive) SetSharedInbox(k url.URL) {
+func (t *Arrive) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -29747,8 +29747,8 @@ func (t *Create) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -29766,13 +29766,13 @@ func (t *Create) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Create) AppendActor(k url.URL) {
+func (t *Create) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Create) PrependActor(k url.URL) {
+func (t *Create) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -29855,8 +29855,8 @@ func (t *Create) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -29874,13 +29874,13 @@ func (t *Create) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Create) AppendTarget(k url.URL) {
+func (t *Create) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Create) PrependTarget(k url.URL) {
+func (t *Create) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -30205,8 +30205,8 @@ func (t *Create) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -30224,13 +30224,13 @@ func (t *Create) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Create) AppendAttributedTo(k url.URL) {
+func (t *Create) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Create) PrependAttributedTo(k url.URL) {
+func (t *Create) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -30261,8 +30261,8 @@ func (t *Create) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -30280,13 +30280,13 @@ func (t *Create) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Create) AppendAudience(k url.URL) {
+func (t *Create) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Create) PrependAudience(k url.URL) {
+func (t *Create) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -30679,8 +30679,8 @@ func (t *Create) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -30704,7 +30704,7 @@ func (t *Create) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Create) SetId(k url.URL) {
+func (t *Create) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -30771,8 +30771,8 @@ func (t *Create) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -30790,13 +30790,13 @@ func (t *Create) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Create) AppendInReplyTo(k url.URL) {
+func (t *Create) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Create) PrependInReplyTo(k url.URL) {
+func (t *Create) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -31271,8 +31271,8 @@ func (t *Create) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -31288,13 +31288,13 @@ func (t *Create) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Create) AppendUrl(k url.URL) {
+func (t *Create) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Create) PrependUrl(k url.URL) {
+func (t *Create) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -31323,8 +31323,8 @@ func (t *Create) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -31342,13 +31342,13 @@ func (t *Create) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Create) AppendTo(k url.URL) {
+func (t *Create) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Create) PrependTo(k url.URL) {
+func (t *Create) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -31379,8 +31379,8 @@ func (t *Create) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -31398,13 +31398,13 @@ func (t *Create) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Create) AppendBto(k url.URL) {
+func (t *Create) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Create) PrependBto(k url.URL) {
+func (t *Create) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -31435,8 +31435,8 @@ func (t *Create) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -31454,13 +31454,13 @@ func (t *Create) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Create) AppendCc(k url.URL) {
+func (t *Create) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Create) PrependCc(k url.URL) {
+func (t *Create) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -31491,8 +31491,8 @@ func (t *Create) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -31510,13 +31510,13 @@ func (t *Create) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Create) AppendBcc(k url.URL) {
+func (t *Create) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Create) PrependBcc(k url.URL) {
+func (t *Create) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -31869,8 +31869,8 @@ func (t *Create) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -31884,13 +31884,13 @@ func (t *Create) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Create) AppendStreams(k url.URL) {
+func (t *Create) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Create) PrependStreams(k url.URL) {
+func (t *Create) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -31987,8 +31987,8 @@ func (t *Create) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -32012,13 +32012,13 @@ func (t *Create) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Create) SetProxyUrl(k url.URL) {
+func (t *Create) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -32042,13 +32042,13 @@ func (t *Create) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Create) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Create) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -32072,13 +32072,13 @@ func (t *Create) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Create) SetOauthTokenEndpoint(k url.URL) {
+func (t *Create) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -32102,13 +32102,13 @@ func (t *Create) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Create) SetProvideClientKey(k url.URL) {
+func (t *Create) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -32132,13 +32132,13 @@ func (t *Create) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Create) SetSignClientKey(k url.URL) {
+func (t *Create) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Create) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Create) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -32162,7 +32162,7 @@ func (t *Create) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Create) SetSharedInbox(k url.URL) {
+func (t *Create) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -32191,8 +32191,8 @@ func (t *Delete) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -32210,13 +32210,13 @@ func (t *Delete) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Delete) AppendActor(k url.URL) {
+func (t *Delete) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Delete) PrependActor(k url.URL) {
+func (t *Delete) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -32299,8 +32299,8 @@ func (t *Delete) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -32318,13 +32318,13 @@ func (t *Delete) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Delete) AppendTarget(k url.URL) {
+func (t *Delete) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Delete) PrependTarget(k url.URL) {
+func (t *Delete) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -32649,8 +32649,8 @@ func (t *Delete) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -32668,13 +32668,13 @@ func (t *Delete) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Delete) AppendAttributedTo(k url.URL) {
+func (t *Delete) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Delete) PrependAttributedTo(k url.URL) {
+func (t *Delete) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -32705,8 +32705,8 @@ func (t *Delete) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -32724,13 +32724,13 @@ func (t *Delete) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Delete) AppendAudience(k url.URL) {
+func (t *Delete) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Delete) PrependAudience(k url.URL) {
+func (t *Delete) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -33123,8 +33123,8 @@ func (t *Delete) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -33148,7 +33148,7 @@ func (t *Delete) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Delete) SetId(k url.URL) {
+func (t *Delete) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -33215,8 +33215,8 @@ func (t *Delete) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -33234,13 +33234,13 @@ func (t *Delete) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Delete) AppendInReplyTo(k url.URL) {
+func (t *Delete) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Delete) PrependInReplyTo(k url.URL) {
+func (t *Delete) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -33715,8 +33715,8 @@ func (t *Delete) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -33732,13 +33732,13 @@ func (t *Delete) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Delete) AppendUrl(k url.URL) {
+func (t *Delete) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Delete) PrependUrl(k url.URL) {
+func (t *Delete) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -33767,8 +33767,8 @@ func (t *Delete) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -33786,13 +33786,13 @@ func (t *Delete) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Delete) AppendTo(k url.URL) {
+func (t *Delete) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Delete) PrependTo(k url.URL) {
+func (t *Delete) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -33823,8 +33823,8 @@ func (t *Delete) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -33842,13 +33842,13 @@ func (t *Delete) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Delete) AppendBto(k url.URL) {
+func (t *Delete) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Delete) PrependBto(k url.URL) {
+func (t *Delete) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -33879,8 +33879,8 @@ func (t *Delete) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -33898,13 +33898,13 @@ func (t *Delete) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Delete) AppendCc(k url.URL) {
+func (t *Delete) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Delete) PrependCc(k url.URL) {
+func (t *Delete) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -33935,8 +33935,8 @@ func (t *Delete) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -33954,13 +33954,13 @@ func (t *Delete) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Delete) AppendBcc(k url.URL) {
+func (t *Delete) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Delete) PrependBcc(k url.URL) {
+func (t *Delete) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -34313,8 +34313,8 @@ func (t *Delete) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -34328,13 +34328,13 @@ func (t *Delete) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Delete) AppendStreams(k url.URL) {
+func (t *Delete) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Delete) PrependStreams(k url.URL) {
+func (t *Delete) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -34431,8 +34431,8 @@ func (t *Delete) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -34456,13 +34456,13 @@ func (t *Delete) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Delete) SetProxyUrl(k url.URL) {
+func (t *Delete) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -34486,13 +34486,13 @@ func (t *Delete) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Delete) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Delete) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -34516,13 +34516,13 @@ func (t *Delete) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Delete) SetOauthTokenEndpoint(k url.URL) {
+func (t *Delete) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -34546,13 +34546,13 @@ func (t *Delete) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Delete) SetProvideClientKey(k url.URL) {
+func (t *Delete) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -34576,13 +34576,13 @@ func (t *Delete) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Delete) SetSignClientKey(k url.URL) {
+func (t *Delete) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Delete) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Delete) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -34606,7 +34606,7 @@ func (t *Delete) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Delete) SetSharedInbox(k url.URL) {
+func (t *Delete) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -34635,8 +34635,8 @@ func (t *Follow) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -34654,13 +34654,13 @@ func (t *Follow) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Follow) AppendActor(k url.URL) {
+func (t *Follow) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Follow) PrependActor(k url.URL) {
+func (t *Follow) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -34743,8 +34743,8 @@ func (t *Follow) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -34762,13 +34762,13 @@ func (t *Follow) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Follow) AppendTarget(k url.URL) {
+func (t *Follow) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Follow) PrependTarget(k url.URL) {
+func (t *Follow) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -35093,8 +35093,8 @@ func (t *Follow) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -35112,13 +35112,13 @@ func (t *Follow) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Follow) AppendAttributedTo(k url.URL) {
+func (t *Follow) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Follow) PrependAttributedTo(k url.URL) {
+func (t *Follow) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -35149,8 +35149,8 @@ func (t *Follow) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -35168,13 +35168,13 @@ func (t *Follow) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Follow) AppendAudience(k url.URL) {
+func (t *Follow) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Follow) PrependAudience(k url.URL) {
+func (t *Follow) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -35567,8 +35567,8 @@ func (t *Follow) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -35592,7 +35592,7 @@ func (t *Follow) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Follow) SetId(k url.URL) {
+func (t *Follow) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -35659,8 +35659,8 @@ func (t *Follow) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -35678,13 +35678,13 @@ func (t *Follow) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Follow) AppendInReplyTo(k url.URL) {
+func (t *Follow) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Follow) PrependInReplyTo(k url.URL) {
+func (t *Follow) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -36159,8 +36159,8 @@ func (t *Follow) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -36176,13 +36176,13 @@ func (t *Follow) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Follow) AppendUrl(k url.URL) {
+func (t *Follow) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Follow) PrependUrl(k url.URL) {
+func (t *Follow) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -36211,8 +36211,8 @@ func (t *Follow) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -36230,13 +36230,13 @@ func (t *Follow) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Follow) AppendTo(k url.URL) {
+func (t *Follow) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Follow) PrependTo(k url.URL) {
+func (t *Follow) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -36267,8 +36267,8 @@ func (t *Follow) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -36286,13 +36286,13 @@ func (t *Follow) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Follow) AppendBto(k url.URL) {
+func (t *Follow) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Follow) PrependBto(k url.URL) {
+func (t *Follow) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -36323,8 +36323,8 @@ func (t *Follow) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -36342,13 +36342,13 @@ func (t *Follow) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Follow) AppendCc(k url.URL) {
+func (t *Follow) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Follow) PrependCc(k url.URL) {
+func (t *Follow) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -36379,8 +36379,8 @@ func (t *Follow) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -36398,13 +36398,13 @@ func (t *Follow) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Follow) AppendBcc(k url.URL) {
+func (t *Follow) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Follow) PrependBcc(k url.URL) {
+func (t *Follow) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -36757,8 +36757,8 @@ func (t *Follow) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -36772,13 +36772,13 @@ func (t *Follow) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Follow) AppendStreams(k url.URL) {
+func (t *Follow) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Follow) PrependStreams(k url.URL) {
+func (t *Follow) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -36875,8 +36875,8 @@ func (t *Follow) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -36900,13 +36900,13 @@ func (t *Follow) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Follow) SetProxyUrl(k url.URL) {
+func (t *Follow) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -36930,13 +36930,13 @@ func (t *Follow) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Follow) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Follow) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -36960,13 +36960,13 @@ func (t *Follow) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Follow) SetOauthTokenEndpoint(k url.URL) {
+func (t *Follow) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -36990,13 +36990,13 @@ func (t *Follow) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Follow) SetProvideClientKey(k url.URL) {
+func (t *Follow) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -37020,13 +37020,13 @@ func (t *Follow) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Follow) SetSignClientKey(k url.URL) {
+func (t *Follow) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Follow) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Follow) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -37050,7 +37050,7 @@ func (t *Follow) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Follow) SetSharedInbox(k url.URL) {
+func (t *Follow) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -37079,8 +37079,8 @@ func (t *Ignore) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -37098,13 +37098,13 @@ func (t *Ignore) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Ignore) AppendActor(k url.URL) {
+func (t *Ignore) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Ignore) PrependActor(k url.URL) {
+func (t *Ignore) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -37187,8 +37187,8 @@ func (t *Ignore) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -37206,13 +37206,13 @@ func (t *Ignore) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Ignore) AppendTarget(k url.URL) {
+func (t *Ignore) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Ignore) PrependTarget(k url.URL) {
+func (t *Ignore) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -37537,8 +37537,8 @@ func (t *Ignore) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -37556,13 +37556,13 @@ func (t *Ignore) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Ignore) AppendAttributedTo(k url.URL) {
+func (t *Ignore) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Ignore) PrependAttributedTo(k url.URL) {
+func (t *Ignore) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -37593,8 +37593,8 @@ func (t *Ignore) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -37612,13 +37612,13 @@ func (t *Ignore) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Ignore) AppendAudience(k url.URL) {
+func (t *Ignore) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Ignore) PrependAudience(k url.URL) {
+func (t *Ignore) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -38011,8 +38011,8 @@ func (t *Ignore) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -38036,7 +38036,7 @@ func (t *Ignore) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Ignore) SetId(k url.URL) {
+func (t *Ignore) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -38103,8 +38103,8 @@ func (t *Ignore) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -38122,13 +38122,13 @@ func (t *Ignore) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Ignore) AppendInReplyTo(k url.URL) {
+func (t *Ignore) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Ignore) PrependInReplyTo(k url.URL) {
+func (t *Ignore) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -38603,8 +38603,8 @@ func (t *Ignore) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -38620,13 +38620,13 @@ func (t *Ignore) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Ignore) AppendUrl(k url.URL) {
+func (t *Ignore) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Ignore) PrependUrl(k url.URL) {
+func (t *Ignore) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -38655,8 +38655,8 @@ func (t *Ignore) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -38674,13 +38674,13 @@ func (t *Ignore) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Ignore) AppendTo(k url.URL) {
+func (t *Ignore) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Ignore) PrependTo(k url.URL) {
+func (t *Ignore) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -38711,8 +38711,8 @@ func (t *Ignore) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -38730,13 +38730,13 @@ func (t *Ignore) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Ignore) AppendBto(k url.URL) {
+func (t *Ignore) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Ignore) PrependBto(k url.URL) {
+func (t *Ignore) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -38767,8 +38767,8 @@ func (t *Ignore) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -38786,13 +38786,13 @@ func (t *Ignore) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Ignore) AppendCc(k url.URL) {
+func (t *Ignore) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Ignore) PrependCc(k url.URL) {
+func (t *Ignore) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -38823,8 +38823,8 @@ func (t *Ignore) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -38842,13 +38842,13 @@ func (t *Ignore) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Ignore) AppendBcc(k url.URL) {
+func (t *Ignore) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Ignore) PrependBcc(k url.URL) {
+func (t *Ignore) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -39201,8 +39201,8 @@ func (t *Ignore) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -39216,13 +39216,13 @@ func (t *Ignore) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Ignore) AppendStreams(k url.URL) {
+func (t *Ignore) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Ignore) PrependStreams(k url.URL) {
+func (t *Ignore) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -39319,8 +39319,8 @@ func (t *Ignore) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -39344,13 +39344,13 @@ func (t *Ignore) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Ignore) SetProxyUrl(k url.URL) {
+func (t *Ignore) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -39374,13 +39374,13 @@ func (t *Ignore) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Ignore) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Ignore) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -39404,13 +39404,13 @@ func (t *Ignore) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Ignore) SetOauthTokenEndpoint(k url.URL) {
+func (t *Ignore) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -39434,13 +39434,13 @@ func (t *Ignore) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Ignore) SetProvideClientKey(k url.URL) {
+func (t *Ignore) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -39464,13 +39464,13 @@ func (t *Ignore) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Ignore) SetSignClientKey(k url.URL) {
+func (t *Ignore) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Ignore) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Ignore) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -39494,7 +39494,7 @@ func (t *Ignore) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Ignore) SetSharedInbox(k url.URL) {
+func (t *Ignore) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -39523,8 +39523,8 @@ func (t *Join) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -39542,13 +39542,13 @@ func (t *Join) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Join) AppendActor(k url.URL) {
+func (t *Join) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Join) PrependActor(k url.URL) {
+func (t *Join) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -39631,8 +39631,8 @@ func (t *Join) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -39650,13 +39650,13 @@ func (t *Join) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Join) AppendTarget(k url.URL) {
+func (t *Join) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Join) PrependTarget(k url.URL) {
+func (t *Join) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -39981,8 +39981,8 @@ func (t *Join) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -40000,13 +40000,13 @@ func (t *Join) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Join) AppendAttributedTo(k url.URL) {
+func (t *Join) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Join) PrependAttributedTo(k url.URL) {
+func (t *Join) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -40037,8 +40037,8 @@ func (t *Join) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -40056,13 +40056,13 @@ func (t *Join) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Join) AppendAudience(k url.URL) {
+func (t *Join) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Join) PrependAudience(k url.URL) {
+func (t *Join) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -40455,8 +40455,8 @@ func (t *Join) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -40480,7 +40480,7 @@ func (t *Join) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Join) SetId(k url.URL) {
+func (t *Join) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -40547,8 +40547,8 @@ func (t *Join) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -40566,13 +40566,13 @@ func (t *Join) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Join) AppendInReplyTo(k url.URL) {
+func (t *Join) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Join) PrependInReplyTo(k url.URL) {
+func (t *Join) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -41047,8 +41047,8 @@ func (t *Join) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -41064,13 +41064,13 @@ func (t *Join) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Join) AppendUrl(k url.URL) {
+func (t *Join) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Join) PrependUrl(k url.URL) {
+func (t *Join) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -41099,8 +41099,8 @@ func (t *Join) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -41118,13 +41118,13 @@ func (t *Join) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Join) AppendTo(k url.URL) {
+func (t *Join) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Join) PrependTo(k url.URL) {
+func (t *Join) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -41155,8 +41155,8 @@ func (t *Join) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -41174,13 +41174,13 @@ func (t *Join) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Join) AppendBto(k url.URL) {
+func (t *Join) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Join) PrependBto(k url.URL) {
+func (t *Join) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -41211,8 +41211,8 @@ func (t *Join) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -41230,13 +41230,13 @@ func (t *Join) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Join) AppendCc(k url.URL) {
+func (t *Join) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Join) PrependCc(k url.URL) {
+func (t *Join) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -41267,8 +41267,8 @@ func (t *Join) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -41286,13 +41286,13 @@ func (t *Join) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Join) AppendBcc(k url.URL) {
+func (t *Join) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Join) PrependBcc(k url.URL) {
+func (t *Join) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -41645,8 +41645,8 @@ func (t *Join) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -41660,13 +41660,13 @@ func (t *Join) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Join) AppendStreams(k url.URL) {
+func (t *Join) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Join) PrependStreams(k url.URL) {
+func (t *Join) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -41763,8 +41763,8 @@ func (t *Join) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -41788,13 +41788,13 @@ func (t *Join) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Join) SetProxyUrl(k url.URL) {
+func (t *Join) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -41818,13 +41818,13 @@ func (t *Join) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Join) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Join) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -41848,13 +41848,13 @@ func (t *Join) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Join) SetOauthTokenEndpoint(k url.URL) {
+func (t *Join) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -41878,13 +41878,13 @@ func (t *Join) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Join) SetProvideClientKey(k url.URL) {
+func (t *Join) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -41908,13 +41908,13 @@ func (t *Join) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Join) SetSignClientKey(k url.URL) {
+func (t *Join) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Join) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Join) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -41938,7 +41938,7 @@ func (t *Join) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Join) SetSharedInbox(k url.URL) {
+func (t *Join) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -41967,8 +41967,8 @@ func (t *Leave) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -41986,13 +41986,13 @@ func (t *Leave) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Leave) AppendActor(k url.URL) {
+func (t *Leave) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Leave) PrependActor(k url.URL) {
+func (t *Leave) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -42075,8 +42075,8 @@ func (t *Leave) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -42094,13 +42094,13 @@ func (t *Leave) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Leave) AppendTarget(k url.URL) {
+func (t *Leave) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Leave) PrependTarget(k url.URL) {
+func (t *Leave) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -42425,8 +42425,8 @@ func (t *Leave) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -42444,13 +42444,13 @@ func (t *Leave) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Leave) AppendAttributedTo(k url.URL) {
+func (t *Leave) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Leave) PrependAttributedTo(k url.URL) {
+func (t *Leave) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -42481,8 +42481,8 @@ func (t *Leave) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -42500,13 +42500,13 @@ func (t *Leave) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Leave) AppendAudience(k url.URL) {
+func (t *Leave) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Leave) PrependAudience(k url.URL) {
+func (t *Leave) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -42899,8 +42899,8 @@ func (t *Leave) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -42924,7 +42924,7 @@ func (t *Leave) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Leave) SetId(k url.URL) {
+func (t *Leave) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -42991,8 +42991,8 @@ func (t *Leave) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -43010,13 +43010,13 @@ func (t *Leave) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Leave) AppendInReplyTo(k url.URL) {
+func (t *Leave) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Leave) PrependInReplyTo(k url.URL) {
+func (t *Leave) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -43491,8 +43491,8 @@ func (t *Leave) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -43508,13 +43508,13 @@ func (t *Leave) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Leave) AppendUrl(k url.URL) {
+func (t *Leave) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Leave) PrependUrl(k url.URL) {
+func (t *Leave) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -43543,8 +43543,8 @@ func (t *Leave) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -43562,13 +43562,13 @@ func (t *Leave) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Leave) AppendTo(k url.URL) {
+func (t *Leave) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Leave) PrependTo(k url.URL) {
+func (t *Leave) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -43599,8 +43599,8 @@ func (t *Leave) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -43618,13 +43618,13 @@ func (t *Leave) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Leave) AppendBto(k url.URL) {
+func (t *Leave) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Leave) PrependBto(k url.URL) {
+func (t *Leave) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -43655,8 +43655,8 @@ func (t *Leave) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -43674,13 +43674,13 @@ func (t *Leave) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Leave) AppendCc(k url.URL) {
+func (t *Leave) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Leave) PrependCc(k url.URL) {
+func (t *Leave) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -43711,8 +43711,8 @@ func (t *Leave) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -43730,13 +43730,13 @@ func (t *Leave) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Leave) AppendBcc(k url.URL) {
+func (t *Leave) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Leave) PrependBcc(k url.URL) {
+func (t *Leave) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -44089,8 +44089,8 @@ func (t *Leave) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -44104,13 +44104,13 @@ func (t *Leave) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Leave) AppendStreams(k url.URL) {
+func (t *Leave) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Leave) PrependStreams(k url.URL) {
+func (t *Leave) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -44207,8 +44207,8 @@ func (t *Leave) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -44232,13 +44232,13 @@ func (t *Leave) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Leave) SetProxyUrl(k url.URL) {
+func (t *Leave) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -44262,13 +44262,13 @@ func (t *Leave) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Leave) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Leave) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -44292,13 +44292,13 @@ func (t *Leave) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Leave) SetOauthTokenEndpoint(k url.URL) {
+func (t *Leave) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -44322,13 +44322,13 @@ func (t *Leave) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Leave) SetProvideClientKey(k url.URL) {
+func (t *Leave) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -44352,13 +44352,13 @@ func (t *Leave) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Leave) SetSignClientKey(k url.URL) {
+func (t *Leave) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Leave) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Leave) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -44382,7 +44382,7 @@ func (t *Leave) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Leave) SetSharedInbox(k url.URL) {
+func (t *Leave) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -44411,8 +44411,8 @@ func (t *Like) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -44430,13 +44430,13 @@ func (t *Like) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Like) AppendActor(k url.URL) {
+func (t *Like) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Like) PrependActor(k url.URL) {
+func (t *Like) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -44519,8 +44519,8 @@ func (t *Like) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -44538,13 +44538,13 @@ func (t *Like) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Like) AppendTarget(k url.URL) {
+func (t *Like) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Like) PrependTarget(k url.URL) {
+func (t *Like) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -44869,8 +44869,8 @@ func (t *Like) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -44888,13 +44888,13 @@ func (t *Like) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Like) AppendAttributedTo(k url.URL) {
+func (t *Like) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Like) PrependAttributedTo(k url.URL) {
+func (t *Like) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -44925,8 +44925,8 @@ func (t *Like) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -44944,13 +44944,13 @@ func (t *Like) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Like) AppendAudience(k url.URL) {
+func (t *Like) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Like) PrependAudience(k url.URL) {
+func (t *Like) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -45343,8 +45343,8 @@ func (t *Like) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -45368,7 +45368,7 @@ func (t *Like) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Like) SetId(k url.URL) {
+func (t *Like) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -45435,8 +45435,8 @@ func (t *Like) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -45454,13 +45454,13 @@ func (t *Like) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Like) AppendInReplyTo(k url.URL) {
+func (t *Like) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Like) PrependInReplyTo(k url.URL) {
+func (t *Like) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -45935,8 +45935,8 @@ func (t *Like) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -45952,13 +45952,13 @@ func (t *Like) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Like) AppendUrl(k url.URL) {
+func (t *Like) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Like) PrependUrl(k url.URL) {
+func (t *Like) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -45987,8 +45987,8 @@ func (t *Like) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -46006,13 +46006,13 @@ func (t *Like) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Like) AppendTo(k url.URL) {
+func (t *Like) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Like) PrependTo(k url.URL) {
+func (t *Like) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -46043,8 +46043,8 @@ func (t *Like) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -46062,13 +46062,13 @@ func (t *Like) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Like) AppendBto(k url.URL) {
+func (t *Like) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Like) PrependBto(k url.URL) {
+func (t *Like) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -46099,8 +46099,8 @@ func (t *Like) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -46118,13 +46118,13 @@ func (t *Like) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Like) AppendCc(k url.URL) {
+func (t *Like) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Like) PrependCc(k url.URL) {
+func (t *Like) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -46155,8 +46155,8 @@ func (t *Like) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -46174,13 +46174,13 @@ func (t *Like) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Like) AppendBcc(k url.URL) {
+func (t *Like) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Like) PrependBcc(k url.URL) {
+func (t *Like) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -46533,8 +46533,8 @@ func (t *Like) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -46548,13 +46548,13 @@ func (t *Like) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Like) AppendStreams(k url.URL) {
+func (t *Like) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Like) PrependStreams(k url.URL) {
+func (t *Like) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -46651,8 +46651,8 @@ func (t *Like) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -46676,13 +46676,13 @@ func (t *Like) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Like) SetProxyUrl(k url.URL) {
+func (t *Like) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -46706,13 +46706,13 @@ func (t *Like) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Like) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Like) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -46736,13 +46736,13 @@ func (t *Like) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Like) SetOauthTokenEndpoint(k url.URL) {
+func (t *Like) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -46766,13 +46766,13 @@ func (t *Like) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Like) SetProvideClientKey(k url.URL) {
+func (t *Like) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -46796,13 +46796,13 @@ func (t *Like) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Like) SetSignClientKey(k url.URL) {
+func (t *Like) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Like) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Like) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -46826,7 +46826,7 @@ func (t *Like) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Like) SetSharedInbox(k url.URL) {
+func (t *Like) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -46855,8 +46855,8 @@ func (t *Offer) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -46874,13 +46874,13 @@ func (t *Offer) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Offer) AppendActor(k url.URL) {
+func (t *Offer) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Offer) PrependActor(k url.URL) {
+func (t *Offer) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -46963,8 +46963,8 @@ func (t *Offer) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -46982,13 +46982,13 @@ func (t *Offer) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Offer) AppendTarget(k url.URL) {
+func (t *Offer) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Offer) PrependTarget(k url.URL) {
+func (t *Offer) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -47313,8 +47313,8 @@ func (t *Offer) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -47332,13 +47332,13 @@ func (t *Offer) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Offer) AppendAttributedTo(k url.URL) {
+func (t *Offer) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Offer) PrependAttributedTo(k url.URL) {
+func (t *Offer) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -47369,8 +47369,8 @@ func (t *Offer) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -47388,13 +47388,13 @@ func (t *Offer) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Offer) AppendAudience(k url.URL) {
+func (t *Offer) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Offer) PrependAudience(k url.URL) {
+func (t *Offer) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -47787,8 +47787,8 @@ func (t *Offer) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -47812,7 +47812,7 @@ func (t *Offer) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Offer) SetId(k url.URL) {
+func (t *Offer) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -47879,8 +47879,8 @@ func (t *Offer) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -47898,13 +47898,13 @@ func (t *Offer) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Offer) AppendInReplyTo(k url.URL) {
+func (t *Offer) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Offer) PrependInReplyTo(k url.URL) {
+func (t *Offer) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -48379,8 +48379,8 @@ func (t *Offer) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -48396,13 +48396,13 @@ func (t *Offer) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Offer) AppendUrl(k url.URL) {
+func (t *Offer) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Offer) PrependUrl(k url.URL) {
+func (t *Offer) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -48431,8 +48431,8 @@ func (t *Offer) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -48450,13 +48450,13 @@ func (t *Offer) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Offer) AppendTo(k url.URL) {
+func (t *Offer) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Offer) PrependTo(k url.URL) {
+func (t *Offer) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -48487,8 +48487,8 @@ func (t *Offer) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -48506,13 +48506,13 @@ func (t *Offer) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Offer) AppendBto(k url.URL) {
+func (t *Offer) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Offer) PrependBto(k url.URL) {
+func (t *Offer) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -48543,8 +48543,8 @@ func (t *Offer) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -48562,13 +48562,13 @@ func (t *Offer) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Offer) AppendCc(k url.URL) {
+func (t *Offer) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Offer) PrependCc(k url.URL) {
+func (t *Offer) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -48599,8 +48599,8 @@ func (t *Offer) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -48618,13 +48618,13 @@ func (t *Offer) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Offer) AppendBcc(k url.URL) {
+func (t *Offer) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Offer) PrependBcc(k url.URL) {
+func (t *Offer) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -48977,8 +48977,8 @@ func (t *Offer) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -48992,13 +48992,13 @@ func (t *Offer) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Offer) AppendStreams(k url.URL) {
+func (t *Offer) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Offer) PrependStreams(k url.URL) {
+func (t *Offer) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -49095,8 +49095,8 @@ func (t *Offer) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -49120,13 +49120,13 @@ func (t *Offer) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Offer) SetProxyUrl(k url.URL) {
+func (t *Offer) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -49150,13 +49150,13 @@ func (t *Offer) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Offer) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Offer) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -49180,13 +49180,13 @@ func (t *Offer) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Offer) SetOauthTokenEndpoint(k url.URL) {
+func (t *Offer) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -49210,13 +49210,13 @@ func (t *Offer) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Offer) SetProvideClientKey(k url.URL) {
+func (t *Offer) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -49240,13 +49240,13 @@ func (t *Offer) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Offer) SetSignClientKey(k url.URL) {
+func (t *Offer) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Offer) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Offer) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -49270,7 +49270,7 @@ func (t *Offer) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Offer) SetSharedInbox(k url.URL) {
+func (t *Offer) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -49299,8 +49299,8 @@ func (t *Invite) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -49318,13 +49318,13 @@ func (t *Invite) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Invite) AppendActor(k url.URL) {
+func (t *Invite) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Invite) PrependActor(k url.URL) {
+func (t *Invite) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -49407,8 +49407,8 @@ func (t *Invite) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -49426,13 +49426,13 @@ func (t *Invite) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Invite) AppendTarget(k url.URL) {
+func (t *Invite) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Invite) PrependTarget(k url.URL) {
+func (t *Invite) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -49757,8 +49757,8 @@ func (t *Invite) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -49776,13 +49776,13 @@ func (t *Invite) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Invite) AppendAttributedTo(k url.URL) {
+func (t *Invite) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Invite) PrependAttributedTo(k url.URL) {
+func (t *Invite) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -49813,8 +49813,8 @@ func (t *Invite) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -49832,13 +49832,13 @@ func (t *Invite) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Invite) AppendAudience(k url.URL) {
+func (t *Invite) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Invite) PrependAudience(k url.URL) {
+func (t *Invite) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -50231,8 +50231,8 @@ func (t *Invite) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -50256,7 +50256,7 @@ func (t *Invite) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Invite) SetId(k url.URL) {
+func (t *Invite) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -50323,8 +50323,8 @@ func (t *Invite) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -50342,13 +50342,13 @@ func (t *Invite) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Invite) AppendInReplyTo(k url.URL) {
+func (t *Invite) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Invite) PrependInReplyTo(k url.URL) {
+func (t *Invite) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -50823,8 +50823,8 @@ func (t *Invite) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -50840,13 +50840,13 @@ func (t *Invite) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Invite) AppendUrl(k url.URL) {
+func (t *Invite) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Invite) PrependUrl(k url.URL) {
+func (t *Invite) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -50875,8 +50875,8 @@ func (t *Invite) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -50894,13 +50894,13 @@ func (t *Invite) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Invite) AppendTo(k url.URL) {
+func (t *Invite) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Invite) PrependTo(k url.URL) {
+func (t *Invite) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -50931,8 +50931,8 @@ func (t *Invite) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -50950,13 +50950,13 @@ func (t *Invite) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Invite) AppendBto(k url.URL) {
+func (t *Invite) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Invite) PrependBto(k url.URL) {
+func (t *Invite) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -50987,8 +50987,8 @@ func (t *Invite) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -51006,13 +51006,13 @@ func (t *Invite) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Invite) AppendCc(k url.URL) {
+func (t *Invite) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Invite) PrependCc(k url.URL) {
+func (t *Invite) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -51043,8 +51043,8 @@ func (t *Invite) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -51062,13 +51062,13 @@ func (t *Invite) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Invite) AppendBcc(k url.URL) {
+func (t *Invite) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Invite) PrependBcc(k url.URL) {
+func (t *Invite) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -51421,8 +51421,8 @@ func (t *Invite) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -51436,13 +51436,13 @@ func (t *Invite) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Invite) AppendStreams(k url.URL) {
+func (t *Invite) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Invite) PrependStreams(k url.URL) {
+func (t *Invite) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -51539,8 +51539,8 @@ func (t *Invite) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -51564,13 +51564,13 @@ func (t *Invite) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Invite) SetProxyUrl(k url.URL) {
+func (t *Invite) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -51594,13 +51594,13 @@ func (t *Invite) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Invite) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Invite) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -51624,13 +51624,13 @@ func (t *Invite) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Invite) SetOauthTokenEndpoint(k url.URL) {
+func (t *Invite) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -51654,13 +51654,13 @@ func (t *Invite) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Invite) SetProvideClientKey(k url.URL) {
+func (t *Invite) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -51684,13 +51684,13 @@ func (t *Invite) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Invite) SetSignClientKey(k url.URL) {
+func (t *Invite) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Invite) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Invite) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -51714,7 +51714,7 @@ func (t *Invite) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Invite) SetSharedInbox(k url.URL) {
+func (t *Invite) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -51743,8 +51743,8 @@ func (t *Reject) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -51762,13 +51762,13 @@ func (t *Reject) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Reject) AppendActor(k url.URL) {
+func (t *Reject) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Reject) PrependActor(k url.URL) {
+func (t *Reject) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -51851,8 +51851,8 @@ func (t *Reject) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -51870,13 +51870,13 @@ func (t *Reject) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Reject) AppendTarget(k url.URL) {
+func (t *Reject) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Reject) PrependTarget(k url.URL) {
+func (t *Reject) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -52201,8 +52201,8 @@ func (t *Reject) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -52220,13 +52220,13 @@ func (t *Reject) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Reject) AppendAttributedTo(k url.URL) {
+func (t *Reject) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Reject) PrependAttributedTo(k url.URL) {
+func (t *Reject) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -52257,8 +52257,8 @@ func (t *Reject) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -52276,13 +52276,13 @@ func (t *Reject) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Reject) AppendAudience(k url.URL) {
+func (t *Reject) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Reject) PrependAudience(k url.URL) {
+func (t *Reject) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -52675,8 +52675,8 @@ func (t *Reject) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -52700,7 +52700,7 @@ func (t *Reject) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Reject) SetId(k url.URL) {
+func (t *Reject) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -52767,8 +52767,8 @@ func (t *Reject) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -52786,13 +52786,13 @@ func (t *Reject) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Reject) AppendInReplyTo(k url.URL) {
+func (t *Reject) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Reject) PrependInReplyTo(k url.URL) {
+func (t *Reject) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -53267,8 +53267,8 @@ func (t *Reject) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -53284,13 +53284,13 @@ func (t *Reject) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Reject) AppendUrl(k url.URL) {
+func (t *Reject) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Reject) PrependUrl(k url.URL) {
+func (t *Reject) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -53319,8 +53319,8 @@ func (t *Reject) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -53338,13 +53338,13 @@ func (t *Reject) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Reject) AppendTo(k url.URL) {
+func (t *Reject) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Reject) PrependTo(k url.URL) {
+func (t *Reject) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -53375,8 +53375,8 @@ func (t *Reject) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -53394,13 +53394,13 @@ func (t *Reject) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Reject) AppendBto(k url.URL) {
+func (t *Reject) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Reject) PrependBto(k url.URL) {
+func (t *Reject) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -53431,8 +53431,8 @@ func (t *Reject) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -53450,13 +53450,13 @@ func (t *Reject) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Reject) AppendCc(k url.URL) {
+func (t *Reject) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Reject) PrependCc(k url.URL) {
+func (t *Reject) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -53487,8 +53487,8 @@ func (t *Reject) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -53506,13 +53506,13 @@ func (t *Reject) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Reject) AppendBcc(k url.URL) {
+func (t *Reject) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Reject) PrependBcc(k url.URL) {
+func (t *Reject) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -53865,8 +53865,8 @@ func (t *Reject) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -53880,13 +53880,13 @@ func (t *Reject) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Reject) AppendStreams(k url.URL) {
+func (t *Reject) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Reject) PrependStreams(k url.URL) {
+func (t *Reject) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -53983,8 +53983,8 @@ func (t *Reject) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -54008,13 +54008,13 @@ func (t *Reject) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Reject) SetProxyUrl(k url.URL) {
+func (t *Reject) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -54038,13 +54038,13 @@ func (t *Reject) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Reject) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Reject) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -54068,13 +54068,13 @@ func (t *Reject) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Reject) SetOauthTokenEndpoint(k url.URL) {
+func (t *Reject) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -54098,13 +54098,13 @@ func (t *Reject) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Reject) SetProvideClientKey(k url.URL) {
+func (t *Reject) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -54128,13 +54128,13 @@ func (t *Reject) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Reject) SetSignClientKey(k url.URL) {
+func (t *Reject) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Reject) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Reject) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -54158,7 +54158,7 @@ func (t *Reject) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Reject) SetSharedInbox(k url.URL) {
+func (t *Reject) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -54187,8 +54187,8 @@ func (t *TentativeReject) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -54206,13 +54206,13 @@ func (t *TentativeReject) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *TentativeReject) AppendActor(k url.URL) {
+func (t *TentativeReject) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *TentativeReject) PrependActor(k url.URL) {
+func (t *TentativeReject) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -54295,8 +54295,8 @@ func (t *TentativeReject) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -54314,13 +54314,13 @@ func (t *TentativeReject) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *TentativeReject) AppendTarget(k url.URL) {
+func (t *TentativeReject) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *TentativeReject) PrependTarget(k url.URL) {
+func (t *TentativeReject) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -54645,8 +54645,8 @@ func (t *TentativeReject) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -54664,13 +54664,13 @@ func (t *TentativeReject) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *TentativeReject) AppendAttributedTo(k url.URL) {
+func (t *TentativeReject) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *TentativeReject) PrependAttributedTo(k url.URL) {
+func (t *TentativeReject) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -54701,8 +54701,8 @@ func (t *TentativeReject) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -54720,13 +54720,13 @@ func (t *TentativeReject) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *TentativeReject) AppendAudience(k url.URL) {
+func (t *TentativeReject) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *TentativeReject) PrependAudience(k url.URL) {
+func (t *TentativeReject) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -55119,8 +55119,8 @@ func (t *TentativeReject) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -55144,7 +55144,7 @@ func (t *TentativeReject) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *TentativeReject) SetId(k url.URL) {
+func (t *TentativeReject) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -55211,8 +55211,8 @@ func (t *TentativeReject) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -55230,13 +55230,13 @@ func (t *TentativeReject) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *TentativeReject) AppendInReplyTo(k url.URL) {
+func (t *TentativeReject) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *TentativeReject) PrependInReplyTo(k url.URL) {
+func (t *TentativeReject) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -55711,8 +55711,8 @@ func (t *TentativeReject) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -55728,13 +55728,13 @@ func (t *TentativeReject) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *TentativeReject) AppendUrl(k url.URL) {
+func (t *TentativeReject) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *TentativeReject) PrependUrl(k url.URL) {
+func (t *TentativeReject) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -55763,8 +55763,8 @@ func (t *TentativeReject) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -55782,13 +55782,13 @@ func (t *TentativeReject) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *TentativeReject) AppendTo(k url.URL) {
+func (t *TentativeReject) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *TentativeReject) PrependTo(k url.URL) {
+func (t *TentativeReject) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -55819,8 +55819,8 @@ func (t *TentativeReject) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -55838,13 +55838,13 @@ func (t *TentativeReject) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *TentativeReject) AppendBto(k url.URL) {
+func (t *TentativeReject) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *TentativeReject) PrependBto(k url.URL) {
+func (t *TentativeReject) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -55875,8 +55875,8 @@ func (t *TentativeReject) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -55894,13 +55894,13 @@ func (t *TentativeReject) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *TentativeReject) AppendCc(k url.URL) {
+func (t *TentativeReject) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *TentativeReject) PrependCc(k url.URL) {
+func (t *TentativeReject) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -55931,8 +55931,8 @@ func (t *TentativeReject) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -55950,13 +55950,13 @@ func (t *TentativeReject) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *TentativeReject) AppendBcc(k url.URL) {
+func (t *TentativeReject) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *TentativeReject) PrependBcc(k url.URL) {
+func (t *TentativeReject) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -56309,8 +56309,8 @@ func (t *TentativeReject) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -56324,13 +56324,13 @@ func (t *TentativeReject) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *TentativeReject) AppendStreams(k url.URL) {
+func (t *TentativeReject) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *TentativeReject) PrependStreams(k url.URL) {
+func (t *TentativeReject) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -56427,8 +56427,8 @@ func (t *TentativeReject) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -56452,13 +56452,13 @@ func (t *TentativeReject) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *TentativeReject) SetProxyUrl(k url.URL) {
+func (t *TentativeReject) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -56482,13 +56482,13 @@ func (t *TentativeReject) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *TentativeReject) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *TentativeReject) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -56512,13 +56512,13 @@ func (t *TentativeReject) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *TentativeReject) SetOauthTokenEndpoint(k url.URL) {
+func (t *TentativeReject) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -56542,13 +56542,13 @@ func (t *TentativeReject) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *TentativeReject) SetProvideClientKey(k url.URL) {
+func (t *TentativeReject) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -56572,13 +56572,13 @@ func (t *TentativeReject) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *TentativeReject) SetSignClientKey(k url.URL) {
+func (t *TentativeReject) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *TentativeReject) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *TentativeReject) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -56602,7 +56602,7 @@ func (t *TentativeReject) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *TentativeReject) SetSharedInbox(k url.URL) {
+func (t *TentativeReject) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -56631,8 +56631,8 @@ func (t *Remove) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -56650,13 +56650,13 @@ func (t *Remove) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Remove) AppendActor(k url.URL) {
+func (t *Remove) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Remove) PrependActor(k url.URL) {
+func (t *Remove) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -56739,8 +56739,8 @@ func (t *Remove) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -56758,13 +56758,13 @@ func (t *Remove) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Remove) AppendTarget(k url.URL) {
+func (t *Remove) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Remove) PrependTarget(k url.URL) {
+func (t *Remove) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -57089,8 +57089,8 @@ func (t *Remove) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -57108,13 +57108,13 @@ func (t *Remove) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Remove) AppendAttributedTo(k url.URL) {
+func (t *Remove) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Remove) PrependAttributedTo(k url.URL) {
+func (t *Remove) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -57145,8 +57145,8 @@ func (t *Remove) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -57164,13 +57164,13 @@ func (t *Remove) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Remove) AppendAudience(k url.URL) {
+func (t *Remove) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Remove) PrependAudience(k url.URL) {
+func (t *Remove) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -57563,8 +57563,8 @@ func (t *Remove) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -57588,7 +57588,7 @@ func (t *Remove) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Remove) SetId(k url.URL) {
+func (t *Remove) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -57655,8 +57655,8 @@ func (t *Remove) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -57674,13 +57674,13 @@ func (t *Remove) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Remove) AppendInReplyTo(k url.URL) {
+func (t *Remove) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Remove) PrependInReplyTo(k url.URL) {
+func (t *Remove) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -58155,8 +58155,8 @@ func (t *Remove) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -58172,13 +58172,13 @@ func (t *Remove) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Remove) AppendUrl(k url.URL) {
+func (t *Remove) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Remove) PrependUrl(k url.URL) {
+func (t *Remove) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -58207,8 +58207,8 @@ func (t *Remove) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -58226,13 +58226,13 @@ func (t *Remove) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Remove) AppendTo(k url.URL) {
+func (t *Remove) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Remove) PrependTo(k url.URL) {
+func (t *Remove) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -58263,8 +58263,8 @@ func (t *Remove) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -58282,13 +58282,13 @@ func (t *Remove) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Remove) AppendBto(k url.URL) {
+func (t *Remove) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Remove) PrependBto(k url.URL) {
+func (t *Remove) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -58319,8 +58319,8 @@ func (t *Remove) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -58338,13 +58338,13 @@ func (t *Remove) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Remove) AppendCc(k url.URL) {
+func (t *Remove) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Remove) PrependCc(k url.URL) {
+func (t *Remove) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -58375,8 +58375,8 @@ func (t *Remove) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -58394,13 +58394,13 @@ func (t *Remove) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Remove) AppendBcc(k url.URL) {
+func (t *Remove) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Remove) PrependBcc(k url.URL) {
+func (t *Remove) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -58753,8 +58753,8 @@ func (t *Remove) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -58768,13 +58768,13 @@ func (t *Remove) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Remove) AppendStreams(k url.URL) {
+func (t *Remove) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Remove) PrependStreams(k url.URL) {
+func (t *Remove) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -58871,8 +58871,8 @@ func (t *Remove) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -58896,13 +58896,13 @@ func (t *Remove) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Remove) SetProxyUrl(k url.URL) {
+func (t *Remove) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -58926,13 +58926,13 @@ func (t *Remove) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Remove) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Remove) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -58956,13 +58956,13 @@ func (t *Remove) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Remove) SetOauthTokenEndpoint(k url.URL) {
+func (t *Remove) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -58986,13 +58986,13 @@ func (t *Remove) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Remove) SetProvideClientKey(k url.URL) {
+func (t *Remove) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -59016,13 +59016,13 @@ func (t *Remove) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Remove) SetSignClientKey(k url.URL) {
+func (t *Remove) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Remove) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Remove) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -59046,7 +59046,7 @@ func (t *Remove) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Remove) SetSharedInbox(k url.URL) {
+func (t *Remove) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -59075,8 +59075,8 @@ func (t *Undo) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -59094,13 +59094,13 @@ func (t *Undo) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Undo) AppendActor(k url.URL) {
+func (t *Undo) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Undo) PrependActor(k url.URL) {
+func (t *Undo) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -59183,8 +59183,8 @@ func (t *Undo) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -59202,13 +59202,13 @@ func (t *Undo) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Undo) AppendTarget(k url.URL) {
+func (t *Undo) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Undo) PrependTarget(k url.URL) {
+func (t *Undo) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -59533,8 +59533,8 @@ func (t *Undo) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -59552,13 +59552,13 @@ func (t *Undo) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Undo) AppendAttributedTo(k url.URL) {
+func (t *Undo) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Undo) PrependAttributedTo(k url.URL) {
+func (t *Undo) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -59589,8 +59589,8 @@ func (t *Undo) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -59608,13 +59608,13 @@ func (t *Undo) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Undo) AppendAudience(k url.URL) {
+func (t *Undo) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Undo) PrependAudience(k url.URL) {
+func (t *Undo) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -60007,8 +60007,8 @@ func (t *Undo) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -60032,7 +60032,7 @@ func (t *Undo) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Undo) SetId(k url.URL) {
+func (t *Undo) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -60099,8 +60099,8 @@ func (t *Undo) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -60118,13 +60118,13 @@ func (t *Undo) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Undo) AppendInReplyTo(k url.URL) {
+func (t *Undo) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Undo) PrependInReplyTo(k url.URL) {
+func (t *Undo) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -60599,8 +60599,8 @@ func (t *Undo) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -60616,13 +60616,13 @@ func (t *Undo) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Undo) AppendUrl(k url.URL) {
+func (t *Undo) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Undo) PrependUrl(k url.URL) {
+func (t *Undo) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -60651,8 +60651,8 @@ func (t *Undo) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -60670,13 +60670,13 @@ func (t *Undo) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Undo) AppendTo(k url.URL) {
+func (t *Undo) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Undo) PrependTo(k url.URL) {
+func (t *Undo) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -60707,8 +60707,8 @@ func (t *Undo) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -60726,13 +60726,13 @@ func (t *Undo) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Undo) AppendBto(k url.URL) {
+func (t *Undo) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Undo) PrependBto(k url.URL) {
+func (t *Undo) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -60763,8 +60763,8 @@ func (t *Undo) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -60782,13 +60782,13 @@ func (t *Undo) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Undo) AppendCc(k url.URL) {
+func (t *Undo) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Undo) PrependCc(k url.URL) {
+func (t *Undo) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -60819,8 +60819,8 @@ func (t *Undo) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -60838,13 +60838,13 @@ func (t *Undo) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Undo) AppendBcc(k url.URL) {
+func (t *Undo) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Undo) PrependBcc(k url.URL) {
+func (t *Undo) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -61197,8 +61197,8 @@ func (t *Undo) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -61212,13 +61212,13 @@ func (t *Undo) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Undo) AppendStreams(k url.URL) {
+func (t *Undo) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Undo) PrependStreams(k url.URL) {
+func (t *Undo) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -61315,8 +61315,8 @@ func (t *Undo) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -61340,13 +61340,13 @@ func (t *Undo) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Undo) SetProxyUrl(k url.URL) {
+func (t *Undo) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -61370,13 +61370,13 @@ func (t *Undo) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Undo) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Undo) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -61400,13 +61400,13 @@ func (t *Undo) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Undo) SetOauthTokenEndpoint(k url.URL) {
+func (t *Undo) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -61430,13 +61430,13 @@ func (t *Undo) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Undo) SetProvideClientKey(k url.URL) {
+func (t *Undo) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -61460,13 +61460,13 @@ func (t *Undo) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Undo) SetSignClientKey(k url.URL) {
+func (t *Undo) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Undo) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Undo) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -61490,7 +61490,7 @@ func (t *Undo) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Undo) SetSharedInbox(k url.URL) {
+func (t *Undo) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -61519,8 +61519,8 @@ func (t *Update) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -61538,13 +61538,13 @@ func (t *Update) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Update) AppendActor(k url.URL) {
+func (t *Update) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Update) PrependActor(k url.URL) {
+func (t *Update) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -61627,8 +61627,8 @@ func (t *Update) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -61646,13 +61646,13 @@ func (t *Update) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Update) AppendTarget(k url.URL) {
+func (t *Update) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Update) PrependTarget(k url.URL) {
+func (t *Update) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -61977,8 +61977,8 @@ func (t *Update) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -61996,13 +61996,13 @@ func (t *Update) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Update) AppendAttributedTo(k url.URL) {
+func (t *Update) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Update) PrependAttributedTo(k url.URL) {
+func (t *Update) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -62033,8 +62033,8 @@ func (t *Update) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -62052,13 +62052,13 @@ func (t *Update) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Update) AppendAudience(k url.URL) {
+func (t *Update) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Update) PrependAudience(k url.URL) {
+func (t *Update) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -62451,8 +62451,8 @@ func (t *Update) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -62476,7 +62476,7 @@ func (t *Update) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Update) SetId(k url.URL) {
+func (t *Update) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -62543,8 +62543,8 @@ func (t *Update) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -62562,13 +62562,13 @@ func (t *Update) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Update) AppendInReplyTo(k url.URL) {
+func (t *Update) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Update) PrependInReplyTo(k url.URL) {
+func (t *Update) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -63043,8 +63043,8 @@ func (t *Update) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -63060,13 +63060,13 @@ func (t *Update) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Update) AppendUrl(k url.URL) {
+func (t *Update) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Update) PrependUrl(k url.URL) {
+func (t *Update) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -63095,8 +63095,8 @@ func (t *Update) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -63114,13 +63114,13 @@ func (t *Update) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Update) AppendTo(k url.URL) {
+func (t *Update) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Update) PrependTo(k url.URL) {
+func (t *Update) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -63151,8 +63151,8 @@ func (t *Update) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -63170,13 +63170,13 @@ func (t *Update) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Update) AppendBto(k url.URL) {
+func (t *Update) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Update) PrependBto(k url.URL) {
+func (t *Update) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -63207,8 +63207,8 @@ func (t *Update) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -63226,13 +63226,13 @@ func (t *Update) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Update) AppendCc(k url.URL) {
+func (t *Update) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Update) PrependCc(k url.URL) {
+func (t *Update) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -63263,8 +63263,8 @@ func (t *Update) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -63282,13 +63282,13 @@ func (t *Update) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Update) AppendBcc(k url.URL) {
+func (t *Update) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Update) PrependBcc(k url.URL) {
+func (t *Update) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -63641,8 +63641,8 @@ func (t *Update) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -63656,13 +63656,13 @@ func (t *Update) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Update) AppendStreams(k url.URL) {
+func (t *Update) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Update) PrependStreams(k url.URL) {
+func (t *Update) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -63759,8 +63759,8 @@ func (t *Update) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -63784,13 +63784,13 @@ func (t *Update) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Update) SetProxyUrl(k url.URL) {
+func (t *Update) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -63814,13 +63814,13 @@ func (t *Update) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Update) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Update) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -63844,13 +63844,13 @@ func (t *Update) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Update) SetOauthTokenEndpoint(k url.URL) {
+func (t *Update) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -63874,13 +63874,13 @@ func (t *Update) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Update) SetProvideClientKey(k url.URL) {
+func (t *Update) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -63904,13 +63904,13 @@ func (t *Update) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Update) SetSignClientKey(k url.URL) {
+func (t *Update) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Update) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Update) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -63934,7 +63934,7 @@ func (t *Update) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Update) SetSharedInbox(k url.URL) {
+func (t *Update) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -63963,8 +63963,8 @@ func (t *View) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -63982,13 +63982,13 @@ func (t *View) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *View) AppendActor(k url.URL) {
+func (t *View) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *View) PrependActor(k url.URL) {
+func (t *View) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -64071,8 +64071,8 @@ func (t *View) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -64090,13 +64090,13 @@ func (t *View) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *View) AppendTarget(k url.URL) {
+func (t *View) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *View) PrependTarget(k url.URL) {
+func (t *View) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -64421,8 +64421,8 @@ func (t *View) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -64440,13 +64440,13 @@ func (t *View) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *View) AppendAttributedTo(k url.URL) {
+func (t *View) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *View) PrependAttributedTo(k url.URL) {
+func (t *View) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -64477,8 +64477,8 @@ func (t *View) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -64496,13 +64496,13 @@ func (t *View) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *View) AppendAudience(k url.URL) {
+func (t *View) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *View) PrependAudience(k url.URL) {
+func (t *View) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -64895,8 +64895,8 @@ func (t *View) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -64920,7 +64920,7 @@ func (t *View) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *View) SetId(k url.URL) {
+func (t *View) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -64987,8 +64987,8 @@ func (t *View) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -65006,13 +65006,13 @@ func (t *View) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *View) AppendInReplyTo(k url.URL) {
+func (t *View) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *View) PrependInReplyTo(k url.URL) {
+func (t *View) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -65487,8 +65487,8 @@ func (t *View) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -65504,13 +65504,13 @@ func (t *View) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *View) AppendUrl(k url.URL) {
+func (t *View) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *View) PrependUrl(k url.URL) {
+func (t *View) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -65539,8 +65539,8 @@ func (t *View) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -65558,13 +65558,13 @@ func (t *View) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *View) AppendTo(k url.URL) {
+func (t *View) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *View) PrependTo(k url.URL) {
+func (t *View) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -65595,8 +65595,8 @@ func (t *View) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -65614,13 +65614,13 @@ func (t *View) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *View) AppendBto(k url.URL) {
+func (t *View) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *View) PrependBto(k url.URL) {
+func (t *View) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -65651,8 +65651,8 @@ func (t *View) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -65670,13 +65670,13 @@ func (t *View) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *View) AppendCc(k url.URL) {
+func (t *View) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *View) PrependCc(k url.URL) {
+func (t *View) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -65707,8 +65707,8 @@ func (t *View) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -65726,13 +65726,13 @@ func (t *View) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *View) AppendBcc(k url.URL) {
+func (t *View) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *View) PrependBcc(k url.URL) {
+func (t *View) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -66085,8 +66085,8 @@ func (t *View) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -66100,13 +66100,13 @@ func (t *View) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *View) AppendStreams(k url.URL) {
+func (t *View) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *View) PrependStreams(k url.URL) {
+func (t *View) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -66203,8 +66203,8 @@ func (t *View) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -66228,13 +66228,13 @@ func (t *View) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *View) SetProxyUrl(k url.URL) {
+func (t *View) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -66258,13 +66258,13 @@ func (t *View) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *View) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *View) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -66288,13 +66288,13 @@ func (t *View) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *View) SetOauthTokenEndpoint(k url.URL) {
+func (t *View) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -66318,13 +66318,13 @@ func (t *View) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *View) SetProvideClientKey(k url.URL) {
+func (t *View) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -66348,13 +66348,13 @@ func (t *View) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *View) SetSignClientKey(k url.URL) {
+func (t *View) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *View) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *View) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -66378,7 +66378,7 @@ func (t *View) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *View) SetSharedInbox(k url.URL) {
+func (t *View) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -66407,8 +66407,8 @@ func (t *Listen) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -66426,13 +66426,13 @@ func (t *Listen) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Listen) AppendActor(k url.URL) {
+func (t *Listen) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Listen) PrependActor(k url.URL) {
+func (t *Listen) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -66515,8 +66515,8 @@ func (t *Listen) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -66534,13 +66534,13 @@ func (t *Listen) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Listen) AppendTarget(k url.URL) {
+func (t *Listen) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Listen) PrependTarget(k url.URL) {
+func (t *Listen) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -66865,8 +66865,8 @@ func (t *Listen) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -66884,13 +66884,13 @@ func (t *Listen) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Listen) AppendAttributedTo(k url.URL) {
+func (t *Listen) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Listen) PrependAttributedTo(k url.URL) {
+func (t *Listen) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -66921,8 +66921,8 @@ func (t *Listen) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -66940,13 +66940,13 @@ func (t *Listen) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Listen) AppendAudience(k url.URL) {
+func (t *Listen) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Listen) PrependAudience(k url.URL) {
+func (t *Listen) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -67339,8 +67339,8 @@ func (t *Listen) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -67364,7 +67364,7 @@ func (t *Listen) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Listen) SetId(k url.URL) {
+func (t *Listen) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -67431,8 +67431,8 @@ func (t *Listen) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -67450,13 +67450,13 @@ func (t *Listen) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Listen) AppendInReplyTo(k url.URL) {
+func (t *Listen) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Listen) PrependInReplyTo(k url.URL) {
+func (t *Listen) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -67931,8 +67931,8 @@ func (t *Listen) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -67948,13 +67948,13 @@ func (t *Listen) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Listen) AppendUrl(k url.URL) {
+func (t *Listen) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Listen) PrependUrl(k url.URL) {
+func (t *Listen) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -67983,8 +67983,8 @@ func (t *Listen) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -68002,13 +68002,13 @@ func (t *Listen) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Listen) AppendTo(k url.URL) {
+func (t *Listen) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Listen) PrependTo(k url.URL) {
+func (t *Listen) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -68039,8 +68039,8 @@ func (t *Listen) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -68058,13 +68058,13 @@ func (t *Listen) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Listen) AppendBto(k url.URL) {
+func (t *Listen) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Listen) PrependBto(k url.URL) {
+func (t *Listen) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -68095,8 +68095,8 @@ func (t *Listen) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -68114,13 +68114,13 @@ func (t *Listen) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Listen) AppendCc(k url.URL) {
+func (t *Listen) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Listen) PrependCc(k url.URL) {
+func (t *Listen) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -68151,8 +68151,8 @@ func (t *Listen) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -68170,13 +68170,13 @@ func (t *Listen) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Listen) AppendBcc(k url.URL) {
+func (t *Listen) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Listen) PrependBcc(k url.URL) {
+func (t *Listen) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -68529,8 +68529,8 @@ func (t *Listen) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -68544,13 +68544,13 @@ func (t *Listen) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Listen) AppendStreams(k url.URL) {
+func (t *Listen) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Listen) PrependStreams(k url.URL) {
+func (t *Listen) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -68647,8 +68647,8 @@ func (t *Listen) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -68672,13 +68672,13 @@ func (t *Listen) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Listen) SetProxyUrl(k url.URL) {
+func (t *Listen) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -68702,13 +68702,13 @@ func (t *Listen) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Listen) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Listen) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -68732,13 +68732,13 @@ func (t *Listen) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Listen) SetOauthTokenEndpoint(k url.URL) {
+func (t *Listen) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -68762,13 +68762,13 @@ func (t *Listen) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Listen) SetProvideClientKey(k url.URL) {
+func (t *Listen) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -68792,13 +68792,13 @@ func (t *Listen) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Listen) SetSignClientKey(k url.URL) {
+func (t *Listen) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Listen) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Listen) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -68822,7 +68822,7 @@ func (t *Listen) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Listen) SetSharedInbox(k url.URL) {
+func (t *Listen) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -68851,8 +68851,8 @@ func (t *Read) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -68870,13 +68870,13 @@ func (t *Read) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Read) AppendActor(k url.URL) {
+func (t *Read) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Read) PrependActor(k url.URL) {
+func (t *Read) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -68959,8 +68959,8 @@ func (t *Read) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -68978,13 +68978,13 @@ func (t *Read) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Read) AppendTarget(k url.URL) {
+func (t *Read) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Read) PrependTarget(k url.URL) {
+func (t *Read) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -69309,8 +69309,8 @@ func (t *Read) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -69328,13 +69328,13 @@ func (t *Read) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Read) AppendAttributedTo(k url.URL) {
+func (t *Read) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Read) PrependAttributedTo(k url.URL) {
+func (t *Read) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -69365,8 +69365,8 @@ func (t *Read) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -69384,13 +69384,13 @@ func (t *Read) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Read) AppendAudience(k url.URL) {
+func (t *Read) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Read) PrependAudience(k url.URL) {
+func (t *Read) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -69783,8 +69783,8 @@ func (t *Read) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -69808,7 +69808,7 @@ func (t *Read) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Read) SetId(k url.URL) {
+func (t *Read) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -69875,8 +69875,8 @@ func (t *Read) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -69894,13 +69894,13 @@ func (t *Read) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Read) AppendInReplyTo(k url.URL) {
+func (t *Read) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Read) PrependInReplyTo(k url.URL) {
+func (t *Read) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -70375,8 +70375,8 @@ func (t *Read) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -70392,13 +70392,13 @@ func (t *Read) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Read) AppendUrl(k url.URL) {
+func (t *Read) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Read) PrependUrl(k url.URL) {
+func (t *Read) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -70427,8 +70427,8 @@ func (t *Read) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -70446,13 +70446,13 @@ func (t *Read) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Read) AppendTo(k url.URL) {
+func (t *Read) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Read) PrependTo(k url.URL) {
+func (t *Read) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -70483,8 +70483,8 @@ func (t *Read) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -70502,13 +70502,13 @@ func (t *Read) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Read) AppendBto(k url.URL) {
+func (t *Read) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Read) PrependBto(k url.URL) {
+func (t *Read) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -70539,8 +70539,8 @@ func (t *Read) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -70558,13 +70558,13 @@ func (t *Read) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Read) AppendCc(k url.URL) {
+func (t *Read) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Read) PrependCc(k url.URL) {
+func (t *Read) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -70595,8 +70595,8 @@ func (t *Read) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -70614,13 +70614,13 @@ func (t *Read) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Read) AppendBcc(k url.URL) {
+func (t *Read) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Read) PrependBcc(k url.URL) {
+func (t *Read) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -70973,8 +70973,8 @@ func (t *Read) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -70988,13 +70988,13 @@ func (t *Read) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Read) AppendStreams(k url.URL) {
+func (t *Read) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Read) PrependStreams(k url.URL) {
+func (t *Read) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -71091,8 +71091,8 @@ func (t *Read) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -71116,13 +71116,13 @@ func (t *Read) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Read) SetProxyUrl(k url.URL) {
+func (t *Read) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -71146,13 +71146,13 @@ func (t *Read) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Read) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Read) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -71176,13 +71176,13 @@ func (t *Read) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Read) SetOauthTokenEndpoint(k url.URL) {
+func (t *Read) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -71206,13 +71206,13 @@ func (t *Read) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Read) SetProvideClientKey(k url.URL) {
+func (t *Read) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -71236,13 +71236,13 @@ func (t *Read) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Read) SetSignClientKey(k url.URL) {
+func (t *Read) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Read) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Read) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -71266,7 +71266,7 @@ func (t *Read) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Read) SetSharedInbox(k url.URL) {
+func (t *Read) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -71295,8 +71295,8 @@ func (t *Move) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -71314,13 +71314,13 @@ func (t *Move) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Move) AppendActor(k url.URL) {
+func (t *Move) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Move) PrependActor(k url.URL) {
+func (t *Move) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -71403,8 +71403,8 @@ func (t *Move) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -71422,13 +71422,13 @@ func (t *Move) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Move) AppendTarget(k url.URL) {
+func (t *Move) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Move) PrependTarget(k url.URL) {
+func (t *Move) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -71753,8 +71753,8 @@ func (t *Move) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -71772,13 +71772,13 @@ func (t *Move) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Move) AppendAttributedTo(k url.URL) {
+func (t *Move) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Move) PrependAttributedTo(k url.URL) {
+func (t *Move) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -71809,8 +71809,8 @@ func (t *Move) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -71828,13 +71828,13 @@ func (t *Move) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Move) AppendAudience(k url.URL) {
+func (t *Move) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Move) PrependAudience(k url.URL) {
+func (t *Move) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -72227,8 +72227,8 @@ func (t *Move) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -72252,7 +72252,7 @@ func (t *Move) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Move) SetId(k url.URL) {
+func (t *Move) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -72319,8 +72319,8 @@ func (t *Move) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -72338,13 +72338,13 @@ func (t *Move) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Move) AppendInReplyTo(k url.URL) {
+func (t *Move) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Move) PrependInReplyTo(k url.URL) {
+func (t *Move) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -72819,8 +72819,8 @@ func (t *Move) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -72836,13 +72836,13 @@ func (t *Move) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Move) AppendUrl(k url.URL) {
+func (t *Move) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Move) PrependUrl(k url.URL) {
+func (t *Move) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -72871,8 +72871,8 @@ func (t *Move) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -72890,13 +72890,13 @@ func (t *Move) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Move) AppendTo(k url.URL) {
+func (t *Move) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Move) PrependTo(k url.URL) {
+func (t *Move) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -72927,8 +72927,8 @@ func (t *Move) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -72946,13 +72946,13 @@ func (t *Move) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Move) AppendBto(k url.URL) {
+func (t *Move) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Move) PrependBto(k url.URL) {
+func (t *Move) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -72983,8 +72983,8 @@ func (t *Move) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -73002,13 +73002,13 @@ func (t *Move) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Move) AppendCc(k url.URL) {
+func (t *Move) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Move) PrependCc(k url.URL) {
+func (t *Move) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -73039,8 +73039,8 @@ func (t *Move) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -73058,13 +73058,13 @@ func (t *Move) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Move) AppendBcc(k url.URL) {
+func (t *Move) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Move) PrependBcc(k url.URL) {
+func (t *Move) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -73417,8 +73417,8 @@ func (t *Move) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -73432,13 +73432,13 @@ func (t *Move) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Move) AppendStreams(k url.URL) {
+func (t *Move) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Move) PrependStreams(k url.URL) {
+func (t *Move) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -73535,8 +73535,8 @@ func (t *Move) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -73560,13 +73560,13 @@ func (t *Move) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Move) SetProxyUrl(k url.URL) {
+func (t *Move) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -73590,13 +73590,13 @@ func (t *Move) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Move) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Move) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -73620,13 +73620,13 @@ func (t *Move) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Move) SetOauthTokenEndpoint(k url.URL) {
+func (t *Move) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -73650,13 +73650,13 @@ func (t *Move) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Move) SetProvideClientKey(k url.URL) {
+func (t *Move) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -73680,13 +73680,13 @@ func (t *Move) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Move) SetSignClientKey(k url.URL) {
+func (t *Move) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Move) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Move) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -73710,7 +73710,7 @@ func (t *Move) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Move) SetSharedInbox(k url.URL) {
+func (t *Move) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -73739,8 +73739,8 @@ func (t *Travel) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -73758,13 +73758,13 @@ func (t *Travel) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Travel) AppendActor(k url.URL) {
+func (t *Travel) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Travel) PrependActor(k url.URL) {
+func (t *Travel) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -73795,8 +73795,8 @@ func (t *Travel) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -73814,13 +73814,13 @@ func (t *Travel) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Travel) AppendTarget(k url.URL) {
+func (t *Travel) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Travel) PrependTarget(k url.URL) {
+func (t *Travel) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -74145,8 +74145,8 @@ func (t *Travel) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -74164,13 +74164,13 @@ func (t *Travel) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Travel) AppendAttributedTo(k url.URL) {
+func (t *Travel) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Travel) PrependAttributedTo(k url.URL) {
+func (t *Travel) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -74201,8 +74201,8 @@ func (t *Travel) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -74220,13 +74220,13 @@ func (t *Travel) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Travel) AppendAudience(k url.URL) {
+func (t *Travel) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Travel) PrependAudience(k url.URL) {
+func (t *Travel) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -74619,8 +74619,8 @@ func (t *Travel) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -74644,7 +74644,7 @@ func (t *Travel) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Travel) SetId(k url.URL) {
+func (t *Travel) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -74711,8 +74711,8 @@ func (t *Travel) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -74730,13 +74730,13 @@ func (t *Travel) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Travel) AppendInReplyTo(k url.URL) {
+func (t *Travel) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Travel) PrependInReplyTo(k url.URL) {
+func (t *Travel) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -75211,8 +75211,8 @@ func (t *Travel) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -75228,13 +75228,13 @@ func (t *Travel) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Travel) AppendUrl(k url.URL) {
+func (t *Travel) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Travel) PrependUrl(k url.URL) {
+func (t *Travel) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -75263,8 +75263,8 @@ func (t *Travel) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -75282,13 +75282,13 @@ func (t *Travel) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Travel) AppendTo(k url.URL) {
+func (t *Travel) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Travel) PrependTo(k url.URL) {
+func (t *Travel) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -75319,8 +75319,8 @@ func (t *Travel) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -75338,13 +75338,13 @@ func (t *Travel) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Travel) AppendBto(k url.URL) {
+func (t *Travel) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Travel) PrependBto(k url.URL) {
+func (t *Travel) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -75375,8 +75375,8 @@ func (t *Travel) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -75394,13 +75394,13 @@ func (t *Travel) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Travel) AppendCc(k url.URL) {
+func (t *Travel) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Travel) PrependCc(k url.URL) {
+func (t *Travel) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -75431,8 +75431,8 @@ func (t *Travel) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -75450,13 +75450,13 @@ func (t *Travel) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Travel) AppendBcc(k url.URL) {
+func (t *Travel) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Travel) PrependBcc(k url.URL) {
+func (t *Travel) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -75809,8 +75809,8 @@ func (t *Travel) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -75824,13 +75824,13 @@ func (t *Travel) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Travel) AppendStreams(k url.URL) {
+func (t *Travel) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Travel) PrependStreams(k url.URL) {
+func (t *Travel) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -75927,8 +75927,8 @@ func (t *Travel) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -75952,13 +75952,13 @@ func (t *Travel) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Travel) SetProxyUrl(k url.URL) {
+func (t *Travel) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -75982,13 +75982,13 @@ func (t *Travel) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Travel) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Travel) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -76012,13 +76012,13 @@ func (t *Travel) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Travel) SetOauthTokenEndpoint(k url.URL) {
+func (t *Travel) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -76042,13 +76042,13 @@ func (t *Travel) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Travel) SetProvideClientKey(k url.URL) {
+func (t *Travel) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -76072,13 +76072,13 @@ func (t *Travel) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Travel) SetSignClientKey(k url.URL) {
+func (t *Travel) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Travel) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Travel) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -76102,7 +76102,7 @@ func (t *Travel) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Travel) SetSharedInbox(k url.URL) {
+func (t *Travel) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -76131,8 +76131,8 @@ func (t *Announce) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -76150,13 +76150,13 @@ func (t *Announce) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Announce) AppendActor(k url.URL) {
+func (t *Announce) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Announce) PrependActor(k url.URL) {
+func (t *Announce) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -76239,8 +76239,8 @@ func (t *Announce) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -76258,13 +76258,13 @@ func (t *Announce) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Announce) AppendTarget(k url.URL) {
+func (t *Announce) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Announce) PrependTarget(k url.URL) {
+func (t *Announce) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -76589,8 +76589,8 @@ func (t *Announce) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -76608,13 +76608,13 @@ func (t *Announce) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Announce) AppendAttributedTo(k url.URL) {
+func (t *Announce) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Announce) PrependAttributedTo(k url.URL) {
+func (t *Announce) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -76645,8 +76645,8 @@ func (t *Announce) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -76664,13 +76664,13 @@ func (t *Announce) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Announce) AppendAudience(k url.URL) {
+func (t *Announce) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Announce) PrependAudience(k url.URL) {
+func (t *Announce) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -77063,8 +77063,8 @@ func (t *Announce) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -77088,7 +77088,7 @@ func (t *Announce) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Announce) SetId(k url.URL) {
+func (t *Announce) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -77155,8 +77155,8 @@ func (t *Announce) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -77174,13 +77174,13 @@ func (t *Announce) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Announce) AppendInReplyTo(k url.URL) {
+func (t *Announce) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Announce) PrependInReplyTo(k url.URL) {
+func (t *Announce) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -77655,8 +77655,8 @@ func (t *Announce) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -77672,13 +77672,13 @@ func (t *Announce) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Announce) AppendUrl(k url.URL) {
+func (t *Announce) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Announce) PrependUrl(k url.URL) {
+func (t *Announce) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -77707,8 +77707,8 @@ func (t *Announce) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -77726,13 +77726,13 @@ func (t *Announce) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Announce) AppendTo(k url.URL) {
+func (t *Announce) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Announce) PrependTo(k url.URL) {
+func (t *Announce) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -77763,8 +77763,8 @@ func (t *Announce) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -77782,13 +77782,13 @@ func (t *Announce) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Announce) AppendBto(k url.URL) {
+func (t *Announce) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Announce) PrependBto(k url.URL) {
+func (t *Announce) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -77819,8 +77819,8 @@ func (t *Announce) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -77838,13 +77838,13 @@ func (t *Announce) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Announce) AppendCc(k url.URL) {
+func (t *Announce) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Announce) PrependCc(k url.URL) {
+func (t *Announce) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -77875,8 +77875,8 @@ func (t *Announce) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -77894,13 +77894,13 @@ func (t *Announce) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Announce) AppendBcc(k url.URL) {
+func (t *Announce) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Announce) PrependBcc(k url.URL) {
+func (t *Announce) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -78253,8 +78253,8 @@ func (t *Announce) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -78268,13 +78268,13 @@ func (t *Announce) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Announce) AppendStreams(k url.URL) {
+func (t *Announce) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Announce) PrependStreams(k url.URL) {
+func (t *Announce) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -78371,8 +78371,8 @@ func (t *Announce) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -78396,13 +78396,13 @@ func (t *Announce) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Announce) SetProxyUrl(k url.URL) {
+func (t *Announce) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -78426,13 +78426,13 @@ func (t *Announce) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Announce) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Announce) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -78456,13 +78456,13 @@ func (t *Announce) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Announce) SetOauthTokenEndpoint(k url.URL) {
+func (t *Announce) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -78486,13 +78486,13 @@ func (t *Announce) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Announce) SetProvideClientKey(k url.URL) {
+func (t *Announce) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -78516,13 +78516,13 @@ func (t *Announce) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Announce) SetSignClientKey(k url.URL) {
+func (t *Announce) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Announce) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Announce) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -78546,7 +78546,7 @@ func (t *Announce) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Announce) SetSharedInbox(k url.URL) {
+func (t *Announce) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -78575,8 +78575,8 @@ func (t *Block) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -78594,13 +78594,13 @@ func (t *Block) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Block) AppendActor(k url.URL) {
+func (t *Block) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Block) PrependActor(k url.URL) {
+func (t *Block) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -78683,8 +78683,8 @@ func (t *Block) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -78702,13 +78702,13 @@ func (t *Block) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Block) AppendTarget(k url.URL) {
+func (t *Block) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Block) PrependTarget(k url.URL) {
+func (t *Block) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -79033,8 +79033,8 @@ func (t *Block) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -79052,13 +79052,13 @@ func (t *Block) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Block) AppendAttributedTo(k url.URL) {
+func (t *Block) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Block) PrependAttributedTo(k url.URL) {
+func (t *Block) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -79089,8 +79089,8 @@ func (t *Block) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -79108,13 +79108,13 @@ func (t *Block) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Block) AppendAudience(k url.URL) {
+func (t *Block) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Block) PrependAudience(k url.URL) {
+func (t *Block) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -79507,8 +79507,8 @@ func (t *Block) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -79532,7 +79532,7 @@ func (t *Block) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Block) SetId(k url.URL) {
+func (t *Block) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -79599,8 +79599,8 @@ func (t *Block) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -79618,13 +79618,13 @@ func (t *Block) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Block) AppendInReplyTo(k url.URL) {
+func (t *Block) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Block) PrependInReplyTo(k url.URL) {
+func (t *Block) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -80099,8 +80099,8 @@ func (t *Block) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -80116,13 +80116,13 @@ func (t *Block) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Block) AppendUrl(k url.URL) {
+func (t *Block) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Block) PrependUrl(k url.URL) {
+func (t *Block) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -80151,8 +80151,8 @@ func (t *Block) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -80170,13 +80170,13 @@ func (t *Block) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Block) AppendTo(k url.URL) {
+func (t *Block) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Block) PrependTo(k url.URL) {
+func (t *Block) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -80207,8 +80207,8 @@ func (t *Block) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -80226,13 +80226,13 @@ func (t *Block) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Block) AppendBto(k url.URL) {
+func (t *Block) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Block) PrependBto(k url.URL) {
+func (t *Block) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -80263,8 +80263,8 @@ func (t *Block) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -80282,13 +80282,13 @@ func (t *Block) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Block) AppendCc(k url.URL) {
+func (t *Block) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Block) PrependCc(k url.URL) {
+func (t *Block) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -80319,8 +80319,8 @@ func (t *Block) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -80338,13 +80338,13 @@ func (t *Block) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Block) AppendBcc(k url.URL) {
+func (t *Block) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Block) PrependBcc(k url.URL) {
+func (t *Block) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -80697,8 +80697,8 @@ func (t *Block) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -80712,13 +80712,13 @@ func (t *Block) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Block) AppendStreams(k url.URL) {
+func (t *Block) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Block) PrependStreams(k url.URL) {
+func (t *Block) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -80815,8 +80815,8 @@ func (t *Block) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -80840,13 +80840,13 @@ func (t *Block) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Block) SetProxyUrl(k url.URL) {
+func (t *Block) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -80870,13 +80870,13 @@ func (t *Block) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Block) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Block) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -80900,13 +80900,13 @@ func (t *Block) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Block) SetOauthTokenEndpoint(k url.URL) {
+func (t *Block) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -80930,13 +80930,13 @@ func (t *Block) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Block) SetProvideClientKey(k url.URL) {
+func (t *Block) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -80960,13 +80960,13 @@ func (t *Block) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Block) SetSignClientKey(k url.URL) {
+func (t *Block) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Block) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Block) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -80990,7 +80990,7 @@ func (t *Block) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Block) SetSharedInbox(k url.URL) {
+func (t *Block) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -81019,8 +81019,8 @@ func (t *Flag) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -81038,13 +81038,13 @@ func (t *Flag) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Flag) AppendActor(k url.URL) {
+func (t *Flag) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Flag) PrependActor(k url.URL) {
+func (t *Flag) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -81127,8 +81127,8 @@ func (t *Flag) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -81146,13 +81146,13 @@ func (t *Flag) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Flag) AppendTarget(k url.URL) {
+func (t *Flag) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Flag) PrependTarget(k url.URL) {
+func (t *Flag) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -81477,8 +81477,8 @@ func (t *Flag) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -81496,13 +81496,13 @@ func (t *Flag) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Flag) AppendAttributedTo(k url.URL) {
+func (t *Flag) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Flag) PrependAttributedTo(k url.URL) {
+func (t *Flag) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -81533,8 +81533,8 @@ func (t *Flag) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -81552,13 +81552,13 @@ func (t *Flag) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Flag) AppendAudience(k url.URL) {
+func (t *Flag) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Flag) PrependAudience(k url.URL) {
+func (t *Flag) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -81951,8 +81951,8 @@ func (t *Flag) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -81976,7 +81976,7 @@ func (t *Flag) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Flag) SetId(k url.URL) {
+func (t *Flag) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -82043,8 +82043,8 @@ func (t *Flag) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -82062,13 +82062,13 @@ func (t *Flag) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Flag) AppendInReplyTo(k url.URL) {
+func (t *Flag) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Flag) PrependInReplyTo(k url.URL) {
+func (t *Flag) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -82543,8 +82543,8 @@ func (t *Flag) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -82560,13 +82560,13 @@ func (t *Flag) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Flag) AppendUrl(k url.URL) {
+func (t *Flag) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Flag) PrependUrl(k url.URL) {
+func (t *Flag) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -82595,8 +82595,8 @@ func (t *Flag) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -82614,13 +82614,13 @@ func (t *Flag) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Flag) AppendTo(k url.URL) {
+func (t *Flag) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Flag) PrependTo(k url.URL) {
+func (t *Flag) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -82651,8 +82651,8 @@ func (t *Flag) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -82670,13 +82670,13 @@ func (t *Flag) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Flag) AppendBto(k url.URL) {
+func (t *Flag) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Flag) PrependBto(k url.URL) {
+func (t *Flag) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -82707,8 +82707,8 @@ func (t *Flag) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -82726,13 +82726,13 @@ func (t *Flag) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Flag) AppendCc(k url.URL) {
+func (t *Flag) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Flag) PrependCc(k url.URL) {
+func (t *Flag) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -82763,8 +82763,8 @@ func (t *Flag) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -82782,13 +82782,13 @@ func (t *Flag) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Flag) AppendBcc(k url.URL) {
+func (t *Flag) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Flag) PrependBcc(k url.URL) {
+func (t *Flag) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -83141,8 +83141,8 @@ func (t *Flag) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -83156,13 +83156,13 @@ func (t *Flag) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Flag) AppendStreams(k url.URL) {
+func (t *Flag) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Flag) PrependStreams(k url.URL) {
+func (t *Flag) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -83259,8 +83259,8 @@ func (t *Flag) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -83284,13 +83284,13 @@ func (t *Flag) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Flag) SetProxyUrl(k url.URL) {
+func (t *Flag) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -83314,13 +83314,13 @@ func (t *Flag) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Flag) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Flag) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -83344,13 +83344,13 @@ func (t *Flag) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Flag) SetOauthTokenEndpoint(k url.URL) {
+func (t *Flag) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -83374,13 +83374,13 @@ func (t *Flag) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Flag) SetProvideClientKey(k url.URL) {
+func (t *Flag) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -83404,13 +83404,13 @@ func (t *Flag) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Flag) SetSignClientKey(k url.URL) {
+func (t *Flag) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Flag) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Flag) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -83434,7 +83434,7 @@ func (t *Flag) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Flag) SetSharedInbox(k url.URL) {
+func (t *Flag) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -83463,8 +83463,8 @@ func (t *Dislike) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -83482,13 +83482,13 @@ func (t *Dislike) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Dislike) AppendActor(k url.URL) {
+func (t *Dislike) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Dislike) PrependActor(k url.URL) {
+func (t *Dislike) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -83571,8 +83571,8 @@ func (t *Dislike) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -83590,13 +83590,13 @@ func (t *Dislike) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Dislike) AppendTarget(k url.URL) {
+func (t *Dislike) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Dislike) PrependTarget(k url.URL) {
+func (t *Dislike) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -83921,8 +83921,8 @@ func (t *Dislike) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -83940,13 +83940,13 @@ func (t *Dislike) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Dislike) AppendAttributedTo(k url.URL) {
+func (t *Dislike) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Dislike) PrependAttributedTo(k url.URL) {
+func (t *Dislike) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -83977,8 +83977,8 @@ func (t *Dislike) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -83996,13 +83996,13 @@ func (t *Dislike) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Dislike) AppendAudience(k url.URL) {
+func (t *Dislike) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Dislike) PrependAudience(k url.URL) {
+func (t *Dislike) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -84395,8 +84395,8 @@ func (t *Dislike) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -84420,7 +84420,7 @@ func (t *Dislike) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Dislike) SetId(k url.URL) {
+func (t *Dislike) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -84487,8 +84487,8 @@ func (t *Dislike) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -84506,13 +84506,13 @@ func (t *Dislike) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Dislike) AppendInReplyTo(k url.URL) {
+func (t *Dislike) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Dislike) PrependInReplyTo(k url.URL) {
+func (t *Dislike) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -84987,8 +84987,8 @@ func (t *Dislike) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -85004,13 +85004,13 @@ func (t *Dislike) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Dislike) AppendUrl(k url.URL) {
+func (t *Dislike) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Dislike) PrependUrl(k url.URL) {
+func (t *Dislike) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -85039,8 +85039,8 @@ func (t *Dislike) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -85058,13 +85058,13 @@ func (t *Dislike) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Dislike) AppendTo(k url.URL) {
+func (t *Dislike) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Dislike) PrependTo(k url.URL) {
+func (t *Dislike) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -85095,8 +85095,8 @@ func (t *Dislike) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -85114,13 +85114,13 @@ func (t *Dislike) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Dislike) AppendBto(k url.URL) {
+func (t *Dislike) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Dislike) PrependBto(k url.URL) {
+func (t *Dislike) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -85151,8 +85151,8 @@ func (t *Dislike) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -85170,13 +85170,13 @@ func (t *Dislike) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Dislike) AppendCc(k url.URL) {
+func (t *Dislike) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Dislike) PrependCc(k url.URL) {
+func (t *Dislike) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -85207,8 +85207,8 @@ func (t *Dislike) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -85226,13 +85226,13 @@ func (t *Dislike) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Dislike) AppendBcc(k url.URL) {
+func (t *Dislike) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Dislike) PrependBcc(k url.URL) {
+func (t *Dislike) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -85585,8 +85585,8 @@ func (t *Dislike) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -85600,13 +85600,13 @@ func (t *Dislike) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Dislike) AppendStreams(k url.URL) {
+func (t *Dislike) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Dislike) PrependStreams(k url.URL) {
+func (t *Dislike) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -85703,8 +85703,8 @@ func (t *Dislike) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -85728,13 +85728,13 @@ func (t *Dislike) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Dislike) SetProxyUrl(k url.URL) {
+func (t *Dislike) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -85758,13 +85758,13 @@ func (t *Dislike) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Dislike) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Dislike) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -85788,13 +85788,13 @@ func (t *Dislike) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Dislike) SetOauthTokenEndpoint(k url.URL) {
+func (t *Dislike) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -85818,13 +85818,13 @@ func (t *Dislike) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Dislike) SetProvideClientKey(k url.URL) {
+func (t *Dislike) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -85848,13 +85848,13 @@ func (t *Dislike) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Dislike) SetSignClientKey(k url.URL) {
+func (t *Dislike) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Dislike) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Dislike) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -85878,7 +85878,7 @@ func (t *Dislike) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Dislike) SetSharedInbox(k url.URL) {
+func (t *Dislike) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -86101,8 +86101,8 @@ func (t *Question) LenActor() (idx int) {
 
 }
 
-// GetActor attempts to get this 'actor' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetActor(idx int) (r Resolution, k url.URL) {
+// GetActor attempts to get this 'actor' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetActor(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsActorIRI(idx) {
@@ -86120,13 +86120,13 @@ func (t *Question) GetActor(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendActor appends the value for property 'actor'.
-func (t *Question) AppendActor(k url.URL) {
+func (t *Question) AppendActor(k *url.URL) {
 	t.raw.AppendActorIRI(k)
 
 }
 
 // PrependActor prepends the value for property 'actor'.
-func (t *Question) PrependActor(k url.URL) {
+func (t *Question) PrependActor(k *url.URL) {
 	t.raw.PrependActorIRI(k)
 
 }
@@ -86157,8 +86157,8 @@ func (t *Question) LenTarget() (idx int) {
 
 }
 
-// GetTarget attempts to get this 'target' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetTarget(idx int) (r Resolution, k url.URL) {
+// GetTarget attempts to get this 'target' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetTarget(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsTargetIRI(idx) {
@@ -86176,13 +86176,13 @@ func (t *Question) GetTarget(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTarget appends the value for property 'target'.
-func (t *Question) AppendTarget(k url.URL) {
+func (t *Question) AppendTarget(k *url.URL) {
 	t.raw.AppendTargetIRI(k)
 
 }
 
 // PrependTarget prepends the value for property 'target'.
-func (t *Question) PrependTarget(k url.URL) {
+func (t *Question) PrependTarget(k *url.URL) {
 	t.raw.PrependTargetIRI(k)
 
 }
@@ -86507,8 +86507,8 @@ func (t *Question) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -86526,13 +86526,13 @@ func (t *Question) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Question) AppendAttributedTo(k url.URL) {
+func (t *Question) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Question) PrependAttributedTo(k url.URL) {
+func (t *Question) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -86563,8 +86563,8 @@ func (t *Question) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -86582,13 +86582,13 @@ func (t *Question) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Question) AppendAudience(k url.URL) {
+func (t *Question) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Question) PrependAudience(k url.URL) {
+func (t *Question) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -86981,8 +86981,8 @@ func (t *Question) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -87006,7 +87006,7 @@ func (t *Question) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Question) SetId(k url.URL) {
+func (t *Question) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -87073,8 +87073,8 @@ func (t *Question) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -87092,13 +87092,13 @@ func (t *Question) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Question) AppendInReplyTo(k url.URL) {
+func (t *Question) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Question) PrependInReplyTo(k url.URL) {
+func (t *Question) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -87573,8 +87573,8 @@ func (t *Question) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -87590,13 +87590,13 @@ func (t *Question) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Question) AppendUrl(k url.URL) {
+func (t *Question) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Question) PrependUrl(k url.URL) {
+func (t *Question) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -87625,8 +87625,8 @@ func (t *Question) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -87644,13 +87644,13 @@ func (t *Question) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Question) AppendTo(k url.URL) {
+func (t *Question) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Question) PrependTo(k url.URL) {
+func (t *Question) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -87681,8 +87681,8 @@ func (t *Question) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -87700,13 +87700,13 @@ func (t *Question) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Question) AppendBto(k url.URL) {
+func (t *Question) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Question) PrependBto(k url.URL) {
+func (t *Question) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -87737,8 +87737,8 @@ func (t *Question) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -87756,13 +87756,13 @@ func (t *Question) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Question) AppendCc(k url.URL) {
+func (t *Question) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Question) PrependCc(k url.URL) {
+func (t *Question) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -87793,8 +87793,8 @@ func (t *Question) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -87812,13 +87812,13 @@ func (t *Question) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Question) AppendBcc(k url.URL) {
+func (t *Question) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Question) PrependBcc(k url.URL) {
+func (t *Question) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -88171,8 +88171,8 @@ func (t *Question) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -88186,13 +88186,13 @@ func (t *Question) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Question) AppendStreams(k url.URL) {
+func (t *Question) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Question) PrependStreams(k url.URL) {
+func (t *Question) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -88289,8 +88289,8 @@ func (t *Question) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -88314,13 +88314,13 @@ func (t *Question) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Question) SetProxyUrl(k url.URL) {
+func (t *Question) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -88344,13 +88344,13 @@ func (t *Question) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Question) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Question) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -88374,13 +88374,13 @@ func (t *Question) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Question) SetOauthTokenEndpoint(k url.URL) {
+func (t *Question) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -88404,13 +88404,13 @@ func (t *Question) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Question) SetProvideClientKey(k url.URL) {
+func (t *Question) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -88434,13 +88434,13 @@ func (t *Question) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Question) SetSignClientKey(k url.URL) {
+func (t *Question) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Question) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Question) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -88464,7 +88464,7 @@ func (t *Question) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Question) SetSharedInbox(k url.URL) {
+func (t *Question) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -88592,8 +88592,8 @@ func (t *Application) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -88611,13 +88611,13 @@ func (t *Application) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Application) AppendAttributedTo(k url.URL) {
+func (t *Application) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Application) PrependAttributedTo(k url.URL) {
+func (t *Application) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -88648,8 +88648,8 @@ func (t *Application) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -88667,13 +88667,13 @@ func (t *Application) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Application) AppendAudience(k url.URL) {
+func (t *Application) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Application) PrependAudience(k url.URL) {
+func (t *Application) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -89066,8 +89066,8 @@ func (t *Application) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -89091,7 +89091,7 @@ func (t *Application) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Application) SetId(k url.URL) {
+func (t *Application) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -89158,8 +89158,8 @@ func (t *Application) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -89177,13 +89177,13 @@ func (t *Application) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Application) AppendInReplyTo(k url.URL) {
+func (t *Application) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Application) PrependInReplyTo(k url.URL) {
+func (t *Application) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -89658,8 +89658,8 @@ func (t *Application) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -89675,13 +89675,13 @@ func (t *Application) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Application) AppendUrl(k url.URL) {
+func (t *Application) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Application) PrependUrl(k url.URL) {
+func (t *Application) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -89710,8 +89710,8 @@ func (t *Application) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -89729,13 +89729,13 @@ func (t *Application) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Application) AppendTo(k url.URL) {
+func (t *Application) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Application) PrependTo(k url.URL) {
+func (t *Application) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -89766,8 +89766,8 @@ func (t *Application) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -89785,13 +89785,13 @@ func (t *Application) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Application) AppendBto(k url.URL) {
+func (t *Application) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Application) PrependBto(k url.URL) {
+func (t *Application) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -89822,8 +89822,8 @@ func (t *Application) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -89841,13 +89841,13 @@ func (t *Application) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Application) AppendCc(k url.URL) {
+func (t *Application) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Application) PrependCc(k url.URL) {
+func (t *Application) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -89878,8 +89878,8 @@ func (t *Application) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -89897,13 +89897,13 @@ func (t *Application) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Application) AppendBcc(k url.URL) {
+func (t *Application) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Application) PrependBcc(k url.URL) {
+func (t *Application) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -90256,8 +90256,8 @@ func (t *Application) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -90271,13 +90271,13 @@ func (t *Application) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Application) AppendStreams(k url.URL) {
+func (t *Application) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Application) PrependStreams(k url.URL) {
+func (t *Application) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -90374,8 +90374,8 @@ func (t *Application) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -90399,13 +90399,13 @@ func (t *Application) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Application) SetProxyUrl(k url.URL) {
+func (t *Application) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -90429,13 +90429,13 @@ func (t *Application) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Application) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Application) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -90459,13 +90459,13 @@ func (t *Application) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Application) SetOauthTokenEndpoint(k url.URL) {
+func (t *Application) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -90489,13 +90489,13 @@ func (t *Application) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Application) SetProvideClientKey(k url.URL) {
+func (t *Application) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -90519,13 +90519,13 @@ func (t *Application) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Application) SetSignClientKey(k url.URL) {
+func (t *Application) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Application) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Application) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -90549,7 +90549,7 @@ func (t *Application) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Application) SetSharedInbox(k url.URL) {
+func (t *Application) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -90677,8 +90677,8 @@ func (t *Group) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -90696,13 +90696,13 @@ func (t *Group) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Group) AppendAttributedTo(k url.URL) {
+func (t *Group) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Group) PrependAttributedTo(k url.URL) {
+func (t *Group) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -90733,8 +90733,8 @@ func (t *Group) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -90752,13 +90752,13 @@ func (t *Group) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Group) AppendAudience(k url.URL) {
+func (t *Group) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Group) PrependAudience(k url.URL) {
+func (t *Group) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -91151,8 +91151,8 @@ func (t *Group) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -91176,7 +91176,7 @@ func (t *Group) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Group) SetId(k url.URL) {
+func (t *Group) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -91243,8 +91243,8 @@ func (t *Group) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -91262,13 +91262,13 @@ func (t *Group) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Group) AppendInReplyTo(k url.URL) {
+func (t *Group) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Group) PrependInReplyTo(k url.URL) {
+func (t *Group) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -91743,8 +91743,8 @@ func (t *Group) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -91760,13 +91760,13 @@ func (t *Group) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Group) AppendUrl(k url.URL) {
+func (t *Group) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Group) PrependUrl(k url.URL) {
+func (t *Group) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -91795,8 +91795,8 @@ func (t *Group) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -91814,13 +91814,13 @@ func (t *Group) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Group) AppendTo(k url.URL) {
+func (t *Group) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Group) PrependTo(k url.URL) {
+func (t *Group) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -91851,8 +91851,8 @@ func (t *Group) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -91870,13 +91870,13 @@ func (t *Group) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Group) AppendBto(k url.URL) {
+func (t *Group) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Group) PrependBto(k url.URL) {
+func (t *Group) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -91907,8 +91907,8 @@ func (t *Group) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -91926,13 +91926,13 @@ func (t *Group) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Group) AppendCc(k url.URL) {
+func (t *Group) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Group) PrependCc(k url.URL) {
+func (t *Group) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -91963,8 +91963,8 @@ func (t *Group) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -91982,13 +91982,13 @@ func (t *Group) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Group) AppendBcc(k url.URL) {
+func (t *Group) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Group) PrependBcc(k url.URL) {
+func (t *Group) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -92341,8 +92341,8 @@ func (t *Group) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -92356,13 +92356,13 @@ func (t *Group) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Group) AppendStreams(k url.URL) {
+func (t *Group) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Group) PrependStreams(k url.URL) {
+func (t *Group) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -92459,8 +92459,8 @@ func (t *Group) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -92484,13 +92484,13 @@ func (t *Group) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Group) SetProxyUrl(k url.URL) {
+func (t *Group) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -92514,13 +92514,13 @@ func (t *Group) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Group) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Group) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -92544,13 +92544,13 @@ func (t *Group) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Group) SetOauthTokenEndpoint(k url.URL) {
+func (t *Group) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -92574,13 +92574,13 @@ func (t *Group) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Group) SetProvideClientKey(k url.URL) {
+func (t *Group) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -92604,13 +92604,13 @@ func (t *Group) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Group) SetSignClientKey(k url.URL) {
+func (t *Group) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Group) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Group) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -92634,7 +92634,7 @@ func (t *Group) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Group) SetSharedInbox(k url.URL) {
+func (t *Group) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -92762,8 +92762,8 @@ func (t *Organization) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -92781,13 +92781,13 @@ func (t *Organization) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Organization) AppendAttributedTo(k url.URL) {
+func (t *Organization) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Organization) PrependAttributedTo(k url.URL) {
+func (t *Organization) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -92818,8 +92818,8 @@ func (t *Organization) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -92837,13 +92837,13 @@ func (t *Organization) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Organization) AppendAudience(k url.URL) {
+func (t *Organization) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Organization) PrependAudience(k url.URL) {
+func (t *Organization) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -93236,8 +93236,8 @@ func (t *Organization) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -93261,7 +93261,7 @@ func (t *Organization) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Organization) SetId(k url.URL) {
+func (t *Organization) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -93328,8 +93328,8 @@ func (t *Organization) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -93347,13 +93347,13 @@ func (t *Organization) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Organization) AppendInReplyTo(k url.URL) {
+func (t *Organization) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Organization) PrependInReplyTo(k url.URL) {
+func (t *Organization) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -93828,8 +93828,8 @@ func (t *Organization) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -93845,13 +93845,13 @@ func (t *Organization) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Organization) AppendUrl(k url.URL) {
+func (t *Organization) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Organization) PrependUrl(k url.URL) {
+func (t *Organization) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -93880,8 +93880,8 @@ func (t *Organization) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -93899,13 +93899,13 @@ func (t *Organization) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Organization) AppendTo(k url.URL) {
+func (t *Organization) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Organization) PrependTo(k url.URL) {
+func (t *Organization) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -93936,8 +93936,8 @@ func (t *Organization) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -93955,13 +93955,13 @@ func (t *Organization) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Organization) AppendBto(k url.URL) {
+func (t *Organization) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Organization) PrependBto(k url.URL) {
+func (t *Organization) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -93992,8 +93992,8 @@ func (t *Organization) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -94011,13 +94011,13 @@ func (t *Organization) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Organization) AppendCc(k url.URL) {
+func (t *Organization) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Organization) PrependCc(k url.URL) {
+func (t *Organization) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -94048,8 +94048,8 @@ func (t *Organization) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -94067,13 +94067,13 @@ func (t *Organization) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Organization) AppendBcc(k url.URL) {
+func (t *Organization) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Organization) PrependBcc(k url.URL) {
+func (t *Organization) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -94426,8 +94426,8 @@ func (t *Organization) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -94441,13 +94441,13 @@ func (t *Organization) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Organization) AppendStreams(k url.URL) {
+func (t *Organization) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Organization) PrependStreams(k url.URL) {
+func (t *Organization) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -94544,8 +94544,8 @@ func (t *Organization) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -94569,13 +94569,13 @@ func (t *Organization) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Organization) SetProxyUrl(k url.URL) {
+func (t *Organization) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -94599,13 +94599,13 @@ func (t *Organization) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Organization) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Organization) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -94629,13 +94629,13 @@ func (t *Organization) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Organization) SetOauthTokenEndpoint(k url.URL) {
+func (t *Organization) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -94659,13 +94659,13 @@ func (t *Organization) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Organization) SetProvideClientKey(k url.URL) {
+func (t *Organization) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -94689,13 +94689,13 @@ func (t *Organization) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Organization) SetSignClientKey(k url.URL) {
+func (t *Organization) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Organization) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Organization) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -94719,7 +94719,7 @@ func (t *Organization) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Organization) SetSharedInbox(k url.URL) {
+func (t *Organization) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -94847,8 +94847,8 @@ func (t *Person) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -94866,13 +94866,13 @@ func (t *Person) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Person) AppendAttributedTo(k url.URL) {
+func (t *Person) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Person) PrependAttributedTo(k url.URL) {
+func (t *Person) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -94903,8 +94903,8 @@ func (t *Person) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -94922,13 +94922,13 @@ func (t *Person) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Person) AppendAudience(k url.URL) {
+func (t *Person) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Person) PrependAudience(k url.URL) {
+func (t *Person) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -95321,8 +95321,8 @@ func (t *Person) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -95346,7 +95346,7 @@ func (t *Person) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Person) SetId(k url.URL) {
+func (t *Person) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -95413,8 +95413,8 @@ func (t *Person) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -95432,13 +95432,13 @@ func (t *Person) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Person) AppendInReplyTo(k url.URL) {
+func (t *Person) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Person) PrependInReplyTo(k url.URL) {
+func (t *Person) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -95913,8 +95913,8 @@ func (t *Person) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -95930,13 +95930,13 @@ func (t *Person) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Person) AppendUrl(k url.URL) {
+func (t *Person) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Person) PrependUrl(k url.URL) {
+func (t *Person) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -95965,8 +95965,8 @@ func (t *Person) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -95984,13 +95984,13 @@ func (t *Person) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Person) AppendTo(k url.URL) {
+func (t *Person) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Person) PrependTo(k url.URL) {
+func (t *Person) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -96021,8 +96021,8 @@ func (t *Person) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -96040,13 +96040,13 @@ func (t *Person) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Person) AppendBto(k url.URL) {
+func (t *Person) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Person) PrependBto(k url.URL) {
+func (t *Person) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -96077,8 +96077,8 @@ func (t *Person) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -96096,13 +96096,13 @@ func (t *Person) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Person) AppendCc(k url.URL) {
+func (t *Person) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Person) PrependCc(k url.URL) {
+func (t *Person) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -96133,8 +96133,8 @@ func (t *Person) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -96152,13 +96152,13 @@ func (t *Person) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Person) AppendBcc(k url.URL) {
+func (t *Person) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Person) PrependBcc(k url.URL) {
+func (t *Person) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -96511,8 +96511,8 @@ func (t *Person) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -96526,13 +96526,13 @@ func (t *Person) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Person) AppendStreams(k url.URL) {
+func (t *Person) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Person) PrependStreams(k url.URL) {
+func (t *Person) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -96629,8 +96629,8 @@ func (t *Person) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -96654,13 +96654,13 @@ func (t *Person) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Person) SetProxyUrl(k url.URL) {
+func (t *Person) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -96684,13 +96684,13 @@ func (t *Person) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Person) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Person) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -96714,13 +96714,13 @@ func (t *Person) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Person) SetOauthTokenEndpoint(k url.URL) {
+func (t *Person) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -96744,13 +96744,13 @@ func (t *Person) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Person) SetProvideClientKey(k url.URL) {
+func (t *Person) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -96774,13 +96774,13 @@ func (t *Person) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Person) SetSignClientKey(k url.URL) {
+func (t *Person) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Person) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Person) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -96804,7 +96804,7 @@ func (t *Person) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Person) SetSharedInbox(k url.URL) {
+func (t *Person) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -96932,8 +96932,8 @@ func (t *Service) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -96951,13 +96951,13 @@ func (t *Service) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Service) AppendAttributedTo(k url.URL) {
+func (t *Service) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Service) PrependAttributedTo(k url.URL) {
+func (t *Service) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -96988,8 +96988,8 @@ func (t *Service) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -97007,13 +97007,13 @@ func (t *Service) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Service) AppendAudience(k url.URL) {
+func (t *Service) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Service) PrependAudience(k url.URL) {
+func (t *Service) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -97406,8 +97406,8 @@ func (t *Service) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -97431,7 +97431,7 @@ func (t *Service) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Service) SetId(k url.URL) {
+func (t *Service) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -97498,8 +97498,8 @@ func (t *Service) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -97517,13 +97517,13 @@ func (t *Service) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Service) AppendInReplyTo(k url.URL) {
+func (t *Service) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Service) PrependInReplyTo(k url.URL) {
+func (t *Service) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -97998,8 +97998,8 @@ func (t *Service) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -98015,13 +98015,13 @@ func (t *Service) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Service) AppendUrl(k url.URL) {
+func (t *Service) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Service) PrependUrl(k url.URL) {
+func (t *Service) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -98050,8 +98050,8 @@ func (t *Service) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -98069,13 +98069,13 @@ func (t *Service) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Service) AppendTo(k url.URL) {
+func (t *Service) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Service) PrependTo(k url.URL) {
+func (t *Service) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -98106,8 +98106,8 @@ func (t *Service) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -98125,13 +98125,13 @@ func (t *Service) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Service) AppendBto(k url.URL) {
+func (t *Service) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Service) PrependBto(k url.URL) {
+func (t *Service) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -98162,8 +98162,8 @@ func (t *Service) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -98181,13 +98181,13 @@ func (t *Service) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Service) AppendCc(k url.URL) {
+func (t *Service) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Service) PrependCc(k url.URL) {
+func (t *Service) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -98218,8 +98218,8 @@ func (t *Service) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -98237,13 +98237,13 @@ func (t *Service) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Service) AppendBcc(k url.URL) {
+func (t *Service) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Service) PrependBcc(k url.URL) {
+func (t *Service) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -98596,8 +98596,8 @@ func (t *Service) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -98611,13 +98611,13 @@ func (t *Service) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Service) AppendStreams(k url.URL) {
+func (t *Service) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Service) PrependStreams(k url.URL) {
+func (t *Service) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -98714,8 +98714,8 @@ func (t *Service) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -98739,13 +98739,13 @@ func (t *Service) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Service) SetProxyUrl(k url.URL) {
+func (t *Service) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -98769,13 +98769,13 @@ func (t *Service) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Service) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Service) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -98799,13 +98799,13 @@ func (t *Service) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Service) SetOauthTokenEndpoint(k url.URL) {
+func (t *Service) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -98829,13 +98829,13 @@ func (t *Service) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Service) SetProvideClientKey(k url.URL) {
+func (t *Service) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -98859,13 +98859,13 @@ func (t *Service) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Service) SetSignClientKey(k url.URL) {
+func (t *Service) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Service) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Service) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -98889,7 +98889,7 @@ func (t *Service) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Service) SetSharedInbox(k url.URL) {
+func (t *Service) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -99150,8 +99150,8 @@ func (t *Relationship) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -99169,13 +99169,13 @@ func (t *Relationship) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Relationship) AppendAttributedTo(k url.URL) {
+func (t *Relationship) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Relationship) PrependAttributedTo(k url.URL) {
+func (t *Relationship) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -99206,8 +99206,8 @@ func (t *Relationship) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -99225,13 +99225,13 @@ func (t *Relationship) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Relationship) AppendAudience(k url.URL) {
+func (t *Relationship) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Relationship) PrependAudience(k url.URL) {
+func (t *Relationship) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -99624,8 +99624,8 @@ func (t *Relationship) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -99649,7 +99649,7 @@ func (t *Relationship) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Relationship) SetId(k url.URL) {
+func (t *Relationship) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -99716,8 +99716,8 @@ func (t *Relationship) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -99735,13 +99735,13 @@ func (t *Relationship) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Relationship) AppendInReplyTo(k url.URL) {
+func (t *Relationship) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Relationship) PrependInReplyTo(k url.URL) {
+func (t *Relationship) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -100216,8 +100216,8 @@ func (t *Relationship) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -100233,13 +100233,13 @@ func (t *Relationship) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Relationship) AppendUrl(k url.URL) {
+func (t *Relationship) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Relationship) PrependUrl(k url.URL) {
+func (t *Relationship) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -100268,8 +100268,8 @@ func (t *Relationship) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -100287,13 +100287,13 @@ func (t *Relationship) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Relationship) AppendTo(k url.URL) {
+func (t *Relationship) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Relationship) PrependTo(k url.URL) {
+func (t *Relationship) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -100324,8 +100324,8 @@ func (t *Relationship) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -100343,13 +100343,13 @@ func (t *Relationship) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Relationship) AppendBto(k url.URL) {
+func (t *Relationship) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Relationship) PrependBto(k url.URL) {
+func (t *Relationship) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -100380,8 +100380,8 @@ func (t *Relationship) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -100399,13 +100399,13 @@ func (t *Relationship) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Relationship) AppendCc(k url.URL) {
+func (t *Relationship) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Relationship) PrependCc(k url.URL) {
+func (t *Relationship) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -100436,8 +100436,8 @@ func (t *Relationship) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -100455,13 +100455,13 @@ func (t *Relationship) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Relationship) AppendBcc(k url.URL) {
+func (t *Relationship) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Relationship) PrependBcc(k url.URL) {
+func (t *Relationship) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -100814,8 +100814,8 @@ func (t *Relationship) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -100829,13 +100829,13 @@ func (t *Relationship) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Relationship) AppendStreams(k url.URL) {
+func (t *Relationship) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Relationship) PrependStreams(k url.URL) {
+func (t *Relationship) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -100932,8 +100932,8 @@ func (t *Relationship) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -100957,13 +100957,13 @@ func (t *Relationship) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Relationship) SetProxyUrl(k url.URL) {
+func (t *Relationship) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -100987,13 +100987,13 @@ func (t *Relationship) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Relationship) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Relationship) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -101017,13 +101017,13 @@ func (t *Relationship) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Relationship) SetOauthTokenEndpoint(k url.URL) {
+func (t *Relationship) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -101047,13 +101047,13 @@ func (t *Relationship) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Relationship) SetProvideClientKey(k url.URL) {
+func (t *Relationship) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -101077,13 +101077,13 @@ func (t *Relationship) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Relationship) SetSignClientKey(k url.URL) {
+func (t *Relationship) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Relationship) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Relationship) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -101107,7 +101107,7 @@ func (t *Relationship) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Relationship) SetSharedInbox(k url.URL) {
+func (t *Relationship) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -101235,8 +101235,8 @@ func (t *Article) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -101254,13 +101254,13 @@ func (t *Article) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Article) AppendAttributedTo(k url.URL) {
+func (t *Article) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Article) PrependAttributedTo(k url.URL) {
+func (t *Article) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -101291,8 +101291,8 @@ func (t *Article) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -101310,13 +101310,13 @@ func (t *Article) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Article) AppendAudience(k url.URL) {
+func (t *Article) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Article) PrependAudience(k url.URL) {
+func (t *Article) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -101709,8 +101709,8 @@ func (t *Article) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -101734,7 +101734,7 @@ func (t *Article) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Article) SetId(k url.URL) {
+func (t *Article) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -101801,8 +101801,8 @@ func (t *Article) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -101820,13 +101820,13 @@ func (t *Article) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Article) AppendInReplyTo(k url.URL) {
+func (t *Article) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Article) PrependInReplyTo(k url.URL) {
+func (t *Article) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -102301,8 +102301,8 @@ func (t *Article) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -102318,13 +102318,13 @@ func (t *Article) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Article) AppendUrl(k url.URL) {
+func (t *Article) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Article) PrependUrl(k url.URL) {
+func (t *Article) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -102353,8 +102353,8 @@ func (t *Article) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -102372,13 +102372,13 @@ func (t *Article) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Article) AppendTo(k url.URL) {
+func (t *Article) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Article) PrependTo(k url.URL) {
+func (t *Article) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -102409,8 +102409,8 @@ func (t *Article) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -102428,13 +102428,13 @@ func (t *Article) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Article) AppendBto(k url.URL) {
+func (t *Article) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Article) PrependBto(k url.URL) {
+func (t *Article) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -102465,8 +102465,8 @@ func (t *Article) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -102484,13 +102484,13 @@ func (t *Article) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Article) AppendCc(k url.URL) {
+func (t *Article) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Article) PrependCc(k url.URL) {
+func (t *Article) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -102521,8 +102521,8 @@ func (t *Article) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -102540,13 +102540,13 @@ func (t *Article) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Article) AppendBcc(k url.URL) {
+func (t *Article) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Article) PrependBcc(k url.URL) {
+func (t *Article) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -102899,8 +102899,8 @@ func (t *Article) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -102914,13 +102914,13 @@ func (t *Article) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Article) AppendStreams(k url.URL) {
+func (t *Article) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Article) PrependStreams(k url.URL) {
+func (t *Article) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -103017,8 +103017,8 @@ func (t *Article) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -103042,13 +103042,13 @@ func (t *Article) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Article) SetProxyUrl(k url.URL) {
+func (t *Article) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -103072,13 +103072,13 @@ func (t *Article) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Article) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Article) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -103102,13 +103102,13 @@ func (t *Article) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Article) SetOauthTokenEndpoint(k url.URL) {
+func (t *Article) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -103132,13 +103132,13 @@ func (t *Article) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Article) SetProvideClientKey(k url.URL) {
+func (t *Article) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -103162,13 +103162,13 @@ func (t *Article) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Article) SetSignClientKey(k url.URL) {
+func (t *Article) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Article) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Article) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -103192,7 +103192,7 @@ func (t *Article) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Article) SetSharedInbox(k url.URL) {
+func (t *Article) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -103320,8 +103320,8 @@ func (t *Document) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -103339,13 +103339,13 @@ func (t *Document) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Document) AppendAttributedTo(k url.URL) {
+func (t *Document) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Document) PrependAttributedTo(k url.URL) {
+func (t *Document) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -103376,8 +103376,8 @@ func (t *Document) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -103395,13 +103395,13 @@ func (t *Document) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Document) AppendAudience(k url.URL) {
+func (t *Document) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Document) PrependAudience(k url.URL) {
+func (t *Document) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -103794,8 +103794,8 @@ func (t *Document) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -103819,7 +103819,7 @@ func (t *Document) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Document) SetId(k url.URL) {
+func (t *Document) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -103886,8 +103886,8 @@ func (t *Document) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -103905,13 +103905,13 @@ func (t *Document) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Document) AppendInReplyTo(k url.URL) {
+func (t *Document) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Document) PrependInReplyTo(k url.URL) {
+func (t *Document) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -104386,8 +104386,8 @@ func (t *Document) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -104403,13 +104403,13 @@ func (t *Document) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Document) AppendUrl(k url.URL) {
+func (t *Document) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Document) PrependUrl(k url.URL) {
+func (t *Document) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -104438,8 +104438,8 @@ func (t *Document) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -104457,13 +104457,13 @@ func (t *Document) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Document) AppendTo(k url.URL) {
+func (t *Document) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Document) PrependTo(k url.URL) {
+func (t *Document) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -104494,8 +104494,8 @@ func (t *Document) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -104513,13 +104513,13 @@ func (t *Document) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Document) AppendBto(k url.URL) {
+func (t *Document) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Document) PrependBto(k url.URL) {
+func (t *Document) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -104550,8 +104550,8 @@ func (t *Document) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -104569,13 +104569,13 @@ func (t *Document) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Document) AppendCc(k url.URL) {
+func (t *Document) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Document) PrependCc(k url.URL) {
+func (t *Document) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -104606,8 +104606,8 @@ func (t *Document) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -104625,13 +104625,13 @@ func (t *Document) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Document) AppendBcc(k url.URL) {
+func (t *Document) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Document) PrependBcc(k url.URL) {
+func (t *Document) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -104984,8 +104984,8 @@ func (t *Document) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -104999,13 +104999,13 @@ func (t *Document) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Document) AppendStreams(k url.URL) {
+func (t *Document) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Document) PrependStreams(k url.URL) {
+func (t *Document) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -105102,8 +105102,8 @@ func (t *Document) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -105127,13 +105127,13 @@ func (t *Document) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Document) SetProxyUrl(k url.URL) {
+func (t *Document) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -105157,13 +105157,13 @@ func (t *Document) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Document) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Document) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -105187,13 +105187,13 @@ func (t *Document) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Document) SetOauthTokenEndpoint(k url.URL) {
+func (t *Document) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -105217,13 +105217,13 @@ func (t *Document) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Document) SetProvideClientKey(k url.URL) {
+func (t *Document) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -105247,13 +105247,13 @@ func (t *Document) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Document) SetSignClientKey(k url.URL) {
+func (t *Document) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Document) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Document) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -105277,7 +105277,7 @@ func (t *Document) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Document) SetSharedInbox(k url.URL) {
+func (t *Document) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -105405,8 +105405,8 @@ func (t *Audio) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -105424,13 +105424,13 @@ func (t *Audio) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Audio) AppendAttributedTo(k url.URL) {
+func (t *Audio) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Audio) PrependAttributedTo(k url.URL) {
+func (t *Audio) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -105461,8 +105461,8 @@ func (t *Audio) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -105480,13 +105480,13 @@ func (t *Audio) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Audio) AppendAudience(k url.URL) {
+func (t *Audio) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Audio) PrependAudience(k url.URL) {
+func (t *Audio) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -105879,8 +105879,8 @@ func (t *Audio) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -105904,7 +105904,7 @@ func (t *Audio) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Audio) SetId(k url.URL) {
+func (t *Audio) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -105971,8 +105971,8 @@ func (t *Audio) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -105990,13 +105990,13 @@ func (t *Audio) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Audio) AppendInReplyTo(k url.URL) {
+func (t *Audio) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Audio) PrependInReplyTo(k url.URL) {
+func (t *Audio) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -106471,8 +106471,8 @@ func (t *Audio) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -106488,13 +106488,13 @@ func (t *Audio) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Audio) AppendUrl(k url.URL) {
+func (t *Audio) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Audio) PrependUrl(k url.URL) {
+func (t *Audio) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -106523,8 +106523,8 @@ func (t *Audio) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -106542,13 +106542,13 @@ func (t *Audio) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Audio) AppendTo(k url.URL) {
+func (t *Audio) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Audio) PrependTo(k url.URL) {
+func (t *Audio) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -106579,8 +106579,8 @@ func (t *Audio) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -106598,13 +106598,13 @@ func (t *Audio) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Audio) AppendBto(k url.URL) {
+func (t *Audio) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Audio) PrependBto(k url.URL) {
+func (t *Audio) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -106635,8 +106635,8 @@ func (t *Audio) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -106654,13 +106654,13 @@ func (t *Audio) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Audio) AppendCc(k url.URL) {
+func (t *Audio) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Audio) PrependCc(k url.URL) {
+func (t *Audio) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -106691,8 +106691,8 @@ func (t *Audio) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -106710,13 +106710,13 @@ func (t *Audio) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Audio) AppendBcc(k url.URL) {
+func (t *Audio) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Audio) PrependBcc(k url.URL) {
+func (t *Audio) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -107069,8 +107069,8 @@ func (t *Audio) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -107084,13 +107084,13 @@ func (t *Audio) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Audio) AppendStreams(k url.URL) {
+func (t *Audio) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Audio) PrependStreams(k url.URL) {
+func (t *Audio) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -107187,8 +107187,8 @@ func (t *Audio) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -107212,13 +107212,13 @@ func (t *Audio) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Audio) SetProxyUrl(k url.URL) {
+func (t *Audio) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -107242,13 +107242,13 @@ func (t *Audio) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Audio) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Audio) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -107272,13 +107272,13 @@ func (t *Audio) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Audio) SetOauthTokenEndpoint(k url.URL) {
+func (t *Audio) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -107302,13 +107302,13 @@ func (t *Audio) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Audio) SetProvideClientKey(k url.URL) {
+func (t *Audio) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -107332,13 +107332,13 @@ func (t *Audio) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Audio) SetSignClientKey(k url.URL) {
+func (t *Audio) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Audio) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Audio) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -107362,7 +107362,7 @@ func (t *Audio) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Audio) SetSharedInbox(k url.URL) {
+func (t *Audio) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -107558,8 +107558,8 @@ func (t *Image) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -107577,13 +107577,13 @@ func (t *Image) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Image) AppendAttributedTo(k url.URL) {
+func (t *Image) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Image) PrependAttributedTo(k url.URL) {
+func (t *Image) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -107614,8 +107614,8 @@ func (t *Image) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -107633,13 +107633,13 @@ func (t *Image) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Image) AppendAudience(k url.URL) {
+func (t *Image) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Image) PrependAudience(k url.URL) {
+func (t *Image) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -108032,8 +108032,8 @@ func (t *Image) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -108057,7 +108057,7 @@ func (t *Image) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Image) SetId(k url.URL) {
+func (t *Image) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -108124,8 +108124,8 @@ func (t *Image) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -108143,13 +108143,13 @@ func (t *Image) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Image) AppendInReplyTo(k url.URL) {
+func (t *Image) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Image) PrependInReplyTo(k url.URL) {
+func (t *Image) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -108624,8 +108624,8 @@ func (t *Image) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -108641,13 +108641,13 @@ func (t *Image) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Image) AppendUrl(k url.URL) {
+func (t *Image) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Image) PrependUrl(k url.URL) {
+func (t *Image) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -108676,8 +108676,8 @@ func (t *Image) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -108695,13 +108695,13 @@ func (t *Image) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Image) AppendTo(k url.URL) {
+func (t *Image) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Image) PrependTo(k url.URL) {
+func (t *Image) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -108732,8 +108732,8 @@ func (t *Image) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -108751,13 +108751,13 @@ func (t *Image) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Image) AppendBto(k url.URL) {
+func (t *Image) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Image) PrependBto(k url.URL) {
+func (t *Image) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -108788,8 +108788,8 @@ func (t *Image) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -108807,13 +108807,13 @@ func (t *Image) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Image) AppendCc(k url.URL) {
+func (t *Image) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Image) PrependCc(k url.URL) {
+func (t *Image) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -108844,8 +108844,8 @@ func (t *Image) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -108863,13 +108863,13 @@ func (t *Image) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Image) AppendBcc(k url.URL) {
+func (t *Image) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Image) PrependBcc(k url.URL) {
+func (t *Image) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -109222,8 +109222,8 @@ func (t *Image) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -109237,13 +109237,13 @@ func (t *Image) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Image) AppendStreams(k url.URL) {
+func (t *Image) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Image) PrependStreams(k url.URL) {
+func (t *Image) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -109340,8 +109340,8 @@ func (t *Image) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -109365,13 +109365,13 @@ func (t *Image) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Image) SetProxyUrl(k url.URL) {
+func (t *Image) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -109395,13 +109395,13 @@ func (t *Image) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Image) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Image) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -109425,13 +109425,13 @@ func (t *Image) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Image) SetOauthTokenEndpoint(k url.URL) {
+func (t *Image) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -109455,13 +109455,13 @@ func (t *Image) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Image) SetProvideClientKey(k url.URL) {
+func (t *Image) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -109485,13 +109485,13 @@ func (t *Image) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Image) SetSignClientKey(k url.URL) {
+func (t *Image) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Image) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Image) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -109515,7 +109515,7 @@ func (t *Image) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Image) SetSharedInbox(k url.URL) {
+func (t *Image) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -109643,8 +109643,8 @@ func (t *Video) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -109662,13 +109662,13 @@ func (t *Video) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Video) AppendAttributedTo(k url.URL) {
+func (t *Video) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Video) PrependAttributedTo(k url.URL) {
+func (t *Video) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -109699,8 +109699,8 @@ func (t *Video) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -109718,13 +109718,13 @@ func (t *Video) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Video) AppendAudience(k url.URL) {
+func (t *Video) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Video) PrependAudience(k url.URL) {
+func (t *Video) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -110117,8 +110117,8 @@ func (t *Video) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -110142,7 +110142,7 @@ func (t *Video) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Video) SetId(k url.URL) {
+func (t *Video) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -110209,8 +110209,8 @@ func (t *Video) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -110228,13 +110228,13 @@ func (t *Video) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Video) AppendInReplyTo(k url.URL) {
+func (t *Video) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Video) PrependInReplyTo(k url.URL) {
+func (t *Video) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -110709,8 +110709,8 @@ func (t *Video) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -110726,13 +110726,13 @@ func (t *Video) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Video) AppendUrl(k url.URL) {
+func (t *Video) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Video) PrependUrl(k url.URL) {
+func (t *Video) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -110761,8 +110761,8 @@ func (t *Video) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -110780,13 +110780,13 @@ func (t *Video) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Video) AppendTo(k url.URL) {
+func (t *Video) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Video) PrependTo(k url.URL) {
+func (t *Video) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -110817,8 +110817,8 @@ func (t *Video) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -110836,13 +110836,13 @@ func (t *Video) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Video) AppendBto(k url.URL) {
+func (t *Video) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Video) PrependBto(k url.URL) {
+func (t *Video) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -110873,8 +110873,8 @@ func (t *Video) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -110892,13 +110892,13 @@ func (t *Video) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Video) AppendCc(k url.URL) {
+func (t *Video) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Video) PrependCc(k url.URL) {
+func (t *Video) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -110929,8 +110929,8 @@ func (t *Video) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -110948,13 +110948,13 @@ func (t *Video) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Video) AppendBcc(k url.URL) {
+func (t *Video) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Video) PrependBcc(k url.URL) {
+func (t *Video) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -111307,8 +111307,8 @@ func (t *Video) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -111322,13 +111322,13 @@ func (t *Video) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Video) AppendStreams(k url.URL) {
+func (t *Video) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Video) PrependStreams(k url.URL) {
+func (t *Video) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -111425,8 +111425,8 @@ func (t *Video) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -111450,13 +111450,13 @@ func (t *Video) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Video) SetProxyUrl(k url.URL) {
+func (t *Video) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -111480,13 +111480,13 @@ func (t *Video) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Video) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Video) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -111510,13 +111510,13 @@ func (t *Video) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Video) SetOauthTokenEndpoint(k url.URL) {
+func (t *Video) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -111540,13 +111540,13 @@ func (t *Video) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Video) SetProvideClientKey(k url.URL) {
+func (t *Video) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -111570,13 +111570,13 @@ func (t *Video) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Video) SetSignClientKey(k url.URL) {
+func (t *Video) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Video) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Video) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -111600,7 +111600,7 @@ func (t *Video) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Video) SetSharedInbox(k url.URL) {
+func (t *Video) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -111728,8 +111728,8 @@ func (t *Note) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -111747,13 +111747,13 @@ func (t *Note) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Note) AppendAttributedTo(k url.URL) {
+func (t *Note) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Note) PrependAttributedTo(k url.URL) {
+func (t *Note) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -111784,8 +111784,8 @@ func (t *Note) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -111803,13 +111803,13 @@ func (t *Note) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Note) AppendAudience(k url.URL) {
+func (t *Note) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Note) PrependAudience(k url.URL) {
+func (t *Note) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -112202,8 +112202,8 @@ func (t *Note) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -112227,7 +112227,7 @@ func (t *Note) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Note) SetId(k url.URL) {
+func (t *Note) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -112294,8 +112294,8 @@ func (t *Note) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -112313,13 +112313,13 @@ func (t *Note) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Note) AppendInReplyTo(k url.URL) {
+func (t *Note) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Note) PrependInReplyTo(k url.URL) {
+func (t *Note) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -112794,8 +112794,8 @@ func (t *Note) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -112811,13 +112811,13 @@ func (t *Note) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Note) AppendUrl(k url.URL) {
+func (t *Note) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Note) PrependUrl(k url.URL) {
+func (t *Note) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -112846,8 +112846,8 @@ func (t *Note) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -112865,13 +112865,13 @@ func (t *Note) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Note) AppendTo(k url.URL) {
+func (t *Note) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Note) PrependTo(k url.URL) {
+func (t *Note) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -112902,8 +112902,8 @@ func (t *Note) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -112921,13 +112921,13 @@ func (t *Note) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Note) AppendBto(k url.URL) {
+func (t *Note) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Note) PrependBto(k url.URL) {
+func (t *Note) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -112958,8 +112958,8 @@ func (t *Note) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -112977,13 +112977,13 @@ func (t *Note) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Note) AppendCc(k url.URL) {
+func (t *Note) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Note) PrependCc(k url.URL) {
+func (t *Note) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -113014,8 +113014,8 @@ func (t *Note) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -113033,13 +113033,13 @@ func (t *Note) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Note) AppendBcc(k url.URL) {
+func (t *Note) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Note) PrependBcc(k url.URL) {
+func (t *Note) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -113392,8 +113392,8 @@ func (t *Note) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -113407,13 +113407,13 @@ func (t *Note) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Note) AppendStreams(k url.URL) {
+func (t *Note) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Note) PrependStreams(k url.URL) {
+func (t *Note) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -113510,8 +113510,8 @@ func (t *Note) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -113535,13 +113535,13 @@ func (t *Note) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Note) SetProxyUrl(k url.URL) {
+func (t *Note) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -113565,13 +113565,13 @@ func (t *Note) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Note) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Note) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -113595,13 +113595,13 @@ func (t *Note) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Note) SetOauthTokenEndpoint(k url.URL) {
+func (t *Note) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -113625,13 +113625,13 @@ func (t *Note) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Note) SetProvideClientKey(k url.URL) {
+func (t *Note) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -113655,13 +113655,13 @@ func (t *Note) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Note) SetSignClientKey(k url.URL) {
+func (t *Note) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Note) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Note) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -113685,7 +113685,7 @@ func (t *Note) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Note) SetSharedInbox(k url.URL) {
+func (t *Note) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -113813,8 +113813,8 @@ func (t *Page) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -113832,13 +113832,13 @@ func (t *Page) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Page) AppendAttributedTo(k url.URL) {
+func (t *Page) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Page) PrependAttributedTo(k url.URL) {
+func (t *Page) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -113869,8 +113869,8 @@ func (t *Page) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -113888,13 +113888,13 @@ func (t *Page) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Page) AppendAudience(k url.URL) {
+func (t *Page) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Page) PrependAudience(k url.URL) {
+func (t *Page) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -114287,8 +114287,8 @@ func (t *Page) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -114312,7 +114312,7 @@ func (t *Page) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Page) SetId(k url.URL) {
+func (t *Page) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -114379,8 +114379,8 @@ func (t *Page) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -114398,13 +114398,13 @@ func (t *Page) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Page) AppendInReplyTo(k url.URL) {
+func (t *Page) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Page) PrependInReplyTo(k url.URL) {
+func (t *Page) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -114879,8 +114879,8 @@ func (t *Page) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -114896,13 +114896,13 @@ func (t *Page) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Page) AppendUrl(k url.URL) {
+func (t *Page) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Page) PrependUrl(k url.URL) {
+func (t *Page) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -114931,8 +114931,8 @@ func (t *Page) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -114950,13 +114950,13 @@ func (t *Page) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Page) AppendTo(k url.URL) {
+func (t *Page) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Page) PrependTo(k url.URL) {
+func (t *Page) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -114987,8 +114987,8 @@ func (t *Page) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -115006,13 +115006,13 @@ func (t *Page) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Page) AppendBto(k url.URL) {
+func (t *Page) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Page) PrependBto(k url.URL) {
+func (t *Page) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -115043,8 +115043,8 @@ func (t *Page) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -115062,13 +115062,13 @@ func (t *Page) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Page) AppendCc(k url.URL) {
+func (t *Page) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Page) PrependCc(k url.URL) {
+func (t *Page) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -115099,8 +115099,8 @@ func (t *Page) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -115118,13 +115118,13 @@ func (t *Page) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Page) AppendBcc(k url.URL) {
+func (t *Page) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Page) PrependBcc(k url.URL) {
+func (t *Page) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -115477,8 +115477,8 @@ func (t *Page) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -115492,13 +115492,13 @@ func (t *Page) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Page) AppendStreams(k url.URL) {
+func (t *Page) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Page) PrependStreams(k url.URL) {
+func (t *Page) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -115595,8 +115595,8 @@ func (t *Page) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -115620,13 +115620,13 @@ func (t *Page) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Page) SetProxyUrl(k url.URL) {
+func (t *Page) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -115650,13 +115650,13 @@ func (t *Page) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Page) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Page) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -115680,13 +115680,13 @@ func (t *Page) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Page) SetOauthTokenEndpoint(k url.URL) {
+func (t *Page) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -115710,13 +115710,13 @@ func (t *Page) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Page) SetProvideClientKey(k url.URL) {
+func (t *Page) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -115740,13 +115740,13 @@ func (t *Page) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Page) SetSignClientKey(k url.URL) {
+func (t *Page) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Page) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Page) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -115770,7 +115770,7 @@ func (t *Page) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Page) SetSharedInbox(k url.URL) {
+func (t *Page) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -115898,8 +115898,8 @@ func (t *Event) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -115917,13 +115917,13 @@ func (t *Event) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Event) AppendAttributedTo(k url.URL) {
+func (t *Event) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Event) PrependAttributedTo(k url.URL) {
+func (t *Event) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -115954,8 +115954,8 @@ func (t *Event) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -115973,13 +115973,13 @@ func (t *Event) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Event) AppendAudience(k url.URL) {
+func (t *Event) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Event) PrependAudience(k url.URL) {
+func (t *Event) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -116372,8 +116372,8 @@ func (t *Event) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -116397,7 +116397,7 @@ func (t *Event) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Event) SetId(k url.URL) {
+func (t *Event) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -116464,8 +116464,8 @@ func (t *Event) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -116483,13 +116483,13 @@ func (t *Event) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Event) AppendInReplyTo(k url.URL) {
+func (t *Event) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Event) PrependInReplyTo(k url.URL) {
+func (t *Event) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -116964,8 +116964,8 @@ func (t *Event) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -116981,13 +116981,13 @@ func (t *Event) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Event) AppendUrl(k url.URL) {
+func (t *Event) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Event) PrependUrl(k url.URL) {
+func (t *Event) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -117016,8 +117016,8 @@ func (t *Event) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -117035,13 +117035,13 @@ func (t *Event) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Event) AppendTo(k url.URL) {
+func (t *Event) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Event) PrependTo(k url.URL) {
+func (t *Event) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -117072,8 +117072,8 @@ func (t *Event) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -117091,13 +117091,13 @@ func (t *Event) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Event) AppendBto(k url.URL) {
+func (t *Event) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Event) PrependBto(k url.URL) {
+func (t *Event) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -117128,8 +117128,8 @@ func (t *Event) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -117147,13 +117147,13 @@ func (t *Event) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Event) AppendCc(k url.URL) {
+func (t *Event) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Event) PrependCc(k url.URL) {
+func (t *Event) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -117184,8 +117184,8 @@ func (t *Event) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -117203,13 +117203,13 @@ func (t *Event) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Event) AppendBcc(k url.URL) {
+func (t *Event) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Event) PrependBcc(k url.URL) {
+func (t *Event) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -117562,8 +117562,8 @@ func (t *Event) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -117577,13 +117577,13 @@ func (t *Event) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Event) AppendStreams(k url.URL) {
+func (t *Event) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Event) PrependStreams(k url.URL) {
+func (t *Event) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -117680,8 +117680,8 @@ func (t *Event) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -117705,13 +117705,13 @@ func (t *Event) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Event) SetProxyUrl(k url.URL) {
+func (t *Event) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -117735,13 +117735,13 @@ func (t *Event) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Event) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Event) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -117765,13 +117765,13 @@ func (t *Event) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Event) SetOauthTokenEndpoint(k url.URL) {
+func (t *Event) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -117795,13 +117795,13 @@ func (t *Event) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Event) SetProvideClientKey(k url.URL) {
+func (t *Event) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -117825,13 +117825,13 @@ func (t *Event) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Event) SetSignClientKey(k url.URL) {
+func (t *Event) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Event) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Event) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -117855,7 +117855,7 @@ func (t *Event) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Event) SetSharedInbox(k url.URL) {
+func (t *Event) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -118153,8 +118153,8 @@ func (t *Place) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -118172,13 +118172,13 @@ func (t *Place) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Place) AppendAttributedTo(k url.URL) {
+func (t *Place) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Place) PrependAttributedTo(k url.URL) {
+func (t *Place) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -118209,8 +118209,8 @@ func (t *Place) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -118228,13 +118228,13 @@ func (t *Place) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Place) AppendAudience(k url.URL) {
+func (t *Place) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Place) PrependAudience(k url.URL) {
+func (t *Place) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -118627,8 +118627,8 @@ func (t *Place) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -118652,7 +118652,7 @@ func (t *Place) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Place) SetId(k url.URL) {
+func (t *Place) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -118719,8 +118719,8 @@ func (t *Place) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -118738,13 +118738,13 @@ func (t *Place) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Place) AppendInReplyTo(k url.URL) {
+func (t *Place) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Place) PrependInReplyTo(k url.URL) {
+func (t *Place) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -119219,8 +119219,8 @@ func (t *Place) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -119236,13 +119236,13 @@ func (t *Place) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Place) AppendUrl(k url.URL) {
+func (t *Place) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Place) PrependUrl(k url.URL) {
+func (t *Place) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -119271,8 +119271,8 @@ func (t *Place) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -119290,13 +119290,13 @@ func (t *Place) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Place) AppendTo(k url.URL) {
+func (t *Place) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Place) PrependTo(k url.URL) {
+func (t *Place) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -119327,8 +119327,8 @@ func (t *Place) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -119346,13 +119346,13 @@ func (t *Place) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Place) AppendBto(k url.URL) {
+func (t *Place) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Place) PrependBto(k url.URL) {
+func (t *Place) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -119383,8 +119383,8 @@ func (t *Place) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -119402,13 +119402,13 @@ func (t *Place) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Place) AppendCc(k url.URL) {
+func (t *Place) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Place) PrependCc(k url.URL) {
+func (t *Place) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -119439,8 +119439,8 @@ func (t *Place) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -119458,13 +119458,13 @@ func (t *Place) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Place) AppendBcc(k url.URL) {
+func (t *Place) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Place) PrependBcc(k url.URL) {
+func (t *Place) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -119817,8 +119817,8 @@ func (t *Place) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -119832,13 +119832,13 @@ func (t *Place) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Place) AppendStreams(k url.URL) {
+func (t *Place) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Place) PrependStreams(k url.URL) {
+func (t *Place) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -119935,8 +119935,8 @@ func (t *Place) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -119960,13 +119960,13 @@ func (t *Place) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Place) SetProxyUrl(k url.URL) {
+func (t *Place) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -119990,13 +119990,13 @@ func (t *Place) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Place) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Place) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -120020,13 +120020,13 @@ func (t *Place) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Place) SetOauthTokenEndpoint(k url.URL) {
+func (t *Place) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -120050,13 +120050,13 @@ func (t *Place) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Place) SetProvideClientKey(k url.URL) {
+func (t *Place) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -120080,13 +120080,13 @@ func (t *Place) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Place) SetSignClientKey(k url.URL) {
+func (t *Place) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Place) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Place) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -120110,7 +120110,7 @@ func (t *Place) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Place) SetSharedInbox(k url.URL) {
+func (t *Place) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -120272,8 +120272,8 @@ func (t *Profile) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -120291,13 +120291,13 @@ func (t *Profile) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Profile) AppendAttributedTo(k url.URL) {
+func (t *Profile) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Profile) PrependAttributedTo(k url.URL) {
+func (t *Profile) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -120328,8 +120328,8 @@ func (t *Profile) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -120347,13 +120347,13 @@ func (t *Profile) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Profile) AppendAudience(k url.URL) {
+func (t *Profile) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Profile) PrependAudience(k url.URL) {
+func (t *Profile) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -120746,8 +120746,8 @@ func (t *Profile) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -120771,7 +120771,7 @@ func (t *Profile) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Profile) SetId(k url.URL) {
+func (t *Profile) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -120838,8 +120838,8 @@ func (t *Profile) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -120857,13 +120857,13 @@ func (t *Profile) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Profile) AppendInReplyTo(k url.URL) {
+func (t *Profile) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Profile) PrependInReplyTo(k url.URL) {
+func (t *Profile) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -121338,8 +121338,8 @@ func (t *Profile) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -121355,13 +121355,13 @@ func (t *Profile) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Profile) AppendUrl(k url.URL) {
+func (t *Profile) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Profile) PrependUrl(k url.URL) {
+func (t *Profile) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -121390,8 +121390,8 @@ func (t *Profile) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -121409,13 +121409,13 @@ func (t *Profile) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Profile) AppendTo(k url.URL) {
+func (t *Profile) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Profile) PrependTo(k url.URL) {
+func (t *Profile) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -121446,8 +121446,8 @@ func (t *Profile) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -121465,13 +121465,13 @@ func (t *Profile) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Profile) AppendBto(k url.URL) {
+func (t *Profile) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Profile) PrependBto(k url.URL) {
+func (t *Profile) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -121502,8 +121502,8 @@ func (t *Profile) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -121521,13 +121521,13 @@ func (t *Profile) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Profile) AppendCc(k url.URL) {
+func (t *Profile) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Profile) PrependCc(k url.URL) {
+func (t *Profile) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -121558,8 +121558,8 @@ func (t *Profile) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -121577,13 +121577,13 @@ func (t *Profile) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Profile) AppendBcc(k url.URL) {
+func (t *Profile) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Profile) PrependBcc(k url.URL) {
+func (t *Profile) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -121936,8 +121936,8 @@ func (t *Profile) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -121951,13 +121951,13 @@ func (t *Profile) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Profile) AppendStreams(k url.URL) {
+func (t *Profile) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Profile) PrependStreams(k url.URL) {
+func (t *Profile) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -122054,8 +122054,8 @@ func (t *Profile) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -122079,13 +122079,13 @@ func (t *Profile) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Profile) SetProxyUrl(k url.URL) {
+func (t *Profile) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -122109,13 +122109,13 @@ func (t *Profile) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Profile) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Profile) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -122139,13 +122139,13 @@ func (t *Profile) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Profile) SetOauthTokenEndpoint(k url.URL) {
+func (t *Profile) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -122169,13 +122169,13 @@ func (t *Profile) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Profile) SetProvideClientKey(k url.URL) {
+func (t *Profile) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -122199,13 +122199,13 @@ func (t *Profile) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Profile) SetSignClientKey(k url.URL) {
+func (t *Profile) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Profile) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Profile) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -122229,7 +122229,7 @@ func (t *Profile) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Profile) SetSharedInbox(k url.URL) {
+func (t *Profile) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -122447,8 +122447,8 @@ func (t *Tombstone) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -122466,13 +122466,13 @@ func (t *Tombstone) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Tombstone) AppendAttributedTo(k url.URL) {
+func (t *Tombstone) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Tombstone) PrependAttributedTo(k url.URL) {
+func (t *Tombstone) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -122503,8 +122503,8 @@ func (t *Tombstone) LenAudience() (idx int) {
 
 }
 
-// GetAudience attempts to get this 'audience' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetAudience(idx int) (r Resolution, k url.URL) {
+// GetAudience attempts to get this 'audience' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetAudience(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAudienceIRI(idx) {
@@ -122522,13 +122522,13 @@ func (t *Tombstone) GetAudience(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAudience appends the value for property 'audience'.
-func (t *Tombstone) AppendAudience(k url.URL) {
+func (t *Tombstone) AppendAudience(k *url.URL) {
 	t.raw.AppendAudienceIRI(k)
 
 }
 
 // PrependAudience prepends the value for property 'audience'.
-func (t *Tombstone) PrependAudience(k url.URL) {
+func (t *Tombstone) PrependAudience(k *url.URL) {
 	t.raw.PrependAudienceIRI(k)
 
 }
@@ -122921,8 +122921,8 @@ func (t *Tombstone) HasIcon(idx int) (p Presence) {
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -122946,7 +122946,7 @@ func (t *Tombstone) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Tombstone) SetId(k url.URL) {
+func (t *Tombstone) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }
@@ -123013,8 +123013,8 @@ func (t *Tombstone) LenInReplyTo() (idx int) {
 
 }
 
-// GetInReplyTo attempts to get this 'inReplyTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetInReplyTo(idx int) (r Resolution, k url.URL) {
+// GetInReplyTo attempts to get this 'inReplyTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetInReplyTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsInReplyToIRI(idx) {
@@ -123032,13 +123032,13 @@ func (t *Tombstone) GetInReplyTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendInReplyTo appends the value for property 'inReplyTo'.
-func (t *Tombstone) AppendInReplyTo(k url.URL) {
+func (t *Tombstone) AppendInReplyTo(k *url.URL) {
 	t.raw.AppendInReplyToIRI(k)
 
 }
 
 // PrependInReplyTo prepends the value for property 'inReplyTo'.
-func (t *Tombstone) PrependInReplyTo(k url.URL) {
+func (t *Tombstone) PrependInReplyTo(k *url.URL) {
 	t.raw.PrependInReplyToIRI(k)
 
 }
@@ -123513,8 +123513,8 @@ func (t *Tombstone) LenUrl() (idx int) {
 
 }
 
-// GetUrl attempts to get this 'url' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetUrl(idx int) (r Resolution, k url.URL) {
+// GetUrl attempts to get this 'url' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetUrl(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsUrlAnyURI(idx) {
@@ -123530,13 +123530,13 @@ func (t *Tombstone) GetUrl(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendUrl appends the value for property 'url'.
-func (t *Tombstone) AppendUrl(k url.URL) {
+func (t *Tombstone) AppendUrl(k *url.URL) {
 	t.raw.AppendUrlAnyURI(k)
 
 }
 
 // PrependUrl prepends the value for property 'url'.
-func (t *Tombstone) PrependUrl(k url.URL) {
+func (t *Tombstone) PrependUrl(k *url.URL) {
 	t.raw.PrependUrlAnyURI(k)
 
 }
@@ -123565,8 +123565,8 @@ func (t *Tombstone) LenTo() (idx int) {
 
 }
 
-// GetTo attempts to get this 'to' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetTo(idx int) (r Resolution, k url.URL) {
+// GetTo attempts to get this 'to' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsToIRI(idx) {
@@ -123584,13 +123584,13 @@ func (t *Tombstone) GetTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendTo appends the value for property 'to'.
-func (t *Tombstone) AppendTo(k url.URL) {
+func (t *Tombstone) AppendTo(k *url.URL) {
 	t.raw.AppendToIRI(k)
 
 }
 
 // PrependTo prepends the value for property 'to'.
-func (t *Tombstone) PrependTo(k url.URL) {
+func (t *Tombstone) PrependTo(k *url.URL) {
 	t.raw.PrependToIRI(k)
 
 }
@@ -123621,8 +123621,8 @@ func (t *Tombstone) LenBto() (idx int) {
 
 }
 
-// GetBto attempts to get this 'bto' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetBto(idx int) (r Resolution, k url.URL) {
+// GetBto attempts to get this 'bto' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetBto(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBtoIRI(idx) {
@@ -123640,13 +123640,13 @@ func (t *Tombstone) GetBto(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBto appends the value for property 'bto'.
-func (t *Tombstone) AppendBto(k url.URL) {
+func (t *Tombstone) AppendBto(k *url.URL) {
 	t.raw.AppendBtoIRI(k)
 
 }
 
 // PrependBto prepends the value for property 'bto'.
-func (t *Tombstone) PrependBto(k url.URL) {
+func (t *Tombstone) PrependBto(k *url.URL) {
 	t.raw.PrependBtoIRI(k)
 
 }
@@ -123677,8 +123677,8 @@ func (t *Tombstone) LenCc() (idx int) {
 
 }
 
-// GetCc attempts to get this 'cc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetCc(idx int) (r Resolution, k url.URL) {
+// GetCc attempts to get this 'cc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetCc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsCcIRI(idx) {
@@ -123696,13 +123696,13 @@ func (t *Tombstone) GetCc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendCc appends the value for property 'cc'.
-func (t *Tombstone) AppendCc(k url.URL) {
+func (t *Tombstone) AppendCc(k *url.URL) {
 	t.raw.AppendCcIRI(k)
 
 }
 
 // PrependCc prepends the value for property 'cc'.
-func (t *Tombstone) PrependCc(k url.URL) {
+func (t *Tombstone) PrependCc(k *url.URL) {
 	t.raw.PrependCcIRI(k)
 
 }
@@ -123733,8 +123733,8 @@ func (t *Tombstone) LenBcc() (idx int) {
 
 }
 
-// GetBcc attempts to get this 'bcc' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetBcc(idx int) (r Resolution, k url.URL) {
+// GetBcc attempts to get this 'bcc' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetBcc(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsBccIRI(idx) {
@@ -123752,13 +123752,13 @@ func (t *Tombstone) GetBcc(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendBcc appends the value for property 'bcc'.
-func (t *Tombstone) AppendBcc(k url.URL) {
+func (t *Tombstone) AppendBcc(k *url.URL) {
 	t.raw.AppendBccIRI(k)
 
 }
 
 // PrependBcc prepends the value for property 'bcc'.
-func (t *Tombstone) PrependBcc(k url.URL) {
+func (t *Tombstone) PrependBcc(k *url.URL) {
 	t.raw.PrependBccIRI(k)
 
 }
@@ -124111,8 +124111,8 @@ func (t *Tombstone) LenStreams() (idx int) {
 
 }
 
-// GetStreams attempts to get this 'streams' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetStreams(idx int) (r Resolution, k url.URL) {
+// GetStreams attempts to get this 'streams' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetStreams(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if /*t.raw.HasStreams(idx)*/ true {
@@ -124126,13 +124126,13 @@ func (t *Tombstone) GetStreams(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendStreams appends the value for property 'streams'.
-func (t *Tombstone) AppendStreams(k url.URL) {
+func (t *Tombstone) AppendStreams(k *url.URL) {
 	t.raw.AppendStreams(k)
 
 }
 
 // PrependStreams prepends the value for property 'streams'.
-func (t *Tombstone) PrependStreams(k url.URL) {
+func (t *Tombstone) PrependStreams(k *url.URL) {
 	t.raw.PrependStreams(k)
 
 }
@@ -124229,8 +124229,8 @@ func (t *Tombstone) SetEndpoints(i vocab.ObjectType) {
 
 }
 
-// GetProxyUrl attempts to get this 'proxyUrl' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetProxyUrl() (r Resolution, k url.URL) {
+// GetProxyUrl attempts to get this 'proxyUrl' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetProxyUrl() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProxyUrl() {
@@ -124254,13 +124254,13 @@ func (t *Tombstone) HasProxyUrl() (p Presence) {
 }
 
 // SetProxyUrl sets the value for property 'proxyUrl'.
-func (t *Tombstone) SetProxyUrl(k url.URL) {
+func (t *Tombstone) SetProxyUrl(k *url.URL) {
 	t.raw.SetProxyUrl(k)
 
 }
 
-// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetOauthAuthorizationEndpoint() (r Resolution, k url.URL) {
+// GetOauthAuthorizationEndpoint attempts to get this 'oauthAuthorizationEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetOauthAuthorizationEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthAuthorizationEndpoint() {
@@ -124284,13 +124284,13 @@ func (t *Tombstone) HasOauthAuthorizationEndpoint() (p Presence) {
 }
 
 // SetOauthAuthorizationEndpoint sets the value for property 'oauthAuthorizationEndpoint'.
-func (t *Tombstone) SetOauthAuthorizationEndpoint(k url.URL) {
+func (t *Tombstone) SetOauthAuthorizationEndpoint(k *url.URL) {
 	t.raw.SetOauthAuthorizationEndpoint(k)
 
 }
 
-// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetOauthTokenEndpoint() (r Resolution, k url.URL) {
+// GetOauthTokenEndpoint attempts to get this 'oauthTokenEndpoint' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetOauthTokenEndpoint() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasOauthTokenEndpoint() {
@@ -124314,13 +124314,13 @@ func (t *Tombstone) HasOauthTokenEndpoint() (p Presence) {
 }
 
 // SetOauthTokenEndpoint sets the value for property 'oauthTokenEndpoint'.
-func (t *Tombstone) SetOauthTokenEndpoint(k url.URL) {
+func (t *Tombstone) SetOauthTokenEndpoint(k *url.URL) {
 	t.raw.SetOauthTokenEndpoint(k)
 
 }
 
-// GetProvideClientKey attempts to get this 'provideClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetProvideClientKey() (r Resolution, k url.URL) {
+// GetProvideClientKey attempts to get this 'provideClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetProvideClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasProvideClientKey() {
@@ -124344,13 +124344,13 @@ func (t *Tombstone) HasProvideClientKey() (p Presence) {
 }
 
 // SetProvideClientKey sets the value for property 'provideClientKey'.
-func (t *Tombstone) SetProvideClientKey(k url.URL) {
+func (t *Tombstone) SetProvideClientKey(k *url.URL) {
 	t.raw.SetProvideClientKey(k)
 
 }
 
-// GetSignClientKey attempts to get this 'signClientKey' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetSignClientKey() (r Resolution, k url.URL) {
+// GetSignClientKey attempts to get this 'signClientKey' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetSignClientKey() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSignClientKey() {
@@ -124374,13 +124374,13 @@ func (t *Tombstone) HasSignClientKey() (p Presence) {
 }
 
 // SetSignClientKey sets the value for property 'signClientKey'.
-func (t *Tombstone) SetSignClientKey(k url.URL) {
+func (t *Tombstone) SetSignClientKey(k *url.URL) {
 	t.raw.SetSignClientKey(k)
 
 }
 
-// GetSharedInbox attempts to get this 'sharedInbox' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Tombstone) GetSharedInbox() (r Resolution, k url.URL) {
+// GetSharedInbox attempts to get this 'sharedInbox' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Tombstone) GetSharedInbox() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasSharedInbox() {
@@ -124404,7 +124404,7 @@ func (t *Tombstone) HasSharedInbox() (p Presence) {
 }
 
 // SetSharedInbox sets the value for property 'sharedInbox'.
-func (t *Tombstone) SetSharedInbox(k url.URL) {
+func (t *Tombstone) SetSharedInbox(k *url.URL) {
 	t.raw.SetSharedInbox(k)
 
 }
@@ -124433,8 +124433,8 @@ func (t *Mention) LenAttributedTo() (idx int) {
 
 }
 
-// GetAttributedTo attempts to get this 'attributedTo' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Mention) GetAttributedTo(idx int) (r Resolution, k url.URL) {
+// GetAttributedTo attempts to get this 'attributedTo' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Mention) GetAttributedTo(idx int) (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.IsAttributedToIRI(idx) {
@@ -124452,13 +124452,13 @@ func (t *Mention) GetAttributedTo(idx int) (r Resolution, k url.URL) {
 }
 
 // AppendAttributedTo appends the value for property 'attributedTo'.
-func (t *Mention) AppendAttributedTo(k url.URL) {
+func (t *Mention) AppendAttributedTo(k *url.URL) {
 	t.raw.AppendAttributedToIRI(k)
 
 }
 
 // PrependAttributedTo prepends the value for property 'attributedTo'.
-func (t *Mention) PrependAttributedTo(k url.URL) {
+func (t *Mention) PrependAttributedTo(k *url.URL) {
 	t.raw.PrependAttributedToIRI(k)
 
 }
@@ -124483,8 +124483,8 @@ func (t *Mention) HasAttributedTo(idx int) (p Presence) {
 
 }
 
-// GetHref attempts to get this 'href' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Mention) GetHref() (r Resolution, k url.URL) {
+// GetHref attempts to get this 'href' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Mention) GetHref() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasHref() {
@@ -124508,13 +124508,13 @@ func (t *Mention) HasHref() (p Presence) {
 }
 
 // SetHref sets the value for property 'href'.
-func (t *Mention) SetHref(k url.URL) {
+func (t *Mention) SetHref(k *url.URL) {
 	t.raw.SetHref(k)
 
 }
 
-// GetId attempts to get this 'id' property as a url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
-func (t *Mention) GetId() (r Resolution, k url.URL) {
+// GetId attempts to get this 'id' property as a *url.URL. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
+func (t *Mention) GetId() (r Resolution, k *url.URL) {
 	r = Unresolved
 	handled := false
 	if t.raw.HasId() {
@@ -124538,7 +124538,7 @@ func (t *Mention) HasId() (p Presence) {
 }
 
 // SetId sets the value for property 'id'.
-func (t *Mention) SetId(k url.URL) {
+func (t *Mention) SetId(k *url.URL) {
 	t.raw.SetId(k)
 
 }

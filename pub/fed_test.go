@@ -151,8 +151,8 @@ func init() {
 		panic(err)
 	}
 	samActor = &vocab.Person{}
-	samActor.SetInboxAnyURI(*samIRIInbox)
-	samActor.SetId(*samIRI)
+	samActor.SetInboxAnyURI(samIRIInbox)
+	samActor.SetId(samIRI)
 	samActor.AppendNameString("Sam")
 	m, err := samActor.Serialize()
 	if err != nil {
@@ -172,9 +172,9 @@ func init() {
 	}
 	sallyActor = &vocab.Person{}
 	sallyActor.AppendNameString("Sally")
-	sallyActor.SetId(*sallyIRI)
-	sallyActor.SetInboxAnyURI(*sallyInbox)
-	sallyActor.SetOutboxAnyURI(*sallyOutbox)
+	sallyActor.SetId(sallyIRI)
+	sallyActor.SetInboxAnyURI(sallyInbox)
+	sallyActor.SetOutboxAnyURI(sallyOutbox)
 	m, err = sallyActor.Serialize()
 	if err != nil {
 		panic(err)
@@ -184,87 +184,87 @@ func init() {
 		panic(err)
 	}
 	testNote = &vocab.Note{}
-	testNote.SetId(*noteIRI)
+	testNote.SetId(noteIRI)
 	testNote.AppendNameString(noteName)
 	testNote.AppendContentString("This is a simple note")
 	testSingleOrderedCollection = &vocab.OrderedCollection{}
 	testSingleOrderedCollection.AppendItemsObject(testNote)
 	testCreateNote = &vocab.Create{}
-	testCreateNote.SetId(*noteActivityIRI)
+	testCreateNote.SetId(noteActivityIRI)
 	testCreateNote.AppendSummaryString("Sally created a note")
 	testCreateNote.AppendActorObject(sallyActor)
 	testCreateNote.AppendObject(testNote)
 	testCreateNote.AppendToObject(samActor)
 	testUpdateNote = &vocab.Update{}
-	testUpdateNote.SetId(*updateActivityIRI)
+	testUpdateNote.SetId(updateActivityIRI)
 	testUpdateNote.AppendSummaryString("Sally updated a note")
 	testUpdateNote.AppendActorObject(sallyActor)
 	testUpdateNote.AppendObject(testNote)
 	testUpdateNote.AppendToObject(samActor)
 	testDeleteNote = &vocab.Delete{}
-	testDeleteNote.SetId(*noteActivityIRI)
+	testDeleteNote.SetId(noteActivityIRI)
 	testDeleteNote.AppendActorObject(sallyActor)
 	testDeleteNote.AppendObject(testNote)
 	testDeleteNote.AppendToObject(samActor)
 	testTombstoneNote = &vocab.Tombstone{}
-	testTombstoneNote.SetId(*noteIRI)
+	testTombstoneNote.SetId(noteIRI)
 	testTombstoneNote.AppendFormerTypeString("Note")
 	testTombstoneNote.SetDeleted(now)
 	testFollow = &vocab.Follow{}
-	testFollow.SetId(*noteActivityIRI)
+	testFollow.SetId(noteActivityIRI)
 	testFollow.AppendActorObject(sallyActor)
 	testFollow.AppendObject(samActor)
 	testFollow.AppendToObject(samActor)
 	testAcceptNote = &vocab.Accept{}
-	testAcceptNote.SetId(*noteActivityIRI)
+	testAcceptNote.SetId(noteActivityIRI)
 	testAcceptNote.AppendActorObject(sallyActor)
 	testAcceptNote.AppendObject(&vocab.Offer{})
 	testAcceptNote.AppendToObject(samActor)
 	testAcceptFollow = &vocab.Accept{}
-	testAcceptFollow.SetId(*noteActivityIRI)
+	testAcceptFollow.SetId(noteActivityIRI)
 	testAcceptFollow.AppendActorObject(samActor)
 	testAcceptFollow.AppendObject(testFollow)
 	testAcceptFollow.AppendToObject(sallyActor)
 	testRejectFollow = &vocab.Reject{}
-	testRejectFollow.SetId(*noteActivityIRI)
+	testRejectFollow.SetId(noteActivityIRI)
 	testRejectFollow.AppendActorObject(samActor)
 	testRejectFollow.AppendObject(testFollow)
 	testRejectFollow.AppendToObject(sallyActor)
 	testAddNote = &vocab.Add{}
-	testAddNote.SetId(*noteActivityIRI)
+	testAddNote.SetId(noteActivityIRI)
 	testAddNote.AppendActorObject(sallyActor)
 	testAddNote.AppendObject(testNote)
-	testAddNote.AppendTargetIRI(*iri)
+	testAddNote.AppendTargetIRI(iri)
 	testAddNote.AppendToObject(samActor)
 	testRemoveNote = &vocab.Remove{}
-	testRemoveNote.SetId(*noteActivityIRI)
+	testRemoveNote.SetId(noteActivityIRI)
 	testRemoveNote.AppendActorObject(sallyActor)
 	testRemoveNote.AppendObject(testNote)
-	testRemoveNote.AppendTargetIRI(*iri)
+	testRemoveNote.AppendTargetIRI(iri)
 	testRemoveNote.AppendToObject(samActor)
 	testLikeNote = &vocab.Like{}
-	testLikeNote.SetId(*noteActivityIRI)
+	testLikeNote.SetId(noteActivityIRI)
 	testLikeNote.AppendActorObject(sallyActor)
 	testLikeNote.AppendObject(testNote)
 	testLikeNote.AppendToObject(samActor)
 	testUndoLike = &vocab.Undo{}
-	testUndoLike.SetId(*noteActivityIRI)
+	testUndoLike.SetId(noteActivityIRI)
 	testUndoLike.AppendActorObject(sallyActor)
 	testUndoLike.AppendObject(testLikeNote)
 	testUndoLike.AppendToObject(samActor)
 	testBlock = &vocab.Block{}
-	testBlock.SetId(*noteActivityIRI)
+	testBlock.SetId(noteActivityIRI)
 	testBlock.AppendActorObject(sallyActor)
 	testBlock.AppendObject(samActor)
 
 	testClientExpectedNote = &vocab.Note{}
-	testClientExpectedNote.SetId(*noteIRI)
+	testClientExpectedNote.SetId(noteIRI)
 	testClientExpectedNote.AppendNameString(noteName)
 	testClientExpectedNote.AppendContentString("This is a simple note")
 	testClientExpectedNote.AppendAttributedToObject(sallyActor)
 	testClientExpectedNote.AppendToObject(samActor)
 	testClientExpectedCreateNote = &vocab.Create{}
-	testClientExpectedCreateNote.SetId(*testNewIRI)
+	testClientExpectedCreateNote.SetId(testNewIRI)
 	testClientExpectedCreateNote.AppendSummaryString("Sally created a note")
 	testClientExpectedCreateNote.AppendActorObject(sallyActor)
 	testClientExpectedCreateNote.AppendObject(testClientExpectedNote)
@@ -334,70 +334,70 @@ func init() {
 	}
 	`
 	sammActor := &vocab.Person{}
-	sammActor.SetInboxAnyURI(*samIRIInbox)
-	sammActor.SetId(*samIRI)
+	sammActor.SetInboxAnyURI(samIRIInbox)
+	sammActor.SetId(samIRI)
 	sammActor.AppendNameString("Samm")
 	testUpdateNote := &vocab.Note{}
-	testUpdateNote.SetId(*noteIRI)
+	testUpdateNote.SetId(noteIRI)
 	testUpdateNote.AppendNameString(noteName)
 	testUpdateNote.AppendContentString("This is a simple note")
 	testUpdateNote.AppendToObject(sammActor)
 	testClientUpdateNote = &vocab.Update{}
-	testClientUpdateNote.SetId(*updateActivityIRI)
+	testClientUpdateNote.SetId(updateActivityIRI)
 	testClientUpdateNote.AppendSummaryString("Sally updated a note")
 	testClientUpdateNote.AppendActorObject(sallyActor)
 	testClientUpdateNote.AppendObject(testUpdateNote)
 	testClientUpdateNote.AppendToObject(samActor)
 	testClientExpectedUpdateNote = &vocab.Update{}
-	testClientExpectedUpdateNote.SetId(*testNewIRI)
+	testClientExpectedUpdateNote.SetId(testNewIRI)
 	testClientExpectedUpdateNote.AppendSummaryString("Sally updated a note")
 	testClientExpectedUpdateNote.AppendActorObject(sallyActor)
 	testClientExpectedUpdateNote.AppendObject(testNote)
 	testClientExpectedUpdateNote.AppendToObject(samActor)
 	testClientExpectedDeleteNote = &vocab.Delete{}
-	testClientExpectedDeleteNote.SetId(*testNewIRI)
+	testClientExpectedDeleteNote.SetId(testNewIRI)
 	testClientExpectedDeleteNote.AppendActorObject(sallyActor)
 	testClientExpectedDeleteNote.AppendObject(testNote)
 	testClientExpectedDeleteNote.AppendToObject(samActor)
 	testClientExpectedFollow = &vocab.Follow{}
-	testClientExpectedFollow.SetId(*testNewIRI)
+	testClientExpectedFollow.SetId(testNewIRI)
 	testClientExpectedFollow.AppendActorObject(sallyActor)
 	testClientExpectedFollow.AppendObject(samActor)
 	testClientExpectedFollow.AppendToObject(samActor)
 	testClientExpectedAcceptFollow = &vocab.Accept{}
-	testClientExpectedAcceptFollow.SetId(*testNewIRI)
+	testClientExpectedAcceptFollow.SetId(testNewIRI)
 	testClientExpectedAcceptFollow.AppendActorObject(samActor)
 	testClientExpectedAcceptFollow.AppendObject(testFollow)
 	testClientExpectedAcceptFollow.AppendToObject(sallyActor)
 	testClientExpectedRejectFollow = &vocab.Reject{}
-	testClientExpectedRejectFollow.SetId(*testNewIRI)
+	testClientExpectedRejectFollow.SetId(testNewIRI)
 	testClientExpectedRejectFollow.AppendActorObject(samActor)
 	testClientExpectedRejectFollow.AppendObject(testFollow)
 	testClientExpectedRejectFollow.AppendToObject(sallyActor)
 	testClientExpectedAdd = &vocab.Add{}
-	testClientExpectedAdd.SetId(*testNewIRI)
+	testClientExpectedAdd.SetId(testNewIRI)
 	testClientExpectedAdd.AppendActorObject(sallyActor)
 	testClientExpectedAdd.AppendObject(testNote)
-	testClientExpectedAdd.AppendTargetIRI(*iri)
+	testClientExpectedAdd.AppendTargetIRI(iri)
 	testClientExpectedAdd.AppendToObject(samActor)
 	testClientExpectedRemove = &vocab.Remove{}
-	testClientExpectedRemove.SetId(*testNewIRI)
+	testClientExpectedRemove.SetId(testNewIRI)
 	testClientExpectedRemove.AppendActorObject(sallyActor)
 	testClientExpectedRemove.AppendObject(testNote)
-	testClientExpectedRemove.AppendTargetIRI(*iri)
+	testClientExpectedRemove.AppendTargetIRI(iri)
 	testClientExpectedRemove.AppendToObject(samActor)
 	testClientExpectedLike = &vocab.Like{}
-	testClientExpectedLike.SetId(*testNewIRI)
+	testClientExpectedLike.SetId(testNewIRI)
 	testClientExpectedLike.AppendActorObject(sallyActor)
 	testClientExpectedLike.AppendObject(testNote)
 	testClientExpectedLike.AppendToObject(samActor)
 	testClientExpectedUndo = &vocab.Undo{}
-	testClientExpectedUndo.SetId(*testNewIRI)
+	testClientExpectedUndo.SetId(testNewIRI)
 	testClientExpectedUndo.AppendActorObject(sallyActor)
 	testClientExpectedUndo.AppendObject(testLikeNote)
 	testClientExpectedUndo.AppendToObject(samActor)
 	testClientExpectedBlock = &vocab.Block{}
-	testClientExpectedBlock.SetId(*testNewIRI)
+	testClientExpectedBlock.SetId(testNewIRI)
 	testClientExpectedBlock.AppendActorObject(sallyActor)
 	testClientExpectedBlock.AppendObject(samActor)
 
@@ -555,39 +555,39 @@ var _ Application = &MockApplication{}
 
 type MockApplication struct {
 	t                 *testing.T
-	owns              func(c context.Context, id url.URL) bool
-	get               func(c context.Context, id url.URL, rw RWType) (PubObject, error)
-	getAsVerifiedUser func(c context.Context, id, authdUser url.URL, rw RWType) (PubObject, error)
-	has               func(c context.Context, id url.URL) (bool, error)
+	owns              func(c context.Context, id *url.URL) bool
+	get               func(c context.Context, id *url.URL, rw RWType) (PubObject, error)
+	getAsVerifiedUser func(c context.Context, id, authdUser *url.URL, rw RWType) (PubObject, error)
+	has               func(c context.Context, id *url.URL) (bool, error)
 	set               func(c context.Context, o PubObject) error
 	getInbox          func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error)
 	getOutbox         func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error)
-	newId             func(c context.Context, t Typer) url.URL
-	getPublicKey      func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, url.URL, error)
+	newId             func(c context.Context, t Typer) *url.URL
+	getPublicKey      func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error)
 }
 
-func (m *MockApplication) Owns(c context.Context, id url.URL) bool {
+func (m *MockApplication) Owns(c context.Context, id *url.URL) bool {
 	if m.owns == nil {
 		m.t.Fatal("unexpected call to MockApplication Owns")
 	}
 	return m.owns(c, id)
 }
 
-func (m *MockApplication) Get(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+func (m *MockApplication) Get(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 	if m.get == nil {
 		m.t.Fatal("unexpected call to MockApplication Get")
 	}
 	return m.get(c, id, rw)
 }
 
-func (m *MockApplication) GetAsVerifiedUser(c context.Context, id, authdUser url.URL, rw RWType) (PubObject, error) {
+func (m *MockApplication) GetAsVerifiedUser(c context.Context, id, authdUser *url.URL, rw RWType) (PubObject, error) {
 	if m.getAsVerifiedUser == nil {
 		m.t.Fatal("unexpected call to MockApplication GetAsVerifiedUser")
 	}
 	return m.getAsVerifiedUser(c, id, authdUser, rw)
 }
 
-func (m *MockApplication) Has(c context.Context, id url.URL) (bool, error) {
+func (m *MockApplication) Has(c context.Context, id *url.URL) (bool, error) {
 	if m.has == nil {
 		m.t.Fatal("unexpected call to MockApplication Has")
 	}
@@ -615,14 +615,14 @@ func (m *MockApplication) GetOutbox(c context.Context, r *http.Request, rw RWTyp
 	return m.getOutbox(c, r, rw)
 }
 
-func (m *MockApplication) NewId(c context.Context, t Typer) url.URL {
+func (m *MockApplication) NewId(c context.Context, t Typer) *url.URL {
 	if m.newId == nil {
 		m.t.Fatal("unexpected call to MockApplication NewId")
 	}
 	return m.newId(c, t)
 }
 
-func (m *MockApplication) GetPublicKey(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, url.URL, error) {
+func (m *MockApplication) GetPublicKey(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 	if m.getPublicKey == nil {
 		m.t.Fatal("unexpected call to MockApplication GetPublicKey")
 	}
@@ -636,8 +636,8 @@ type MockSocialApp struct {
 	t                     *testing.T
 	canAdd                func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
 	canRemove             func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
-	actorIRI              func(c context.Context, r *http.Request) (url.URL, error)
-	getPublicKeyForOutbox func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error)
+	actorIRI              func(c context.Context, r *http.Request) (*url.URL, error)
+	getPublicKeyForOutbox func(c context.Context, publicKeyId string, boxIRI *url.URL) (crypto.PublicKey, httpsig.Algorithm, error)
 	getSocialAPIVerifier  func(c context.Context) SocialAPIVerifier
 }
 
@@ -655,14 +655,14 @@ func (m *MockSocialApp) CanRemove(c context.Context, o vocab.ObjectType, t vocab
 	return m.canRemove(c, o, t)
 }
 
-func (m *MockSocialApp) ActorIRI(c context.Context, r *http.Request) (url.URL, error) {
+func (m *MockSocialApp) ActorIRI(c context.Context, r *http.Request) (*url.URL, error) {
 	if m.actorIRI == nil {
 		m.t.Fatal("unexpected call to MockSocialApp ActorIRI")
 	}
 	return m.actorIRI(c, r)
 }
 
-func (m *MockSocialApp) GetPublicKeyForOutbox(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+func (m *MockSocialApp) GetPublicKeyForOutbox(c context.Context, publicKeyId string, boxIRI *url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
 	if m.getPublicKeyForOutbox == nil {
 		m.t.Fatal("unexpected call to MockSocialApp GetPublicKeyForOutbox")
 	}
@@ -800,11 +800,11 @@ type MockFederateApp struct {
 	canAdd           func(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
 	canRemove        func(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
 	onFollow         func(c context.Context, s *streams.Follow) FollowResponse
-	unblocked        func(c context.Context, actorIRIs []url.URL) error
-	getFollowing     func(c context.Context, actor url.URL) (vocab.CollectionType, error)
-	filterForwarding func(c context.Context, activity vocab.ActivityType, iris []url.URL) ([]url.URL, error)
+	unblocked        func(c context.Context, actorIRIs []*url.URL) error
+	getFollowing     func(c context.Context, actor *url.URL) (vocab.CollectionType, error)
+	filterForwarding func(c context.Context, activity vocab.ActivityType, iris []*url.URL) ([]*url.URL, error)
 	newSigner        func() (httpsig.Signer, error)
-	privateKey       func(boxIRI url.URL) (crypto.PrivateKey, string, error)
+	privateKey       func(boxIRI *url.URL) (crypto.PrivateKey, string, error)
 }
 
 func (m *MockFederateApp) CanFederateAdd(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool {
@@ -828,21 +828,21 @@ func (m *MockFederateApp) OnFollow(c context.Context, s *streams.Follow) FollowR
 	return m.onFollow(c, s)
 }
 
-func (m *MockFederateApp) Unblocked(c context.Context, actorIRIs []url.URL) error {
+func (m *MockFederateApp) Unblocked(c context.Context, actorIRIs []*url.URL) error {
 	if m.unblocked == nil {
 		m.t.Fatal("unexpected call to MockFederateApp Unblocked")
 	}
 	return m.unblocked(c, actorIRIs)
 }
 
-func (m *MockFederateApp) GetFollowing(c context.Context, actor url.URL) (vocab.CollectionType, error) {
+func (m *MockFederateApp) GetFollowing(c context.Context, actor *url.URL) (vocab.CollectionType, error) {
 	if m.getFollowing == nil {
 		m.t.Fatal("unexpected call to MockFederateApp GetFollowing")
 	}
 	return m.getFollowing(c, actor)
 }
 
-func (m *MockFederateApp) FilterForwarding(c context.Context, activity vocab.ActivityType, iris []url.URL) ([]url.URL, error) {
+func (m *MockFederateApp) FilterForwarding(c context.Context, activity vocab.ActivityType, iris []*url.URL) ([]*url.URL, error) {
 	if m.filterForwarding == nil {
 		m.t.Fatal("unexpected call to MockFederateApp FilterForwarding")
 	}
@@ -856,7 +856,7 @@ func (m *MockFederateApp) NewSigner() (httpsig.Signer, error) {
 	return m.newSigner()
 }
 
-func (m *MockFederateApp) PrivateKey(boxIRI url.URL) (privKey crypto.PrivateKey, pubKeyId string, err error) {
+func (m *MockFederateApp) PrivateKey(boxIRI *url.URL) (privKey crypto.PrivateKey, pubKeyId string, err error) {
 	if m.privateKey == nil {
 		m.t.Fatal("unexpected call to MockFederateApp PrivateKey")
 	}
@@ -870,16 +870,16 @@ type MockSocialFederateApp struct {
 	*MockSocialApp
 }
 
-func (m *MockSocialFederateApp) Owns(c context.Context, id url.URL) bool {
+func (m *MockSocialFederateApp) Owns(c context.Context, id *url.URL) bool {
 	return m.MockFederateApp.Owns(c, id)
 }
-func (m *MockSocialFederateApp) Get(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+func (m *MockSocialFederateApp) Get(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 	return m.MockFederateApp.Get(c, id, rw)
 }
-func (m *MockSocialFederateApp) GetAsVerifiedUser(c context.Context, id, authdUser url.URL, rw RWType) (PubObject, error) {
+func (m *MockSocialFederateApp) GetAsVerifiedUser(c context.Context, id, authdUser *url.URL, rw RWType) (PubObject, error) {
 	return m.MockFederateApp.GetAsVerifiedUser(c, id, authdUser, rw)
 }
-func (m *MockSocialFederateApp) Has(c context.Context, id url.URL) (bool, error) {
+func (m *MockSocialFederateApp) Has(c context.Context, id *url.URL) (bool, error) {
 	return m.MockFederateApp.Has(c, id)
 }
 func (m *MockSocialFederateApp) Set(c context.Context, o PubObject) error {
@@ -891,10 +891,10 @@ func (m *MockSocialFederateApp) GetInbox(c context.Context, r *http.Request, rw 
 func (m *MockSocialFederateApp) GetOutbox(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 	return m.MockFederateApp.GetOutbox(c, r, rw)
 }
-func (m *MockSocialFederateApp) NewId(c context.Context, t Typer) url.URL {
+func (m *MockSocialFederateApp) NewId(c context.Context, t Typer) *url.URL {
 	return m.MockFederateApp.NewId(c, t)
 }
-func (m *MockSocialFederateApp) GetPublicKey(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, url.URL, error) {
+func (m *MockSocialFederateApp) GetPublicKey(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 	return m.MockFederateApp.GetPublicKey(c, publicKeyId)
 }
 
@@ -902,10 +902,10 @@ var _ Deliverer = &MockDeliverer{}
 
 type MockDeliverer struct {
 	t  *testing.T
-	do func(b []byte, to url.URL, toDo func(b []byte, u url.URL) error)
+	do func(b []byte, to *url.URL, toDo func(b []byte, u *url.URL) error)
 }
 
-func (m *MockDeliverer) Do(b []byte, to url.URL, toDo func(b []byte, u url.URL) error) {
+func (m *MockDeliverer) Do(b []byte, to *url.URL, toDo func(b []byte, u *url.URL) error) {
 	if m.do == nil {
 		m.t.Fatal("unexpected call to MockDeliverer Do")
 	}
@@ -931,7 +931,7 @@ var _ SocialAPIVerifier = &MockSocialAPIVerifier{}
 type MockSocialAPIVerifier struct {
 	t               *testing.T
 	verify          func(r *http.Request) (authenticatedUser *url.URL, authn, authz bool, err error)
-	verifyForOutbox func(r *http.Request, outbox url.URL) (authn, authz bool, err error)
+	verifyForOutbox func(r *http.Request, outbox *url.URL) (authn, authz bool, err error)
 }
 
 func (m *MockSocialAPIVerifier) Verify(r *http.Request) (authenticatedUser *url.URL, authn, authz bool, err error) {
@@ -941,7 +941,7 @@ func (m *MockSocialAPIVerifier) Verify(r *http.Request) (authenticatedUser *url.
 	return m.verify(r)
 }
 
-func (m *MockSocialAPIVerifier) VerifyForOutbox(r *http.Request, outbox url.URL) (authn, authz bool, err error) {
+func (m *MockSocialAPIVerifier) VerifyForOutbox(r *http.Request, outbox *url.URL) (authn, authz bool, err error) {
 	if m.verifyForOutbox == nil {
 		m.t.Fatal("unexpected call to MockSocialAPIVerifier VerifyForOutbox")
 	}
@@ -987,7 +987,7 @@ func PreparePubberPostInboxTest(t *testing.T, app *MockSocialFederateApp, social
 }
 
 func PreparePostInboxTest(t *testing.T, app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+	fedApp.unblocked = func(c context.Context, actorIRIs []*url.URL) error {
 		return nil
 	}
 	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
@@ -1001,7 +1001,7 @@ func PreparePostInboxTest(t *testing.T, app *MockApplication, socialApp *MockSoc
 	app.set = func(c context.Context, o PubObject) error {
 		return nil
 	}
-	app.has = func(c context.Context, id url.URL) (bool, error) {
+	app.has = func(c context.Context, id *url.URL) (bool, error) {
 		return false, nil
 	}
 	return
@@ -1012,7 +1012,7 @@ func PreparePubberPostOutboxTest(t *testing.T, app *MockSocialFederateApp, socia
 }
 
 func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSocialApp, fedApp *MockFederateApp, socialCb, fedCb *MockCallbacker, d *MockDeliverer, h *MockHttpClient, p Pubber) {
-	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI *url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
 		return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
 	}
 	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
@@ -1025,11 +1025,11 @@ func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSo
 		}
 		return s, err
 	}
-	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+	fedApp.privateKey = func(boxIRI *url.URL) (crypto.PrivateKey, string, error) {
 		return testPrivateKey, testPublicKeyId, nil
 	}
-	app.newId = func(c context.Context, t Typer) url.URL {
-		return *testNewIRI
+	app.newId = func(c context.Context, t Typer) *url.URL {
+		return testNewIRI
 	}
 	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != ReadWrite {
@@ -1066,7 +1066,7 @@ func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSo
 		}
 		return nil, nil
 	}
-	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+	d.do = func(b []byte, u *url.URL, toDo func(b []byte, u *url.URL) error) {
 		if err := toDo(b, u); err != nil {
 			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
 		}
@@ -1124,8 +1124,8 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
 	gotPublicKeyForOutbox := 0
 	var gotPublicKeyId string
-	var gotBoxIRI url.URL
-	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+	var gotBoxIRI *url.URL
+	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI *url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
 		gotPublicKeyForOutbox++
 		gotPublicKeyId = publicKeyId
 		gotBoxIRI = boxIRI
@@ -1137,9 +1137,9 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 		return nil
 	}
 	gotNewId := 0
-	app.newId = func(c context.Context, t Typer) url.URL {
+	app.newId = func(c context.Context, t Typer) *url.URL {
 		gotNewId++
-		return *testNewIRI
+		return testNewIRI
 	}
 	gotOutbox := 0
 	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
@@ -1181,7 +1181,7 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotPublicKeyForOutbox)
 	} else if gotPublicKeyId != testPublicKeyId {
 		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
-	} else if s := (&gotBoxIRI).String(); s != testOutboxURI {
+	} else if s := gotBoxIRI.String(); s != testOutboxURI {
 		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if gotSocialAPIVerifier != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotSocialAPIVerifier)
@@ -1197,7 +1197,7 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 		t.Fatalf("expected %s, got %s", "Note", l)
 	} else if gotCreate != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCreate)
-	} else if iri := gotCreateCallback.Raw().GetActorObject(0).GetId(); iri.String() != sallyIRIString {
+	} else if iri := gotCreateCallback.Raw().GetActorObject(0).GetId(); *iri != *sallyIRI {
 		t.Fatalf("expected %s, got %s", sallyIRIString, iri.String())
 	} else if l := len(resp.HeaderMap["Location"]); l != 1 {
 		t.Fatalf("expected %d, got %d", 1, l)
@@ -1214,18 +1214,18 @@ func TestSocialPubber_PostOutbox_SocialAPIVerified(t *testing.T) {
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
 	gotPublicKeyForOutbox := 0
 	var gotPublicKeyId string
-	var gotBoxIRI url.URL
-	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+	var gotBoxIRI *url.URL
+	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI *url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
 		gotPublicKeyForOutbox++
 		gotPublicKeyId = publicKeyId
 		gotBoxIRI = boxIRI
 		return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
 	}
 	gotVerifyForOutbox := 0
-	var gotVerifiedOutbox url.URL
+	var gotVerifiedOutbox *url.URL
 	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
 		mockV := &MockSocialAPIVerifier{
-			verifyForOutbox: func(r *http.Request, outbox url.URL) (bool, bool, error) {
+			verifyForOutbox: func(r *http.Request, outbox *url.URL) (bool, bool, error) {
 				gotVerifyForOutbox++
 				gotVerifiedOutbox = outbox
 				return true, true, nil
@@ -1234,9 +1234,9 @@ func TestSocialPubber_PostOutbox_SocialAPIVerified(t *testing.T) {
 		return mockV
 	}
 	gotNewId := 0
-	app.newId = func(c context.Context, t Typer) url.URL {
+	app.newId = func(c context.Context, t Typer) *url.URL {
 		gotNewId++
-		return *testNewIRI
+		return testNewIRI
 	}
 	gotOutbox := 0
 	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
@@ -1278,11 +1278,11 @@ func TestSocialPubber_PostOutbox_SocialAPIVerified(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotPublicKeyForOutbox)
 	} else if gotPublicKeyId != testPublicKeyId {
 		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
-	} else if s := (&gotBoxIRI).String(); s != testOutboxURI {
+	} else if s := gotBoxIRI.String(); s != testOutboxURI {
 		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if gotVerifyForOutbox != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotVerifyForOutbox)
-	} else if o := (&gotVerifiedOutbox).String(); o != testOutboxURI {
+	} else if o := gotVerifiedOutbox.String(); o != testOutboxURI {
 		t.Fatalf("expected %s, got %s", testOutboxURI, o)
 	} else if gotNewId != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotNewId)
@@ -1296,7 +1296,7 @@ func TestSocialPubber_PostOutbox_SocialAPIVerified(t *testing.T) {
 		t.Fatalf("expected %s, got %s", "Note", l)
 	} else if gotCreate != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCreate)
-	} else if iri := gotCreateCallback.Raw().GetActorObject(0).GetId(); iri.String() != sallyIRIString {
+	} else if iri := gotCreateCallback.Raw().GetActorObject(0).GetId(); *iri != *sallyIRI {
 		t.Fatalf("expected %s, got %s", sallyIRIString, iri.String())
 	} else if l := len(resp.HeaderMap["Location"]); l != 1 {
 		t.Fatalf("expected %d, got %d", 1, l)
@@ -1342,8 +1342,8 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
 	gotUnblocked := 0
-	var iri url.URL
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+	var iri *url.URL
+	fedApp.unblocked = func(c context.Context, actorIRIs []*url.URL) error {
 		gotUnblocked++
 		iri = actorIRIs[0]
 		return nil
@@ -1371,9 +1371,9 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 		return nil
 	}
 	gotHas := 0
-	var hasIriActivity url.URL
-	var hasIriTo url.URL
-	app.has = func(c context.Context, id url.URL) (bool, error) {
+	var hasIriActivity *url.URL
+	var hasIriTo *url.URL
+	app.has = func(c context.Context, id *url.URL) (bool, error) {
 		gotHas++
 		if gotHas == 1 {
 			hasIriActivity = id
@@ -1384,8 +1384,8 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 		}
 	}
 	gotGet := 0
-	var gotIri url.URL
-	app.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	var gotIri *url.URL
+	app.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		if rw != Read {
 			t.Fatalf("expected RWType of %d, got %d", Read, rw)
 		}
@@ -1419,13 +1419,13 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 		t.Fatalf("expected %s, got %s", "Note", l)
 	} else if gotHas != 2 {
 		t.Fatalf("expected %d, got %d", 2, gotHas)
-	} else if hasIriActivityString := (&hasIriActivity).String(); hasIriActivityString != noteActivityURIString {
+	} else if hasIriActivityString := hasIriActivity.String(); hasIriActivityString != noteActivityURIString {
 		t.Fatalf("expected %s, got %s", noteActivityURIString, hasIriActivityString)
-	} else if hasIriToString := (&hasIriTo).String(); hasIriToString != samIRIString {
+	} else if hasIriToString := hasIriTo.String(); hasIriToString != samIRIString {
 		t.Fatalf("expected %s, got %s", samIRIString, hasIriToString)
 	} else if gotGet != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
-	} else if gotIriString := (&gotIri).String(); gotIriString != samIRIString {
+	} else if gotIriString := gotIri.String(); gotIriString != samIRIString {
 		t.Fatalf("expected %s, got %s", samIRIString, gotIriString)
 	} else if gotCreate != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCreate)
@@ -1515,8 +1515,8 @@ func TestPubber_PostInbox(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
 	gotUnblocked := 0
-	var iri url.URL
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+	var iri *url.URL
+	fedApp.unblocked = func(c context.Context, actorIRIs []*url.URL) error {
 		gotUnblocked++
 		iri = actorIRIs[0]
 		return nil
@@ -1544,9 +1544,9 @@ func TestPubber_PostInbox(t *testing.T) {
 		return nil
 	}
 	gotHas := 0
-	var hasIriActivity url.URL
-	var hasIriTo url.URL
-	app.MockFederateApp.has = func(c context.Context, id url.URL) (bool, error) {
+	var hasIriActivity *url.URL
+	var hasIriTo *url.URL
+	app.MockFederateApp.has = func(c context.Context, id *url.URL) (bool, error) {
 		gotHas++
 		if gotHas == 1 {
 			hasIriActivity = id
@@ -1557,8 +1557,8 @@ func TestPubber_PostInbox(t *testing.T) {
 		}
 	}
 	gotGet := 0
-	var gotIri url.URL
-	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	var gotIri *url.URL
+	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		if rw != Read {
 			t.Fatalf("expected RWType of %d, got %d", Read, rw)
 		}
@@ -1592,13 +1592,13 @@ func TestPubber_PostInbox(t *testing.T) {
 		t.Fatalf("expected %s, got %s", "Note", l)
 	} else if gotHas != 2 {
 		t.Fatalf("expected %d, got %d", 2, gotHas)
-	} else if hasIriActivityString := (&hasIriActivity).String(); hasIriActivityString != noteActivityURIString {
+	} else if hasIriActivityString := hasIriActivity.String(); hasIriActivityString != noteActivityURIString {
 		t.Fatalf("expected %s, got %s", noteActivityURIString, hasIriActivityString)
-	} else if hasIriToString := (&hasIriTo).String(); hasIriToString != samIRIString {
+	} else if hasIriToString := hasIriTo.String(); hasIriToString != samIRIString {
 		t.Fatalf("expected %s, got %s", samIRIString, hasIriToString)
 	} else if gotGet != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
-	} else if gotIriString := (&gotIri).String(); gotIriString != samIRIString {
+	} else if gotIriString := gotIri.String(); gotIriString != samIRIString {
 		t.Fatalf("expected %s, got %s", samIRIString, gotIriString)
 	} else if gotCreate != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCreate)
@@ -1645,8 +1645,8 @@ func TestPubber_PostOutbox(t *testing.T) {
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
 	gotPublicKey := 0
 	var gotPublicKeyId string
-	var gotBoxIRI url.URL
-	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+	var gotBoxIRI *url.URL
+	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI *url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
 		gotPublicKey++
 		gotPublicKeyId = publicKeyId
 		gotBoxIRI = boxIRI
@@ -1667,16 +1667,16 @@ func TestPubber_PostOutbox(t *testing.T) {
 		return s, err
 	}
 	gotPrivateKey := 0
-	var gotPrivateKeyIRI url.URL
-	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+	var gotPrivateKeyIRI *url.URL
+	fedApp.privateKey = func(boxIRI *url.URL) (crypto.PrivateKey, string, error) {
 		gotPrivateKey++
 		gotPrivateKeyIRI = boxIRI
 		return testPrivateKey, testPublicKeyId, nil
 	}
 	gotNewId := 0
-	app.MockFederateApp.newId = func(c context.Context, t Typer) url.URL {
+	app.MockFederateApp.newId = func(c context.Context, t Typer) *url.URL {
 		gotNewId++
-		return *testNewIRI
+		return testNewIRI
 	}
 	gotOutbox := 0
 	app.MockFederateApp.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
@@ -1738,8 +1738,8 @@ func TestPubber_PostOutbox(t *testing.T) {
 		return nil, nil
 	}
 	gotDoDelivery := 0
-	var doDeliveryURL url.URL
-	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+	var doDeliveryURL *url.URL
+	d.do = func(b []byte, u *url.URL, toDo func(b []byte, u *url.URL) error) {
 		gotDoDelivery++
 		doDeliveryURL = u
 		if err := toDo(b, u); err != nil {
@@ -1755,7 +1755,7 @@ func TestPubber_PostOutbox(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotPublicKey)
 	} else if gotPublicKeyId != testPublicKeyId {
 		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
-	} else if s := (&gotBoxIRI).String(); s != testOutboxURI {
+	} else if s := gotBoxIRI.String(); s != testOutboxURI {
 		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if gotSocialAPIVerifier != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotSocialAPIVerifier)
@@ -1765,7 +1765,7 @@ func TestPubber_PostOutbox(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotNewSigner)
 	} else if gotPrivateKey != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotPrivateKey)
-	} else if s := (&gotPrivateKeyIRI).String(); s != testOutboxURI {
+	} else if s := gotPrivateKeyIRI.String(); s != testOutboxURI {
 		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if gotOutbox != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotOutbox)
@@ -1868,8 +1868,8 @@ func TestPostInbox_HandlesBlocked(t *testing.T) {
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
 	blockedErr := fmt.Errorf("blocked")
 	gotBlocked := 0
-	var iri url.URL
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+	var iri *url.URL
+	fedApp.unblocked = func(c context.Context, actorIRIs []*url.URL) error {
 		gotBlocked++
 		iri = actorIRIs[0]
 		return blockedErr
@@ -1891,7 +1891,7 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			name: "create",
 			input: func() vocab.Serializer {
 				v := &vocab.Create{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendSummaryString("Sally created a note")
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
@@ -1902,7 +1902,7 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			name: "update",
 			input: func() vocab.Serializer {
 				v := &vocab.Update{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendSummaryString("Sally updated a note")
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
@@ -1913,7 +1913,7 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			name: "delete",
 			input: func() vocab.Serializer {
 				v := &vocab.Delete{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				return v
@@ -1923,7 +1923,7 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			name: "follow",
 			input: func() vocab.Serializer {
 				v := &vocab.Follow{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				return v
@@ -1933,7 +1933,7 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			name: "add",
 			input: func() vocab.Serializer {
 				v := &vocab.Add{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				v.AppendTargetObject(testNote)
@@ -1944,7 +1944,7 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			name: "remove",
 			input: func() vocab.Serializer {
 				v := &vocab.Remove{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				v.AppendTargetObject(testNote)
@@ -1955,7 +1955,7 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			name: "like",
 			input: func() vocab.Serializer {
 				v := &vocab.Like{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				return v
@@ -1965,7 +1965,7 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			name: "block",
 			input: func() vocab.Serializer {
 				v := &vocab.Block{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				return v
@@ -1975,7 +1975,7 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			name: "undo",
 			input: func() vocab.Serializer {
 				v := &vocab.Undo{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				return v
@@ -1983,7 +1983,7 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 		},
 	}
 	_, _, fedApp, _, _, _, _, p := NewPubberTest(t)
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+	fedApp.unblocked = func(c context.Context, actorIRIs []*url.URL) error {
 		return nil
 	}
 	for _, test := range tests {
@@ -2010,7 +2010,7 @@ func TestPostInbox_RequiresTarget(t *testing.T) {
 			name: "add",
 			input: func() vocab.Serializer {
 				v := &vocab.Add{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				v.AppendObject(testNote)
@@ -2021,7 +2021,7 @@ func TestPostInbox_RequiresTarget(t *testing.T) {
 			name: "remove",
 			input: func() vocab.Serializer {
 				v := &vocab.Remove{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				v.AppendObject(testNote)
@@ -2030,7 +2030,7 @@ func TestPostInbox_RequiresTarget(t *testing.T) {
 		},
 	}
 	_, _, fedApp, _, _, _, _, p := NewPubberTest(t)
-	fedApp.unblocked = func(c context.Context, actorIRIs []url.URL) error {
+	fedApp.unblocked = func(c context.Context, actorIRIs []*url.URL) error {
 		return nil
 	}
 	for _, test := range tests {
@@ -2060,7 +2060,7 @@ func TestPostInbox_DoesNotAddToInboxIfDuplicate(t *testing.T) {
 	}
 	app.MockFederateApp.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		inbox := &vocab.OrderedCollection{}
-		inbox.AppendOrderedItemsIRI(*noteActivityIRI)
+		inbox.AppendOrderedItemsIRI(noteActivityIRI)
 		return inbox, nil
 	}
 	fedCb.create = func(c context.Context, s *streams.Create) error {
@@ -2068,7 +2068,7 @@ func TestPostInbox_DoesNotAddToInboxIfDuplicate(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expectedInbox := &vocab.OrderedCollection{}
-	expectedInbox.AppendOrderedItemsIRI(*noteActivityIRI)
+	expectedInbox.AppendOrderedItemsIRI(noteActivityIRI)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -2087,8 +2087,8 @@ func TestPostInbox_OriginMustMatch(t *testing.T) {
 			name: "update",
 			input: func() vocab.ActivityType {
 				a := &vocab.Update{}
-				a.SetId(*otherOriginIRI)
-				a.AppendActorIRI(*otherOriginActorIRI)
+				a.SetId(otherOriginIRI)
+				a.AppendActorIRI(otherOriginActorIRI)
 				a.AppendObject(testCreateNote)
 				return a
 			},
@@ -2097,9 +2097,9 @@ func TestPostInbox_OriginMustMatch(t *testing.T) {
 			name: "delete",
 			input: func() vocab.ActivityType {
 				a := &vocab.Delete{}
-				a.SetId(*otherOriginIRI)
-				a.AppendActorIRI(*otherOriginActorIRI)
-				a.AppendObjectIRI(*noteIRI)
+				a.SetId(otherOriginIRI)
+				a.AppendActorIRI(otherOriginActorIRI)
+				a.AppendObjectIRI(noteIRI)
 				return a
 			},
 		},
@@ -2128,7 +2128,7 @@ func TestPostInbox_ActivityActorsMustCoverObjectActors(t *testing.T) {
 			name: "undo",
 			input: func() vocab.ActivityType {
 				a := &vocab.Undo{}
-				a.SetId(*noteActivityIRI)
+				a.SetId(noteActivityIRI)
 				a.AppendActorObject(samActor)
 				a.AppendObject(testLikeNote)
 				return a
@@ -2261,10 +2261,10 @@ func TestPostInbox_Delete_FetchesObject(t *testing.T) {
 	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
-		} else if id != *noteIRI {
+		} else if *id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
 		}
 		return testNote, nil
@@ -2300,7 +2300,7 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 			name: "forward published time",
 			input: func() PubObject {
 				testNote := &vocab.Note{}
-				testNote.SetId(*noteIRI)
+				testNote.SetId(noteIRI)
 				testNote.AppendType("Note")
 				testNote.AppendNameString(noteName)
 				testNote.AppendContentString("This is a simple note")
@@ -2309,7 +2309,7 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 			},
 			expected: func() vocab.Serializer {
 				testTombstoneNote := &vocab.Tombstone{}
-				testTombstoneNote.SetId(*noteIRI)
+				testTombstoneNote.SetId(noteIRI)
 				testTombstoneNote.AppendFormerTypeString("Note")
 				testTombstoneNote.SetDeleted(now)
 				testTombstoneNote.SetPublished(now)
@@ -2320,19 +2320,19 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 			name: "forward published iri",
 			input: func() PubObject {
 				testNote := &vocab.Note{}
-				testNote.SetId(*noteIRI)
+				testNote.SetId(noteIRI)
 				testNote.AppendType("Note")
 				testNote.AppendNameString(noteName)
 				testNote.AppendContentString("This is a simple note")
-				testNote.SetPublishedIRI(*iri)
+				testNote.SetPublishedIRI(iri)
 				return testNote
 			},
 			expected: func() vocab.Serializer {
 				testTombstoneNote := &vocab.Tombstone{}
-				testTombstoneNote.SetId(*noteIRI)
+				testTombstoneNote.SetId(noteIRI)
 				testTombstoneNote.AppendFormerTypeString("Note")
 				testTombstoneNote.SetDeleted(now)
-				testTombstoneNote.SetPublishedIRI(*iri)
+				testTombstoneNote.SetPublishedIRI(iri)
 				return testTombstoneNote
 			},
 		},
@@ -2340,7 +2340,7 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 			name: "forward updated time",
 			input: func() PubObject {
 				testNote := &vocab.Note{}
-				testNote.SetId(*noteIRI)
+				testNote.SetId(noteIRI)
 				testNote.AppendType("Note")
 				testNote.AppendNameString(noteName)
 				testNote.AppendContentString("This is a simple note")
@@ -2349,7 +2349,7 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 			},
 			expected: func() vocab.Serializer {
 				testTombstoneNote := &vocab.Tombstone{}
-				testTombstoneNote.SetId(*noteIRI)
+				testTombstoneNote.SetId(noteIRI)
 				testTombstoneNote.AppendFormerTypeString("Note")
 				testTombstoneNote.SetDeleted(now)
 				testTombstoneNote.SetUpdated(now)
@@ -2360,19 +2360,19 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 			name: "forward updated iri",
 			input: func() PubObject {
 				testNote := &vocab.Note{}
-				testNote.SetId(*noteIRI)
+				testNote.SetId(noteIRI)
 				testNote.AppendType("Note")
 				testNote.AppendNameString(noteName)
 				testNote.AppendContentString("This is a simple note")
-				testNote.SetUpdatedIRI(*iri)
+				testNote.SetUpdatedIRI(iri)
 				return testNote
 			},
 			expected: func() vocab.Serializer {
 				testTombstoneNote := &vocab.Tombstone{}
-				testTombstoneNote.SetId(*noteIRI)
+				testTombstoneNote.SetId(noteIRI)
 				testTombstoneNote.AppendFormerTypeString("Note")
 				testTombstoneNote.SetDeleted(now)
-				testTombstoneNote.SetUpdatedIRI(*iri)
+				testTombstoneNote.SetUpdatedIRI(iri)
 				return testTombstoneNote
 			},
 		},
@@ -2393,7 +2393,7 @@ func TestPostInbox_Delete_SetsTombstone(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
-		app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+		app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 			return test.input(), nil
 		}
 		gotSet = 0
@@ -2417,7 +2417,7 @@ func TestPostInbox_Delete_CallsCallback(t *testing.T) {
 	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		return testNote, nil
 	}
 	gotCallback := 0
@@ -2482,8 +2482,8 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 		return s, err
 	}
 	gotPrivateKey := 0
-	var gotPrivateKeyIRI url.URL
-	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+	var gotPrivateKeyIRI *url.URL
+	fedApp.privateKey = func(boxIRI *url.URL) (crypto.PrivateKey, string, error) {
 		gotPrivateKey++
 		gotPrivateKeyIRI = boxIRI
 		return testPrivateKey, testPublicKeyId, nil
@@ -2492,8 +2492,8 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 		return nil
 	}
 	gotOwns := 0
-	var ownsIRI url.URL
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	var ownsIRI *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		gotOwns++
 		ownsIRI = id
 		return true
@@ -2521,9 +2521,9 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 		return nil, nil
 	}
 	gotDoDelivery := 0
-	var doDeliveryURL url.URL
+	var doDeliveryURL *url.URL
 	var bytesToSend []byte
-	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+	d.do = func(b []byte, u *url.URL, toDo func(b []byte, u *url.URL) error) {
 		gotDoDelivery++
 		doDeliveryURL = u
 		bytesToSend = b
@@ -2543,7 +2543,7 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotNewSigner)
 	} else if gotPrivateKey != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotPrivateKey)
-	} else if s := (&gotPrivateKeyIRI).String(); s != testInboxURI {
+	} else if s := gotPrivateKeyIRI.String(); s != testInboxURI {
 		t.Fatalf("expected %s, got %s", testInboxURI, s)
 	} else if gotOnFollow != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotOnFollow)
@@ -2586,8 +2586,8 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 		return s, err
 	}
 	gotPrivateKey := 0
-	var gotPrivateKeyIRI url.URL
-	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+	var gotPrivateKeyIRI *url.URL
+	fedApp.privateKey = func(boxIRI *url.URL) (crypto.PrivateKey, string, error) {
 		gotPrivateKey++
 		gotPrivateKeyIRI = boxIRI
 		return testPrivateKey, testPublicKeyId, nil
@@ -2618,9 +2618,9 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 		return nil, nil
 	}
 	gotDoDelivery := 0
-	var doDeliveryURL url.URL
+	var doDeliveryURL *url.URL
 	var bytesToSend []byte
-	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+	d.do = func(b []byte, u *url.URL, toDo func(b []byte, u *url.URL) error) {
 		gotDoDelivery++
 		doDeliveryURL = u
 		bytesToSend = b
@@ -2629,23 +2629,23 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 		}
 	}
 	gotOwns := 0
-	var ownsIRI url.URL
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	var ownsIRI *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		gotOwns++
 		ownsIRI = id
 		return true
 	}
 	gotGet := 0
-	var getIRI url.URL
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	var getIRI *url.URL
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
 		gotGet++
 		getIRI = id
 		samActor := &vocab.Person{}
-		samActor.SetInboxAnyURI(*samIRIInbox)
-		samActor.SetId(*samIRI)
+		samActor.SetInboxAnyURI(samIRIInbox)
+		samActor.SetId(samIRI)
 		samActor.SetFollowersCollection(&vocab.Collection{})
 		return samActor, nil
 	}
@@ -2664,8 +2664,8 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	expectedFollowers := &vocab.Collection{}
 	expectedFollowers.AppendItemsObject(sallyActor)
 	expectedActor := &vocab.Person{}
-	expectedActor.SetInboxAnyURI(*samIRIInbox)
-	expectedActor.SetId(*samIRI)
+	expectedActor.SetInboxAnyURI(samIRIInbox)
+	expectedActor.SetId(samIRI)
 	expectedActor.SetFollowersCollection(expectedFollowers)
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	if err != nil {
@@ -2678,7 +2678,7 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotNewSigner)
 	} else if gotPrivateKey != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotPrivateKey)
-	} else if s := (&gotPrivateKeyIRI).String(); s != testInboxURI {
+	} else if s := gotPrivateKeyIRI.String(); s != testInboxURI {
 		t.Fatalf("expected %s, got %s", testInboxURI, s)
 	} else if gotHttpDo != 2 {
 		t.Fatalf("expected %d, got %d", 2, gotHttpDo)
@@ -2722,7 +2722,7 @@ func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) 
 		}
 		return s, err
 	}
-	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+	fedApp.privateKey = func(boxIRI *url.URL) (crypto.PrivateKey, string, error) {
 		return testPrivateKey, testPublicKeyId, nil
 	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
@@ -2746,23 +2746,23 @@ func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) 
 		}
 		return nil, nil
 	}
-	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+	d.do = func(b []byte, u *url.URL, toDo func(b []byte, u *url.URL) error) {
 		if err := toDo(b, u); err != nil {
 			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
 		}
 	}
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
 		followers := &vocab.Collection{}
-		followers.AppendItemsIRI(*sallyIRI)
+		followers.AppendItemsIRI(sallyIRI)
 		samActor := &vocab.Person{}
-		samActor.SetInboxAnyURI(*samIRIInbox)
-		samActor.SetId(*samIRI)
+		samActor.SetInboxAnyURI(samIRIInbox)
+		samActor.SetId(samIRI)
 		samActor.SetFollowersCollection(followers)
 		return samActor, nil
 	}
@@ -2776,10 +2776,10 @@ func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) 
 		return nil
 	}
 	expectedFollowers := &vocab.Collection{}
-	expectedFollowers.AppendItemsIRI(*sallyIRI)
+	expectedFollowers.AppendItemsIRI(sallyIRI)
 	expectedActor := &vocab.Person{}
-	expectedActor.SetInboxAnyURI(*samIRIInbox)
-	expectedActor.SetId(*samIRI)
+	expectedActor.SetInboxAnyURI(samIRIInbox)
+	expectedActor.SetId(samIRI)
 	expectedActor.SetFollowersCollection(expectedFollowers)
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	if err != nil {
@@ -2808,7 +2808,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 		}
 		return s, err
 	}
-	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+	fedApp.privateKey = func(boxIRI *url.URL) (crypto.PrivateKey, string, error) {
 		return testPrivateKey, testPublicKeyId, nil
 	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
@@ -2832,21 +2832,21 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 		}
 		return nil, nil
 	}
-	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+	d.do = func(b []byte, u *url.URL, toDo func(b []byte, u *url.URL) error) {
 		if err := toDo(b, u); err != nil {
 			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
 		}
 	}
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
 		samActor := &vocab.Person{}
-		samActor.SetInboxAnyURI(*samIRIInbox)
-		samActor.SetId(*samIRI)
+		samActor.SetInboxAnyURI(samIRIInbox)
+		samActor.SetId(samIRI)
 		samActor.SetFollowersOrderedCollection(&vocab.OrderedCollection{})
 		return samActor, nil
 	}
@@ -2863,8 +2863,8 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 	expectedFollowers := &vocab.OrderedCollection{}
 	expectedFollowers.AppendOrderedItemsObject(sallyActor)
 	expectedActor := &vocab.Person{}
-	expectedActor.SetInboxAnyURI(*samIRIInbox)
-	expectedActor.SetId(*samIRI)
+	expectedActor.SetInboxAnyURI(samIRIInbox)
+	expectedActor.SetId(samIRI)
 	expectedActor.SetFollowersOrderedCollection(expectedFollowers)
 	if err != nil {
 		t.Fatal(err)
@@ -2890,7 +2890,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
 		}
 		return s, err
 	}
-	fedApp.privateKey = func(boxIRI url.URL) (crypto.PrivateKey, string, error) {
+	fedApp.privateKey = func(boxIRI *url.URL) (crypto.PrivateKey, string, error) {
 		return testPrivateKey, testPublicKeyId, nil
 	}
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
@@ -2914,28 +2914,28 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
 		}
 		return nil, nil
 	}
-	d.do = func(b []byte, u url.URL, toDo func(b []byte, u url.URL) error) {
+	d.do = func(b []byte, u *url.URL, toDo func(b []byte, u *url.URL) error) {
 		if err := toDo(b, u); err != nil {
 			t.Fatalf("Unexpected error in MockDeliverer.Do: %s", err)
 		}
 	}
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
-		if id == *samIRI {
+		if *id == *samIRI {
 			samActor := &vocab.Person{}
-			samActor.SetInboxAnyURI(*samIRIInbox)
-			samActor.SetId(*samIRI)
-			samActor.SetFollowersAnyURI(*testNewIRI)
+			samActor.SetInboxAnyURI(samIRIInbox)
+			samActor.SetId(samIRI)
+			samActor.SetFollowersAnyURI(testNewIRI)
 			return samActor, nil
-		} else if id == *testNewIRI {
+		} else if *id == *testNewIRI {
 			return &vocab.Collection{}, nil
 		}
-		t.Fatalf("unexpected get(%s)", &id)
+		t.Fatalf("unexpected get(%s)", id)
 		return nil, nil
 	}
 	gotSet := 0
@@ -2970,7 +2970,7 @@ func TestPostInbox_Follow_DoesNotAutoAcceptIfNotOwned(t *testing.T) {
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
 	}
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return false
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
@@ -2992,7 +2992,7 @@ func TestPostInbox_Follow_DoesNotAutoRejectIfNotOwned(t *testing.T) {
 	fedCb.follow = func(c context.Context, s *streams.Follow) error {
 		return nil
 	}
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return false
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
@@ -3052,23 +3052,23 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
 	gotOwns := 0
-	var ownsIRI url.URL
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	var ownsIRI *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		gotOwns++
 		ownsIRI = id
 		return true
 	}
 	gotGet := 0
-	var getIRI url.URL
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	var getIRI *url.URL
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
 		gotGet++
 		getIRI = id
 		sallyActor := &vocab.Person{}
-		sallyActor.SetInboxAnyURI(*sallyIRIInbox)
-		sallyActor.SetId(*sallyIRI)
+		sallyActor.SetInboxAnyURI(sallyIRIInbox)
+		sallyActor.SetId(sallyIRI)
 		sallyActor.SetFollowingCollection(&vocab.Collection{})
 		return sallyActor, nil
 	}
@@ -3087,8 +3087,8 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 	expectedFollowing := &vocab.Collection{}
 	expectedFollowing.AppendItemsObject(samActor)
 	expectedActor := &vocab.Person{}
-	expectedActor.SetInboxAnyURI(*sallyIRIInbox)
-	expectedActor.SetId(*sallyIRI)
+	expectedActor.SetInboxAnyURI(sallyIRIInbox)
+	expectedActor.SetId(sallyIRI)
 	expectedActor.SetFollowingCollection(expectedFollowing)
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	if err != nil {
@@ -3115,15 +3115,15 @@ func TestPostInbox_Accept_AcceptFollowDoesNotAddIfAlreadyInCollection(t *testing
 	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		following := &vocab.Collection{}
-		following.AppendItemsIRI(*samIRI)
+		following.AppendItemsIRI(samIRI)
 		sallyActor := &vocab.Person{}
-		sallyActor.SetInboxAnyURI(*sallyIRIInbox)
-		sallyActor.SetId(*sallyIRI)
+		sallyActor.SetInboxAnyURI(sallyIRIInbox)
+		sallyActor.SetId(sallyIRI)
 		sallyActor.SetFollowingCollection(following)
 		return sallyActor, nil
 	}
@@ -3140,10 +3140,10 @@ func TestPostInbox_Accept_AcceptFollowDoesNotAddIfAlreadyInCollection(t *testing
 		return nil
 	}
 	expectedFollowing := &vocab.Collection{}
-	expectedFollowing.AppendItemsIRI(*samIRI)
+	expectedFollowing.AppendItemsIRI(samIRI)
 	expectedActor := &vocab.Person{}
-	expectedActor.SetInboxAnyURI(*sallyIRIInbox)
-	expectedActor.SetId(*sallyIRI)
+	expectedActor.SetInboxAnyURI(sallyIRIInbox)
+	expectedActor.SetId(sallyIRI)
 	expectedActor.SetFollowingCollection(expectedFollowing)
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	if err != nil {
@@ -3162,16 +3162,16 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersOrderedCollection(t *testin
 	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
 		sallyActor := &vocab.Person{}
-		sallyActor.SetInboxAnyURI(*sallyIRIInbox)
-		sallyActor.SetId(*sallyIRI)
+		sallyActor.SetInboxAnyURI(sallyIRIInbox)
+		sallyActor.SetId(sallyIRI)
 		sallyActor.SetFollowingOrderedCollection(&vocab.OrderedCollection{})
 		return sallyActor, nil
 	}
@@ -3190,8 +3190,8 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersOrderedCollection(t *testin
 	expectedFollowing := &vocab.OrderedCollection{}
 	expectedFollowing.AppendOrderedItemsObject(samActor)
 	expectedActor := &vocab.Person{}
-	expectedActor.SetInboxAnyURI(*sallyIRIInbox)
-	expectedActor.SetId(*sallyIRI)
+	expectedActor.SetInboxAnyURI(sallyIRIInbox)
+	expectedActor.SetId(sallyIRI)
 	expectedActor.SetFollowingOrderedCollection(expectedFollowing)
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	if err != nil {
@@ -3208,23 +3208,23 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIRI(t *testing.T) {
 	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
-		if id == *sallyIRI {
+		if *id == *sallyIRI {
 			sallyActor := &vocab.Person{}
-			sallyActor.SetInboxAnyURI(*sallyIRIInbox)
-			sallyActor.SetId(*sallyIRI)
-			sallyActor.SetFollowingAnyURI(*sallyFollowingIRI)
+			sallyActor.SetInboxAnyURI(sallyIRIInbox)
+			sallyActor.SetId(sallyIRI)
+			sallyActor.SetFollowingAnyURI(sallyFollowingIRI)
 			return sallyActor, nil
-		} else if id == *sallyFollowingIRI {
+		} else if *id == *sallyFollowingIRI {
 			return &vocab.OrderedCollection{}, nil
 		}
-		t.Fatalf("Unexpected get(%s)", (&id).String())
+		t.Fatalf("unexpected get(%s)", id.String())
 		return nil, nil
 	}
 	gotSet := 0
@@ -3257,8 +3257,8 @@ func TestPostInbox_Accept_DoesNothingIfNotOwned(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
 	gotOwns := 0
-	var ownsIRI url.URL
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	var ownsIRI *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		gotOwns++
 		ownsIRI = id
 		return false
@@ -3283,13 +3283,13 @@ func TestPostInbox_Accept_CallsCallback(t *testing.T) {
 	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAcceptFollow))))
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		sallyActor := &vocab.Person{}
-		sallyActor.SetInboxAnyURI(*sallyIRIInbox)
-		sallyActor.SetId(*sallyIRI)
+		sallyActor.SetInboxAnyURI(sallyIRIInbox)
+		sallyActor.SetId(sallyIRI)
 		sallyActor.SetFollowingCollection(&vocab.Collection{})
 		return sallyActor, nil
 	}
@@ -3344,8 +3344,8 @@ func TestPostInbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
 	gotOwns := 0
-	var gotOwnsId url.URL
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	var gotOwnsId *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return false
@@ -3371,15 +3371,15 @@ func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
 	gotOwns := 0
-	var gotOwnsId url.URL
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	var gotOwnsId *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return true
 	}
 	gotGet := 0
-	var gotGetId url.URL
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	var gotGetId *url.URL
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -3443,15 +3443,15 @@ func TestPostInbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
 	gotOwns := 0
-	var gotOwnsId url.URL
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	var gotOwnsId *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return true
 	}
 	gotGet := 0
-	var gotGetId url.URL
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	var gotGetId *url.URL
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetId = id
 		v := &vocab.Collection{}
@@ -3496,10 +3496,10 @@ func TestPostInbox_Add_CallsCallback(t *testing.T) {
 	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAddNote))))
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Collection{}
 		return v, nil
 	}
@@ -3531,8 +3531,8 @@ func TestPostInbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
 	gotOwns := 0
-	var gotOwnsId url.URL
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	var gotOwnsId *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return false
@@ -3558,15 +3558,15 @@ func TestPostInbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
 	gotOwns := 0
-	var gotOwnsId url.URL
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	var gotOwnsId *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return true
 	}
 	gotGet := 0
-	var gotGetId url.URL
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	var gotGetId *url.URL
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -3629,15 +3629,15 @@ func TestPostInbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
 	gotOwns := 0
-	var gotOwnsId url.URL
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	var gotOwnsId *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return true
 	}
 	gotGet := 0
-	var gotGetId url.URL
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	var gotGetId *url.URL
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetId = id
 		v := &vocab.Collection{}
@@ -3685,10 +3685,10 @@ func TestPostInbox_Remove_CallsCallback(t *testing.T) {
 	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote))))
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Collection{}
 		return v, nil
 	}
@@ -3720,22 +3720,22 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
 	gotOwns := 0
-	var gotOwnsId url.URL
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	var gotOwnsId *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		gotOwns++
 		gotOwnsId = id
 		return true
 	}
 	gotGet := 0
-	var gotGetId url.URL
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	var gotGetId *url.URL
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
 		gotGet++
 		gotGetId = id
 		v := &vocab.Note{}
-		v.SetId(*noteIRI)
+		v.SetId(noteIRI)
 		v.AppendNameString(noteName)
 		v.AppendContentString("This is a simple note")
 		v.SetLikesCollection(&vocab.Collection{})
@@ -3757,7 +3757,7 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	expected := &vocab.Collection{}
 	expected.AppendItemsObject(sallyActor)
 	expectedNote := &vocab.Note{}
-	expectedNote.SetId(*noteIRI)
+	expectedNote.SetId(noteIRI)
 	expectedNote.AppendNameString(noteName)
 	expectedNote.AppendContentString("This is a simple note")
 	expectedNote.SetLikesCollection(expected)
@@ -3785,14 +3785,14 @@ func TestPostInbox_Like_DoesNotAddLikeToCollectionIfAlreadyPresent(t *testing.T)
 	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		likes := &vocab.Collection{}
-		likes.AppendItemsIRI(*sallyIRI)
+		likes.AppendItemsIRI(sallyIRI)
 		v := &vocab.Note{}
-		v.SetId(*noteIRI)
+		v.SetId(noteIRI)
 		v.AppendNameString(noteName)
 		v.AppendContentString("This is a simple note")
 		v.SetLikesCollection(likes)
@@ -3812,9 +3812,9 @@ func TestPostInbox_Like_DoesNotAddLikeToCollectionIfAlreadyPresent(t *testing.T)
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.Collection{}
-	expected.AppendItemsIRI(*sallyIRI)
+	expected.AppendItemsIRI(sallyIRI)
 	expectedNote := &vocab.Note{}
-	expectedNote.SetId(*noteIRI)
+	expectedNote.SetId(noteIRI)
 	expectedNote.AppendNameString(noteName)
 	expectedNote.AppendContentString("This is a simple note")
 	expectedNote.SetLikesCollection(expected)
@@ -3834,12 +3834,12 @@ func TestPostInbox_Like_AddsToLikeOrderedCollection(t *testing.T) {
 	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Note{}
-		v.SetId(*noteIRI)
+		v.SetId(noteIRI)
 		v.AppendNameString(noteName)
 		v.AppendContentString("This is a simple note")
 		v.SetLikesOrderedCollection(&vocab.OrderedCollection{})
@@ -3861,7 +3861,7 @@ func TestPostInbox_Like_AddsToLikeOrderedCollection(t *testing.T) {
 	expected := &vocab.OrderedCollection{}
 	expected.AppendOrderedItemsObject(sallyActor)
 	expectedNote := &vocab.Note{}
-	expectedNote.SetId(*noteIRI)
+	expectedNote.SetId(noteIRI)
 	expectedNote.AppendNameString(noteName)
 	expectedNote.AppendContentString("This is a simple note")
 	expectedNote.SetLikesOrderedCollection(expected)
@@ -3879,21 +3879,21 @@ func TestPostInbox_Like_AddsToLikeIRI(t *testing.T) {
 	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
-		if id == *noteIRI {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
+		if *id == *noteIRI {
 			v := &vocab.Note{}
-			v.SetId(*noteIRI)
+			v.SetId(noteIRI)
 			v.AppendNameString(noteName)
 			v.AppendContentString("This is a simple note")
-			v.SetLikesAnyURI(*testNewIRI)
+			v.SetLikesAnyURI(testNewIRI)
 			return v, nil
-		} else if id == *testNewIRI {
+		} else if *id == *testNewIRI {
 			return &vocab.OrderedCollection{}, nil
 		}
-		t.Fatalf("unexpected get(%s)", &id)
+		t.Fatalf("unexpected get(%s)", id)
 		return nil, nil
 	}
 	gotSet := 0
@@ -3925,12 +3925,12 @@ func TestPostInbox_Like_CallsCallback(t *testing.T) {
 	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testLikeNote))))
-	app.MockFederateApp.owns = func(c context.Context, id url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Note{}
-		v.SetId(*noteIRI)
+		v.SetId(noteIRI)
 		v.AppendNameString(noteName)
 		v.AppendContentString("This is a simple note")
 		v.SetLikesCollection(&vocab.Collection{})
@@ -4073,7 +4073,7 @@ func TestPostOutbox_RejectUnauthenticatedUnauthorized(t *testing.T) {
 	gotVerifyForOutbox := 0
 	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
 		mockV := &MockSocialAPIVerifier{
-			verifyForOutbox: func(r *http.Request, outbox url.URL) (bool, bool, error) {
+			verifyForOutbox: func(r *http.Request, outbox *url.URL) (bool, bool, error) {
 				gotVerifyForOutbox++
 				return false, false, nil
 			},
@@ -4099,7 +4099,7 @@ func TestPostOutbox_RejectAuthenticatedUnauthorized(t *testing.T) {
 	gotVerifyForOutbox := 0
 	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
 		mockV := &MockSocialAPIVerifier{
-			verifyForOutbox: func(r *http.Request, outbox url.URL) (bool, bool, error) {
+			verifyForOutbox: func(r *http.Request, outbox *url.URL) (bool, bool, error) {
 				gotVerifyForOutbox++
 				return true, false, nil
 			},
@@ -4125,7 +4125,7 @@ func TestPostOutbox_RejectFallback_Unauthorized_NotSigned(t *testing.T) {
 	gotVerifyForOutbox := 0
 	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
 		mockV := &MockSocialAPIVerifier{
-			verifyForOutbox: func(r *http.Request, outbox url.URL) (bool, bool, error) {
+			verifyForOutbox: func(r *http.Request, outbox *url.URL) (bool, bool, error) {
 				gotVerifyForOutbox++
 				return false, true, nil
 			},
@@ -4151,7 +4151,7 @@ func TestPostOutbox_RejectFallback_Unauthorized_WrongSignature(t *testing.T) {
 	gotVerifyForOutbox := 0
 	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
 		mockV := &MockSocialAPIVerifier{
-			verifyForOutbox: func(r *http.Request, outbox url.URL) (bool, bool, error) {
+			verifyForOutbox: func(r *http.Request, outbox *url.URL) (bool, bool, error) {
 				gotVerifyForOutbox++
 				return false, true, nil
 			},
@@ -4160,8 +4160,8 @@ func TestPostOutbox_RejectFallback_Unauthorized_WrongSignature(t *testing.T) {
 	}
 	gotPublicKey := 0
 	var gotPublicKeyId string
-	var gotBoxIRI url.URL
-	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+	var gotBoxIRI *url.URL
+	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI *url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
 		gotPublicKey++
 		gotPublicKeyId = publicKeyId
 		gotBoxIRI = boxIRI
@@ -4178,7 +4178,7 @@ func TestPostOutbox_RejectFallback_Unauthorized_WrongSignature(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotPublicKey)
 	} else if gotPublicKeyId != testPublicKeyId {
 		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
-	} else if s := (&gotBoxIRI).String(); s != testOutboxURI {
+	} else if s := gotBoxIRI.String(); s != testOutboxURI {
 		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if resp.Code != http.StatusForbidden {
 		t.Fatalf("expected %d, got %d", http.StatusForbidden, resp.Code)
@@ -4196,8 +4196,8 @@ func TestPostOutbox_RejectUnauthorized_WrongSignature(t *testing.T) {
 	}
 	gotPublicKey := 0
 	var gotPublicKeyId string
-	var gotBoxIRI url.URL
-	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+	var gotBoxIRI *url.URL
+	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI *url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
 		gotPublicKey++
 		gotPublicKeyId = publicKeyId
 		gotBoxIRI = boxIRI
@@ -4214,7 +4214,7 @@ func TestPostOutbox_RejectUnauthorized_WrongSignature(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotPublicKey)
 	} else if gotPublicKeyId != testPublicKeyId {
 		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
-	} else if s := (&gotBoxIRI).String(); s != testOutboxURI {
+	} else if s := gotBoxIRI.String(); s != testOutboxURI {
 		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if resp.Code != http.StatusForbidden {
 		t.Fatalf("expected %d, got %d", http.StatusForbidden, resp.Code)
@@ -4226,28 +4226,28 @@ func TestPostOutbox_WrapInCreateActivity(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	// Raw Note
 	rawNote := &vocab.Note{}
-	rawNote.SetId(*noteIRI)
+	rawNote.SetId(noteIRI)
 	rawNote.AppendNameString(noteName)
 	rawNote.AppendContentString("This is a simple note")
 	rawNote.AppendToObject(samActor)
 	// Expected result
 	expectedNote := &vocab.Note{}
-	expectedNote.SetId(*noteIRI)
+	expectedNote.SetId(noteIRI)
 	expectedNote.AppendNameString(noteName)
 	expectedNote.AppendContentString("This is a simple note")
 	expectedNote.AppendToObject(samActor)
-	expectedNote.AppendAttributedToIRI(*sallyIRI)
+	expectedNote.AppendAttributedToIRI(sallyIRI)
 	expectedCreate := &vocab.Create{}
-	expectedCreate.SetId(*testNewIRI)
-	expectedCreate.AppendActorIRI(*sallyIRI)
+	expectedCreate.SetId(testNewIRI)
+	expectedCreate.AppendActorIRI(sallyIRI)
 	expectedCreate.AppendObject(expectedNote)
 	expectedCreate.AppendToObject(samActor)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(rawNote)))))
 	gotActorIRI := 0
-	socialApp.actorIRI = func(c context.Context, r *http.Request) (url.URL, error) {
+	socialApp.actorIRI = func(c context.Context, r *http.Request) (*url.URL, error) {
 		gotActorIRI++
-		return *sallyIRI, nil
+		return sallyIRI, nil
 	}
 	gotCallback := 0
 	var gotCallbackObject *streams.Create
@@ -4279,7 +4279,7 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			name: "create",
 			input: func() vocab.Serializer {
 				v := &vocab.Create{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendSummaryString("Sally created a note")
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
@@ -4290,7 +4290,7 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			name: "update",
 			input: func() vocab.Serializer {
 				v := &vocab.Update{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendSummaryString("Sally updated a note")
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
@@ -4301,7 +4301,7 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			name: "delete",
 			input: func() vocab.Serializer {
 				v := &vocab.Delete{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				return v
@@ -4311,7 +4311,7 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			name: "follow",
 			input: func() vocab.Serializer {
 				v := &vocab.Follow{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				return v
@@ -4321,7 +4321,7 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			name: "add",
 			input: func() vocab.Serializer {
 				v := &vocab.Add{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				v.AppendTargetObject(testNote)
@@ -4332,7 +4332,7 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			name: "remove",
 			input: func() vocab.Serializer {
 				v := &vocab.Remove{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				v.AppendTargetObject(testNote)
@@ -4343,7 +4343,7 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			name: "like",
 			input: func() vocab.Serializer {
 				v := &vocab.Like{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				return v
@@ -4353,7 +4353,7 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			name: "block",
 			input: func() vocab.Serializer {
 				v := &vocab.Block{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				return v
@@ -4363,7 +4363,7 @@ func TestPostOutbox_RequiresObject(t *testing.T) {
 			name: "undo",
 			input: func() vocab.Serializer {
 				v := &vocab.Undo{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				return v
@@ -4396,7 +4396,7 @@ func TestPostOutbox_RequiresTarget(t *testing.T) {
 			name: "add",
 			input: func() vocab.Serializer {
 				v := &vocab.Add{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				v.AppendObject(testNote)
@@ -4407,7 +4407,7 @@ func TestPostOutbox_RequiresTarget(t *testing.T) {
 			name: "remove",
 			input: func() vocab.Serializer {
 				v := &vocab.Remove{}
-				v.SetId(*noteActivityIRI)
+				v.SetId(noteActivityIRI)
 				v.AppendActorObject(sallyActor)
 				v.AppendToObject(samActor)
 				v.AppendObject(testNote)
@@ -4574,17 +4574,17 @@ func TestPostOutbox_Update_DeleteSubFields(t *testing.T) {
 		return nil
 	}
 	gotGet := 0
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		gotGet++
-		if id != *noteIRI {
+		if *id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
 		}
 		samActor := &vocab.Person{}
-		samActor.SetInboxAnyURI(*samIRIInbox)
-		samActor.SetId(*samIRI)
+		samActor.SetInboxAnyURI(samIRIInbox)
+		samActor.SetId(samIRI)
 		samActor.AppendNameString("Sam")
 		v := &vocab.Note{}
-		v.SetId(*noteIRI)
+		v.SetId(noteIRI)
 		v.AppendNameString(noteName)
 		v.AppendContentString("This is a simple note")
 		v.AppendToObject(samActor)
@@ -4601,10 +4601,10 @@ func TestPostOutbox_Update_DeleteSubFields(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedSamActor := &vocab.Person{}
-	expectedSamActor.SetInboxAnyURI(*samIRIInbox)
-	expectedSamActor.SetId(*samIRI)
+	expectedSamActor.SetInboxAnyURI(samIRIInbox)
+	expectedSamActor.SetId(samIRI)
 	expectedUpdatedNote := &vocab.Note{}
-	expectedUpdatedNote.SetId(*noteIRI)
+	expectedUpdatedNote.SetId(noteIRI)
 	expectedUpdatedNote.AppendNameString(noteName)
 	expectedUpdatedNote.AppendContentString("This is a simple note")
 	expectedUpdatedNote.AppendToObject(expectedSamActor)
@@ -4630,20 +4630,20 @@ func TestPostOutbox_Update_DeleteFields(t *testing.T) {
 		return nil
 	}
 	gotGet := 0
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
 		gotGet++
-		if id != *noteIRI {
+		if *id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
 		}
 		samActor := &vocab.Person{}
-		samActor.SetInboxAnyURI(*samIRIInbox)
-		samActor.SetId(*samIRI)
+		samActor.SetInboxAnyURI(samIRIInbox)
+		samActor.SetId(samIRI)
 		samActor.AppendNameString("Sam")
 		v := &vocab.Note{}
-		v.SetId(*noteIRI)
+		v.SetId(noteIRI)
 		v.AppendNameString(noteName)
 		v.AppendContentString("This is a simple note")
 		v.AppendToObject(samActor)
@@ -4660,7 +4660,7 @@ func TestPostOutbox_Update_DeleteFields(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedUpdatedNote := &vocab.Note{}
-	expectedUpdatedNote.SetId(*noteIRI)
+	expectedUpdatedNote.SetId(noteIRI)
 	expectedUpdatedNote.AppendNameString(noteName)
 	expectedUpdatedNote.AppendContentString("This is a simple note")
 	if err != nil {
@@ -4685,26 +4685,26 @@ func TestPostOutbox_Update_DeleteSubFieldsMultipleObjects(t *testing.T) {
 		return nil
 	}
 	gotGet := 0
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		var v *vocab.Note
-		if id == *noteIRI {
+		if *id == *noteIRI {
 			samActor := &vocab.Person{}
-			samActor.SetInboxAnyURI(*samIRIInbox)
-			samActor.SetId(*samIRI)
+			samActor.SetInboxAnyURI(samIRIInbox)
+			samActor.SetId(samIRI)
 			samActor.AppendNameString("Sam")
 			v = &vocab.Note{}
-			v.SetId(*noteIRI)
+			v.SetId(noteIRI)
 			v.AppendNameString(noteName)
 			v.AppendContentString("This is a simple note")
 			v.AppendToObject(samActor)
-		} else if id == *updateActivityIRI {
+		} else if *id == *updateActivityIRI {
 			samActor := &vocab.Person{}
-			samActor.SetInboxAnyURI(*samIRIInbox)
-			samActor.SetId(*samIRI)
+			samActor.SetInboxAnyURI(samIRIInbox)
+			samActor.SetId(samIRI)
 			samActor.AppendNameString("Sam")
 			v = &vocab.Note{}
-			v.SetId(*updateActivityIRI)
+			v.SetId(updateActivityIRI)
 			v.AppendNameString(noteName)
 			v.AppendContentString("This is a simple note")
 			v.AppendToObject(samActor)
@@ -4727,15 +4727,15 @@ func TestPostOutbox_Update_DeleteSubFieldsMultipleObjects(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedSamActor := &vocab.Person{}
-	expectedSamActor.SetInboxAnyURI(*samIRIInbox)
-	expectedSamActor.SetId(*samIRI)
+	expectedSamActor.SetInboxAnyURI(samIRIInbox)
+	expectedSamActor.SetId(samIRI)
 	expectedUpdatedNote := &vocab.Note{}
-	expectedUpdatedNote.SetId(*noteIRI)
+	expectedUpdatedNote.SetId(noteIRI)
 	expectedUpdatedNote.AppendNameString(noteName)
 	expectedUpdatedNote.AppendContentString("This is a simple note")
 	expectedUpdatedNote.AppendToObject(expectedSamActor)
 	expectedUpdatedNote2 := &vocab.Note{}
-	expectedUpdatedNote2.SetId(*updateActivityIRI)
+	expectedUpdatedNote2.SetId(updateActivityIRI)
 	expectedUpdatedNote2.AppendNameString(noteName)
 	expectedUpdatedNote2.AppendContentString("This is a simple note")
 	expectedUpdatedNote2.AppendToObject(expectedSamActor)
@@ -4763,17 +4763,17 @@ func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
 		return nil
 	}
 	gotGet := 0
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		gotGet++
-		if id != *noteIRI {
+		if *id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
 		}
 		samActor := &vocab.Person{}
-		samActor.SetInboxAnyURI(*samIRIInbox)
-		samActor.SetId(*samIRI)
+		samActor.SetInboxAnyURI(samIRIInbox)
+		samActor.SetId(samIRI)
 		samActor.AppendNameString("Sam")
 		v := &vocab.Note{}
-		v.SetId(*noteIRI)
+		v.SetId(noteIRI)
 		v.AppendNameString(noteName)
 		v.AppendContentString("This is a simple note")
 		v.AppendToObject(samActor)
@@ -4790,11 +4790,11 @@ func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	samActor := &vocab.Person{}
-	samActor.SetInboxAnyURI(*samIRIInbox)
-	samActor.SetId(*samIRI)
+	samActor.SetInboxAnyURI(samIRIInbox)
+	samActor.SetId(samIRI)
 	samActor.AppendNameString("Samm")
 	expectedUpdatedNote := &vocab.Note{}
-	expectedUpdatedNote.SetId(*noteIRI)
+	expectedUpdatedNote.SetId(noteIRI)
 	expectedUpdatedNote.AppendNameString(noteName)
 	expectedUpdatedNote.AppendContentString("This is a simple note")
 	expectedUpdatedNote.AppendToObject(samActor)
@@ -4823,13 +4823,13 @@ func TestPostOutbox_Update_CallsCallback(t *testing.T) {
 		gotCallbackObject = s
 		return nil
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		samActor := &vocab.Person{}
-		samActor.SetInboxAnyURI(*samIRIInbox)
-		samActor.SetId(*samIRI)
+		samActor.SetInboxAnyURI(samIRIInbox)
+		samActor.SetId(samIRI)
 		samActor.AppendNameString("Sam")
 		v := &vocab.Note{}
-		v.SetId(*noteIRI)
+		v.SetId(noteIRI)
 		v.AppendNameString(noteName)
 		v.AppendContentString("This is a simple note")
 		v.AppendToObject(samActor)
@@ -4884,13 +4884,13 @@ func TestPostOutbox_Update_IsDelivered(t *testing.T) {
 		}
 		return nil, nil
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		samActor := &vocab.Person{}
-		samActor.SetInboxAnyURI(*samIRIInbox)
-		samActor.SetId(*samIRI)
+		samActor.SetInboxAnyURI(samIRIInbox)
+		samActor.SetId(samIRI)
 		samActor.AppendNameString("Sam")
 		v := &vocab.Note{}
-		v.SetId(*noteIRI)
+		v.SetId(noteIRI)
 		v.AppendNameString(noteName)
 		v.AppendContentString("This is a simple note")
 		v.AppendToObject(samActor)
@@ -4922,17 +4922,17 @@ func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 		return nil
 	}
 	gotGet := 0
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
 		gotGet++
-		if id != *noteIRI {
+		if *id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
 		}
 		v := &vocab.Note{}
 		v.AppendType("Note")
-		v.SetId(*noteIRI)
+		v.SetId(noteIRI)
 		v.SetPublished(testPublishedTime)
 		v.SetUpdated(testUpdateTime)
 		return v, nil
@@ -4948,7 +4948,7 @@ func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedTombstone := &vocab.Tombstone{}
-	expectedTombstone.SetId(*noteIRI)
+	expectedTombstone.SetId(noteIRI)
 	expectedTombstone.SetPublished(testPublishedTime)
 	expectedTombstone.SetUpdated(testUpdateTime)
 	expectedTombstone.SetDeleted(now)
@@ -4978,7 +4978,7 @@ func TestPostOutbox_Delete_CallsCallback(t *testing.T) {
 		gotCallbackObject = s
 		return nil
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		return testNote, nil
 	}
 	app.MockFederateApp.set = func(c context.Context, p PubObject) error {
@@ -5030,7 +5030,7 @@ func TestPostOutbox_Delete_IsDelivered(t *testing.T) {
 		}
 		return nil, nil
 	}
-	app.MockFederateApp.get = func(c context.Context, id url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		return testNote, nil
 	}
 	app.MockFederateApp.set = func(c context.Context, p PubObject) error {
@@ -5272,8 +5272,8 @@ func TestPostOutbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
 	gotOwns := 0
-	var gotOwnsIri url.URL
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	var gotOwnsIri *url.URL
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		gotOwns++
 		gotOwnsIri = iri
 		return false
@@ -5288,7 +5288,7 @@ func TestPostOutbox_Add_DoesNotAddIfTargetNotOwned(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotOwns != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotOwns)
-	} else if ownsIri := (&gotOwnsIri).String(); ownsIri != iriString {
+	} else if ownsIri := gotOwnsIri.String(); ownsIri != iriString {
 		t.Fatalf("expected %s, got %s", iriString, ownsIri)
 	}
 }
@@ -5298,12 +5298,12 @@ func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		return true
 	}
 	gotGet := 0
-	var gotGetIri url.URL
-	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	var gotGetIri *url.URL
+	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -5344,7 +5344,7 @@ func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotGet != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
-	} else if getIri := (&gotGetIri).String(); getIri != iriString {
+	} else if getIri := gotGetIri.String(); getIri != iriString {
 		t.Fatalf("expected %s, got %s", iriString, getIri)
 	} else if gotCanAdd != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCanAdd)
@@ -5364,12 +5364,12 @@ func TestPostOutbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		return true
 	}
 	gotGet := 0
-	var gotGetIri url.URL
-	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	var gotGetIri *url.URL
+	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
@@ -5397,7 +5397,7 @@ func TestPostOutbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotGet != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
-	} else if getIri := (&gotGetIri).String(); getIri != iriString {
+	} else if getIri := gotGetIri.String(); getIri != iriString {
 		t.Fatalf("expected %s, got %s", iriString, getIri)
 	} else if gotCanAdd != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCanAdd)
@@ -5413,7 +5413,7 @@ func TestPostOutbox_Add_CallsCallback(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		return false
 	}
 	gotCallback := 0
@@ -5440,7 +5440,7 @@ func TestPostOutbox_Add_IsDelivered(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testAddNote)))))
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		return false
 	}
 	socialCb.add = func(c context.Context, s *streams.Add) error {
@@ -5492,8 +5492,8 @@ func TestPostOutbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
 	gotOwns := 0
-	var gotOwnsIri url.URL
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	var gotOwnsIri *url.URL
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		gotOwns++
 		gotOwnsIri = iri
 		return false
@@ -5508,7 +5508,7 @@ func TestPostOutbox_Remove_DoesNotRemoveIfTargetNotOwned(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotOwns != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotOwns)
-	} else if ownsIri := (&gotOwnsIri).String(); ownsIri != iriString {
+	} else if ownsIri := gotOwnsIri.String(); ownsIri != iriString {
 		t.Fatalf("expected %s, got %s", iriString, ownsIri)
 	}
 }
@@ -5518,12 +5518,12 @@ func TestPostOutbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		return true
 	}
 	gotGet := 0
-	var gotGetIri url.URL
-	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	var gotGetIri *url.URL
+	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
@@ -5561,7 +5561,7 @@ func TestPostOutbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotGet != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
-	} else if getIri := (&gotGetIri).String(); getIri != iriString {
+	} else if getIri := gotGetIri.String(); getIri != iriString {
 		t.Fatalf("expected %s, got %s", iriString, getIri)
 	} else if gotCanRemove != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCanRemove)
@@ -5581,12 +5581,12 @@ func TestPostOutbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		return true
 	}
 	gotGet := 0
-	var gotGetIri url.URL
-	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	var gotGetIri *url.URL
+	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		gotGet++
 		gotGetIri = iri
 		col := &vocab.Collection{}
@@ -5616,7 +5616,7 @@ func TestPostOutbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotGet != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
-	} else if getIri := (&gotGetIri).String(); getIri != iriString {
+	} else if getIri := gotGetIri.String(); getIri != iriString {
 		t.Fatalf("expected %s, got %s", iriString, getIri)
 	} else if gotCanRemove != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCanRemove)
@@ -5632,7 +5632,7 @@ func TestPostOutbox_Remove_CallsCallback(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		return false
 	}
 	gotCallback := 0
@@ -5659,7 +5659,7 @@ func TestPostOutbox_Remove_IsDelivered(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testRemoveNote)))))
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		return false
 	}
 	socialCb.remove = func(c context.Context, s *streams.Remove) error {
@@ -5711,15 +5711,15 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
 	gotOwns := 0
-	var gotOwnsIri url.URL
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	var gotOwnsIri *url.URL
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		gotOwns++
 		gotOwnsIri = iri
 		return true
 	}
 	gotGet := 0
-	var gotGetIri url.URL
-	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	var gotGetIri *url.URL
+	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
 			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
 		}
@@ -5727,7 +5727,7 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 		gotGetIri = iri
 		v := &vocab.Person{}
 		v.AppendNameString("Sally")
-		v.SetId(*sallyIRI)
+		v.SetId(sallyIRI)
 		v.SetLikedCollection(&vocab.Collection{})
 		return v, nil
 	}
@@ -5748,7 +5748,7 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 	expectedLikes.AppendItemsObject(testNote)
 	expectedActor := &vocab.Person{}
 	expectedActor.AppendNameString("Sally")
-	expectedActor.SetId(*sallyIRI)
+	expectedActor.SetId(sallyIRI)
 	expectedActor.SetLikedCollection(expectedLikes)
 	if err != nil {
 		t.Fatal(err)
@@ -5756,11 +5756,11 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotOwns != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotOwns)
-	} else if gotOwnsString := (&gotOwnsIri).String(); gotOwnsString != sallyIRIString {
+	} else if gotOwnsString := gotOwnsIri.String(); gotOwnsString != sallyIRIString {
 		t.Fatalf("expected %s, got %s", noteURIString, sallyIRIString)
 	} else if gotGet != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
-	} else if gotGetString := (&gotGetIri).String(); gotGetString != sallyIRIString {
+	} else if gotGetString := gotGetIri.String(); gotGetString != sallyIRIString {
 		t.Fatalf("expected %s, got %s", noteURIString, sallyIRIString)
 	} else if gotSet != 2 {
 		t.Fatalf("expected %d, got %d", 2, gotSet)
@@ -5774,15 +5774,15 @@ func TestPostOutbox_Like_DoesNotAddIfAlreadyLiked(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		liked := &vocab.Collection{}
-		liked.AppendItemsIRI(*noteIRI)
+		liked.AppendItemsIRI(noteIRI)
 		v := &vocab.Person{}
 		v.AppendNameString("Sally")
-		v.SetId(*sallyIRI)
+		v.SetId(sallyIRI)
 		v.SetLikedCollection(liked)
 		return v, nil
 	}
@@ -5800,10 +5800,10 @@ func TestPostOutbox_Like_DoesNotAddIfAlreadyLiked(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedLikes := &vocab.Collection{}
-	expectedLikes.AppendItemsIRI(*noteIRI)
+	expectedLikes.AppendItemsIRI(noteIRI)
 	expectedActor := &vocab.Person{}
 	expectedActor.AppendNameString("Sally")
-	expectedActor.SetId(*sallyIRI)
+	expectedActor.SetId(sallyIRI)
 	expectedActor.SetLikedCollection(expectedLikes)
 	if err != nil {
 		t.Fatal(err)
@@ -5821,13 +5821,13 @@ func TestPostOutbox_Like_AddsToLikedOrderedCollection(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Person{}
 		v.AppendNameString("Sally")
-		v.SetId(*sallyIRI)
+		v.SetId(sallyIRI)
 		v.SetLikedOrderedCollection(&vocab.OrderedCollection{})
 		return v, nil
 	}
@@ -5848,7 +5848,7 @@ func TestPostOutbox_Like_AddsToLikedOrderedCollection(t *testing.T) {
 	expectedLikes.AppendOrderedItemsObject(testNote)
 	expectedActor := &vocab.Person{}
 	expectedActor.AppendNameString("Sally")
-	expectedActor.SetId(*sallyIRI)
+	expectedActor.SetId(sallyIRI)
 	expectedActor.SetLikedOrderedCollection(expectedLikes)
 	if err != nil {
 		t.Fatal(err)
@@ -5865,8 +5865,8 @@ func TestPostOutbox_Like_DoesNotAddIfCollectionNotOwned(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
 	gotOwns := 0
-	var gotOwnsIri url.URL
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	var gotOwnsIri *url.URL
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		gotOwns++
 		gotOwnsIri = iri
 		return false
@@ -5881,7 +5881,7 @@ func TestPostOutbox_Like_DoesNotAddIfCollectionNotOwned(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotOwns != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotOwns)
-	} else if gotOwnsString := (&gotOwnsIri).String(); gotOwnsString != sallyIRIString {
+	} else if gotOwnsString := gotOwnsIri.String(); gotOwnsString != sallyIRIString {
 		t.Fatalf("expected %s, got %s", noteURIString, sallyIRIString)
 	}
 }
@@ -5891,13 +5891,13 @@ func TestPostOutbox_Like_CallsCallback(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Person{}
 		v.AppendNameString("Sally")
-		v.SetId(*sallyIRI)
+		v.SetId(sallyIRI)
 		v.SetLikedOrderedCollection(&vocab.OrderedCollection{})
 		return v, nil
 	}
@@ -5928,13 +5928,13 @@ func TestPostOutbox_Like_IsDelivered(t *testing.T) {
 	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testLikeNote)))))
-	app.MockFederateApp.owns = func(c context.Context, iri url.URL) bool {
+	app.MockFederateApp.owns = func(c context.Context, iri *url.URL) bool {
 		return true
 	}
-	app.MockFederateApp.get = func(c context.Context, iri url.URL, rw RWType) (PubObject, error) {
+	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		v := &vocab.Person{}
 		v.AppendNameString("Sally")
-		v.SetId(*sallyIRI)
+		v.SetId(sallyIRI)
 		v.SetLikedOrderedCollection(&vocab.OrderedCollection{})
 		return v, nil
 	}

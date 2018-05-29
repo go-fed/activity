@@ -65,7 +65,7 @@ type SocialAPIVerifier interface {
 	//     (false, true,   <nil>) => authentication failed: must pass HTTP Signature verification or will be Permission Denied
 	//     (false, false,  <nil>) => authentication failed: deny access (Bad request)
 	//     (<any>, <any>,  error) => an internal error occurred during validation
-	VerifyForOutbox(r *http.Request, outbox url.URL) (authn, authz bool, err error)
+	VerifyForOutbox(r *http.Request, outbox *url.URL) (authn, authz bool, err error)
 }
 
 // Application is provided by users of this library in order to implement a
@@ -76,16 +76,16 @@ type SocialAPIVerifier interface {
 // order to properly handle the request.
 type Application interface {
 	// Owns returns true if the provided id is owned by this server.
-	Owns(c context.Context, id url.URL) bool
+	Owns(c context.Context, id *url.URL) bool
 	// Get fetches the ActivityStream representation of the given id.
-	Get(c context.Context, id url.URL, rw RWType) (PubObject, error)
+	Get(c context.Context, id *url.URL, rw RWType) (PubObject, error)
 	// GetAsVerifiedUser fetches the ActivityStream representation of the
 	// given id with the provided IRI representing the authenticated user
 	// making the request.
-	GetAsVerifiedUser(c context.Context, id, authdUser url.URL, rw RWType) (PubObject, error)
+	GetAsVerifiedUser(c context.Context, id, authdUser *url.URL, rw RWType) (PubObject, error)
 	// Has determines if the server already knows about the object or
 	// Activity specified by the given id.
-	Has(c context.Context, id url.URL) (bool, error)
+	Has(c context.Context, id *url.URL) (bool, error)
 	// Set should write or overwrite the value of the provided object for
 	// its 'id'.
 	Set(c context.Context, o PubObject) error
@@ -100,11 +100,11 @@ type Application interface {
 	// NewId takes in a client id token and returns an ActivityStreams IRI
 	// id for a new Activity posted to the outbox. The object is provided
 	// as a Typer so clients can use it to decide how to generate the IRI.
-	NewId(c context.Context, t Typer) url.URL
+	NewId(c context.Context, t Typer) *url.URL
 	// GetPublicKey fetches the public key for a user based on the public
 	// key id. It also determines which algorithm to use to verify the
 	// signature.
-	GetPublicKey(c context.Context, publicKeyId string) (pubKey crypto.PublicKey, algo httpsig.Algorithm, user url.URL, err error)
+	GetPublicKey(c context.Context, publicKeyId string) (pubKey crypto.PublicKey, algo httpsig.Algorithm, user *url.URL, err error)
 }
 
 // RWType indicates the kind of reading being done.
@@ -128,7 +128,7 @@ type SocialAPI interface {
 	CanRemove(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
 	// AddToOutboxResolver(c context.Context) (*streams.Resolver, error)
 	// ActorIRI returns the actor's IRI associated with the given request.
-	ActorIRI(c context.Context, r *http.Request) (url.URL, error)
+	ActorIRI(c context.Context, r *http.Request) (*url.URL, error)
 	// GetSocialAPIVerifier returns the authentication mechanism used for
 	// incoming ActivityPub client requests. It is optional and allowed to
 	// return null.
@@ -143,7 +143,7 @@ type SocialAPI interface {
 	// Note that a key difference from Application's GetPublicKey is that
 	// this function must make sure that the actor whose boxIRI is passed in
 	// matches the public key id that is requested, or return an error.
-	GetPublicKeyForOutbox(c context.Context, publicKeyId string, boxIRI url.URL) (crypto.PublicKey, httpsig.Algorithm, error)
+	GetPublicKeyForOutbox(c context.Context, publicKeyId string, boxIRI *url.URL) (crypto.PublicKey, httpsig.Algorithm, error)
 }
 
 // FederateAPI is provided by users of this library and designed to handle
@@ -167,7 +167,7 @@ type FederateAPI interface {
 	//
 	// If nil error is returned, then the received activity is processed as
 	// a normal unblocked interaction.
-	Unblocked(c context.Context, actorIRIs []url.URL) error
+	Unblocked(c context.Context, actorIRIs []*url.URL) error
 	// FilterForwarding is invoked when a received activity needs to be
 	// forwarded to specific inboxes owned by this server in order to avoid
 	// the ghost reply problem. The IRIs provided are collections owned by
@@ -178,7 +178,7 @@ type FederateAPI interface {
 	// vulnerable to becoming a spam bot for a malicious federate peer.
 	// Typical implementations will filter the iris down to be only the
 	// follower collections owned by the actors targeted in the activity.
-	FilterForwarding(c context.Context, activity vocab.ActivityType, iris []url.URL) ([]url.URL, error)
+	FilterForwarding(c context.Context, activity vocab.ActivityType, iris []*url.URL) ([]*url.URL, error)
 	// NewSigner returns a new httpsig.Signer for which deliveries can be
 	// signed by the actor delivering the Activity. Let me take this moment
 	// to really level with you, dear anonymous reader-of-documentation. You
@@ -201,7 +201,7 @@ type FederateAPI interface {
 	// PrivateKey fetches the private key and its associated public key ID.
 	// The given URL is the inbox or outbox for the actor whose key is
 	// needed.
-	PrivateKey(boxIRI url.URL) (privKey crypto.PrivateKey, pubKeyId string, err error)
+	PrivateKey(boxIRI *url.URL) (privKey crypto.PrivateKey, pubKeyId string, err error)
 }
 
 // SocialApp is an implementation only for the Social API part of the
@@ -296,15 +296,15 @@ type Callbacker interface {
 type Deliverer interface {
 	// Do schedules a message to be sent to a specific URL endpoint by
 	// using toDo.
-	Do(b []byte, to url.URL, toDo func(b []byte, u url.URL) error)
+	Do(b []byte, to *url.URL, toDo func(b []byte, u *url.URL) error)
 }
 
 // PubObject is an ActivityPub Object.
 type PubObject interface {
 	vocab.Serializer
 	Typer
-	GetId() url.URL
-	SetId(url.URL)
+	GetId() *url.URL
+	SetId(*url.URL)
 	HasId() bool
 	AppendType(interface{})
 	RemoveType(int)
@@ -319,7 +319,7 @@ type Typer interface {
 // typeIder is a Typer with additional generic capabilities.
 type typeIder interface {
 	Typer
-	SetId(v url.URL)
+	SetId(v *url.URL)
 	Serialize() (m map[string]interface{}, e error)
 }
 
@@ -327,7 +327,7 @@ type typeIder interface {
 // strict than what we include here, only for our internal use.
 type actor interface {
 	IsInboxAnyURI() (ok bool)
-	GetInboxAnyURI() (v url.URL)
+	GetInboxAnyURI() (v *url.URL)
 	IsInboxOrderedCollection() (ok bool)
 	GetInboxOrderedCollection() (v vocab.OrderedCollectionType)
 }
@@ -338,7 +338,7 @@ var _ actor = &vocab.Object{}
 // representing the author or originator of the object.
 type actorObject interface {
 	IsInboxAnyURI() (ok bool)
-	GetInboxAnyURI() (v url.URL)
+	GetInboxAnyURI() (v *url.URL)
 	IsInboxOrderedCollection() (ok bool)
 	GetInboxOrderedCollection() (v vocab.OrderedCollectionType)
 	AttributedToLen() (l int)
@@ -347,14 +347,14 @@ type actorObject interface {
 	IsAttributedToLink(index int) (ok bool)
 	GetAttributedToLink(index int) (v vocab.LinkType)
 	IsAttributedToIRI(index int) (ok bool)
-	GetAttributedToIRI(index int) (v url.URL)
+	GetAttributedToIRI(index int) (v *url.URL)
 	ActorLen() (l int)
 	IsActorObject(index int) (ok bool)
 	GetActorObject(index int) (v vocab.ObjectType)
 	IsActorLink(index int) (ok bool)
 	GetActorLink(index int) (v vocab.LinkType)
 	IsActorIRI(index int) (ok bool)
-	GetActorIRI(index int) (v url.URL)
+	GetActorIRI(index int) (v *url.URL)
 }
 
 // deliverableObject is an object that is able to be sent to recipients via the
@@ -367,7 +367,7 @@ type deliverableObject interface {
 	IsToLink(index int) (ok bool)
 	GetToLink(index int) (v vocab.LinkType)
 	IsToIRI(index int) (ok bool)
-	GetToIRI(index int) (v url.URL)
+	GetToIRI(index int) (v *url.URL)
 	BtoLen() (l int)
 	IsBtoObject(index int) (ok bool)
 	GetBtoObject(index int) (v vocab.ObjectType)
@@ -376,7 +376,7 @@ type deliverableObject interface {
 	GetBtoLink(index int) (v vocab.LinkType)
 	RemoveBtoLink(index int)
 	IsBtoIRI(index int) (ok bool)
-	GetBtoIRI(index int) (v url.URL)
+	GetBtoIRI(index int) (v *url.URL)
 	RemoveBtoIRI(index int)
 	CcLen() (l int)
 	IsCcObject(index int) (ok bool)
@@ -384,7 +384,7 @@ type deliverableObject interface {
 	IsCcLink(index int) (ok bool)
 	GetCcLink(index int) (v vocab.LinkType)
 	IsCcIRI(index int) (ok bool)
-	GetCcIRI(index int) (v url.URL)
+	GetCcIRI(index int) (v *url.URL)
 	BccLen() (l int)
 	IsBccObject(index int) (ok bool)
 	GetBccObject(index int) (v vocab.ObjectType)
@@ -393,7 +393,7 @@ type deliverableObject interface {
 	GetBccLink(index int) (v vocab.LinkType)
 	RemoveBccLink(index int)
 	IsBccIRI(index int) (ok bool)
-	GetBccIRI(index int) (v url.URL)
+	GetBccIRI(index int) (v *url.URL)
 	RemoveBccIRI(index int)
 	AudienceLen() (l int)
 	IsAudienceObject(index int) (ok bool)
@@ -401,5 +401,5 @@ type deliverableObject interface {
 	IsAudienceLink(index int) (ok bool)
 	GetAudienceLink(index int) (v vocab.LinkType)
 	IsAudienceIRI(index int) (ok bool)
-	GetAudienceIRI(index int) (v url.URL)
+	GetAudienceIRI(index int) (v *url.URL)
 }

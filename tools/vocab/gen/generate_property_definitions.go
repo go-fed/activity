@@ -329,7 +329,11 @@ func generateFunctionalSingleTypeDefinition(t *defs.PropertyType, this *defs.Str
 	}
 	titleName := strings.Title(t.Name)
 	isPtrType := isPtrType(member.Type)
+	isIRI := isIRIType(member.Type)
 	returnType := deref(member.Type)
+	if isIRI {
+		returnType = member.Type
+	}
 	this.M = append(this.M, member)
 	this.F = append(this.F, &defs.MemberFunctionDef{
 		Name:    fmt.Sprintf("Has%s", titleName),
@@ -347,7 +351,7 @@ func generateFunctionalSingleTypeDefinition(t *defs.PropertyType, this *defs.Str
 		Body: func() string {
 			var b bytes.Buffer
 			b.WriteString(fmt.Sprintf("return "))
-			if isPtrType {
+			if isPtrType && !isIRI {
 				b.WriteString("*")
 			}
 			b.WriteString(fmt.Sprintf("t.%s\n", member.Name))
@@ -361,7 +365,7 @@ func generateFunctionalSingleTypeDefinition(t *defs.PropertyType, this *defs.Str
 		Body: func() string {
 			var b bytes.Buffer
 			b.WriteString(fmt.Sprintf("t.%s = ", member.Name))
-			if isPtrType {
+			if isPtrType && !isIRI {
 				b.WriteString("&")
 			}
 			b.WriteString("v\n")
@@ -437,9 +441,16 @@ func generateFunctionalSingleTypeDefinition(t *defs.PropertyType, this *defs.Str
 }
 
 func generateNonFunctionalSingleTypeDefinition(t *defs.PropertyType, this *defs.StructDef, i *defs.InterfaceDef) (fd []*defs.FunctionDef, sd []*defs.StructDef, s, d string) {
+	isIRI := isIRIType(Type(t.Range[0]))
+	memberType := deref(Type(t.Range[0]))
+	returnType := memberType
+	if isIRI {
+		memberType = Type(t.Range[0])
+		returnType = memberType
+	}
 	member := &defs.StructMember{
 		Name:    cleanName(t.Name),
-		Type:    fmt.Sprintf("[]%s", deref(Type(t.Range[0]))),
+		Type:    fmt.Sprintf("[]%s", memberType),
 		Comment: fmt.Sprintf("The '%s' value holds a single type and any number of values", t.Name),
 	}
 	titleName := strings.Title(t.Name)
@@ -457,7 +468,7 @@ func generateNonFunctionalSingleTypeDefinition(t *defs.PropertyType, this *defs.
 		Comment: fmt.Sprintf("Get%s returns the value for the specified index", titleName),
 		P:       this,
 		Args:    []*defs.FunctionVarDef{{"index", "int"}},
-		Return:  []*defs.FunctionVarDef{{"v", deSlice(member.Type)}},
+		Return:  []*defs.FunctionVarDef{{"v", returnType}},
 		Body: func() string {
 			var b bytes.Buffer
 			b.WriteString(fmt.Sprintf("return t.%s[index]\n", member.Name))
@@ -467,7 +478,7 @@ func generateNonFunctionalSingleTypeDefinition(t *defs.PropertyType, this *defs.
 		Name:    fmt.Sprintf("Append%s", titleName),
 		Comment: fmt.Sprintf("Append%s adds a value to the back of %s", titleName, t.Name),
 		P:       this,
-		Args:    []*defs.FunctionVarDef{{"v", deSlice(member.Type)}},
+		Args:    []*defs.FunctionVarDef{{"v", returnType}},
 		Body: func() string {
 			var b bytes.Buffer
 			b.WriteString(fmt.Sprintf("t.%s = append(t.%s, v)\n", member.Name, member.Name))
@@ -477,7 +488,7 @@ func generateNonFunctionalSingleTypeDefinition(t *defs.PropertyType, this *defs.
 		Name:    fmt.Sprintf("Prepend%s", titleName),
 		Comment: fmt.Sprintf("Prepend%s adds a value to the front of %s", titleName, t.Name),
 		P:       this,
-		Args:    []*defs.FunctionVarDef{{"v", deSlice(member.Type)}},
+		Args:    []*defs.FunctionVarDef{{"v", returnType}},
 		Body: func() string {
 			var b bytes.Buffer
 			b.WriteString(fmt.Sprintf("t.%s = append(%s{v}, t.%s...)\n", member.Name, member.Type, member.Name))
@@ -540,17 +551,17 @@ func generateNonFunctionalSingleTypeDefinition(t *defs.PropertyType, this *defs.
 			Name:    fmt.Sprintf("Get%s", titleName),
 			Comment: fmt.Sprintf("Get%s returns the value for the specified index", titleName),
 			Args:    []*defs.FunctionVarDef{{"index", "int"}},
-			Return:  []*defs.FunctionVarDef{{"v", deSlice(member.Type)}},
+			Return:  []*defs.FunctionVarDef{{"v", returnType}},
 		},
 		{
 			Name:    fmt.Sprintf("Append%s", titleName),
 			Comment: fmt.Sprintf("Append%s adds a value to the back of %s", titleName, t.Name),
-			Args:    []*defs.FunctionVarDef{{"v", deSlice(member.Type)}},
+			Args:    []*defs.FunctionVarDef{{"v", returnType}},
 		},
 		{
 			Name:    fmt.Sprintf("Prepend%s", titleName),
 			Comment: fmt.Sprintf("Prepend%s adds a value to the front of %s", titleName, t.Name),
-			Args:    []*defs.FunctionVarDef{{"v", deSlice(member.Type)}},
+			Args:    []*defs.FunctionVarDef{{"v", returnType}},
 		},
 		{
 			Name:    fmt.Sprintf("Remove%s", titleName),
@@ -605,7 +616,11 @@ func generateFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.Stru
 			Comment: fmt.Sprintf("Stores possible %s type for %s property", Type(r), t.Name),
 		}
 		intermed.M = append(intermed.M, member)
+		isIRI := isIRIType(member.Type)
 		retKind := deref(member.Type)
+		if isIRI {
+			retKind = member.Type
+		}
 		typeExtensionName := strings.Title(Name(r))
 		if defs.IsOnlyOtherPropertyBesidesIRI(idx, t.Range) {
 			typeExtensionName = ""
@@ -628,7 +643,7 @@ func generateFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.Stru
 				Body: func() string {
 					var b bytes.Buffer
 					b.WriteString("return ")
-					if isPtrType(Type(r)) {
+					if isPtrType(Type(r)) && !isIRI {
 						b.WriteString("*")
 					}
 					b.WriteString(fmt.Sprintf("t.%s.%s\n", thisIntermed.Name, member.Name))
@@ -643,7 +658,7 @@ func generateFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.Stru
 				Body: func() string {
 					var b bytes.Buffer
 					b.WriteString(fmt.Sprintf("t.%s = &%s{%s:", thisIntermed.Name, intermed.Typename, member.Name))
-					if isPtrType(Type(r)) {
+					if isPtrType(Type(r)) && !isIRI {
 						b.WriteString("&")
 					}
 					b.WriteString("v}\n")
@@ -712,7 +727,11 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 			Comment: fmt.Sprintf("Stores possible %s type for %s property", Type(r), t.Name),
 		}
 		intermed.M = append(intermed.M, member)
+		isIRI := isIRIType(member.Type)
 		retKind := deref(member.Type)
+		if isIRI {
+			retKind = member.Type
+		}
 		typeExtensionName := strings.Title(Name(r))
 		if defs.IsOnlyOtherPropertyBesidesIRI(idx, t.Range) {
 			typeExtensionName = ""
@@ -753,7 +772,7 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 				Body: func() string {
 					var b bytes.Buffer
 					b.WriteString("return ")
-					if isPtrType(Type(r)) {
+					if isPtrType(Type(r)) && !isIRI {
 						b.WriteString("*")
 					}
 					b.WriteString(fmt.Sprintf("t.%s[index].%s\n", thisIntermed.Name, member.Name))
@@ -768,7 +787,7 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 				Body: func() string {
 					var b bytes.Buffer
 					b.WriteString(fmt.Sprintf("t.%s = append(t.%s, &%s{%s:", thisIntermed.Name, thisIntermed.Name, intermed.Typename, member.Name))
-					if isPtrType(Type(r)) {
+					if isPtrType(Type(r)) && !isIRI {
 						b.WriteString("&")
 					}
 					b.WriteString("v})\n")
@@ -783,7 +802,7 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 				Body: func() string {
 					var b bytes.Buffer
 					b.WriteString(fmt.Sprintf("t.%s = append([]*%s{&%s{%s:", thisIntermed.Name, intermed.Typename, intermed.Typename, member.Name))
-					if isPtrType(Type(r)) {
+					if isPtrType(Type(r)) && !isIRI {
 						b.WriteString("&")
 					}
 					b.WriteString(fmt.Sprintf("v}}, t.%s...)\n", thisIntermed.Name))
@@ -966,12 +985,17 @@ func generateIntermediateTypeDefinition(t *defs.PropertyType, parentTitle string
 			Body: func() string {
 				var b bytes.Buffer
 				for _, r := range t.Range {
+					isIRI := isIRIType(Type(r))
+					deref := "*"
+					if isIRI {
+						deref = ""
+					}
 					b.WriteString(fmt.Sprintf("if t.%s != nil {\n", cleanName(Name(r))))
 					if r.T != nil {
 						b.WriteString(fmt.Sprintf("i, err = t.%s.Serialize()\n", cleanName(Name(r))))
 						b.WriteString("return\n")
 					} else if r.V != nil {
-						b.WriteString(fmt.Sprintf("i = %s(*t.%s)\n", r.V.SerializeFn.Name, cleanName(Name(r))))
+						b.WriteString(fmt.Sprintf("i = %s(%st.%s)\n", r.V.SerializeFn.Name, deref, cleanName(Name(r))))
 						b.WriteString("return\n")
 					} else {
 						b.WriteString(fmt.Sprintf("i = t.%s\n", cleanName(Name(r))))

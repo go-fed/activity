@@ -24,12 +24,12 @@ func GetJSONDiff(str1, str2 []byte) ([]string, error) {
 	return deep.Equal(i1, i2), nil
 }
 
-func MustParseURL(s string) url.URL {
+func MustParseURL(s string) *url.URL {
 	u, err := url.Parse(s)
 	if err != nil {
 		panic(err)
 	}
-	return *u
+	return u
 }
 
 var (
@@ -1117,17 +1117,17 @@ func TestReserializationAbility(t *testing.T) {
 		t.Fatal(err)
 	}
 	expectedSamActor := &Person{}
-	expectedSamActor.SetInboxAnyURI(*samIRIInbox)
-	expectedSamActor.SetId(*samIRI)
+	expectedSamActor.SetInboxAnyURI(samIRIInbox)
+	expectedSamActor.SetId(samIRI)
 	expectedNote := &Note{}
-	expectedNote.SetId(*noteIRI)
+	expectedNote.SetId(noteIRI)
 	expectedNote.AppendNameString("A Note")
 	expectedNote.AppendContentString("This is a simple note")
 	expectedNote.AppendToObject(expectedSamActor)
 	expectedUpdate := &Update{}
-	expectedUpdate.AppendActorIRI(*sallyIRI)
+	expectedUpdate.AppendActorIRI(sallyIRI)
 	expectedUpdate.AppendSummaryString("Sally updated her note")
-	expectedUpdate.SetId(*activityIRI)
+	expectedUpdate.SetId(activityIRI)
 	expectedUpdate.AppendObject(expectedNote)
 	tables := []struct {
 		name         string

@@ -36,6 +36,10 @@ func deref(k string) string {
 	return k
 }
 
+func isIRIType(k string) bool {
+	return k == "*url.URL"
+}
+
 func deserializeCode(b *bytes.Buffer, parseCode, varName, typeName, field string, slice, derefAppend bool) {
 	if slice {
 		sliceDeserializeCode(b, parseCode, varName, typeName, field, derefAppend)

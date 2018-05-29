@@ -92,7 +92,7 @@ func addResponseHeaders(h http.Header, c Clock, responseContent []byte) {
 // ActivityStream representation.
 //
 // creds is allowed to be nil.
-func dereference(c HttpClient, u url.URL, agent string, creds *creds, clock Clock) ([]byte, error) {
+func dereference(c HttpClient, u *url.URL, agent string, creds *creds, clock Clock) ([]byte, error) {
 	// TODO: (section 7.1) The server MUST dereference the collection (with the user's credentials)
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -130,7 +130,7 @@ type creds struct {
 // body set to the provided bytes.
 //
 // creds is able to be nil.
-func postToOutbox(c HttpClient, b []byte, to url.URL, agent string, creds *creds, clock Clock) error {
+func postToOutbox(c HttpClient, b []byte, to *url.URL, agent string, creds *creds, clock Clock) error {
 	byteCopy := make([]byte, 0, len(b))
 	copy(b, byteCopy)
 	buf := bytes.NewBuffer(byteCopy)
@@ -163,7 +163,7 @@ func postToOutbox(c HttpClient, b []byte, to url.URL, agent string, creds *creds
 // wrapInCreate will automatically wrap the provided object in a Create
 // activity. This will copy over the 'to', 'bto', 'cc', 'bcc', and 'audience'
 // properties. It will also copy over the published time if present.
-func (f *federator) wrapInCreate(o vocab.ObjectType, actor url.URL) *vocab.Create {
+func (f *federator) wrapInCreate(o vocab.ObjectType, actor *url.URL) *vocab.Create {
 	c := &vocab.Create{}
 	c.AppendObject(o)
 	c.AppendActorIRI(actor)
@@ -236,13 +236,13 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 		for j := 0; j < o.ToLen(); j++ {
 			if o.IsToObject(j) {
 				id := o.GetToObject(j).GetId()
-				to[i][(&id).String()] = o.GetToObject(j)
+				to[i][id.String()] = o.GetToObject(j)
 			} else if o.IsToLink(j) {
 				id := o.GetToLink(j).GetHref()
-				to[i][(&id).String()] = o.GetToLink(j)
+				to[i][id.String()] = o.GetToLink(j)
 			} else if o.IsToIRI(j) {
 				id := o.GetToIRI(j)
-				to[i][(&id).String()] = id
+				to[i][id.String()] = id
 			}
 		}
 	}
@@ -250,13 +250,13 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 	for i := 0; i < a.ToLen(); i++ {
 		if a.IsToObject(i) {
 			id := a.GetToObject(i).GetId()
-			toActivity[(&id).String()] = a.GetToObject(i)
+			toActivity[id.String()] = a.GetToObject(i)
 		} else if a.IsToLink(i) {
 			id := a.GetToLink(i).GetHref()
-			toActivity[(&id).String()] = a.GetToLink(i)
+			toActivity[id.String()] = a.GetToLink(i)
 		} else if a.IsToIRI(i) {
 			id := a.GetToIRI(i)
-			toActivity[(&id).String()] = id
+			toActivity[id.String()] = id
 		}
 	}
 	bto := make([]map[string]interface{}, a.ObjectLen())
@@ -269,13 +269,13 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 		for j := 0; j < o.BtoLen(); j++ {
 			if o.IsBtoObject(j) {
 				id := o.GetBtoObject(j).GetId()
-				bto[i][(&id).String()] = o.GetBtoObject(j)
+				bto[i][id.String()] = o.GetBtoObject(j)
 			} else if o.IsBtoLink(j) {
 				id := o.GetBtoLink(j).GetHref()
-				bto[i][(&id).String()] = o.GetBtoLink(j)
+				bto[i][id.String()] = o.GetBtoLink(j)
 			} else if o.IsBtoIRI(j) {
 				id := o.GetBtoIRI(j)
-				bto[i][(&id).String()] = id
+				bto[i][id.String()] = id
 			}
 		}
 	}
@@ -283,13 +283,13 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 	for i := 0; i < a.BtoLen(); i++ {
 		if a.IsBtoObject(i) {
 			id := a.GetBtoObject(i).GetId()
-			btoActivity[(&id).String()] = a.GetBtoObject(i)
+			btoActivity[id.String()] = a.GetBtoObject(i)
 		} else if a.IsBtoLink(i) {
 			id := a.GetBtoLink(i).GetHref()
-			btoActivity[(&id).String()] = a.GetBtoLink(i)
+			btoActivity[id.String()] = a.GetBtoLink(i)
 		} else if a.IsBtoIRI(i) {
 			id := a.GetBtoIRI(i)
-			btoActivity[(&id).String()] = id
+			btoActivity[id.String()] = id
 		}
 	}
 	cc := make([]map[string]interface{}, a.ObjectLen())
@@ -302,13 +302,13 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 		for j := 0; j < o.CcLen(); j++ {
 			if o.IsCcObject(j) {
 				id := o.GetCcObject(j).GetId()
-				cc[i][(&id).String()] = o.GetCcObject(j)
+				cc[i][id.String()] = o.GetCcObject(j)
 			} else if o.IsCcLink(j) {
 				id := o.GetCcLink(j).GetHref()
-				cc[i][(&id).String()] = o.GetCcLink(j)
+				cc[i][id.String()] = o.GetCcLink(j)
 			} else if o.IsCcIRI(j) {
 				id := o.GetCcIRI(j)
-				cc[i][(&id).String()] = id
+				cc[i][id.String()] = id
 			}
 		}
 	}
@@ -316,13 +316,13 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 	for i := 0; i < a.CcLen(); i++ {
 		if a.IsCcObject(i) {
 			id := a.GetCcObject(i).GetId()
-			ccActivity[(&id).String()] = a.GetCcObject(i)
+			ccActivity[id.String()] = a.GetCcObject(i)
 		} else if a.IsCcLink(i) {
 			id := a.GetCcLink(i).GetHref()
-			ccActivity[(&id).String()] = a.GetCcLink(i)
+			ccActivity[id.String()] = a.GetCcLink(i)
 		} else if a.IsCcIRI(i) {
 			id := a.GetCcIRI(i)
-			ccActivity[(&id).String()] = id
+			ccActivity[id.String()] = id
 		}
 	}
 	bcc := make([]map[string]interface{}, a.ObjectLen())
@@ -335,13 +335,13 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 		for j := 0; j < o.BccLen(); j++ {
 			if o.IsBccObject(j) {
 				id := o.GetBccObject(j).GetId()
-				bcc[i][(&id).String()] = o.GetBccObject(j)
+				bcc[i][id.String()] = o.GetBccObject(j)
 			} else if o.IsBccLink(j) {
 				id := o.GetBccLink(j).GetHref()
-				bcc[i][(&id).String()] = o.GetBccLink(j)
+				bcc[i][id.String()] = o.GetBccLink(j)
 			} else if o.IsBccIRI(j) {
 				id := o.GetBccIRI(j)
-				bcc[i][(&id).String()] = id
+				bcc[i][id.String()] = id
 			}
 		}
 	}
@@ -349,13 +349,13 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 	for i := 0; i < a.BccLen(); i++ {
 		if a.IsBccObject(i) {
 			id := a.GetBccObject(i).GetId()
-			bccActivity[(&id).String()] = a.GetBccObject(i)
+			bccActivity[id.String()] = a.GetBccObject(i)
 		} else if a.IsBccLink(i) {
 			id := a.GetBccLink(i).GetHref()
-			bccActivity[(&id).String()] = a.GetBccLink(i)
+			bccActivity[id.String()] = a.GetBccLink(i)
 		} else if a.IsBccIRI(i) {
 			id := a.GetBccIRI(i)
-			bccActivity[(&id).String()] = id
+			bccActivity[id.String()] = id
 		}
 	}
 	audience := make([]map[string]interface{}, a.ObjectLen())
@@ -368,13 +368,13 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 		for j := 0; j < o.AudienceLen(); j++ {
 			if o.IsAudienceObject(j) {
 				id := o.GetAudienceObject(j).GetId()
-				audience[i][(&id).String()] = o.GetAudienceObject(j)
+				audience[i][id.String()] = o.GetAudienceObject(j)
 			} else if o.IsAudienceLink(j) {
 				id := o.GetAudienceLink(j).GetHref()
-				audience[i][(&id).String()] = o.GetAudienceLink(j)
+				audience[i][id.String()] = o.GetAudienceLink(j)
 			} else if o.IsAudienceIRI(j) {
 				id := o.GetAudienceIRI(j)
-				audience[i][(&id).String()] = id
+				audience[i][id.String()] = id
 			}
 		}
 	}
@@ -382,13 +382,13 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 	for i := 0; i < a.AudienceLen(); i++ {
 		if a.IsAudienceObject(i) {
 			id := a.GetAudienceObject(i).GetId()
-			audienceActivity[(&id).String()] = a.GetAudienceObject(i)
+			audienceActivity[id.String()] = a.GetAudienceObject(i)
 		} else if a.IsAudienceLink(i) {
 			id := a.GetAudienceLink(i).GetHref()
-			audienceActivity[(&id).String()] = a.GetAudienceLink(i)
+			audienceActivity[id.String()] = a.GetAudienceLink(i)
 		} else if a.IsAudienceIRI(i) {
 			id := a.GetAudienceIRI(i)
-			audienceActivity[(&id).String()] = id
+			audienceActivity[id.String()] = id
 		}
 	}
 	// Next, add activity recipients to all objects if not already present
@@ -399,7 +399,7 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 					a.GetObject(i).AppendToObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
 					a.GetObject(i).AppendToLink(vLink)
-				} else if vIRI, ok := v.(url.URL); ok {
+				} else if vIRI, ok := v.(*url.URL); ok {
 					a.GetObject(i).AppendToIRI(vIRI)
 				}
 			}
@@ -412,7 +412,7 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 					a.GetObject(i).AppendBtoObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
 					a.GetObject(i).AppendBtoLink(vLink)
-				} else if vIRI, ok := v.(url.URL); ok {
+				} else if vIRI, ok := v.(*url.URL); ok {
 					a.GetObject(i).AppendBtoIRI(vIRI)
 				}
 			}
@@ -425,7 +425,7 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 					a.GetObject(i).AppendCcObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
 					a.GetObject(i).AppendCcLink(vLink)
-				} else if vIRI, ok := v.(url.URL); ok {
+				} else if vIRI, ok := v.(*url.URL); ok {
 					a.GetObject(i).AppendCcIRI(vIRI)
 				}
 			}
@@ -438,7 +438,7 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 					a.GetObject(i).AppendBccObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
 					a.GetObject(i).AppendBccLink(vLink)
-				} else if vIRI, ok := v.(url.URL); ok {
+				} else if vIRI, ok := v.(*url.URL); ok {
 					a.GetObject(i).AppendBccIRI(vIRI)
 				}
 			}
@@ -451,7 +451,7 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 					a.GetObject(i).AppendAudienceObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
 					a.GetObject(i).AppendAudienceLink(vLink)
-				} else if vIRI, ok := v.(url.URL); ok {
+				} else if vIRI, ok := v.(*url.URL); ok {
 					a.GetObject(i).AppendAudienceIRI(vIRI)
 				}
 			}
@@ -466,7 +466,7 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 					a.AppendToObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
 					a.AppendToLink(vLink)
-				} else if vIRI, ok := v.(url.URL); ok {
+				} else if vIRI, ok := v.(*url.URL); ok {
 					a.AppendToIRI(vIRI)
 				}
 			}
@@ -477,7 +477,7 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 					a.AppendBtoObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
 					a.AppendBtoLink(vLink)
-				} else if vIRI, ok := v.(url.URL); ok {
+				} else if vIRI, ok := v.(*url.URL); ok {
 					a.AppendBtoIRI(vIRI)
 				}
 			}
@@ -488,7 +488,7 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 					a.AppendCcObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
 					a.AppendCcLink(vLink)
-				} else if vIRI, ok := v.(url.URL); ok {
+				} else if vIRI, ok := v.(*url.URL); ok {
 					a.AppendCcIRI(vIRI)
 				}
 			}
@@ -499,7 +499,7 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 					a.AppendBccObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
 					a.AppendBccLink(vLink)
-				} else if vIRI, ok := v.(url.URL); ok {
+				} else if vIRI, ok := v.(*url.URL); ok {
 					a.AppendBccIRI(vIRI)
 				}
 			}
@@ -510,7 +510,7 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 					a.AppendAudienceObject(vObj)
 				} else if vLink, ok := v.(vocab.LinkType); ok {
 					a.AppendAudienceLink(vLink)
-				} else if vIRI, ok := v.(url.URL); ok {
+				} else if vIRI, ok := v.(*url.URL); ok {
 					a.AppendAudienceIRI(vIRI)
 				}
 			}
@@ -523,7 +523,7 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 
 // deliver will complete the peer-to-peer sending of a federated message to
 // another server.
-func (f *federator) deliver(obj vocab.ActivityType, boxIRI url.URL) error {
+func (f *federator) deliver(obj vocab.ActivityType, boxIRI *url.URL) error {
 	recipients, err := f.prepare(boxIRI, obj)
 	if err != nil {
 		return err
@@ -542,7 +542,7 @@ func (f *federator) deliver(obj vocab.ActivityType, boxIRI url.URL) error {
 
 // deliverToRecipients will take a prepared Activity and send it to specific
 // recipients without examining the activity.
-func (f *federator) deliverToRecipients(obj vocab.ActivityType, recipients []url.URL, creds *creds) error {
+func (f *federator) deliverToRecipients(obj vocab.ActivityType, recipients []*url.URL, creds *creds) error {
 	m, err := obj.Serialize()
 	if err != nil {
 		return err
@@ -553,7 +553,7 @@ func (f *federator) deliverToRecipients(obj vocab.ActivityType, recipients []url
 		return err
 	}
 	for _, to := range recipients {
-		f.deliverer.Do(b, to, func(b []byte, u url.URL) error {
+		f.deliverer.Do(b, to, func(b []byte, u *url.URL) error {
 			return postToOutbox(f.Client, b, u, f.Agent, creds, f.Clock)
 		})
 	}
@@ -563,9 +563,9 @@ func (f *federator) deliverToRecipients(obj vocab.ActivityType, recipients []url
 // prepare takes a deliverableObject and returns a list of the proper recipient
 // target URIs. Additionally, the deliverableObject will have any hidden
 // hidden recipients ("bto" and "bcc") stripped from it.
-func (c *federator) prepare(boxIRI url.URL, o deliverableObject) ([]url.URL, error) {
+func (c *federator) prepare(boxIRI *url.URL, o deliverableObject) ([]*url.URL, error) {
 	// Get inboxes of recipients
-	var r []url.URL
+	var r []*url.URL
 	r = append(r, getToIRIs(o)...)
 	r = append(r, getBToIRIs(o)...)
 	r = append(r, getCcIRIs(o)...)
@@ -607,7 +607,7 @@ func (c *federator) prepare(boxIRI url.URL, o deliverableObject) ([]url.URL, err
 // resolveInboxes takes a list of Actor id URIs and returns them as concrete
 // instances of actorObject. It applies recursively when it encounters a target
 // that is a Collection or OrderedCollection.
-func (c *federator) resolveInboxes(boxIRI url.URL, r []url.URL, depth int, max int) ([]actor, error) {
+func (c *federator) resolveInboxes(boxIRI *url.URL, r []*url.URL, depth int, max int) ([]actor, error) {
 	if depth >= max {
 		return nil, nil
 	}
@@ -619,7 +619,7 @@ func (c *federator) resolveInboxes(boxIRI url.URL, r []url.URL, depth int, max i
 		if err != nil {
 			return nil, err
 		}
-		var uris []url.URL
+		var uris []*url.URL
 		if co != nil {
 			uris := getURIsInItemer(co.Raw())
 			actors, err := c.resolveInboxes(boxIRI, uris, depth+1, max)
@@ -669,7 +669,7 @@ func (c *federator) resolveInboxes(boxIRI url.URL, r []url.URL, depth int, max i
 	return a, nil
 }
 
-func (c *federator) dereferenceForResolvingInboxes(u, boxIRI url.URL, cr *creds) (actor actor, co *streams.Collection, oc *streams.OrderedCollection, cp *streams.CollectionPage, ocp *streams.OrderedCollectionPage, cred *creds, err error) {
+func (c *federator) dereferenceForResolvingInboxes(u, boxIRI *url.URL, cr *creds) (actor actor, co *streams.Collection, oc *streams.OrderedCollection, cp *streams.CollectionPage, ocp *streams.OrderedCollectionPage, cred *creds, err error) {
 	// To pass back to calling function, since may be set recursively:
 	cred = cr
 	var resp []byte
@@ -711,8 +711,8 @@ func (c *federator) dereferenceForResolvingInboxes(u, boxIRI url.URL, cr *creds)
 }
 
 // getInboxes extracts the 'inbox' IRIs from actors.
-func getInboxes(a []actor) ([]url.URL, error) {
-	var u []url.URL
+func getInboxes(a []actor) ([]*url.URL, error) {
+	var u []*url.URL
 	for _, actor := range a {
 		if actor.IsInboxAnyURI() {
 			u = append(u, actor.GetInboxAnyURI())
@@ -729,8 +729,8 @@ func getInboxes(a []actor) ([]url.URL, error) {
 
 // getActorAttributedToURI attempts to find the URIs for the "actor" and
 // "attributedTo" originators on the object.
-func getActorsAttributedToURI(a actorObject) []url.URL {
-	var u []url.URL
+func getActorsAttributedToURI(a actorObject) []*url.URL {
+	var u []*url.URL
 	for i := 0; i < a.AttributedToLen(); i++ {
 		if a.IsAttributedToObject(i) {
 			obj := a.GetAttributedToObject(i)
@@ -790,16 +790,17 @@ func stripHiddenRecipients(o deliverableObject) {
 
 // dedupeIRIs will deduplicate final inbox IRIs. The ignore list is applied to
 // the final list
-func dedupeIRIs(recipients, ignored []url.URL) (out []url.URL) {
-	ignoredMap := make(map[url.URL]bool, len(ignored))
+func dedupeIRIs(recipients, ignored []*url.URL) (out []*url.URL) {
+	ignoredMap := make(map[string]bool, len(ignored))
 	for _, elem := range ignored {
-		ignoredMap[elem] = true
+		ignoredMap[elem.String()] = true
 	}
-	outMap := make(map[url.URL]bool, len(recipients))
+	outMap := make(map[string]bool, len(recipients))
 	for _, k := range recipients {
-		if !ignoredMap[k] && !outMap[k] {
+		kStr := k.String()
+		if !ignoredMap[kStr] && !outMap[kStr] {
 			out = append(out, k)
-			outMap[k] = true
+			outMap[kStr] = true
 		}
 	}
 	return
@@ -816,13 +817,11 @@ func (f *federator) dedupeOrderedItems(oc vocab.OrderedCollectionType) (vocab.Or
 		if oc.IsOrderedItemsObject(i) {
 			removeFn = oc.RemoveOrderedItemsObject
 			iri := oc.GetOrderedItemsObject(i).GetId()
-			pIri := &iri
-			id = pIri.String()
+			id = iri.String()
 		} else if oc.IsOrderedItemsLink(i) {
 			removeFn = oc.RemoveOrderedItemsLink
 			iri := oc.GetOrderedItemsLink(i).GetId()
-			pIri := &iri
-			id = pIri.String()
+			id = iri.String()
 		} else if oc.IsOrderedItemsIRI(i) {
 			removeFn = oc.RemoveOrderedItemsIRI
 			b, err := dereference(f.Client, oc.GetOrderedItemsIRI(i), f.Agent, nil, f.Clock)
@@ -830,13 +829,12 @@ func (f *federator) dedupeOrderedItems(oc vocab.OrderedCollectionType) (vocab.Or
 			if err := json.Unmarshal(b, &m); err != nil {
 				return oc, err
 			}
-			var iri url.URL
+			var iri *url.URL
 			var hasIri bool
 			if err = toIdResolver(&hasIri, &iri).Deserialize(m); err != nil {
 				return oc, err
 			}
-			pIri := &iri
-			id = pIri.String()
+			id = iri.String()
 		}
 		if seen[id] {
 			removeFn(i)
@@ -849,7 +847,7 @@ func (f *federator) dedupeOrderedItems(oc vocab.OrderedCollectionType) (vocab.Or
 }
 
 // filterURLs removes urls whose strings match the provided filter
-func filterURLs(u []url.URL, fn func(s string) bool) []url.URL {
+func filterURLs(u []*url.URL, fn func(s string) bool) []*url.URL {
 	i := 0
 	for i < len(u) {
 		if fn(u[i].String()) {
@@ -861,8 +859,8 @@ func filterURLs(u []url.URL, fn func(s string) bool) []url.URL {
 	return u
 }
 
-func getToIRIs(o deliverableObject) []url.URL {
-	var r []url.URL
+func getToIRIs(o deliverableObject) []*url.URL {
+	var r []*url.URL
 	for i := 0; i < o.ToLen(); i++ {
 		if o.IsToObject(i) {
 			obj := o.GetToObject(i)
@@ -881,8 +879,8 @@ func getToIRIs(o deliverableObject) []url.URL {
 	return r
 }
 
-func getBToIRIs(o deliverableObject) []url.URL {
-	var r []url.URL
+func getBToIRIs(o deliverableObject) []*url.URL {
+	var r []*url.URL
 	for i := 0; i < o.BtoLen(); i++ {
 		if o.IsBtoObject(i) {
 			obj := o.GetBtoObject(i)
@@ -901,8 +899,8 @@ func getBToIRIs(o deliverableObject) []url.URL {
 	return r
 }
 
-func getCcIRIs(o deliverableObject) []url.URL {
-	var r []url.URL
+func getCcIRIs(o deliverableObject) []*url.URL {
+	var r []*url.URL
 	for i := 0; i < o.CcLen(); i++ {
 		if o.IsCcObject(i) {
 			obj := o.GetCcObject(i)
@@ -921,8 +919,8 @@ func getCcIRIs(o deliverableObject) []url.URL {
 	return r
 }
 
-func getBccIRIs(o deliverableObject) []url.URL {
-	var r []url.URL
+func getBccIRIs(o deliverableObject) []*url.URL {
+	var r []*url.URL
 	for i := 0; i < o.BccLen(); i++ {
 		if o.IsBccObject(i) {
 			obj := o.GetBccObject(i)
@@ -941,8 +939,8 @@ func getBccIRIs(o deliverableObject) []url.URL {
 	return r
 }
 
-func getAudienceIRIs(o deliverableObject) []url.URL {
-	var r []url.URL
+func getAudienceIRIs(o deliverableObject) []*url.URL {
+	var r []*url.URL
 	for i := 0; i < o.AudienceLen(); i++ {
 		if o.IsAudienceObject(i) {
 			obj := o.GetAudienceObject(i)
@@ -1077,13 +1075,16 @@ type itemer interface {
 	IsItemsLink(index int) (ok bool)
 	GetItemsLink(index int) (v vocab.LinkType)
 	IsItemsIRI(index int) (ok bool)
-	GetItemsIRI(index int) (v url.URL)
+	GetItemsIRI(index int) (v *url.URL)
 }
+
+var _ itemer = &vocab.Collection{}
+var _ itemer = &vocab.CollectionPage{}
 
 // getURIsInItemer will extract 'items' from the provided Collection or
 // CollectionPage.
-func getURIsInItemer(i itemer) []url.URL {
-	var u []url.URL
+func getURIsInItemer(i itemer) []*url.URL {
+	var u []*url.URL
 	for j := 0; j < i.ItemsLen(); j++ {
 		if i.IsItemsObject(j) {
 			obj := i.GetItemsObject(j)
@@ -1109,13 +1110,16 @@ type orderedItemer interface {
 	IsOrderedItemsLink(index int) (ok bool)
 	GetOrderedItemsLink(index int) (v vocab.LinkType)
 	IsOrderedItemsIRI(index int) (ok bool)
-	GetOrderedItemsIRI(index int) (v url.URL)
+	GetOrderedItemsIRI(index int) (v *url.URL)
 }
+
+var _ orderedItemer = &vocab.OrderedCollection{}
+var _ orderedItemer = &vocab.OrderedCollectionPage{}
 
 // getURIsInOrderedItemer will extract 'items' from the provided
 // OrderedCollection or OrderedCollectionPage.
-func getURIsInOrderedItemer(i orderedItemer) []url.URL {
-	var u []url.URL
+func getURIsInOrderedItemer(i orderedItemer) []*url.URL {
+	var u []*url.URL
 	for j := 0; j < i.OrderedItemsLen(); j++ {
 		if i.IsOrderedItemsObject(j) {
 			obj := i.GetOrderedItemsObject(j)
@@ -1139,10 +1143,10 @@ type activityWithObject interface {
 	IsObject(index int) (ok bool)
 	GetObject(index int) (v vocab.ObjectType)
 	IsObjectIRI(index int) (ok bool)
-	GetObjectIRI(index int) (v url.URL)
+	GetObjectIRI(index int) (v *url.URL)
 }
 
-func getObjectIds(a activityWithObject) (u []url.URL, e error) {
+func getObjectIds(a activityWithObject) (u []*url.URL, e error) {
 	for i := 0; i < a.ObjectLen(); i++ {
 		if a.IsObject(i) {
 			obj := a.GetObject(i)
@@ -1163,10 +1167,10 @@ type activityWithTarget interface {
 	IsTargetObject(index int) (ok bool)
 	GetTargetObject(index int) (v vocab.ObjectType)
 	IsTargetIRI(index int) (ok bool)
-	GetTargetIRI(index int) (v url.URL)
+	GetTargetIRI(index int) (v *url.URL)
 }
 
-func getTargetIds(a activityWithTarget) (u []url.URL, e error) {
+func getTargetIds(a activityWithTarget) (u []*url.URL, e error) {
 	for i := 0; i < a.TargetLen(); i++ {
 		if a.IsTargetObject(i) {
 			obj := a.GetTargetObject(i)
@@ -1182,14 +1186,14 @@ func getTargetIds(a activityWithTarget) (u []url.URL, e error) {
 	return
 }
 
-func removeCollectionItemWithId(c vocab.CollectionType, iri url.URL) {
+func removeCollectionItemWithId(c vocab.CollectionType, iri *url.URL) {
 	for i := 0; i < c.ItemsLen(); i++ {
 		if c.IsItemsObject(i) {
 			o := c.GetItemsObject(i)
 			if !o.HasId() {
 				continue
 			}
-			if o.GetId() == iri {
+			if *o.GetId() == *iri {
 				c.RemoveItemsObject(i)
 				return
 			}
@@ -1198,12 +1202,12 @@ func removeCollectionItemWithId(c vocab.CollectionType, iri url.URL) {
 			if !l.HasHref() {
 				continue
 			}
-			if l.GetHref() == iri {
+			if *l.GetHref() == *iri {
 				c.RemoveItemsLink(i)
 				return
 			}
 		} else if c.IsItemsIRI(i) {
-			if c.GetItemsIRI(i) == iri {
+			if *c.GetItemsIRI(i) == *iri {
 				c.RemoveItemsIRI(i)
 				return
 			}
@@ -1211,14 +1215,14 @@ func removeCollectionItemWithId(c vocab.CollectionType, iri url.URL) {
 	}
 }
 
-func removeOrderedCollectionItemWithId(c vocab.OrderedCollectionType, iri url.URL) {
+func removeOrderedCollectionItemWithId(c vocab.OrderedCollectionType, iri *url.URL) {
 	for i := 0; i < c.OrderedItemsLen(); i++ {
 		if c.IsOrderedItemsObject(i) {
 			o := c.GetOrderedItemsObject(i)
 			if !o.HasId() {
 				continue
 			}
-			if o.GetId() == iri {
+			if *o.GetId() == *iri {
 				c.RemoveOrderedItemsObject(i)
 				return
 			}
@@ -1227,12 +1231,12 @@ func removeOrderedCollectionItemWithId(c vocab.OrderedCollectionType, iri url.UR
 			if !l.HasHref() {
 				continue
 			}
-			if l.GetHref() == iri {
+			if *l.GetHref() == *iri {
 				c.RemoveOrderedItemsLink(i)
 				return
 			}
 		} else if c.IsOrderedItemsIRI(i) {
-			if c.GetOrderedItemsIRI(i) == iri {
+			if *c.GetOrderedItemsIRI(i) == *iri {
 				c.RemoveOrderedItemsIRI(i)
 				return
 			}
@@ -1241,7 +1245,7 @@ func removeOrderedCollectionItemWithId(c vocab.OrderedCollectionType, iri url.UR
 }
 
 // toTombstone creates a Tombstone for the given object.
-func toTombstone(obj vocab.ObjectType, id url.URL, now time.Time) vocab.TombstoneType {
+func toTombstone(obj vocab.ObjectType, id *url.URL, now time.Time) vocab.TombstoneType {
 	tomb := &vocab.Tombstone{}
 	tomb.SetId(id)
 	for i := 0; i < obj.TypeLen(); i++ {
@@ -1269,7 +1273,7 @@ type getActorCollectionFn func(actor vocab.ObjectType, lc *vocab.CollectionType,
 
 func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter getActorCollectionFn, c vocab.ActivityType, prepend bool) error {
 	for i := 0; i < c.ActorLen(); i++ {
-		var iri url.URL
+		var iri *url.URL
 		if c.IsActorObject(i) {
 			obj := c.GetActorObject(i)
 			if !obj.HasId() {
@@ -1306,7 +1310,7 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 			return err
 		}
 		// Duplication detection
-		var iriSet map[url.URL]bool
+		var iriSet map[string]bool
 		if lc != nil {
 			iriSet, err = getIRISetFromItems(lc)
 		} else if loc != nil {
@@ -1319,7 +1323,7 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 		for i := 0; i < c.ObjectLen(); i++ {
 			if c.IsObjectIRI(i) {
 				iri := c.GetObjectIRI(i)
-				if iriSet[iri] {
+				if iriSet[iri.String()] {
 					continue
 				}
 				if lc != nil {
@@ -1341,7 +1345,7 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 					return fmt.Errorf("object at index %d has no id", i)
 				}
 				iri := obj.GetId()
-				if iriSet[iri] {
+				if iriSet[iri.String()] {
 					continue
 				}
 				if lc != nil {
@@ -1380,7 +1384,7 @@ type getObjectCollectionFn func(object vocab.ObjectType, lc *vocab.CollectionTyp
 func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter getObjectCollectionFn, c vocab.ActivityType, prepend bool) (bool, error) {
 	ownsAny := false
 	for i := 0; i < c.ObjectLen(); i++ {
-		var iri url.URL
+		var iri *url.URL
 		if c.IsObject(i) {
 			obj := c.GetObject(i)
 			if !obj.HasId() {
@@ -1412,7 +1416,7 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 			return ownsAny, err
 		}
 		// Duplication detection
-		var iriSet map[url.URL]bool
+		var iriSet map[string]bool
 		if lc != nil {
 			iriSet, err = getIRISetFromItems(lc)
 		} else if loc != nil {
@@ -1425,7 +1429,7 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 		for i := 0; i < c.ActorLen(); i++ {
 			if c.IsActorIRI(i) {
 				iri := c.GetActorIRI(i)
-				if iriSet[iri] {
+				if iriSet[iri.String()] {
 					continue
 				}
 				if lc != nil {
@@ -1447,7 +1451,7 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 					return ownsAny, fmt.Errorf("actor object at index %d has no id", i)
 				}
 				iri := obj.GetId()
-				if iriSet[iri] {
+				if iriSet[iri.String()] {
 					continue
 				}
 				if lc != nil {
@@ -1469,7 +1473,7 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 					return ownsAny, fmt.Errorf("actor link at index %d has no id", i)
 				}
 				iri := l.GetHref()
-				if iriSet[iri] {
+				if iriSet[iri.String()] {
 					continue
 				}
 				if lc != nil {
@@ -1504,7 +1508,7 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 }
 
 func (f *federator) ownsAnyObjects(c context.Context, a vocab.ActivityType) (bool, error) {
-	var iris []url.URL
+	var iris []*url.URL
 	for i := 0; i < a.ObjectLen(); i++ {
 		if a.IsObject(i) {
 			obj := a.GetObject(i)
@@ -1545,7 +1549,7 @@ func (f *federator) addToInbox(c context.Context, r *http.Request, m map[string]
 	if err != nil {
 		return err
 	}
-	if !iriSet[activity.GetId()] {
+	if !iriSet[activity.GetId().String()] {
 		inbox.PrependOrderedItemsObject(activity)
 		return f.App.Set(c, inbox)
 	}
@@ -1575,11 +1579,11 @@ func (f *federator) inboxForwarding(c context.Context, m map[string]interface{})
 	}
 	// 2. The values of 'to', 'cc', or 'audience' are Collections owned by
 	//    this server.
-	var r []url.URL
+	var r []*url.URL
 	r = append(r, getToIRIs(a)...)
 	r = append(r, getCcIRIs(a)...)
 	r = append(r, getAudienceIRIs(a)...)
-	var myIRIs []url.URL
+	var myIRIs []*url.URL
 	col := make(map[string]vocab.CollectionType, 0)
 	oCol := make(map[string]vocab.OrderedCollectionType, 0)
 	for _, iri := range r {
@@ -1593,10 +1597,10 @@ func (f *federator) inboxForwarding(c context.Context, m map[string]interface{})
 			return err
 		}
 		if c, ok := obj.(vocab.CollectionType); ok {
-			col[(&iri).String()] = c
+			col[iri.String()] = c
 			myIRIs = append(myIRIs, iri)
 		} else if oc, ok := obj.(vocab.OrderedCollectionType); ok {
-			oCol[(&iri).String()] = oc
+			oCol[iri.String()] = oc
 			myIRIs = append(myIRIs, iri)
 		}
 	}
@@ -1629,9 +1633,9 @@ func (f *federator) inboxForwarding(c context.Context, m map[string]interface{})
 	if err != nil {
 		return err
 	}
-	recipients := make([]url.URL, 0, len(toSend))
+	recipients := make([]*url.URL, 0, len(toSend))
 	for _, iri := range toSend {
-		if c, ok := col[(&iri).String()]; ok {
+		if c, ok := col[iri.String()]; ok {
 			for i := 0; i < c.ItemsLen(); i++ {
 				if c.IsItemsObject(i) {
 					obj := c.GetItemsObject(i)
@@ -1647,7 +1651,7 @@ func (f *federator) inboxForwarding(c context.Context, m map[string]interface{})
 					recipients = append(recipients, c.GetItemsIRI(i))
 				}
 			}
-		} else if oc, ok := oCol[(&iri).String()]; ok {
+		} else if oc, ok := oCol[iri.String()]; ok {
 			for i := 0; i < oc.OrderedItemsLen(); i++ {
 				if oc.IsOrderedItemsObject(i) {
 					obj := oc.GetOrderedItemsObject(i)
@@ -1690,7 +1694,7 @@ func (f *federator) hasInboxForwardingValues(c context.Context, depth, maxDepth 
 	return f.ownsAnyIRIs(c, iris)
 }
 
-func (f *federator) ownsAnyIRIs(c context.Context, iris []url.URL) bool {
+func (f *federator) ownsAnyIRIs(c context.Context, iris []*url.URL) bool {
 	for _, iri := range iris {
 		if f.App.Owns(c, iri) {
 			return true
@@ -1740,25 +1744,25 @@ func (f *federator) ensureActivityOriginMatchesObjects(a vocab.ActivityType) err
 }
 
 func (f *federator) ensureActivityActorsMatchObjectActors(a vocab.ActivityType) error {
-	actorSet := make(map[url.URL]bool, a.ActorLen())
+	actorSet := make(map[string]bool, a.ActorLen())
 	for i := 0; i < a.ActorLen(); i++ {
 		if a.IsActorObject(i) {
 			obj := a.GetActorObject(i)
 			if !obj.HasId() {
 				return fmt.Errorf("actor object at index %d has no id", i)
 			}
-			actorSet[obj.GetId()] = true
+			actorSet[obj.GetId().String()] = true
 		} else if a.IsActorLink(i) {
 			l := a.GetActorLink(i)
 			if !l.HasHref() {
 				return fmt.Errorf("actor link at index %d has no href", i)
 			}
-			actorSet[l.GetHref()] = true
+			actorSet[l.GetHref().String()] = true
 		} else if a.IsActorIRI(i) {
-			actorSet[a.GetActorIRI(i)] = true
+			actorSet[a.GetActorIRI(i).String()] = true
 		}
 	}
-	objectActors := make(map[url.URL]bool, a.ObjectLen())
+	objectActors := make(map[string]bool, a.ObjectLen())
 	for i := 0; i < a.ObjectLen(); i++ {
 		if a.IsObject(i) {
 			obj := a.GetObject(i)
@@ -1775,15 +1779,15 @@ func (f *federator) ensureActivityActorsMatchObjectActors(a vocab.ActivityType) 
 					if !obj.HasId() {
 						return fmt.Errorf("actor object at index (%d,%d) has no id", i, j)
 					}
-					objectActors[obj.GetId()] = true
+					objectActors[obj.GetId().String()] = true
 				} else if objectActivity.IsActorLink(j) {
 					l := objectActivity.GetActorLink(j)
 					if !l.HasHref() {
 						return fmt.Errorf("actor link at index (%d,%d) has no href", i, j)
 					}
-					objectActors[l.GetHref()] = true
+					objectActors[l.GetHref().String()] = true
 				} else if objectActivity.IsActorIRI(j) {
-					objectActors[objectActivity.GetActorIRI(j)] = true
+					objectActors[objectActivity.GetActorIRI(j).String()] = true
 				}
 			}
 		} else if a.IsObjectIRI(i) {
@@ -1800,7 +1804,7 @@ func (f *federator) ensureActivityActorsMatchObjectActors(a vocab.ActivityType) 
 	return nil
 }
 
-func getInboxForwardingValues(o vocab.ObjectType) (objs []vocab.ObjectType, l []vocab.LinkType, iri []url.URL) {
+func getInboxForwardingValues(o vocab.ObjectType) (objs []vocab.ObjectType, l []vocab.LinkType, iri []*url.URL) {
 	// 'inReplyTo'
 	for i := 0; i < o.InReplyToLen(); i++ {
 		if o.IsInReplyToObject(i) {
@@ -1891,45 +1895,45 @@ func recursivelyApplyDeletes(m, hasNils map[string]interface{}) {
 	}
 }
 
-func getIRISetFromItems(c vocab.CollectionType) (map[url.URL]bool, error) {
-	r := make(map[url.URL]bool, c.ItemsLen())
+func getIRISetFromItems(c vocab.CollectionType) (map[string]bool, error) {
+	r := make(map[string]bool, c.ItemsLen())
 	for i := 0; i < c.ItemsLen(); i++ {
 		if c.IsItemsObject(i) {
 			obj := c.GetItemsObject(i)
 			if !obj.HasId() {
 				return r, fmt.Errorf("items object at index %d has no id", i)
 			}
-			r[obj.GetId()] = true
+			r[obj.GetId().String()] = true
 		} else if c.IsItemsLink(i) {
 			l := c.GetItemsLink(i)
 			if !l.HasHref() {
 				return r, fmt.Errorf("items link at index %d has no href", i)
 			}
-			r[l.GetHref()] = true
+			r[l.GetHref().String()] = true
 		} else if c.IsItemsIRI(i) {
-			r[c.GetItemsIRI(i)] = true
+			r[c.GetItemsIRI(i).String()] = true
 		}
 	}
 	return r, nil
 }
 
-func getIRISetFromOrderedItems(c vocab.OrderedCollectionType) (map[url.URL]bool, error) {
-	r := make(map[url.URL]bool, c.OrderedItemsLen())
+func getIRISetFromOrderedItems(c vocab.OrderedCollectionType) (map[string]bool, error) {
+	r := make(map[string]bool, c.OrderedItemsLen())
 	for i := 0; i < c.OrderedItemsLen(); i++ {
 		if c.IsOrderedItemsObject(i) {
 			obj := c.GetOrderedItemsObject(i)
 			if !obj.HasId() {
 				return r, fmt.Errorf("items object at index %d has no id", i)
 			}
-			r[obj.GetId()] = true
+			r[obj.GetId().String()] = true
 		} else if c.IsOrderedItemsLink(i) {
 			l := c.GetOrderedItemsLink(i)
 			if !l.HasHref() {
 				return r, fmt.Errorf("items link at index %d has no href", i)
 			}
-			r[l.GetHref()] = true
+			r[l.GetHref().String()] = true
 		} else if c.IsOrderedItemsIRI(i) {
-			r[c.GetOrderedItemsIRI(i)] = true
+			r[c.GetOrderedItemsIRI(i).String()] = true
 		}
 	}
 	return r, nil

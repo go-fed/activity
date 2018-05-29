@@ -242,17 +242,17 @@ func TestNulls(t *testing.T) {
 		t.Fatal(err)
 	}
 	expectedSamActor := &vocab.Person{}
-	expectedSamActor.SetInboxAnyURI(*samIRIInbox)
-	expectedSamActor.SetId(*samIRI)
+	expectedSamActor.SetInboxAnyURI(samIRIInbox)
+	expectedSamActor.SetId(samIRI)
 	expectedNote := &vocab.Note{}
-	expectedNote.SetId(*noteIRI)
+	expectedNote.SetId(noteIRI)
 	expectedNote.AppendNameString("A Note")
 	expectedNote.AppendContentString("This is a simple note")
 	expectedNote.AppendToObject(expectedSamActor)
 	expectedUpdate := &vocab.Update{}
-	expectedUpdate.AppendActorIRI(*sallyIRI)
+	expectedUpdate.AppendActorIRI(sallyIRI)
 	expectedUpdate.AppendSummaryString("Sally updated her note")
-	expectedUpdate.SetId(*activityIRI)
+	expectedUpdate.SetId(activityIRI)
 	expectedUpdate.AppendObject(expectedNote)
 	tables := []struct {
 		name     string
