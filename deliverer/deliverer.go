@@ -19,7 +19,7 @@ type DeliveryPersister interface {
 	// Sending informs the delivery persister that the provided bytes are
 	// being delivered to the specified url. It must return a unique id for
 	// this delivery.
-	Sending(b []byte, to url.URL) string
+	Sending(b []byte, to *url.URL) string
 	// Cancel informs the delivery persister that the provided delivery was
 	// interrupted by the server cancelling. These should be retried once
 	// the server is back online.
@@ -126,7 +126,7 @@ func (r retryData) ShouldRetry(max int) bool {
 }
 
 // Do spawns a goroutine that retries f until it returns no error.
-func (d *DelivererPool) Do(b []byte, to url.URL, sendFn func([]byte, url.URL) error) {
+func (d *DelivererPool) Do(b []byte, to *url.URL, sendFn func([]byte, *url.URL) error) {
 	f := func() error {
 		return sendFn(b, to)
 	}
@@ -144,7 +144,7 @@ func (d *DelivererPool) Do(b []byte, to url.URL, sendFn func([]byte, url.URL) er
 	}()
 }
 
-func (d *DelivererPool) Restart(b []byte, to url.URL, id string, sendFn func([]byte, url.URL) error) {
+func (d *DelivererPool) Restart(b []byte, to *url.URL, id string, sendFn func([]byte, *url.URL) error) {
 	f := func() error {
 		return sendFn(b, to)
 	}
