@@ -624,7 +624,7 @@ func (f *federator) handleClientAdd(c context.Context, deliverable *bool) func(s
 			}
 			obj := raw.GetObject(i)
 			for _, target := range targets {
-				if !f.SocialAPI.CanAdd(c, obj, target) {
+				if !f.App.CanAdd(c, obj, target) {
 					continue
 				}
 				if ct, ok := target.(vocab.CollectionType); ok {
@@ -688,7 +688,7 @@ func (f *federator) handleClientRemove(c context.Context, deliverable *bool) fun
 			}
 			obj := raw.GetObject(i)
 			for _, target := range targets {
-				if !f.SocialAPI.CanRemove(c, obj, target) {
+				if !f.App.CanRemove(c, obj, target) {
 					continue
 				}
 				if ct, ok := target.(vocab.CollectionType); ok {
@@ -1028,7 +1028,7 @@ func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 			}
 			obj := raw.GetObject(i)
 			for _, target := range targets {
-				if !f.FederateAPI.CanFederateAdd(c, obj, target) {
+				if !f.App.CanAdd(c, obj, target) {
 					continue
 				}
 				if ct, ok := target.(vocab.CollectionType); ok {
@@ -1092,7 +1092,7 @@ func (f *federator) handleRemove(c context.Context) func(s *streams.Remove) erro
 			}
 			obj := raw.GetObject(i)
 			for _, target := range targets {
-				if !f.FederateAPI.CanFederateRemove(c, obj, target) {
+				if !f.App.CanRemove(c, obj, target) {
 					continue
 				}
 				if ct, ok := target.(vocab.CollectionType); ok {

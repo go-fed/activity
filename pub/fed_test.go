@@ -564,6 +564,8 @@ type MockApplication struct {
 	getOutbox         func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error)
 	newId             func(c context.Context, t Typer) *url.URL
 	getPublicKey      func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error)
+	canAdd            func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
+	canRemove         func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
 }
 
 func (m *MockApplication) Owns(c context.Context, id *url.URL) bool {
@@ -629,30 +631,28 @@ func (m *MockApplication) GetPublicKey(c context.Context, publicKeyId string) (c
 	return m.getPublicKey(c, publicKeyId)
 }
 
+func (m *MockApplication) CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+	if m.canAdd == nil {
+		m.t.Fatal("unexpected call to MockApplication CanAdd")
+	}
+	return m.canAdd(c, o, t)
+}
+
+func (m *MockApplication) CanRemove(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+	if m.canRemove == nil {
+		m.t.Fatal("unexpected call to MockApplication CanRemove")
+	}
+	return m.canRemove(c, o, t)
+}
+
 var _ SocialApplication = &MockSocialApp{}
 
 type MockSocialApp struct {
 	*MockApplication
 	t                     *testing.T
-	canAdd                func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
-	canRemove             func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
 	actorIRI              func(c context.Context, r *http.Request) (*url.URL, error)
 	getPublicKeyForOutbox func(c context.Context, publicKeyId string, boxIRI *url.URL) (crypto.PublicKey, httpsig.Algorithm, error)
 	getSocialAPIVerifier  func(c context.Context) SocialAPIVerifier
-}
-
-func (m *MockSocialApp) CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
-	if m.canAdd == nil {
-		m.t.Fatal("unexpected call to MockSocialApp CanAdd")
-	}
-	return m.canAdd(c, o, t)
-}
-
-func (m *MockSocialApp) CanRemove(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
-	if m.canRemove == nil {
-		m.t.Fatal("unexpected call to MockSocialApp CanRemove")
-	}
-	return m.canRemove(c, o, t)
 }
 
 func (m *MockSocialApp) ActorIRI(c context.Context, r *http.Request) (*url.URL, error) {
@@ -797,28 +797,12 @@ var _ FederateApplication = &MockFederateApp{}
 type MockFederateApp struct {
 	*MockApplication
 	t                *testing.T
-	canAdd           func(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
-	canRemove        func(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
 	onFollow         func(c context.Context, s *streams.Follow) FollowResponse
 	unblocked        func(c context.Context, actorIRIs []*url.URL) error
 	getFollowing     func(c context.Context, actor *url.URL) (vocab.CollectionType, error)
 	filterForwarding func(c context.Context, activity vocab.ActivityType, iris []*url.URL) ([]*url.URL, error)
 	newSigner        func() (httpsig.Signer, error)
 	privateKey       func(boxIRI *url.URL) (crypto.PrivateKey, string, error)
-}
-
-func (m *MockFederateApp) CanFederateAdd(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool {
-	if m.canAdd == nil {
-		m.t.Fatal("unexpected call to MockFederateApp CanFederateAdd")
-	}
-	return m.canAdd(c, obj, target)
-}
-
-func (m *MockFederateApp) CanFederateRemove(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool {
-	if m.canRemove == nil {
-		m.t.Fatal("unexpected call to MockFederateApp CanFederateRemove")
-	}
-	return m.canRemove(c, obj, target)
 }
 
 func (m *MockFederateApp) OnFollow(c context.Context, s *streams.Follow) FollowResponse {
@@ -896,6 +880,12 @@ func (m *MockSocialFederateApp) NewId(c context.Context, t Typer) *url.URL {
 }
 func (m *MockSocialFederateApp) GetPublicKey(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 	return m.MockFederateApp.GetPublicKey(c, publicKeyId)
+}
+func (m *MockSocialFederateApp) CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+	return m.MockFederateApp.CanAdd(c, o, t)
+}
+func (m *MockSocialFederateApp) CanRemove(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+	return m.MockFederateApp.CanRemove(c, o, t)
 }
 
 var _ Deliverer = &MockDeliverer{}
@@ -3391,7 +3381,7 @@ func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	gotCanAdd := 0
 	var gotCanAddObject vocab.ObjectType
 	var gotCanAddTarget vocab.ObjectType
-	fedApp.canAdd = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+	app.MockFederateApp.canAdd = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
 		gotCanAdd++
 		gotCanAddObject = o
 		gotCanAddTarget = t
@@ -3460,7 +3450,7 @@ func TestPostInbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	gotCanAdd := 0
 	var gotCanAddObject vocab.ObjectType
 	var gotCanAddTarget vocab.ObjectType
-	fedApp.canAdd = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+	app.MockFederateApp.canAdd = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
 		gotCanAdd++
 		gotCanAddObject = o
 		gotCanAddTarget = t
@@ -3503,7 +3493,7 @@ func TestPostInbox_Add_CallsCallback(t *testing.T) {
 		v := &vocab.Collection{}
 		return v, nil
 	}
-	fedApp.canAdd = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+	app.MockFederateApp.canAdd = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
 		return true
 	}
 	gotCallback := 0
@@ -3579,7 +3569,7 @@ func TestPostInbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	gotCanRemove := 0
 	var gotCanRemoveObject vocab.ObjectType
 	var gotCanRemoveTarget vocab.ObjectType
-	fedApp.canRemove = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+	app.MockFederateApp.canRemove = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
 		gotCanRemove++
 		gotCanRemoveObject = o
 		gotCanRemoveTarget = t
@@ -3647,7 +3637,7 @@ func TestPostInbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 	gotCanRemove := 0
 	var gotCanRemoveObject vocab.ObjectType
 	var gotCanRemoveTarget vocab.ObjectType
-	fedApp.canRemove = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+	app.MockFederateApp.canRemove = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
 		gotCanRemove++
 		gotCanRemoveObject = o
 		gotCanRemoveTarget = t
@@ -3692,7 +3682,7 @@ func TestPostInbox_Remove_CallsCallback(t *testing.T) {
 		v := &vocab.Collection{}
 		return v, nil
 	}
-	fedApp.canRemove = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
+	app.MockFederateApp.canRemove = func(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool {
 		return true
 	}
 	gotCallback := 0
@@ -5316,7 +5306,7 @@ func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	gotCanAdd := 0
 	var canAddObj vocab.ObjectType
 	var canAddTarget vocab.ObjectType
-	socialApp.canAdd = func(c context.Context, obj vocab.ObjectType, t vocab.ObjectType) bool {
+	app.MockFederateApp.canAdd = func(c context.Context, obj vocab.ObjectType, t vocab.ObjectType) bool {
 		gotCanAdd++
 		canAddObj = obj
 		canAddTarget = t
@@ -5379,7 +5369,7 @@ func TestPostOutbox_Add_DoesNotAddIfAppCannotAdd(t *testing.T) {
 	gotCanAdd := 0
 	var canAddObj vocab.ObjectType
 	var canAddTarget vocab.ObjectType
-	socialApp.canAdd = func(c context.Context, obj vocab.ObjectType, t vocab.ObjectType) bool {
+	app.MockFederateApp.canAdd = func(c context.Context, obj vocab.ObjectType, t vocab.ObjectType) bool {
 		gotCanAdd++
 		canAddObj = obj
 		canAddTarget = t
@@ -5534,7 +5524,7 @@ func TestPostOutbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	gotCanRemove := 0
 	var canRemoveObj vocab.ObjectType
 	var canRemoveTarget vocab.ObjectType
-	socialApp.canRemove = func(c context.Context, obj vocab.ObjectType, t vocab.ObjectType) bool {
+	app.MockFederateApp.canRemove = func(c context.Context, obj vocab.ObjectType, t vocab.ObjectType) bool {
 		gotCanRemove++
 		canRemoveObj = obj
 		canRemoveTarget = t
@@ -5597,7 +5587,7 @@ func TestPostOutbox_Remove_DoesNotRemoveIfAppCannotRemove(t *testing.T) {
 	gotCanRemove := 0
 	var canRemoveObj vocab.ObjectType
 	var canRemoveTarget vocab.ObjectType
-	socialApp.canRemove = func(c context.Context, obj vocab.ObjectType, t vocab.ObjectType) bool {
+	app.MockFederateApp.canRemove = func(c context.Context, obj vocab.ObjectType, t vocab.ObjectType) bool {
 		gotCanRemove++
 		canRemoveObj = obj
 		canRemoveTarget = t

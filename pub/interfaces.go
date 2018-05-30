@@ -105,6 +105,14 @@ type Application interface {
 	// key id. It also determines which algorithm to use to verify the
 	// signature.
 	GetPublicKey(c context.Context, publicKeyId string) (pubKey crypto.PublicKey, algo httpsig.Algorithm, user *url.URL, err error)
+	// CanAdd returns true if the provided object is allowed to be added to
+	// the given target collection. Applicable to either or both of the
+	// SocialAPI and FederateAPI.
+	CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
+	// CanRemove returns true if the provided object is allowed to be
+	// removed from the given target collection. Applicable to either or
+	// both of the SocialAPI and FederateAPI.
+	CanRemove(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
 }
 
 // RWType indicates the kind of reading being done.
@@ -120,12 +128,6 @@ const (
 // SocialAPI is provided by users of this library and designed to handle
 // receiving messages from ActivityPub clients through the Social API.
 type SocialAPI interface {
-	// CanAdd returns true if the provided object is allowed to be added to
-	// the given target collection.
-	CanAdd(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
-	// CanRemove returns true if the provided object is allowed to be
-	// removed from the given target collection.
-	CanRemove(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
 	// AddToOutboxResolver(c context.Context) (*streams.Resolver, error)
 	// ActorIRI returns the actor's IRI associated with the given request.
 	ActorIRI(c context.Context, r *http.Request) (*url.URL, error)
@@ -149,12 +151,6 @@ type SocialAPI interface {
 // FederateAPI is provided by users of this library and designed to handle
 // receiving messages from ActivityPub servers through the Federative API.
 type FederateAPI interface {
-	// CanFederateAdd returns true if the provided object is allowed to be added to
-	// the given target collection.
-	CanFederateAdd(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
-	// CanFederateRemove returns true if the provided object is allowed to be added to
-	// the given target collection.
-	CanFederateRemove(c context.Context, obj vocab.ObjectType, target vocab.ObjectType) bool
 	// OnFollow determines whether to take any automatic reactions in
 	// response to this follow. Note that if this application does not own
 	// an object on the activity, then the 'AutomaticAccept' and
