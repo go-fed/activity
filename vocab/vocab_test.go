@@ -1012,7 +1012,7 @@ func TestDeserialization(t *testing.T) {
 			continue
 		}
 		if diff := deep.Equal(actual, r.expectedStruct); diff != nil {
-			t.Errorf("%s: Deserialize deep equal is false: %s", diff)
+			t.Errorf("%s: Deserialize deep equal is false: %s", r.name, diff)
 		}
 	}
 }

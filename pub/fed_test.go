@@ -730,7 +730,7 @@ func (m *MockCallbacker) Add(c context.Context, s *streams.Add) error {
 }
 
 func (m *MockCallbacker) Remove(c context.Context, s *streams.Remove) error {
-	if m.Remove == nil {
+	if m.remove == nil {
 		m.t.Logf("unimplemented MockCallbacker Remove called: %v %v", c, s)
 		return nil
 	} else {
@@ -1869,6 +1869,8 @@ func TestPostInbox_HandlesBlocked(t *testing.T) {
 		t.Fatalf("expected %s, got %s", blockedErr, err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
+	} else if *iri != *sallyIRI {
+		t.Fatalf("expected %s, got %s", sallyIRIString, iri.String())
 	}
 }
 

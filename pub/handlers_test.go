@@ -29,7 +29,7 @@ func TestServeActivityPubObject(t *testing.T) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
 					} else if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(noteIRI)
@@ -39,7 +39,7 @@ func TestServeActivityPubObject(t *testing.T) {
 				},
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
@@ -63,7 +63,7 @@ func TestServeActivityPubObject(t *testing.T) {
 				t: t,
 				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 					if publicKeyId != testPublicKeyId {
-						t.Fatalf("(%q) expected %s, got %s", testPublicKeyId, publicKeyId)
+						t.Fatalf("expected %s, got %s", testPublicKeyId, publicKeyId)
 					}
 					return testPrivateKey.Public(), httpsig.RSA_SHA256, samIRI, nil
 				},
@@ -71,9 +71,9 @@ func TestServeActivityPubObject(t *testing.T) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
 					} else if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					} else if u := user.String(); u != samIRIString {
-						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
+						t.Fatalf("expected %s, got %s", samIRIString, u)
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(noteIRI)
@@ -83,7 +83,7 @@ func TestServeActivityPubObject(t *testing.T) {
 				},
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
@@ -106,7 +106,7 @@ func TestServeActivityPubObject(t *testing.T) {
 				t: t,
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return false
 				},
@@ -126,13 +126,13 @@ func TestServeActivityPubObject(t *testing.T) {
 				t: t,
 				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 					if publicKeyId != testPublicKeyId {
-						t.Fatalf("(%q) expected %s, got %s", testPublicKeyId, publicKeyId)
+						t.Fatalf("expected %s, got %s", testPublicKeyId, publicKeyId)
 					}
 					return testPrivateKey.Public(), httpsig.RSA_SHA256, samIRI, nil
 				},
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
@@ -180,7 +180,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
 					} else if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(noteIRI)
@@ -190,7 +190,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				},
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
@@ -214,7 +214,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				t: t,
 				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 					if publicKeyId != testPublicKeyId {
-						t.Fatalf("(%q) expected %s, got %s", testPublicKeyId, publicKeyId)
+						t.Fatalf("expected %s, got %s", testPublicKeyId, publicKeyId)
 					}
 					return testPrivateKey.Public(), httpsig.RSA_SHA256, samIRI, nil
 				},
@@ -222,9 +222,9 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
 					} else if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					} else if u := user.String(); u != samIRIString {
-						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
+						t.Fatalf("expected %s, got %s", samIRIString, u)
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(noteIRI)
@@ -234,7 +234,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				},
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
@@ -257,7 +257,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				t: t,
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return false
 				},
@@ -277,13 +277,13 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				t: t,
 				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 					if publicKeyId != testPublicKeyId {
-						t.Fatalf("(%q) expected %s, got %s", testPublicKeyId, publicKeyId)
+						t.Fatalf("expected %s, got %s", testPublicKeyId, publicKeyId)
 					}
 					return testPrivateKey.Public(), httpsig.RSA_SHA256, samIRI, nil
 				},
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
@@ -299,9 +299,9 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
 					} else if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					} else if u := user.String(); u != samIRIString {
-						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
+						t.Fatalf("expected %s, got %s", samIRIString, u)
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(noteIRI)
@@ -311,7 +311,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				},
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
@@ -343,9 +343,9 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
 					} else if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					} else if u := user.String(); u != samIRIString {
-						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
+						t.Fatalf("expected %s, got %s", samIRIString, u)
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(noteIRI)
@@ -355,7 +355,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				},
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
@@ -383,7 +383,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				t: t,
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
@@ -405,7 +405,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				t: t,
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
@@ -427,7 +427,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				t: t,
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
@@ -450,7 +450,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				t: t,
 				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
 					if publicKeyId != testPublicKeyId {
-						t.Fatalf("(%q) expected %s, got %s", testPublicKeyId, publicKeyId)
+						t.Fatalf("expected %s, got %s", testPublicKeyId, publicKeyId)
 					}
 					return testPrivateKey.Public(), httpsig.RSA_SHA256, samIRI, nil
 				},
@@ -458,9 +458,9 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
 					} else if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					} else if u := user.String(); u != samIRIString {
-						t.Fatalf("(%q) expected %s, got %s", samIRIString, u)
+						t.Fatalf("expected %s, got %s", samIRIString, u)
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(noteIRI)
@@ -470,7 +470,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				},
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
@@ -498,7 +498,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				t: t,
 				owns: func(c context.Context, id *url.URL) bool {
 					if s := id.String(); s != noteURIString {
-						t.Fatalf("(%q) expected %s, got %s", noteURIString, s)
+						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
 					return true
 				},
