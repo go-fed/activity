@@ -71,7 +71,7 @@ var outboxHandler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request
 var inboxHandler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {
   c := context.Background()
   // Populate c with application specific information
-  if handled, err := myPubber.PostIntox(c, w, r); err != nil {
+  if handled, err := myPubber.PostInbox(c, w, r); err != nil {
     // Write to w
   } else if handled {
     return
@@ -105,7 +105,7 @@ var activityStreamHandler http.HandlerFunc = func(w http.ResponseWriter, r *http
 }
 ```
 
-That's all that's required.
+That's all that's required to support ActivityPub.
 
 ## How To Create
 
@@ -126,14 +126,14 @@ Regardless of which of the SocialAPI and FederateAPI chosen, the `Application`
 interface contains the set of core methods fundamental to the functionality of
 this library. It contains a lot of the storage fetching and writing, all of
 which is keyed by `*url.URL`. To protect against race conditions, this library
-will inform whether it is fetching data to read-only or fetching or read-or-
+will inform whether it is fetching data to read-only or fetching for read-or-
 write.
 
 Note that under some conditions, ActivityPub verifies the peer's request. It
 does so using HTTP Signatures. However, this requires knowing the other party's
 public key, and fetching this remotely is do-able. However, this library assumes
-this server already has it locally; it is up to implementations to remotely
-fetch it if needed at this time.
+this server already has it locally; at this time it is up to implementations to
+remotely fetch it if needed.
 
 ### SocialAPI and FederateAPI Interfaces
 
@@ -183,4 +183,5 @@ packages are being used, these interfaces will be natively supported.
 
 This library does not have an implementation report generated... yet! Once it is
 available, it will be linked here. Furthermore, the test server will also be an
-excellent tutorial resource.
+excellent tutorial resource. Unfortunately such a resource does not exist...
+yet!
