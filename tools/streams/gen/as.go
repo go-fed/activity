@@ -66,11 +66,27 @@ func generateResolver(types []*defs.Type) *defs.StructDef {
 		name := fmt.Sprintf("%sCallback", t.Name)
 		sig := fmt.Sprintf("func(*%s) error", t.Name)
 		c := fmt.Sprintf("Callback function for the %s type", t.Name)
-		this.M = append(this.M, &defs.StructMember{name, sig, c})
+		this.M = append(this.M, &defs.StructMember{
+			Name:    name,
+			Type:    sig,
+			Comment: c,
+		})
 	}
-	this.M = append(this.M, &defs.StructMember{"AnyObjectCallback", "func(vocab.ObjectType) error", "Callback function for any type that satisfies the vocab.ObjectType interface. Note that this will be called in addition to the specific type callbacks."})
-	this.M = append(this.M, &defs.StructMember{"AnyLinkCallback", "func(vocab.LinkType) error", "Callback function for any type that satisfies the vocab.LinkType interface. Note that this will be called in addition to the specific type callbacks."})
-	this.M = append(this.M, &defs.StructMember{"AnyActivityCallback", "func(vocab.ActivityType) error", "Callback function for any type that satisfies the vocab.ActivityType interface. Note that this will be called in addition to the specific type callbacks."})
+	this.M = append(this.M, &defs.StructMember{
+		Name:    "AnyObjectCallback",
+		Type:    "func(vocab.ObjectType) error",
+		Comment: "Callback function for any type that satisfies the vocab.ObjectType interface. Note that this will be called in addition to the specific type callbacks.",
+	})
+	this.M = append(this.M, &defs.StructMember{
+		Name:    "AnyLinkCallback",
+		Type:    "func(vocab.LinkType) error",
+		Comment: "Callback function for any type that satisfies the vocab.LinkType interface. Note that this will be called in addition to the specific type callbacks.",
+	})
+	this.M = append(this.M, &defs.StructMember{
+		Name:    "AnyActivityCallback",
+		Type:    "func(vocab.ActivityType) error",
+		Comment: "Callback function for any type that satisfies the vocab.ActivityType interface. Note that this will be called in addition to the specific type callbacks.",
+	})
 	this.F = []*defs.MemberFunctionDef{
 		{
 			Name:    dispatchFnName,
@@ -718,7 +734,7 @@ func generateNonFunctionalIRI(p *defs.PropertyType, this *defs.StructDef) {
 	this.F = append(this.F, []*defs.MemberFunctionDef{
 		{
 			Name:    fmt.Sprintf("Len%s", titleName),
-			Comment: fmt.Sprintf("Len%s returns the number of values this property contains. Each index be used with Has%s to determine if Get%s is safe to call or if raw handling would be needed.", titleName, titleName, titleName, p.Name),
+			Comment: fmt.Sprintf("Len%s returns the number of values this property contains. Each index be used with Has%s to determine if Get%s is safe to call or if raw handling would be needed.", titleName, titleName, titleName),
 			P:       this,
 			Return:  []*defs.FunctionVarDef{{"idx", "int"}},
 			Body: func() string {
@@ -841,7 +857,7 @@ func generateNonFunctionalObjectLink(p *defs.PropertyType, this *defs.StructDef,
 	this.F = append(this.F, []*defs.MemberFunctionDef{
 		{
 			Name:    fmt.Sprintf("Len%s", titleName),
-			Comment: fmt.Sprintf("Len%s returns the number of values this property contains. Each index be used with Has%s to determine if Resolve%s is safe to call or if raw handling would be needed.", titleName, titleName, titleName, p.Name),
+			Comment: fmt.Sprintf("Len%s returns the number of values this property contains. Each index be used with Has%s to determine if Resolve%s is safe to call or if raw handling would be needed.", titleName, titleName, titleName),
 			P:       this,
 			Return:  []*defs.FunctionVarDef{{"idx", "int"}},
 			Body: func() string {
@@ -977,7 +993,7 @@ func generateNonFunctionalPropertyType(p *defs.PropertyType, this *defs.StructDe
 	this.F = append(this.F, []*defs.MemberFunctionDef{
 		{
 			Name:    fmt.Sprintf("Len%s", titleName),
-			Comment: fmt.Sprintf("Len%s returns the number of values this property contains. Each index be used with Has%s to determine if Resolve%s is safe to call or if raw handling would be needed.", titleName, titleName, titleName, p.Name),
+			Comment: fmt.Sprintf("Len%s returns the number of values this property contains. Each index be used with Has%s to determine if Resolve%s is safe to call or if raw handling would be needed.", titleName, titleName, titleName),
 			P:       this,
 			Return:  []*defs.FunctionVarDef{{"idx", "int"}},
 			Body: func() string {
@@ -1108,7 +1124,7 @@ func generateNonFunctionalPropertyValue(p *defs.PropertyType, this *defs.StructD
 	this.F = append(this.F, []*defs.MemberFunctionDef{
 		{
 			Name:    fmt.Sprintf("Len%s", titleName),
-			Comment: fmt.Sprintf("Len%s returns the number of values this property contains. Each index be used with Has%s to determine if Get%s is safe to call or if raw handling would be needed.", titleName, titleName, titleName, p.Name),
+			Comment: fmt.Sprintf("Len%s returns the number of values this property contains. Each index be used with Has%s to determine if Get%s is safe to call or if raw handling would be needed.", titleName, titleName, titleName),
 			P:       this,
 			Return:  []*defs.FunctionVarDef{{"idx", "int"}},
 			Body: func() string {
@@ -1231,7 +1247,7 @@ func generateNonFunctionalPropertyAny(p *defs.PropertyType, this *defs.StructDef
 	this.F = append(this.F, []*defs.MemberFunctionDef{
 		{
 			Name:    fmt.Sprintf("Len%s", titleName),
-			Comment: fmt.Sprintf("Len%s returns the number of values this property contains. Each index be used with Has%s to determine if Get%s is safe to call or if raw handling would be needed.", titleName, titleName, titleName, p.Name),
+			Comment: fmt.Sprintf("Len%s returns the number of values this property contains. Each index be used with Has%s to determine if Get%s is safe to call or if raw handling would be needed.", titleName, titleName, titleName),
 			P:       this,
 			Return:  []*defs.FunctionVarDef{{"idx", "int"}},
 			Body: func() string {

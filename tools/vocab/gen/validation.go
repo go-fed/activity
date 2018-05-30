@@ -10,8 +10,7 @@ func validateDomains(pt []*defs.PropertyType) error {
 	var invalid []string
 	for _, p := range pt {
 		for _, d := range p.Domain {
-			if d.T == nil {
-				continue
+			if d.T != nil {
 				found := false
 				for _, inv := range d.T.GetProperties() {
 					if inv.Name == p.Name {

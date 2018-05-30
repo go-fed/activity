@@ -29,7 +29,7 @@ func generateNaturalLanguageMap(t *defs.PropertyType, this *defs.StructDef, i *d
 	mapMember := &defs.StructMember{
 		Name:    t.Name + "Map",
 		Type:    "map[string]string",
-		Comment: fmt.Sprintf("The '%sMap' value holds language-specific values for property '%s'"),
+		Comment: fmt.Sprintf("The '%sMap' value holds language-specific values for property '%s'", t.Name, t.Name),
 	}
 	this.M = append(this.M, mapMember)
 	this.F = append(this.F, []*defs.MemberFunctionDef{
@@ -72,7 +72,7 @@ func generateNaturalLanguageMap(t *defs.PropertyType, this *defs.StructDef, i *d
 		},
 		{
 			Name:    fmt.Sprintf("Set%sMap", strings.Title(t.Name)),
-			Comment: fmt.Sprintf("Set$sMap sets the value of the property for the specified language", strings.Title(t.Name)),
+			Comment: fmt.Sprintf("Set%sMap sets the value of the property for the specified language", strings.Title(t.Name)),
 			P:       this,
 			Args:    []*defs.FunctionVarDef{{"l", "string"}, {"v", "string"}},
 			Body: func() string {
@@ -99,7 +99,7 @@ func generateNaturalLanguageMap(t *defs.PropertyType, this *defs.StructDef, i *d
 		},
 		{
 			Name:    fmt.Sprintf("Set%sMap", strings.Title(t.Name)),
-			Comment: fmt.Sprintf("Set$sMap sets the value of the property for the specified language", strings.Title(t.Name)),
+			Comment: fmt.Sprintf("Set%sMap sets the value of the property for the specified language", strings.Title(t.Name)),
 			Args:    []*defs.FunctionVarDef{{"l", "string"}, {"v", "string"}},
 		},
 	}...)
