@@ -2,12 +2,14 @@
 
 `go get github.com/go-fed/activity`
 
+This repository supports `vgo` and is remotely verifiable.
+
 This repository contains three libraries for use in your golang applications:
 
-* An ActivityStreams Vocabulary library
-* A convenience library for the ActivityStreams Vocabulary
-* ActivityPub Social API (Client-to-Server) and Federation Protocol
-  (Server-to-Server).
+* `vocab`: An ActivityStreams Vocabulary library
+* `streams`: A convenience library for the ActivityStreams Vocabulary
+* `pub`: ActivityPub SocialAPI (Client-to-Server) and FederateAPI
+  (Server-to-Server)
 
 This library is biased. It forgoes understanding JSON-LD in exchange for static
 typing. It provides a large amount of default behavior to let Social,
@@ -15,33 +17,43 @@ Federated, or both kinds of ActivityPub applications just work.
 
 ## Status
 
-There is no stable version of this library (yet).
+Version 0.1.0 of this library is ready for use.
 
-See each subdirectory for its own README for further elaboration.
+There is not an implementation report available... yet!
 
-### Core ActivityPub Libraries
+See each subdirectory for its own README for further elaboration. The
+recommended reading order is `vocab`, `streams`, and then `pub`. Others are
+optional.
 
-* `vocab` - ActivityStreams Vocabulary: Functional and tested
-* `streams` - ActivityStreams Convenience Library: Functional and tested
-* `pub` - ActivityPub: Under development and testing
+## How well tested are these libraries?
 
-### Supplemental Libraries
+I took great care to add numerous tests using examples directly from
+specifications, official test repositories, and my own end-to-end tests.
+
+## Who is using this library currently?
+
+No one. Please let me know if you are using it!
+
+## How do I use these libraries?
+
+Please see each subdirectory for its own README for further elaboration. The
+recommended reading order is `vocab`, `streams`, and then `pub`. Others are
+optional.
+
+Passing familiarity with ActivityStreams and ActivityPub is recommended.
+
+## Other Libraries
 
 * `tools` - Code generation wizardry and ActivityPub-spec-as-data.
 * `deliverer` - Provides an asynchronous `Deliverer` for use with the `pub` lib
-
-## How To Use This Library
-
-This section will be fleshed out once the library is approaching its first
-stable release.
 
 ## FAQ
 
 *Why does compilation take so long?*
 
 The `vocab` and `streams` packages are code generated on order of hundreds of
-thousands to a million lines long. Use `go install` or `go build -i` to cache
-the build artifacts and do incremental builds.
+thousands to a million lines long. If using Go 1.9 or before, use `go install`
+or `go build -i` to cache the build artifacts and do incremental builds.
 
 ## Useful References
 

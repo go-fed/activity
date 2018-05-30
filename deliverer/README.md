@@ -1,8 +1,10 @@
 # deliverer
 
+This library is completely optional, provided only for convenience.
+
 An extra utility that provides a simple mechanism to asynchronously deliver
-federated messages from a `Pubber` available from the
-`github.com/go-fed/activity/pub` library.
+federated messages from a `pub.Pubber` available from the `go-fed/activity/pub`
+library.
 
 It implements the `pub.Deliverer` interface.
 
