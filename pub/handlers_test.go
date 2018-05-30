@@ -144,7 +144,8 @@ func TestServeActivityPubObject(t *testing.T) {
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
 		resp := httptest.NewRecorder()
-		handled, err := ServeActivityPubObject(context.Background(), test.app, test.clock, resp, test.input)
+		fnUnderTest := ServeActivityPubObject(test.app, test.clock)
+		handled, err := fnUnderTest(context.Background(), resp, test.input)
 		if err != nil {
 			t.Fatalf("(%q) %s", test.name, err)
 		} else if handled != test.expectHandled {
@@ -518,13 +519,16 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
 		resp := httptest.NewRecorder()
-		var handled bool
-		var err error
+		var fnUnderTest HandlerFunc
 		if test.verifier != nil {
-			handled, err = ServeActivityPubObjectWithVerificationMethod(context.Background(), test.app, test.clock, resp, test.input, test.verifier)
+			verifierFn := func(c context.Context) SocialAPIVerifier {
+				return test.verifier
+			}
+			fnUnderTest = ServeActivityPubObjectWithVerificationMethod(test.app, test.clock, verifierFn)
 		} else {
-			handled, err = ServeActivityPubObjectWithVerificationMethod(context.Background(), test.app, test.clock, resp, test.input, nil)
+			fnUnderTest = ServeActivityPubObjectWithVerificationMethod(test.app, test.clock, nil)
 		}
+		handled, err := fnUnderTest(context.Background(), resp, test.input)
 		if err != nil {
 			t.Fatalf("(%q) %s", test.name, err)
 		} else if handled != test.expectHandled {

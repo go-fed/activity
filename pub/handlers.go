@@ -14,16 +14,25 @@ import (
 // in the request. Note that requests may be signed with HTTP signatures or be
 // permitted without any authentication scheme. To change this default behavior,
 // use ServeActivityPubObjectWithVerificationMethod instead.
-func ServeActivityPubObject(c context.Context, a Application, clock Clock, w http.ResponseWriter, r *http.Request) (handled bool, err error) {
-	return serveActivityPubObject(c, a, clock, w, r, nil)
+func ServeActivityPubObject(a Application, clock Clock) HandlerFunc {
+	return func(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error) {
+		return serveActivityPubObject(c, a, clock, w, r, nil)
+	}
 }
 
 // ServeActivityPubObjectWithVerificationMethod will serve the ActivityPub
 // object with the given IRI in the request. The rules for accessing the data
 // are governed by the SocialAPIVerifier's behavior and may permit accessing
 // data without having any credentials in the request.
-func ServeActivityPubObjectWithVerificationMethod(c context.Context, a Application, clock Clock, w http.ResponseWriter, r *http.Request, verifier SocialAPIVerifier) (handled bool, err error) {
-	return serveActivityPubObject(c, a, clock, w, r, verifier)
+func ServeActivityPubObjectWithVerificationMethod(a Application, clock Clock, verifierFn func(context.Context) SocialAPIVerifier) HandlerFunc {
+	return func(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error) {
+		if verifierFn != nil {
+			verifier := verifierFn(c)
+			return serveActivityPubObject(c, a, clock, w, r, verifier)
+		} else {
+			return serveActivityPubObject(c, a, clock, w, r, nil)
+		}
+	}
 }
 
 func serveActivityPubObject(c context.Context, a Application, clock Clock, w http.ResponseWriter, r *http.Request, verifier SocialAPIVerifier) (handled bool, err error) {

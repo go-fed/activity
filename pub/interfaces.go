@@ -128,7 +128,6 @@ const (
 // SocialAPI is provided by users of this library and designed to handle
 // receiving messages from ActivityPub clients through the Social API.
 type SocialAPI interface {
-	// AddToOutboxResolver(c context.Context) (*streams.Resolver, error)
 	// ActorIRI returns the actor's IRI associated with the given request.
 	ActorIRI(c context.Context, r *http.Request) (*url.URL, error)
 	// GetSocialAPIVerifier returns the authentication mechanism used for

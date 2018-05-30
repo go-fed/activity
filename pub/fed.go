@@ -25,14 +25,37 @@ var (
 // Pubber provides methods for interacting with ActivityPub clients and
 // ActivityPub federating servers.
 type Pubber interface {
+	// PostInbox returns true if the request was handled as an ActivityPub
+	// POST to an actor's inbox. If false, the request was not an
+	// ActivityPub request.
+	//
+	// If the error is nil, then the ResponseWriter's headers and response
+	// has already been written. If a non-nil error is returned, then no
+	// response has been written.
 	PostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
+	// GetInbox returns true if the request was handled as an ActivityPub
+	// GET to an actor's inbox. If false, the request was not an ActivityPub
+	// request.
+	//
+	// If the error is nil, then the ResponseWriter's headers and response
+	// has already been written. If a non-nil error is returned, then no
+	// response has been written.
 	GetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
-	// PostOutbox provides a HTTP handler for ActivityPub requests for the given id
-	// token. The client ID token is passed forwards to other interfaces for
-	// application specific behavior. The handler will return true if it handled
-	// the request as an ActivityPub request. If it returns an error, it is up to
-	// the client to determine how to respond via HTTP.
+	// PostOutbox returns true if the request was handled as an ActivityPub
+	// POST to an actor's outbox. If false, the request was not an
+	// ActivityPub request.
+	//
+	// If the error is nil, then the ResponseWriter's headers and response
+	// has already been written. If a non-nil error is returned, then no
+	// response has been written.
 	PostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
+	// GetOutbox returns true if the request was handled as an ActivityPub
+	// GET to an actor's outbox. If false, the request was not an
+	// ActivityPub request.
+	//
+	// If the error is nil, then the ResponseWriter's headers and response
+	// has already been written. If a non-nil error is returned, then no
+	// response has been written.
 	GetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
 }
 
