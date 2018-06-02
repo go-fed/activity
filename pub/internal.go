@@ -58,11 +58,11 @@ func headerEqualsOneOf(header string, acceptable []string) bool {
 }
 
 func isActivityPubPost(r *http.Request) bool {
-	return r.Method == "POST" && headerEqualsOneOf(r.Header.Get(contentTypeHeader), []string{postContentTypeHeader, contentTypeHeader})
+	return r.Method == "POST" && headerEqualsOneOf(r.Header.Get(contentTypeHeader), append([]string{postContentTypeHeader}, alternatives...))
 }
 
 func isActivityPubGet(r *http.Request) bool {
-	return r.Method == "GET" && headerEqualsOneOf(r.Header.Get(acceptHeader), []string{getAcceptHeader, contentTypeHeader})
+	return r.Method == "GET" && headerEqualsOneOf(r.Header.Get(acceptHeader), append([]string{getAcceptHeader}, alternatives...))
 }
 
 // isPublic determines if a target is the Public collection as defined in the
