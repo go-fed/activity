@@ -154,3 +154,14 @@ func toAnyActivity(m map[string]interface{}) (o vocab.ActivityType, err error) {
 	err = r.Deserialize(m)
 	return
 }
+
+func toAnyObject(m map[string]interface{}) (o vocab.ObjectType, err error) {
+	r := &streams.Resolver{
+		AnyObjectCallback: func(i vocab.ObjectType) error {
+			o = i
+			return nil
+		},
+	}
+	err = r.Deserialize(m)
+	return
+}

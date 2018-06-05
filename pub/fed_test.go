@@ -28,7 +28,8 @@ const (
 	testAgent                 = "test agent string"
 	testInboxURI              = "https://example.com/sally/inbox"
 	testOutboxURI             = "https://example.com/sally/outbox"
-	testNewIRIString          = "https://example.com/test/new/iri"
+	testNewIRIString          = "https://example.com/test/new/iri/1"
+	testNewIRIString2         = "https://example.com/test/new/iri/2"
 	sallyIRIString            = "https://example.com/sally"
 	sallyFollowingIRIString   = "https://example.com/sally/following"
 	samIRIString              = "https://example.com/sam"
@@ -48,6 +49,7 @@ var (
 	noteActivityIRI                  *url.URL
 	updateActivityIRI                *url.URL
 	testNewIRI                       *url.URL
+	testNewIRI2                      *url.URL
 	sallyIRI                         *url.URL
 	sallyIRIInbox                    *url.URL
 	sallyFollowingIRI                *url.URL
@@ -115,6 +117,10 @@ func init() {
 		panic(err)
 	}
 	testNewIRI, err = url.Parse(testNewIRIString)
+	if err != nil {
+		panic(err)
+	}
+	testNewIRI2, err = url.Parse(testNewIRIString2)
 	if err != nil {
 		panic(err)
 	}
@@ -258,7 +264,7 @@ func init() {
 	testBlock.AppendObject(samActor)
 
 	testClientExpectedNote = &vocab.Note{}
-	testClientExpectedNote.SetId(noteIRI)
+	testClientExpectedNote.SetId(testNewIRI2)
 	testClientExpectedNote.AppendNameString(noteName)
 	testClientExpectedNote.AppendContentString("This is a simple note")
 	testClientExpectedNote.AppendAttributedToObject(sallyActor)
@@ -1018,8 +1024,14 @@ func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSo
 	fedApp.privateKey = func(boxIRI *url.URL) (crypto.PrivateKey, string, error) {
 		return testPrivateKey, testPublicKeyId, nil
 	}
+	gotNewId := 0
 	app.newId = func(c context.Context, t Typer) *url.URL {
-		return testNewIRI
+		gotNewId++
+		if gotNewId == 1 {
+			return testNewIRI
+		} else {
+			return testNewIRI2
+		}
 	}
 	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != ReadWrite {
@@ -1129,7 +1141,10 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 	gotNewId := 0
 	app.newId = func(c context.Context, t Typer) *url.URL {
 		gotNewId++
-		return testNewIRI
+		if gotNewId == 1 {
+			return testNewIRI
+		}
+		return testNewIRI2
 	}
 	gotOutbox := 0
 	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
@@ -1143,12 +1158,15 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetOutbox PubObject
+	var gotSetActivity PubObject
 	var gotSetCreateObject PubObject
 	app.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetCreateObject = o
 		} else if gotSet == 2 {
+			gotSetActivity = o
+		} else if gotSet == 3 {
 			gotSetOutbox = o
 		}
 		return nil
@@ -1175,16 +1193,18 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if gotSocialAPIVerifier != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotSocialAPIVerifier)
-	} else if gotNewId != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotNewId)
+	} else if gotNewId != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotNewId)
 	} else if gotOutbox != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotOutbox)
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
 	} else if l := gotSetOutbox.GetType(0).(string); l != "OrderedCollection" {
 		t.Fatalf("expected %s, got %s", "OrderedCollection", l)
 	} else if l := gotSetCreateObject.GetType(0).(string); l != "Note" {
 		t.Fatalf("expected %s, got %s", "Note", l)
+	} else if l := gotSetActivity.GetType(0).(string); l != "Create" {
+		t.Fatalf("expected %s, got %s", "Create", l)
 	} else if gotCreate != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCreate)
 	} else if iri := gotCreateCallback.Raw().GetActorObject(0).GetId(); *iri != *sallyIRI {
@@ -1202,15 +1222,6 @@ func TestSocialPubber_PostOutbox_SocialAPIVerified(t *testing.T) {
 	app, socialApp, cb, p := NewSocialPubberTest(t)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(testCreateNote)))))
-	gotPublicKeyForOutbox := 0
-	var gotPublicKeyId string
-	var gotBoxIRI *url.URL
-	socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI *url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
-		gotPublicKeyForOutbox++
-		gotPublicKeyId = publicKeyId
-		gotBoxIRI = boxIRI
-		return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
-	}
 	gotVerifyForOutbox := 0
 	var gotVerifiedOutbox *url.URL
 	socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
@@ -1226,7 +1237,11 @@ func TestSocialPubber_PostOutbox_SocialAPIVerified(t *testing.T) {
 	gotNewId := 0
 	app.newId = func(c context.Context, t Typer) *url.URL {
 		gotNewId++
-		return testNewIRI
+		if gotNewId == 1 {
+			return testNewIRI
+		} else {
+			return testNewIRI2
+		}
 	}
 	gotOutbox := 0
 	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
@@ -1240,12 +1255,15 @@ func TestSocialPubber_PostOutbox_SocialAPIVerified(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetOutbox PubObject
+	var gotSetActivity PubObject
 	var gotSetCreateObject PubObject
 	app.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetCreateObject = o
 		} else if gotSet == 2 {
+			gotSetActivity = o
+		} else if gotSet == 3 {
 			gotSetOutbox = o
 		}
 		return nil
@@ -1264,26 +1282,22 @@ func TestSocialPubber_PostOutbox_SocialAPIVerified(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if resp.Code != http.StatusCreated {
 		t.Fatalf("expected %d, got %d", http.StatusCreated, resp.Code)
-	} else if gotPublicKeyForOutbox != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotPublicKeyForOutbox)
-	} else if gotPublicKeyId != testPublicKeyId {
-		t.Fatalf("expected %s, got %s", testPublicKeyId, gotPublicKeyId)
-	} else if s := gotBoxIRI.String(); s != testOutboxURI {
-		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if gotVerifyForOutbox != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotVerifyForOutbox)
 	} else if o := gotVerifiedOutbox.String(); o != testOutboxURI {
 		t.Fatalf("expected %s, got %s", testOutboxURI, o)
-	} else if gotNewId != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotNewId)
+	} else if gotNewId != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotNewId)
 	} else if gotOutbox != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotOutbox)
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
 	} else if l := gotSetOutbox.GetType(0).(string); l != "OrderedCollection" {
 		t.Fatalf("expected %s, got %s", "OrderedCollection", l)
 	} else if l := gotSetCreateObject.GetType(0).(string); l != "Note" {
 		t.Fatalf("expected %s, got %s", "Note", l)
+	} else if l := gotSetActivity.GetType(0).(string); l != "Create" {
+		t.Fatalf("expected %s, got %s", "Create", l)
 	} else if gotCreate != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCreate)
 	} else if iri := gotCreateCallback.Raw().GetActorObject(0).GetId(); *iri != *sallyIRI {
@@ -1666,7 +1680,11 @@ func TestPubber_PostOutbox(t *testing.T) {
 	gotNewId := 0
 	app.MockFederateApp.newId = func(c context.Context, t Typer) *url.URL {
 		gotNewId++
-		return testNewIRI
+		if gotNewId == 1 {
+			return testNewIRI
+		} else {
+			return testNewIRI2
+		}
 	}
 	gotOutbox := 0
 	app.MockFederateApp.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
@@ -1680,12 +1698,15 @@ func TestPubber_PostOutbox(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetOutbox PubObject
+	var gotSetActivity PubObject
 	var gotSetCreateObject PubObject
 	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetCreateObject = o
 		} else if gotSet == 2 {
+			gotSetActivity = o
+		} else if gotSet == 3 {
 			gotSetOutbox = o
 		}
 		return nil
@@ -1749,8 +1770,8 @@ func TestPubber_PostOutbox(t *testing.T) {
 		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if gotSocialAPIVerifier != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotSocialAPIVerifier)
-	} else if gotNewId != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotNewId)
+	} else if gotNewId != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotNewId)
 	} else if gotNewSigner != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotNewSigner)
 	} else if gotPrivateKey != 1 {
@@ -1759,12 +1780,14 @@ func TestPubber_PostOutbox(t *testing.T) {
 		t.Fatalf("expected %s, got %s", testOutboxURI, s)
 	} else if gotOutbox != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotOutbox)
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
 	} else if l := gotSetOutbox.GetType(0).(string); l != "OrderedCollection" {
 		t.Fatalf("expected %s, got %s", "OrderedCollection", l)
 	} else if l := gotSetCreateObject.GetType(0).(string); l != "Note" {
 		t.Fatalf("expected %s, got %s", "Note", l)
+	} else if l := gotSetActivity.GetType(0).(string); l != "Create" {
+		t.Fatalf("expected %s, got %s", "Create", l)
 	} else if gotCreate != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCreate)
 	} else if iri := gotCreateCallback.Raw().GetActorObject(0).GetId(); iri.String() != sallyIRIString {
@@ -4224,7 +4247,7 @@ func TestPostOutbox_WrapInCreateActivity(t *testing.T) {
 	rawNote.AppendToObject(samActor)
 	// Expected result
 	expectedNote := &vocab.Note{}
-	expectedNote.SetId(noteIRI)
+	expectedNote.SetId(testNewIRI2)
 	expectedNote.AppendNameString(noteName)
 	expectedNote.AppendContentString("This is a simple note")
 	expectedNote.AppendToObject(samActor)
@@ -4458,12 +4481,15 @@ func TestPostOutbox_Create_SetCreatedObject(t *testing.T) {
 	}
 	gotSet := 0
 	var gotSetOutbox PubObject
+	var gotSetActivity PubObject
 	var gotSetCreate PubObject
 	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			gotSetCreate = o
-		} else {
+		} else if gotSet == 2 {
+			gotSetActivity = o
+		} else if gotSet == 3 {
 			gotSetOutbox = o
 		}
 		return nil
@@ -4476,9 +4502,11 @@ func TestPostOutbox_Create_SetCreatedObject(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
 	} else if err := PubObjectEquals(gotSetCreate, testClientExpectedNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	} else if err := PubObjectEquals(gotSetActivity, testClientExpectedCreateNote); err != nil {
 		t.Fatalf("unexpected callback object: %s", err)
 	} else if err := PubObjectEquals(gotSetOutbox, expectedOutbox); err != nil {
 		t.Fatalf("unexpected callback object: %s", err)
@@ -4606,8 +4634,8 @@ func TestPostOutbox_Update_DeleteSubFields(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotGet != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
 	} else if err := PubObjectEquals(gotSetObject, expectedUpdatedNote); err != nil {
 		t.Fatalf("unexpected set object: %s", err)
 	}
@@ -4661,8 +4689,8 @@ func TestPostOutbox_Update_DeleteFields(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotGet != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
 	} else if err := PubObjectEquals(gotSetObject, expectedUpdatedNote); err != nil {
 		t.Fatalf("unexpected set object: %s", err)
 	}
@@ -4737,8 +4765,8 @@ func TestPostOutbox_Update_DeleteSubFieldsMultipleObjects(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotGet != 2 {
 		t.Fatalf("expected %d, got %d", 2, gotGet)
-	} else if gotSet != 3 {
-		t.Fatalf("expected %d, got %d", 3, gotSet)
+	} else if gotSet != 4 {
+		t.Fatalf("expected %d, got %d", 4, gotSet)
 	} else if err := PubObjectEquals(gotSetObject, expectedUpdatedNote); err != nil {
 		t.Fatalf("unexpected set object: %s", err)
 	} else if err := PubObjectEquals(gotSetObject2, expectedUpdatedNote2); err != nil {
@@ -4796,8 +4824,8 @@ func TestPostOutbox_Update_OverwriteUpdatedFields(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotGet != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
 	} else if err := PubObjectEquals(gotSetObject, expectedUpdatedNote); err != nil {
 		t.Fatalf("unexpected set object: %s", err)
 	}
@@ -4951,8 +4979,8 @@ func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 		t.Fatalf("expected handled, got !handled")
 	} else if gotGet != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
 	} else if err := PubObjectEquals(gotSetObject, expectedTombstone); err != nil {
 		t.Fatalf("unexpected set object: %s", err)
 	}
@@ -5344,8 +5372,8 @@ func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 		t.Fatal(err)
 	} else if err := VocabSerializerEquals(canAddObj, testNote); err != nil {
 		t.Fatal(err)
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
 	} else if err := PubObjectEquals(gotSetObj, expectedTarget); err != nil {
 		t.Fatalf("unexpected set object: %s", err)
 	}
@@ -5561,8 +5589,8 @@ func TestPostOutbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 		t.Fatal(err)
 	} else if err := VocabSerializerEquals(canRemoveObj, testNote); err != nil {
 		t.Fatal(err)
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
 	} else if err := PubObjectEquals(gotSetObj, expectedTarget); err != nil {
 		t.Fatalf("unexpected set object: %s", err)
 	}
@@ -5754,8 +5782,8 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotGet)
 	} else if gotGetString := gotGetIri.String(); gotGetString != sallyIRIString {
 		t.Fatalf("expected %s, got %s", noteURIString, sallyIRIString)
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
 	} else if err := PubObjectEquals(gotSetObj, expectedActor); err != nil {
 		t.Fatalf("set obj: %s", err)
 	}
@@ -5801,8 +5829,8 @@ func TestPostOutbox_Like_DoesNotAddIfAlreadyLiked(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if gotSet != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotSet)
 	} else if err := PubObjectEquals(gotSetObj, expectedActor); err != nil {
 		t.Fatalf("set obj: %s", err)
 	}

@@ -266,8 +266,9 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	authenticated := false
 	authorized := true
 	if verifier := f.SocialAPI.GetSocialAPIVerifier(c); verifier != nil {
+		var err error
 		// Use custom Social API method to authenticate and authorize.
-		authenticated, authorized, err := verifier.VerifyForOutbox(r, r.URL)
+		authenticated, authorized, err = verifier.VerifyForOutbox(r, r.URL)
 		if err != nil {
 			return true, err
 		} else if authenticated && !authorized {
@@ -318,20 +319,23 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		}
 		typer = f.wrapInCreate(obj, actorIri)
 	}
-	newId := f.App.NewId(c, typer)
-	typer.SetId(newId)
-	if m, err = typer.Serialize(); err != nil {
+	activity, ok := typer.(vocab.ActivityType)
+	if !ok {
+		return true, fmt.Errorf("assigning new ids: cannot convert to vocab.ActivityType: %T", typer)
+	}
+	f.addNewIds(c, activity)
+	if m, err = activity.Serialize(); err != nil {
 		return true, err
 	}
 	deliverable := false
-	if err = f.getPostOutboxResolver(c, m, &deliverable, &m).Deserialize(m); err != nil {
+	if err = f.getPostOutboxResolver(c, m, &deliverable, &m, r.URL).Deserialize(m); err != nil {
 		if err == errObjectRequired || err == errTargetRequired {
 			w.WriteHeader(http.StatusBadRequest)
 			return true, nil
 		}
 		return true, err
 	}
-	if err := f.addToOutbox(c, r, m); err != nil {
+	if err = f.addToOutbox(c, r, m); err != nil {
 		return true, err
 	}
 	if f.EnableServer && deliverable {
@@ -343,7 +347,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 			return true, err
 		}
 	}
-	w.Header().Set("Location", newId.String())
+	w.Header().Set("Location", activity.GetId().String())
 	w.WriteHeader(http.StatusCreated)
 	return true, nil
 }
@@ -376,7 +380,7 @@ func (f *federator) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 	return true, nil
 }
 
-func (f *federator) getPostOutboxResolver(c context.Context, rawJson map[string]interface{}, deliverable *bool, toAddToOutbox *map[string]interface{}) *streams.Resolver {
+func (f *federator) getPostOutboxResolver(c context.Context, rawJson map[string]interface{}, deliverable *bool, toAddToOutbox *map[string]interface{}, outboxURL *url.URL) *streams.Resolver {
 	return &streams.Resolver{
 		CreateCallback: f.handleClientCreate(c, deliverable, toAddToOutbox),
 		UpdateCallback: f.handleClientUpdate(c, rawJson, deliverable),
@@ -384,7 +388,7 @@ func (f *federator) getPostOutboxResolver(c context.Context, rawJson map[string]
 		FollowCallback: f.handleClientFollow(c, deliverable),
 		AcceptCallback: f.handleClientAccept(c, deliverable),
 		RejectCallback: f.handleClientReject(c, deliverable),
-		AddCallback:    f.handleClientAdd(c, deliverable),
+		AddCallback:    f.handleClientAdd(c, deliverable, outboxURL),
 		RemoveCallback: f.handleClientRemove(c, deliverable),
 		LikeCallback:   f.handleClientLike(c, deliverable),
 		UndoCallback:   f.handleClientUndo(c, deliverable),
@@ -600,7 +604,7 @@ func (f *federator) handleClientReject(c context.Context, deliverable *bool) fun
 	}
 }
 
-func (f *federator) handleClientAdd(c context.Context, deliverable *bool) func(s *streams.Add) error {
+func (f *federator) handleClientAdd(c context.Context, deliverable *bool, outboxURL *url.URL) func(s *streams.Add) error {
 	return func(s *streams.Add) error {
 		*deliverable = true
 		if s.LenObject() == 0 {
@@ -641,11 +645,29 @@ func (f *federator) handleClientAdd(c context.Context, deliverable *bool) func(s
 			}
 		}
 		for i := 0; i < raw.ObjectLen(); i++ {
-			if !raw.IsObject(i) {
-				// TODO: Fetch IRIs as well
-				return fmt.Errorf("add object must be object type: %v", raw)
+			var obj vocab.ObjectType
+			if raw.IsObjectIRI(i) {
+				objId := raw.GetObjectIRI(i)
+				if f.App.Owns(c, objId) {
+					pObj, err := f.App.Get(c, objId, Read)
+					var ok bool
+					if obj, ok = pObj.(vocab.ObjectType); !ok {
+						return fmt.Errorf("add object must be an activitypub object: %v", raw)
+					}
+					if err != nil {
+						return err
+					}
+				} else {
+					obj, err = f.dereferenceAsUser(outboxURL, objId)
+					if err != nil {
+						return err
+					}
+				}
+			} else if raw.IsObject(i) {
+				obj = raw.GetObject(i)
+			} else {
+				return fmt.Errorf("add object must be of object or iri type: %v", raw)
 			}
-			obj := raw.GetObject(i)
 			for _, target := range targets {
 				if !f.App.CanAdd(c, obj, target) {
 					continue
@@ -768,6 +790,10 @@ func (f *federator) handleClientUndo(c context.Context, deliverable *bool) func(
 		*deliverable = true
 		if s.LenObject() == 0 {
 			return errObjectRequired
+		}
+		raw := s.Raw()
+		if err := f.ensureActivityActorsMatchObjectActors(raw); err != nil {
+			return err
 		}
 		// TODO: Determine if we can support common forms of undo natively.
 		return f.ClientCallbacker.Undo(c, s)

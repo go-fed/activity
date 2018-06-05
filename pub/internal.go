@@ -35,7 +35,10 @@ const (
 	digestDelimiter           = "="
 )
 
-var alternatives = []string{"application/activity+json"}
+var alternatives = []string{
+	"application/activity+json",
+	"application/ld+json; profile=https://www.w3.org/ns/activitystreams",
+}
 
 func trimAll(s []string) []string {
 	var r []string
@@ -45,24 +48,36 @@ func trimAll(s []string) []string {
 	return r
 }
 
-func headerEqualsOneOf(header string, acceptable []string) bool {
-	sanitizedHeader := strings.Join(trimAll(strings.Split(header, ";")), ";")
+func headerContainsOneOf(header string, acceptable []string) bool {
+	sanitizedHeaderValues := trimAll(strings.Split(header, ";"))
+	sanitizedHeaderMap := make(map[string]bool, len(sanitizedHeaderValues))
+	for _, s := range sanitizedHeaderValues {
+		sanitizedHeaderMap[s] = true
+	}
+	found := false
 	for _, v := range acceptable {
+		if found {
+			break
+		}
 		// Remove any number of whitespace after ;'s
-		sanitizedV := strings.Join(trimAll(strings.Split(v, ";")), ";")
-		if sanitizedHeader == sanitizedV {
-			return true
+		sanitizedAcceptableValues := trimAll(strings.Split(v, ";"))
+		found = true
+		for _, v := range sanitizedAcceptableValues {
+			if has, ok := sanitizedHeaderMap[v]; !has || !ok {
+				found = false
+				break
+			}
 		}
 	}
-	return false
+	return found
 }
 
 func isActivityPubPost(r *http.Request) bool {
-	return r.Method == "POST" && headerEqualsOneOf(r.Header.Get(contentTypeHeader), append([]string{postContentTypeHeader}, alternatives...))
+	return r.Method == "POST" && headerContainsOneOf(r.Header.Get(contentTypeHeader), append([]string{postContentTypeHeader}, alternatives...))
 }
 
 func isActivityPubGet(r *http.Request) bool {
-	return r.Method == "GET" && headerEqualsOneOf(r.Header.Get(acceptHeader), append([]string{getAcceptHeader}, alternatives...))
+	return r.Method == "GET" && headerContainsOneOf(r.Header.Get(acceptHeader), append([]string{getAcceptHeader}, alternatives...))
 }
 
 // isPublic determines if a target is the Public collection as defined in the
@@ -126,6 +141,34 @@ type creds struct {
 	pubKeyId string
 }
 
+// dereferenceAsUser is meant to be used by the activity handlers that need to
+// handle IRI use cases where objects are expected. Returns an error if not
+// federating.
+func (f *federator) dereferenceAsUser(boxIRI, fetchIRI *url.URL) (obj vocab.ObjectType, err error) {
+	if !f.EnableServer {
+		err = fmt.Errorf("cannot dereference iri as user if not federating: %q", fetchIRI)
+		return
+	}
+	creds := &creds{}
+	creds.signer, err = f.FederateAPI.NewSigner()
+	if err != nil {
+		return
+	}
+	creds.privKey, creds.pubKeyId, err = f.FederateAPI.PrivateKey(boxIRI)
+	if err != nil {
+		return
+	}
+	resp, err := dereference(f.Client, fetchIRI, f.Agent, creds, f.Clock)
+	if err != nil {
+		return
+	}
+	var m map[string]interface{}
+	if err = json.Unmarshal(resp, &m); err != nil {
+		return
+	}
+	return toAnyObject(m)
+}
+
 // postToOutbox will attempt to send a POST request to the given URL with the
 // body set to the provided bytes.
 //
@@ -160,11 +203,27 @@ func postToOutbox(c HttpClient, b []byte, to *url.URL, agent string, creds *cred
 	return nil
 }
 
+// addNewIds will add new IDs not just for an activity, but all objects
+// contained within the activity if it is a Create activity.
+func (f *federator) addNewIds(c context.Context, a vocab.ActivityType) {
+	newId := f.App.NewId(c, a)
+	a.SetId(newId)
+	if hasType(a, "Create") {
+		for i := 0; i < a.ObjectLen(); i++ {
+			if a.IsObject(i) {
+				obj := a.GetObject(i)
+				obj.SetId(f.App.NewId(c, obj))
+			}
+		}
+	}
+}
+
 // wrapInCreate will automatically wrap the provided object in a Create
 // activity. This will copy over the 'to', 'bto', 'cc', 'bcc', and 'audience'
 // properties. It will also copy over the published time if present.
 func (f *federator) wrapInCreate(o vocab.ObjectType, actor *url.URL) *vocab.Create {
 	c := &vocab.Create{}
+	c.AppendType("Create")
 	c.AppendObject(o)
 	c.AppendActorIRI(actor)
 	if o.IsPublished() {
@@ -782,7 +841,7 @@ func stripHiddenRecipients(o deliverableObject) {
 			o.RemoveBccObject(0)
 		} else if o.IsBccLink(0) {
 			o.RemoveBccLink(0)
-		} else if o.IsBtoIRI(0) {
+		} else if o.IsBccIRI(0) {
 			o.RemoveBccIRI(0)
 		}
 	}
@@ -1290,6 +1349,7 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 			iri = c.GetActorIRI(i)
 		}
 		if !f.App.Owns(ctx, iri) {
+			// TODO: Fetch or just store
 			continue
 		}
 		var actor vocab.ObjectType
@@ -1395,6 +1455,7 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 			iri = c.GetObjectIRI(i)
 		}
 		if !f.App.Owns(ctx, iri) {
+			// TODO: Fetch or just store
 			continue
 		}
 		ownsAny = true
@@ -1530,6 +1591,9 @@ func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string
 	}
 	activity, err := toAnyActivity(m)
 	if err != nil {
+		return err
+	}
+	if err := f.App.Set(c, activity); err != nil {
 		return err
 	}
 	outbox.PrependOrderedItemsObject(activity)
@@ -1953,6 +2017,18 @@ func isActivityType(t Typer) bool {
 	for _, t := range activityTypes {
 		if hasType[t] {
 			return true
+		}
+	}
+	return false
+}
+
+func hasType(t Typer, kind string) bool {
+	for i := 0; i < t.TypeLen(); i++ {
+		v := t.GetType(i)
+		if s, ok := v.(string); ok {
+			if s == kind {
+				return true
+			}
 		}
 	}
 	return false
