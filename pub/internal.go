@@ -514,65 +514,105 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 	for k, v := range toActivity {
 		for i := 0; i < a.ObjectLen(); i++ {
 			if _, ok := to[i][k]; !ok {
+				var to *url.URL
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.GetObject(i).AppendToObject(vObj)
+					if !vObj.HasId() {
+						return fmt.Errorf("to object missing id")
+					}
+					to = vObj.GetId()
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.GetObject(i).AppendToLink(vLink)
+					if !vLink.HasHref() {
+						return fmt.Errorf("to link missing href")
+					}
+					to = vLink.GetHref()
 				} else if vIRI, ok := v.(*url.URL); ok {
-					a.GetObject(i).AppendToIRI(vIRI)
+					to = vIRI
 				}
+				a.GetObject(i).AppendToIRI(to)
 			}
 		}
 	}
 	for k, v := range btoActivity {
 		for i := 0; i < a.ObjectLen(); i++ {
 			if _, ok := bto[i][k]; !ok {
+				var bto *url.URL
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.GetObject(i).AppendBtoObject(vObj)
+					if !vObj.HasId() {
+						return fmt.Errorf("bto object missing id")
+					}
+					bto = vObj.GetId()
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.GetObject(i).AppendBtoLink(vLink)
+					if !vLink.HasHref() {
+						return fmt.Errorf("bto link missing href")
+					}
+					bto = vLink.GetHref()
 				} else if vIRI, ok := v.(*url.URL); ok {
-					a.GetObject(i).AppendBtoIRI(vIRI)
+					bto = vIRI
 				}
+				a.GetObject(i).AppendBtoIRI(bto)
 			}
 		}
 	}
 	for k, v := range ccActivity {
 		for i := 0; i < a.ObjectLen(); i++ {
 			if _, ok := cc[i][k]; !ok {
+				var cc *url.URL
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.GetObject(i).AppendCcObject(vObj)
+					if !vObj.HasId() {
+						return fmt.Errorf("cc object missing id")
+					}
+					cc = vObj.GetId()
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.GetObject(i).AppendCcLink(vLink)
+					if !vLink.HasHref() {
+						return fmt.Errorf("cc link missing href")
+					}
+					cc = vLink.GetHref()
 				} else if vIRI, ok := v.(*url.URL); ok {
-					a.GetObject(i).AppendCcIRI(vIRI)
+					cc = vIRI
 				}
+				a.GetObject(i).AppendCcIRI(cc)
 			}
 		}
 	}
 	for k, v := range bccActivity {
 		for i := 0; i < a.ObjectLen(); i++ {
 			if _, ok := bcc[i][k]; !ok {
+				var bcc *url.URL
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.GetObject(i).AppendBccObject(vObj)
+					if !vObj.HasId() {
+						return fmt.Errorf("bcc object missing id")
+					}
+					bcc = vObj.GetId()
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.GetObject(i).AppendBccLink(vLink)
+					if !vLink.HasHref() {
+						return fmt.Errorf("bcc link missing href")
+					}
+					bcc = vLink.GetHref()
 				} else if vIRI, ok := v.(*url.URL); ok {
-					a.GetObject(i).AppendBccIRI(vIRI)
+					bcc = vIRI
 				}
+				a.GetObject(i).AppendBccIRI(bcc)
 			}
 		}
 	}
 	for k, v := range audienceActivity {
 		for i := 0; i < a.ObjectLen(); i++ {
 			if _, ok := audience[i][k]; !ok {
+				var activity *url.URL
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.GetObject(i).AppendAudienceObject(vObj)
+					if !vObj.HasId() {
+						return fmt.Errorf("activity object missing id")
+					}
+					activity = vObj.GetId()
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.GetObject(i).AppendAudienceLink(vLink)
+					if !vLink.HasHref() {
+						return fmt.Errorf("activity link missing href")
+					}
+					activity = vLink.GetHref()
 				} else if vIRI, ok := v.(*url.URL); ok {
-					a.GetObject(i).AppendAudienceIRI(vIRI)
+					activity = vIRI
 				}
+				a.GetObject(i).AppendAudienceIRI(activity)
 			}
 		}
 	}
@@ -581,57 +621,97 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 	for i := 0; i < a.ObjectLen(); i++ {
 		for k, v := range to[i] {
 			if _, ok := toActivity[k]; !ok {
+				var to *url.URL
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.AppendToObject(vObj)
+					if !vObj.HasId() {
+						return fmt.Errorf("to object missing id")
+					}
+					to = vObj.GetId()
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.AppendToLink(vLink)
+					if !vLink.HasHref() {
+						return fmt.Errorf("to link missing href")
+					}
+					to = vLink.GetHref()
 				} else if vIRI, ok := v.(*url.URL); ok {
-					a.AppendToIRI(vIRI)
+					to = vIRI
 				}
+				a.AppendToIRI(to)
 			}
 		}
 		for k, v := range bto[i] {
 			if _, ok := btoActivity[k]; !ok {
+				var bto *url.URL
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.AppendBtoObject(vObj)
+					if !vObj.HasId() {
+						return fmt.Errorf("bto object missing id")
+					}
+					bto = vObj.GetId()
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.AppendBtoLink(vLink)
+					if !vLink.HasHref() {
+						return fmt.Errorf("bto link missing href")
+					}
+					bto = vLink.GetHref()
 				} else if vIRI, ok := v.(*url.URL); ok {
-					a.AppendBtoIRI(vIRI)
+					bto = vIRI
 				}
+				a.AppendBtoIRI(bto)
 			}
 		}
 		for k, v := range cc[i] {
 			if _, ok := ccActivity[k]; !ok {
+				var cc *url.URL
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.AppendCcObject(vObj)
+					if !vObj.HasId() {
+						return fmt.Errorf("cc object missing id")
+					}
+					cc = vObj.GetId()
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.AppendCcLink(vLink)
+					if !vLink.HasHref() {
+						return fmt.Errorf("cc link missing href")
+					}
+					cc = vLink.GetHref()
 				} else if vIRI, ok := v.(*url.URL); ok {
-					a.AppendCcIRI(vIRI)
+					cc = vIRI
 				}
+				a.AppendCcIRI(cc)
 			}
 		}
 		for k, v := range bcc[i] {
 			if _, ok := bccActivity[k]; !ok {
+				var bcc *url.URL
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.AppendBccObject(vObj)
+					if !vObj.HasId() {
+						return fmt.Errorf("bcc object missing id")
+					}
+					bcc = vObj.GetId()
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.AppendBccLink(vLink)
+					if !vLink.HasHref() {
+						return fmt.Errorf("bcc link missing href")
+					}
+					bcc = vLink.GetHref()
 				} else if vIRI, ok := v.(*url.URL); ok {
-					a.AppendBccIRI(vIRI)
+					bcc = vIRI
 				}
+				a.AppendBccIRI(bcc)
 			}
 		}
 		for k, v := range audience[i] {
 			if _, ok := audienceActivity[k]; !ok {
+				var audience *url.URL
 				if vObj, ok := v.(vocab.ObjectType); ok {
-					a.AppendAudienceObject(vObj)
+					if !vObj.HasId() {
+						return fmt.Errorf("audience object missing id")
+					}
+					audience = vObj.GetId()
 				} else if vLink, ok := v.(vocab.LinkType); ok {
-					a.AppendAudienceLink(vLink)
+					if !vLink.HasHref() {
+						return fmt.Errorf("audience link missing href")
+					}
+					audience = vLink.GetHref()
 				} else if vIRI, ok := v.(*url.URL); ok {
-					a.AppendAudienceIRI(vIRI)
+					audience = vIRI
 				}
+				a.AppendAudienceIRI(audience)
 			}
 		}
 	}
@@ -1390,6 +1470,7 @@ func toTombstone(obj vocab.ObjectType, id *url.URL, now time.Time) vocab.Tombsto
 
 type getActorCollectionFn func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (isIRI bool, e error)
 
+// TODO: Only Set IRIs
 func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter getActorCollectionFn, c vocab.ActivityType, prepend bool) error {
 	for i := 0; i < c.ActorLen(); i++ {
 		var iri *url.URL
@@ -1501,6 +1582,7 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 
 type getObjectCollectionFn func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (isIRI bool, e error)
 
+// TODO: Only Set IRIs
 func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter getObjectCollectionFn, c vocab.ActivityType, prepend bool) (bool, error) {
 	ownsAny := false
 	for i := 0; i < c.ObjectLen(); i++ {
@@ -1644,6 +1726,7 @@ func (f *federator) ownsAnyObjects(c context.Context, a vocab.ActivityType) (boo
 	return f.ownsAnyIRIs(c, iris), nil
 }
 
+// TODO: Only Set IRIs
 func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string]interface{}) error {
 	outbox, err := f.App.GetOutbox(c, r, ReadWrite)
 	if err != nil {
@@ -1660,6 +1743,7 @@ func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string
 	return f.App.Set(c, outbox)
 }
 
+// TODO: Only Set IRIs
 func (f *federator) addToInbox(c context.Context, r *http.Request, m map[string]interface{}) error {
 	inbox, err := f.App.GetInbox(c, r, ReadWrite)
 	if err != nil {

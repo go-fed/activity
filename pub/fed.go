@@ -400,6 +400,7 @@ func (f *federator) getPostOutboxResolver(c context.Context, rawJson map[string]
 	}
 }
 
+// TODO: Only Set IRIs
 func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool, toAddToOutbox *map[string]interface{}) func(s *streams.Create) error {
 	return func(s *streams.Create) error {
 		*deliverable = true
@@ -607,6 +608,7 @@ func (f *federator) handleClientReject(c context.Context, deliverable *bool) fun
 	}
 }
 
+// TODO: Only Set IRIs
 func (f *federator) handleClientAdd(c context.Context, deliverable *bool, outboxURL *url.URL) func(s *streams.Add) error {
 	return func(s *streams.Add) error {
 		*deliverable = true
@@ -908,6 +910,7 @@ func (f *federator) handleDelete(c context.Context) func(s *streams.Delete) erro
 	}
 }
 
+// TODO: Only Set IRIs
 func (f *federator) handleFollow(c context.Context, inboxURL *url.URL) func(s *streams.Follow) error {
 	return func(s *streams.Follow) error {
 		// Permit either human-triggered or automatically triggering
@@ -1033,6 +1036,7 @@ func (f *federator) handleReject(c context.Context) func(s *streams.Reject) erro
 	}
 }
 
+// TODO: Only Set IRIs
 func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 	return func(s *streams.Add) error {
 		// Add is client application specific, generally involving adding an
