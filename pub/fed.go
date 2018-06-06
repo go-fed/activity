@@ -400,7 +400,6 @@ func (f *federator) getPostOutboxResolver(c context.Context, rawJson map[string]
 	}
 }
 
-// TODO: Only Set IRIs
 func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool, toAddToOutbox *map[string]interface{}) func(s *streams.Create) error {
 	return func(s *streams.Create) error {
 		*deliverable = true
@@ -457,26 +456,42 @@ func (f *federator) handleClientCreate(ctx context.Context, deliverable *bool, t
 		for k, v := range createActorIds {
 			for i, attributedToMap := range objectAttributedToIds {
 				if _, ok := attributedToMap[k]; !ok {
+					var iri *url.URL
 					if vObj, ok := v.(vocab.ObjectType); ok {
-						obj[i].AppendAttributedToObject(vObj)
+						if !vObj.HasId() {
+							return fmt.Errorf("create actor object missing id")
+						}
+						iri = vObj.GetId()
 					} else if vLink, ok := v.(vocab.LinkType); ok {
-						obj[i].AppendAttributedToLink(vLink)
+						if !vLink.HasHref() {
+							return fmt.Errorf("create actor link missing href")
+						}
+						iri = vLink.GetHref()
 					} else if vIRI, ok := v.(*url.URL); ok {
-						obj[i].AppendAttributedToIRI(vIRI)
+						iri = vIRI
 					}
+					obj[i].AppendAttributedToIRI(iri)
 				}
 			}
 		}
 		for _, attributedToMap := range objectAttributedToIds {
 			for k, v := range attributedToMap {
 				if _, ok := createActorIds[k]; !ok {
+					var iri *url.URL
 					if vObj, ok := v.(vocab.ObjectType); ok {
-						c.AppendActorObject(vObj)
+						if !vObj.HasId() {
+							return fmt.Errorf("attributedTo object missing id")
+						}
+						iri = vObj.GetId()
 					} else if vLink, ok := v.(vocab.LinkType); ok {
-						c.AppendActorLink(vLink)
+						if !vLink.HasHref() {
+							return fmt.Errorf("attributedTo link missing href")
+						}
+						iri = vLink.GetHref()
 					} else if vIRI, ok := v.(*url.URL); ok {
-						c.AppendActorIRI(vIRI)
+						iri = vIRI
 					}
+					c.AppendActorIRI(iri)
 				}
 			}
 		}

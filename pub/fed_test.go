@@ -267,7 +267,7 @@ func init() {
 	testClientExpectedNote.SetId(testNewIRI2)
 	testClientExpectedNote.AppendNameString(noteName)
 	testClientExpectedNote.AppendContentString("This is a simple note")
-	testClientExpectedNote.AppendAttributedToObject(sallyActor)
+	testClientExpectedNote.AppendAttributedToIRI(sallyIRI)
 	testClientExpectedNote.AppendToIRI(samIRI)
 	testClientExpectedCreateNote = &vocab.Create{}
 	testClientExpectedCreateNote.SetId(testNewIRI)
