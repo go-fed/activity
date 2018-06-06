@@ -3434,7 +3434,7 @@ func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.Collection{}
-	expected.AppendItemsObject(testNote)
+	expected.AppendItemsIRI(noteIRI)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {

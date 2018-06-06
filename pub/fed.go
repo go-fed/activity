@@ -1064,7 +1064,6 @@ func (f *federator) handleReject(c context.Context) func(s *streams.Reject) erro
 	}
 }
 
-// TODO: Only Set IRIs
 func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 	return func(s *streams.Add) error {
 		// Add is client application specific, generally involving adding an
@@ -1106,19 +1105,26 @@ func (f *federator) handleAdd(c context.Context) func(s *streams.Add) error {
 			// else ignore non-collection, let Application handle.
 		}
 		for i := 0; i < raw.ObjectLen(); i++ {
-			if !raw.IsObject(i) {
-				// TODO: Fetch IRIs as well
-				return fmt.Errorf("add object must be object type: %v", raw)
+			var obj vocab.ObjectType
+			var objId *url.URL
+			if raw.IsObject(i) {
+				obj = raw.GetObject(i)
+				if !obj.HasId() {
+					return fmt.Errorf("add object missing id")
+				}
+				objId = obj.GetId()
+			} else if raw.IsObjectIRI(i) {
+				// TODO: Fetch IRI
+				return fmt.Errorf("add object must not be IRI")
 			}
-			obj := raw.GetObject(i)
 			for _, target := range targets {
 				if !f.App.CanAdd(c, obj, target) {
 					continue
 				}
 				if ct, ok := target.(vocab.CollectionType); ok {
-					ct.AppendItemsObject(obj)
+					ct.AppendItemsIRI(objId)
 				} else if oct, ok := target.(vocab.OrderedCollectionType); ok {
-					oct.AppendOrderedItemsObject(obj)
+					oct.AppendOrderedItemsIRI(objId)
 				}
 				if err := f.App.Set(c, target); err != nil {
 					return err
