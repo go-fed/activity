@@ -2556,7 +2556,7 @@ func TestPostInbox_Follow_AutoReject(t *testing.T) {
 	}
 	expected := &vocab.Reject{}
 	expected.AppendObject(testFollow)
-	expected.AppendToObject(sallyActor)
+	expected.AppendToIRI(sallyIRI)
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	if err != nil {
 		t.Fatal(err)
@@ -2683,7 +2683,7 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	}
 	expected := &vocab.Accept{}
 	expected.AppendObject(testFollow)
-	expected.AppendToObject(sallyActor)
+	expected.AppendToIRI(sallyIRI)
 	expectedFollowers := &vocab.Collection{}
 	expectedFollowers.AppendItemsIRI(sallyIRI)
 	expectedActor := &vocab.Person{}

@@ -929,7 +929,6 @@ func (f *federator) handleDelete(c context.Context) func(s *streams.Delete) erro
 	}
 }
 
-// TODO: Only Set IRIs
 func (f *federator) handleFollow(c context.Context, inboxURL *url.URL) func(s *streams.Follow) error {
 	return func(s *streams.Follow) error {
 		// Permit either human-triggered or automatically triggering
@@ -948,13 +947,23 @@ func (f *federator) handleFollow(c context.Context, inboxURL *url.URL) func(s *s
 			raw := s.Raw()
 			activity.AppendObject(raw)
 			for i := 0; i < raw.ActorLen(); i++ {
+				var to *url.URL
 				if raw.IsActorObject(i) {
-					activity.AppendToObject(raw.GetActorObject(i))
+					obj := raw.GetActorObject(i)
+					if !obj.HasId() {
+						return fmt.Errorf("to object missing id")
+					}
+					to = obj.GetId()
 				} else if raw.IsActorLink(i) {
-					activity.AppendToLink(raw.GetActorLink(i))
+					href := raw.GetActorLink(i)
+					if !href.HasHref() {
+						return fmt.Errorf("to link missing href")
+					}
+					to = href.GetHref()
 				} else if raw.IsActorIRI(i) {
-					activity.AppendToIRI(raw.GetActorIRI(i))
+					to = raw.GetActorIRI(i)
 				}
+				activity.AppendToIRI(to)
 			}
 			ownsAny := false
 			if todo == AutomaticAccept {
