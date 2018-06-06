@@ -5365,7 +5365,7 @@ func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedTarget := &vocab.Collection{}
 	expectedTarget.AppendType("Collection")
-	expectedTarget.AppendItemsObject(testNote)
+	expectedTarget.AppendItemsIRI(noteIRI)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {

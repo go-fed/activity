@@ -623,7 +623,6 @@ func (f *federator) handleClientReject(c context.Context, deliverable *bool) fun
 	}
 }
 
-// TODO: Only Set IRIs
 func (f *federator) handleClientAdd(c context.Context, deliverable *bool, outboxURL *url.URL) func(s *streams.Add) error {
 	return func(s *streams.Add) error {
 		*deliverable = true
@@ -666,8 +665,9 @@ func (f *federator) handleClientAdd(c context.Context, deliverable *bool, outbox
 		}
 		for i := 0; i < raw.ObjectLen(); i++ {
 			var obj vocab.ObjectType
+			var objId *url.URL
 			if raw.IsObjectIRI(i) {
-				objId := raw.GetObjectIRI(i)
+				objId = raw.GetObjectIRI(i)
 				if f.App.Owns(c, objId) {
 					pObj, err := f.App.Get(c, objId, Read)
 					var ok bool
@@ -685,6 +685,10 @@ func (f *federator) handleClientAdd(c context.Context, deliverable *bool, outbox
 				}
 			} else if raw.IsObject(i) {
 				obj = raw.GetObject(i)
+				if !obj.HasId() {
+					return fmt.Errorf("add object missing iri")
+				}
+				objId = obj.GetId()
 			} else {
 				return fmt.Errorf("add object must be of object or iri type: %v", raw)
 			}
@@ -693,9 +697,9 @@ func (f *federator) handleClientAdd(c context.Context, deliverable *bool, outbox
 					continue
 				}
 				if ct, ok := target.(vocab.CollectionType); ok {
-					ct.AppendItemsObject(obj)
+					ct.AppendItemsIRI(objId)
 				} else if oct, ok := target.(vocab.OrderedCollectionType); ok {
-					oct.AppendOrderedItemsObject(obj)
+					oct.AppendOrderedItemsIRI(objId)
 				}
 				if err := f.App.Set(c, target); err != nil {
 					return err
