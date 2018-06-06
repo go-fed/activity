@@ -4256,7 +4256,7 @@ func TestPostOutbox_WrapInCreateActivity(t *testing.T) {
 	expectedCreate.SetId(testNewIRI)
 	expectedCreate.AppendActorIRI(sallyIRI)
 	expectedCreate.AppendObject(expectedNote)
-	expectedCreate.AppendToObject(samActor)
+	expectedCreate.AppendToIRI(samIRI)
 	resp := httptest.NewRecorder()
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(rawNote)))))
 	gotActorIRI := 0

@@ -317,7 +317,10 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		if !ok {
 			return true, fmt.Errorf("wrap in create: cannot convert to vocab.ObjectType: %T", typer)
 		}
-		typer = f.wrapInCreate(obj, actorIri)
+		typer, err = f.wrapInCreate(obj, actorIri)
+		if err != nil {
+			return true, err
+		}
 	}
 	activity, ok := typer.(vocab.ActivityType)
 	if !ok {

@@ -221,8 +221,8 @@ func (f *federator) addNewIds(c context.Context, a vocab.ActivityType) {
 // wrapInCreate will automatically wrap the provided object in a Create
 // activity. This will copy over the 'to', 'bto', 'cc', 'bcc', and 'audience'
 // properties. It will also copy over the published time if present.
-func (f *federator) wrapInCreate(o vocab.ObjectType, actor *url.URL) *vocab.Create {
-	c := &vocab.Create{}
+func (f *federator) wrapInCreate(o vocab.ObjectType, actor *url.URL) (c *vocab.Create, err error) {
+	c = &vocab.Create{}
 	c.AppendType("Create")
 	c.AppendObject(o)
 	c.AppendActorIRI(actor)
@@ -230,51 +230,111 @@ func (f *federator) wrapInCreate(o vocab.ObjectType, actor *url.URL) *vocab.Crea
 		c.SetPublished(o.GetPublished())
 	}
 	for i := 0; i < o.ToLen(); i++ {
+		var to *url.URL
 		if o.IsToObject(i) {
-			c.AppendToObject(o.GetToObject(i))
+			obj := o.GetToObject(i)
+			if !obj.HasId() {
+				err = fmt.Errorf("to object missing id")
+				return
+			}
+			to = obj.GetId()
 		} else if o.IsToLink(i) {
-			c.AppendToLink(o.GetToLink(i))
+			href := o.GetToLink(i)
+			if !href.HasHref() {
+				err = fmt.Errorf("to link missing href")
+				return
+			}
+			to = href.GetHref()
 		} else if o.IsToIRI(i) {
-			c.AppendToIRI(o.GetToIRI(i))
+			to = o.GetToIRI(i)
 		}
+		c.AppendToIRI(to)
 	}
 	for i := 0; i < o.BtoLen(); i++ {
+		var bto *url.URL
 		if o.IsBtoObject(i) {
-			c.AppendBtoObject(o.GetBtoObject(i))
+			obj := o.GetBtoObject(i)
+			if !obj.HasId() {
+				err = fmt.Errorf("bto object missing id")
+				return
+			}
+			bto = obj.GetId()
 		} else if o.IsBtoLink(i) {
-			c.AppendBtoLink(o.GetBtoLink(i))
+			href := o.GetBtoLink(i)
+			if !href.HasHref() {
+				err = fmt.Errorf("bto link missing href")
+				return
+			}
+			bto = href.GetHref()
 		} else if o.IsBtoIRI(i) {
-			c.AppendBtoIRI(o.GetBtoIRI(i))
+			bto = o.GetBtoIRI(i)
 		}
+		c.AppendBtoIRI(bto)
 	}
 	for i := 0; i < o.CcLen(); i++ {
+		var cc *url.URL
 		if o.IsCcObject(i) {
-			c.AppendCcObject(o.GetCcObject(i))
+			obj := o.GetCcObject(i)
+			if !obj.HasId() {
+				err = fmt.Errorf("cc object missing id")
+				return
+			}
+			cc = obj.GetId()
 		} else if o.IsCcLink(i) {
-			c.AppendCcLink(o.GetCcLink(i))
+			href := o.GetCcLink(i)
+			if !href.HasHref() {
+				err = fmt.Errorf("cc link missing href")
+				return
+			}
+			cc = href.GetHref()
 		} else if o.IsCcIRI(i) {
-			c.AppendCcIRI(o.GetCcIRI(i))
+			cc = o.GetCcIRI(i)
 		}
+		c.AppendCcIRI(cc)
 	}
 	for i := 0; i < o.BccLen(); i++ {
+		var bcc *url.URL
 		if o.IsBccObject(i) {
-			c.AppendBccObject(o.GetBccObject(i))
+			obj := o.GetBccObject(i)
+			if !obj.HasId() {
+				err = fmt.Errorf("bcc object missing id")
+				return
+			}
+			bcc = obj.GetId()
 		} else if o.IsBccLink(i) {
-			c.AppendBccLink(o.GetBccLink(i))
+			href := o.GetBccLink(i)
+			if !href.HasHref() {
+				err = fmt.Errorf("bcc link missing href")
+				return
+			}
+			bcc = href.GetHref()
 		} else if o.IsBccIRI(i) {
-			c.AppendBccIRI(o.GetBccIRI(i))
+			bcc = o.GetBccIRI(i)
 		}
+		c.AppendBccIRI(bcc)
 	}
 	for i := 0; i < o.AudienceLen(); i++ {
+		var audience *url.URL
 		if o.IsAudienceObject(i) {
-			c.AppendAudienceObject(o.GetAudienceObject(i))
+			obj := o.GetAudienceObject(i)
+			if !obj.HasId() {
+				err = fmt.Errorf("audience object missing id")
+				return
+			}
+			audience = obj.GetId()
 		} else if o.IsAudienceLink(i) {
-			c.AppendAudienceLink(o.GetAudienceLink(i))
+			href := o.GetAudienceLink(i)
+			if !href.HasHref() {
+				err = fmt.Errorf("audience link missing href")
+				return
+			}
+			audience = href.GetHref()
 		} else if o.IsAudienceIRI(i) {
-			c.AppendAudienceIRI(o.GetAudienceIRI(i))
+			audience = o.GetAudienceIRI(i)
 		}
+		c.AppendAudienceIRI(audience)
 	}
-	return c
+	return
 }
 
 // Ensures the activity and object have the same 'to', 'bto', 'cc', 'bcc', and
