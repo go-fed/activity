@@ -2685,7 +2685,7 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	expected.AppendObject(testFollow)
 	expected.AppendToObject(sallyActor)
 	expectedFollowers := &vocab.Collection{}
-	expectedFollowers.AppendItemsObject(sallyActor)
+	expectedFollowers.AppendItemsIRI(sallyIRI)
 	expectedActor := &vocab.Person{}
 	expectedActor.SetInboxAnyURI(samIRIInbox)
 	expectedActor.SetId(samIRI)
@@ -2884,7 +2884,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expectedFollowers := &vocab.OrderedCollection{}
-	expectedFollowers.AppendOrderedItemsObject(sallyActor)
+	expectedFollowers.AppendOrderedItemsIRI(sallyIRI)
 	expectedActor := &vocab.Person{}
 	expectedActor.SetInboxAnyURI(samIRIInbox)
 	expectedActor.SetId(samIRI)
@@ -2972,7 +2972,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expectedFollowers := &vocab.Collection{}
-	expectedFollowers.AppendItemsObject(sallyActor)
+	expectedFollowers.AppendItemsIRI(sallyIRI)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -3108,7 +3108,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 		return nil
 	}
 	expectedFollowing := &vocab.Collection{}
-	expectedFollowing.AppendItemsObject(samActor)
+	expectedFollowing.AppendItemsIRI(samIRI)
 	expectedActor := &vocab.Person{}
 	expectedActor.SetInboxAnyURI(sallyIRIInbox)
 	expectedActor.SetId(sallyIRI)
@@ -3211,7 +3211,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersOrderedCollection(t *testin
 		return nil
 	}
 	expectedFollowing := &vocab.OrderedCollection{}
-	expectedFollowing.AppendOrderedItemsObject(samActor)
+	expectedFollowing.AppendOrderedItemsIRI(samIRI)
 	expectedActor := &vocab.Person{}
 	expectedActor.SetInboxAnyURI(sallyIRIInbox)
 	expectedActor.SetId(sallyIRI)
@@ -3263,7 +3263,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIRI(t *testing.T) {
 		return nil
 	}
 	expectedFollowing := &vocab.OrderedCollection{}
-	expectedFollowing.AppendOrderedItemsObject(samActor)
+	expectedFollowing.AppendOrderedItemsIRI(samIRI)
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	if err != nil {
 		t.Fatal(err)
@@ -3778,7 +3778,7 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.Collection{}
-	expected.AppendItemsObject(sallyActor)
+	expected.AppendItemsIRI(sallyIRI)
 	expectedNote := &vocab.Note{}
 	expectedNote.SetId(noteIRI)
 	expectedNote.AppendNameString(noteName)
@@ -3882,7 +3882,7 @@ func TestPostInbox_Like_AddsToLikeOrderedCollection(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.OrderedCollection{}
-	expected.AppendOrderedItemsObject(sallyActor)
+	expected.AppendOrderedItemsIRI(sallyIRI)
 	expectedNote := &vocab.Note{}
 	expectedNote.SetId(noteIRI)
 	expectedNote.AppendNameString(noteName)
@@ -3933,7 +3933,7 @@ func TestPostInbox_Like_AddsToLikeIRI(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.OrderedCollection{}
-	expected.AppendOrderedItemsObject(sallyActor)
+	expected.AppendOrderedItemsIRI(sallyIRI)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -5773,7 +5773,7 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedLikes := &vocab.Collection{}
-	expectedLikes.AppendItemsObject(testNote)
+	expectedLikes.AppendItemsIRI(noteIRI)
 	expectedActor := &vocab.Person{}
 	expectedActor.AppendNameString("Sally")
 	expectedActor.SetId(sallyIRI)
@@ -5873,7 +5873,7 @@ func TestPostOutbox_Like_AddsToLikedOrderedCollection(t *testing.T) {
 	}
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedLikes := &vocab.OrderedCollection{}
-	expectedLikes.AppendOrderedItemsObject(testNote)
+	expectedLikes.AppendOrderedItemsIRI(noteIRI)
 	expectedActor := &vocab.Person{}
 	expectedActor.AppendNameString("Sally")
 	expectedActor.SetId(sallyIRI)

@@ -1470,7 +1470,6 @@ func toTombstone(obj vocab.ObjectType, id *url.URL, now time.Time) vocab.Tombsto
 
 type getActorCollectionFn func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (isIRI bool, e error)
 
-// TODO: Only Set IRIs
 func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter getActorCollectionFn, c vocab.ActivityType, prepend bool) error {
 	for i := 0; i < c.ActorLen(); i++ {
 		var iri *url.URL
@@ -1522,45 +1521,30 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 		}
 		// Add object to collection if not a duplicate
 		for i := 0; i < c.ObjectLen(); i++ {
+			var iri *url.URL
 			if c.IsObjectIRI(i) {
-				iri := c.GetObjectIRI(i)
-				if iriSet[iri.String()] {
-					continue
-				}
-				if lc != nil {
-					if prepend {
-						lc.PrependItemsIRI(iri)
-					} else {
-						lc.AppendItemsIRI(iri)
-					}
-				} else if loc != nil {
-					if prepend {
-						loc.PrependOrderedItemsIRI(iri)
-					} else {
-						loc.AppendOrderedItemsIRI(iri)
-					}
-				}
+				iri = c.GetObjectIRI(i)
 			} else if c.IsObject(i) {
 				obj := c.GetObject(i)
 				if !obj.HasId() {
 					return fmt.Errorf("object at index %d has no id", i)
 				}
-				iri := obj.GetId()
-				if iriSet[iri.String()] {
-					continue
+				iri = obj.GetId()
+			}
+			if iriSet[iri.String()] {
+				continue
+			}
+			if lc != nil {
+				if prepend {
+					lc.PrependItemsIRI(iri)
+				} else {
+					lc.AppendItemsIRI(iri)
 				}
-				if lc != nil {
-					if prepend {
-						lc.PrependItemsObject(obj)
-					} else {
-						lc.AppendItemsObject(obj)
-					}
-				} else if loc != nil {
-					if prepend {
-						loc.PrependOrderedItemsObject(obj)
-					} else {
-						loc.AppendOrderedItemsObject(obj)
-					}
+			} else if loc != nil {
+				if prepend {
+					loc.PrependOrderedItemsIRI(iri)
+				} else {
+					loc.AppendOrderedItemsIRI(iri)
 				}
 			}
 		}
@@ -1582,7 +1566,6 @@ func (f *federator) addAllObjectsToActorCollection(ctx context.Context, getter g
 
 type getObjectCollectionFn func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (isIRI bool, e error)
 
-// TODO: Only Set IRIs
 func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter getObjectCollectionFn, c vocab.ActivityType, prepend bool) (bool, error) {
 	ownsAny := false
 	for i := 0; i < c.ObjectLen(); i++ {
@@ -1630,67 +1613,36 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 		}
 		// Add actor to collection if not a duplicate
 		for i := 0; i < c.ActorLen(); i++ {
+			var iri *url.URL
 			if c.IsActorIRI(i) {
-				iri := c.GetActorIRI(i)
-				if iriSet[iri.String()] {
-					continue
-				}
-				if lc != nil {
-					if prepend {
-						lc.AppendItemsIRI(iri)
-					} else {
-						lc.PrependItemsIRI(iri)
-					}
-				} else if loc != nil {
-					if prepend {
-						loc.PrependOrderedItemsIRI(iri)
-					} else {
-						loc.AppendOrderedItemsIRI(iri)
-					}
-				}
+				iri = c.GetActorIRI(i)
 			} else if c.IsActorObject(i) {
 				obj := c.GetActorObject(i)
 				if !obj.HasId() {
 					return ownsAny, fmt.Errorf("actor object at index %d has no id", i)
 				}
-				iri := obj.GetId()
-				if iriSet[iri.String()] {
-					continue
-				}
-				if lc != nil {
-					if prepend {
-						lc.PrependItemsObject(obj)
-					} else {
-						lc.AppendItemsObject(obj)
-					}
-				} else if loc != nil {
-					if prepend {
-						loc.PrependOrderedItemsObject(obj)
-					} else {
-						loc.AppendOrderedItemsObject(obj)
-					}
-				}
+				iri = obj.GetId()
 			} else if c.IsActorLink(i) {
 				l := c.GetActorLink(i)
 				if !l.HasHref() {
 					return ownsAny, fmt.Errorf("actor link at index %d has no id", i)
 				}
-				iri := l.GetHref()
-				if iriSet[iri.String()] {
-					continue
+				iri = l.GetHref()
+			}
+			if iriSet[iri.String()] {
+				continue
+			}
+			if lc != nil {
+				if prepend {
+					lc.AppendItemsIRI(iri)
+				} else {
+					lc.PrependItemsIRI(iri)
 				}
-				if lc != nil {
-					if prepend {
-						lc.PrependItemsLink(l)
-					} else {
-						lc.AppendItemsLink(l)
-					}
-				} else if loc != nil {
-					if prepend {
-						loc.PrependOrderedItemsLink(l)
-					} else {
-						loc.AppendOrderedItemsLink(l)
-					}
+			} else if loc != nil {
+				if prepend {
+					loc.PrependOrderedItemsIRI(iri)
+				} else {
+					loc.AppendOrderedItemsIRI(iri)
 				}
 			}
 		}
