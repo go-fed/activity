@@ -1726,7 +1726,6 @@ func (f *federator) ownsAnyObjects(c context.Context, a vocab.ActivityType) (boo
 	return f.ownsAnyIRIs(c, iris), nil
 }
 
-// TODO: Only Set IRIs
 func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string]interface{}) error {
 	outbox, err := f.App.GetOutbox(c, r, ReadWrite)
 	if err != nil {
@@ -1739,11 +1738,13 @@ func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string
 	if err := f.App.Set(c, activity); err != nil {
 		return err
 	}
-	outbox.PrependOrderedItemsObject(activity)
+	if !activity.HasId() {
+		return fmt.Errorf("activity missing id")
+	}
+	outbox.PrependOrderedItemsIRI(activity.GetId())
 	return f.App.Set(c, outbox)
 }
 
-// TODO: Only Set IRIs
 func (f *federator) addToInbox(c context.Context, r *http.Request, m map[string]interface{}) error {
 	inbox, err := f.App.GetInbox(c, r, ReadWrite)
 	if err != nil {
@@ -1757,8 +1758,11 @@ func (f *federator) addToInbox(c context.Context, r *http.Request, m map[string]
 	if err != nil {
 		return err
 	}
+	if !activity.HasId() {
+		return fmt.Errorf("activity missing id")
+	}
 	if !iriSet[activity.GetId().String()] {
-		inbox.PrependOrderedItemsObject(activity)
+		inbox.PrependOrderedItemsIRI(activity.GetId())
 		return f.App.Set(c, inbox)
 	}
 	return nil

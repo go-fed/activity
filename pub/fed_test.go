@@ -2172,10 +2172,13 @@ func TestPostInbox_Create_SetsObject(t *testing.T) {
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testCreateNote))))
 	gotSet := 0
 	var setObject PubObject
+	var gotSetInbox PubObject
 	app.MockFederateApp.set = func(c context.Context, o PubObject) error {
 		gotSet++
 		if gotSet == 1 {
 			setObject = o
+		} else if gotSet == 2 {
+			gotSetInbox = o
 		}
 		return nil
 	}
@@ -2183,6 +2186,9 @@ func TestPostInbox_Create_SetsObject(t *testing.T) {
 		return nil
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
+	expectedInbox := &vocab.OrderedCollection{}
+	expectedInbox.AppendType("OrderedCollection")
+	expectedInbox.AppendOrderedItemsIRI(testCreateNote.GetId())
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
@@ -2191,6 +2197,8 @@ func TestPostInbox_Create_SetsObject(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 2, gotSet)
 	} else if err := PubObjectEquals(setObject, testNote); err != nil {
 		t.Fatalf("unexpected set object: %s", err)
+	} else if err := PubObjectEquals(gotSetInbox, expectedInbox); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
 	}
 }
 
@@ -4497,7 +4505,7 @@ func TestPostOutbox_Create_SetCreatedObject(t *testing.T) {
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedOutbox := &vocab.OrderedCollection{}
 	expectedOutbox.AppendType("OrderedCollection")
-	expectedOutbox.AppendOrderedItemsObject(testClientExpectedCreateNote)
+	expectedOutbox.AppendOrderedItemsIRI(testClientExpectedCreateNote.GetId())
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
