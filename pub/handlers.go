@@ -5,6 +5,7 @@ import (
 	"crypto"
 	"encoding/json"
 	"fmt"
+	"github.com/go-fed/activity/vocab"
 	"github.com/go-fed/httpsig"
 	"net/http"
 	"net/url"
@@ -108,6 +109,9 @@ func serveActivityPubObject(c context.Context, a Application, clock Clock, w htt
 	}
 	if err != nil {
 		return
+	}
+	if obj, ok := pObj.(vocab.ObjectType); ok {
+		clearSensitiveFields(obj)
 	}
 	var m map[string]interface{}
 	m, err = pObj.Serialize()

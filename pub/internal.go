@@ -2103,6 +2103,27 @@ func getIRISetFromOrderedItems(c vocab.OrderedCollectionType) (map[string]bool, 
 	return r, nil
 }
 
+func clearSensitiveFields(obj vocab.ObjectType) {
+	for i := 0; i < obj.BtoLen(); i++ {
+		if obj.IsBtoObject(0) {
+			obj.RemoveBtoObject(0)
+		} else if obj.IsBtoLink(0) {
+			obj.RemoveBtoLink(0)
+		} else if obj.IsBtoIRI(0) {
+			obj.RemoveBtoIRI(0)
+		}
+	}
+	for i := 0; i < obj.BccLen(); i++ {
+		if obj.IsBccObject(0) {
+			obj.RemoveBccObject(0)
+		} else if obj.IsBccLink(0) {
+			obj.RemoveBccLink(0)
+		} else if obj.IsBccIRI(0) {
+			obj.RemoveBccIRI(0)
+		}
+	}
+}
+
 // TODO: Move this to vocab package.
 var activityTypes = []string{"Accept", "Add", "Announce", "Arrive", "Block", "Create", "Delete", "Dislike", "Flag", "Follow", "Ignore", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Offer", "Question", "Reject", "Read", "Remove", "TentativeReject", "TentativeAccept", "Travel", "Undo", "Update", "View"}
 

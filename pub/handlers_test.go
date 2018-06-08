@@ -140,6 +140,43 @@ func TestServeActivityPubObject(t *testing.T) {
 			expectedCode:  http.StatusForbidden,
 			expectHandled: true,
 		},
+		{
+			name: "remove bto & bcc",
+			app: &MockApplication{
+				t: t,
+				get: func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
+					if rw != Read {
+						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+					} else if s := id.String(); s != noteURIString {
+						t.Fatalf("expected %s, got %s", noteURIString, s)
+					}
+					testNote = &vocab.Note{}
+					testNote.SetId(noteIRI)
+					testNote.AppendNameString(noteName)
+					testNote.AppendContentString("This is a simple note")
+					testNote.AppendBtoIRI(samIRI)
+					testNote.AppendBccIRI(sallyIRI)
+					return testNote, nil
+				},
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
+						t.Fatalf("expected %s, got %s", noteURIString, s)
+					}
+					return true
+				},
+			},
+			clock:        &MockClock{now},
+			input:        ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil)),
+			expectedCode: http.StatusOK,
+			expectedObjFn: func() vocab.Serializer {
+				testNote = &vocab.Note{}
+				testNote.SetId(noteIRI)
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
+				return testNote
+			},
+			expectHandled: true,
+		},
 	}
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
@@ -513,6 +550,43 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			},
 			input:         ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil)),
 			expectedCode:  http.StatusBadRequest,
+			expectHandled: true,
+		},
+		{
+			name: "remove bto & bcc",
+			app: &MockApplication{
+				t: t,
+				get: func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
+					if rw != Read {
+						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+					} else if s := id.String(); s != noteURIString {
+						t.Fatalf("expected %s, got %s", noteURIString, s)
+					}
+					testNote = &vocab.Note{}
+					testNote.SetId(noteIRI)
+					testNote.AppendNameString(noteName)
+					testNote.AppendContentString("This is a simple note")
+					testNote.AppendBtoIRI(samIRI)
+					testNote.AppendBccIRI(sallyIRI)
+					return testNote, nil
+				},
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != noteURIString {
+						t.Fatalf("expected %s, got %s", noteURIString, s)
+					}
+					return true
+				},
+			},
+			clock:        &MockClock{now},
+			input:        ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil)),
+			expectedCode: http.StatusOK,
+			expectedObjFn: func() vocab.Serializer {
+				testNote = &vocab.Note{}
+				testNote.SetId(noteIRI)
+				testNote.AppendNameString(noteName)
+				testNote.AppendContentString("This is a simple note")
+				return testNote
+			},
 			expectHandled: true,
 		},
 	}
