@@ -208,7 +208,7 @@ func postToOutbox(c HttpClient, b []byte, to *url.URL, agent string, creds *cred
 func (f *federator) addNewIds(c context.Context, a vocab.ActivityType) {
 	newId := f.App.NewId(c, a)
 	a.SetId(newId)
-	if hasType(a, "Create") {
+	if hasType(a, create) {
 		for i := 0; i < a.ObjectLen(); i++ {
 			if a.IsObject(i) {
 				obj := a.GetObject(i)
@@ -2126,6 +2126,11 @@ func clearSensitiveFields(obj vocab.ObjectType) {
 
 // TODO: Move this to vocab package.
 var activityTypes = []string{"Accept", "Add", "Announce", "Arrive", "Block", "Create", "Delete", "Dislike", "Flag", "Follow", "Ignore", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Offer", "Question", "Reject", "Read", "Remove", "TentativeReject", "TentativeAccept", "Travel", "Undo", "Update", "View"}
+
+const (
+	tombstone = "Tombstone"
+	create    = "Create"
+)
 
 func isActivityType(t Typer) bool {
 	hasType := make(map[string]bool, 1)

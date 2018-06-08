@@ -177,6 +177,37 @@ func TestServeActivityPubObject(t *testing.T) {
 			},
 			expectHandled: true,
 		},
+		{
+			name: "tombstone is status gone",
+			app: &MockApplication{
+				t: t,
+				get: func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
+					if rw != Read {
+						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+					} else if s := id.String(); s != testNewIRIString {
+						t.Fatalf("expected %s, got %s", testNewIRIString, s)
+					}
+					tombstone := &vocab.Tombstone{}
+					tombstone.SetId(testNewIRI)
+					return tombstone, nil
+				},
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != testNewIRIString {
+						t.Fatalf("expected %s, got %s", testNewIRIString, s)
+					}
+					return true
+				},
+			},
+			clock:        &MockClock{now},
+			input:        ActivityPubRequest(httptest.NewRequest("GET", testNewIRIString, nil)),
+			expectedCode: http.StatusGone,
+			expectedObjFn: func() vocab.Serializer {
+				tombstone := &vocab.Tombstone{}
+				tombstone.SetId(testNewIRI)
+				return tombstone
+			},
+			expectHandled: true,
+		},
 	}
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
@@ -556,11 +587,19 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 			name: "remove bto & bcc",
 			app: &MockApplication{
 				t: t,
-				get: func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
+				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
+					if publicKeyId != testPublicKeyId {
+						t.Fatalf("expected %s, got %s", testPublicKeyId, publicKeyId)
+					}
+					return testPrivateKey.Public(), httpsig.RSA_SHA256, samIRI, nil
+				},
+				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
 						t.Fatalf("expected RWType of %d, got %d", Read, rw)
 					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("expected %s, got %s", noteURIString, s)
+					} else if u := user.String(); u != samIRIString {
+						t.Fatalf("expected %s, got %s", samIRIString, u)
 					}
 					testNote = &vocab.Note{}
 					testNote.SetId(noteIRI)
@@ -578,7 +617,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				},
 			},
 			clock:        &MockClock{now},
-			input:        ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil)),
+			input:        Sign(ActivityPubRequest(httptest.NewRequest("GET", noteURIString, nil))),
 			expectedCode: http.StatusOK,
 			expectedObjFn: func() vocab.Serializer {
 				testNote = &vocab.Note{}
@@ -586,6 +625,45 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				testNote.AppendNameString(noteName)
 				testNote.AppendContentString("This is a simple note")
 				return testNote
+			},
+			expectHandled: true,
+		},
+		{
+			name: "tombstone is status gone",
+			app: &MockApplication{
+				t: t,
+				getPublicKey: func(c context.Context, publicKeyId string) (crypto.PublicKey, httpsig.Algorithm, *url.URL, error) {
+					if publicKeyId != testPublicKeyId {
+						t.Fatalf("expected %s, got %s", testPublicKeyId, publicKeyId)
+					}
+					return testPrivateKey.Public(), httpsig.RSA_SHA256, samIRI, nil
+				},
+				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
+					if rw != Read {
+						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+					} else if s := id.String(); s != testNewIRIString {
+						t.Fatalf("expected %s, got %s", testNewIRIString, s)
+					} else if u := user.String(); u != samIRIString {
+						t.Fatalf("expected %s, got %s", samIRIString, u)
+					}
+					tombstone := &vocab.Tombstone{}
+					tombstone.SetId(testNewIRI)
+					return tombstone, nil
+				},
+				owns: func(c context.Context, id *url.URL) bool {
+					if s := id.String(); s != testNewIRIString {
+						t.Fatalf("expected %s, got %s", testNewIRIString, s)
+					}
+					return true
+				},
+			},
+			clock:        &MockClock{now},
+			input:        Sign(ActivityPubRequest(httptest.NewRequest("GET", testNewIRIString, nil))),
+			expectedCode: http.StatusGone,
+			expectedObjFn: func() vocab.Serializer {
+				tombstone := &vocab.Tombstone{}
+				tombstone.SetId(testNewIRI)
+				return tombstone
 			},
 			expectHandled: true,
 		},
