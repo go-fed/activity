@@ -308,7 +308,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	if err != nil {
 		return true, err
 	}
-	if !isActivityType(typer) {
+	if !vocab.IsActivityType(typer) {
 		actorIri, err := f.SocialAPI.ActorIRI(c, r)
 		if err != nil {
 			return true, err

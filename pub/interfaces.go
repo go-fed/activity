@@ -307,8 +307,7 @@ type PubObject interface {
 
 // Typer is an object that has a type.
 type Typer interface {
-	TypeLen() (l int)
-	GetType(index int) (v interface{})
+	vocab.Typer
 }
 
 // typeIder is a Typer with additional generic capabilities.

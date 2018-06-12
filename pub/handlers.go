@@ -125,7 +125,7 @@ func serveActivityPubObject(c context.Context, a Application, clock Clock, w htt
 		return
 	}
 	addResponseHeaders(w.Header(), clock, b)
-	if hasType(pObj, tombstone) {
+	if vocab.HasTypeTombstone(pObj) {
 		w.WriteHeader(http.StatusGone)
 	} else {
 		w.WriteHeader(http.StatusOK)

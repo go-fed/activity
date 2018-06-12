@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/go-fed/activity/tools/defs"
 	"go/format"
+	"strings"
 )
 
 const (
@@ -44,6 +45,8 @@ func GenerateImplementations(types []*defs.Type, properties []*defs.PropertyType
 		p.F = append(p.F, v.DeserializeFn, v.SerializeFn)
 	}
 	p.F = append(p.F, defs.IRIFuncs()...)
+	p.F = append(p.F, generateHasTypeFuncs(types)...)
+	p.I = append(p.I, generateTyperInterface())
 
 	// Add functions to resolve string 'name' into concrete types
 	p.F = append(p.F, generateResolveObjectFunction(types))
@@ -58,6 +61,78 @@ func GenerateImplementations(types []*defs.Type, properties []*defs.PropertyType
 		p.I = append(p.I, interfaces...)
 	}
 	return format.Source([]byte(p.Generate()))
+}
+
+func generateTyperInterface() *defs.InterfaceDef {
+	return &defs.InterfaceDef{
+		Typename: "Typer",
+		Comment:  "Typer supports common functions for determining an ActivityStream type",
+		F: []*defs.FunctionDef{
+			{
+				Name:   "TypeLen",
+				Return: []*defs.FunctionVarDef{{Name: "l", Type: "int"}},
+			},
+			{
+				Name:   "GetType",
+				Args:   []*defs.FunctionVarDef{{Name: "index", Type: "int"}},
+				Return: []*defs.FunctionVarDef{{Name: "v", Type: "interface{}"}},
+			},
+		},
+	}
+}
+
+func generateHasTypeFuncs(types []*defs.Type) (f []*defs.FunctionDef) {
+	var activityTypes []string
+	for _, t := range types {
+		t := t
+		if defs.IsActivity(t) {
+			activityTypes = append(activityTypes, t.Name)
+		}
+		f = append(f, &defs.FunctionDef{
+			Name:    fmt.Sprintf("HasType%s", t.Name),
+			Comment: fmt.Sprintf("HasType%s returns true if the Typer has a type of %s.", t.Name, t.Name),
+			Args:    []*defs.FunctionVarDef{{Name: "t", Type: "Typer"}},
+			Return:  []*defs.FunctionVarDef{{Name: "b", Type: "bool"}},
+			Body: func() string {
+				var b bytes.Buffer
+				b.WriteString("for i := 0; i < t.TypeLen(); i++ {\n")
+				b.WriteString("v := t.GetType(i)\n")
+				b.WriteString("if s, ok := v.(string); ok {\n")
+				b.WriteString(fmt.Sprintf("if s == \"%s\" {\n", t.Name))
+				b.WriteString("return true\n")
+				b.WriteString("}\n")
+				b.WriteString("}\n")
+				b.WriteString("}\n")
+				b.WriteString("return false\n")
+				return b.String()
+			},
+		})
+	}
+	f = append(f, &defs.FunctionDef{
+		Name:    "IsActivityType",
+		Comment: "Returns true if the provided Typer is an Activity.",
+		Args:    []*defs.FunctionVarDef{{Name: "t", Type: "Typer"}},
+		Return:  []*defs.FunctionVarDef{{Name: "b", Type: "bool"}},
+		Body: func() string {
+			var b bytes.Buffer
+			b.WriteString(fmt.Sprintf("var activityTypes = []string{\"%s\"}\n", strings.Join(activityTypes, "\", \"")))
+			b.WriteString("hasType := make(map[string]bool, 1)\n")
+			b.WriteString("for i := 0; i < t.TypeLen(); i++ {\n")
+			b.WriteString("v := t.GetType(i)\n")
+			b.WriteString("if s, ok := v.(string); ok {\n")
+			b.WriteString("hasType[s] = true\n")
+			b.WriteString("}\n")
+			b.WriteString("}\n")
+			b.WriteString("for _, t := range activityTypes {\n")
+			b.WriteString("if hasType[t] {\n")
+			b.WriteString("return true\n")
+			b.WriteString("}\n")
+			b.WriteString("}\n")
+			b.WriteString("return false\n")
+			return b.String()
+		},
+	})
+	return
 }
 
 func generatePackageDefinition() *defs.PackageDef {

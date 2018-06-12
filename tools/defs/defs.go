@@ -1942,3 +1942,18 @@ func AnyURIValueTypeName() string {
 func IRIFuncs() []*FunctionDef {
 	return []*FunctionDef{IriValueType.DeserializeFn, IriValueType.SerializeFn}
 }
+
+func IsActivity(t *Type) bool {
+	var recur func(t *Type) bool
+	recur = func(t *Type) bool {
+		for _, e := range t.Extends {
+			if e == activityType {
+				return true
+			} else if recur(e) {
+				return true
+			}
+		}
+		return false
+	}
+	return recur(t)
+}

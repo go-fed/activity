@@ -208,7 +208,7 @@ func postToOutbox(c HttpClient, b []byte, to *url.URL, agent string, creds *cred
 func (f *federator) addNewIds(c context.Context, a vocab.ActivityType) {
 	newId := f.App.NewId(c, a)
 	a.SetId(newId)
-	if hasType(a, create) {
+	if vocab.HasTypeCreate(a) {
 		for i := 0; i < a.ObjectLen(); i++ {
 			if a.IsObject(i) {
 				obj := a.GetObject(i)
@@ -2122,40 +2122,4 @@ func clearSensitiveFields(obj vocab.ObjectType) {
 			obj.RemoveBccIRI(0)
 		}
 	}
-}
-
-// TODO: Move this to vocab package.
-var activityTypes = []string{"Accept", "Add", "Announce", "Arrive", "Block", "Create", "Delete", "Dislike", "Flag", "Follow", "Ignore", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Offer", "Question", "Reject", "Read", "Remove", "TentativeReject", "TentativeAccept", "Travel", "Undo", "Update", "View"}
-
-const (
-	tombstone = "Tombstone"
-	create    = "Create"
-)
-
-func isActivityType(t Typer) bool {
-	hasType := make(map[string]bool, 1)
-	for i := 0; i < t.TypeLen(); i++ {
-		v := t.GetType(i)
-		if s, ok := v.(string); ok {
-			hasType[s] = true
-		}
-	}
-	for _, t := range activityTypes {
-		if hasType[t] {
-			return true
-		}
-	}
-	return false
-}
-
-func hasType(t Typer, kind string) bool {
-	for i := 0; i < t.TypeLen(); i++ {
-		v := t.GetType(i)
-		if s, ok := v.(string); ok {
-			if s == kind {
-				return true
-			}
-		}
-	}
-	return false
 }
