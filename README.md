@@ -17,13 +17,23 @@ Federated, or both kinds of ActivityPub applications just work.
 
 ## Status
 
-Version 0.1.0 of this library is ready for use.
+**0.1.1** ([Semantic Versioning](https://semver.org/))
 
-There is not an implementation report available... yet!
+There is no official implementation report available... yet!
+
+[Unofficial implementation reports are available in issue #46](https://github.com/go-fed/activity/issues/46).
+
+Please see CHANGELOG for changes between versions.
+
+## Getting Started
 
 See each subdirectory for its own README for further elaboration. The
 recommended reading order is `vocab`, `streams`, and then `pub`. Others are
 optional.
+
+## How can I get help, file issues, or contribute?
+
+Please see the CONTRIBUTING.md file!
 
 ## How well tested are these libraries?
 
@@ -49,11 +59,7 @@ Passing familiarity with ActivityStreams and ActivityPub is recommended.
 
 ## FAQ
 
-*Why does compilation take so long?*
-
-The `vocab` and `streams` packages are code generated on order of hundreds of
-thousands to a million lines long. If using Go 1.9 or before, use `go install`
-or `go build -i` to cache the build artifacts and do incremental builds.
+Please see the CONTRIBUTING.md file!
 
 ## Useful References
 

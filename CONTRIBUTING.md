@@ -57,7 +57,11 @@ Yes!
 
 ### Compilation of `vocab` is tough on time and resources!
 
-See [#42](https://github.com/go-fed/activity/issues/42).
+The `vocab` and `streams` packages are code generated on order of hundreds of
+thousands to a million lines long. If using Go 1.9 or before, use `go install`
+or `go build -i` to cache the build artifacts and do incremental builds.
+
+Additionally, see [#42](https://github.com/go-fed/activity/issues/42).
 
 ### Can I financially support this effort?
 

@@ -1,0 +1,42 @@
+v0.1.1 2018-06-13
+
+* Begin SocialAPI unofficial implementation report.
+* Improved HTTP header detection for ActivityPub requests.
+* Activities added to outboxes are now Set (in addition to the outbox itself).
+* Fixed panic where the 'bcc' and 'bto' properties were improperly guarded.
+* Fixed authn/authz shadowing when serving ActivityStream objects, causing only
+      HTTP Signatures to be enforced.
+* Under certain circumstances, IRIs will be fetched when an Add Activity is
+      received. This behavior is a stepping stone towards a comprehensive
+      solution in a future patch.
+* SocialAPI Undo Activity has actors enforced the same way as the FederatedAPI.
+* IRI normalization: Objects, Activities, and Links will no longer be duplicated
+      when added to Collection types. Instead, IRIs are added.
+* Serving ActivityStream objects will now remove the 'bcc' and 'bto' properties.
+* Serving a Tombstone ActivityStream response now uses the HTTP 410 Gone status
+      code.
+* The 'vocab' and 'streams' subpackages now generate code to multiple files
+      instead of a single large one.
+* The 'deliverer' subpackage now has test coverage.
+
+v0.1.0 2018-05-30
+
+* Initial release of the 'deliverer' subpackage.
+* Initial release of the 'pub' subpackage.
+* Initial release of the 'streams' subpackage.
+* Initial release of the 'tools' subpackage.
+* Initial release of the 'vocab' subpackage.
+* Support for ActivityStream static types in Go.
+* Support for ActivityStream serialization and deserialization.
+* Support for ActivityPub POST and GET to actor inboxes.
+* Support for ActivityPub POST and GET to actor outboxes.
+* Support for SocialAPI, FederatedAPI, or both for inbox and outboxes.
+* Support for ActivityPub GET to fetch ActivityStreams.
+* Support for HTTP Signature verification.
+* Support for basic SocialAPI Activity behaviors.
+* Support for basic FederatedAPI Activity behaviors.
+* Support for Application-customized authn/authz behaviors.
+* Support for Tombstone for Delete Activities.
+* Test 'vocab' against examples in the spec.
+* Test 'streams' against the test repository.
+* Test 'pub' with over >100 end-to-end black box tests.
