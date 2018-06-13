@@ -22,19 +22,24 @@ const (
 	unknownValueSerializeFnName   = "unknownValueSerialize"
 )
 
-func GenerateImplementations(types []*defs.Type, properties []*defs.PropertyType, values []*defs.ValueType) ([]byte, error) {
+type File struct {
+	Name    string
+	Content []byte
+}
+
+func GenerateImplementations(types []*defs.Type, properties []*defs.PropertyType, values []*defs.ValueType) (f []*File, err error) {
 	// Validate inputs
-	err := validateDomains(properties)
+	err = validateDomains(properties)
 	if err != nil {
-		return nil, err
+		return
 	}
 	err = validateProperties(types)
 	if err != nil {
-		return nil, err
+		return
 	}
 	err = validateValues(values, properties)
 	if err != nil {
-		return nil, err
+		return
 	}
 
 	p := generatePackageDefinition()
@@ -54,13 +59,40 @@ func GenerateImplementations(types []*defs.Type, properties []*defs.PropertyType
 	unknown := generateUnknownValueType()
 	p.F = append(p.F, unknown.DeserializeFn, unknown.SerializeFn)
 
+	var b []byte
+	b, err = format.Source([]byte(p.Generate()))
+	if err != nil {
+		return
+	}
+	f = append(f, &File{
+		Name:    "gen_vocab.go",
+		Content: b,
+	})
+
 	for _, t := range types {
-		funcs, defs, interfaces := generateDefinitions(t)
+		p := &defs.PackageDef{
+			Name: "vocab",
+		}
+		funcs, defs, interfaces, imports := generateDefinitions(t)
+		imports["fmt"] = true
+		for i, _ := range imports {
+			p.Imports = append(p.Imports, i)
+		}
 		p.F = append(p.F, funcs...)
 		p.Defs = append(p.Defs, defs...)
 		p.I = append(p.I, interfaces...)
+
+		var b []byte
+		b, err = format.Source([]byte(p.Generate()))
+		if err != nil {
+			return
+		}
+		f = append(f, &File{
+			Name:    fmt.Sprintf("gen_%s.go", strings.ToLower(t.Name)),
+			Content: b,
+		})
 	}
-	return format.Source([]byte(p.Generate()))
+	return
 }
 
 func generateTyperInterface() *defs.InterfaceDef {

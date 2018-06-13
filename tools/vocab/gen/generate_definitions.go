@@ -6,7 +6,8 @@ import (
 	"github.com/go-fed/activity/tools/defs"
 )
 
-func generateDefinitions(t *defs.Type) (fd []*defs.FunctionDef, sd []*defs.StructDef, x []*defs.InterfaceDef) {
+func generateDefinitions(t *defs.Type) (fd []*defs.FunctionDef, sd []*defs.StructDef, x []*defs.InterfaceDef, imports map[string]bool) {
+	imports = make(map[string]bool)
 	this := &defs.StructDef{
 		Typename: t.Name,
 		Comment:  t.Notes,
@@ -27,6 +28,13 @@ func generateDefinitions(t *defs.Type) (fd []*defs.FunctionDef, sd []*defs.Struc
 		deserializeFragments = append(deserializeFragments, d)
 		fd = append(fd, pf...)
 		sd = append(sd, pd...)
+		for _, r := range p.Range {
+			if r.V != nil {
+				for _, i := range r.V.Imports {
+					imports[i] = true
+				}
+			}
+		}
 	}
 	generateWithoutProperties(t, this, thisInterface)
 	generateAddUnknownFunction(t, this)

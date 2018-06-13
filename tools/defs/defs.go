@@ -1236,6 +1236,7 @@ var (
 				return b.String()
 			},
 		},
+		Imports: []string{"time"},
 	}
 	xsdBooleanValueType = &ValueType{
 		Name:           "boolean",
@@ -1317,6 +1318,7 @@ var (
 				return b.String()
 			},
 		},
+		Imports: []string{"net/url"},
 	}
 	xsdFloatValueType = &ValueType{
 		Name:           "float",
@@ -1549,6 +1551,7 @@ var (
 				return b.String()
 			},
 		},
+		Imports: []string{"time"},
 	}
 	xsdNonNegativeIntegerValueType = &ValueType{
 		Name:           "nonNegativeInteger",
@@ -1904,6 +1907,7 @@ var IriValueType = &ValueType{
 			return b.String()
 		},
 	},
+	Imports: []string{"net/url"},
 }
 
 func init() {

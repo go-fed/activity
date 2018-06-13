@@ -69,6 +69,7 @@ type ValueType struct {
 	ZeroValue      string
 	DeserializeFn  *FunctionDef
 	SerializeFn    *FunctionDef
+	Imports        []string
 }
 
 type DomainReference struct {
