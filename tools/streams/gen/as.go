@@ -23,22 +23,51 @@ const (
 	UnknownLanguage = "und"
 )
 
-func GenerateConvenienceTypes(types []*defs.Type) ([]byte, error) {
+type File struct {
+	Name    string
+	Content []byte
+}
+
+func GenerateConvenienceTypes(types []*defs.Type) (f []*File, err error) {
 	p := generatePackageDefinition()
 	p.Defs = append(p.Defs, generateResolver(types))
+
+	var b []byte
+	b, err = format.Source([]byte(p.Generate()))
+	f = append(f, &File{
+		Name:    "gen_streams.go",
+		Content: b,
+	})
 	for _, t := range types {
-		funcs, defs := generateDefinitions(t)
+		p := &defs.PackageDef{
+			Name: "streams",
+		}
+		funcs, defs, imports := generateDefinitions(t)
+		imports["github.com/go-fed/activity/vocab"] = true
+		for i, _ := range imports {
+			p.Imports = append(p.Imports, i)
+		}
 		p.F = append(p.F, funcs...)
 		p.Defs = append(p.Defs, defs...)
+
+		var b []byte
+		b, err = format.Source([]byte(p.Generate()))
+		if err != nil {
+			return
+		}
+		f = append(f, &File{
+			Name:    fmt.Sprintf("gen_%s.go", strings.ToLower(t.Name)),
+			Content: b,
+		})
 	}
-	return format.Source([]byte(p.Generate()))
+	return
 }
 
 func generatePackageDefinition() *defs.PackageDef {
 	return &defs.PackageDef{
 		Name:    "streams",
 		Comment: "Package streams is a convenience wrapper around the raw ActivityStream vocabulary. This package is code-generated to permit more powerful expressions and manipulations of the ActivityStreams Vocabulary types. This package also does not permit use of 'unknown' properties, or those that are outside of the ActivityStream Vocabulary specification. However, it still correctly propagates them when repeatedly re-and-de-serialized. Custom extensions of the vocabulary are supported by modifying the data definitions in the generation tool and rerunning it. Do not modify this package directly.",
-		Imports: []string{"fmt", "github.com/go-fed/activity/vocab", "net/url", "time"},
+		Imports: []string{"fmt", "github.com/go-fed/activity/vocab"},
 		Raw: `type Resolution int
 
 const (
@@ -209,7 +238,8 @@ func generateResolver(types []*defs.Type) *defs.StructDef {
 	return this
 }
 
-func generateDefinitions(t *defs.Type) (fd []*defs.FunctionDef, sd []*defs.StructDef) {
+func generateDefinitions(t *defs.Type) (fd []*defs.FunctionDef, sd []*defs.StructDef, imports map[string]bool) {
+	imports = make(map[string]bool)
 	this := &defs.StructDef{
 		Typename: t.Name,
 		Comment:  t.Notes + convenienceComment,
@@ -242,6 +272,13 @@ func generateDefinitions(t *defs.Type) (fd []*defs.FunctionDef, sd []*defs.Struc
 	}...)
 	for _, p := range t.GetProperties() {
 		generatePropertyHelpers(p, this)
+		for _, r := range p.Range {
+			if r.V != nil {
+				for _, i := range r.V.Imports {
+					imports[i] = true
+				}
+			}
+		}
 	}
 	return
 }

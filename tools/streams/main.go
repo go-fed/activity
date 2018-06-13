@@ -8,12 +8,14 @@ import (
 
 func main() {
 	allTypes := append(defs.AllCoreTypes, defs.AllExtendedTypes...)
-	b, err := gen.GenerateConvenienceTypes(allTypes)
+	files, err := gen.GenerateConvenienceTypes(allTypes)
 	if err != nil {
 		panic(err)
 	}
-	err = ioutil.WriteFile("streams.go", b, 0666)
-	if err != nil {
-		panic(err)
+	for _, f := range files {
+		err = ioutil.WriteFile(f.Name, f.Content, 0666)
+		if err != nil {
+			panic(err)
+		}
 	}
 }
