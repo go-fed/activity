@@ -125,7 +125,9 @@ func (r retryData) ShouldRetry(max int) bool {
 	return r.n < max
 }
 
-// Do spawns a goroutine that retries f until it returns no error.
+// Do spawns a goroutine that retries f until it returns no error. Retry
+// behavior is determined by the DeliveryOptions passed to the DelivererPool
+// upon construction.
 func (d *DelivererPool) Do(b []byte, to *url.URL, sendFn func([]byte, *url.URL) error) {
 	f := func() error {
 		return sendFn(b, to)
@@ -144,6 +146,10 @@ func (d *DelivererPool) Do(b []byte, to *url.URL, sendFn func([]byte, *url.URL) 
 	}()
 }
 
+// Restart resumes a previous attempt at delivering a payload to the specified
+// URL. Retry behavior is determined by the DeliveryOptions passed to this
+// DelivererPool upon construction, and is not governed by the previous
+// DelivererPool that attempted to deliver the message.
 func (d *DelivererPool) Restart(b []byte, to *url.URL, id string, sendFn func([]byte, *url.URL) error) {
 	f := func() error {
 		return sendFn(b, to)
@@ -158,11 +164,14 @@ func (d *DelivererPool) Restart(b []byte, to *url.URL, id string, sendFn func([]
 	}()
 }
 
+// Stop turns down and stops any in-flight requests or retries.
 func (d *DelivererPool) Stop() {
 	d.cancel()
 	d.closeTimers()
 }
 
+// Provides a channel streaming any errors the pool encounters, including errors
+// that it retries on.
 func (d *DelivererPool) Errors() <-chan error {
 	return d.errChan
 }
@@ -188,6 +197,7 @@ func (d *DelivererPool) do(r retryData) {
 				d.persister.Undeliverable(r.id)
 			}
 		}
+		return
 	}
 	if d.persister != nil {
 		d.persister.Successful(r.id)
