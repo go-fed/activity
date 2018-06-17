@@ -2,7 +2,6 @@
 package vocab
 
 import (
-	"fmt"
 	"net/url"
 	"time"
 )
@@ -589,103 +588,103 @@ type View struct {
 	// An unknown value.
 	unknown_ map[string]interface{}
 	// The 'actor' value could have multiple types and values
-	actor []*actorViewIntermediateType
+	actor []*actorIntermediateType
 	// The 'object' value could have multiple types and values
-	object []*objectViewIntermediateType
+	object []*objectIntermediateType
 	// The 'target' value could have multiple types and values
-	target []*targetViewIntermediateType
+	target []*targetIntermediateType
 	// The 'result' value could have multiple types and values
-	result []*resultViewIntermediateType
+	result []*resultIntermediateType
 	// The 'origin' value could have multiple types and values
-	origin []*originViewIntermediateType
+	origin []*originIntermediateType
 	// The 'instrument' value could have multiple types and values
-	instrument []*instrumentViewIntermediateType
+	instrument []*instrumentIntermediateType
 	// The functional 'altitude' value could have multiple types, but only a single value
-	altitude *altitudeViewIntermediateType
+	altitude *altitudeIntermediateType
 	// The 'attachment' value could have multiple types and values
-	attachment []*attachmentViewIntermediateType
+	attachment []*attachmentIntermediateType
 	// The 'attributedTo' value could have multiple types and values
-	attributedTo []*attributedToViewIntermediateType
+	attributedTo []*attributedToIntermediateType
 	// The 'audience' value could have multiple types and values
-	audience []*audienceViewIntermediateType
+	audience []*audienceIntermediateType
 	// The 'content' value could have multiple types and values
-	content []*contentViewIntermediateType
+	content []*contentIntermediateType
 	// The 'contentMap' value holds language-specific values for property 'content'
 	contentMap map[string]string
 	// The 'context' value could have multiple types and values
-	context []*contextViewIntermediateType
+	context []*contextIntermediateType
 	// The 'name' value could have multiple types and values
-	name []*nameViewIntermediateType
+	name []*nameIntermediateType
 	// The 'nameMap' value holds language-specific values for property 'name'
 	nameMap map[string]string
 	// The functional 'endTime' value could have multiple types, but only a single value
-	endTime *endTimeViewIntermediateType
+	endTime *endTimeIntermediateType
 	// The 'generator' value could have multiple types and values
-	generator []*generatorViewIntermediateType
+	generator []*generatorIntermediateType
 	// The 'icon' value could have multiple types and values
-	icon []*iconViewIntermediateType
+	icon []*iconIntermediateType
 	// The functional 'id' value holds a single type and a single value
 	id *url.URL
 	// The 'image' value could have multiple types and values
-	image []*imageViewIntermediateType
+	image []*imageIntermediateType
 	// The 'inReplyTo' value could have multiple types and values
-	inReplyTo []*inReplyToViewIntermediateType
+	inReplyTo []*inReplyToIntermediateType
 	// The 'location' value could have multiple types and values
-	location []*locationViewIntermediateType
+	location []*locationIntermediateType
 	// The 'preview' value could have multiple types and values
-	preview []*previewViewIntermediateType
+	preview []*previewIntermediateType
 	// The functional 'published' value could have multiple types, but only a single value
-	published *publishedViewIntermediateType
+	published *publishedIntermediateType
 	// The functional 'replies' value could have multiple types, but only a single value
-	replies *repliesViewIntermediateType
+	replies *repliesIntermediateType
 	// The functional 'startTime' value could have multiple types, but only a single value
-	startTime *startTimeViewIntermediateType
+	startTime *startTimeIntermediateType
 	// The 'summary' value could have multiple types and values
-	summary []*summaryViewIntermediateType
+	summary []*summaryIntermediateType
 	// The 'summaryMap' value holds language-specific values for property 'summary'
 	summaryMap map[string]string
 	// The 'tag' value could have multiple types and values
-	tag []*tagViewIntermediateType
+	tag []*tagIntermediateType
 	// The 'type' value can hold any type and any number of values
 	typeName []interface{}
 	// The functional 'updated' value could have multiple types, but only a single value
-	updated *updatedViewIntermediateType
+	updated *updatedIntermediateType
 	// The 'url' value could have multiple types and values
-	url []*urlViewIntermediateType
+	url []*urlIntermediateType
 	// The 'to' value could have multiple types and values
-	to []*toViewIntermediateType
+	to []*toIntermediateType
 	// The 'bto' value could have multiple types and values
-	bto []*btoViewIntermediateType
+	bto []*btoIntermediateType
 	// The 'cc' value could have multiple types and values
-	cc []*ccViewIntermediateType
+	cc []*ccIntermediateType
 	// The 'bcc' value could have multiple types and values
-	bcc []*bccViewIntermediateType
+	bcc []*bccIntermediateType
 	// The functional 'mediaType' value could have multiple types, but only a single value
-	mediaType *mediaTypeViewIntermediateType
+	mediaType *mediaTypeIntermediateType
 	// The functional 'duration' value could have multiple types, but only a single value
-	duration *durationViewIntermediateType
+	duration *durationIntermediateType
 	// The functional 'source' value could have multiple types, but only a single value
-	source *sourceViewIntermediateType
+	source *sourceIntermediateType
 	// The functional 'inbox' value could have multiple types, but only a single value
-	inbox *inboxViewIntermediateType
+	inbox *inboxIntermediateType
 	// The functional 'outbox' value could have multiple types, but only a single value
-	outbox *outboxViewIntermediateType
+	outbox *outboxIntermediateType
 	// The functional 'following' value could have multiple types, but only a single value
-	following *followingViewIntermediateType
+	following *followingIntermediateType
 	// The functional 'followers' value could have multiple types, but only a single value
-	followers *followersViewIntermediateType
+	followers *followersIntermediateType
 	// The functional 'liked' value could have multiple types, but only a single value
-	liked *likedViewIntermediateType
+	liked *likedIntermediateType
 	// The functional 'likes' value could have multiple types, but only a single value
-	likes *likesViewIntermediateType
+	likes *likesIntermediateType
 	// The 'streams' value holds a single type and any number of values
 	streams []*url.URL
 	// The functional 'preferredUsername' value could have multiple types, but only a single value
-	preferredUsername *preferredUsernameViewIntermediateType
+	preferredUsername *preferredUsernameIntermediateType
 	// The 'preferredUsernameMap' value holds language-specific values for property 'preferredUsername'
 	preferredUsernameMap map[string]string
 	// The functional 'endpoints' value could have multiple types, but only a single value
-	endpoints *endpointsViewIntermediateType
+	endpoints *endpointsIntermediateType
 	// The functional 'proxyUrl' value holds a single type and a single value
 	proxyUrl *url.URL
 	// The functional 'oauthAuthorizationEndpoint' value holds a single type and a single value
@@ -720,13 +719,13 @@ func (t *View) GetActorObject(index int) (v ObjectType) {
 
 // AppendActorObject adds to the back of actor a ObjectType type
 func (t *View) AppendActorObject(v ObjectType) {
-	t.actor = append(t.actor, &actorViewIntermediateType{Object: v})
+	t.actor = append(t.actor, &actorIntermediateType{Object: v})
 
 }
 
 // PrependActorObject adds to the front of actor a ObjectType type
 func (t *View) PrependActorObject(v ObjectType) {
-	t.actor = append([]*actorViewIntermediateType{&actorViewIntermediateType{Object: v}}, t.actor...)
+	t.actor = append([]*actorIntermediateType{&actorIntermediateType{Object: v}}, t.actor...)
 
 }
 
@@ -752,13 +751,13 @@ func (t *View) GetActorLink(index int) (v LinkType) {
 
 // AppendActorLink adds to the back of actor a LinkType type
 func (t *View) AppendActorLink(v LinkType) {
-	t.actor = append(t.actor, &actorViewIntermediateType{Link: v})
+	t.actor = append(t.actor, &actorIntermediateType{Link: v})
 
 }
 
 // PrependActorLink adds to the front of actor a LinkType type
 func (t *View) PrependActorLink(v LinkType) {
-	t.actor = append([]*actorViewIntermediateType{&actorViewIntermediateType{Link: v}}, t.actor...)
+	t.actor = append([]*actorIntermediateType{&actorIntermediateType{Link: v}}, t.actor...)
 
 }
 
@@ -784,13 +783,13 @@ func (t *View) GetActorIRI(index int) (v *url.URL) {
 
 // AppendActorIRI adds to the back of actor a *url.URL type
 func (t *View) AppendActorIRI(v *url.URL) {
-	t.actor = append(t.actor, &actorViewIntermediateType{IRI: v})
+	t.actor = append(t.actor, &actorIntermediateType{IRI: v})
 
 }
 
 // PrependActorIRI adds to the front of actor a *url.URL type
 func (t *View) PrependActorIRI(v *url.URL) {
-	t.actor = append([]*actorViewIntermediateType{&actorViewIntermediateType{IRI: v}}, t.actor...)
+	t.actor = append([]*actorIntermediateType{&actorIntermediateType{IRI: v}}, t.actor...)
 
 }
 
@@ -819,7 +818,7 @@ func (t *View) SetUnknownActor(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &actorViewIntermediateType{}
+	tmp := &actorIntermediateType{}
 	tmp.unknown_ = i
 	t.actor = append(t.actor, tmp)
 
@@ -845,13 +844,13 @@ func (t *View) GetObject(index int) (v ObjectType) {
 
 // AppendObject adds to the back of object a ObjectType type
 func (t *View) AppendObject(v ObjectType) {
-	t.object = append(t.object, &objectViewIntermediateType{Object: v})
+	t.object = append(t.object, &objectIntermediateType{Object: v})
 
 }
 
 // PrependObject adds to the front of object a ObjectType type
 func (t *View) PrependObject(v ObjectType) {
-	t.object = append([]*objectViewIntermediateType{&objectViewIntermediateType{Object: v}}, t.object...)
+	t.object = append([]*objectIntermediateType{&objectIntermediateType{Object: v}}, t.object...)
 
 }
 
@@ -877,13 +876,13 @@ func (t *View) GetObjectIRI(index int) (v *url.URL) {
 
 // AppendObjectIRI adds to the back of object a *url.URL type
 func (t *View) AppendObjectIRI(v *url.URL) {
-	t.object = append(t.object, &objectViewIntermediateType{IRI: v})
+	t.object = append(t.object, &objectIntermediateType{IRI: v})
 
 }
 
 // PrependObjectIRI adds to the front of object a *url.URL type
 func (t *View) PrependObjectIRI(v *url.URL) {
-	t.object = append([]*objectViewIntermediateType{&objectViewIntermediateType{IRI: v}}, t.object...)
+	t.object = append([]*objectIntermediateType{&objectIntermediateType{IRI: v}}, t.object...)
 
 }
 
@@ -912,7 +911,7 @@ func (t *View) SetUnknownObject(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &objectViewIntermediateType{}
+	tmp := &objectIntermediateType{}
 	tmp.unknown_ = i
 	t.object = append(t.object, tmp)
 
@@ -938,13 +937,13 @@ func (t *View) GetTargetObject(index int) (v ObjectType) {
 
 // AppendTargetObject adds to the back of target a ObjectType type
 func (t *View) AppendTargetObject(v ObjectType) {
-	t.target = append(t.target, &targetViewIntermediateType{Object: v})
+	t.target = append(t.target, &targetIntermediateType{Object: v})
 
 }
 
 // PrependTargetObject adds to the front of target a ObjectType type
 func (t *View) PrependTargetObject(v ObjectType) {
-	t.target = append([]*targetViewIntermediateType{&targetViewIntermediateType{Object: v}}, t.target...)
+	t.target = append([]*targetIntermediateType{&targetIntermediateType{Object: v}}, t.target...)
 
 }
 
@@ -970,13 +969,13 @@ func (t *View) GetTargetLink(index int) (v LinkType) {
 
 // AppendTargetLink adds to the back of target a LinkType type
 func (t *View) AppendTargetLink(v LinkType) {
-	t.target = append(t.target, &targetViewIntermediateType{Link: v})
+	t.target = append(t.target, &targetIntermediateType{Link: v})
 
 }
 
 // PrependTargetLink adds to the front of target a LinkType type
 func (t *View) PrependTargetLink(v LinkType) {
-	t.target = append([]*targetViewIntermediateType{&targetViewIntermediateType{Link: v}}, t.target...)
+	t.target = append([]*targetIntermediateType{&targetIntermediateType{Link: v}}, t.target...)
 
 }
 
@@ -1002,13 +1001,13 @@ func (t *View) GetTargetIRI(index int) (v *url.URL) {
 
 // AppendTargetIRI adds to the back of target a *url.URL type
 func (t *View) AppendTargetIRI(v *url.URL) {
-	t.target = append(t.target, &targetViewIntermediateType{IRI: v})
+	t.target = append(t.target, &targetIntermediateType{IRI: v})
 
 }
 
 // PrependTargetIRI adds to the front of target a *url.URL type
 func (t *View) PrependTargetIRI(v *url.URL) {
-	t.target = append([]*targetViewIntermediateType{&targetViewIntermediateType{IRI: v}}, t.target...)
+	t.target = append([]*targetIntermediateType{&targetIntermediateType{IRI: v}}, t.target...)
 
 }
 
@@ -1037,7 +1036,7 @@ func (t *View) SetUnknownTarget(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &targetViewIntermediateType{}
+	tmp := &targetIntermediateType{}
 	tmp.unknown_ = i
 	t.target = append(t.target, tmp)
 
@@ -1063,13 +1062,13 @@ func (t *View) GetResultObject(index int) (v ObjectType) {
 
 // AppendResultObject adds to the back of result a ObjectType type
 func (t *View) AppendResultObject(v ObjectType) {
-	t.result = append(t.result, &resultViewIntermediateType{Object: v})
+	t.result = append(t.result, &resultIntermediateType{Object: v})
 
 }
 
 // PrependResultObject adds to the front of result a ObjectType type
 func (t *View) PrependResultObject(v ObjectType) {
-	t.result = append([]*resultViewIntermediateType{&resultViewIntermediateType{Object: v}}, t.result...)
+	t.result = append([]*resultIntermediateType{&resultIntermediateType{Object: v}}, t.result...)
 
 }
 
@@ -1095,13 +1094,13 @@ func (t *View) GetResultLink(index int) (v LinkType) {
 
 // AppendResultLink adds to the back of result a LinkType type
 func (t *View) AppendResultLink(v LinkType) {
-	t.result = append(t.result, &resultViewIntermediateType{Link: v})
+	t.result = append(t.result, &resultIntermediateType{Link: v})
 
 }
 
 // PrependResultLink adds to the front of result a LinkType type
 func (t *View) PrependResultLink(v LinkType) {
-	t.result = append([]*resultViewIntermediateType{&resultViewIntermediateType{Link: v}}, t.result...)
+	t.result = append([]*resultIntermediateType{&resultIntermediateType{Link: v}}, t.result...)
 
 }
 
@@ -1127,13 +1126,13 @@ func (t *View) GetResultIRI(index int) (v *url.URL) {
 
 // AppendResultIRI adds to the back of result a *url.URL type
 func (t *View) AppendResultIRI(v *url.URL) {
-	t.result = append(t.result, &resultViewIntermediateType{IRI: v})
+	t.result = append(t.result, &resultIntermediateType{IRI: v})
 
 }
 
 // PrependResultIRI adds to the front of result a *url.URL type
 func (t *View) PrependResultIRI(v *url.URL) {
-	t.result = append([]*resultViewIntermediateType{&resultViewIntermediateType{IRI: v}}, t.result...)
+	t.result = append([]*resultIntermediateType{&resultIntermediateType{IRI: v}}, t.result...)
 
 }
 
@@ -1162,7 +1161,7 @@ func (t *View) SetUnknownResult(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &resultViewIntermediateType{}
+	tmp := &resultIntermediateType{}
 	tmp.unknown_ = i
 	t.result = append(t.result, tmp)
 
@@ -1188,13 +1187,13 @@ func (t *View) GetOriginObject(index int) (v ObjectType) {
 
 // AppendOriginObject adds to the back of origin a ObjectType type
 func (t *View) AppendOriginObject(v ObjectType) {
-	t.origin = append(t.origin, &originViewIntermediateType{Object: v})
+	t.origin = append(t.origin, &originIntermediateType{Object: v})
 
 }
 
 // PrependOriginObject adds to the front of origin a ObjectType type
 func (t *View) PrependOriginObject(v ObjectType) {
-	t.origin = append([]*originViewIntermediateType{&originViewIntermediateType{Object: v}}, t.origin...)
+	t.origin = append([]*originIntermediateType{&originIntermediateType{Object: v}}, t.origin...)
 
 }
 
@@ -1220,13 +1219,13 @@ func (t *View) GetOriginLink(index int) (v LinkType) {
 
 // AppendOriginLink adds to the back of origin a LinkType type
 func (t *View) AppendOriginLink(v LinkType) {
-	t.origin = append(t.origin, &originViewIntermediateType{Link: v})
+	t.origin = append(t.origin, &originIntermediateType{Link: v})
 
 }
 
 // PrependOriginLink adds to the front of origin a LinkType type
 func (t *View) PrependOriginLink(v LinkType) {
-	t.origin = append([]*originViewIntermediateType{&originViewIntermediateType{Link: v}}, t.origin...)
+	t.origin = append([]*originIntermediateType{&originIntermediateType{Link: v}}, t.origin...)
 
 }
 
@@ -1252,13 +1251,13 @@ func (t *View) GetOriginIRI(index int) (v *url.URL) {
 
 // AppendOriginIRI adds to the back of origin a *url.URL type
 func (t *View) AppendOriginIRI(v *url.URL) {
-	t.origin = append(t.origin, &originViewIntermediateType{IRI: v})
+	t.origin = append(t.origin, &originIntermediateType{IRI: v})
 
 }
 
 // PrependOriginIRI adds to the front of origin a *url.URL type
 func (t *View) PrependOriginIRI(v *url.URL) {
-	t.origin = append([]*originViewIntermediateType{&originViewIntermediateType{IRI: v}}, t.origin...)
+	t.origin = append([]*originIntermediateType{&originIntermediateType{IRI: v}}, t.origin...)
 
 }
 
@@ -1287,7 +1286,7 @@ func (t *View) SetUnknownOrigin(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &originViewIntermediateType{}
+	tmp := &originIntermediateType{}
 	tmp.unknown_ = i
 	t.origin = append(t.origin, tmp)
 
@@ -1313,13 +1312,13 @@ func (t *View) GetInstrumentObject(index int) (v ObjectType) {
 
 // AppendInstrumentObject adds to the back of instrument a ObjectType type
 func (t *View) AppendInstrumentObject(v ObjectType) {
-	t.instrument = append(t.instrument, &instrumentViewIntermediateType{Object: v})
+	t.instrument = append(t.instrument, &instrumentIntermediateType{Object: v})
 
 }
 
 // PrependInstrumentObject adds to the front of instrument a ObjectType type
 func (t *View) PrependInstrumentObject(v ObjectType) {
-	t.instrument = append([]*instrumentViewIntermediateType{&instrumentViewIntermediateType{Object: v}}, t.instrument...)
+	t.instrument = append([]*instrumentIntermediateType{&instrumentIntermediateType{Object: v}}, t.instrument...)
 
 }
 
@@ -1345,13 +1344,13 @@ func (t *View) GetInstrumentLink(index int) (v LinkType) {
 
 // AppendInstrumentLink adds to the back of instrument a LinkType type
 func (t *View) AppendInstrumentLink(v LinkType) {
-	t.instrument = append(t.instrument, &instrumentViewIntermediateType{Link: v})
+	t.instrument = append(t.instrument, &instrumentIntermediateType{Link: v})
 
 }
 
 // PrependInstrumentLink adds to the front of instrument a LinkType type
 func (t *View) PrependInstrumentLink(v LinkType) {
-	t.instrument = append([]*instrumentViewIntermediateType{&instrumentViewIntermediateType{Link: v}}, t.instrument...)
+	t.instrument = append([]*instrumentIntermediateType{&instrumentIntermediateType{Link: v}}, t.instrument...)
 
 }
 
@@ -1377,13 +1376,13 @@ func (t *View) GetInstrumentIRI(index int) (v *url.URL) {
 
 // AppendInstrumentIRI adds to the back of instrument a *url.URL type
 func (t *View) AppendInstrumentIRI(v *url.URL) {
-	t.instrument = append(t.instrument, &instrumentViewIntermediateType{IRI: v})
+	t.instrument = append(t.instrument, &instrumentIntermediateType{IRI: v})
 
 }
 
 // PrependInstrumentIRI adds to the front of instrument a *url.URL type
 func (t *View) PrependInstrumentIRI(v *url.URL) {
-	t.instrument = append([]*instrumentViewIntermediateType{&instrumentViewIntermediateType{IRI: v}}, t.instrument...)
+	t.instrument = append([]*instrumentIntermediateType{&instrumentIntermediateType{IRI: v}}, t.instrument...)
 
 }
 
@@ -1412,7 +1411,7 @@ func (t *View) SetUnknownInstrument(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &instrumentViewIntermediateType{}
+	tmp := &instrumentIntermediateType{}
 	tmp.unknown_ = i
 	t.instrument = append(t.instrument, tmp)
 
@@ -1432,7 +1431,7 @@ func (t *View) GetAltitude() (v float64) {
 
 // SetAltitude sets the value of altitude to be of float64 type
 func (t *View) SetAltitude(v float64) {
-	t.altitude = &altitudeViewIntermediateType{float: &v}
+	t.altitude = &altitudeIntermediateType{float: &v}
 
 }
 
@@ -1450,7 +1449,7 @@ func (t *View) GetAltitudeIRI() (v *url.URL) {
 
 // SetAltitudeIRI sets the value of altitude to be of *url.URL type
 func (t *View) SetAltitudeIRI(v *url.URL) {
-	t.altitude = &altitudeViewIntermediateType{IRI: v}
+	t.altitude = &altitudeIntermediateType{IRI: v}
 
 }
 
@@ -1471,7 +1470,7 @@ func (t *View) SetUnknownAltitude(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &altitudeViewIntermediateType{}
+	tmp := &altitudeIntermediateType{}
 	tmp.unknown_ = i
 	t.altitude = tmp
 
@@ -1497,13 +1496,13 @@ func (t *View) GetAttachmentObject(index int) (v ObjectType) {
 
 // AppendAttachmentObject adds to the back of attachment a ObjectType type
 func (t *View) AppendAttachmentObject(v ObjectType) {
-	t.attachment = append(t.attachment, &attachmentViewIntermediateType{Object: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{Object: v})
 
 }
 
 // PrependAttachmentObject adds to the front of attachment a ObjectType type
 func (t *View) PrependAttachmentObject(v ObjectType) {
-	t.attachment = append([]*attachmentViewIntermediateType{&attachmentViewIntermediateType{Object: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{Object: v}}, t.attachment...)
 
 }
 
@@ -1529,13 +1528,13 @@ func (t *View) GetAttachmentLink(index int) (v LinkType) {
 
 // AppendAttachmentLink adds to the back of attachment a LinkType type
 func (t *View) AppendAttachmentLink(v LinkType) {
-	t.attachment = append(t.attachment, &attachmentViewIntermediateType{Link: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{Link: v})
 
 }
 
 // PrependAttachmentLink adds to the front of attachment a LinkType type
 func (t *View) PrependAttachmentLink(v LinkType) {
-	t.attachment = append([]*attachmentViewIntermediateType{&attachmentViewIntermediateType{Link: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{Link: v}}, t.attachment...)
 
 }
 
@@ -1561,13 +1560,13 @@ func (t *View) GetAttachmentIRI(index int) (v *url.URL) {
 
 // AppendAttachmentIRI adds to the back of attachment a *url.URL type
 func (t *View) AppendAttachmentIRI(v *url.URL) {
-	t.attachment = append(t.attachment, &attachmentViewIntermediateType{IRI: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{IRI: v})
 
 }
 
 // PrependAttachmentIRI adds to the front of attachment a *url.URL type
 func (t *View) PrependAttachmentIRI(v *url.URL) {
-	t.attachment = append([]*attachmentViewIntermediateType{&attachmentViewIntermediateType{IRI: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{IRI: v}}, t.attachment...)
 
 }
 
@@ -1596,7 +1595,7 @@ func (t *View) SetUnknownAttachment(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attachmentViewIntermediateType{}
+	tmp := &attachmentIntermediateType{}
 	tmp.unknown_ = i
 	t.attachment = append(t.attachment, tmp)
 
@@ -1622,13 +1621,13 @@ func (t *View) GetAttributedToObject(index int) (v ObjectType) {
 
 // AppendAttributedToObject adds to the back of attributedTo a ObjectType type
 func (t *View) AppendAttributedToObject(v ObjectType) {
-	t.attributedTo = append(t.attributedTo, &attributedToViewIntermediateType{Object: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Object: v})
 
 }
 
 // PrependAttributedToObject adds to the front of attributedTo a ObjectType type
 func (t *View) PrependAttributedToObject(v ObjectType) {
-	t.attributedTo = append([]*attributedToViewIntermediateType{&attributedToViewIntermediateType{Object: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Object: v}}, t.attributedTo...)
 
 }
 
@@ -1654,13 +1653,13 @@ func (t *View) GetAttributedToLink(index int) (v LinkType) {
 
 // AppendAttributedToLink adds to the back of attributedTo a LinkType type
 func (t *View) AppendAttributedToLink(v LinkType) {
-	t.attributedTo = append(t.attributedTo, &attributedToViewIntermediateType{Link: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Link: v})
 
 }
 
 // PrependAttributedToLink adds to the front of attributedTo a LinkType type
 func (t *View) PrependAttributedToLink(v LinkType) {
-	t.attributedTo = append([]*attributedToViewIntermediateType{&attributedToViewIntermediateType{Link: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Link: v}}, t.attributedTo...)
 
 }
 
@@ -1686,13 +1685,13 @@ func (t *View) GetAttributedToIRI(index int) (v *url.URL) {
 
 // AppendAttributedToIRI adds to the back of attributedTo a *url.URL type
 func (t *View) AppendAttributedToIRI(v *url.URL) {
-	t.attributedTo = append(t.attributedTo, &attributedToViewIntermediateType{IRI: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{IRI: v})
 
 }
 
 // PrependAttributedToIRI adds to the front of attributedTo a *url.URL type
 func (t *View) PrependAttributedToIRI(v *url.URL) {
-	t.attributedTo = append([]*attributedToViewIntermediateType{&attributedToViewIntermediateType{IRI: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{IRI: v}}, t.attributedTo...)
 
 }
 
@@ -1721,7 +1720,7 @@ func (t *View) SetUnknownAttributedTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attributedToViewIntermediateType{}
+	tmp := &attributedToIntermediateType{}
 	tmp.unknown_ = i
 	t.attributedTo = append(t.attributedTo, tmp)
 
@@ -1747,13 +1746,13 @@ func (t *View) GetAudienceObject(index int) (v ObjectType) {
 
 // AppendAudienceObject adds to the back of audience a ObjectType type
 func (t *View) AppendAudienceObject(v ObjectType) {
-	t.audience = append(t.audience, &audienceViewIntermediateType{Object: v})
+	t.audience = append(t.audience, &audienceIntermediateType{Object: v})
 
 }
 
 // PrependAudienceObject adds to the front of audience a ObjectType type
 func (t *View) PrependAudienceObject(v ObjectType) {
-	t.audience = append([]*audienceViewIntermediateType{&audienceViewIntermediateType{Object: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{Object: v}}, t.audience...)
 
 }
 
@@ -1779,13 +1778,13 @@ func (t *View) GetAudienceLink(index int) (v LinkType) {
 
 // AppendAudienceLink adds to the back of audience a LinkType type
 func (t *View) AppendAudienceLink(v LinkType) {
-	t.audience = append(t.audience, &audienceViewIntermediateType{Link: v})
+	t.audience = append(t.audience, &audienceIntermediateType{Link: v})
 
 }
 
 // PrependAudienceLink adds to the front of audience a LinkType type
 func (t *View) PrependAudienceLink(v LinkType) {
-	t.audience = append([]*audienceViewIntermediateType{&audienceViewIntermediateType{Link: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{Link: v}}, t.audience...)
 
 }
 
@@ -1811,13 +1810,13 @@ func (t *View) GetAudienceIRI(index int) (v *url.URL) {
 
 // AppendAudienceIRI adds to the back of audience a *url.URL type
 func (t *View) AppendAudienceIRI(v *url.URL) {
-	t.audience = append(t.audience, &audienceViewIntermediateType{IRI: v})
+	t.audience = append(t.audience, &audienceIntermediateType{IRI: v})
 
 }
 
 // PrependAudienceIRI adds to the front of audience a *url.URL type
 func (t *View) PrependAudienceIRI(v *url.URL) {
-	t.audience = append([]*audienceViewIntermediateType{&audienceViewIntermediateType{IRI: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{IRI: v}}, t.audience...)
 
 }
 
@@ -1846,7 +1845,7 @@ func (t *View) SetUnknownAudience(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &audienceViewIntermediateType{}
+	tmp := &audienceIntermediateType{}
 	tmp.unknown_ = i
 	t.audience = append(t.audience, tmp)
 
@@ -1872,13 +1871,13 @@ func (t *View) GetContentString(index int) (v string) {
 
 // AppendContentString adds to the back of content a string type
 func (t *View) AppendContentString(v string) {
-	t.content = append(t.content, &contentViewIntermediateType{stringName: &v})
+	t.content = append(t.content, &contentIntermediateType{stringName: &v})
 
 }
 
 // PrependContentString adds to the front of content a string type
 func (t *View) PrependContentString(v string) {
-	t.content = append([]*contentViewIntermediateType{&contentViewIntermediateType{stringName: &v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{stringName: &v}}, t.content...)
 
 }
 
@@ -1904,13 +1903,13 @@ func (t *View) GetContentLangString(index int) (v string) {
 
 // AppendContentLangString adds to the back of content a string type
 func (t *View) AppendContentLangString(v string) {
-	t.content = append(t.content, &contentViewIntermediateType{langString: &v})
+	t.content = append(t.content, &contentIntermediateType{langString: &v})
 
 }
 
 // PrependContentLangString adds to the front of content a string type
 func (t *View) PrependContentLangString(v string) {
-	t.content = append([]*contentViewIntermediateType{&contentViewIntermediateType{langString: &v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{langString: &v}}, t.content...)
 
 }
 
@@ -1936,13 +1935,13 @@ func (t *View) GetContentIRI(index int) (v *url.URL) {
 
 // AppendContentIRI adds to the back of content a *url.URL type
 func (t *View) AppendContentIRI(v *url.URL) {
-	t.content = append(t.content, &contentViewIntermediateType{IRI: v})
+	t.content = append(t.content, &contentIntermediateType{IRI: v})
 
 }
 
 // PrependContentIRI adds to the front of content a *url.URL type
 func (t *View) PrependContentIRI(v *url.URL) {
-	t.content = append([]*contentViewIntermediateType{&contentViewIntermediateType{IRI: v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{IRI: v}}, t.content...)
 
 }
 
@@ -1971,7 +1970,7 @@ func (t *View) SetUnknownContent(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &contentViewIntermediateType{}
+	tmp := &contentIntermediateType{}
 	tmp.unknown_ = i
 	t.content = append(t.content, tmp)
 
@@ -2032,13 +2031,13 @@ func (t *View) GetContextObject(index int) (v ObjectType) {
 
 // AppendContextObject adds to the back of context a ObjectType type
 func (t *View) AppendContextObject(v ObjectType) {
-	t.context = append(t.context, &contextViewIntermediateType{Object: v})
+	t.context = append(t.context, &contextIntermediateType{Object: v})
 
 }
 
 // PrependContextObject adds to the front of context a ObjectType type
 func (t *View) PrependContextObject(v ObjectType) {
-	t.context = append([]*contextViewIntermediateType{&contextViewIntermediateType{Object: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{Object: v}}, t.context...)
 
 }
 
@@ -2064,13 +2063,13 @@ func (t *View) GetContextLink(index int) (v LinkType) {
 
 // AppendContextLink adds to the back of context a LinkType type
 func (t *View) AppendContextLink(v LinkType) {
-	t.context = append(t.context, &contextViewIntermediateType{Link: v})
+	t.context = append(t.context, &contextIntermediateType{Link: v})
 
 }
 
 // PrependContextLink adds to the front of context a LinkType type
 func (t *View) PrependContextLink(v LinkType) {
-	t.context = append([]*contextViewIntermediateType{&contextViewIntermediateType{Link: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{Link: v}}, t.context...)
 
 }
 
@@ -2096,13 +2095,13 @@ func (t *View) GetContextIRI(index int) (v *url.URL) {
 
 // AppendContextIRI adds to the back of context a *url.URL type
 func (t *View) AppendContextIRI(v *url.URL) {
-	t.context = append(t.context, &contextViewIntermediateType{IRI: v})
+	t.context = append(t.context, &contextIntermediateType{IRI: v})
 
 }
 
 // PrependContextIRI adds to the front of context a *url.URL type
 func (t *View) PrependContextIRI(v *url.URL) {
-	t.context = append([]*contextViewIntermediateType{&contextViewIntermediateType{IRI: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{IRI: v}}, t.context...)
 
 }
 
@@ -2131,7 +2130,7 @@ func (t *View) SetUnknownContext(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &contextViewIntermediateType{}
+	tmp := &contextIntermediateType{}
 	tmp.unknown_ = i
 	t.context = append(t.context, tmp)
 
@@ -2157,13 +2156,13 @@ func (t *View) GetNameString(index int) (v string) {
 
 // AppendNameString adds to the back of name a string type
 func (t *View) AppendNameString(v string) {
-	t.name = append(t.name, &nameViewIntermediateType{stringName: &v})
+	t.name = append(t.name, &nameIntermediateType{stringName: &v})
 
 }
 
 // PrependNameString adds to the front of name a string type
 func (t *View) PrependNameString(v string) {
-	t.name = append([]*nameViewIntermediateType{&nameViewIntermediateType{stringName: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{stringName: &v}}, t.name...)
 
 }
 
@@ -2189,13 +2188,13 @@ func (t *View) GetNameLangString(index int) (v string) {
 
 // AppendNameLangString adds to the back of name a string type
 func (t *View) AppendNameLangString(v string) {
-	t.name = append(t.name, &nameViewIntermediateType{langString: &v})
+	t.name = append(t.name, &nameIntermediateType{langString: &v})
 
 }
 
 // PrependNameLangString adds to the front of name a string type
 func (t *View) PrependNameLangString(v string) {
-	t.name = append([]*nameViewIntermediateType{&nameViewIntermediateType{langString: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{langString: &v}}, t.name...)
 
 }
 
@@ -2221,13 +2220,13 @@ func (t *View) GetNameIRI(index int) (v *url.URL) {
 
 // AppendNameIRI adds to the back of name a *url.URL type
 func (t *View) AppendNameIRI(v *url.URL) {
-	t.name = append(t.name, &nameViewIntermediateType{IRI: v})
+	t.name = append(t.name, &nameIntermediateType{IRI: v})
 
 }
 
 // PrependNameIRI adds to the front of name a *url.URL type
 func (t *View) PrependNameIRI(v *url.URL) {
-	t.name = append([]*nameViewIntermediateType{&nameViewIntermediateType{IRI: v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{IRI: v}}, t.name...)
 
 }
 
@@ -2256,7 +2255,7 @@ func (t *View) SetUnknownName(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &nameViewIntermediateType{}
+	tmp := &nameIntermediateType{}
 	tmp.unknown_ = i
 	t.name = append(t.name, tmp)
 
@@ -2311,7 +2310,7 @@ func (t *View) GetEndTime() (v time.Time) {
 
 // SetEndTime sets the value of endTime to be of time.Time type
 func (t *View) SetEndTime(v time.Time) {
-	t.endTime = &endTimeViewIntermediateType{dateTime: &v}
+	t.endTime = &endTimeIntermediateType{dateTime: &v}
 
 }
 
@@ -2329,7 +2328,7 @@ func (t *View) GetEndTimeIRI() (v *url.URL) {
 
 // SetEndTimeIRI sets the value of endTime to be of *url.URL type
 func (t *View) SetEndTimeIRI(v *url.URL) {
-	t.endTime = &endTimeViewIntermediateType{IRI: v}
+	t.endTime = &endTimeIntermediateType{IRI: v}
 
 }
 
@@ -2350,7 +2349,7 @@ func (t *View) SetUnknownEndTime(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &endTimeViewIntermediateType{}
+	tmp := &endTimeIntermediateType{}
 	tmp.unknown_ = i
 	t.endTime = tmp
 
@@ -2376,13 +2375,13 @@ func (t *View) GetGeneratorObject(index int) (v ObjectType) {
 
 // AppendGeneratorObject adds to the back of generator a ObjectType type
 func (t *View) AppendGeneratorObject(v ObjectType) {
-	t.generator = append(t.generator, &generatorViewIntermediateType{Object: v})
+	t.generator = append(t.generator, &generatorIntermediateType{Object: v})
 
 }
 
 // PrependGeneratorObject adds to the front of generator a ObjectType type
 func (t *View) PrependGeneratorObject(v ObjectType) {
-	t.generator = append([]*generatorViewIntermediateType{&generatorViewIntermediateType{Object: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{Object: v}}, t.generator...)
 
 }
 
@@ -2408,13 +2407,13 @@ func (t *View) GetGeneratorLink(index int) (v LinkType) {
 
 // AppendGeneratorLink adds to the back of generator a LinkType type
 func (t *View) AppendGeneratorLink(v LinkType) {
-	t.generator = append(t.generator, &generatorViewIntermediateType{Link: v})
+	t.generator = append(t.generator, &generatorIntermediateType{Link: v})
 
 }
 
 // PrependGeneratorLink adds to the front of generator a LinkType type
 func (t *View) PrependGeneratorLink(v LinkType) {
-	t.generator = append([]*generatorViewIntermediateType{&generatorViewIntermediateType{Link: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{Link: v}}, t.generator...)
 
 }
 
@@ -2440,13 +2439,13 @@ func (t *View) GetGeneratorIRI(index int) (v *url.URL) {
 
 // AppendGeneratorIRI adds to the back of generator a *url.URL type
 func (t *View) AppendGeneratorIRI(v *url.URL) {
-	t.generator = append(t.generator, &generatorViewIntermediateType{IRI: v})
+	t.generator = append(t.generator, &generatorIntermediateType{IRI: v})
 
 }
 
 // PrependGeneratorIRI adds to the front of generator a *url.URL type
 func (t *View) PrependGeneratorIRI(v *url.URL) {
-	t.generator = append([]*generatorViewIntermediateType{&generatorViewIntermediateType{IRI: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{IRI: v}}, t.generator...)
 
 }
 
@@ -2475,7 +2474,7 @@ func (t *View) SetUnknownGenerator(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &generatorViewIntermediateType{}
+	tmp := &generatorIntermediateType{}
 	tmp.unknown_ = i
 	t.generator = append(t.generator, tmp)
 
@@ -2501,13 +2500,13 @@ func (t *View) GetIconImage(index int) (v ImageType) {
 
 // AppendIconImage adds to the back of icon a ImageType type
 func (t *View) AppendIconImage(v ImageType) {
-	t.icon = append(t.icon, &iconViewIntermediateType{Image: v})
+	t.icon = append(t.icon, &iconIntermediateType{Image: v})
 
 }
 
 // PrependIconImage adds to the front of icon a ImageType type
 func (t *View) PrependIconImage(v ImageType) {
-	t.icon = append([]*iconViewIntermediateType{&iconViewIntermediateType{Image: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{Image: v}}, t.icon...)
 
 }
 
@@ -2533,13 +2532,13 @@ func (t *View) GetIconLink(index int) (v LinkType) {
 
 // AppendIconLink adds to the back of icon a LinkType type
 func (t *View) AppendIconLink(v LinkType) {
-	t.icon = append(t.icon, &iconViewIntermediateType{Link: v})
+	t.icon = append(t.icon, &iconIntermediateType{Link: v})
 
 }
 
 // PrependIconLink adds to the front of icon a LinkType type
 func (t *View) PrependIconLink(v LinkType) {
-	t.icon = append([]*iconViewIntermediateType{&iconViewIntermediateType{Link: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{Link: v}}, t.icon...)
 
 }
 
@@ -2565,13 +2564,13 @@ func (t *View) GetIconIRI(index int) (v *url.URL) {
 
 // AppendIconIRI adds to the back of icon a *url.URL type
 func (t *View) AppendIconIRI(v *url.URL) {
-	t.icon = append(t.icon, &iconViewIntermediateType{IRI: v})
+	t.icon = append(t.icon, &iconIntermediateType{IRI: v})
 
 }
 
 // PrependIconIRI adds to the front of icon a *url.URL type
 func (t *View) PrependIconIRI(v *url.URL) {
-	t.icon = append([]*iconViewIntermediateType{&iconViewIntermediateType{IRI: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{IRI: v}}, t.icon...)
 
 }
 
@@ -2600,7 +2599,7 @@ func (t *View) SetUnknownIcon(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &iconViewIntermediateType{}
+	tmp := &iconIntermediateType{}
 	tmp.unknown_ = i
 	t.icon = append(t.icon, tmp)
 
@@ -2665,13 +2664,13 @@ func (t *View) GetImageImage(index int) (v ImageType) {
 
 // AppendImageImage adds to the back of image a ImageType type
 func (t *View) AppendImageImage(v ImageType) {
-	t.image = append(t.image, &imageViewIntermediateType{Image: v})
+	t.image = append(t.image, &imageIntermediateType{Image: v})
 
 }
 
 // PrependImageImage adds to the front of image a ImageType type
 func (t *View) PrependImageImage(v ImageType) {
-	t.image = append([]*imageViewIntermediateType{&imageViewIntermediateType{Image: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{Image: v}}, t.image...)
 
 }
 
@@ -2697,13 +2696,13 @@ func (t *View) GetImageLink(index int) (v LinkType) {
 
 // AppendImageLink adds to the back of image a LinkType type
 func (t *View) AppendImageLink(v LinkType) {
-	t.image = append(t.image, &imageViewIntermediateType{Link: v})
+	t.image = append(t.image, &imageIntermediateType{Link: v})
 
 }
 
 // PrependImageLink adds to the front of image a LinkType type
 func (t *View) PrependImageLink(v LinkType) {
-	t.image = append([]*imageViewIntermediateType{&imageViewIntermediateType{Link: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{Link: v}}, t.image...)
 
 }
 
@@ -2729,13 +2728,13 @@ func (t *View) GetImageIRI(index int) (v *url.URL) {
 
 // AppendImageIRI adds to the back of image a *url.URL type
 func (t *View) AppendImageIRI(v *url.URL) {
-	t.image = append(t.image, &imageViewIntermediateType{IRI: v})
+	t.image = append(t.image, &imageIntermediateType{IRI: v})
 
 }
 
 // PrependImageIRI adds to the front of image a *url.URL type
 func (t *View) PrependImageIRI(v *url.URL) {
-	t.image = append([]*imageViewIntermediateType{&imageViewIntermediateType{IRI: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{IRI: v}}, t.image...)
 
 }
 
@@ -2764,7 +2763,7 @@ func (t *View) SetUnknownImage(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &imageViewIntermediateType{}
+	tmp := &imageIntermediateType{}
 	tmp.unknown_ = i
 	t.image = append(t.image, tmp)
 
@@ -2790,13 +2789,13 @@ func (t *View) GetInReplyToObject(index int) (v ObjectType) {
 
 // AppendInReplyToObject adds to the back of inReplyTo a ObjectType type
 func (t *View) AppendInReplyToObject(v ObjectType) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToViewIntermediateType{Object: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{Object: v})
 
 }
 
 // PrependInReplyToObject adds to the front of inReplyTo a ObjectType type
 func (t *View) PrependInReplyToObject(v ObjectType) {
-	t.inReplyTo = append([]*inReplyToViewIntermediateType{&inReplyToViewIntermediateType{Object: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{Object: v}}, t.inReplyTo...)
 
 }
 
@@ -2822,13 +2821,13 @@ func (t *View) GetInReplyToLink(index int) (v LinkType) {
 
 // AppendInReplyToLink adds to the back of inReplyTo a LinkType type
 func (t *View) AppendInReplyToLink(v LinkType) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToViewIntermediateType{Link: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{Link: v})
 
 }
 
 // PrependInReplyToLink adds to the front of inReplyTo a LinkType type
 func (t *View) PrependInReplyToLink(v LinkType) {
-	t.inReplyTo = append([]*inReplyToViewIntermediateType{&inReplyToViewIntermediateType{Link: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{Link: v}}, t.inReplyTo...)
 
 }
 
@@ -2854,13 +2853,13 @@ func (t *View) GetInReplyToIRI(index int) (v *url.URL) {
 
 // AppendInReplyToIRI adds to the back of inReplyTo a *url.URL type
 func (t *View) AppendInReplyToIRI(v *url.URL) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToViewIntermediateType{IRI: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{IRI: v})
 
 }
 
 // PrependInReplyToIRI adds to the front of inReplyTo a *url.URL type
 func (t *View) PrependInReplyToIRI(v *url.URL) {
-	t.inReplyTo = append([]*inReplyToViewIntermediateType{&inReplyToViewIntermediateType{IRI: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{IRI: v}}, t.inReplyTo...)
 
 }
 
@@ -2889,7 +2888,7 @@ func (t *View) SetUnknownInReplyTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &inReplyToViewIntermediateType{}
+	tmp := &inReplyToIntermediateType{}
 	tmp.unknown_ = i
 	t.inReplyTo = append(t.inReplyTo, tmp)
 
@@ -2915,13 +2914,13 @@ func (t *View) GetLocationObject(index int) (v ObjectType) {
 
 // AppendLocationObject adds to the back of location a ObjectType type
 func (t *View) AppendLocationObject(v ObjectType) {
-	t.location = append(t.location, &locationViewIntermediateType{Object: v})
+	t.location = append(t.location, &locationIntermediateType{Object: v})
 
 }
 
 // PrependLocationObject adds to the front of location a ObjectType type
 func (t *View) PrependLocationObject(v ObjectType) {
-	t.location = append([]*locationViewIntermediateType{&locationViewIntermediateType{Object: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{Object: v}}, t.location...)
 
 }
 
@@ -2947,13 +2946,13 @@ func (t *View) GetLocationLink(index int) (v LinkType) {
 
 // AppendLocationLink adds to the back of location a LinkType type
 func (t *View) AppendLocationLink(v LinkType) {
-	t.location = append(t.location, &locationViewIntermediateType{Link: v})
+	t.location = append(t.location, &locationIntermediateType{Link: v})
 
 }
 
 // PrependLocationLink adds to the front of location a LinkType type
 func (t *View) PrependLocationLink(v LinkType) {
-	t.location = append([]*locationViewIntermediateType{&locationViewIntermediateType{Link: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{Link: v}}, t.location...)
 
 }
 
@@ -2979,13 +2978,13 @@ func (t *View) GetLocationIRI(index int) (v *url.URL) {
 
 // AppendLocationIRI adds to the back of location a *url.URL type
 func (t *View) AppendLocationIRI(v *url.URL) {
-	t.location = append(t.location, &locationViewIntermediateType{IRI: v})
+	t.location = append(t.location, &locationIntermediateType{IRI: v})
 
 }
 
 // PrependLocationIRI adds to the front of location a *url.URL type
 func (t *View) PrependLocationIRI(v *url.URL) {
-	t.location = append([]*locationViewIntermediateType{&locationViewIntermediateType{IRI: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{IRI: v}}, t.location...)
 
 }
 
@@ -3014,7 +3013,7 @@ func (t *View) SetUnknownLocation(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &locationViewIntermediateType{}
+	tmp := &locationIntermediateType{}
 	tmp.unknown_ = i
 	t.location = append(t.location, tmp)
 
@@ -3040,13 +3039,13 @@ func (t *View) GetPreviewObject(index int) (v ObjectType) {
 
 // AppendPreviewObject adds to the back of preview a ObjectType type
 func (t *View) AppendPreviewObject(v ObjectType) {
-	t.preview = append(t.preview, &previewViewIntermediateType{Object: v})
+	t.preview = append(t.preview, &previewIntermediateType{Object: v})
 
 }
 
 // PrependPreviewObject adds to the front of preview a ObjectType type
 func (t *View) PrependPreviewObject(v ObjectType) {
-	t.preview = append([]*previewViewIntermediateType{&previewViewIntermediateType{Object: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Object: v}}, t.preview...)
 
 }
 
@@ -3072,13 +3071,13 @@ func (t *View) GetPreviewLink(index int) (v LinkType) {
 
 // AppendPreviewLink adds to the back of preview a LinkType type
 func (t *View) AppendPreviewLink(v LinkType) {
-	t.preview = append(t.preview, &previewViewIntermediateType{Link: v})
+	t.preview = append(t.preview, &previewIntermediateType{Link: v})
 
 }
 
 // PrependPreviewLink adds to the front of preview a LinkType type
 func (t *View) PrependPreviewLink(v LinkType) {
-	t.preview = append([]*previewViewIntermediateType{&previewViewIntermediateType{Link: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Link: v}}, t.preview...)
 
 }
 
@@ -3104,13 +3103,13 @@ func (t *View) GetPreviewIRI(index int) (v *url.URL) {
 
 // AppendPreviewIRI adds to the back of preview a *url.URL type
 func (t *View) AppendPreviewIRI(v *url.URL) {
-	t.preview = append(t.preview, &previewViewIntermediateType{IRI: v})
+	t.preview = append(t.preview, &previewIntermediateType{IRI: v})
 
 }
 
 // PrependPreviewIRI adds to the front of preview a *url.URL type
 func (t *View) PrependPreviewIRI(v *url.URL) {
-	t.preview = append([]*previewViewIntermediateType{&previewViewIntermediateType{IRI: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{IRI: v}}, t.preview...)
 
 }
 
@@ -3139,7 +3138,7 @@ func (t *View) SetUnknownPreview(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &previewViewIntermediateType{}
+	tmp := &previewIntermediateType{}
 	tmp.unknown_ = i
 	t.preview = append(t.preview, tmp)
 
@@ -3159,7 +3158,7 @@ func (t *View) GetPublished() (v time.Time) {
 
 // SetPublished sets the value of published to be of time.Time type
 func (t *View) SetPublished(v time.Time) {
-	t.published = &publishedViewIntermediateType{dateTime: &v}
+	t.published = &publishedIntermediateType{dateTime: &v}
 
 }
 
@@ -3177,7 +3176,7 @@ func (t *View) GetPublishedIRI() (v *url.URL) {
 
 // SetPublishedIRI sets the value of published to be of *url.URL type
 func (t *View) SetPublishedIRI(v *url.URL) {
-	t.published = &publishedViewIntermediateType{IRI: v}
+	t.published = &publishedIntermediateType{IRI: v}
 
 }
 
@@ -3198,7 +3197,7 @@ func (t *View) SetUnknownPublished(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &publishedViewIntermediateType{}
+	tmp := &publishedIntermediateType{}
 	tmp.unknown_ = i
 	t.published = tmp
 
@@ -3218,7 +3217,7 @@ func (t *View) GetReplies() (v CollectionType) {
 
 // SetReplies sets the value of replies to be of CollectionType type
 func (t *View) SetReplies(v CollectionType) {
-	t.replies = &repliesViewIntermediateType{Collection: v}
+	t.replies = &repliesIntermediateType{Collection: v}
 
 }
 
@@ -3236,7 +3235,7 @@ func (t *View) GetRepliesIRI() (v *url.URL) {
 
 // SetRepliesIRI sets the value of replies to be of *url.URL type
 func (t *View) SetRepliesIRI(v *url.URL) {
-	t.replies = &repliesViewIntermediateType{IRI: v}
+	t.replies = &repliesIntermediateType{IRI: v}
 
 }
 
@@ -3257,7 +3256,7 @@ func (t *View) SetUnknownReplies(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &repliesViewIntermediateType{}
+	tmp := &repliesIntermediateType{}
 	tmp.unknown_ = i
 	t.replies = tmp
 
@@ -3277,7 +3276,7 @@ func (t *View) GetStartTime() (v time.Time) {
 
 // SetStartTime sets the value of startTime to be of time.Time type
 func (t *View) SetStartTime(v time.Time) {
-	t.startTime = &startTimeViewIntermediateType{dateTime: &v}
+	t.startTime = &startTimeIntermediateType{dateTime: &v}
 
 }
 
@@ -3295,7 +3294,7 @@ func (t *View) GetStartTimeIRI() (v *url.URL) {
 
 // SetStartTimeIRI sets the value of startTime to be of *url.URL type
 func (t *View) SetStartTimeIRI(v *url.URL) {
-	t.startTime = &startTimeViewIntermediateType{IRI: v}
+	t.startTime = &startTimeIntermediateType{IRI: v}
 
 }
 
@@ -3316,7 +3315,7 @@ func (t *View) SetUnknownStartTime(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &startTimeViewIntermediateType{}
+	tmp := &startTimeIntermediateType{}
 	tmp.unknown_ = i
 	t.startTime = tmp
 
@@ -3342,13 +3341,13 @@ func (t *View) GetSummaryString(index int) (v string) {
 
 // AppendSummaryString adds to the back of summary a string type
 func (t *View) AppendSummaryString(v string) {
-	t.summary = append(t.summary, &summaryViewIntermediateType{stringName: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{stringName: &v})
 
 }
 
 // PrependSummaryString adds to the front of summary a string type
 func (t *View) PrependSummaryString(v string) {
-	t.summary = append([]*summaryViewIntermediateType{&summaryViewIntermediateType{stringName: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{stringName: &v}}, t.summary...)
 
 }
 
@@ -3374,13 +3373,13 @@ func (t *View) GetSummaryLangString(index int) (v string) {
 
 // AppendSummaryLangString adds to the back of summary a string type
 func (t *View) AppendSummaryLangString(v string) {
-	t.summary = append(t.summary, &summaryViewIntermediateType{langString: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{langString: &v})
 
 }
 
 // PrependSummaryLangString adds to the front of summary a string type
 func (t *View) PrependSummaryLangString(v string) {
-	t.summary = append([]*summaryViewIntermediateType{&summaryViewIntermediateType{langString: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{langString: &v}}, t.summary...)
 
 }
 
@@ -3406,13 +3405,13 @@ func (t *View) GetSummaryIRI(index int) (v *url.URL) {
 
 // AppendSummaryIRI adds to the back of summary a *url.URL type
 func (t *View) AppendSummaryIRI(v *url.URL) {
-	t.summary = append(t.summary, &summaryViewIntermediateType{IRI: v})
+	t.summary = append(t.summary, &summaryIntermediateType{IRI: v})
 
 }
 
 // PrependSummaryIRI adds to the front of summary a *url.URL type
 func (t *View) PrependSummaryIRI(v *url.URL) {
-	t.summary = append([]*summaryViewIntermediateType{&summaryViewIntermediateType{IRI: v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{IRI: v}}, t.summary...)
 
 }
 
@@ -3441,7 +3440,7 @@ func (t *View) SetUnknownSummary(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &summaryViewIntermediateType{}
+	tmp := &summaryIntermediateType{}
 	tmp.unknown_ = i
 	t.summary = append(t.summary, tmp)
 
@@ -3502,13 +3501,13 @@ func (t *View) GetTagObject(index int) (v ObjectType) {
 
 // AppendTagObject adds to the back of tag a ObjectType type
 func (t *View) AppendTagObject(v ObjectType) {
-	t.tag = append(t.tag, &tagViewIntermediateType{Object: v})
+	t.tag = append(t.tag, &tagIntermediateType{Object: v})
 
 }
 
 // PrependTagObject adds to the front of tag a ObjectType type
 func (t *View) PrependTagObject(v ObjectType) {
-	t.tag = append([]*tagViewIntermediateType{&tagViewIntermediateType{Object: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{Object: v}}, t.tag...)
 
 }
 
@@ -3534,13 +3533,13 @@ func (t *View) GetTagLink(index int) (v LinkType) {
 
 // AppendTagLink adds to the back of tag a LinkType type
 func (t *View) AppendTagLink(v LinkType) {
-	t.tag = append(t.tag, &tagViewIntermediateType{Link: v})
+	t.tag = append(t.tag, &tagIntermediateType{Link: v})
 
 }
 
 // PrependTagLink adds to the front of tag a LinkType type
 func (t *View) PrependTagLink(v LinkType) {
-	t.tag = append([]*tagViewIntermediateType{&tagViewIntermediateType{Link: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{Link: v}}, t.tag...)
 
 }
 
@@ -3566,13 +3565,13 @@ func (t *View) GetTagIRI(index int) (v *url.URL) {
 
 // AppendTagIRI adds to the back of tag a *url.URL type
 func (t *View) AppendTagIRI(v *url.URL) {
-	t.tag = append(t.tag, &tagViewIntermediateType{IRI: v})
+	t.tag = append(t.tag, &tagIntermediateType{IRI: v})
 
 }
 
 // PrependTagIRI adds to the front of tag a *url.URL type
 func (t *View) PrependTagIRI(v *url.URL) {
-	t.tag = append([]*tagViewIntermediateType{&tagViewIntermediateType{IRI: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{IRI: v}}, t.tag...)
 
 }
 
@@ -3601,7 +3600,7 @@ func (t *View) SetUnknownTag(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &tagViewIntermediateType{}
+	tmp := &tagIntermediateType{}
 	tmp.unknown_ = i
 	t.tag = append(t.tag, tmp)
 
@@ -3653,7 +3652,7 @@ func (t *View) GetUpdated() (v time.Time) {
 
 // SetUpdated sets the value of updated to be of time.Time type
 func (t *View) SetUpdated(v time.Time) {
-	t.updated = &updatedViewIntermediateType{dateTime: &v}
+	t.updated = &updatedIntermediateType{dateTime: &v}
 
 }
 
@@ -3671,7 +3670,7 @@ func (t *View) GetUpdatedIRI() (v *url.URL) {
 
 // SetUpdatedIRI sets the value of updated to be of *url.URL type
 func (t *View) SetUpdatedIRI(v *url.URL) {
-	t.updated = &updatedViewIntermediateType{IRI: v}
+	t.updated = &updatedIntermediateType{IRI: v}
 
 }
 
@@ -3692,7 +3691,7 @@ func (t *View) SetUnknownUpdated(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &updatedViewIntermediateType{}
+	tmp := &updatedIntermediateType{}
 	tmp.unknown_ = i
 	t.updated = tmp
 
@@ -3718,13 +3717,13 @@ func (t *View) GetUrlAnyURI(index int) (v *url.URL) {
 
 // AppendUrlAnyURI adds to the back of url a *url.URL type
 func (t *View) AppendUrlAnyURI(v *url.URL) {
-	t.url = append(t.url, &urlViewIntermediateType{anyURI: v})
+	t.url = append(t.url, &urlIntermediateType{anyURI: v})
 
 }
 
 // PrependUrlAnyURI adds to the front of url a *url.URL type
 func (t *View) PrependUrlAnyURI(v *url.URL) {
-	t.url = append([]*urlViewIntermediateType{&urlViewIntermediateType{anyURI: v}}, t.url...)
+	t.url = append([]*urlIntermediateType{&urlIntermediateType{anyURI: v}}, t.url...)
 
 }
 
@@ -3750,13 +3749,13 @@ func (t *View) GetUrlLink(index int) (v LinkType) {
 
 // AppendUrlLink adds to the back of url a LinkType type
 func (t *View) AppendUrlLink(v LinkType) {
-	t.url = append(t.url, &urlViewIntermediateType{Link: v})
+	t.url = append(t.url, &urlIntermediateType{Link: v})
 
 }
 
 // PrependUrlLink adds to the front of url a LinkType type
 func (t *View) PrependUrlLink(v LinkType) {
-	t.url = append([]*urlViewIntermediateType{&urlViewIntermediateType{Link: v}}, t.url...)
+	t.url = append([]*urlIntermediateType{&urlIntermediateType{Link: v}}, t.url...)
 
 }
 
@@ -3785,7 +3784,7 @@ func (t *View) SetUnknownUrl(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &urlViewIntermediateType{}
+	tmp := &urlIntermediateType{}
 	tmp.unknown_ = i
 	t.url = append(t.url, tmp)
 
@@ -3811,13 +3810,13 @@ func (t *View) GetToObject(index int) (v ObjectType) {
 
 // AppendToObject adds to the back of to a ObjectType type
 func (t *View) AppendToObject(v ObjectType) {
-	t.to = append(t.to, &toViewIntermediateType{Object: v})
+	t.to = append(t.to, &toIntermediateType{Object: v})
 
 }
 
 // PrependToObject adds to the front of to a ObjectType type
 func (t *View) PrependToObject(v ObjectType) {
-	t.to = append([]*toViewIntermediateType{&toViewIntermediateType{Object: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{Object: v}}, t.to...)
 
 }
 
@@ -3843,13 +3842,13 @@ func (t *View) GetToLink(index int) (v LinkType) {
 
 // AppendToLink adds to the back of to a LinkType type
 func (t *View) AppendToLink(v LinkType) {
-	t.to = append(t.to, &toViewIntermediateType{Link: v})
+	t.to = append(t.to, &toIntermediateType{Link: v})
 
 }
 
 // PrependToLink adds to the front of to a LinkType type
 func (t *View) PrependToLink(v LinkType) {
-	t.to = append([]*toViewIntermediateType{&toViewIntermediateType{Link: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{Link: v}}, t.to...)
 
 }
 
@@ -3875,13 +3874,13 @@ func (t *View) GetToIRI(index int) (v *url.URL) {
 
 // AppendToIRI adds to the back of to a *url.URL type
 func (t *View) AppendToIRI(v *url.URL) {
-	t.to = append(t.to, &toViewIntermediateType{IRI: v})
+	t.to = append(t.to, &toIntermediateType{IRI: v})
 
 }
 
 // PrependToIRI adds to the front of to a *url.URL type
 func (t *View) PrependToIRI(v *url.URL) {
-	t.to = append([]*toViewIntermediateType{&toViewIntermediateType{IRI: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{IRI: v}}, t.to...)
 
 }
 
@@ -3910,7 +3909,7 @@ func (t *View) SetUnknownTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &toViewIntermediateType{}
+	tmp := &toIntermediateType{}
 	tmp.unknown_ = i
 	t.to = append(t.to, tmp)
 
@@ -3936,13 +3935,13 @@ func (t *View) GetBtoObject(index int) (v ObjectType) {
 
 // AppendBtoObject adds to the back of bto a ObjectType type
 func (t *View) AppendBtoObject(v ObjectType) {
-	t.bto = append(t.bto, &btoViewIntermediateType{Object: v})
+	t.bto = append(t.bto, &btoIntermediateType{Object: v})
 
 }
 
 // PrependBtoObject adds to the front of bto a ObjectType type
 func (t *View) PrependBtoObject(v ObjectType) {
-	t.bto = append([]*btoViewIntermediateType{&btoViewIntermediateType{Object: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{Object: v}}, t.bto...)
 
 }
 
@@ -3968,13 +3967,13 @@ func (t *View) GetBtoLink(index int) (v LinkType) {
 
 // AppendBtoLink adds to the back of bto a LinkType type
 func (t *View) AppendBtoLink(v LinkType) {
-	t.bto = append(t.bto, &btoViewIntermediateType{Link: v})
+	t.bto = append(t.bto, &btoIntermediateType{Link: v})
 
 }
 
 // PrependBtoLink adds to the front of bto a LinkType type
 func (t *View) PrependBtoLink(v LinkType) {
-	t.bto = append([]*btoViewIntermediateType{&btoViewIntermediateType{Link: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{Link: v}}, t.bto...)
 
 }
 
@@ -4000,13 +3999,13 @@ func (t *View) GetBtoIRI(index int) (v *url.URL) {
 
 // AppendBtoIRI adds to the back of bto a *url.URL type
 func (t *View) AppendBtoIRI(v *url.URL) {
-	t.bto = append(t.bto, &btoViewIntermediateType{IRI: v})
+	t.bto = append(t.bto, &btoIntermediateType{IRI: v})
 
 }
 
 // PrependBtoIRI adds to the front of bto a *url.URL type
 func (t *View) PrependBtoIRI(v *url.URL) {
-	t.bto = append([]*btoViewIntermediateType{&btoViewIntermediateType{IRI: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{IRI: v}}, t.bto...)
 
 }
 
@@ -4035,7 +4034,7 @@ func (t *View) SetUnknownBto(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &btoViewIntermediateType{}
+	tmp := &btoIntermediateType{}
 	tmp.unknown_ = i
 	t.bto = append(t.bto, tmp)
 
@@ -4061,13 +4060,13 @@ func (t *View) GetCcObject(index int) (v ObjectType) {
 
 // AppendCcObject adds to the back of cc a ObjectType type
 func (t *View) AppendCcObject(v ObjectType) {
-	t.cc = append(t.cc, &ccViewIntermediateType{Object: v})
+	t.cc = append(t.cc, &ccIntermediateType{Object: v})
 
 }
 
 // PrependCcObject adds to the front of cc a ObjectType type
 func (t *View) PrependCcObject(v ObjectType) {
-	t.cc = append([]*ccViewIntermediateType{&ccViewIntermediateType{Object: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{Object: v}}, t.cc...)
 
 }
 
@@ -4093,13 +4092,13 @@ func (t *View) GetCcLink(index int) (v LinkType) {
 
 // AppendCcLink adds to the back of cc a LinkType type
 func (t *View) AppendCcLink(v LinkType) {
-	t.cc = append(t.cc, &ccViewIntermediateType{Link: v})
+	t.cc = append(t.cc, &ccIntermediateType{Link: v})
 
 }
 
 // PrependCcLink adds to the front of cc a LinkType type
 func (t *View) PrependCcLink(v LinkType) {
-	t.cc = append([]*ccViewIntermediateType{&ccViewIntermediateType{Link: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{Link: v}}, t.cc...)
 
 }
 
@@ -4125,13 +4124,13 @@ func (t *View) GetCcIRI(index int) (v *url.URL) {
 
 // AppendCcIRI adds to the back of cc a *url.URL type
 func (t *View) AppendCcIRI(v *url.URL) {
-	t.cc = append(t.cc, &ccViewIntermediateType{IRI: v})
+	t.cc = append(t.cc, &ccIntermediateType{IRI: v})
 
 }
 
 // PrependCcIRI adds to the front of cc a *url.URL type
 func (t *View) PrependCcIRI(v *url.URL) {
-	t.cc = append([]*ccViewIntermediateType{&ccViewIntermediateType{IRI: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{IRI: v}}, t.cc...)
 
 }
 
@@ -4160,7 +4159,7 @@ func (t *View) SetUnknownCc(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &ccViewIntermediateType{}
+	tmp := &ccIntermediateType{}
 	tmp.unknown_ = i
 	t.cc = append(t.cc, tmp)
 
@@ -4186,13 +4185,13 @@ func (t *View) GetBccObject(index int) (v ObjectType) {
 
 // AppendBccObject adds to the back of bcc a ObjectType type
 func (t *View) AppendBccObject(v ObjectType) {
-	t.bcc = append(t.bcc, &bccViewIntermediateType{Object: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{Object: v})
 
 }
 
 // PrependBccObject adds to the front of bcc a ObjectType type
 func (t *View) PrependBccObject(v ObjectType) {
-	t.bcc = append([]*bccViewIntermediateType{&bccViewIntermediateType{Object: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{Object: v}}, t.bcc...)
 
 }
 
@@ -4218,13 +4217,13 @@ func (t *View) GetBccLink(index int) (v LinkType) {
 
 // AppendBccLink adds to the back of bcc a LinkType type
 func (t *View) AppendBccLink(v LinkType) {
-	t.bcc = append(t.bcc, &bccViewIntermediateType{Link: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{Link: v})
 
 }
 
 // PrependBccLink adds to the front of bcc a LinkType type
 func (t *View) PrependBccLink(v LinkType) {
-	t.bcc = append([]*bccViewIntermediateType{&bccViewIntermediateType{Link: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{Link: v}}, t.bcc...)
 
 }
 
@@ -4250,13 +4249,13 @@ func (t *View) GetBccIRI(index int) (v *url.URL) {
 
 // AppendBccIRI adds to the back of bcc a *url.URL type
 func (t *View) AppendBccIRI(v *url.URL) {
-	t.bcc = append(t.bcc, &bccViewIntermediateType{IRI: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{IRI: v})
 
 }
 
 // PrependBccIRI adds to the front of bcc a *url.URL type
 func (t *View) PrependBccIRI(v *url.URL) {
-	t.bcc = append([]*bccViewIntermediateType{&bccViewIntermediateType{IRI: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{IRI: v}}, t.bcc...)
 
 }
 
@@ -4285,7 +4284,7 @@ func (t *View) SetUnknownBcc(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &bccViewIntermediateType{}
+	tmp := &bccIntermediateType{}
 	tmp.unknown_ = i
 	t.bcc = append(t.bcc, tmp)
 
@@ -4305,7 +4304,7 @@ func (t *View) GetMediaType() (v string) {
 
 // SetMediaType sets the value of mediaType to be of string type
 func (t *View) SetMediaType(v string) {
-	t.mediaType = &mediaTypeViewIntermediateType{mimeMediaTypeValue: &v}
+	t.mediaType = &mediaTypeIntermediateType{mimeMediaTypeValue: &v}
 
 }
 
@@ -4323,7 +4322,7 @@ func (t *View) GetMediaTypeIRI() (v *url.URL) {
 
 // SetMediaTypeIRI sets the value of mediaType to be of *url.URL type
 func (t *View) SetMediaTypeIRI(v *url.URL) {
-	t.mediaType = &mediaTypeViewIntermediateType{IRI: v}
+	t.mediaType = &mediaTypeIntermediateType{IRI: v}
 
 }
 
@@ -4344,7 +4343,7 @@ func (t *View) SetUnknownMediaType(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &mediaTypeViewIntermediateType{}
+	tmp := &mediaTypeIntermediateType{}
 	tmp.unknown_ = i
 	t.mediaType = tmp
 
@@ -4364,7 +4363,7 @@ func (t *View) GetDuration() (v time.Duration) {
 
 // SetDuration sets the value of duration to be of time.Duration type
 func (t *View) SetDuration(v time.Duration) {
-	t.duration = &durationViewIntermediateType{duration: &v}
+	t.duration = &durationIntermediateType{duration: &v}
 
 }
 
@@ -4382,7 +4381,7 @@ func (t *View) GetDurationIRI() (v *url.URL) {
 
 // SetDurationIRI sets the value of duration to be of *url.URL type
 func (t *View) SetDurationIRI(v *url.URL) {
-	t.duration = &durationViewIntermediateType{IRI: v}
+	t.duration = &durationIntermediateType{IRI: v}
 
 }
 
@@ -4403,7 +4402,7 @@ func (t *View) SetUnknownDuration(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &durationViewIntermediateType{}
+	tmp := &durationIntermediateType{}
 	tmp.unknown_ = i
 	t.duration = tmp
 
@@ -4423,7 +4422,7 @@ func (t *View) GetSource() (v ObjectType) {
 
 // SetSource sets the value of source to be of ObjectType type
 func (t *View) SetSource(v ObjectType) {
-	t.source = &sourceViewIntermediateType{Object: v}
+	t.source = &sourceIntermediateType{Object: v}
 
 }
 
@@ -4441,7 +4440,7 @@ func (t *View) GetSourceIRI() (v *url.URL) {
 
 // SetSourceIRI sets the value of source to be of *url.URL type
 func (t *View) SetSourceIRI(v *url.URL) {
-	t.source = &sourceViewIntermediateType{IRI: v}
+	t.source = &sourceIntermediateType{IRI: v}
 
 }
 
@@ -4462,7 +4461,7 @@ func (t *View) SetUnknownSource(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &sourceViewIntermediateType{}
+	tmp := &sourceIntermediateType{}
 	tmp.unknown_ = i
 	t.source = tmp
 
@@ -4482,7 +4481,7 @@ func (t *View) GetInboxOrderedCollection() (v OrderedCollectionType) {
 
 // SetInboxOrderedCollection sets the value of inbox to be of OrderedCollectionType type
 func (t *View) SetInboxOrderedCollection(v OrderedCollectionType) {
-	t.inbox = &inboxViewIntermediateType{OrderedCollection: v}
+	t.inbox = &inboxIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4500,7 +4499,7 @@ func (t *View) GetInboxAnyURI() (v *url.URL) {
 
 // SetInboxAnyURI sets the value of inbox to be of *url.URL type
 func (t *View) SetInboxAnyURI(v *url.URL) {
-	t.inbox = &inboxViewIntermediateType{anyURI: v}
+	t.inbox = &inboxIntermediateType{anyURI: v}
 
 }
 
@@ -4521,7 +4520,7 @@ func (t *View) SetUnknownInbox(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &inboxViewIntermediateType{}
+	tmp := &inboxIntermediateType{}
 	tmp.unknown_ = i
 	t.inbox = tmp
 
@@ -4541,7 +4540,7 @@ func (t *View) GetOutboxOrderedCollection() (v OrderedCollectionType) {
 
 // SetOutboxOrderedCollection sets the value of outbox to be of OrderedCollectionType type
 func (t *View) SetOutboxOrderedCollection(v OrderedCollectionType) {
-	t.outbox = &outboxViewIntermediateType{OrderedCollection: v}
+	t.outbox = &outboxIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4559,7 +4558,7 @@ func (t *View) GetOutboxAnyURI() (v *url.URL) {
 
 // SetOutboxAnyURI sets the value of outbox to be of *url.URL type
 func (t *View) SetOutboxAnyURI(v *url.URL) {
-	t.outbox = &outboxViewIntermediateType{anyURI: v}
+	t.outbox = &outboxIntermediateType{anyURI: v}
 
 }
 
@@ -4580,7 +4579,7 @@ func (t *View) SetUnknownOutbox(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &outboxViewIntermediateType{}
+	tmp := &outboxIntermediateType{}
 	tmp.unknown_ = i
 	t.outbox = tmp
 
@@ -4600,7 +4599,7 @@ func (t *View) GetFollowingCollection() (v CollectionType) {
 
 // SetFollowingCollection sets the value of following to be of CollectionType type
 func (t *View) SetFollowingCollection(v CollectionType) {
-	t.following = &followingViewIntermediateType{Collection: v}
+	t.following = &followingIntermediateType{Collection: v}
 
 }
 
@@ -4618,7 +4617,7 @@ func (t *View) GetFollowingOrderedCollection() (v OrderedCollectionType) {
 
 // SetFollowingOrderedCollection sets the value of following to be of OrderedCollectionType type
 func (t *View) SetFollowingOrderedCollection(v OrderedCollectionType) {
-	t.following = &followingViewIntermediateType{OrderedCollection: v}
+	t.following = &followingIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4636,7 +4635,7 @@ func (t *View) GetFollowingAnyURI() (v *url.URL) {
 
 // SetFollowingAnyURI sets the value of following to be of *url.URL type
 func (t *View) SetFollowingAnyURI(v *url.URL) {
-	t.following = &followingViewIntermediateType{anyURI: v}
+	t.following = &followingIntermediateType{anyURI: v}
 
 }
 
@@ -4657,7 +4656,7 @@ func (t *View) SetUnknownFollowing(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &followingViewIntermediateType{}
+	tmp := &followingIntermediateType{}
 	tmp.unknown_ = i
 	t.following = tmp
 
@@ -4677,7 +4676,7 @@ func (t *View) GetFollowersCollection() (v CollectionType) {
 
 // SetFollowersCollection sets the value of followers to be of CollectionType type
 func (t *View) SetFollowersCollection(v CollectionType) {
-	t.followers = &followersViewIntermediateType{Collection: v}
+	t.followers = &followersIntermediateType{Collection: v}
 
 }
 
@@ -4695,7 +4694,7 @@ func (t *View) GetFollowersOrderedCollection() (v OrderedCollectionType) {
 
 // SetFollowersOrderedCollection sets the value of followers to be of OrderedCollectionType type
 func (t *View) SetFollowersOrderedCollection(v OrderedCollectionType) {
-	t.followers = &followersViewIntermediateType{OrderedCollection: v}
+	t.followers = &followersIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4713,7 +4712,7 @@ func (t *View) GetFollowersAnyURI() (v *url.URL) {
 
 // SetFollowersAnyURI sets the value of followers to be of *url.URL type
 func (t *View) SetFollowersAnyURI(v *url.URL) {
-	t.followers = &followersViewIntermediateType{anyURI: v}
+	t.followers = &followersIntermediateType{anyURI: v}
 
 }
 
@@ -4734,7 +4733,7 @@ func (t *View) SetUnknownFollowers(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &followersViewIntermediateType{}
+	tmp := &followersIntermediateType{}
 	tmp.unknown_ = i
 	t.followers = tmp
 
@@ -4754,7 +4753,7 @@ func (t *View) GetLikedCollection() (v CollectionType) {
 
 // SetLikedCollection sets the value of liked to be of CollectionType type
 func (t *View) SetLikedCollection(v CollectionType) {
-	t.liked = &likedViewIntermediateType{Collection: v}
+	t.liked = &likedIntermediateType{Collection: v}
 
 }
 
@@ -4772,7 +4771,7 @@ func (t *View) GetLikedOrderedCollection() (v OrderedCollectionType) {
 
 // SetLikedOrderedCollection sets the value of liked to be of OrderedCollectionType type
 func (t *View) SetLikedOrderedCollection(v OrderedCollectionType) {
-	t.liked = &likedViewIntermediateType{OrderedCollection: v}
+	t.liked = &likedIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4790,7 +4789,7 @@ func (t *View) GetLikedAnyURI() (v *url.URL) {
 
 // SetLikedAnyURI sets the value of liked to be of *url.URL type
 func (t *View) SetLikedAnyURI(v *url.URL) {
-	t.liked = &likedViewIntermediateType{anyURI: v}
+	t.liked = &likedIntermediateType{anyURI: v}
 
 }
 
@@ -4811,7 +4810,7 @@ func (t *View) SetUnknownLiked(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &likedViewIntermediateType{}
+	tmp := &likedIntermediateType{}
 	tmp.unknown_ = i
 	t.liked = tmp
 
@@ -4831,7 +4830,7 @@ func (t *View) GetLikesCollection() (v CollectionType) {
 
 // SetLikesCollection sets the value of likes to be of CollectionType type
 func (t *View) SetLikesCollection(v CollectionType) {
-	t.likes = &likesViewIntermediateType{Collection: v}
+	t.likes = &likesIntermediateType{Collection: v}
 
 }
 
@@ -4849,7 +4848,7 @@ func (t *View) GetLikesOrderedCollection() (v OrderedCollectionType) {
 
 // SetLikesOrderedCollection sets the value of likes to be of OrderedCollectionType type
 func (t *View) SetLikesOrderedCollection(v OrderedCollectionType) {
-	t.likes = &likesViewIntermediateType{OrderedCollection: v}
+	t.likes = &likesIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4867,7 +4866,7 @@ func (t *View) GetLikesAnyURI() (v *url.URL) {
 
 // SetLikesAnyURI sets the value of likes to be of *url.URL type
 func (t *View) SetLikesAnyURI(v *url.URL) {
-	t.likes = &likesViewIntermediateType{anyURI: v}
+	t.likes = &likesIntermediateType{anyURI: v}
 
 }
 
@@ -4888,7 +4887,7 @@ func (t *View) SetUnknownLikes(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &likesViewIntermediateType{}
+	tmp := &likesIntermediateType{}
 	tmp.unknown_ = i
 	t.likes = tmp
 
@@ -4961,7 +4960,7 @@ func (t *View) GetPreferredUsername() (v string) {
 
 // SetPreferredUsername sets the value of preferredUsername to be of string type
 func (t *View) SetPreferredUsername(v string) {
-	t.preferredUsername = &preferredUsernameViewIntermediateType{stringName: &v}
+	t.preferredUsername = &preferredUsernameIntermediateType{stringName: &v}
 
 }
 
@@ -4979,7 +4978,7 @@ func (t *View) GetPreferredUsernameIRI() (v *url.URL) {
 
 // SetPreferredUsernameIRI sets the value of preferredUsername to be of *url.URL type
 func (t *View) SetPreferredUsernameIRI(v *url.URL) {
-	t.preferredUsername = &preferredUsernameViewIntermediateType{IRI: v}
+	t.preferredUsername = &preferredUsernameIntermediateType{IRI: v}
 
 }
 
@@ -5000,7 +4999,7 @@ func (t *View) SetUnknownPreferredUsername(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &preferredUsernameViewIntermediateType{}
+	tmp := &preferredUsernameIntermediateType{}
 	tmp.unknown_ = i
 	t.preferredUsername = tmp
 
@@ -5055,7 +5054,7 @@ func (t *View) GetEndpoints() (v ObjectType) {
 
 // SetEndpoints sets the value of endpoints to be of ObjectType type
 func (t *View) SetEndpoints(v ObjectType) {
-	t.endpoints = &endpointsViewIntermediateType{Object: v}
+	t.endpoints = &endpointsIntermediateType{Object: v}
 
 }
 
@@ -5073,7 +5072,7 @@ func (t *View) GetEndpointsIRI() (v *url.URL) {
 
 // SetEndpointsIRI sets the value of endpoints to be of *url.URL type
 func (t *View) SetEndpointsIRI(v *url.URL) {
-	t.endpoints = &endpointsViewIntermediateType{IRI: v}
+	t.endpoints = &endpointsIntermediateType{IRI: v}
 
 }
 
@@ -5094,7 +5093,7 @@ func (t *View) SetUnknownEndpoints(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &endpointsViewIntermediateType{}
+	tmp := &endpointsIntermediateType{}
 	tmp.unknown_ = i
 	t.endpoints = tmp
 
@@ -5380,7 +5379,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 		t.typeName = append(t.typeName, "View")
 	}
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceActorViewIntermediateType(t.actor); err == nil && v != nil {
+	if v, err := serializeSliceActorIntermediateType(t.actor); err == nil && v != nil {
 		if len(v) == 1 {
 			m["actor"] = v[0]
 		} else {
@@ -5391,7 +5390,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceObjectViewIntermediateType(t.object); err == nil && v != nil {
+	if v, err := serializeSliceObjectIntermediateType(t.object); err == nil && v != nil {
 		if len(v) == 1 {
 			m["object"] = v[0]
 		} else {
@@ -5402,7 +5401,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceTargetViewIntermediateType(t.target); err == nil && v != nil {
+	if v, err := serializeSliceTargetIntermediateType(t.target); err == nil && v != nil {
 		if len(v) == 1 {
 			m["target"] = v[0]
 		} else {
@@ -5413,7 +5412,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceResultViewIntermediateType(t.result); err == nil && v != nil {
+	if v, err := serializeSliceResultIntermediateType(t.result); err == nil && v != nil {
 		if len(v) == 1 {
 			m["result"] = v[0]
 		} else {
@@ -5424,7 +5423,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceOriginViewIntermediateType(t.origin); err == nil && v != nil {
+	if v, err := serializeSliceOriginIntermediateType(t.origin); err == nil && v != nil {
 		if len(v) == 1 {
 			m["origin"] = v[0]
 		} else {
@@ -5435,7 +5434,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceInstrumentViewIntermediateType(t.instrument); err == nil && v != nil {
+	if v, err := serializeSliceInstrumentIntermediateType(t.instrument); err == nil && v != nil {
 		if len(v) == 1 {
 			m["instrument"] = v[0]
 		} else {
@@ -5447,7 +5446,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.altitude != nil {
-		if v, err := serializeAltitudeViewIntermediateType(t.altitude); err == nil {
+		if v, err := serializeAltitudeIntermediateType(t.altitude); err == nil {
 			m["altitude"] = v
 		} else {
 			return m, err
@@ -5455,7 +5454,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttachmentViewIntermediateType(t.attachment); err == nil && v != nil {
+	if v, err := serializeSliceAttachmentIntermediateType(t.attachment); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attachment"] = v[0]
 		} else {
@@ -5466,7 +5465,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttributedToViewIntermediateType(t.attributedTo); err == nil && v != nil {
+	if v, err := serializeSliceAttributedToIntermediateType(t.attributedTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attributedTo"] = v[0]
 		} else {
@@ -5477,7 +5476,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAudienceViewIntermediateType(t.audience); err == nil && v != nil {
+	if v, err := serializeSliceAudienceIntermediateType(t.audience); err == nil && v != nil {
 		if len(v) == 1 {
 			m["audience"] = v[0]
 		} else {
@@ -5488,7 +5487,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceContentViewIntermediateType(t.content); err == nil && v != nil {
+	if v, err := serializeSliceContentIntermediateType(t.content); err == nil && v != nil {
 		if len(v) == 1 {
 			m["content"] = v[0]
 		} else {
@@ -5505,7 +5504,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceContextViewIntermediateType(t.context); err == nil && v != nil {
+	if v, err := serializeSliceContextIntermediateType(t.context); err == nil && v != nil {
 		if len(v) == 1 {
 			m["context"] = v[0]
 		} else {
@@ -5516,7 +5515,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceNameViewIntermediateType(t.name); err == nil && v != nil {
+	if v, err := serializeSliceNameIntermediateType(t.name); err == nil && v != nil {
 		if len(v) == 1 {
 			m["name"] = v[0]
 		} else {
@@ -5534,7 +5533,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.endTime != nil {
-		if v, err := serializeEndTimeViewIntermediateType(t.endTime); err == nil {
+		if v, err := serializeEndTimeIntermediateType(t.endTime); err == nil {
 			m["endTime"] = v
 		} else {
 			return m, err
@@ -5542,7 +5541,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceGeneratorViewIntermediateType(t.generator); err == nil && v != nil {
+	if v, err := serializeSliceGeneratorIntermediateType(t.generator); err == nil && v != nil {
 		if len(v) == 1 {
 			m["generator"] = v[0]
 		} else {
@@ -5553,7 +5552,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceIconViewIntermediateType(t.icon); err == nil && v != nil {
+	if v, err := serializeSliceIconIntermediateType(t.icon); err == nil && v != nil {
 		if len(v) == 1 {
 			m["icon"] = v[0]
 		} else {
@@ -5579,7 +5578,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceImageViewIntermediateType(t.image); err == nil && v != nil {
+	if v, err := serializeSliceImageIntermediateType(t.image); err == nil && v != nil {
 		if len(v) == 1 {
 			m["image"] = v[0]
 		} else {
@@ -5590,7 +5589,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceInReplyToViewIntermediateType(t.inReplyTo); err == nil && v != nil {
+	if v, err := serializeSliceInReplyToIntermediateType(t.inReplyTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["inReplyTo"] = v[0]
 		} else {
@@ -5601,7 +5600,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceLocationViewIntermediateType(t.location); err == nil && v != nil {
+	if v, err := serializeSliceLocationIntermediateType(t.location); err == nil && v != nil {
 		if len(v) == 1 {
 			m["location"] = v[0]
 		} else {
@@ -5612,7 +5611,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSlicePreviewViewIntermediateType(t.preview); err == nil && v != nil {
+	if v, err := serializeSlicePreviewIntermediateType(t.preview); err == nil && v != nil {
 		if len(v) == 1 {
 			m["preview"] = v[0]
 		} else {
@@ -5624,7 +5623,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.published != nil {
-		if v, err := serializePublishedViewIntermediateType(t.published); err == nil {
+		if v, err := serializePublishedIntermediateType(t.published); err == nil {
 			m["published"] = v
 		} else {
 			return m, err
@@ -5633,7 +5632,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.replies != nil {
-		if v, err := serializeRepliesViewIntermediateType(t.replies); err == nil {
+		if v, err := serializeRepliesIntermediateType(t.replies); err == nil {
 			m["replies"] = v
 		} else {
 			return m, err
@@ -5642,7 +5641,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.startTime != nil {
-		if v, err := serializeStartTimeViewIntermediateType(t.startTime); err == nil {
+		if v, err := serializeStartTimeIntermediateType(t.startTime); err == nil {
 			m["startTime"] = v
 		} else {
 			return m, err
@@ -5650,7 +5649,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceSummaryViewIntermediateType(t.summary); err == nil && v != nil {
+	if v, err := serializeSliceSummaryIntermediateType(t.summary); err == nil && v != nil {
 		if len(v) == 1 {
 			m["summary"] = v[0]
 		} else {
@@ -5667,7 +5666,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceTagViewIntermediateType(t.tag); err == nil && v != nil {
+	if v, err := serializeSliceTagIntermediateType(t.tag); err == nil && v != nil {
 		if len(v) == 1 {
 			m["tag"] = v[0]
 		} else {
@@ -5688,7 +5687,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalAnyDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.updated != nil {
-		if v, err := serializeUpdatedViewIntermediateType(t.updated); err == nil {
+		if v, err := serializeUpdatedIntermediateType(t.updated); err == nil {
 			m["updated"] = v
 		} else {
 			return m, err
@@ -5696,7 +5695,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceUrlViewIntermediateType(t.url); err == nil && v != nil {
+	if v, err := serializeSliceUrlIntermediateType(t.url); err == nil && v != nil {
 		if len(v) == 1 {
 			m["url"] = v[0]
 		} else {
@@ -5707,7 +5706,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceToViewIntermediateType(t.to); err == nil && v != nil {
+	if v, err := serializeSliceToIntermediateType(t.to); err == nil && v != nil {
 		if len(v) == 1 {
 			m["to"] = v[0]
 		} else {
@@ -5718,7 +5717,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceBtoViewIntermediateType(t.bto); err == nil && v != nil {
+	if v, err := serializeSliceBtoIntermediateType(t.bto); err == nil && v != nil {
 		if len(v) == 1 {
 			m["bto"] = v[0]
 		} else {
@@ -5729,7 +5728,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceCcViewIntermediateType(t.cc); err == nil && v != nil {
+	if v, err := serializeSliceCcIntermediateType(t.cc); err == nil && v != nil {
 		if len(v) == 1 {
 			m["cc"] = v[0]
 		} else {
@@ -5740,7 +5739,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceBccViewIntermediateType(t.bcc); err == nil && v != nil {
+	if v, err := serializeSliceBccIntermediateType(t.bcc); err == nil && v != nil {
 		if len(v) == 1 {
 			m["bcc"] = v[0]
 		} else {
@@ -5752,7 +5751,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.mediaType != nil {
-		if v, err := serializeMediaTypeViewIntermediateType(t.mediaType); err == nil {
+		if v, err := serializeMediaTypeIntermediateType(t.mediaType); err == nil {
 			m["mediaType"] = v
 		} else {
 			return m, err
@@ -5761,7 +5760,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.duration != nil {
-		if v, err := serializeDurationViewIntermediateType(t.duration); err == nil {
+		if v, err := serializeDurationIntermediateType(t.duration); err == nil {
 			m["duration"] = v
 		} else {
 			return m, err
@@ -5770,7 +5769,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.source != nil {
-		if v, err := serializeSourceViewIntermediateType(t.source); err == nil {
+		if v, err := serializeSourceIntermediateType(t.source); err == nil {
 			m["source"] = v
 		} else {
 			return m, err
@@ -5779,7 +5778,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.inbox != nil {
-		if v, err := serializeInboxViewIntermediateType(t.inbox); err == nil {
+		if v, err := serializeInboxIntermediateType(t.inbox); err == nil {
 			m["inbox"] = v
 		} else {
 			return m, err
@@ -5788,7 +5787,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.outbox != nil {
-		if v, err := serializeOutboxViewIntermediateType(t.outbox); err == nil {
+		if v, err := serializeOutboxIntermediateType(t.outbox); err == nil {
 			m["outbox"] = v
 		} else {
 			return m, err
@@ -5797,7 +5796,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.following != nil {
-		if v, err := serializeFollowingViewIntermediateType(t.following); err == nil {
+		if v, err := serializeFollowingIntermediateType(t.following); err == nil {
 			m["following"] = v
 		} else {
 			return m, err
@@ -5806,7 +5805,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.followers != nil {
-		if v, err := serializeFollowersViewIntermediateType(t.followers); err == nil {
+		if v, err := serializeFollowersIntermediateType(t.followers); err == nil {
 			m["followers"] = v
 		} else {
 			return m, err
@@ -5815,7 +5814,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.liked != nil {
-		if v, err := serializeLikedViewIntermediateType(t.liked); err == nil {
+		if v, err := serializeLikedIntermediateType(t.liked); err == nil {
 			m["liked"] = v
 		} else {
 			return m, err
@@ -5824,7 +5823,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.likes != nil {
-		if v, err := serializeLikesViewIntermediateType(t.likes); err == nil {
+		if v, err := serializeLikesIntermediateType(t.likes); err == nil {
 			m["likes"] = v
 		} else {
 			return m, err
@@ -5847,7 +5846,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.preferredUsername != nil {
-		if v, err := serializePreferredUsernameViewIntermediateType(t.preferredUsername); err == nil {
+		if v, err := serializePreferredUsernameIntermediateType(t.preferredUsername); err == nil {
 			m["preferredUsername"] = v
 		} else {
 			return m, err
@@ -5862,7 +5861,7 @@ func (t *View) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.endpoints != nil {
-		if v, err := serializeEndpointsViewIntermediateType(t.endpoints); err == nil {
+		if v, err := serializeEndpointsIntermediateType(t.endpoints); err == nil {
 			m["endpoints"] = v
 		} else {
 			return m, err
@@ -5971,25 +5970,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "actor" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeActorViewIntermediateType(tmpMap)
+					tmp, err := deserializeActorIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.actor = []*actorViewIntermediateType{tmp}
+					t.actor = []*actorIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.actor, err = deserializeSliceActorViewIntermediateType(tmpSlice)
+					t.actor, err = deserializeSliceActorIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &actorViewIntermediateType{}
+					tmp := &actorIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.actor = []*actorViewIntermediateType{tmp}
+					t.actor = []*actorIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5999,25 +5998,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "object" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeObjectViewIntermediateType(tmpMap)
+					tmp, err := deserializeObjectIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.object = []*objectViewIntermediateType{tmp}
+					t.object = []*objectIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.object, err = deserializeSliceObjectViewIntermediateType(tmpSlice)
+					t.object, err = deserializeSliceObjectIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &objectViewIntermediateType{}
+					tmp := &objectIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.object = []*objectViewIntermediateType{tmp}
+					t.object = []*objectIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6027,25 +6026,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "target" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeTargetViewIntermediateType(tmpMap)
+					tmp, err := deserializeTargetIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.target = []*targetViewIntermediateType{tmp}
+					t.target = []*targetIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.target, err = deserializeSliceTargetViewIntermediateType(tmpSlice)
+					t.target, err = deserializeSliceTargetIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &targetViewIntermediateType{}
+					tmp := &targetIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.target = []*targetViewIntermediateType{tmp}
+					t.target = []*targetIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6055,25 +6054,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "result" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeResultViewIntermediateType(tmpMap)
+					tmp, err := deserializeResultIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.result = []*resultViewIntermediateType{tmp}
+					t.result = []*resultIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.result, err = deserializeSliceResultViewIntermediateType(tmpSlice)
+					t.result, err = deserializeSliceResultIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &resultViewIntermediateType{}
+					tmp := &resultIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.result = []*resultViewIntermediateType{tmp}
+					t.result = []*resultIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6083,25 +6082,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "origin" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeOriginViewIntermediateType(tmpMap)
+					tmp, err := deserializeOriginIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.origin = []*originViewIntermediateType{tmp}
+					t.origin = []*originIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.origin, err = deserializeSliceOriginViewIntermediateType(tmpSlice)
+					t.origin, err = deserializeSliceOriginIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &originViewIntermediateType{}
+					tmp := &originIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.origin = []*originViewIntermediateType{tmp}
+					t.origin = []*originIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6111,25 +6110,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "instrument" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeInstrumentViewIntermediateType(tmpMap)
+					tmp, err := deserializeInstrumentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.instrument = []*instrumentViewIntermediateType{tmp}
+					t.instrument = []*instrumentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.instrument, err = deserializeSliceInstrumentViewIntermediateType(tmpSlice)
+					t.instrument, err = deserializeSliceInstrumentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &instrumentViewIntermediateType{}
+					tmp := &instrumentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.instrument = []*instrumentViewIntermediateType{tmp}
+					t.instrument = []*instrumentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6138,7 +6137,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "altitude" {
-				t.altitude, err = deserializeAltitudeViewIntermediateType(v)
+				t.altitude, err = deserializeAltitudeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6150,25 +6149,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attachment" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttachmentViewIntermediateType(tmpMap)
+					tmp, err := deserializeAttachmentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attachment = []*attachmentViewIntermediateType{tmp}
+					t.attachment = []*attachmentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attachment, err = deserializeSliceAttachmentViewIntermediateType(tmpSlice)
+					t.attachment, err = deserializeSliceAttachmentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attachmentViewIntermediateType{}
+					tmp := &attachmentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attachment = []*attachmentViewIntermediateType{tmp}
+					t.attachment = []*attachmentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6178,25 +6177,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attributedTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttributedToViewIntermediateType(tmpMap)
+					tmp, err := deserializeAttributedToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToViewIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attributedTo, err = deserializeSliceAttributedToViewIntermediateType(tmpSlice)
+					t.attributedTo, err = deserializeSliceAttributedToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attributedToViewIntermediateType{}
+					tmp := &attributedToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToViewIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6206,25 +6205,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "audience" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAudienceViewIntermediateType(tmpMap)
+					tmp, err := deserializeAudienceIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.audience = []*audienceViewIntermediateType{tmp}
+					t.audience = []*audienceIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.audience, err = deserializeSliceAudienceViewIntermediateType(tmpSlice)
+					t.audience, err = deserializeSliceAudienceIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &audienceViewIntermediateType{}
+					tmp := &audienceIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.audience = []*audienceViewIntermediateType{tmp}
+					t.audience = []*audienceIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6234,25 +6233,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "content" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeContentViewIntermediateType(tmpMap)
+					tmp, err := deserializeContentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.content = []*contentViewIntermediateType{tmp}
+					t.content = []*contentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.content, err = deserializeSliceContentViewIntermediateType(tmpSlice)
+					t.content, err = deserializeSliceContentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &contentViewIntermediateType{}
+					tmp := &contentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.content = []*contentViewIntermediateType{tmp}
+					t.content = []*contentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6277,25 +6276,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "context" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeContextViewIntermediateType(tmpMap)
+					tmp, err := deserializeContextIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.context = []*contextViewIntermediateType{tmp}
+					t.context = []*contextIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.context, err = deserializeSliceContextViewIntermediateType(tmpSlice)
+					t.context, err = deserializeSliceContextIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &contextViewIntermediateType{}
+					tmp := &contextIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.context = []*contextViewIntermediateType{tmp}
+					t.context = []*contextIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6305,25 +6304,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "name" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeNameViewIntermediateType(tmpMap)
+					tmp, err := deserializeNameIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameViewIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.name, err = deserializeSliceNameViewIntermediateType(tmpSlice)
+					t.name, err = deserializeSliceNameIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &nameViewIntermediateType{}
+					tmp := &nameIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameViewIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6347,7 +6346,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "endTime" {
-				t.endTime, err = deserializeEndTimeViewIntermediateType(v)
+				t.endTime, err = deserializeEndTimeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6359,25 +6358,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "generator" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeGeneratorViewIntermediateType(tmpMap)
+					tmp, err := deserializeGeneratorIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.generator = []*generatorViewIntermediateType{tmp}
+					t.generator = []*generatorIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.generator, err = deserializeSliceGeneratorViewIntermediateType(tmpSlice)
+					t.generator, err = deserializeSliceGeneratorIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &generatorViewIntermediateType{}
+					tmp := &generatorIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.generator = []*generatorViewIntermediateType{tmp}
+					t.generator = []*generatorIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6387,25 +6386,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "icon" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeIconViewIntermediateType(tmpMap)
+					tmp, err := deserializeIconIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.icon = []*iconViewIntermediateType{tmp}
+					t.icon = []*iconIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.icon, err = deserializeSliceIconViewIntermediateType(tmpSlice)
+					t.icon, err = deserializeSliceIconIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &iconViewIntermediateType{}
+					tmp := &iconIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.icon = []*iconViewIntermediateType{tmp}
+					t.icon = []*iconIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6429,25 +6428,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "image" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeImageViewIntermediateType(tmpMap)
+					tmp, err := deserializeImageIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.image = []*imageViewIntermediateType{tmp}
+					t.image = []*imageIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.image, err = deserializeSliceImageViewIntermediateType(tmpSlice)
+					t.image, err = deserializeSliceImageIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &imageViewIntermediateType{}
+					tmp := &imageIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.image = []*imageViewIntermediateType{tmp}
+					t.image = []*imageIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6457,25 +6456,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "inReplyTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeInReplyToViewIntermediateType(tmpMap)
+					tmp, err := deserializeInReplyToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.inReplyTo = []*inReplyToViewIntermediateType{tmp}
+					t.inReplyTo = []*inReplyToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.inReplyTo, err = deserializeSliceInReplyToViewIntermediateType(tmpSlice)
+					t.inReplyTo, err = deserializeSliceInReplyToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &inReplyToViewIntermediateType{}
+					tmp := &inReplyToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.inReplyTo = []*inReplyToViewIntermediateType{tmp}
+					t.inReplyTo = []*inReplyToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6485,25 +6484,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "location" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeLocationViewIntermediateType(tmpMap)
+					tmp, err := deserializeLocationIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.location = []*locationViewIntermediateType{tmp}
+					t.location = []*locationIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.location, err = deserializeSliceLocationViewIntermediateType(tmpSlice)
+					t.location, err = deserializeSliceLocationIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &locationViewIntermediateType{}
+					tmp := &locationIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.location = []*locationViewIntermediateType{tmp}
+					t.location = []*locationIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6513,25 +6512,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "preview" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializePreviewViewIntermediateType(tmpMap)
+					tmp, err := deserializePreviewIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewViewIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.preview, err = deserializeSlicePreviewViewIntermediateType(tmpSlice)
+					t.preview, err = deserializeSlicePreviewIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &previewViewIntermediateType{}
+					tmp := &previewIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewViewIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6540,7 +6539,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "published" {
-				t.published, err = deserializePublishedViewIntermediateType(v)
+				t.published, err = deserializePublishedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6551,7 +6550,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "replies" {
-				t.replies, err = deserializeRepliesViewIntermediateType(v)
+				t.replies, err = deserializeRepliesIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6562,7 +6561,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "startTime" {
-				t.startTime, err = deserializeStartTimeViewIntermediateType(v)
+				t.startTime, err = deserializeStartTimeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6574,25 +6573,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "summary" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeSummaryViewIntermediateType(tmpMap)
+					tmp, err := deserializeSummaryIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryViewIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.summary, err = deserializeSliceSummaryViewIntermediateType(tmpSlice)
+					t.summary, err = deserializeSliceSummaryIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &summaryViewIntermediateType{}
+					tmp := &summaryIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryViewIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6617,25 +6616,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "tag" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeTagViewIntermediateType(tmpMap)
+					tmp, err := deserializeTagIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.tag = []*tagViewIntermediateType{tmp}
+					t.tag = []*tagIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.tag, err = deserializeSliceTagViewIntermediateType(tmpSlice)
+					t.tag, err = deserializeSliceTagIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &tagViewIntermediateType{}
+					tmp := &tagIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.tag = []*tagViewIntermediateType{tmp}
+					t.tag = []*tagIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6657,7 +6656,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "updated" {
-				t.updated, err = deserializeUpdatedViewIntermediateType(v)
+				t.updated, err = deserializeUpdatedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6669,25 +6668,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "url" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeUrlViewIntermediateType(tmpMap)
+					tmp, err := deserializeUrlIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.url = []*urlViewIntermediateType{tmp}
+					t.url = []*urlIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.url, err = deserializeSliceUrlViewIntermediateType(tmpSlice)
+					t.url, err = deserializeSliceUrlIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &urlViewIntermediateType{}
+					tmp := &urlIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.url = []*urlViewIntermediateType{tmp}
+					t.url = []*urlIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6697,25 +6696,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "to" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeToViewIntermediateType(tmpMap)
+					tmp, err := deserializeToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.to = []*toViewIntermediateType{tmp}
+					t.to = []*toIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.to, err = deserializeSliceToViewIntermediateType(tmpSlice)
+					t.to, err = deserializeSliceToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &toViewIntermediateType{}
+					tmp := &toIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.to = []*toViewIntermediateType{tmp}
+					t.to = []*toIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6725,25 +6724,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "bto" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeBtoViewIntermediateType(tmpMap)
+					tmp, err := deserializeBtoIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.bto = []*btoViewIntermediateType{tmp}
+					t.bto = []*btoIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.bto, err = deserializeSliceBtoViewIntermediateType(tmpSlice)
+					t.bto, err = deserializeSliceBtoIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &btoViewIntermediateType{}
+					tmp := &btoIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.bto = []*btoViewIntermediateType{tmp}
+					t.bto = []*btoIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6753,25 +6752,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "cc" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeCcViewIntermediateType(tmpMap)
+					tmp, err := deserializeCcIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.cc = []*ccViewIntermediateType{tmp}
+					t.cc = []*ccIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.cc, err = deserializeSliceCcViewIntermediateType(tmpSlice)
+					t.cc, err = deserializeSliceCcIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &ccViewIntermediateType{}
+					tmp := &ccIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.cc = []*ccViewIntermediateType{tmp}
+					t.cc = []*ccIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6781,25 +6780,25 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "bcc" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeBccViewIntermediateType(tmpMap)
+					tmp, err := deserializeBccIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.bcc = []*bccViewIntermediateType{tmp}
+					t.bcc = []*bccIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.bcc, err = deserializeSliceBccViewIntermediateType(tmpSlice)
+					t.bcc, err = deserializeSliceBccIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &bccViewIntermediateType{}
+					tmp := &bccIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.bcc = []*bccViewIntermediateType{tmp}
+					t.bcc = []*bccIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6808,7 +6807,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "mediaType" {
-				t.mediaType, err = deserializeMediaTypeViewIntermediateType(v)
+				t.mediaType, err = deserializeMediaTypeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6819,7 +6818,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "duration" {
-				t.duration, err = deserializeDurationViewIntermediateType(v)
+				t.duration, err = deserializeDurationIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6830,7 +6829,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "source" {
-				t.source, err = deserializeSourceViewIntermediateType(v)
+				t.source, err = deserializeSourceIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6841,7 +6840,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "inbox" {
-				t.inbox, err = deserializeInboxViewIntermediateType(v)
+				t.inbox, err = deserializeInboxIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6852,7 +6851,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "outbox" {
-				t.outbox, err = deserializeOutboxViewIntermediateType(v)
+				t.outbox, err = deserializeOutboxIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6863,7 +6862,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "following" {
-				t.following, err = deserializeFollowingViewIntermediateType(v)
+				t.following, err = deserializeFollowingIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6874,7 +6873,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "followers" {
-				t.followers, err = deserializeFollowersViewIntermediateType(v)
+				t.followers, err = deserializeFollowersIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6885,7 +6884,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "liked" {
-				t.liked, err = deserializeLikedViewIntermediateType(v)
+				t.liked, err = deserializeLikedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6896,7 +6895,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "likes" {
-				t.likes, err = deserializeLikesViewIntermediateType(v)
+				t.likes, err = deserializeLikesIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6932,7 +6931,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "preferredUsername" {
-				t.preferredUsername, err = deserializePreferredUsernameViewIntermediateType(v)
+				t.preferredUsername, err = deserializePreferredUsernameIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6958,7 +6957,7 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "endpoints" {
-				t.endpoints, err = deserializeEndpointsViewIntermediateType(v)
+				t.endpoints, err = deserializeEndpointsIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -7056,4874 +7055,6 @@ func (t *View) Deserialize(m map[string]interface{}) (err error) {
 			}
 			t.unknown_[k] = unknownValueDeserialize(v)
 		}
-	}
-	return
-
-}
-
-// actorViewIntermediateType will only have one of its values set at most
-type actorViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for actor property
-	Object ObjectType
-	// Stores possible LinkType type for actor property
-	Link LinkType
-	// Stores possible *url.URL type for actor property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *actorViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *actorViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// objectViewIntermediateType will only have one of its values set at most
-type objectViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for object property
-	Object ObjectType
-	// Stores possible *url.URL type for object property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *objectViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *objectViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// targetViewIntermediateType will only have one of its values set at most
-type targetViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for target property
-	Object ObjectType
-	// Stores possible LinkType type for target property
-	Link LinkType
-	// Stores possible *url.URL type for target property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *targetViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *targetViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// resultViewIntermediateType will only have one of its values set at most
-type resultViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for result property
-	Object ObjectType
-	// Stores possible LinkType type for result property
-	Link LinkType
-	// Stores possible *url.URL type for result property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *resultViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *resultViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// originViewIntermediateType will only have one of its values set at most
-type originViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for origin property
-	Object ObjectType
-	// Stores possible LinkType type for origin property
-	Link LinkType
-	// Stores possible *url.URL type for origin property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *originViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *originViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// instrumentViewIntermediateType will only have one of its values set at most
-type instrumentViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for instrument property
-	Object ObjectType
-	// Stores possible LinkType type for instrument property
-	Link LinkType
-	// Stores possible *url.URL type for instrument property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *instrumentViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *instrumentViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// altitudeViewIntermediateType will only have one of its values set at most
-type altitudeViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *float64 type for altitude property
-	float *float64
-	// Stores possible *url.URL type for altitude property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *altitudeViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.float, err = floatDeserialize(i)
-			if err != nil {
-				t.float = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *altitudeViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.float != nil {
-		i = floatSerialize(*t.float)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// attachmentViewIntermediateType will only have one of its values set at most
-type attachmentViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attachment property
-	Object ObjectType
-	// Stores possible LinkType type for attachment property
-	Link LinkType
-	// Stores possible *url.URL type for attachment property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attachmentViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attachmentViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// attributedToViewIntermediateType will only have one of its values set at most
-type attributedToViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attributedTo property
-	Object ObjectType
-	// Stores possible LinkType type for attributedTo property
-	Link LinkType
-	// Stores possible *url.URL type for attributedTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attributedToViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attributedToViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// audienceViewIntermediateType will only have one of its values set at most
-type audienceViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for audience property
-	Object ObjectType
-	// Stores possible LinkType type for audience property
-	Link LinkType
-	// Stores possible *url.URL type for audience property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *audienceViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *audienceViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// contentViewIntermediateType will only have one of its values set at most
-type contentViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for content property
-	stringName *string
-	// Stores possible *string type for content property
-	langString *string
-	// Stores possible *url.URL type for content property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *contentViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *contentViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// contextViewIntermediateType will only have one of its values set at most
-type contextViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for context property
-	Object ObjectType
-	// Stores possible LinkType type for context property
-	Link LinkType
-	// Stores possible *url.URL type for context property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *contextViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *contextViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// nameViewIntermediateType will only have one of its values set at most
-type nameViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for name property
-	stringName *string
-	// Stores possible *string type for name property
-	langString *string
-	// Stores possible *url.URL type for name property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *nameViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *nameViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// endTimeViewIntermediateType will only have one of its values set at most
-type endTimeViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for endTime property
-	dateTime *time.Time
-	// Stores possible *url.URL type for endTime property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *endTimeViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *endTimeViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// generatorViewIntermediateType will only have one of its values set at most
-type generatorViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for generator property
-	Object ObjectType
-	// Stores possible LinkType type for generator property
-	Link LinkType
-	// Stores possible *url.URL type for generator property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *generatorViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *generatorViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// iconViewIntermediateType will only have one of its values set at most
-type iconViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ImageType type for icon property
-	Image ImageType
-	// Stores possible LinkType type for icon property
-	Link LinkType
-	// Stores possible *url.URL type for icon property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *iconViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Image, ok = resolveObject(kind).(ImageType); t.Image != nil && ok {
-						err = t.Image.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *iconViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Image != nil {
-		i, err = t.Image.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// imageViewIntermediateType will only have one of its values set at most
-type imageViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ImageType type for image property
-	Image ImageType
-	// Stores possible LinkType type for image property
-	Link LinkType
-	// Stores possible *url.URL type for image property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *imageViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Image, ok = resolveObject(kind).(ImageType); t.Image != nil && ok {
-						err = t.Image.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *imageViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Image != nil {
-		i, err = t.Image.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// inReplyToViewIntermediateType will only have one of its values set at most
-type inReplyToViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for inReplyTo property
-	Object ObjectType
-	// Stores possible LinkType type for inReplyTo property
-	Link LinkType
-	// Stores possible *url.URL type for inReplyTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *inReplyToViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *inReplyToViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// locationViewIntermediateType will only have one of its values set at most
-type locationViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for location property
-	Object ObjectType
-	// Stores possible LinkType type for location property
-	Link LinkType
-	// Stores possible *url.URL type for location property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *locationViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *locationViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// previewViewIntermediateType will only have one of its values set at most
-type previewViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for preview property
-	Object ObjectType
-	// Stores possible LinkType type for preview property
-	Link LinkType
-	// Stores possible *url.URL type for preview property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *previewViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *previewViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// publishedViewIntermediateType will only have one of its values set at most
-type publishedViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for published property
-	dateTime *time.Time
-	// Stores possible *url.URL type for published property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *publishedViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *publishedViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// repliesViewIntermediateType will only have one of its values set at most
-type repliesViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for replies property
-	Collection CollectionType
-	// Stores possible *url.URL type for replies property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *repliesViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *repliesViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// startTimeViewIntermediateType will only have one of its values set at most
-type startTimeViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for startTime property
-	dateTime *time.Time
-	// Stores possible *url.URL type for startTime property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *startTimeViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *startTimeViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// summaryViewIntermediateType will only have one of its values set at most
-type summaryViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for summary property
-	stringName *string
-	// Stores possible *string type for summary property
-	langString *string
-	// Stores possible *url.URL type for summary property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *summaryViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *summaryViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// tagViewIntermediateType will only have one of its values set at most
-type tagViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for tag property
-	Object ObjectType
-	// Stores possible LinkType type for tag property
-	Link LinkType
-	// Stores possible *url.URL type for tag property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *tagViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *tagViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// updatedViewIntermediateType will only have one of its values set at most
-type updatedViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for updated property
-	dateTime *time.Time
-	// Stores possible *url.URL type for updated property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *updatedViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *updatedViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// urlViewIntermediateType will only have one of its values set at most
-type urlViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *url.URL type for url property
-	anyURI *url.URL
-	// Stores possible LinkType type for url property
-	Link LinkType
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *urlViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *urlViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// toViewIntermediateType will only have one of its values set at most
-type toViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for to property
-	Object ObjectType
-	// Stores possible LinkType type for to property
-	Link LinkType
-	// Stores possible *url.URL type for to property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *toViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *toViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// btoViewIntermediateType will only have one of its values set at most
-type btoViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for bto property
-	Object ObjectType
-	// Stores possible LinkType type for bto property
-	Link LinkType
-	// Stores possible *url.URL type for bto property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *btoViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *btoViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// ccViewIntermediateType will only have one of its values set at most
-type ccViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for cc property
-	Object ObjectType
-	// Stores possible LinkType type for cc property
-	Link LinkType
-	// Stores possible *url.URL type for cc property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *ccViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *ccViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// bccViewIntermediateType will only have one of its values set at most
-type bccViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for bcc property
-	Object ObjectType
-	// Stores possible LinkType type for bcc property
-	Link LinkType
-	// Stores possible *url.URL type for bcc property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *bccViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *bccViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// mediaTypeViewIntermediateType will only have one of its values set at most
-type mediaTypeViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for mediaType property
-	mimeMediaTypeValue *string
-	// Stores possible *url.URL type for mediaType property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *mediaTypeViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.mimeMediaTypeValue, err = mimeMediaTypeValueDeserialize(i)
-			if err != nil {
-				t.mimeMediaTypeValue = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *mediaTypeViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.mimeMediaTypeValue != nil {
-		i = mimeMediaTypeValueSerialize(*t.mimeMediaTypeValue)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// durationViewIntermediateType will only have one of its values set at most
-type durationViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Duration type for duration property
-	duration *time.Duration
-	// Stores possible *url.URL type for duration property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *durationViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.duration, err = durationDeserialize(i)
-			if err != nil {
-				t.duration = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *durationViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.duration != nil {
-		i = durationSerialize(*t.duration)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// sourceViewIntermediateType will only have one of its values set at most
-type sourceViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for source property
-	Object ObjectType
-	// Stores possible *url.URL type for source property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *sourceViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *sourceViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// inboxViewIntermediateType will only have one of its values set at most
-type inboxViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionType type for inbox property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for inbox property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *inboxViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *inboxViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// outboxViewIntermediateType will only have one of its values set at most
-type outboxViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionType type for outbox property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for outbox property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *outboxViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *outboxViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// followingViewIntermediateType will only have one of its values set at most
-type followingViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for following property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for following property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for following property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *followingViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *followingViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// followersViewIntermediateType will only have one of its values set at most
-type followersViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for followers property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for followers property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for followers property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *followersViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *followersViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// likedViewIntermediateType will only have one of its values set at most
-type likedViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for liked property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for liked property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for liked property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *likedViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *likedViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// likesViewIntermediateType will only have one of its values set at most
-type likesViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for likes property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for likes property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for likes property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *likesViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *likesViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// preferredUsernameViewIntermediateType will only have one of its values set at most
-type preferredUsernameViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for preferredUsername property
-	stringName *string
-	// Stores possible *url.URL type for preferredUsername property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *preferredUsernameViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *preferredUsernameViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// endpointsViewIntermediateType will only have one of its values set at most
-type endpointsViewIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for endpoints property
-	Object ObjectType
-	// Stores possible *url.URL type for endpoints property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *endpointsViewIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *endpointsViewIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// deserializeactorViewIntermediateType will accept a map to create a actorViewIntermediateType
-func deserializeActorViewIntermediateType(in interface{}) (t *actorViewIntermediateType, err error) {
-	tmp := &actorViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice actorViewIntermediateType will accept a slice to create a slice of actorViewIntermediateType
-func deserializeSliceActorViewIntermediateType(in []interface{}) (t []*actorViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &actorViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeactorViewIntermediateType will accept a actorViewIntermediateType to create a map
-func serializeActorViewIntermediateType(t *actorViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceactorViewIntermediateType will accept a slice of actorViewIntermediateType to create a slice result
-func serializeSliceActorViewIntermediateType(s []*actorViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeobjectViewIntermediateType will accept a map to create a objectViewIntermediateType
-func deserializeObjectViewIntermediateType(in interface{}) (t *objectViewIntermediateType, err error) {
-	tmp := &objectViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice objectViewIntermediateType will accept a slice to create a slice of objectViewIntermediateType
-func deserializeSliceObjectViewIntermediateType(in []interface{}) (t []*objectViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &objectViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeobjectViewIntermediateType will accept a objectViewIntermediateType to create a map
-func serializeObjectViewIntermediateType(t *objectViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceobjectViewIntermediateType will accept a slice of objectViewIntermediateType to create a slice result
-func serializeSliceObjectViewIntermediateType(s []*objectViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetargetViewIntermediateType will accept a map to create a targetViewIntermediateType
-func deserializeTargetViewIntermediateType(in interface{}) (t *targetViewIntermediateType, err error) {
-	tmp := &targetViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice targetViewIntermediateType will accept a slice to create a slice of targetViewIntermediateType
-func deserializeSliceTargetViewIntermediateType(in []interface{}) (t []*targetViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &targetViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetargetViewIntermediateType will accept a targetViewIntermediateType to create a map
-func serializeTargetViewIntermediateType(t *targetViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetargetViewIntermediateType will accept a slice of targetViewIntermediateType to create a slice result
-func serializeSliceTargetViewIntermediateType(s []*targetViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeresultViewIntermediateType will accept a map to create a resultViewIntermediateType
-func deserializeResultViewIntermediateType(in interface{}) (t *resultViewIntermediateType, err error) {
-	tmp := &resultViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice resultViewIntermediateType will accept a slice to create a slice of resultViewIntermediateType
-func deserializeSliceResultViewIntermediateType(in []interface{}) (t []*resultViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &resultViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeresultViewIntermediateType will accept a resultViewIntermediateType to create a map
-func serializeResultViewIntermediateType(t *resultViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceresultViewIntermediateType will accept a slice of resultViewIntermediateType to create a slice result
-func serializeSliceResultViewIntermediateType(s []*resultViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeoriginViewIntermediateType will accept a map to create a originViewIntermediateType
-func deserializeOriginViewIntermediateType(in interface{}) (t *originViewIntermediateType, err error) {
-	tmp := &originViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice originViewIntermediateType will accept a slice to create a slice of originViewIntermediateType
-func deserializeSliceOriginViewIntermediateType(in []interface{}) (t []*originViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &originViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeoriginViewIntermediateType will accept a originViewIntermediateType to create a map
-func serializeOriginViewIntermediateType(t *originViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceoriginViewIntermediateType will accept a slice of originViewIntermediateType to create a slice result
-func serializeSliceOriginViewIntermediateType(s []*originViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinstrumentViewIntermediateType will accept a map to create a instrumentViewIntermediateType
-func deserializeInstrumentViewIntermediateType(in interface{}) (t *instrumentViewIntermediateType, err error) {
-	tmp := &instrumentViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice instrumentViewIntermediateType will accept a slice to create a slice of instrumentViewIntermediateType
-func deserializeSliceInstrumentViewIntermediateType(in []interface{}) (t []*instrumentViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &instrumentViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinstrumentViewIntermediateType will accept a instrumentViewIntermediateType to create a map
-func serializeInstrumentViewIntermediateType(t *instrumentViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinstrumentViewIntermediateType will accept a slice of instrumentViewIntermediateType to create a slice result
-func serializeSliceInstrumentViewIntermediateType(s []*instrumentViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializealtitudeViewIntermediateType will accept a map to create a altitudeViewIntermediateType
-func deserializeAltitudeViewIntermediateType(in interface{}) (t *altitudeViewIntermediateType, err error) {
-	tmp := &altitudeViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice altitudeViewIntermediateType will accept a slice to create a slice of altitudeViewIntermediateType
-func deserializeSliceAltitudeViewIntermediateType(in []interface{}) (t []*altitudeViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &altitudeViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializealtitudeViewIntermediateType will accept a altitudeViewIntermediateType to create a map
-func serializeAltitudeViewIntermediateType(t *altitudeViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicealtitudeViewIntermediateType will accept a slice of altitudeViewIntermediateType to create a slice result
-func serializeSliceAltitudeViewIntermediateType(s []*altitudeViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeattachmentViewIntermediateType will accept a map to create a attachmentViewIntermediateType
-func deserializeAttachmentViewIntermediateType(in interface{}) (t *attachmentViewIntermediateType, err error) {
-	tmp := &attachmentViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attachmentViewIntermediateType will accept a slice to create a slice of attachmentViewIntermediateType
-func deserializeSliceAttachmentViewIntermediateType(in []interface{}) (t []*attachmentViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attachmentViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattachmentViewIntermediateType will accept a attachmentViewIntermediateType to create a map
-func serializeAttachmentViewIntermediateType(t *attachmentViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattachmentViewIntermediateType will accept a slice of attachmentViewIntermediateType to create a slice result
-func serializeSliceAttachmentViewIntermediateType(s []*attachmentViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeattributedToViewIntermediateType will accept a map to create a attributedToViewIntermediateType
-func deserializeAttributedToViewIntermediateType(in interface{}) (t *attributedToViewIntermediateType, err error) {
-	tmp := &attributedToViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attributedToViewIntermediateType will accept a slice to create a slice of attributedToViewIntermediateType
-func deserializeSliceAttributedToViewIntermediateType(in []interface{}) (t []*attributedToViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attributedToViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattributedToViewIntermediateType will accept a attributedToViewIntermediateType to create a map
-func serializeAttributedToViewIntermediateType(t *attributedToViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattributedToViewIntermediateType will accept a slice of attributedToViewIntermediateType to create a slice result
-func serializeSliceAttributedToViewIntermediateType(s []*attributedToViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeaudienceViewIntermediateType will accept a map to create a audienceViewIntermediateType
-func deserializeAudienceViewIntermediateType(in interface{}) (t *audienceViewIntermediateType, err error) {
-	tmp := &audienceViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice audienceViewIntermediateType will accept a slice to create a slice of audienceViewIntermediateType
-func deserializeSliceAudienceViewIntermediateType(in []interface{}) (t []*audienceViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &audienceViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeaudienceViewIntermediateType will accept a audienceViewIntermediateType to create a map
-func serializeAudienceViewIntermediateType(t *audienceViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceaudienceViewIntermediateType will accept a slice of audienceViewIntermediateType to create a slice result
-func serializeSliceAudienceViewIntermediateType(s []*audienceViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecontentViewIntermediateType will accept a map to create a contentViewIntermediateType
-func deserializeContentViewIntermediateType(in interface{}) (t *contentViewIntermediateType, err error) {
-	tmp := &contentViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice contentViewIntermediateType will accept a slice to create a slice of contentViewIntermediateType
-func deserializeSliceContentViewIntermediateType(in []interface{}) (t []*contentViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &contentViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecontentViewIntermediateType will accept a contentViewIntermediateType to create a map
-func serializeContentViewIntermediateType(t *contentViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecontentViewIntermediateType will accept a slice of contentViewIntermediateType to create a slice result
-func serializeSliceContentViewIntermediateType(s []*contentViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecontextViewIntermediateType will accept a map to create a contextViewIntermediateType
-func deserializeContextViewIntermediateType(in interface{}) (t *contextViewIntermediateType, err error) {
-	tmp := &contextViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice contextViewIntermediateType will accept a slice to create a slice of contextViewIntermediateType
-func deserializeSliceContextViewIntermediateType(in []interface{}) (t []*contextViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &contextViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecontextViewIntermediateType will accept a contextViewIntermediateType to create a map
-func serializeContextViewIntermediateType(t *contextViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecontextViewIntermediateType will accept a slice of contextViewIntermediateType to create a slice result
-func serializeSliceContextViewIntermediateType(s []*contextViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializenameViewIntermediateType will accept a map to create a nameViewIntermediateType
-func deserializeNameViewIntermediateType(in interface{}) (t *nameViewIntermediateType, err error) {
-	tmp := &nameViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice nameViewIntermediateType will accept a slice to create a slice of nameViewIntermediateType
-func deserializeSliceNameViewIntermediateType(in []interface{}) (t []*nameViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &nameViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializenameViewIntermediateType will accept a nameViewIntermediateType to create a map
-func serializeNameViewIntermediateType(t *nameViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicenameViewIntermediateType will accept a slice of nameViewIntermediateType to create a slice result
-func serializeSliceNameViewIntermediateType(s []*nameViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeendTimeViewIntermediateType will accept a map to create a endTimeViewIntermediateType
-func deserializeEndTimeViewIntermediateType(in interface{}) (t *endTimeViewIntermediateType, err error) {
-	tmp := &endTimeViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice endTimeViewIntermediateType will accept a slice to create a slice of endTimeViewIntermediateType
-func deserializeSliceEndTimeViewIntermediateType(in []interface{}) (t []*endTimeViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &endTimeViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeendTimeViewIntermediateType will accept a endTimeViewIntermediateType to create a map
-func serializeEndTimeViewIntermediateType(t *endTimeViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceendTimeViewIntermediateType will accept a slice of endTimeViewIntermediateType to create a slice result
-func serializeSliceEndTimeViewIntermediateType(s []*endTimeViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializegeneratorViewIntermediateType will accept a map to create a generatorViewIntermediateType
-func deserializeGeneratorViewIntermediateType(in interface{}) (t *generatorViewIntermediateType, err error) {
-	tmp := &generatorViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice generatorViewIntermediateType will accept a slice to create a slice of generatorViewIntermediateType
-func deserializeSliceGeneratorViewIntermediateType(in []interface{}) (t []*generatorViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &generatorViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializegeneratorViewIntermediateType will accept a generatorViewIntermediateType to create a map
-func serializeGeneratorViewIntermediateType(t *generatorViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicegeneratorViewIntermediateType will accept a slice of generatorViewIntermediateType to create a slice result
-func serializeSliceGeneratorViewIntermediateType(s []*generatorViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeiconViewIntermediateType will accept a map to create a iconViewIntermediateType
-func deserializeIconViewIntermediateType(in interface{}) (t *iconViewIntermediateType, err error) {
-	tmp := &iconViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice iconViewIntermediateType will accept a slice to create a slice of iconViewIntermediateType
-func deserializeSliceIconViewIntermediateType(in []interface{}) (t []*iconViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &iconViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeiconViewIntermediateType will accept a iconViewIntermediateType to create a map
-func serializeIconViewIntermediateType(t *iconViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceiconViewIntermediateType will accept a slice of iconViewIntermediateType to create a slice result
-func serializeSliceIconViewIntermediateType(s []*iconViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeimageViewIntermediateType will accept a map to create a imageViewIntermediateType
-func deserializeImageViewIntermediateType(in interface{}) (t *imageViewIntermediateType, err error) {
-	tmp := &imageViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice imageViewIntermediateType will accept a slice to create a slice of imageViewIntermediateType
-func deserializeSliceImageViewIntermediateType(in []interface{}) (t []*imageViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &imageViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeimageViewIntermediateType will accept a imageViewIntermediateType to create a map
-func serializeImageViewIntermediateType(t *imageViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceimageViewIntermediateType will accept a slice of imageViewIntermediateType to create a slice result
-func serializeSliceImageViewIntermediateType(s []*imageViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinReplyToViewIntermediateType will accept a map to create a inReplyToViewIntermediateType
-func deserializeInReplyToViewIntermediateType(in interface{}) (t *inReplyToViewIntermediateType, err error) {
-	tmp := &inReplyToViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice inReplyToViewIntermediateType will accept a slice to create a slice of inReplyToViewIntermediateType
-func deserializeSliceInReplyToViewIntermediateType(in []interface{}) (t []*inReplyToViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &inReplyToViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinReplyToViewIntermediateType will accept a inReplyToViewIntermediateType to create a map
-func serializeInReplyToViewIntermediateType(t *inReplyToViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinReplyToViewIntermediateType will accept a slice of inReplyToViewIntermediateType to create a slice result
-func serializeSliceInReplyToViewIntermediateType(s []*inReplyToViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelocationViewIntermediateType will accept a map to create a locationViewIntermediateType
-func deserializeLocationViewIntermediateType(in interface{}) (t *locationViewIntermediateType, err error) {
-	tmp := &locationViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice locationViewIntermediateType will accept a slice to create a slice of locationViewIntermediateType
-func deserializeSliceLocationViewIntermediateType(in []interface{}) (t []*locationViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &locationViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelocationViewIntermediateType will accept a locationViewIntermediateType to create a map
-func serializeLocationViewIntermediateType(t *locationViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelocationViewIntermediateType will accept a slice of locationViewIntermediateType to create a slice result
-func serializeSliceLocationViewIntermediateType(s []*locationViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreviewViewIntermediateType will accept a map to create a previewViewIntermediateType
-func deserializePreviewViewIntermediateType(in interface{}) (t *previewViewIntermediateType, err error) {
-	tmp := &previewViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice previewViewIntermediateType will accept a slice to create a slice of previewViewIntermediateType
-func deserializeSlicePreviewViewIntermediateType(in []interface{}) (t []*previewViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &previewViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreviewViewIntermediateType will accept a previewViewIntermediateType to create a map
-func serializePreviewViewIntermediateType(t *previewViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreviewViewIntermediateType will accept a slice of previewViewIntermediateType to create a slice result
-func serializeSlicePreviewViewIntermediateType(s []*previewViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepublishedViewIntermediateType will accept a map to create a publishedViewIntermediateType
-func deserializePublishedViewIntermediateType(in interface{}) (t *publishedViewIntermediateType, err error) {
-	tmp := &publishedViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice publishedViewIntermediateType will accept a slice to create a slice of publishedViewIntermediateType
-func deserializeSlicePublishedViewIntermediateType(in []interface{}) (t []*publishedViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &publishedViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepublishedViewIntermediateType will accept a publishedViewIntermediateType to create a map
-func serializePublishedViewIntermediateType(t *publishedViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepublishedViewIntermediateType will accept a slice of publishedViewIntermediateType to create a slice result
-func serializeSlicePublishedViewIntermediateType(s []*publishedViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializerepliesViewIntermediateType will accept a map to create a repliesViewIntermediateType
-func deserializeRepliesViewIntermediateType(in interface{}) (t *repliesViewIntermediateType, err error) {
-	tmp := &repliesViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice repliesViewIntermediateType will accept a slice to create a slice of repliesViewIntermediateType
-func deserializeSliceRepliesViewIntermediateType(in []interface{}) (t []*repliesViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &repliesViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializerepliesViewIntermediateType will accept a repliesViewIntermediateType to create a map
-func serializeRepliesViewIntermediateType(t *repliesViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicerepliesViewIntermediateType will accept a slice of repliesViewIntermediateType to create a slice result
-func serializeSliceRepliesViewIntermediateType(s []*repliesViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializestartTimeViewIntermediateType will accept a map to create a startTimeViewIntermediateType
-func deserializeStartTimeViewIntermediateType(in interface{}) (t *startTimeViewIntermediateType, err error) {
-	tmp := &startTimeViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice startTimeViewIntermediateType will accept a slice to create a slice of startTimeViewIntermediateType
-func deserializeSliceStartTimeViewIntermediateType(in []interface{}) (t []*startTimeViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &startTimeViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializestartTimeViewIntermediateType will accept a startTimeViewIntermediateType to create a map
-func serializeStartTimeViewIntermediateType(t *startTimeViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicestartTimeViewIntermediateType will accept a slice of startTimeViewIntermediateType to create a slice result
-func serializeSliceStartTimeViewIntermediateType(s []*startTimeViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesummaryViewIntermediateType will accept a map to create a summaryViewIntermediateType
-func deserializeSummaryViewIntermediateType(in interface{}) (t *summaryViewIntermediateType, err error) {
-	tmp := &summaryViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice summaryViewIntermediateType will accept a slice to create a slice of summaryViewIntermediateType
-func deserializeSliceSummaryViewIntermediateType(in []interface{}) (t []*summaryViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &summaryViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesummaryViewIntermediateType will accept a summaryViewIntermediateType to create a map
-func serializeSummaryViewIntermediateType(t *summaryViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesummaryViewIntermediateType will accept a slice of summaryViewIntermediateType to create a slice result
-func serializeSliceSummaryViewIntermediateType(s []*summaryViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetagViewIntermediateType will accept a map to create a tagViewIntermediateType
-func deserializeTagViewIntermediateType(in interface{}) (t *tagViewIntermediateType, err error) {
-	tmp := &tagViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice tagViewIntermediateType will accept a slice to create a slice of tagViewIntermediateType
-func deserializeSliceTagViewIntermediateType(in []interface{}) (t []*tagViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &tagViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetagViewIntermediateType will accept a tagViewIntermediateType to create a map
-func serializeTagViewIntermediateType(t *tagViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetagViewIntermediateType will accept a slice of tagViewIntermediateType to create a slice result
-func serializeSliceTagViewIntermediateType(s []*tagViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeupdatedViewIntermediateType will accept a map to create a updatedViewIntermediateType
-func deserializeUpdatedViewIntermediateType(in interface{}) (t *updatedViewIntermediateType, err error) {
-	tmp := &updatedViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice updatedViewIntermediateType will accept a slice to create a slice of updatedViewIntermediateType
-func deserializeSliceUpdatedViewIntermediateType(in []interface{}) (t []*updatedViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &updatedViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeupdatedViewIntermediateType will accept a updatedViewIntermediateType to create a map
-func serializeUpdatedViewIntermediateType(t *updatedViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceupdatedViewIntermediateType will accept a slice of updatedViewIntermediateType to create a slice result
-func serializeSliceUpdatedViewIntermediateType(s []*updatedViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeurlViewIntermediateType will accept a map to create a urlViewIntermediateType
-func deserializeUrlViewIntermediateType(in interface{}) (t *urlViewIntermediateType, err error) {
-	tmp := &urlViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice urlViewIntermediateType will accept a slice to create a slice of urlViewIntermediateType
-func deserializeSliceUrlViewIntermediateType(in []interface{}) (t []*urlViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &urlViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeurlViewIntermediateType will accept a urlViewIntermediateType to create a map
-func serializeUrlViewIntermediateType(t *urlViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceurlViewIntermediateType will accept a slice of urlViewIntermediateType to create a slice result
-func serializeSliceUrlViewIntermediateType(s []*urlViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetoViewIntermediateType will accept a map to create a toViewIntermediateType
-func deserializeToViewIntermediateType(in interface{}) (t *toViewIntermediateType, err error) {
-	tmp := &toViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice toViewIntermediateType will accept a slice to create a slice of toViewIntermediateType
-func deserializeSliceToViewIntermediateType(in []interface{}) (t []*toViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &toViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetoViewIntermediateType will accept a toViewIntermediateType to create a map
-func serializeToViewIntermediateType(t *toViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetoViewIntermediateType will accept a slice of toViewIntermediateType to create a slice result
-func serializeSliceToViewIntermediateType(s []*toViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializebtoViewIntermediateType will accept a map to create a btoViewIntermediateType
-func deserializeBtoViewIntermediateType(in interface{}) (t *btoViewIntermediateType, err error) {
-	tmp := &btoViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice btoViewIntermediateType will accept a slice to create a slice of btoViewIntermediateType
-func deserializeSliceBtoViewIntermediateType(in []interface{}) (t []*btoViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &btoViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializebtoViewIntermediateType will accept a btoViewIntermediateType to create a map
-func serializeBtoViewIntermediateType(t *btoViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicebtoViewIntermediateType will accept a slice of btoViewIntermediateType to create a slice result
-func serializeSliceBtoViewIntermediateType(s []*btoViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeccViewIntermediateType will accept a map to create a ccViewIntermediateType
-func deserializeCcViewIntermediateType(in interface{}) (t *ccViewIntermediateType, err error) {
-	tmp := &ccViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice ccViewIntermediateType will accept a slice to create a slice of ccViewIntermediateType
-func deserializeSliceCcViewIntermediateType(in []interface{}) (t []*ccViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &ccViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeccViewIntermediateType will accept a ccViewIntermediateType to create a map
-func serializeCcViewIntermediateType(t *ccViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceccViewIntermediateType will accept a slice of ccViewIntermediateType to create a slice result
-func serializeSliceCcViewIntermediateType(s []*ccViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializebccViewIntermediateType will accept a map to create a bccViewIntermediateType
-func deserializeBccViewIntermediateType(in interface{}) (t *bccViewIntermediateType, err error) {
-	tmp := &bccViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice bccViewIntermediateType will accept a slice to create a slice of bccViewIntermediateType
-func deserializeSliceBccViewIntermediateType(in []interface{}) (t []*bccViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &bccViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializebccViewIntermediateType will accept a bccViewIntermediateType to create a map
-func serializeBccViewIntermediateType(t *bccViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicebccViewIntermediateType will accept a slice of bccViewIntermediateType to create a slice result
-func serializeSliceBccViewIntermediateType(s []*bccViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializemediaTypeViewIntermediateType will accept a map to create a mediaTypeViewIntermediateType
-func deserializeMediaTypeViewIntermediateType(in interface{}) (t *mediaTypeViewIntermediateType, err error) {
-	tmp := &mediaTypeViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice mediaTypeViewIntermediateType will accept a slice to create a slice of mediaTypeViewIntermediateType
-func deserializeSliceMediaTypeViewIntermediateType(in []interface{}) (t []*mediaTypeViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &mediaTypeViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializemediaTypeViewIntermediateType will accept a mediaTypeViewIntermediateType to create a map
-func serializeMediaTypeViewIntermediateType(t *mediaTypeViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicemediaTypeViewIntermediateType will accept a slice of mediaTypeViewIntermediateType to create a slice result
-func serializeSliceMediaTypeViewIntermediateType(s []*mediaTypeViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializedurationViewIntermediateType will accept a map to create a durationViewIntermediateType
-func deserializeDurationViewIntermediateType(in interface{}) (t *durationViewIntermediateType, err error) {
-	tmp := &durationViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice durationViewIntermediateType will accept a slice to create a slice of durationViewIntermediateType
-func deserializeSliceDurationViewIntermediateType(in []interface{}) (t []*durationViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &durationViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializedurationViewIntermediateType will accept a durationViewIntermediateType to create a map
-func serializeDurationViewIntermediateType(t *durationViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicedurationViewIntermediateType will accept a slice of durationViewIntermediateType to create a slice result
-func serializeSliceDurationViewIntermediateType(s []*durationViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesourceViewIntermediateType will accept a map to create a sourceViewIntermediateType
-func deserializeSourceViewIntermediateType(in interface{}) (t *sourceViewIntermediateType, err error) {
-	tmp := &sourceViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice sourceViewIntermediateType will accept a slice to create a slice of sourceViewIntermediateType
-func deserializeSliceSourceViewIntermediateType(in []interface{}) (t []*sourceViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &sourceViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesourceViewIntermediateType will accept a sourceViewIntermediateType to create a map
-func serializeSourceViewIntermediateType(t *sourceViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesourceViewIntermediateType will accept a slice of sourceViewIntermediateType to create a slice result
-func serializeSliceSourceViewIntermediateType(s []*sourceViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinboxViewIntermediateType will accept a map to create a inboxViewIntermediateType
-func deserializeInboxViewIntermediateType(in interface{}) (t *inboxViewIntermediateType, err error) {
-	tmp := &inboxViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice inboxViewIntermediateType will accept a slice to create a slice of inboxViewIntermediateType
-func deserializeSliceInboxViewIntermediateType(in []interface{}) (t []*inboxViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &inboxViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinboxViewIntermediateType will accept a inboxViewIntermediateType to create a map
-func serializeInboxViewIntermediateType(t *inboxViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinboxViewIntermediateType will accept a slice of inboxViewIntermediateType to create a slice result
-func serializeSliceInboxViewIntermediateType(s []*inboxViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeoutboxViewIntermediateType will accept a map to create a outboxViewIntermediateType
-func deserializeOutboxViewIntermediateType(in interface{}) (t *outboxViewIntermediateType, err error) {
-	tmp := &outboxViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice outboxViewIntermediateType will accept a slice to create a slice of outboxViewIntermediateType
-func deserializeSliceOutboxViewIntermediateType(in []interface{}) (t []*outboxViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &outboxViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeoutboxViewIntermediateType will accept a outboxViewIntermediateType to create a map
-func serializeOutboxViewIntermediateType(t *outboxViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceoutboxViewIntermediateType will accept a slice of outboxViewIntermediateType to create a slice result
-func serializeSliceOutboxViewIntermediateType(s []*outboxViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefollowingViewIntermediateType will accept a map to create a followingViewIntermediateType
-func deserializeFollowingViewIntermediateType(in interface{}) (t *followingViewIntermediateType, err error) {
-	tmp := &followingViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice followingViewIntermediateType will accept a slice to create a slice of followingViewIntermediateType
-func deserializeSliceFollowingViewIntermediateType(in []interface{}) (t []*followingViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &followingViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefollowingViewIntermediateType will accept a followingViewIntermediateType to create a map
-func serializeFollowingViewIntermediateType(t *followingViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefollowingViewIntermediateType will accept a slice of followingViewIntermediateType to create a slice result
-func serializeSliceFollowingViewIntermediateType(s []*followingViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefollowersViewIntermediateType will accept a map to create a followersViewIntermediateType
-func deserializeFollowersViewIntermediateType(in interface{}) (t *followersViewIntermediateType, err error) {
-	tmp := &followersViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice followersViewIntermediateType will accept a slice to create a slice of followersViewIntermediateType
-func deserializeSliceFollowersViewIntermediateType(in []interface{}) (t []*followersViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &followersViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefollowersViewIntermediateType will accept a followersViewIntermediateType to create a map
-func serializeFollowersViewIntermediateType(t *followersViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefollowersViewIntermediateType will accept a slice of followersViewIntermediateType to create a slice result
-func serializeSliceFollowersViewIntermediateType(s []*followersViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelikedViewIntermediateType will accept a map to create a likedViewIntermediateType
-func deserializeLikedViewIntermediateType(in interface{}) (t *likedViewIntermediateType, err error) {
-	tmp := &likedViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice likedViewIntermediateType will accept a slice to create a slice of likedViewIntermediateType
-func deserializeSliceLikedViewIntermediateType(in []interface{}) (t []*likedViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &likedViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelikedViewIntermediateType will accept a likedViewIntermediateType to create a map
-func serializeLikedViewIntermediateType(t *likedViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelikedViewIntermediateType will accept a slice of likedViewIntermediateType to create a slice result
-func serializeSliceLikedViewIntermediateType(s []*likedViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelikesViewIntermediateType will accept a map to create a likesViewIntermediateType
-func deserializeLikesViewIntermediateType(in interface{}) (t *likesViewIntermediateType, err error) {
-	tmp := &likesViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice likesViewIntermediateType will accept a slice to create a slice of likesViewIntermediateType
-func deserializeSliceLikesViewIntermediateType(in []interface{}) (t []*likesViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &likesViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelikesViewIntermediateType will accept a likesViewIntermediateType to create a map
-func serializeLikesViewIntermediateType(t *likesViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelikesViewIntermediateType will accept a slice of likesViewIntermediateType to create a slice result
-func serializeSliceLikesViewIntermediateType(s []*likesViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreferredUsernameViewIntermediateType will accept a map to create a preferredUsernameViewIntermediateType
-func deserializePreferredUsernameViewIntermediateType(in interface{}) (t *preferredUsernameViewIntermediateType, err error) {
-	tmp := &preferredUsernameViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice preferredUsernameViewIntermediateType will accept a slice to create a slice of preferredUsernameViewIntermediateType
-func deserializeSlicePreferredUsernameViewIntermediateType(in []interface{}) (t []*preferredUsernameViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &preferredUsernameViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreferredUsernameViewIntermediateType will accept a preferredUsernameViewIntermediateType to create a map
-func serializePreferredUsernameViewIntermediateType(t *preferredUsernameViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreferredUsernameViewIntermediateType will accept a slice of preferredUsernameViewIntermediateType to create a slice result
-func serializeSlicePreferredUsernameViewIntermediateType(s []*preferredUsernameViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeendpointsViewIntermediateType will accept a map to create a endpointsViewIntermediateType
-func deserializeEndpointsViewIntermediateType(in interface{}) (t *endpointsViewIntermediateType, err error) {
-	tmp := &endpointsViewIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice endpointsViewIntermediateType will accept a slice to create a slice of endpointsViewIntermediateType
-func deserializeSliceEndpointsViewIntermediateType(in []interface{}) (t []*endpointsViewIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &endpointsViewIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeendpointsViewIntermediateType will accept a endpointsViewIntermediateType to create a map
-func serializeEndpointsViewIntermediateType(t *endpointsViewIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceendpointsViewIntermediateType will accept a slice of endpointsViewIntermediateType to create a slice result
-func serializeSliceEndpointsViewIntermediateType(s []*endpointsViewIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
 	}
 	return
 

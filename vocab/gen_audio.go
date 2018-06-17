@@ -2,7 +2,6 @@
 package vocab
 
 import (
-	"fmt"
 	"net/url"
 	"time"
 )
@@ -498,91 +497,91 @@ type Audio struct {
 	// An unknown value.
 	unknown_ map[string]interface{}
 	// The functional 'altitude' value could have multiple types, but only a single value
-	altitude *altitudeAudioIntermediateType
+	altitude *altitudeIntermediateType
 	// The 'attachment' value could have multiple types and values
-	attachment []*attachmentAudioIntermediateType
+	attachment []*attachmentIntermediateType
 	// The 'attributedTo' value could have multiple types and values
-	attributedTo []*attributedToAudioIntermediateType
+	attributedTo []*attributedToIntermediateType
 	// The 'audience' value could have multiple types and values
-	audience []*audienceAudioIntermediateType
+	audience []*audienceIntermediateType
 	// The 'content' value could have multiple types and values
-	content []*contentAudioIntermediateType
+	content []*contentIntermediateType
 	// The 'contentMap' value holds language-specific values for property 'content'
 	contentMap map[string]string
 	// The 'context' value could have multiple types and values
-	context []*contextAudioIntermediateType
+	context []*contextIntermediateType
 	// The 'name' value could have multiple types and values
-	name []*nameAudioIntermediateType
+	name []*nameIntermediateType
 	// The 'nameMap' value holds language-specific values for property 'name'
 	nameMap map[string]string
 	// The functional 'endTime' value could have multiple types, but only a single value
-	endTime *endTimeAudioIntermediateType
+	endTime *endTimeIntermediateType
 	// The 'generator' value could have multiple types and values
-	generator []*generatorAudioIntermediateType
+	generator []*generatorIntermediateType
 	// The 'icon' value could have multiple types and values
-	icon []*iconAudioIntermediateType
+	icon []*iconIntermediateType
 	// The functional 'id' value holds a single type and a single value
 	id *url.URL
 	// The 'image' value could have multiple types and values
-	image []*imageAudioIntermediateType
+	image []*imageIntermediateType
 	// The 'inReplyTo' value could have multiple types and values
-	inReplyTo []*inReplyToAudioIntermediateType
+	inReplyTo []*inReplyToIntermediateType
 	// The 'location' value could have multiple types and values
-	location []*locationAudioIntermediateType
+	location []*locationIntermediateType
 	// The 'preview' value could have multiple types and values
-	preview []*previewAudioIntermediateType
+	preview []*previewIntermediateType
 	// The functional 'published' value could have multiple types, but only a single value
-	published *publishedAudioIntermediateType
+	published *publishedIntermediateType
 	// The functional 'replies' value could have multiple types, but only a single value
-	replies *repliesAudioIntermediateType
+	replies *repliesIntermediateType
 	// The functional 'startTime' value could have multiple types, but only a single value
-	startTime *startTimeAudioIntermediateType
+	startTime *startTimeIntermediateType
 	// The 'summary' value could have multiple types and values
-	summary []*summaryAudioIntermediateType
+	summary []*summaryIntermediateType
 	// The 'summaryMap' value holds language-specific values for property 'summary'
 	summaryMap map[string]string
 	// The 'tag' value could have multiple types and values
-	tag []*tagAudioIntermediateType
+	tag []*tagIntermediateType
 	// The 'type' value can hold any type and any number of values
 	typeName []interface{}
 	// The functional 'updated' value could have multiple types, but only a single value
-	updated *updatedAudioIntermediateType
+	updated *updatedIntermediateType
 	// The 'url' value could have multiple types and values
-	url []*urlAudioIntermediateType
+	url []*urlIntermediateType
 	// The 'to' value could have multiple types and values
-	to []*toAudioIntermediateType
+	to []*toIntermediateType
 	// The 'bto' value could have multiple types and values
-	bto []*btoAudioIntermediateType
+	bto []*btoIntermediateType
 	// The 'cc' value could have multiple types and values
-	cc []*ccAudioIntermediateType
+	cc []*ccIntermediateType
 	// The 'bcc' value could have multiple types and values
-	bcc []*bccAudioIntermediateType
+	bcc []*bccIntermediateType
 	// The functional 'mediaType' value could have multiple types, but only a single value
-	mediaType *mediaTypeAudioIntermediateType
+	mediaType *mediaTypeIntermediateType
 	// The functional 'duration' value could have multiple types, but only a single value
-	duration *durationAudioIntermediateType
+	duration *durationIntermediateType
 	// The functional 'source' value could have multiple types, but only a single value
-	source *sourceAudioIntermediateType
+	source *sourceIntermediateType
 	// The functional 'inbox' value could have multiple types, but only a single value
-	inbox *inboxAudioIntermediateType
+	inbox *inboxIntermediateType
 	// The functional 'outbox' value could have multiple types, but only a single value
-	outbox *outboxAudioIntermediateType
+	outbox *outboxIntermediateType
 	// The functional 'following' value could have multiple types, but only a single value
-	following *followingAudioIntermediateType
+	following *followingIntermediateType
 	// The functional 'followers' value could have multiple types, but only a single value
-	followers *followersAudioIntermediateType
+	followers *followersIntermediateType
 	// The functional 'liked' value could have multiple types, but only a single value
-	liked *likedAudioIntermediateType
+	liked *likedIntermediateType
 	// The functional 'likes' value could have multiple types, but only a single value
-	likes *likesAudioIntermediateType
+	likes *likesIntermediateType
 	// The 'streams' value holds a single type and any number of values
 	streams []*url.URL
 	// The functional 'preferredUsername' value could have multiple types, but only a single value
-	preferredUsername *preferredUsernameAudioIntermediateType
+	preferredUsername *preferredUsernameIntermediateType
 	// The 'preferredUsernameMap' value holds language-specific values for property 'preferredUsername'
 	preferredUsernameMap map[string]string
 	// The functional 'endpoints' value could have multiple types, but only a single value
-	endpoints *endpointsAudioIntermediateType
+	endpoints *endpointsIntermediateType
 	// The functional 'proxyUrl' value holds a single type and a single value
 	proxyUrl *url.URL
 	// The functional 'oauthAuthorizationEndpoint' value holds a single type and a single value
@@ -611,7 +610,7 @@ func (t *Audio) GetAltitude() (v float64) {
 
 // SetAltitude sets the value of altitude to be of float64 type
 func (t *Audio) SetAltitude(v float64) {
-	t.altitude = &altitudeAudioIntermediateType{float: &v}
+	t.altitude = &altitudeIntermediateType{float: &v}
 
 }
 
@@ -629,7 +628,7 @@ func (t *Audio) GetAltitudeIRI() (v *url.URL) {
 
 // SetAltitudeIRI sets the value of altitude to be of *url.URL type
 func (t *Audio) SetAltitudeIRI(v *url.URL) {
-	t.altitude = &altitudeAudioIntermediateType{IRI: v}
+	t.altitude = &altitudeIntermediateType{IRI: v}
 
 }
 
@@ -650,7 +649,7 @@ func (t *Audio) SetUnknownAltitude(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &altitudeAudioIntermediateType{}
+	tmp := &altitudeIntermediateType{}
 	tmp.unknown_ = i
 	t.altitude = tmp
 
@@ -676,13 +675,13 @@ func (t *Audio) GetAttachmentObject(index int) (v ObjectType) {
 
 // AppendAttachmentObject adds to the back of attachment a ObjectType type
 func (t *Audio) AppendAttachmentObject(v ObjectType) {
-	t.attachment = append(t.attachment, &attachmentAudioIntermediateType{Object: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{Object: v})
 
 }
 
 // PrependAttachmentObject adds to the front of attachment a ObjectType type
 func (t *Audio) PrependAttachmentObject(v ObjectType) {
-	t.attachment = append([]*attachmentAudioIntermediateType{&attachmentAudioIntermediateType{Object: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{Object: v}}, t.attachment...)
 
 }
 
@@ -708,13 +707,13 @@ func (t *Audio) GetAttachmentLink(index int) (v LinkType) {
 
 // AppendAttachmentLink adds to the back of attachment a LinkType type
 func (t *Audio) AppendAttachmentLink(v LinkType) {
-	t.attachment = append(t.attachment, &attachmentAudioIntermediateType{Link: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{Link: v})
 
 }
 
 // PrependAttachmentLink adds to the front of attachment a LinkType type
 func (t *Audio) PrependAttachmentLink(v LinkType) {
-	t.attachment = append([]*attachmentAudioIntermediateType{&attachmentAudioIntermediateType{Link: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{Link: v}}, t.attachment...)
 
 }
 
@@ -740,13 +739,13 @@ func (t *Audio) GetAttachmentIRI(index int) (v *url.URL) {
 
 // AppendAttachmentIRI adds to the back of attachment a *url.URL type
 func (t *Audio) AppendAttachmentIRI(v *url.URL) {
-	t.attachment = append(t.attachment, &attachmentAudioIntermediateType{IRI: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{IRI: v})
 
 }
 
 // PrependAttachmentIRI adds to the front of attachment a *url.URL type
 func (t *Audio) PrependAttachmentIRI(v *url.URL) {
-	t.attachment = append([]*attachmentAudioIntermediateType{&attachmentAudioIntermediateType{IRI: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{IRI: v}}, t.attachment...)
 
 }
 
@@ -775,7 +774,7 @@ func (t *Audio) SetUnknownAttachment(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attachmentAudioIntermediateType{}
+	tmp := &attachmentIntermediateType{}
 	tmp.unknown_ = i
 	t.attachment = append(t.attachment, tmp)
 
@@ -801,13 +800,13 @@ func (t *Audio) GetAttributedToObject(index int) (v ObjectType) {
 
 // AppendAttributedToObject adds to the back of attributedTo a ObjectType type
 func (t *Audio) AppendAttributedToObject(v ObjectType) {
-	t.attributedTo = append(t.attributedTo, &attributedToAudioIntermediateType{Object: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Object: v})
 
 }
 
 // PrependAttributedToObject adds to the front of attributedTo a ObjectType type
 func (t *Audio) PrependAttributedToObject(v ObjectType) {
-	t.attributedTo = append([]*attributedToAudioIntermediateType{&attributedToAudioIntermediateType{Object: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Object: v}}, t.attributedTo...)
 
 }
 
@@ -833,13 +832,13 @@ func (t *Audio) GetAttributedToLink(index int) (v LinkType) {
 
 // AppendAttributedToLink adds to the back of attributedTo a LinkType type
 func (t *Audio) AppendAttributedToLink(v LinkType) {
-	t.attributedTo = append(t.attributedTo, &attributedToAudioIntermediateType{Link: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Link: v})
 
 }
 
 // PrependAttributedToLink adds to the front of attributedTo a LinkType type
 func (t *Audio) PrependAttributedToLink(v LinkType) {
-	t.attributedTo = append([]*attributedToAudioIntermediateType{&attributedToAudioIntermediateType{Link: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Link: v}}, t.attributedTo...)
 
 }
 
@@ -865,13 +864,13 @@ func (t *Audio) GetAttributedToIRI(index int) (v *url.URL) {
 
 // AppendAttributedToIRI adds to the back of attributedTo a *url.URL type
 func (t *Audio) AppendAttributedToIRI(v *url.URL) {
-	t.attributedTo = append(t.attributedTo, &attributedToAudioIntermediateType{IRI: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{IRI: v})
 
 }
 
 // PrependAttributedToIRI adds to the front of attributedTo a *url.URL type
 func (t *Audio) PrependAttributedToIRI(v *url.URL) {
-	t.attributedTo = append([]*attributedToAudioIntermediateType{&attributedToAudioIntermediateType{IRI: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{IRI: v}}, t.attributedTo...)
 
 }
 
@@ -900,7 +899,7 @@ func (t *Audio) SetUnknownAttributedTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attributedToAudioIntermediateType{}
+	tmp := &attributedToIntermediateType{}
 	tmp.unknown_ = i
 	t.attributedTo = append(t.attributedTo, tmp)
 
@@ -926,13 +925,13 @@ func (t *Audio) GetAudienceObject(index int) (v ObjectType) {
 
 // AppendAudienceObject adds to the back of audience a ObjectType type
 func (t *Audio) AppendAudienceObject(v ObjectType) {
-	t.audience = append(t.audience, &audienceAudioIntermediateType{Object: v})
+	t.audience = append(t.audience, &audienceIntermediateType{Object: v})
 
 }
 
 // PrependAudienceObject adds to the front of audience a ObjectType type
 func (t *Audio) PrependAudienceObject(v ObjectType) {
-	t.audience = append([]*audienceAudioIntermediateType{&audienceAudioIntermediateType{Object: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{Object: v}}, t.audience...)
 
 }
 
@@ -958,13 +957,13 @@ func (t *Audio) GetAudienceLink(index int) (v LinkType) {
 
 // AppendAudienceLink adds to the back of audience a LinkType type
 func (t *Audio) AppendAudienceLink(v LinkType) {
-	t.audience = append(t.audience, &audienceAudioIntermediateType{Link: v})
+	t.audience = append(t.audience, &audienceIntermediateType{Link: v})
 
 }
 
 // PrependAudienceLink adds to the front of audience a LinkType type
 func (t *Audio) PrependAudienceLink(v LinkType) {
-	t.audience = append([]*audienceAudioIntermediateType{&audienceAudioIntermediateType{Link: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{Link: v}}, t.audience...)
 
 }
 
@@ -990,13 +989,13 @@ func (t *Audio) GetAudienceIRI(index int) (v *url.URL) {
 
 // AppendAudienceIRI adds to the back of audience a *url.URL type
 func (t *Audio) AppendAudienceIRI(v *url.URL) {
-	t.audience = append(t.audience, &audienceAudioIntermediateType{IRI: v})
+	t.audience = append(t.audience, &audienceIntermediateType{IRI: v})
 
 }
 
 // PrependAudienceIRI adds to the front of audience a *url.URL type
 func (t *Audio) PrependAudienceIRI(v *url.URL) {
-	t.audience = append([]*audienceAudioIntermediateType{&audienceAudioIntermediateType{IRI: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{IRI: v}}, t.audience...)
 
 }
 
@@ -1025,7 +1024,7 @@ func (t *Audio) SetUnknownAudience(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &audienceAudioIntermediateType{}
+	tmp := &audienceIntermediateType{}
 	tmp.unknown_ = i
 	t.audience = append(t.audience, tmp)
 
@@ -1051,13 +1050,13 @@ func (t *Audio) GetContentString(index int) (v string) {
 
 // AppendContentString adds to the back of content a string type
 func (t *Audio) AppendContentString(v string) {
-	t.content = append(t.content, &contentAudioIntermediateType{stringName: &v})
+	t.content = append(t.content, &contentIntermediateType{stringName: &v})
 
 }
 
 // PrependContentString adds to the front of content a string type
 func (t *Audio) PrependContentString(v string) {
-	t.content = append([]*contentAudioIntermediateType{&contentAudioIntermediateType{stringName: &v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{stringName: &v}}, t.content...)
 
 }
 
@@ -1083,13 +1082,13 @@ func (t *Audio) GetContentLangString(index int) (v string) {
 
 // AppendContentLangString adds to the back of content a string type
 func (t *Audio) AppendContentLangString(v string) {
-	t.content = append(t.content, &contentAudioIntermediateType{langString: &v})
+	t.content = append(t.content, &contentIntermediateType{langString: &v})
 
 }
 
 // PrependContentLangString adds to the front of content a string type
 func (t *Audio) PrependContentLangString(v string) {
-	t.content = append([]*contentAudioIntermediateType{&contentAudioIntermediateType{langString: &v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{langString: &v}}, t.content...)
 
 }
 
@@ -1115,13 +1114,13 @@ func (t *Audio) GetContentIRI(index int) (v *url.URL) {
 
 // AppendContentIRI adds to the back of content a *url.URL type
 func (t *Audio) AppendContentIRI(v *url.URL) {
-	t.content = append(t.content, &contentAudioIntermediateType{IRI: v})
+	t.content = append(t.content, &contentIntermediateType{IRI: v})
 
 }
 
 // PrependContentIRI adds to the front of content a *url.URL type
 func (t *Audio) PrependContentIRI(v *url.URL) {
-	t.content = append([]*contentAudioIntermediateType{&contentAudioIntermediateType{IRI: v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{IRI: v}}, t.content...)
 
 }
 
@@ -1150,7 +1149,7 @@ func (t *Audio) SetUnknownContent(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &contentAudioIntermediateType{}
+	tmp := &contentIntermediateType{}
 	tmp.unknown_ = i
 	t.content = append(t.content, tmp)
 
@@ -1211,13 +1210,13 @@ func (t *Audio) GetContextObject(index int) (v ObjectType) {
 
 // AppendContextObject adds to the back of context a ObjectType type
 func (t *Audio) AppendContextObject(v ObjectType) {
-	t.context = append(t.context, &contextAudioIntermediateType{Object: v})
+	t.context = append(t.context, &contextIntermediateType{Object: v})
 
 }
 
 // PrependContextObject adds to the front of context a ObjectType type
 func (t *Audio) PrependContextObject(v ObjectType) {
-	t.context = append([]*contextAudioIntermediateType{&contextAudioIntermediateType{Object: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{Object: v}}, t.context...)
 
 }
 
@@ -1243,13 +1242,13 @@ func (t *Audio) GetContextLink(index int) (v LinkType) {
 
 // AppendContextLink adds to the back of context a LinkType type
 func (t *Audio) AppendContextLink(v LinkType) {
-	t.context = append(t.context, &contextAudioIntermediateType{Link: v})
+	t.context = append(t.context, &contextIntermediateType{Link: v})
 
 }
 
 // PrependContextLink adds to the front of context a LinkType type
 func (t *Audio) PrependContextLink(v LinkType) {
-	t.context = append([]*contextAudioIntermediateType{&contextAudioIntermediateType{Link: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{Link: v}}, t.context...)
 
 }
 
@@ -1275,13 +1274,13 @@ func (t *Audio) GetContextIRI(index int) (v *url.URL) {
 
 // AppendContextIRI adds to the back of context a *url.URL type
 func (t *Audio) AppendContextIRI(v *url.URL) {
-	t.context = append(t.context, &contextAudioIntermediateType{IRI: v})
+	t.context = append(t.context, &contextIntermediateType{IRI: v})
 
 }
 
 // PrependContextIRI adds to the front of context a *url.URL type
 func (t *Audio) PrependContextIRI(v *url.URL) {
-	t.context = append([]*contextAudioIntermediateType{&contextAudioIntermediateType{IRI: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{IRI: v}}, t.context...)
 
 }
 
@@ -1310,7 +1309,7 @@ func (t *Audio) SetUnknownContext(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &contextAudioIntermediateType{}
+	tmp := &contextIntermediateType{}
 	tmp.unknown_ = i
 	t.context = append(t.context, tmp)
 
@@ -1336,13 +1335,13 @@ func (t *Audio) GetNameString(index int) (v string) {
 
 // AppendNameString adds to the back of name a string type
 func (t *Audio) AppendNameString(v string) {
-	t.name = append(t.name, &nameAudioIntermediateType{stringName: &v})
+	t.name = append(t.name, &nameIntermediateType{stringName: &v})
 
 }
 
 // PrependNameString adds to the front of name a string type
 func (t *Audio) PrependNameString(v string) {
-	t.name = append([]*nameAudioIntermediateType{&nameAudioIntermediateType{stringName: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{stringName: &v}}, t.name...)
 
 }
 
@@ -1368,13 +1367,13 @@ func (t *Audio) GetNameLangString(index int) (v string) {
 
 // AppendNameLangString adds to the back of name a string type
 func (t *Audio) AppendNameLangString(v string) {
-	t.name = append(t.name, &nameAudioIntermediateType{langString: &v})
+	t.name = append(t.name, &nameIntermediateType{langString: &v})
 
 }
 
 // PrependNameLangString adds to the front of name a string type
 func (t *Audio) PrependNameLangString(v string) {
-	t.name = append([]*nameAudioIntermediateType{&nameAudioIntermediateType{langString: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{langString: &v}}, t.name...)
 
 }
 
@@ -1400,13 +1399,13 @@ func (t *Audio) GetNameIRI(index int) (v *url.URL) {
 
 // AppendNameIRI adds to the back of name a *url.URL type
 func (t *Audio) AppendNameIRI(v *url.URL) {
-	t.name = append(t.name, &nameAudioIntermediateType{IRI: v})
+	t.name = append(t.name, &nameIntermediateType{IRI: v})
 
 }
 
 // PrependNameIRI adds to the front of name a *url.URL type
 func (t *Audio) PrependNameIRI(v *url.URL) {
-	t.name = append([]*nameAudioIntermediateType{&nameAudioIntermediateType{IRI: v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{IRI: v}}, t.name...)
 
 }
 
@@ -1435,7 +1434,7 @@ func (t *Audio) SetUnknownName(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &nameAudioIntermediateType{}
+	tmp := &nameIntermediateType{}
 	tmp.unknown_ = i
 	t.name = append(t.name, tmp)
 
@@ -1490,7 +1489,7 @@ func (t *Audio) GetEndTime() (v time.Time) {
 
 // SetEndTime sets the value of endTime to be of time.Time type
 func (t *Audio) SetEndTime(v time.Time) {
-	t.endTime = &endTimeAudioIntermediateType{dateTime: &v}
+	t.endTime = &endTimeIntermediateType{dateTime: &v}
 
 }
 
@@ -1508,7 +1507,7 @@ func (t *Audio) GetEndTimeIRI() (v *url.URL) {
 
 // SetEndTimeIRI sets the value of endTime to be of *url.URL type
 func (t *Audio) SetEndTimeIRI(v *url.URL) {
-	t.endTime = &endTimeAudioIntermediateType{IRI: v}
+	t.endTime = &endTimeIntermediateType{IRI: v}
 
 }
 
@@ -1529,7 +1528,7 @@ func (t *Audio) SetUnknownEndTime(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &endTimeAudioIntermediateType{}
+	tmp := &endTimeIntermediateType{}
 	tmp.unknown_ = i
 	t.endTime = tmp
 
@@ -1555,13 +1554,13 @@ func (t *Audio) GetGeneratorObject(index int) (v ObjectType) {
 
 // AppendGeneratorObject adds to the back of generator a ObjectType type
 func (t *Audio) AppendGeneratorObject(v ObjectType) {
-	t.generator = append(t.generator, &generatorAudioIntermediateType{Object: v})
+	t.generator = append(t.generator, &generatorIntermediateType{Object: v})
 
 }
 
 // PrependGeneratorObject adds to the front of generator a ObjectType type
 func (t *Audio) PrependGeneratorObject(v ObjectType) {
-	t.generator = append([]*generatorAudioIntermediateType{&generatorAudioIntermediateType{Object: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{Object: v}}, t.generator...)
 
 }
 
@@ -1587,13 +1586,13 @@ func (t *Audio) GetGeneratorLink(index int) (v LinkType) {
 
 // AppendGeneratorLink adds to the back of generator a LinkType type
 func (t *Audio) AppendGeneratorLink(v LinkType) {
-	t.generator = append(t.generator, &generatorAudioIntermediateType{Link: v})
+	t.generator = append(t.generator, &generatorIntermediateType{Link: v})
 
 }
 
 // PrependGeneratorLink adds to the front of generator a LinkType type
 func (t *Audio) PrependGeneratorLink(v LinkType) {
-	t.generator = append([]*generatorAudioIntermediateType{&generatorAudioIntermediateType{Link: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{Link: v}}, t.generator...)
 
 }
 
@@ -1619,13 +1618,13 @@ func (t *Audio) GetGeneratorIRI(index int) (v *url.URL) {
 
 // AppendGeneratorIRI adds to the back of generator a *url.URL type
 func (t *Audio) AppendGeneratorIRI(v *url.URL) {
-	t.generator = append(t.generator, &generatorAudioIntermediateType{IRI: v})
+	t.generator = append(t.generator, &generatorIntermediateType{IRI: v})
 
 }
 
 // PrependGeneratorIRI adds to the front of generator a *url.URL type
 func (t *Audio) PrependGeneratorIRI(v *url.URL) {
-	t.generator = append([]*generatorAudioIntermediateType{&generatorAudioIntermediateType{IRI: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{IRI: v}}, t.generator...)
 
 }
 
@@ -1654,7 +1653,7 @@ func (t *Audio) SetUnknownGenerator(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &generatorAudioIntermediateType{}
+	tmp := &generatorIntermediateType{}
 	tmp.unknown_ = i
 	t.generator = append(t.generator, tmp)
 
@@ -1680,13 +1679,13 @@ func (t *Audio) GetIconImage(index int) (v ImageType) {
 
 // AppendIconImage adds to the back of icon a ImageType type
 func (t *Audio) AppendIconImage(v ImageType) {
-	t.icon = append(t.icon, &iconAudioIntermediateType{Image: v})
+	t.icon = append(t.icon, &iconIntermediateType{Image: v})
 
 }
 
 // PrependIconImage adds to the front of icon a ImageType type
 func (t *Audio) PrependIconImage(v ImageType) {
-	t.icon = append([]*iconAudioIntermediateType{&iconAudioIntermediateType{Image: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{Image: v}}, t.icon...)
 
 }
 
@@ -1712,13 +1711,13 @@ func (t *Audio) GetIconLink(index int) (v LinkType) {
 
 // AppendIconLink adds to the back of icon a LinkType type
 func (t *Audio) AppendIconLink(v LinkType) {
-	t.icon = append(t.icon, &iconAudioIntermediateType{Link: v})
+	t.icon = append(t.icon, &iconIntermediateType{Link: v})
 
 }
 
 // PrependIconLink adds to the front of icon a LinkType type
 func (t *Audio) PrependIconLink(v LinkType) {
-	t.icon = append([]*iconAudioIntermediateType{&iconAudioIntermediateType{Link: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{Link: v}}, t.icon...)
 
 }
 
@@ -1744,13 +1743,13 @@ func (t *Audio) GetIconIRI(index int) (v *url.URL) {
 
 // AppendIconIRI adds to the back of icon a *url.URL type
 func (t *Audio) AppendIconIRI(v *url.URL) {
-	t.icon = append(t.icon, &iconAudioIntermediateType{IRI: v})
+	t.icon = append(t.icon, &iconIntermediateType{IRI: v})
 
 }
 
 // PrependIconIRI adds to the front of icon a *url.URL type
 func (t *Audio) PrependIconIRI(v *url.URL) {
-	t.icon = append([]*iconAudioIntermediateType{&iconAudioIntermediateType{IRI: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{IRI: v}}, t.icon...)
 
 }
 
@@ -1779,7 +1778,7 @@ func (t *Audio) SetUnknownIcon(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &iconAudioIntermediateType{}
+	tmp := &iconIntermediateType{}
 	tmp.unknown_ = i
 	t.icon = append(t.icon, tmp)
 
@@ -1844,13 +1843,13 @@ func (t *Audio) GetImageImage(index int) (v ImageType) {
 
 // AppendImageImage adds to the back of image a ImageType type
 func (t *Audio) AppendImageImage(v ImageType) {
-	t.image = append(t.image, &imageAudioIntermediateType{Image: v})
+	t.image = append(t.image, &imageIntermediateType{Image: v})
 
 }
 
 // PrependImageImage adds to the front of image a ImageType type
 func (t *Audio) PrependImageImage(v ImageType) {
-	t.image = append([]*imageAudioIntermediateType{&imageAudioIntermediateType{Image: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{Image: v}}, t.image...)
 
 }
 
@@ -1876,13 +1875,13 @@ func (t *Audio) GetImageLink(index int) (v LinkType) {
 
 // AppendImageLink adds to the back of image a LinkType type
 func (t *Audio) AppendImageLink(v LinkType) {
-	t.image = append(t.image, &imageAudioIntermediateType{Link: v})
+	t.image = append(t.image, &imageIntermediateType{Link: v})
 
 }
 
 // PrependImageLink adds to the front of image a LinkType type
 func (t *Audio) PrependImageLink(v LinkType) {
-	t.image = append([]*imageAudioIntermediateType{&imageAudioIntermediateType{Link: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{Link: v}}, t.image...)
 
 }
 
@@ -1908,13 +1907,13 @@ func (t *Audio) GetImageIRI(index int) (v *url.URL) {
 
 // AppendImageIRI adds to the back of image a *url.URL type
 func (t *Audio) AppendImageIRI(v *url.URL) {
-	t.image = append(t.image, &imageAudioIntermediateType{IRI: v})
+	t.image = append(t.image, &imageIntermediateType{IRI: v})
 
 }
 
 // PrependImageIRI adds to the front of image a *url.URL type
 func (t *Audio) PrependImageIRI(v *url.URL) {
-	t.image = append([]*imageAudioIntermediateType{&imageAudioIntermediateType{IRI: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{IRI: v}}, t.image...)
 
 }
 
@@ -1943,7 +1942,7 @@ func (t *Audio) SetUnknownImage(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &imageAudioIntermediateType{}
+	tmp := &imageIntermediateType{}
 	tmp.unknown_ = i
 	t.image = append(t.image, tmp)
 
@@ -1969,13 +1968,13 @@ func (t *Audio) GetInReplyToObject(index int) (v ObjectType) {
 
 // AppendInReplyToObject adds to the back of inReplyTo a ObjectType type
 func (t *Audio) AppendInReplyToObject(v ObjectType) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToAudioIntermediateType{Object: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{Object: v})
 
 }
 
 // PrependInReplyToObject adds to the front of inReplyTo a ObjectType type
 func (t *Audio) PrependInReplyToObject(v ObjectType) {
-	t.inReplyTo = append([]*inReplyToAudioIntermediateType{&inReplyToAudioIntermediateType{Object: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{Object: v}}, t.inReplyTo...)
 
 }
 
@@ -2001,13 +2000,13 @@ func (t *Audio) GetInReplyToLink(index int) (v LinkType) {
 
 // AppendInReplyToLink adds to the back of inReplyTo a LinkType type
 func (t *Audio) AppendInReplyToLink(v LinkType) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToAudioIntermediateType{Link: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{Link: v})
 
 }
 
 // PrependInReplyToLink adds to the front of inReplyTo a LinkType type
 func (t *Audio) PrependInReplyToLink(v LinkType) {
-	t.inReplyTo = append([]*inReplyToAudioIntermediateType{&inReplyToAudioIntermediateType{Link: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{Link: v}}, t.inReplyTo...)
 
 }
 
@@ -2033,13 +2032,13 @@ func (t *Audio) GetInReplyToIRI(index int) (v *url.URL) {
 
 // AppendInReplyToIRI adds to the back of inReplyTo a *url.URL type
 func (t *Audio) AppendInReplyToIRI(v *url.URL) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToAudioIntermediateType{IRI: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{IRI: v})
 
 }
 
 // PrependInReplyToIRI adds to the front of inReplyTo a *url.URL type
 func (t *Audio) PrependInReplyToIRI(v *url.URL) {
-	t.inReplyTo = append([]*inReplyToAudioIntermediateType{&inReplyToAudioIntermediateType{IRI: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{IRI: v}}, t.inReplyTo...)
 
 }
 
@@ -2068,7 +2067,7 @@ func (t *Audio) SetUnknownInReplyTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &inReplyToAudioIntermediateType{}
+	tmp := &inReplyToIntermediateType{}
 	tmp.unknown_ = i
 	t.inReplyTo = append(t.inReplyTo, tmp)
 
@@ -2094,13 +2093,13 @@ func (t *Audio) GetLocationObject(index int) (v ObjectType) {
 
 // AppendLocationObject adds to the back of location a ObjectType type
 func (t *Audio) AppendLocationObject(v ObjectType) {
-	t.location = append(t.location, &locationAudioIntermediateType{Object: v})
+	t.location = append(t.location, &locationIntermediateType{Object: v})
 
 }
 
 // PrependLocationObject adds to the front of location a ObjectType type
 func (t *Audio) PrependLocationObject(v ObjectType) {
-	t.location = append([]*locationAudioIntermediateType{&locationAudioIntermediateType{Object: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{Object: v}}, t.location...)
 
 }
 
@@ -2126,13 +2125,13 @@ func (t *Audio) GetLocationLink(index int) (v LinkType) {
 
 // AppendLocationLink adds to the back of location a LinkType type
 func (t *Audio) AppendLocationLink(v LinkType) {
-	t.location = append(t.location, &locationAudioIntermediateType{Link: v})
+	t.location = append(t.location, &locationIntermediateType{Link: v})
 
 }
 
 // PrependLocationLink adds to the front of location a LinkType type
 func (t *Audio) PrependLocationLink(v LinkType) {
-	t.location = append([]*locationAudioIntermediateType{&locationAudioIntermediateType{Link: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{Link: v}}, t.location...)
 
 }
 
@@ -2158,13 +2157,13 @@ func (t *Audio) GetLocationIRI(index int) (v *url.URL) {
 
 // AppendLocationIRI adds to the back of location a *url.URL type
 func (t *Audio) AppendLocationIRI(v *url.URL) {
-	t.location = append(t.location, &locationAudioIntermediateType{IRI: v})
+	t.location = append(t.location, &locationIntermediateType{IRI: v})
 
 }
 
 // PrependLocationIRI adds to the front of location a *url.URL type
 func (t *Audio) PrependLocationIRI(v *url.URL) {
-	t.location = append([]*locationAudioIntermediateType{&locationAudioIntermediateType{IRI: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{IRI: v}}, t.location...)
 
 }
 
@@ -2193,7 +2192,7 @@ func (t *Audio) SetUnknownLocation(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &locationAudioIntermediateType{}
+	tmp := &locationIntermediateType{}
 	tmp.unknown_ = i
 	t.location = append(t.location, tmp)
 
@@ -2219,13 +2218,13 @@ func (t *Audio) GetPreviewObject(index int) (v ObjectType) {
 
 // AppendPreviewObject adds to the back of preview a ObjectType type
 func (t *Audio) AppendPreviewObject(v ObjectType) {
-	t.preview = append(t.preview, &previewAudioIntermediateType{Object: v})
+	t.preview = append(t.preview, &previewIntermediateType{Object: v})
 
 }
 
 // PrependPreviewObject adds to the front of preview a ObjectType type
 func (t *Audio) PrependPreviewObject(v ObjectType) {
-	t.preview = append([]*previewAudioIntermediateType{&previewAudioIntermediateType{Object: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Object: v}}, t.preview...)
 
 }
 
@@ -2251,13 +2250,13 @@ func (t *Audio) GetPreviewLink(index int) (v LinkType) {
 
 // AppendPreviewLink adds to the back of preview a LinkType type
 func (t *Audio) AppendPreviewLink(v LinkType) {
-	t.preview = append(t.preview, &previewAudioIntermediateType{Link: v})
+	t.preview = append(t.preview, &previewIntermediateType{Link: v})
 
 }
 
 // PrependPreviewLink adds to the front of preview a LinkType type
 func (t *Audio) PrependPreviewLink(v LinkType) {
-	t.preview = append([]*previewAudioIntermediateType{&previewAudioIntermediateType{Link: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Link: v}}, t.preview...)
 
 }
 
@@ -2283,13 +2282,13 @@ func (t *Audio) GetPreviewIRI(index int) (v *url.URL) {
 
 // AppendPreviewIRI adds to the back of preview a *url.URL type
 func (t *Audio) AppendPreviewIRI(v *url.URL) {
-	t.preview = append(t.preview, &previewAudioIntermediateType{IRI: v})
+	t.preview = append(t.preview, &previewIntermediateType{IRI: v})
 
 }
 
 // PrependPreviewIRI adds to the front of preview a *url.URL type
 func (t *Audio) PrependPreviewIRI(v *url.URL) {
-	t.preview = append([]*previewAudioIntermediateType{&previewAudioIntermediateType{IRI: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{IRI: v}}, t.preview...)
 
 }
 
@@ -2318,7 +2317,7 @@ func (t *Audio) SetUnknownPreview(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &previewAudioIntermediateType{}
+	tmp := &previewIntermediateType{}
 	tmp.unknown_ = i
 	t.preview = append(t.preview, tmp)
 
@@ -2338,7 +2337,7 @@ func (t *Audio) GetPublished() (v time.Time) {
 
 // SetPublished sets the value of published to be of time.Time type
 func (t *Audio) SetPublished(v time.Time) {
-	t.published = &publishedAudioIntermediateType{dateTime: &v}
+	t.published = &publishedIntermediateType{dateTime: &v}
 
 }
 
@@ -2356,7 +2355,7 @@ func (t *Audio) GetPublishedIRI() (v *url.URL) {
 
 // SetPublishedIRI sets the value of published to be of *url.URL type
 func (t *Audio) SetPublishedIRI(v *url.URL) {
-	t.published = &publishedAudioIntermediateType{IRI: v}
+	t.published = &publishedIntermediateType{IRI: v}
 
 }
 
@@ -2377,7 +2376,7 @@ func (t *Audio) SetUnknownPublished(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &publishedAudioIntermediateType{}
+	tmp := &publishedIntermediateType{}
 	tmp.unknown_ = i
 	t.published = tmp
 
@@ -2397,7 +2396,7 @@ func (t *Audio) GetReplies() (v CollectionType) {
 
 // SetReplies sets the value of replies to be of CollectionType type
 func (t *Audio) SetReplies(v CollectionType) {
-	t.replies = &repliesAudioIntermediateType{Collection: v}
+	t.replies = &repliesIntermediateType{Collection: v}
 
 }
 
@@ -2415,7 +2414,7 @@ func (t *Audio) GetRepliesIRI() (v *url.URL) {
 
 // SetRepliesIRI sets the value of replies to be of *url.URL type
 func (t *Audio) SetRepliesIRI(v *url.URL) {
-	t.replies = &repliesAudioIntermediateType{IRI: v}
+	t.replies = &repliesIntermediateType{IRI: v}
 
 }
 
@@ -2436,7 +2435,7 @@ func (t *Audio) SetUnknownReplies(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &repliesAudioIntermediateType{}
+	tmp := &repliesIntermediateType{}
 	tmp.unknown_ = i
 	t.replies = tmp
 
@@ -2456,7 +2455,7 @@ func (t *Audio) GetStartTime() (v time.Time) {
 
 // SetStartTime sets the value of startTime to be of time.Time type
 func (t *Audio) SetStartTime(v time.Time) {
-	t.startTime = &startTimeAudioIntermediateType{dateTime: &v}
+	t.startTime = &startTimeIntermediateType{dateTime: &v}
 
 }
 
@@ -2474,7 +2473,7 @@ func (t *Audio) GetStartTimeIRI() (v *url.URL) {
 
 // SetStartTimeIRI sets the value of startTime to be of *url.URL type
 func (t *Audio) SetStartTimeIRI(v *url.URL) {
-	t.startTime = &startTimeAudioIntermediateType{IRI: v}
+	t.startTime = &startTimeIntermediateType{IRI: v}
 
 }
 
@@ -2495,7 +2494,7 @@ func (t *Audio) SetUnknownStartTime(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &startTimeAudioIntermediateType{}
+	tmp := &startTimeIntermediateType{}
 	tmp.unknown_ = i
 	t.startTime = tmp
 
@@ -2521,13 +2520,13 @@ func (t *Audio) GetSummaryString(index int) (v string) {
 
 // AppendSummaryString adds to the back of summary a string type
 func (t *Audio) AppendSummaryString(v string) {
-	t.summary = append(t.summary, &summaryAudioIntermediateType{stringName: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{stringName: &v})
 
 }
 
 // PrependSummaryString adds to the front of summary a string type
 func (t *Audio) PrependSummaryString(v string) {
-	t.summary = append([]*summaryAudioIntermediateType{&summaryAudioIntermediateType{stringName: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{stringName: &v}}, t.summary...)
 
 }
 
@@ -2553,13 +2552,13 @@ func (t *Audio) GetSummaryLangString(index int) (v string) {
 
 // AppendSummaryLangString adds to the back of summary a string type
 func (t *Audio) AppendSummaryLangString(v string) {
-	t.summary = append(t.summary, &summaryAudioIntermediateType{langString: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{langString: &v})
 
 }
 
 // PrependSummaryLangString adds to the front of summary a string type
 func (t *Audio) PrependSummaryLangString(v string) {
-	t.summary = append([]*summaryAudioIntermediateType{&summaryAudioIntermediateType{langString: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{langString: &v}}, t.summary...)
 
 }
 
@@ -2585,13 +2584,13 @@ func (t *Audio) GetSummaryIRI(index int) (v *url.URL) {
 
 // AppendSummaryIRI adds to the back of summary a *url.URL type
 func (t *Audio) AppendSummaryIRI(v *url.URL) {
-	t.summary = append(t.summary, &summaryAudioIntermediateType{IRI: v})
+	t.summary = append(t.summary, &summaryIntermediateType{IRI: v})
 
 }
 
 // PrependSummaryIRI adds to the front of summary a *url.URL type
 func (t *Audio) PrependSummaryIRI(v *url.URL) {
-	t.summary = append([]*summaryAudioIntermediateType{&summaryAudioIntermediateType{IRI: v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{IRI: v}}, t.summary...)
 
 }
 
@@ -2620,7 +2619,7 @@ func (t *Audio) SetUnknownSummary(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &summaryAudioIntermediateType{}
+	tmp := &summaryIntermediateType{}
 	tmp.unknown_ = i
 	t.summary = append(t.summary, tmp)
 
@@ -2681,13 +2680,13 @@ func (t *Audio) GetTagObject(index int) (v ObjectType) {
 
 // AppendTagObject adds to the back of tag a ObjectType type
 func (t *Audio) AppendTagObject(v ObjectType) {
-	t.tag = append(t.tag, &tagAudioIntermediateType{Object: v})
+	t.tag = append(t.tag, &tagIntermediateType{Object: v})
 
 }
 
 // PrependTagObject adds to the front of tag a ObjectType type
 func (t *Audio) PrependTagObject(v ObjectType) {
-	t.tag = append([]*tagAudioIntermediateType{&tagAudioIntermediateType{Object: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{Object: v}}, t.tag...)
 
 }
 
@@ -2713,13 +2712,13 @@ func (t *Audio) GetTagLink(index int) (v LinkType) {
 
 // AppendTagLink adds to the back of tag a LinkType type
 func (t *Audio) AppendTagLink(v LinkType) {
-	t.tag = append(t.tag, &tagAudioIntermediateType{Link: v})
+	t.tag = append(t.tag, &tagIntermediateType{Link: v})
 
 }
 
 // PrependTagLink adds to the front of tag a LinkType type
 func (t *Audio) PrependTagLink(v LinkType) {
-	t.tag = append([]*tagAudioIntermediateType{&tagAudioIntermediateType{Link: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{Link: v}}, t.tag...)
 
 }
 
@@ -2745,13 +2744,13 @@ func (t *Audio) GetTagIRI(index int) (v *url.URL) {
 
 // AppendTagIRI adds to the back of tag a *url.URL type
 func (t *Audio) AppendTagIRI(v *url.URL) {
-	t.tag = append(t.tag, &tagAudioIntermediateType{IRI: v})
+	t.tag = append(t.tag, &tagIntermediateType{IRI: v})
 
 }
 
 // PrependTagIRI adds to the front of tag a *url.URL type
 func (t *Audio) PrependTagIRI(v *url.URL) {
-	t.tag = append([]*tagAudioIntermediateType{&tagAudioIntermediateType{IRI: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{IRI: v}}, t.tag...)
 
 }
 
@@ -2780,7 +2779,7 @@ func (t *Audio) SetUnknownTag(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &tagAudioIntermediateType{}
+	tmp := &tagIntermediateType{}
 	tmp.unknown_ = i
 	t.tag = append(t.tag, tmp)
 
@@ -2832,7 +2831,7 @@ func (t *Audio) GetUpdated() (v time.Time) {
 
 // SetUpdated sets the value of updated to be of time.Time type
 func (t *Audio) SetUpdated(v time.Time) {
-	t.updated = &updatedAudioIntermediateType{dateTime: &v}
+	t.updated = &updatedIntermediateType{dateTime: &v}
 
 }
 
@@ -2850,7 +2849,7 @@ func (t *Audio) GetUpdatedIRI() (v *url.URL) {
 
 // SetUpdatedIRI sets the value of updated to be of *url.URL type
 func (t *Audio) SetUpdatedIRI(v *url.URL) {
-	t.updated = &updatedAudioIntermediateType{IRI: v}
+	t.updated = &updatedIntermediateType{IRI: v}
 
 }
 
@@ -2871,7 +2870,7 @@ func (t *Audio) SetUnknownUpdated(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &updatedAudioIntermediateType{}
+	tmp := &updatedIntermediateType{}
 	tmp.unknown_ = i
 	t.updated = tmp
 
@@ -2897,13 +2896,13 @@ func (t *Audio) GetUrlAnyURI(index int) (v *url.URL) {
 
 // AppendUrlAnyURI adds to the back of url a *url.URL type
 func (t *Audio) AppendUrlAnyURI(v *url.URL) {
-	t.url = append(t.url, &urlAudioIntermediateType{anyURI: v})
+	t.url = append(t.url, &urlIntermediateType{anyURI: v})
 
 }
 
 // PrependUrlAnyURI adds to the front of url a *url.URL type
 func (t *Audio) PrependUrlAnyURI(v *url.URL) {
-	t.url = append([]*urlAudioIntermediateType{&urlAudioIntermediateType{anyURI: v}}, t.url...)
+	t.url = append([]*urlIntermediateType{&urlIntermediateType{anyURI: v}}, t.url...)
 
 }
 
@@ -2929,13 +2928,13 @@ func (t *Audio) GetUrlLink(index int) (v LinkType) {
 
 // AppendUrlLink adds to the back of url a LinkType type
 func (t *Audio) AppendUrlLink(v LinkType) {
-	t.url = append(t.url, &urlAudioIntermediateType{Link: v})
+	t.url = append(t.url, &urlIntermediateType{Link: v})
 
 }
 
 // PrependUrlLink adds to the front of url a LinkType type
 func (t *Audio) PrependUrlLink(v LinkType) {
-	t.url = append([]*urlAudioIntermediateType{&urlAudioIntermediateType{Link: v}}, t.url...)
+	t.url = append([]*urlIntermediateType{&urlIntermediateType{Link: v}}, t.url...)
 
 }
 
@@ -2964,7 +2963,7 @@ func (t *Audio) SetUnknownUrl(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &urlAudioIntermediateType{}
+	tmp := &urlIntermediateType{}
 	tmp.unknown_ = i
 	t.url = append(t.url, tmp)
 
@@ -2990,13 +2989,13 @@ func (t *Audio) GetToObject(index int) (v ObjectType) {
 
 // AppendToObject adds to the back of to a ObjectType type
 func (t *Audio) AppendToObject(v ObjectType) {
-	t.to = append(t.to, &toAudioIntermediateType{Object: v})
+	t.to = append(t.to, &toIntermediateType{Object: v})
 
 }
 
 // PrependToObject adds to the front of to a ObjectType type
 func (t *Audio) PrependToObject(v ObjectType) {
-	t.to = append([]*toAudioIntermediateType{&toAudioIntermediateType{Object: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{Object: v}}, t.to...)
 
 }
 
@@ -3022,13 +3021,13 @@ func (t *Audio) GetToLink(index int) (v LinkType) {
 
 // AppendToLink adds to the back of to a LinkType type
 func (t *Audio) AppendToLink(v LinkType) {
-	t.to = append(t.to, &toAudioIntermediateType{Link: v})
+	t.to = append(t.to, &toIntermediateType{Link: v})
 
 }
 
 // PrependToLink adds to the front of to a LinkType type
 func (t *Audio) PrependToLink(v LinkType) {
-	t.to = append([]*toAudioIntermediateType{&toAudioIntermediateType{Link: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{Link: v}}, t.to...)
 
 }
 
@@ -3054,13 +3053,13 @@ func (t *Audio) GetToIRI(index int) (v *url.URL) {
 
 // AppendToIRI adds to the back of to a *url.URL type
 func (t *Audio) AppendToIRI(v *url.URL) {
-	t.to = append(t.to, &toAudioIntermediateType{IRI: v})
+	t.to = append(t.to, &toIntermediateType{IRI: v})
 
 }
 
 // PrependToIRI adds to the front of to a *url.URL type
 func (t *Audio) PrependToIRI(v *url.URL) {
-	t.to = append([]*toAudioIntermediateType{&toAudioIntermediateType{IRI: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{IRI: v}}, t.to...)
 
 }
 
@@ -3089,7 +3088,7 @@ func (t *Audio) SetUnknownTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &toAudioIntermediateType{}
+	tmp := &toIntermediateType{}
 	tmp.unknown_ = i
 	t.to = append(t.to, tmp)
 
@@ -3115,13 +3114,13 @@ func (t *Audio) GetBtoObject(index int) (v ObjectType) {
 
 // AppendBtoObject adds to the back of bto a ObjectType type
 func (t *Audio) AppendBtoObject(v ObjectType) {
-	t.bto = append(t.bto, &btoAudioIntermediateType{Object: v})
+	t.bto = append(t.bto, &btoIntermediateType{Object: v})
 
 }
 
 // PrependBtoObject adds to the front of bto a ObjectType type
 func (t *Audio) PrependBtoObject(v ObjectType) {
-	t.bto = append([]*btoAudioIntermediateType{&btoAudioIntermediateType{Object: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{Object: v}}, t.bto...)
 
 }
 
@@ -3147,13 +3146,13 @@ func (t *Audio) GetBtoLink(index int) (v LinkType) {
 
 // AppendBtoLink adds to the back of bto a LinkType type
 func (t *Audio) AppendBtoLink(v LinkType) {
-	t.bto = append(t.bto, &btoAudioIntermediateType{Link: v})
+	t.bto = append(t.bto, &btoIntermediateType{Link: v})
 
 }
 
 // PrependBtoLink adds to the front of bto a LinkType type
 func (t *Audio) PrependBtoLink(v LinkType) {
-	t.bto = append([]*btoAudioIntermediateType{&btoAudioIntermediateType{Link: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{Link: v}}, t.bto...)
 
 }
 
@@ -3179,13 +3178,13 @@ func (t *Audio) GetBtoIRI(index int) (v *url.URL) {
 
 // AppendBtoIRI adds to the back of bto a *url.URL type
 func (t *Audio) AppendBtoIRI(v *url.URL) {
-	t.bto = append(t.bto, &btoAudioIntermediateType{IRI: v})
+	t.bto = append(t.bto, &btoIntermediateType{IRI: v})
 
 }
 
 // PrependBtoIRI adds to the front of bto a *url.URL type
 func (t *Audio) PrependBtoIRI(v *url.URL) {
-	t.bto = append([]*btoAudioIntermediateType{&btoAudioIntermediateType{IRI: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{IRI: v}}, t.bto...)
 
 }
 
@@ -3214,7 +3213,7 @@ func (t *Audio) SetUnknownBto(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &btoAudioIntermediateType{}
+	tmp := &btoIntermediateType{}
 	tmp.unknown_ = i
 	t.bto = append(t.bto, tmp)
 
@@ -3240,13 +3239,13 @@ func (t *Audio) GetCcObject(index int) (v ObjectType) {
 
 // AppendCcObject adds to the back of cc a ObjectType type
 func (t *Audio) AppendCcObject(v ObjectType) {
-	t.cc = append(t.cc, &ccAudioIntermediateType{Object: v})
+	t.cc = append(t.cc, &ccIntermediateType{Object: v})
 
 }
 
 // PrependCcObject adds to the front of cc a ObjectType type
 func (t *Audio) PrependCcObject(v ObjectType) {
-	t.cc = append([]*ccAudioIntermediateType{&ccAudioIntermediateType{Object: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{Object: v}}, t.cc...)
 
 }
 
@@ -3272,13 +3271,13 @@ func (t *Audio) GetCcLink(index int) (v LinkType) {
 
 // AppendCcLink adds to the back of cc a LinkType type
 func (t *Audio) AppendCcLink(v LinkType) {
-	t.cc = append(t.cc, &ccAudioIntermediateType{Link: v})
+	t.cc = append(t.cc, &ccIntermediateType{Link: v})
 
 }
 
 // PrependCcLink adds to the front of cc a LinkType type
 func (t *Audio) PrependCcLink(v LinkType) {
-	t.cc = append([]*ccAudioIntermediateType{&ccAudioIntermediateType{Link: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{Link: v}}, t.cc...)
 
 }
 
@@ -3304,13 +3303,13 @@ func (t *Audio) GetCcIRI(index int) (v *url.URL) {
 
 // AppendCcIRI adds to the back of cc a *url.URL type
 func (t *Audio) AppendCcIRI(v *url.URL) {
-	t.cc = append(t.cc, &ccAudioIntermediateType{IRI: v})
+	t.cc = append(t.cc, &ccIntermediateType{IRI: v})
 
 }
 
 // PrependCcIRI adds to the front of cc a *url.URL type
 func (t *Audio) PrependCcIRI(v *url.URL) {
-	t.cc = append([]*ccAudioIntermediateType{&ccAudioIntermediateType{IRI: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{IRI: v}}, t.cc...)
 
 }
 
@@ -3339,7 +3338,7 @@ func (t *Audio) SetUnknownCc(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &ccAudioIntermediateType{}
+	tmp := &ccIntermediateType{}
 	tmp.unknown_ = i
 	t.cc = append(t.cc, tmp)
 
@@ -3365,13 +3364,13 @@ func (t *Audio) GetBccObject(index int) (v ObjectType) {
 
 // AppendBccObject adds to the back of bcc a ObjectType type
 func (t *Audio) AppendBccObject(v ObjectType) {
-	t.bcc = append(t.bcc, &bccAudioIntermediateType{Object: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{Object: v})
 
 }
 
 // PrependBccObject adds to the front of bcc a ObjectType type
 func (t *Audio) PrependBccObject(v ObjectType) {
-	t.bcc = append([]*bccAudioIntermediateType{&bccAudioIntermediateType{Object: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{Object: v}}, t.bcc...)
 
 }
 
@@ -3397,13 +3396,13 @@ func (t *Audio) GetBccLink(index int) (v LinkType) {
 
 // AppendBccLink adds to the back of bcc a LinkType type
 func (t *Audio) AppendBccLink(v LinkType) {
-	t.bcc = append(t.bcc, &bccAudioIntermediateType{Link: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{Link: v})
 
 }
 
 // PrependBccLink adds to the front of bcc a LinkType type
 func (t *Audio) PrependBccLink(v LinkType) {
-	t.bcc = append([]*bccAudioIntermediateType{&bccAudioIntermediateType{Link: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{Link: v}}, t.bcc...)
 
 }
 
@@ -3429,13 +3428,13 @@ func (t *Audio) GetBccIRI(index int) (v *url.URL) {
 
 // AppendBccIRI adds to the back of bcc a *url.URL type
 func (t *Audio) AppendBccIRI(v *url.URL) {
-	t.bcc = append(t.bcc, &bccAudioIntermediateType{IRI: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{IRI: v})
 
 }
 
 // PrependBccIRI adds to the front of bcc a *url.URL type
 func (t *Audio) PrependBccIRI(v *url.URL) {
-	t.bcc = append([]*bccAudioIntermediateType{&bccAudioIntermediateType{IRI: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{IRI: v}}, t.bcc...)
 
 }
 
@@ -3464,7 +3463,7 @@ func (t *Audio) SetUnknownBcc(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &bccAudioIntermediateType{}
+	tmp := &bccIntermediateType{}
 	tmp.unknown_ = i
 	t.bcc = append(t.bcc, tmp)
 
@@ -3484,7 +3483,7 @@ func (t *Audio) GetMediaType() (v string) {
 
 // SetMediaType sets the value of mediaType to be of string type
 func (t *Audio) SetMediaType(v string) {
-	t.mediaType = &mediaTypeAudioIntermediateType{mimeMediaTypeValue: &v}
+	t.mediaType = &mediaTypeIntermediateType{mimeMediaTypeValue: &v}
 
 }
 
@@ -3502,7 +3501,7 @@ func (t *Audio) GetMediaTypeIRI() (v *url.URL) {
 
 // SetMediaTypeIRI sets the value of mediaType to be of *url.URL type
 func (t *Audio) SetMediaTypeIRI(v *url.URL) {
-	t.mediaType = &mediaTypeAudioIntermediateType{IRI: v}
+	t.mediaType = &mediaTypeIntermediateType{IRI: v}
 
 }
 
@@ -3523,7 +3522,7 @@ func (t *Audio) SetUnknownMediaType(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &mediaTypeAudioIntermediateType{}
+	tmp := &mediaTypeIntermediateType{}
 	tmp.unknown_ = i
 	t.mediaType = tmp
 
@@ -3543,7 +3542,7 @@ func (t *Audio) GetDuration() (v time.Duration) {
 
 // SetDuration sets the value of duration to be of time.Duration type
 func (t *Audio) SetDuration(v time.Duration) {
-	t.duration = &durationAudioIntermediateType{duration: &v}
+	t.duration = &durationIntermediateType{duration: &v}
 
 }
 
@@ -3561,7 +3560,7 @@ func (t *Audio) GetDurationIRI() (v *url.URL) {
 
 // SetDurationIRI sets the value of duration to be of *url.URL type
 func (t *Audio) SetDurationIRI(v *url.URL) {
-	t.duration = &durationAudioIntermediateType{IRI: v}
+	t.duration = &durationIntermediateType{IRI: v}
 
 }
 
@@ -3582,7 +3581,7 @@ func (t *Audio) SetUnknownDuration(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &durationAudioIntermediateType{}
+	tmp := &durationIntermediateType{}
 	tmp.unknown_ = i
 	t.duration = tmp
 
@@ -3602,7 +3601,7 @@ func (t *Audio) GetSource() (v ObjectType) {
 
 // SetSource sets the value of source to be of ObjectType type
 func (t *Audio) SetSource(v ObjectType) {
-	t.source = &sourceAudioIntermediateType{Object: v}
+	t.source = &sourceIntermediateType{Object: v}
 
 }
 
@@ -3620,7 +3619,7 @@ func (t *Audio) GetSourceIRI() (v *url.URL) {
 
 // SetSourceIRI sets the value of source to be of *url.URL type
 func (t *Audio) SetSourceIRI(v *url.URL) {
-	t.source = &sourceAudioIntermediateType{IRI: v}
+	t.source = &sourceIntermediateType{IRI: v}
 
 }
 
@@ -3641,7 +3640,7 @@ func (t *Audio) SetUnknownSource(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &sourceAudioIntermediateType{}
+	tmp := &sourceIntermediateType{}
 	tmp.unknown_ = i
 	t.source = tmp
 
@@ -3661,7 +3660,7 @@ func (t *Audio) GetInboxOrderedCollection() (v OrderedCollectionType) {
 
 // SetInboxOrderedCollection sets the value of inbox to be of OrderedCollectionType type
 func (t *Audio) SetInboxOrderedCollection(v OrderedCollectionType) {
-	t.inbox = &inboxAudioIntermediateType{OrderedCollection: v}
+	t.inbox = &inboxIntermediateType{OrderedCollection: v}
 
 }
 
@@ -3679,7 +3678,7 @@ func (t *Audio) GetInboxAnyURI() (v *url.URL) {
 
 // SetInboxAnyURI sets the value of inbox to be of *url.URL type
 func (t *Audio) SetInboxAnyURI(v *url.URL) {
-	t.inbox = &inboxAudioIntermediateType{anyURI: v}
+	t.inbox = &inboxIntermediateType{anyURI: v}
 
 }
 
@@ -3700,7 +3699,7 @@ func (t *Audio) SetUnknownInbox(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &inboxAudioIntermediateType{}
+	tmp := &inboxIntermediateType{}
 	tmp.unknown_ = i
 	t.inbox = tmp
 
@@ -3720,7 +3719,7 @@ func (t *Audio) GetOutboxOrderedCollection() (v OrderedCollectionType) {
 
 // SetOutboxOrderedCollection sets the value of outbox to be of OrderedCollectionType type
 func (t *Audio) SetOutboxOrderedCollection(v OrderedCollectionType) {
-	t.outbox = &outboxAudioIntermediateType{OrderedCollection: v}
+	t.outbox = &outboxIntermediateType{OrderedCollection: v}
 
 }
 
@@ -3738,7 +3737,7 @@ func (t *Audio) GetOutboxAnyURI() (v *url.URL) {
 
 // SetOutboxAnyURI sets the value of outbox to be of *url.URL type
 func (t *Audio) SetOutboxAnyURI(v *url.URL) {
-	t.outbox = &outboxAudioIntermediateType{anyURI: v}
+	t.outbox = &outboxIntermediateType{anyURI: v}
 
 }
 
@@ -3759,7 +3758,7 @@ func (t *Audio) SetUnknownOutbox(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &outboxAudioIntermediateType{}
+	tmp := &outboxIntermediateType{}
 	tmp.unknown_ = i
 	t.outbox = tmp
 
@@ -3779,7 +3778,7 @@ func (t *Audio) GetFollowingCollection() (v CollectionType) {
 
 // SetFollowingCollection sets the value of following to be of CollectionType type
 func (t *Audio) SetFollowingCollection(v CollectionType) {
-	t.following = &followingAudioIntermediateType{Collection: v}
+	t.following = &followingIntermediateType{Collection: v}
 
 }
 
@@ -3797,7 +3796,7 @@ func (t *Audio) GetFollowingOrderedCollection() (v OrderedCollectionType) {
 
 // SetFollowingOrderedCollection sets the value of following to be of OrderedCollectionType type
 func (t *Audio) SetFollowingOrderedCollection(v OrderedCollectionType) {
-	t.following = &followingAudioIntermediateType{OrderedCollection: v}
+	t.following = &followingIntermediateType{OrderedCollection: v}
 
 }
 
@@ -3815,7 +3814,7 @@ func (t *Audio) GetFollowingAnyURI() (v *url.URL) {
 
 // SetFollowingAnyURI sets the value of following to be of *url.URL type
 func (t *Audio) SetFollowingAnyURI(v *url.URL) {
-	t.following = &followingAudioIntermediateType{anyURI: v}
+	t.following = &followingIntermediateType{anyURI: v}
 
 }
 
@@ -3836,7 +3835,7 @@ func (t *Audio) SetUnknownFollowing(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &followingAudioIntermediateType{}
+	tmp := &followingIntermediateType{}
 	tmp.unknown_ = i
 	t.following = tmp
 
@@ -3856,7 +3855,7 @@ func (t *Audio) GetFollowersCollection() (v CollectionType) {
 
 // SetFollowersCollection sets the value of followers to be of CollectionType type
 func (t *Audio) SetFollowersCollection(v CollectionType) {
-	t.followers = &followersAudioIntermediateType{Collection: v}
+	t.followers = &followersIntermediateType{Collection: v}
 
 }
 
@@ -3874,7 +3873,7 @@ func (t *Audio) GetFollowersOrderedCollection() (v OrderedCollectionType) {
 
 // SetFollowersOrderedCollection sets the value of followers to be of OrderedCollectionType type
 func (t *Audio) SetFollowersOrderedCollection(v OrderedCollectionType) {
-	t.followers = &followersAudioIntermediateType{OrderedCollection: v}
+	t.followers = &followersIntermediateType{OrderedCollection: v}
 
 }
 
@@ -3892,7 +3891,7 @@ func (t *Audio) GetFollowersAnyURI() (v *url.URL) {
 
 // SetFollowersAnyURI sets the value of followers to be of *url.URL type
 func (t *Audio) SetFollowersAnyURI(v *url.URL) {
-	t.followers = &followersAudioIntermediateType{anyURI: v}
+	t.followers = &followersIntermediateType{anyURI: v}
 
 }
 
@@ -3913,7 +3912,7 @@ func (t *Audio) SetUnknownFollowers(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &followersAudioIntermediateType{}
+	tmp := &followersIntermediateType{}
 	tmp.unknown_ = i
 	t.followers = tmp
 
@@ -3933,7 +3932,7 @@ func (t *Audio) GetLikedCollection() (v CollectionType) {
 
 // SetLikedCollection sets the value of liked to be of CollectionType type
 func (t *Audio) SetLikedCollection(v CollectionType) {
-	t.liked = &likedAudioIntermediateType{Collection: v}
+	t.liked = &likedIntermediateType{Collection: v}
 
 }
 
@@ -3951,7 +3950,7 @@ func (t *Audio) GetLikedOrderedCollection() (v OrderedCollectionType) {
 
 // SetLikedOrderedCollection sets the value of liked to be of OrderedCollectionType type
 func (t *Audio) SetLikedOrderedCollection(v OrderedCollectionType) {
-	t.liked = &likedAudioIntermediateType{OrderedCollection: v}
+	t.liked = &likedIntermediateType{OrderedCollection: v}
 
 }
 
@@ -3969,7 +3968,7 @@ func (t *Audio) GetLikedAnyURI() (v *url.URL) {
 
 // SetLikedAnyURI sets the value of liked to be of *url.URL type
 func (t *Audio) SetLikedAnyURI(v *url.URL) {
-	t.liked = &likedAudioIntermediateType{anyURI: v}
+	t.liked = &likedIntermediateType{anyURI: v}
 
 }
 
@@ -3990,7 +3989,7 @@ func (t *Audio) SetUnknownLiked(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &likedAudioIntermediateType{}
+	tmp := &likedIntermediateType{}
 	tmp.unknown_ = i
 	t.liked = tmp
 
@@ -4010,7 +4009,7 @@ func (t *Audio) GetLikesCollection() (v CollectionType) {
 
 // SetLikesCollection sets the value of likes to be of CollectionType type
 func (t *Audio) SetLikesCollection(v CollectionType) {
-	t.likes = &likesAudioIntermediateType{Collection: v}
+	t.likes = &likesIntermediateType{Collection: v}
 
 }
 
@@ -4028,7 +4027,7 @@ func (t *Audio) GetLikesOrderedCollection() (v OrderedCollectionType) {
 
 // SetLikesOrderedCollection sets the value of likes to be of OrderedCollectionType type
 func (t *Audio) SetLikesOrderedCollection(v OrderedCollectionType) {
-	t.likes = &likesAudioIntermediateType{OrderedCollection: v}
+	t.likes = &likesIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4046,7 +4045,7 @@ func (t *Audio) GetLikesAnyURI() (v *url.URL) {
 
 // SetLikesAnyURI sets the value of likes to be of *url.URL type
 func (t *Audio) SetLikesAnyURI(v *url.URL) {
-	t.likes = &likesAudioIntermediateType{anyURI: v}
+	t.likes = &likesIntermediateType{anyURI: v}
 
 }
 
@@ -4067,7 +4066,7 @@ func (t *Audio) SetUnknownLikes(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &likesAudioIntermediateType{}
+	tmp := &likesIntermediateType{}
 	tmp.unknown_ = i
 	t.likes = tmp
 
@@ -4140,7 +4139,7 @@ func (t *Audio) GetPreferredUsername() (v string) {
 
 // SetPreferredUsername sets the value of preferredUsername to be of string type
 func (t *Audio) SetPreferredUsername(v string) {
-	t.preferredUsername = &preferredUsernameAudioIntermediateType{stringName: &v}
+	t.preferredUsername = &preferredUsernameIntermediateType{stringName: &v}
 
 }
 
@@ -4158,7 +4157,7 @@ func (t *Audio) GetPreferredUsernameIRI() (v *url.URL) {
 
 // SetPreferredUsernameIRI sets the value of preferredUsername to be of *url.URL type
 func (t *Audio) SetPreferredUsernameIRI(v *url.URL) {
-	t.preferredUsername = &preferredUsernameAudioIntermediateType{IRI: v}
+	t.preferredUsername = &preferredUsernameIntermediateType{IRI: v}
 
 }
 
@@ -4179,7 +4178,7 @@ func (t *Audio) SetUnknownPreferredUsername(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &preferredUsernameAudioIntermediateType{}
+	tmp := &preferredUsernameIntermediateType{}
 	tmp.unknown_ = i
 	t.preferredUsername = tmp
 
@@ -4234,7 +4233,7 @@ func (t *Audio) GetEndpoints() (v ObjectType) {
 
 // SetEndpoints sets the value of endpoints to be of ObjectType type
 func (t *Audio) SetEndpoints(v ObjectType) {
-	t.endpoints = &endpointsAudioIntermediateType{Object: v}
+	t.endpoints = &endpointsIntermediateType{Object: v}
 
 }
 
@@ -4252,7 +4251,7 @@ func (t *Audio) GetEndpointsIRI() (v *url.URL) {
 
 // SetEndpointsIRI sets the value of endpoints to be of *url.URL type
 func (t *Audio) SetEndpointsIRI(v *url.URL) {
-	t.endpoints = &endpointsAudioIntermediateType{IRI: v}
+	t.endpoints = &endpointsIntermediateType{IRI: v}
 
 }
 
@@ -4273,7 +4272,7 @@ func (t *Audio) SetUnknownEndpoints(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &endpointsAudioIntermediateType{}
+	tmp := &endpointsIntermediateType{}
 	tmp.unknown_ = i
 	t.endpoints = tmp
 
@@ -4560,7 +4559,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.altitude != nil {
-		if v, err := serializeAltitudeAudioIntermediateType(t.altitude); err == nil {
+		if v, err := serializeAltitudeIntermediateType(t.altitude); err == nil {
 			m["altitude"] = v
 		} else {
 			return m, err
@@ -4568,7 +4567,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttachmentAudioIntermediateType(t.attachment); err == nil && v != nil {
+	if v, err := serializeSliceAttachmentIntermediateType(t.attachment); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attachment"] = v[0]
 		} else {
@@ -4579,7 +4578,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttributedToAudioIntermediateType(t.attributedTo); err == nil && v != nil {
+	if v, err := serializeSliceAttributedToIntermediateType(t.attributedTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attributedTo"] = v[0]
 		} else {
@@ -4590,7 +4589,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAudienceAudioIntermediateType(t.audience); err == nil && v != nil {
+	if v, err := serializeSliceAudienceIntermediateType(t.audience); err == nil && v != nil {
 		if len(v) == 1 {
 			m["audience"] = v[0]
 		} else {
@@ -4601,7 +4600,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceContentAudioIntermediateType(t.content); err == nil && v != nil {
+	if v, err := serializeSliceContentIntermediateType(t.content); err == nil && v != nil {
 		if len(v) == 1 {
 			m["content"] = v[0]
 		} else {
@@ -4618,7 +4617,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceContextAudioIntermediateType(t.context); err == nil && v != nil {
+	if v, err := serializeSliceContextIntermediateType(t.context); err == nil && v != nil {
 		if len(v) == 1 {
 			m["context"] = v[0]
 		} else {
@@ -4629,7 +4628,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceNameAudioIntermediateType(t.name); err == nil && v != nil {
+	if v, err := serializeSliceNameIntermediateType(t.name); err == nil && v != nil {
 		if len(v) == 1 {
 			m["name"] = v[0]
 		} else {
@@ -4647,7 +4646,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.endTime != nil {
-		if v, err := serializeEndTimeAudioIntermediateType(t.endTime); err == nil {
+		if v, err := serializeEndTimeIntermediateType(t.endTime); err == nil {
 			m["endTime"] = v
 		} else {
 			return m, err
@@ -4655,7 +4654,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceGeneratorAudioIntermediateType(t.generator); err == nil && v != nil {
+	if v, err := serializeSliceGeneratorIntermediateType(t.generator); err == nil && v != nil {
 		if len(v) == 1 {
 			m["generator"] = v[0]
 		} else {
@@ -4666,7 +4665,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceIconAudioIntermediateType(t.icon); err == nil && v != nil {
+	if v, err := serializeSliceIconIntermediateType(t.icon); err == nil && v != nil {
 		if len(v) == 1 {
 			m["icon"] = v[0]
 		} else {
@@ -4692,7 +4691,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceImageAudioIntermediateType(t.image); err == nil && v != nil {
+	if v, err := serializeSliceImageIntermediateType(t.image); err == nil && v != nil {
 		if len(v) == 1 {
 			m["image"] = v[0]
 		} else {
@@ -4703,7 +4702,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceInReplyToAudioIntermediateType(t.inReplyTo); err == nil && v != nil {
+	if v, err := serializeSliceInReplyToIntermediateType(t.inReplyTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["inReplyTo"] = v[0]
 		} else {
@@ -4714,7 +4713,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceLocationAudioIntermediateType(t.location); err == nil && v != nil {
+	if v, err := serializeSliceLocationIntermediateType(t.location); err == nil && v != nil {
 		if len(v) == 1 {
 			m["location"] = v[0]
 		} else {
@@ -4725,7 +4724,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSlicePreviewAudioIntermediateType(t.preview); err == nil && v != nil {
+	if v, err := serializeSlicePreviewIntermediateType(t.preview); err == nil && v != nil {
 		if len(v) == 1 {
 			m["preview"] = v[0]
 		} else {
@@ -4737,7 +4736,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.published != nil {
-		if v, err := serializePublishedAudioIntermediateType(t.published); err == nil {
+		if v, err := serializePublishedIntermediateType(t.published); err == nil {
 			m["published"] = v
 		} else {
 			return m, err
@@ -4746,7 +4745,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.replies != nil {
-		if v, err := serializeRepliesAudioIntermediateType(t.replies); err == nil {
+		if v, err := serializeRepliesIntermediateType(t.replies); err == nil {
 			m["replies"] = v
 		} else {
 			return m, err
@@ -4755,7 +4754,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.startTime != nil {
-		if v, err := serializeStartTimeAudioIntermediateType(t.startTime); err == nil {
+		if v, err := serializeStartTimeIntermediateType(t.startTime); err == nil {
 			m["startTime"] = v
 		} else {
 			return m, err
@@ -4763,7 +4762,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceSummaryAudioIntermediateType(t.summary); err == nil && v != nil {
+	if v, err := serializeSliceSummaryIntermediateType(t.summary); err == nil && v != nil {
 		if len(v) == 1 {
 			m["summary"] = v[0]
 		} else {
@@ -4780,7 +4779,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceTagAudioIntermediateType(t.tag); err == nil && v != nil {
+	if v, err := serializeSliceTagIntermediateType(t.tag); err == nil && v != nil {
 		if len(v) == 1 {
 			m["tag"] = v[0]
 		} else {
@@ -4801,7 +4800,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalAnyDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.updated != nil {
-		if v, err := serializeUpdatedAudioIntermediateType(t.updated); err == nil {
+		if v, err := serializeUpdatedIntermediateType(t.updated); err == nil {
 			m["updated"] = v
 		} else {
 			return m, err
@@ -4809,7 +4808,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceUrlAudioIntermediateType(t.url); err == nil && v != nil {
+	if v, err := serializeSliceUrlIntermediateType(t.url); err == nil && v != nil {
 		if len(v) == 1 {
 			m["url"] = v[0]
 		} else {
@@ -4820,7 +4819,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceToAudioIntermediateType(t.to); err == nil && v != nil {
+	if v, err := serializeSliceToIntermediateType(t.to); err == nil && v != nil {
 		if len(v) == 1 {
 			m["to"] = v[0]
 		} else {
@@ -4831,7 +4830,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceBtoAudioIntermediateType(t.bto); err == nil && v != nil {
+	if v, err := serializeSliceBtoIntermediateType(t.bto); err == nil && v != nil {
 		if len(v) == 1 {
 			m["bto"] = v[0]
 		} else {
@@ -4842,7 +4841,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceCcAudioIntermediateType(t.cc); err == nil && v != nil {
+	if v, err := serializeSliceCcIntermediateType(t.cc); err == nil && v != nil {
 		if len(v) == 1 {
 			m["cc"] = v[0]
 		} else {
@@ -4853,7 +4852,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceBccAudioIntermediateType(t.bcc); err == nil && v != nil {
+	if v, err := serializeSliceBccIntermediateType(t.bcc); err == nil && v != nil {
 		if len(v) == 1 {
 			m["bcc"] = v[0]
 		} else {
@@ -4865,7 +4864,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.mediaType != nil {
-		if v, err := serializeMediaTypeAudioIntermediateType(t.mediaType); err == nil {
+		if v, err := serializeMediaTypeIntermediateType(t.mediaType); err == nil {
 			m["mediaType"] = v
 		} else {
 			return m, err
@@ -4874,7 +4873,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.duration != nil {
-		if v, err := serializeDurationAudioIntermediateType(t.duration); err == nil {
+		if v, err := serializeDurationIntermediateType(t.duration); err == nil {
 			m["duration"] = v
 		} else {
 			return m, err
@@ -4883,7 +4882,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.source != nil {
-		if v, err := serializeSourceAudioIntermediateType(t.source); err == nil {
+		if v, err := serializeSourceIntermediateType(t.source); err == nil {
 			m["source"] = v
 		} else {
 			return m, err
@@ -4892,7 +4891,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.inbox != nil {
-		if v, err := serializeInboxAudioIntermediateType(t.inbox); err == nil {
+		if v, err := serializeInboxIntermediateType(t.inbox); err == nil {
 			m["inbox"] = v
 		} else {
 			return m, err
@@ -4901,7 +4900,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.outbox != nil {
-		if v, err := serializeOutboxAudioIntermediateType(t.outbox); err == nil {
+		if v, err := serializeOutboxIntermediateType(t.outbox); err == nil {
 			m["outbox"] = v
 		} else {
 			return m, err
@@ -4910,7 +4909,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.following != nil {
-		if v, err := serializeFollowingAudioIntermediateType(t.following); err == nil {
+		if v, err := serializeFollowingIntermediateType(t.following); err == nil {
 			m["following"] = v
 		} else {
 			return m, err
@@ -4919,7 +4918,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.followers != nil {
-		if v, err := serializeFollowersAudioIntermediateType(t.followers); err == nil {
+		if v, err := serializeFollowersIntermediateType(t.followers); err == nil {
 			m["followers"] = v
 		} else {
 			return m, err
@@ -4928,7 +4927,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.liked != nil {
-		if v, err := serializeLikedAudioIntermediateType(t.liked); err == nil {
+		if v, err := serializeLikedIntermediateType(t.liked); err == nil {
 			m["liked"] = v
 		} else {
 			return m, err
@@ -4937,7 +4936,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.likes != nil {
-		if v, err := serializeLikesAudioIntermediateType(t.likes); err == nil {
+		if v, err := serializeLikesIntermediateType(t.likes); err == nil {
 			m["likes"] = v
 		} else {
 			return m, err
@@ -4960,7 +4959,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.preferredUsername != nil {
-		if v, err := serializePreferredUsernameAudioIntermediateType(t.preferredUsername); err == nil {
+		if v, err := serializePreferredUsernameIntermediateType(t.preferredUsername); err == nil {
 			m["preferredUsername"] = v
 		} else {
 			return m, err
@@ -4975,7 +4974,7 @@ func (t *Audio) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.endpoints != nil {
-		if v, err := serializeEndpointsAudioIntermediateType(t.endpoints); err == nil {
+		if v, err := serializeEndpointsIntermediateType(t.endpoints); err == nil {
 			m["endpoints"] = v
 		} else {
 			return m, err
@@ -5083,7 +5082,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "altitude" {
-				t.altitude, err = deserializeAltitudeAudioIntermediateType(v)
+				t.altitude, err = deserializeAltitudeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5095,25 +5094,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attachment" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttachmentAudioIntermediateType(tmpMap)
+					tmp, err := deserializeAttachmentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attachment = []*attachmentAudioIntermediateType{tmp}
+					t.attachment = []*attachmentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attachment, err = deserializeSliceAttachmentAudioIntermediateType(tmpSlice)
+					t.attachment, err = deserializeSliceAttachmentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attachmentAudioIntermediateType{}
+					tmp := &attachmentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attachment = []*attachmentAudioIntermediateType{tmp}
+					t.attachment = []*attachmentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5123,25 +5122,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attributedTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttributedToAudioIntermediateType(tmpMap)
+					tmp, err := deserializeAttributedToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToAudioIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attributedTo, err = deserializeSliceAttributedToAudioIntermediateType(tmpSlice)
+					t.attributedTo, err = deserializeSliceAttributedToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attributedToAudioIntermediateType{}
+					tmp := &attributedToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToAudioIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5151,25 +5150,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "audience" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAudienceAudioIntermediateType(tmpMap)
+					tmp, err := deserializeAudienceIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.audience = []*audienceAudioIntermediateType{tmp}
+					t.audience = []*audienceIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.audience, err = deserializeSliceAudienceAudioIntermediateType(tmpSlice)
+					t.audience, err = deserializeSliceAudienceIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &audienceAudioIntermediateType{}
+					tmp := &audienceIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.audience = []*audienceAudioIntermediateType{tmp}
+					t.audience = []*audienceIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5179,25 +5178,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "content" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeContentAudioIntermediateType(tmpMap)
+					tmp, err := deserializeContentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.content = []*contentAudioIntermediateType{tmp}
+					t.content = []*contentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.content, err = deserializeSliceContentAudioIntermediateType(tmpSlice)
+					t.content, err = deserializeSliceContentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &contentAudioIntermediateType{}
+					tmp := &contentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.content = []*contentAudioIntermediateType{tmp}
+					t.content = []*contentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5222,25 +5221,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "context" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeContextAudioIntermediateType(tmpMap)
+					tmp, err := deserializeContextIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.context = []*contextAudioIntermediateType{tmp}
+					t.context = []*contextIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.context, err = deserializeSliceContextAudioIntermediateType(tmpSlice)
+					t.context, err = deserializeSliceContextIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &contextAudioIntermediateType{}
+					tmp := &contextIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.context = []*contextAudioIntermediateType{tmp}
+					t.context = []*contextIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5250,25 +5249,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "name" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeNameAudioIntermediateType(tmpMap)
+					tmp, err := deserializeNameIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameAudioIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.name, err = deserializeSliceNameAudioIntermediateType(tmpSlice)
+					t.name, err = deserializeSliceNameIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &nameAudioIntermediateType{}
+					tmp := &nameIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameAudioIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5292,7 +5291,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "endTime" {
-				t.endTime, err = deserializeEndTimeAudioIntermediateType(v)
+				t.endTime, err = deserializeEndTimeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5304,25 +5303,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "generator" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeGeneratorAudioIntermediateType(tmpMap)
+					tmp, err := deserializeGeneratorIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.generator = []*generatorAudioIntermediateType{tmp}
+					t.generator = []*generatorIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.generator, err = deserializeSliceGeneratorAudioIntermediateType(tmpSlice)
+					t.generator, err = deserializeSliceGeneratorIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &generatorAudioIntermediateType{}
+					tmp := &generatorIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.generator = []*generatorAudioIntermediateType{tmp}
+					t.generator = []*generatorIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5332,25 +5331,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "icon" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeIconAudioIntermediateType(tmpMap)
+					tmp, err := deserializeIconIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.icon = []*iconAudioIntermediateType{tmp}
+					t.icon = []*iconIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.icon, err = deserializeSliceIconAudioIntermediateType(tmpSlice)
+					t.icon, err = deserializeSliceIconIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &iconAudioIntermediateType{}
+					tmp := &iconIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.icon = []*iconAudioIntermediateType{tmp}
+					t.icon = []*iconIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5374,25 +5373,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "image" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeImageAudioIntermediateType(tmpMap)
+					tmp, err := deserializeImageIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.image = []*imageAudioIntermediateType{tmp}
+					t.image = []*imageIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.image, err = deserializeSliceImageAudioIntermediateType(tmpSlice)
+					t.image, err = deserializeSliceImageIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &imageAudioIntermediateType{}
+					tmp := &imageIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.image = []*imageAudioIntermediateType{tmp}
+					t.image = []*imageIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5402,25 +5401,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "inReplyTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeInReplyToAudioIntermediateType(tmpMap)
+					tmp, err := deserializeInReplyToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.inReplyTo = []*inReplyToAudioIntermediateType{tmp}
+					t.inReplyTo = []*inReplyToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.inReplyTo, err = deserializeSliceInReplyToAudioIntermediateType(tmpSlice)
+					t.inReplyTo, err = deserializeSliceInReplyToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &inReplyToAudioIntermediateType{}
+					tmp := &inReplyToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.inReplyTo = []*inReplyToAudioIntermediateType{tmp}
+					t.inReplyTo = []*inReplyToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5430,25 +5429,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "location" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeLocationAudioIntermediateType(tmpMap)
+					tmp, err := deserializeLocationIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.location = []*locationAudioIntermediateType{tmp}
+					t.location = []*locationIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.location, err = deserializeSliceLocationAudioIntermediateType(tmpSlice)
+					t.location, err = deserializeSliceLocationIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &locationAudioIntermediateType{}
+					tmp := &locationIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.location = []*locationAudioIntermediateType{tmp}
+					t.location = []*locationIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5458,25 +5457,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "preview" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializePreviewAudioIntermediateType(tmpMap)
+					tmp, err := deserializePreviewIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewAudioIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.preview, err = deserializeSlicePreviewAudioIntermediateType(tmpSlice)
+					t.preview, err = deserializeSlicePreviewIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &previewAudioIntermediateType{}
+					tmp := &previewIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewAudioIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5485,7 +5484,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "published" {
-				t.published, err = deserializePublishedAudioIntermediateType(v)
+				t.published, err = deserializePublishedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5496,7 +5495,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "replies" {
-				t.replies, err = deserializeRepliesAudioIntermediateType(v)
+				t.replies, err = deserializeRepliesIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5507,7 +5506,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "startTime" {
-				t.startTime, err = deserializeStartTimeAudioIntermediateType(v)
+				t.startTime, err = deserializeStartTimeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5519,25 +5518,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "summary" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeSummaryAudioIntermediateType(tmpMap)
+					tmp, err := deserializeSummaryIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryAudioIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.summary, err = deserializeSliceSummaryAudioIntermediateType(tmpSlice)
+					t.summary, err = deserializeSliceSummaryIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &summaryAudioIntermediateType{}
+					tmp := &summaryIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryAudioIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5562,25 +5561,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "tag" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeTagAudioIntermediateType(tmpMap)
+					tmp, err := deserializeTagIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.tag = []*tagAudioIntermediateType{tmp}
+					t.tag = []*tagIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.tag, err = deserializeSliceTagAudioIntermediateType(tmpSlice)
+					t.tag, err = deserializeSliceTagIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &tagAudioIntermediateType{}
+					tmp := &tagIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.tag = []*tagAudioIntermediateType{tmp}
+					t.tag = []*tagIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5602,7 +5601,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "updated" {
-				t.updated, err = deserializeUpdatedAudioIntermediateType(v)
+				t.updated, err = deserializeUpdatedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5614,25 +5613,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "url" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeUrlAudioIntermediateType(tmpMap)
+					tmp, err := deserializeUrlIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.url = []*urlAudioIntermediateType{tmp}
+					t.url = []*urlIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.url, err = deserializeSliceUrlAudioIntermediateType(tmpSlice)
+					t.url, err = deserializeSliceUrlIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &urlAudioIntermediateType{}
+					tmp := &urlIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.url = []*urlAudioIntermediateType{tmp}
+					t.url = []*urlIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5642,25 +5641,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "to" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeToAudioIntermediateType(tmpMap)
+					tmp, err := deserializeToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.to = []*toAudioIntermediateType{tmp}
+					t.to = []*toIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.to, err = deserializeSliceToAudioIntermediateType(tmpSlice)
+					t.to, err = deserializeSliceToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &toAudioIntermediateType{}
+					tmp := &toIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.to = []*toAudioIntermediateType{tmp}
+					t.to = []*toIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5670,25 +5669,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "bto" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeBtoAudioIntermediateType(tmpMap)
+					tmp, err := deserializeBtoIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.bto = []*btoAudioIntermediateType{tmp}
+					t.bto = []*btoIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.bto, err = deserializeSliceBtoAudioIntermediateType(tmpSlice)
+					t.bto, err = deserializeSliceBtoIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &btoAudioIntermediateType{}
+					tmp := &btoIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.bto = []*btoAudioIntermediateType{tmp}
+					t.bto = []*btoIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5698,25 +5697,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "cc" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeCcAudioIntermediateType(tmpMap)
+					tmp, err := deserializeCcIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.cc = []*ccAudioIntermediateType{tmp}
+					t.cc = []*ccIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.cc, err = deserializeSliceCcAudioIntermediateType(tmpSlice)
+					t.cc, err = deserializeSliceCcIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &ccAudioIntermediateType{}
+					tmp := &ccIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.cc = []*ccAudioIntermediateType{tmp}
+					t.cc = []*ccIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5726,25 +5725,25 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "bcc" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeBccAudioIntermediateType(tmpMap)
+					tmp, err := deserializeBccIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.bcc = []*bccAudioIntermediateType{tmp}
+					t.bcc = []*bccIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.bcc, err = deserializeSliceBccAudioIntermediateType(tmpSlice)
+					t.bcc, err = deserializeSliceBccIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &bccAudioIntermediateType{}
+					tmp := &bccIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.bcc = []*bccAudioIntermediateType{tmp}
+					t.bcc = []*bccIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5753,7 +5752,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "mediaType" {
-				t.mediaType, err = deserializeMediaTypeAudioIntermediateType(v)
+				t.mediaType, err = deserializeMediaTypeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5764,7 +5763,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "duration" {
-				t.duration, err = deserializeDurationAudioIntermediateType(v)
+				t.duration, err = deserializeDurationIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5775,7 +5774,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "source" {
-				t.source, err = deserializeSourceAudioIntermediateType(v)
+				t.source, err = deserializeSourceIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5786,7 +5785,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "inbox" {
-				t.inbox, err = deserializeInboxAudioIntermediateType(v)
+				t.inbox, err = deserializeInboxIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5797,7 +5796,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "outbox" {
-				t.outbox, err = deserializeOutboxAudioIntermediateType(v)
+				t.outbox, err = deserializeOutboxIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5808,7 +5807,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "following" {
-				t.following, err = deserializeFollowingAudioIntermediateType(v)
+				t.following, err = deserializeFollowingIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5819,7 +5818,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "followers" {
-				t.followers, err = deserializeFollowersAudioIntermediateType(v)
+				t.followers, err = deserializeFollowersIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5830,7 +5829,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "liked" {
-				t.liked, err = deserializeLikedAudioIntermediateType(v)
+				t.liked, err = deserializeLikedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5841,7 +5840,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "likes" {
-				t.likes, err = deserializeLikesAudioIntermediateType(v)
+				t.likes, err = deserializeLikesIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5877,7 +5876,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "preferredUsername" {
-				t.preferredUsername, err = deserializePreferredUsernameAudioIntermediateType(v)
+				t.preferredUsername, err = deserializePreferredUsernameIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5903,7 +5902,7 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "endpoints" {
-				t.endpoints, err = deserializeEndpointsAudioIntermediateType(v)
+				t.endpoints, err = deserializeEndpointsIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6001,4139 +6000,6 @@ func (t *Audio) Deserialize(m map[string]interface{}) (err error) {
 			}
 			t.unknown_[k] = unknownValueDeserialize(v)
 		}
-	}
-	return
-
-}
-
-// altitudeAudioIntermediateType will only have one of its values set at most
-type altitudeAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *float64 type for altitude property
-	float *float64
-	// Stores possible *url.URL type for altitude property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *altitudeAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.float, err = floatDeserialize(i)
-			if err != nil {
-				t.float = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *altitudeAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.float != nil {
-		i = floatSerialize(*t.float)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// attachmentAudioIntermediateType will only have one of its values set at most
-type attachmentAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attachment property
-	Object ObjectType
-	// Stores possible LinkType type for attachment property
-	Link LinkType
-	// Stores possible *url.URL type for attachment property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attachmentAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attachmentAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// attributedToAudioIntermediateType will only have one of its values set at most
-type attributedToAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attributedTo property
-	Object ObjectType
-	// Stores possible LinkType type for attributedTo property
-	Link LinkType
-	// Stores possible *url.URL type for attributedTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attributedToAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attributedToAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// audienceAudioIntermediateType will only have one of its values set at most
-type audienceAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for audience property
-	Object ObjectType
-	// Stores possible LinkType type for audience property
-	Link LinkType
-	// Stores possible *url.URL type for audience property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *audienceAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *audienceAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// contentAudioIntermediateType will only have one of its values set at most
-type contentAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for content property
-	stringName *string
-	// Stores possible *string type for content property
-	langString *string
-	// Stores possible *url.URL type for content property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *contentAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *contentAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// contextAudioIntermediateType will only have one of its values set at most
-type contextAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for context property
-	Object ObjectType
-	// Stores possible LinkType type for context property
-	Link LinkType
-	// Stores possible *url.URL type for context property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *contextAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *contextAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// nameAudioIntermediateType will only have one of its values set at most
-type nameAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for name property
-	stringName *string
-	// Stores possible *string type for name property
-	langString *string
-	// Stores possible *url.URL type for name property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *nameAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *nameAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// endTimeAudioIntermediateType will only have one of its values set at most
-type endTimeAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for endTime property
-	dateTime *time.Time
-	// Stores possible *url.URL type for endTime property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *endTimeAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *endTimeAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// generatorAudioIntermediateType will only have one of its values set at most
-type generatorAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for generator property
-	Object ObjectType
-	// Stores possible LinkType type for generator property
-	Link LinkType
-	// Stores possible *url.URL type for generator property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *generatorAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *generatorAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// iconAudioIntermediateType will only have one of its values set at most
-type iconAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ImageType type for icon property
-	Image ImageType
-	// Stores possible LinkType type for icon property
-	Link LinkType
-	// Stores possible *url.URL type for icon property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *iconAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Image, ok = resolveObject(kind).(ImageType); t.Image != nil && ok {
-						err = t.Image.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *iconAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Image != nil {
-		i, err = t.Image.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// imageAudioIntermediateType will only have one of its values set at most
-type imageAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ImageType type for image property
-	Image ImageType
-	// Stores possible LinkType type for image property
-	Link LinkType
-	// Stores possible *url.URL type for image property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *imageAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Image, ok = resolveObject(kind).(ImageType); t.Image != nil && ok {
-						err = t.Image.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *imageAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Image != nil {
-		i, err = t.Image.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// inReplyToAudioIntermediateType will only have one of its values set at most
-type inReplyToAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for inReplyTo property
-	Object ObjectType
-	// Stores possible LinkType type for inReplyTo property
-	Link LinkType
-	// Stores possible *url.URL type for inReplyTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *inReplyToAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *inReplyToAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// locationAudioIntermediateType will only have one of its values set at most
-type locationAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for location property
-	Object ObjectType
-	// Stores possible LinkType type for location property
-	Link LinkType
-	// Stores possible *url.URL type for location property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *locationAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *locationAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// previewAudioIntermediateType will only have one of its values set at most
-type previewAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for preview property
-	Object ObjectType
-	// Stores possible LinkType type for preview property
-	Link LinkType
-	// Stores possible *url.URL type for preview property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *previewAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *previewAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// publishedAudioIntermediateType will only have one of its values set at most
-type publishedAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for published property
-	dateTime *time.Time
-	// Stores possible *url.URL type for published property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *publishedAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *publishedAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// repliesAudioIntermediateType will only have one of its values set at most
-type repliesAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for replies property
-	Collection CollectionType
-	// Stores possible *url.URL type for replies property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *repliesAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *repliesAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// startTimeAudioIntermediateType will only have one of its values set at most
-type startTimeAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for startTime property
-	dateTime *time.Time
-	// Stores possible *url.URL type for startTime property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *startTimeAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *startTimeAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// summaryAudioIntermediateType will only have one of its values set at most
-type summaryAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for summary property
-	stringName *string
-	// Stores possible *string type for summary property
-	langString *string
-	// Stores possible *url.URL type for summary property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *summaryAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *summaryAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// tagAudioIntermediateType will only have one of its values set at most
-type tagAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for tag property
-	Object ObjectType
-	// Stores possible LinkType type for tag property
-	Link LinkType
-	// Stores possible *url.URL type for tag property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *tagAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *tagAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// updatedAudioIntermediateType will only have one of its values set at most
-type updatedAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for updated property
-	dateTime *time.Time
-	// Stores possible *url.URL type for updated property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *updatedAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *updatedAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// urlAudioIntermediateType will only have one of its values set at most
-type urlAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *url.URL type for url property
-	anyURI *url.URL
-	// Stores possible LinkType type for url property
-	Link LinkType
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *urlAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *urlAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// toAudioIntermediateType will only have one of its values set at most
-type toAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for to property
-	Object ObjectType
-	// Stores possible LinkType type for to property
-	Link LinkType
-	// Stores possible *url.URL type for to property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *toAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *toAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// btoAudioIntermediateType will only have one of its values set at most
-type btoAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for bto property
-	Object ObjectType
-	// Stores possible LinkType type for bto property
-	Link LinkType
-	// Stores possible *url.URL type for bto property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *btoAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *btoAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// ccAudioIntermediateType will only have one of its values set at most
-type ccAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for cc property
-	Object ObjectType
-	// Stores possible LinkType type for cc property
-	Link LinkType
-	// Stores possible *url.URL type for cc property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *ccAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *ccAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// bccAudioIntermediateType will only have one of its values set at most
-type bccAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for bcc property
-	Object ObjectType
-	// Stores possible LinkType type for bcc property
-	Link LinkType
-	// Stores possible *url.URL type for bcc property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *bccAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *bccAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// mediaTypeAudioIntermediateType will only have one of its values set at most
-type mediaTypeAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for mediaType property
-	mimeMediaTypeValue *string
-	// Stores possible *url.URL type for mediaType property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *mediaTypeAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.mimeMediaTypeValue, err = mimeMediaTypeValueDeserialize(i)
-			if err != nil {
-				t.mimeMediaTypeValue = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *mediaTypeAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.mimeMediaTypeValue != nil {
-		i = mimeMediaTypeValueSerialize(*t.mimeMediaTypeValue)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// durationAudioIntermediateType will only have one of its values set at most
-type durationAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Duration type for duration property
-	duration *time.Duration
-	// Stores possible *url.URL type for duration property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *durationAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.duration, err = durationDeserialize(i)
-			if err != nil {
-				t.duration = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *durationAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.duration != nil {
-		i = durationSerialize(*t.duration)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// sourceAudioIntermediateType will only have one of its values set at most
-type sourceAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for source property
-	Object ObjectType
-	// Stores possible *url.URL type for source property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *sourceAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *sourceAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// inboxAudioIntermediateType will only have one of its values set at most
-type inboxAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionType type for inbox property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for inbox property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *inboxAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *inboxAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// outboxAudioIntermediateType will only have one of its values set at most
-type outboxAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionType type for outbox property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for outbox property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *outboxAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *outboxAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// followingAudioIntermediateType will only have one of its values set at most
-type followingAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for following property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for following property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for following property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *followingAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *followingAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// followersAudioIntermediateType will only have one of its values set at most
-type followersAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for followers property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for followers property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for followers property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *followersAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *followersAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// likedAudioIntermediateType will only have one of its values set at most
-type likedAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for liked property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for liked property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for liked property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *likedAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *likedAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// likesAudioIntermediateType will only have one of its values set at most
-type likesAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for likes property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for likes property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for likes property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *likesAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *likesAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// preferredUsernameAudioIntermediateType will only have one of its values set at most
-type preferredUsernameAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for preferredUsername property
-	stringName *string
-	// Stores possible *url.URL type for preferredUsername property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *preferredUsernameAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *preferredUsernameAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// endpointsAudioIntermediateType will only have one of its values set at most
-type endpointsAudioIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for endpoints property
-	Object ObjectType
-	// Stores possible *url.URL type for endpoints property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *endpointsAudioIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *endpointsAudioIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// deserializealtitudeAudioIntermediateType will accept a map to create a altitudeAudioIntermediateType
-func deserializeAltitudeAudioIntermediateType(in interface{}) (t *altitudeAudioIntermediateType, err error) {
-	tmp := &altitudeAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice altitudeAudioIntermediateType will accept a slice to create a slice of altitudeAudioIntermediateType
-func deserializeSliceAltitudeAudioIntermediateType(in []interface{}) (t []*altitudeAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &altitudeAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializealtitudeAudioIntermediateType will accept a altitudeAudioIntermediateType to create a map
-func serializeAltitudeAudioIntermediateType(t *altitudeAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicealtitudeAudioIntermediateType will accept a slice of altitudeAudioIntermediateType to create a slice result
-func serializeSliceAltitudeAudioIntermediateType(s []*altitudeAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeattachmentAudioIntermediateType will accept a map to create a attachmentAudioIntermediateType
-func deserializeAttachmentAudioIntermediateType(in interface{}) (t *attachmentAudioIntermediateType, err error) {
-	tmp := &attachmentAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attachmentAudioIntermediateType will accept a slice to create a slice of attachmentAudioIntermediateType
-func deserializeSliceAttachmentAudioIntermediateType(in []interface{}) (t []*attachmentAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attachmentAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattachmentAudioIntermediateType will accept a attachmentAudioIntermediateType to create a map
-func serializeAttachmentAudioIntermediateType(t *attachmentAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattachmentAudioIntermediateType will accept a slice of attachmentAudioIntermediateType to create a slice result
-func serializeSliceAttachmentAudioIntermediateType(s []*attachmentAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeattributedToAudioIntermediateType will accept a map to create a attributedToAudioIntermediateType
-func deserializeAttributedToAudioIntermediateType(in interface{}) (t *attributedToAudioIntermediateType, err error) {
-	tmp := &attributedToAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attributedToAudioIntermediateType will accept a slice to create a slice of attributedToAudioIntermediateType
-func deserializeSliceAttributedToAudioIntermediateType(in []interface{}) (t []*attributedToAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attributedToAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattributedToAudioIntermediateType will accept a attributedToAudioIntermediateType to create a map
-func serializeAttributedToAudioIntermediateType(t *attributedToAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattributedToAudioIntermediateType will accept a slice of attributedToAudioIntermediateType to create a slice result
-func serializeSliceAttributedToAudioIntermediateType(s []*attributedToAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeaudienceAudioIntermediateType will accept a map to create a audienceAudioIntermediateType
-func deserializeAudienceAudioIntermediateType(in interface{}) (t *audienceAudioIntermediateType, err error) {
-	tmp := &audienceAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice audienceAudioIntermediateType will accept a slice to create a slice of audienceAudioIntermediateType
-func deserializeSliceAudienceAudioIntermediateType(in []interface{}) (t []*audienceAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &audienceAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeaudienceAudioIntermediateType will accept a audienceAudioIntermediateType to create a map
-func serializeAudienceAudioIntermediateType(t *audienceAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceaudienceAudioIntermediateType will accept a slice of audienceAudioIntermediateType to create a slice result
-func serializeSliceAudienceAudioIntermediateType(s []*audienceAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecontentAudioIntermediateType will accept a map to create a contentAudioIntermediateType
-func deserializeContentAudioIntermediateType(in interface{}) (t *contentAudioIntermediateType, err error) {
-	tmp := &contentAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice contentAudioIntermediateType will accept a slice to create a slice of contentAudioIntermediateType
-func deserializeSliceContentAudioIntermediateType(in []interface{}) (t []*contentAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &contentAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecontentAudioIntermediateType will accept a contentAudioIntermediateType to create a map
-func serializeContentAudioIntermediateType(t *contentAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecontentAudioIntermediateType will accept a slice of contentAudioIntermediateType to create a slice result
-func serializeSliceContentAudioIntermediateType(s []*contentAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecontextAudioIntermediateType will accept a map to create a contextAudioIntermediateType
-func deserializeContextAudioIntermediateType(in interface{}) (t *contextAudioIntermediateType, err error) {
-	tmp := &contextAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice contextAudioIntermediateType will accept a slice to create a slice of contextAudioIntermediateType
-func deserializeSliceContextAudioIntermediateType(in []interface{}) (t []*contextAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &contextAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecontextAudioIntermediateType will accept a contextAudioIntermediateType to create a map
-func serializeContextAudioIntermediateType(t *contextAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecontextAudioIntermediateType will accept a slice of contextAudioIntermediateType to create a slice result
-func serializeSliceContextAudioIntermediateType(s []*contextAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializenameAudioIntermediateType will accept a map to create a nameAudioIntermediateType
-func deserializeNameAudioIntermediateType(in interface{}) (t *nameAudioIntermediateType, err error) {
-	tmp := &nameAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice nameAudioIntermediateType will accept a slice to create a slice of nameAudioIntermediateType
-func deserializeSliceNameAudioIntermediateType(in []interface{}) (t []*nameAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &nameAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializenameAudioIntermediateType will accept a nameAudioIntermediateType to create a map
-func serializeNameAudioIntermediateType(t *nameAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicenameAudioIntermediateType will accept a slice of nameAudioIntermediateType to create a slice result
-func serializeSliceNameAudioIntermediateType(s []*nameAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeendTimeAudioIntermediateType will accept a map to create a endTimeAudioIntermediateType
-func deserializeEndTimeAudioIntermediateType(in interface{}) (t *endTimeAudioIntermediateType, err error) {
-	tmp := &endTimeAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice endTimeAudioIntermediateType will accept a slice to create a slice of endTimeAudioIntermediateType
-func deserializeSliceEndTimeAudioIntermediateType(in []interface{}) (t []*endTimeAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &endTimeAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeendTimeAudioIntermediateType will accept a endTimeAudioIntermediateType to create a map
-func serializeEndTimeAudioIntermediateType(t *endTimeAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceendTimeAudioIntermediateType will accept a slice of endTimeAudioIntermediateType to create a slice result
-func serializeSliceEndTimeAudioIntermediateType(s []*endTimeAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializegeneratorAudioIntermediateType will accept a map to create a generatorAudioIntermediateType
-func deserializeGeneratorAudioIntermediateType(in interface{}) (t *generatorAudioIntermediateType, err error) {
-	tmp := &generatorAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice generatorAudioIntermediateType will accept a slice to create a slice of generatorAudioIntermediateType
-func deserializeSliceGeneratorAudioIntermediateType(in []interface{}) (t []*generatorAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &generatorAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializegeneratorAudioIntermediateType will accept a generatorAudioIntermediateType to create a map
-func serializeGeneratorAudioIntermediateType(t *generatorAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicegeneratorAudioIntermediateType will accept a slice of generatorAudioIntermediateType to create a slice result
-func serializeSliceGeneratorAudioIntermediateType(s []*generatorAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeiconAudioIntermediateType will accept a map to create a iconAudioIntermediateType
-func deserializeIconAudioIntermediateType(in interface{}) (t *iconAudioIntermediateType, err error) {
-	tmp := &iconAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice iconAudioIntermediateType will accept a slice to create a slice of iconAudioIntermediateType
-func deserializeSliceIconAudioIntermediateType(in []interface{}) (t []*iconAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &iconAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeiconAudioIntermediateType will accept a iconAudioIntermediateType to create a map
-func serializeIconAudioIntermediateType(t *iconAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceiconAudioIntermediateType will accept a slice of iconAudioIntermediateType to create a slice result
-func serializeSliceIconAudioIntermediateType(s []*iconAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeimageAudioIntermediateType will accept a map to create a imageAudioIntermediateType
-func deserializeImageAudioIntermediateType(in interface{}) (t *imageAudioIntermediateType, err error) {
-	tmp := &imageAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice imageAudioIntermediateType will accept a slice to create a slice of imageAudioIntermediateType
-func deserializeSliceImageAudioIntermediateType(in []interface{}) (t []*imageAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &imageAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeimageAudioIntermediateType will accept a imageAudioIntermediateType to create a map
-func serializeImageAudioIntermediateType(t *imageAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceimageAudioIntermediateType will accept a slice of imageAudioIntermediateType to create a slice result
-func serializeSliceImageAudioIntermediateType(s []*imageAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinReplyToAudioIntermediateType will accept a map to create a inReplyToAudioIntermediateType
-func deserializeInReplyToAudioIntermediateType(in interface{}) (t *inReplyToAudioIntermediateType, err error) {
-	tmp := &inReplyToAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice inReplyToAudioIntermediateType will accept a slice to create a slice of inReplyToAudioIntermediateType
-func deserializeSliceInReplyToAudioIntermediateType(in []interface{}) (t []*inReplyToAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &inReplyToAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinReplyToAudioIntermediateType will accept a inReplyToAudioIntermediateType to create a map
-func serializeInReplyToAudioIntermediateType(t *inReplyToAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinReplyToAudioIntermediateType will accept a slice of inReplyToAudioIntermediateType to create a slice result
-func serializeSliceInReplyToAudioIntermediateType(s []*inReplyToAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelocationAudioIntermediateType will accept a map to create a locationAudioIntermediateType
-func deserializeLocationAudioIntermediateType(in interface{}) (t *locationAudioIntermediateType, err error) {
-	tmp := &locationAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice locationAudioIntermediateType will accept a slice to create a slice of locationAudioIntermediateType
-func deserializeSliceLocationAudioIntermediateType(in []interface{}) (t []*locationAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &locationAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelocationAudioIntermediateType will accept a locationAudioIntermediateType to create a map
-func serializeLocationAudioIntermediateType(t *locationAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelocationAudioIntermediateType will accept a slice of locationAudioIntermediateType to create a slice result
-func serializeSliceLocationAudioIntermediateType(s []*locationAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreviewAudioIntermediateType will accept a map to create a previewAudioIntermediateType
-func deserializePreviewAudioIntermediateType(in interface{}) (t *previewAudioIntermediateType, err error) {
-	tmp := &previewAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice previewAudioIntermediateType will accept a slice to create a slice of previewAudioIntermediateType
-func deserializeSlicePreviewAudioIntermediateType(in []interface{}) (t []*previewAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &previewAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreviewAudioIntermediateType will accept a previewAudioIntermediateType to create a map
-func serializePreviewAudioIntermediateType(t *previewAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreviewAudioIntermediateType will accept a slice of previewAudioIntermediateType to create a slice result
-func serializeSlicePreviewAudioIntermediateType(s []*previewAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepublishedAudioIntermediateType will accept a map to create a publishedAudioIntermediateType
-func deserializePublishedAudioIntermediateType(in interface{}) (t *publishedAudioIntermediateType, err error) {
-	tmp := &publishedAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice publishedAudioIntermediateType will accept a slice to create a slice of publishedAudioIntermediateType
-func deserializeSlicePublishedAudioIntermediateType(in []interface{}) (t []*publishedAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &publishedAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepublishedAudioIntermediateType will accept a publishedAudioIntermediateType to create a map
-func serializePublishedAudioIntermediateType(t *publishedAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepublishedAudioIntermediateType will accept a slice of publishedAudioIntermediateType to create a slice result
-func serializeSlicePublishedAudioIntermediateType(s []*publishedAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializerepliesAudioIntermediateType will accept a map to create a repliesAudioIntermediateType
-func deserializeRepliesAudioIntermediateType(in interface{}) (t *repliesAudioIntermediateType, err error) {
-	tmp := &repliesAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice repliesAudioIntermediateType will accept a slice to create a slice of repliesAudioIntermediateType
-func deserializeSliceRepliesAudioIntermediateType(in []interface{}) (t []*repliesAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &repliesAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializerepliesAudioIntermediateType will accept a repliesAudioIntermediateType to create a map
-func serializeRepliesAudioIntermediateType(t *repliesAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicerepliesAudioIntermediateType will accept a slice of repliesAudioIntermediateType to create a slice result
-func serializeSliceRepliesAudioIntermediateType(s []*repliesAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializestartTimeAudioIntermediateType will accept a map to create a startTimeAudioIntermediateType
-func deserializeStartTimeAudioIntermediateType(in interface{}) (t *startTimeAudioIntermediateType, err error) {
-	tmp := &startTimeAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice startTimeAudioIntermediateType will accept a slice to create a slice of startTimeAudioIntermediateType
-func deserializeSliceStartTimeAudioIntermediateType(in []interface{}) (t []*startTimeAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &startTimeAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializestartTimeAudioIntermediateType will accept a startTimeAudioIntermediateType to create a map
-func serializeStartTimeAudioIntermediateType(t *startTimeAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicestartTimeAudioIntermediateType will accept a slice of startTimeAudioIntermediateType to create a slice result
-func serializeSliceStartTimeAudioIntermediateType(s []*startTimeAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesummaryAudioIntermediateType will accept a map to create a summaryAudioIntermediateType
-func deserializeSummaryAudioIntermediateType(in interface{}) (t *summaryAudioIntermediateType, err error) {
-	tmp := &summaryAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice summaryAudioIntermediateType will accept a slice to create a slice of summaryAudioIntermediateType
-func deserializeSliceSummaryAudioIntermediateType(in []interface{}) (t []*summaryAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &summaryAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesummaryAudioIntermediateType will accept a summaryAudioIntermediateType to create a map
-func serializeSummaryAudioIntermediateType(t *summaryAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesummaryAudioIntermediateType will accept a slice of summaryAudioIntermediateType to create a slice result
-func serializeSliceSummaryAudioIntermediateType(s []*summaryAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetagAudioIntermediateType will accept a map to create a tagAudioIntermediateType
-func deserializeTagAudioIntermediateType(in interface{}) (t *tagAudioIntermediateType, err error) {
-	tmp := &tagAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice tagAudioIntermediateType will accept a slice to create a slice of tagAudioIntermediateType
-func deserializeSliceTagAudioIntermediateType(in []interface{}) (t []*tagAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &tagAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetagAudioIntermediateType will accept a tagAudioIntermediateType to create a map
-func serializeTagAudioIntermediateType(t *tagAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetagAudioIntermediateType will accept a slice of tagAudioIntermediateType to create a slice result
-func serializeSliceTagAudioIntermediateType(s []*tagAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeupdatedAudioIntermediateType will accept a map to create a updatedAudioIntermediateType
-func deserializeUpdatedAudioIntermediateType(in interface{}) (t *updatedAudioIntermediateType, err error) {
-	tmp := &updatedAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice updatedAudioIntermediateType will accept a slice to create a slice of updatedAudioIntermediateType
-func deserializeSliceUpdatedAudioIntermediateType(in []interface{}) (t []*updatedAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &updatedAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeupdatedAudioIntermediateType will accept a updatedAudioIntermediateType to create a map
-func serializeUpdatedAudioIntermediateType(t *updatedAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceupdatedAudioIntermediateType will accept a slice of updatedAudioIntermediateType to create a slice result
-func serializeSliceUpdatedAudioIntermediateType(s []*updatedAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeurlAudioIntermediateType will accept a map to create a urlAudioIntermediateType
-func deserializeUrlAudioIntermediateType(in interface{}) (t *urlAudioIntermediateType, err error) {
-	tmp := &urlAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice urlAudioIntermediateType will accept a slice to create a slice of urlAudioIntermediateType
-func deserializeSliceUrlAudioIntermediateType(in []interface{}) (t []*urlAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &urlAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeurlAudioIntermediateType will accept a urlAudioIntermediateType to create a map
-func serializeUrlAudioIntermediateType(t *urlAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceurlAudioIntermediateType will accept a slice of urlAudioIntermediateType to create a slice result
-func serializeSliceUrlAudioIntermediateType(s []*urlAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetoAudioIntermediateType will accept a map to create a toAudioIntermediateType
-func deserializeToAudioIntermediateType(in interface{}) (t *toAudioIntermediateType, err error) {
-	tmp := &toAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice toAudioIntermediateType will accept a slice to create a slice of toAudioIntermediateType
-func deserializeSliceToAudioIntermediateType(in []interface{}) (t []*toAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &toAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetoAudioIntermediateType will accept a toAudioIntermediateType to create a map
-func serializeToAudioIntermediateType(t *toAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetoAudioIntermediateType will accept a slice of toAudioIntermediateType to create a slice result
-func serializeSliceToAudioIntermediateType(s []*toAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializebtoAudioIntermediateType will accept a map to create a btoAudioIntermediateType
-func deserializeBtoAudioIntermediateType(in interface{}) (t *btoAudioIntermediateType, err error) {
-	tmp := &btoAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice btoAudioIntermediateType will accept a slice to create a slice of btoAudioIntermediateType
-func deserializeSliceBtoAudioIntermediateType(in []interface{}) (t []*btoAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &btoAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializebtoAudioIntermediateType will accept a btoAudioIntermediateType to create a map
-func serializeBtoAudioIntermediateType(t *btoAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicebtoAudioIntermediateType will accept a slice of btoAudioIntermediateType to create a slice result
-func serializeSliceBtoAudioIntermediateType(s []*btoAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeccAudioIntermediateType will accept a map to create a ccAudioIntermediateType
-func deserializeCcAudioIntermediateType(in interface{}) (t *ccAudioIntermediateType, err error) {
-	tmp := &ccAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice ccAudioIntermediateType will accept a slice to create a slice of ccAudioIntermediateType
-func deserializeSliceCcAudioIntermediateType(in []interface{}) (t []*ccAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &ccAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeccAudioIntermediateType will accept a ccAudioIntermediateType to create a map
-func serializeCcAudioIntermediateType(t *ccAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceccAudioIntermediateType will accept a slice of ccAudioIntermediateType to create a slice result
-func serializeSliceCcAudioIntermediateType(s []*ccAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializebccAudioIntermediateType will accept a map to create a bccAudioIntermediateType
-func deserializeBccAudioIntermediateType(in interface{}) (t *bccAudioIntermediateType, err error) {
-	tmp := &bccAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice bccAudioIntermediateType will accept a slice to create a slice of bccAudioIntermediateType
-func deserializeSliceBccAudioIntermediateType(in []interface{}) (t []*bccAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &bccAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializebccAudioIntermediateType will accept a bccAudioIntermediateType to create a map
-func serializeBccAudioIntermediateType(t *bccAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicebccAudioIntermediateType will accept a slice of bccAudioIntermediateType to create a slice result
-func serializeSliceBccAudioIntermediateType(s []*bccAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializemediaTypeAudioIntermediateType will accept a map to create a mediaTypeAudioIntermediateType
-func deserializeMediaTypeAudioIntermediateType(in interface{}) (t *mediaTypeAudioIntermediateType, err error) {
-	tmp := &mediaTypeAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice mediaTypeAudioIntermediateType will accept a slice to create a slice of mediaTypeAudioIntermediateType
-func deserializeSliceMediaTypeAudioIntermediateType(in []interface{}) (t []*mediaTypeAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &mediaTypeAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializemediaTypeAudioIntermediateType will accept a mediaTypeAudioIntermediateType to create a map
-func serializeMediaTypeAudioIntermediateType(t *mediaTypeAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicemediaTypeAudioIntermediateType will accept a slice of mediaTypeAudioIntermediateType to create a slice result
-func serializeSliceMediaTypeAudioIntermediateType(s []*mediaTypeAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializedurationAudioIntermediateType will accept a map to create a durationAudioIntermediateType
-func deserializeDurationAudioIntermediateType(in interface{}) (t *durationAudioIntermediateType, err error) {
-	tmp := &durationAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice durationAudioIntermediateType will accept a slice to create a slice of durationAudioIntermediateType
-func deserializeSliceDurationAudioIntermediateType(in []interface{}) (t []*durationAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &durationAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializedurationAudioIntermediateType will accept a durationAudioIntermediateType to create a map
-func serializeDurationAudioIntermediateType(t *durationAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicedurationAudioIntermediateType will accept a slice of durationAudioIntermediateType to create a slice result
-func serializeSliceDurationAudioIntermediateType(s []*durationAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesourceAudioIntermediateType will accept a map to create a sourceAudioIntermediateType
-func deserializeSourceAudioIntermediateType(in interface{}) (t *sourceAudioIntermediateType, err error) {
-	tmp := &sourceAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice sourceAudioIntermediateType will accept a slice to create a slice of sourceAudioIntermediateType
-func deserializeSliceSourceAudioIntermediateType(in []interface{}) (t []*sourceAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &sourceAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesourceAudioIntermediateType will accept a sourceAudioIntermediateType to create a map
-func serializeSourceAudioIntermediateType(t *sourceAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesourceAudioIntermediateType will accept a slice of sourceAudioIntermediateType to create a slice result
-func serializeSliceSourceAudioIntermediateType(s []*sourceAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinboxAudioIntermediateType will accept a map to create a inboxAudioIntermediateType
-func deserializeInboxAudioIntermediateType(in interface{}) (t *inboxAudioIntermediateType, err error) {
-	tmp := &inboxAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice inboxAudioIntermediateType will accept a slice to create a slice of inboxAudioIntermediateType
-func deserializeSliceInboxAudioIntermediateType(in []interface{}) (t []*inboxAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &inboxAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinboxAudioIntermediateType will accept a inboxAudioIntermediateType to create a map
-func serializeInboxAudioIntermediateType(t *inboxAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinboxAudioIntermediateType will accept a slice of inboxAudioIntermediateType to create a slice result
-func serializeSliceInboxAudioIntermediateType(s []*inboxAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeoutboxAudioIntermediateType will accept a map to create a outboxAudioIntermediateType
-func deserializeOutboxAudioIntermediateType(in interface{}) (t *outboxAudioIntermediateType, err error) {
-	tmp := &outboxAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice outboxAudioIntermediateType will accept a slice to create a slice of outboxAudioIntermediateType
-func deserializeSliceOutboxAudioIntermediateType(in []interface{}) (t []*outboxAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &outboxAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeoutboxAudioIntermediateType will accept a outboxAudioIntermediateType to create a map
-func serializeOutboxAudioIntermediateType(t *outboxAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceoutboxAudioIntermediateType will accept a slice of outboxAudioIntermediateType to create a slice result
-func serializeSliceOutboxAudioIntermediateType(s []*outboxAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefollowingAudioIntermediateType will accept a map to create a followingAudioIntermediateType
-func deserializeFollowingAudioIntermediateType(in interface{}) (t *followingAudioIntermediateType, err error) {
-	tmp := &followingAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice followingAudioIntermediateType will accept a slice to create a slice of followingAudioIntermediateType
-func deserializeSliceFollowingAudioIntermediateType(in []interface{}) (t []*followingAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &followingAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefollowingAudioIntermediateType will accept a followingAudioIntermediateType to create a map
-func serializeFollowingAudioIntermediateType(t *followingAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefollowingAudioIntermediateType will accept a slice of followingAudioIntermediateType to create a slice result
-func serializeSliceFollowingAudioIntermediateType(s []*followingAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefollowersAudioIntermediateType will accept a map to create a followersAudioIntermediateType
-func deserializeFollowersAudioIntermediateType(in interface{}) (t *followersAudioIntermediateType, err error) {
-	tmp := &followersAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice followersAudioIntermediateType will accept a slice to create a slice of followersAudioIntermediateType
-func deserializeSliceFollowersAudioIntermediateType(in []interface{}) (t []*followersAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &followersAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefollowersAudioIntermediateType will accept a followersAudioIntermediateType to create a map
-func serializeFollowersAudioIntermediateType(t *followersAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefollowersAudioIntermediateType will accept a slice of followersAudioIntermediateType to create a slice result
-func serializeSliceFollowersAudioIntermediateType(s []*followersAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelikedAudioIntermediateType will accept a map to create a likedAudioIntermediateType
-func deserializeLikedAudioIntermediateType(in interface{}) (t *likedAudioIntermediateType, err error) {
-	tmp := &likedAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice likedAudioIntermediateType will accept a slice to create a slice of likedAudioIntermediateType
-func deserializeSliceLikedAudioIntermediateType(in []interface{}) (t []*likedAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &likedAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelikedAudioIntermediateType will accept a likedAudioIntermediateType to create a map
-func serializeLikedAudioIntermediateType(t *likedAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelikedAudioIntermediateType will accept a slice of likedAudioIntermediateType to create a slice result
-func serializeSliceLikedAudioIntermediateType(s []*likedAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelikesAudioIntermediateType will accept a map to create a likesAudioIntermediateType
-func deserializeLikesAudioIntermediateType(in interface{}) (t *likesAudioIntermediateType, err error) {
-	tmp := &likesAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice likesAudioIntermediateType will accept a slice to create a slice of likesAudioIntermediateType
-func deserializeSliceLikesAudioIntermediateType(in []interface{}) (t []*likesAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &likesAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelikesAudioIntermediateType will accept a likesAudioIntermediateType to create a map
-func serializeLikesAudioIntermediateType(t *likesAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelikesAudioIntermediateType will accept a slice of likesAudioIntermediateType to create a slice result
-func serializeSliceLikesAudioIntermediateType(s []*likesAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreferredUsernameAudioIntermediateType will accept a map to create a preferredUsernameAudioIntermediateType
-func deserializePreferredUsernameAudioIntermediateType(in interface{}) (t *preferredUsernameAudioIntermediateType, err error) {
-	tmp := &preferredUsernameAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice preferredUsernameAudioIntermediateType will accept a slice to create a slice of preferredUsernameAudioIntermediateType
-func deserializeSlicePreferredUsernameAudioIntermediateType(in []interface{}) (t []*preferredUsernameAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &preferredUsernameAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreferredUsernameAudioIntermediateType will accept a preferredUsernameAudioIntermediateType to create a map
-func serializePreferredUsernameAudioIntermediateType(t *preferredUsernameAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreferredUsernameAudioIntermediateType will accept a slice of preferredUsernameAudioIntermediateType to create a slice result
-func serializeSlicePreferredUsernameAudioIntermediateType(s []*preferredUsernameAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeendpointsAudioIntermediateType will accept a map to create a endpointsAudioIntermediateType
-func deserializeEndpointsAudioIntermediateType(in interface{}) (t *endpointsAudioIntermediateType, err error) {
-	tmp := &endpointsAudioIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice endpointsAudioIntermediateType will accept a slice to create a slice of endpointsAudioIntermediateType
-func deserializeSliceEndpointsAudioIntermediateType(in []interface{}) (t []*endpointsAudioIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &endpointsAudioIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeendpointsAudioIntermediateType will accept a endpointsAudioIntermediateType to create a map
-func serializeEndpointsAudioIntermediateType(t *endpointsAudioIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceendpointsAudioIntermediateType will accept a slice of endpointsAudioIntermediateType to create a slice result
-func serializeSliceEndpointsAudioIntermediateType(s []*endpointsAudioIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
 	}
 	return
 

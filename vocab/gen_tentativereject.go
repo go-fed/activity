@@ -2,7 +2,6 @@
 package vocab
 
 import (
-	"fmt"
 	"net/url"
 	"time"
 )
@@ -589,103 +588,103 @@ type TentativeReject struct {
 	// An unknown value.
 	unknown_ map[string]interface{}
 	// The 'actor' value could have multiple types and values
-	actor []*actorTentativeRejectIntermediateType
+	actor []*actorIntermediateType
 	// The 'object' value could have multiple types and values
-	object []*objectTentativeRejectIntermediateType
+	object []*objectIntermediateType
 	// The 'target' value could have multiple types and values
-	target []*targetTentativeRejectIntermediateType
+	target []*targetIntermediateType
 	// The 'result' value could have multiple types and values
-	result []*resultTentativeRejectIntermediateType
+	result []*resultIntermediateType
 	// The 'origin' value could have multiple types and values
-	origin []*originTentativeRejectIntermediateType
+	origin []*originIntermediateType
 	// The 'instrument' value could have multiple types and values
-	instrument []*instrumentTentativeRejectIntermediateType
+	instrument []*instrumentIntermediateType
 	// The functional 'altitude' value could have multiple types, but only a single value
-	altitude *altitudeTentativeRejectIntermediateType
+	altitude *altitudeIntermediateType
 	// The 'attachment' value could have multiple types and values
-	attachment []*attachmentTentativeRejectIntermediateType
+	attachment []*attachmentIntermediateType
 	// The 'attributedTo' value could have multiple types and values
-	attributedTo []*attributedToTentativeRejectIntermediateType
+	attributedTo []*attributedToIntermediateType
 	// The 'audience' value could have multiple types and values
-	audience []*audienceTentativeRejectIntermediateType
+	audience []*audienceIntermediateType
 	// The 'content' value could have multiple types and values
-	content []*contentTentativeRejectIntermediateType
+	content []*contentIntermediateType
 	// The 'contentMap' value holds language-specific values for property 'content'
 	contentMap map[string]string
 	// The 'context' value could have multiple types and values
-	context []*contextTentativeRejectIntermediateType
+	context []*contextIntermediateType
 	// The 'name' value could have multiple types and values
-	name []*nameTentativeRejectIntermediateType
+	name []*nameIntermediateType
 	// The 'nameMap' value holds language-specific values for property 'name'
 	nameMap map[string]string
 	// The functional 'endTime' value could have multiple types, but only a single value
-	endTime *endTimeTentativeRejectIntermediateType
+	endTime *endTimeIntermediateType
 	// The 'generator' value could have multiple types and values
-	generator []*generatorTentativeRejectIntermediateType
+	generator []*generatorIntermediateType
 	// The 'icon' value could have multiple types and values
-	icon []*iconTentativeRejectIntermediateType
+	icon []*iconIntermediateType
 	// The functional 'id' value holds a single type and a single value
 	id *url.URL
 	// The 'image' value could have multiple types and values
-	image []*imageTentativeRejectIntermediateType
+	image []*imageIntermediateType
 	// The 'inReplyTo' value could have multiple types and values
-	inReplyTo []*inReplyToTentativeRejectIntermediateType
+	inReplyTo []*inReplyToIntermediateType
 	// The 'location' value could have multiple types and values
-	location []*locationTentativeRejectIntermediateType
+	location []*locationIntermediateType
 	// The 'preview' value could have multiple types and values
-	preview []*previewTentativeRejectIntermediateType
+	preview []*previewIntermediateType
 	// The functional 'published' value could have multiple types, but only a single value
-	published *publishedTentativeRejectIntermediateType
+	published *publishedIntermediateType
 	// The functional 'replies' value could have multiple types, but only a single value
-	replies *repliesTentativeRejectIntermediateType
+	replies *repliesIntermediateType
 	// The functional 'startTime' value could have multiple types, but only a single value
-	startTime *startTimeTentativeRejectIntermediateType
+	startTime *startTimeIntermediateType
 	// The 'summary' value could have multiple types and values
-	summary []*summaryTentativeRejectIntermediateType
+	summary []*summaryIntermediateType
 	// The 'summaryMap' value holds language-specific values for property 'summary'
 	summaryMap map[string]string
 	// The 'tag' value could have multiple types and values
-	tag []*tagTentativeRejectIntermediateType
+	tag []*tagIntermediateType
 	// The 'type' value can hold any type and any number of values
 	typeName []interface{}
 	// The functional 'updated' value could have multiple types, but only a single value
-	updated *updatedTentativeRejectIntermediateType
+	updated *updatedIntermediateType
 	// The 'url' value could have multiple types and values
-	url []*urlTentativeRejectIntermediateType
+	url []*urlIntermediateType
 	// The 'to' value could have multiple types and values
-	to []*toTentativeRejectIntermediateType
+	to []*toIntermediateType
 	// The 'bto' value could have multiple types and values
-	bto []*btoTentativeRejectIntermediateType
+	bto []*btoIntermediateType
 	// The 'cc' value could have multiple types and values
-	cc []*ccTentativeRejectIntermediateType
+	cc []*ccIntermediateType
 	// The 'bcc' value could have multiple types and values
-	bcc []*bccTentativeRejectIntermediateType
+	bcc []*bccIntermediateType
 	// The functional 'mediaType' value could have multiple types, but only a single value
-	mediaType *mediaTypeTentativeRejectIntermediateType
+	mediaType *mediaTypeIntermediateType
 	// The functional 'duration' value could have multiple types, but only a single value
-	duration *durationTentativeRejectIntermediateType
+	duration *durationIntermediateType
 	// The functional 'source' value could have multiple types, but only a single value
-	source *sourceTentativeRejectIntermediateType
+	source *sourceIntermediateType
 	// The functional 'inbox' value could have multiple types, but only a single value
-	inbox *inboxTentativeRejectIntermediateType
+	inbox *inboxIntermediateType
 	// The functional 'outbox' value could have multiple types, but only a single value
-	outbox *outboxTentativeRejectIntermediateType
+	outbox *outboxIntermediateType
 	// The functional 'following' value could have multiple types, but only a single value
-	following *followingTentativeRejectIntermediateType
+	following *followingIntermediateType
 	// The functional 'followers' value could have multiple types, but only a single value
-	followers *followersTentativeRejectIntermediateType
+	followers *followersIntermediateType
 	// The functional 'liked' value could have multiple types, but only a single value
-	liked *likedTentativeRejectIntermediateType
+	liked *likedIntermediateType
 	// The functional 'likes' value could have multiple types, but only a single value
-	likes *likesTentativeRejectIntermediateType
+	likes *likesIntermediateType
 	// The 'streams' value holds a single type and any number of values
 	streams []*url.URL
 	// The functional 'preferredUsername' value could have multiple types, but only a single value
-	preferredUsername *preferredUsernameTentativeRejectIntermediateType
+	preferredUsername *preferredUsernameIntermediateType
 	// The 'preferredUsernameMap' value holds language-specific values for property 'preferredUsername'
 	preferredUsernameMap map[string]string
 	// The functional 'endpoints' value could have multiple types, but only a single value
-	endpoints *endpointsTentativeRejectIntermediateType
+	endpoints *endpointsIntermediateType
 	// The functional 'proxyUrl' value holds a single type and a single value
 	proxyUrl *url.URL
 	// The functional 'oauthAuthorizationEndpoint' value holds a single type and a single value
@@ -720,13 +719,13 @@ func (t *TentativeReject) GetActorObject(index int) (v ObjectType) {
 
 // AppendActorObject adds to the back of actor a ObjectType type
 func (t *TentativeReject) AppendActorObject(v ObjectType) {
-	t.actor = append(t.actor, &actorTentativeRejectIntermediateType{Object: v})
+	t.actor = append(t.actor, &actorIntermediateType{Object: v})
 
 }
 
 // PrependActorObject adds to the front of actor a ObjectType type
 func (t *TentativeReject) PrependActorObject(v ObjectType) {
-	t.actor = append([]*actorTentativeRejectIntermediateType{&actorTentativeRejectIntermediateType{Object: v}}, t.actor...)
+	t.actor = append([]*actorIntermediateType{&actorIntermediateType{Object: v}}, t.actor...)
 
 }
 
@@ -752,13 +751,13 @@ func (t *TentativeReject) GetActorLink(index int) (v LinkType) {
 
 // AppendActorLink adds to the back of actor a LinkType type
 func (t *TentativeReject) AppendActorLink(v LinkType) {
-	t.actor = append(t.actor, &actorTentativeRejectIntermediateType{Link: v})
+	t.actor = append(t.actor, &actorIntermediateType{Link: v})
 
 }
 
 // PrependActorLink adds to the front of actor a LinkType type
 func (t *TentativeReject) PrependActorLink(v LinkType) {
-	t.actor = append([]*actorTentativeRejectIntermediateType{&actorTentativeRejectIntermediateType{Link: v}}, t.actor...)
+	t.actor = append([]*actorIntermediateType{&actorIntermediateType{Link: v}}, t.actor...)
 
 }
 
@@ -784,13 +783,13 @@ func (t *TentativeReject) GetActorIRI(index int) (v *url.URL) {
 
 // AppendActorIRI adds to the back of actor a *url.URL type
 func (t *TentativeReject) AppendActorIRI(v *url.URL) {
-	t.actor = append(t.actor, &actorTentativeRejectIntermediateType{IRI: v})
+	t.actor = append(t.actor, &actorIntermediateType{IRI: v})
 
 }
 
 // PrependActorIRI adds to the front of actor a *url.URL type
 func (t *TentativeReject) PrependActorIRI(v *url.URL) {
-	t.actor = append([]*actorTentativeRejectIntermediateType{&actorTentativeRejectIntermediateType{IRI: v}}, t.actor...)
+	t.actor = append([]*actorIntermediateType{&actorIntermediateType{IRI: v}}, t.actor...)
 
 }
 
@@ -819,7 +818,7 @@ func (t *TentativeReject) SetUnknownActor(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &actorTentativeRejectIntermediateType{}
+	tmp := &actorIntermediateType{}
 	tmp.unknown_ = i
 	t.actor = append(t.actor, tmp)
 
@@ -845,13 +844,13 @@ func (t *TentativeReject) GetObject(index int) (v ObjectType) {
 
 // AppendObject adds to the back of object a ObjectType type
 func (t *TentativeReject) AppendObject(v ObjectType) {
-	t.object = append(t.object, &objectTentativeRejectIntermediateType{Object: v})
+	t.object = append(t.object, &objectIntermediateType{Object: v})
 
 }
 
 // PrependObject adds to the front of object a ObjectType type
 func (t *TentativeReject) PrependObject(v ObjectType) {
-	t.object = append([]*objectTentativeRejectIntermediateType{&objectTentativeRejectIntermediateType{Object: v}}, t.object...)
+	t.object = append([]*objectIntermediateType{&objectIntermediateType{Object: v}}, t.object...)
 
 }
 
@@ -877,13 +876,13 @@ func (t *TentativeReject) GetObjectIRI(index int) (v *url.URL) {
 
 // AppendObjectIRI adds to the back of object a *url.URL type
 func (t *TentativeReject) AppendObjectIRI(v *url.URL) {
-	t.object = append(t.object, &objectTentativeRejectIntermediateType{IRI: v})
+	t.object = append(t.object, &objectIntermediateType{IRI: v})
 
 }
 
 // PrependObjectIRI adds to the front of object a *url.URL type
 func (t *TentativeReject) PrependObjectIRI(v *url.URL) {
-	t.object = append([]*objectTentativeRejectIntermediateType{&objectTentativeRejectIntermediateType{IRI: v}}, t.object...)
+	t.object = append([]*objectIntermediateType{&objectIntermediateType{IRI: v}}, t.object...)
 
 }
 
@@ -912,7 +911,7 @@ func (t *TentativeReject) SetUnknownObject(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &objectTentativeRejectIntermediateType{}
+	tmp := &objectIntermediateType{}
 	tmp.unknown_ = i
 	t.object = append(t.object, tmp)
 
@@ -938,13 +937,13 @@ func (t *TentativeReject) GetTargetObject(index int) (v ObjectType) {
 
 // AppendTargetObject adds to the back of target a ObjectType type
 func (t *TentativeReject) AppendTargetObject(v ObjectType) {
-	t.target = append(t.target, &targetTentativeRejectIntermediateType{Object: v})
+	t.target = append(t.target, &targetIntermediateType{Object: v})
 
 }
 
 // PrependTargetObject adds to the front of target a ObjectType type
 func (t *TentativeReject) PrependTargetObject(v ObjectType) {
-	t.target = append([]*targetTentativeRejectIntermediateType{&targetTentativeRejectIntermediateType{Object: v}}, t.target...)
+	t.target = append([]*targetIntermediateType{&targetIntermediateType{Object: v}}, t.target...)
 
 }
 
@@ -970,13 +969,13 @@ func (t *TentativeReject) GetTargetLink(index int) (v LinkType) {
 
 // AppendTargetLink adds to the back of target a LinkType type
 func (t *TentativeReject) AppendTargetLink(v LinkType) {
-	t.target = append(t.target, &targetTentativeRejectIntermediateType{Link: v})
+	t.target = append(t.target, &targetIntermediateType{Link: v})
 
 }
 
 // PrependTargetLink adds to the front of target a LinkType type
 func (t *TentativeReject) PrependTargetLink(v LinkType) {
-	t.target = append([]*targetTentativeRejectIntermediateType{&targetTentativeRejectIntermediateType{Link: v}}, t.target...)
+	t.target = append([]*targetIntermediateType{&targetIntermediateType{Link: v}}, t.target...)
 
 }
 
@@ -1002,13 +1001,13 @@ func (t *TentativeReject) GetTargetIRI(index int) (v *url.URL) {
 
 // AppendTargetIRI adds to the back of target a *url.URL type
 func (t *TentativeReject) AppendTargetIRI(v *url.URL) {
-	t.target = append(t.target, &targetTentativeRejectIntermediateType{IRI: v})
+	t.target = append(t.target, &targetIntermediateType{IRI: v})
 
 }
 
 // PrependTargetIRI adds to the front of target a *url.URL type
 func (t *TentativeReject) PrependTargetIRI(v *url.URL) {
-	t.target = append([]*targetTentativeRejectIntermediateType{&targetTentativeRejectIntermediateType{IRI: v}}, t.target...)
+	t.target = append([]*targetIntermediateType{&targetIntermediateType{IRI: v}}, t.target...)
 
 }
 
@@ -1037,7 +1036,7 @@ func (t *TentativeReject) SetUnknownTarget(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &targetTentativeRejectIntermediateType{}
+	tmp := &targetIntermediateType{}
 	tmp.unknown_ = i
 	t.target = append(t.target, tmp)
 
@@ -1063,13 +1062,13 @@ func (t *TentativeReject) GetResultObject(index int) (v ObjectType) {
 
 // AppendResultObject adds to the back of result a ObjectType type
 func (t *TentativeReject) AppendResultObject(v ObjectType) {
-	t.result = append(t.result, &resultTentativeRejectIntermediateType{Object: v})
+	t.result = append(t.result, &resultIntermediateType{Object: v})
 
 }
 
 // PrependResultObject adds to the front of result a ObjectType type
 func (t *TentativeReject) PrependResultObject(v ObjectType) {
-	t.result = append([]*resultTentativeRejectIntermediateType{&resultTentativeRejectIntermediateType{Object: v}}, t.result...)
+	t.result = append([]*resultIntermediateType{&resultIntermediateType{Object: v}}, t.result...)
 
 }
 
@@ -1095,13 +1094,13 @@ func (t *TentativeReject) GetResultLink(index int) (v LinkType) {
 
 // AppendResultLink adds to the back of result a LinkType type
 func (t *TentativeReject) AppendResultLink(v LinkType) {
-	t.result = append(t.result, &resultTentativeRejectIntermediateType{Link: v})
+	t.result = append(t.result, &resultIntermediateType{Link: v})
 
 }
 
 // PrependResultLink adds to the front of result a LinkType type
 func (t *TentativeReject) PrependResultLink(v LinkType) {
-	t.result = append([]*resultTentativeRejectIntermediateType{&resultTentativeRejectIntermediateType{Link: v}}, t.result...)
+	t.result = append([]*resultIntermediateType{&resultIntermediateType{Link: v}}, t.result...)
 
 }
 
@@ -1127,13 +1126,13 @@ func (t *TentativeReject) GetResultIRI(index int) (v *url.URL) {
 
 // AppendResultIRI adds to the back of result a *url.URL type
 func (t *TentativeReject) AppendResultIRI(v *url.URL) {
-	t.result = append(t.result, &resultTentativeRejectIntermediateType{IRI: v})
+	t.result = append(t.result, &resultIntermediateType{IRI: v})
 
 }
 
 // PrependResultIRI adds to the front of result a *url.URL type
 func (t *TentativeReject) PrependResultIRI(v *url.URL) {
-	t.result = append([]*resultTentativeRejectIntermediateType{&resultTentativeRejectIntermediateType{IRI: v}}, t.result...)
+	t.result = append([]*resultIntermediateType{&resultIntermediateType{IRI: v}}, t.result...)
 
 }
 
@@ -1162,7 +1161,7 @@ func (t *TentativeReject) SetUnknownResult(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &resultTentativeRejectIntermediateType{}
+	tmp := &resultIntermediateType{}
 	tmp.unknown_ = i
 	t.result = append(t.result, tmp)
 
@@ -1188,13 +1187,13 @@ func (t *TentativeReject) GetOriginObject(index int) (v ObjectType) {
 
 // AppendOriginObject adds to the back of origin a ObjectType type
 func (t *TentativeReject) AppendOriginObject(v ObjectType) {
-	t.origin = append(t.origin, &originTentativeRejectIntermediateType{Object: v})
+	t.origin = append(t.origin, &originIntermediateType{Object: v})
 
 }
 
 // PrependOriginObject adds to the front of origin a ObjectType type
 func (t *TentativeReject) PrependOriginObject(v ObjectType) {
-	t.origin = append([]*originTentativeRejectIntermediateType{&originTentativeRejectIntermediateType{Object: v}}, t.origin...)
+	t.origin = append([]*originIntermediateType{&originIntermediateType{Object: v}}, t.origin...)
 
 }
 
@@ -1220,13 +1219,13 @@ func (t *TentativeReject) GetOriginLink(index int) (v LinkType) {
 
 // AppendOriginLink adds to the back of origin a LinkType type
 func (t *TentativeReject) AppendOriginLink(v LinkType) {
-	t.origin = append(t.origin, &originTentativeRejectIntermediateType{Link: v})
+	t.origin = append(t.origin, &originIntermediateType{Link: v})
 
 }
 
 // PrependOriginLink adds to the front of origin a LinkType type
 func (t *TentativeReject) PrependOriginLink(v LinkType) {
-	t.origin = append([]*originTentativeRejectIntermediateType{&originTentativeRejectIntermediateType{Link: v}}, t.origin...)
+	t.origin = append([]*originIntermediateType{&originIntermediateType{Link: v}}, t.origin...)
 
 }
 
@@ -1252,13 +1251,13 @@ func (t *TentativeReject) GetOriginIRI(index int) (v *url.URL) {
 
 // AppendOriginIRI adds to the back of origin a *url.URL type
 func (t *TentativeReject) AppendOriginIRI(v *url.URL) {
-	t.origin = append(t.origin, &originTentativeRejectIntermediateType{IRI: v})
+	t.origin = append(t.origin, &originIntermediateType{IRI: v})
 
 }
 
 // PrependOriginIRI adds to the front of origin a *url.URL type
 func (t *TentativeReject) PrependOriginIRI(v *url.URL) {
-	t.origin = append([]*originTentativeRejectIntermediateType{&originTentativeRejectIntermediateType{IRI: v}}, t.origin...)
+	t.origin = append([]*originIntermediateType{&originIntermediateType{IRI: v}}, t.origin...)
 
 }
 
@@ -1287,7 +1286,7 @@ func (t *TentativeReject) SetUnknownOrigin(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &originTentativeRejectIntermediateType{}
+	tmp := &originIntermediateType{}
 	tmp.unknown_ = i
 	t.origin = append(t.origin, tmp)
 
@@ -1313,13 +1312,13 @@ func (t *TentativeReject) GetInstrumentObject(index int) (v ObjectType) {
 
 // AppendInstrumentObject adds to the back of instrument a ObjectType type
 func (t *TentativeReject) AppendInstrumentObject(v ObjectType) {
-	t.instrument = append(t.instrument, &instrumentTentativeRejectIntermediateType{Object: v})
+	t.instrument = append(t.instrument, &instrumentIntermediateType{Object: v})
 
 }
 
 // PrependInstrumentObject adds to the front of instrument a ObjectType type
 func (t *TentativeReject) PrependInstrumentObject(v ObjectType) {
-	t.instrument = append([]*instrumentTentativeRejectIntermediateType{&instrumentTentativeRejectIntermediateType{Object: v}}, t.instrument...)
+	t.instrument = append([]*instrumentIntermediateType{&instrumentIntermediateType{Object: v}}, t.instrument...)
 
 }
 
@@ -1345,13 +1344,13 @@ func (t *TentativeReject) GetInstrumentLink(index int) (v LinkType) {
 
 // AppendInstrumentLink adds to the back of instrument a LinkType type
 func (t *TentativeReject) AppendInstrumentLink(v LinkType) {
-	t.instrument = append(t.instrument, &instrumentTentativeRejectIntermediateType{Link: v})
+	t.instrument = append(t.instrument, &instrumentIntermediateType{Link: v})
 
 }
 
 // PrependInstrumentLink adds to the front of instrument a LinkType type
 func (t *TentativeReject) PrependInstrumentLink(v LinkType) {
-	t.instrument = append([]*instrumentTentativeRejectIntermediateType{&instrumentTentativeRejectIntermediateType{Link: v}}, t.instrument...)
+	t.instrument = append([]*instrumentIntermediateType{&instrumentIntermediateType{Link: v}}, t.instrument...)
 
 }
 
@@ -1377,13 +1376,13 @@ func (t *TentativeReject) GetInstrumentIRI(index int) (v *url.URL) {
 
 // AppendInstrumentIRI adds to the back of instrument a *url.URL type
 func (t *TentativeReject) AppendInstrumentIRI(v *url.URL) {
-	t.instrument = append(t.instrument, &instrumentTentativeRejectIntermediateType{IRI: v})
+	t.instrument = append(t.instrument, &instrumentIntermediateType{IRI: v})
 
 }
 
 // PrependInstrumentIRI adds to the front of instrument a *url.URL type
 func (t *TentativeReject) PrependInstrumentIRI(v *url.URL) {
-	t.instrument = append([]*instrumentTentativeRejectIntermediateType{&instrumentTentativeRejectIntermediateType{IRI: v}}, t.instrument...)
+	t.instrument = append([]*instrumentIntermediateType{&instrumentIntermediateType{IRI: v}}, t.instrument...)
 
 }
 
@@ -1412,7 +1411,7 @@ func (t *TentativeReject) SetUnknownInstrument(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &instrumentTentativeRejectIntermediateType{}
+	tmp := &instrumentIntermediateType{}
 	tmp.unknown_ = i
 	t.instrument = append(t.instrument, tmp)
 
@@ -1432,7 +1431,7 @@ func (t *TentativeReject) GetAltitude() (v float64) {
 
 // SetAltitude sets the value of altitude to be of float64 type
 func (t *TentativeReject) SetAltitude(v float64) {
-	t.altitude = &altitudeTentativeRejectIntermediateType{float: &v}
+	t.altitude = &altitudeIntermediateType{float: &v}
 
 }
 
@@ -1450,7 +1449,7 @@ func (t *TentativeReject) GetAltitudeIRI() (v *url.URL) {
 
 // SetAltitudeIRI sets the value of altitude to be of *url.URL type
 func (t *TentativeReject) SetAltitudeIRI(v *url.URL) {
-	t.altitude = &altitudeTentativeRejectIntermediateType{IRI: v}
+	t.altitude = &altitudeIntermediateType{IRI: v}
 
 }
 
@@ -1471,7 +1470,7 @@ func (t *TentativeReject) SetUnknownAltitude(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &altitudeTentativeRejectIntermediateType{}
+	tmp := &altitudeIntermediateType{}
 	tmp.unknown_ = i
 	t.altitude = tmp
 
@@ -1497,13 +1496,13 @@ func (t *TentativeReject) GetAttachmentObject(index int) (v ObjectType) {
 
 // AppendAttachmentObject adds to the back of attachment a ObjectType type
 func (t *TentativeReject) AppendAttachmentObject(v ObjectType) {
-	t.attachment = append(t.attachment, &attachmentTentativeRejectIntermediateType{Object: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{Object: v})
 
 }
 
 // PrependAttachmentObject adds to the front of attachment a ObjectType type
 func (t *TentativeReject) PrependAttachmentObject(v ObjectType) {
-	t.attachment = append([]*attachmentTentativeRejectIntermediateType{&attachmentTentativeRejectIntermediateType{Object: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{Object: v}}, t.attachment...)
 
 }
 
@@ -1529,13 +1528,13 @@ func (t *TentativeReject) GetAttachmentLink(index int) (v LinkType) {
 
 // AppendAttachmentLink adds to the back of attachment a LinkType type
 func (t *TentativeReject) AppendAttachmentLink(v LinkType) {
-	t.attachment = append(t.attachment, &attachmentTentativeRejectIntermediateType{Link: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{Link: v})
 
 }
 
 // PrependAttachmentLink adds to the front of attachment a LinkType type
 func (t *TentativeReject) PrependAttachmentLink(v LinkType) {
-	t.attachment = append([]*attachmentTentativeRejectIntermediateType{&attachmentTentativeRejectIntermediateType{Link: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{Link: v}}, t.attachment...)
 
 }
 
@@ -1561,13 +1560,13 @@ func (t *TentativeReject) GetAttachmentIRI(index int) (v *url.URL) {
 
 // AppendAttachmentIRI adds to the back of attachment a *url.URL type
 func (t *TentativeReject) AppendAttachmentIRI(v *url.URL) {
-	t.attachment = append(t.attachment, &attachmentTentativeRejectIntermediateType{IRI: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{IRI: v})
 
 }
 
 // PrependAttachmentIRI adds to the front of attachment a *url.URL type
 func (t *TentativeReject) PrependAttachmentIRI(v *url.URL) {
-	t.attachment = append([]*attachmentTentativeRejectIntermediateType{&attachmentTentativeRejectIntermediateType{IRI: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{IRI: v}}, t.attachment...)
 
 }
 
@@ -1596,7 +1595,7 @@ func (t *TentativeReject) SetUnknownAttachment(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attachmentTentativeRejectIntermediateType{}
+	tmp := &attachmentIntermediateType{}
 	tmp.unknown_ = i
 	t.attachment = append(t.attachment, tmp)
 
@@ -1622,13 +1621,13 @@ func (t *TentativeReject) GetAttributedToObject(index int) (v ObjectType) {
 
 // AppendAttributedToObject adds to the back of attributedTo a ObjectType type
 func (t *TentativeReject) AppendAttributedToObject(v ObjectType) {
-	t.attributedTo = append(t.attributedTo, &attributedToTentativeRejectIntermediateType{Object: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Object: v})
 
 }
 
 // PrependAttributedToObject adds to the front of attributedTo a ObjectType type
 func (t *TentativeReject) PrependAttributedToObject(v ObjectType) {
-	t.attributedTo = append([]*attributedToTentativeRejectIntermediateType{&attributedToTentativeRejectIntermediateType{Object: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Object: v}}, t.attributedTo...)
 
 }
 
@@ -1654,13 +1653,13 @@ func (t *TentativeReject) GetAttributedToLink(index int) (v LinkType) {
 
 // AppendAttributedToLink adds to the back of attributedTo a LinkType type
 func (t *TentativeReject) AppendAttributedToLink(v LinkType) {
-	t.attributedTo = append(t.attributedTo, &attributedToTentativeRejectIntermediateType{Link: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Link: v})
 
 }
 
 // PrependAttributedToLink adds to the front of attributedTo a LinkType type
 func (t *TentativeReject) PrependAttributedToLink(v LinkType) {
-	t.attributedTo = append([]*attributedToTentativeRejectIntermediateType{&attributedToTentativeRejectIntermediateType{Link: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Link: v}}, t.attributedTo...)
 
 }
 
@@ -1686,13 +1685,13 @@ func (t *TentativeReject) GetAttributedToIRI(index int) (v *url.URL) {
 
 // AppendAttributedToIRI adds to the back of attributedTo a *url.URL type
 func (t *TentativeReject) AppendAttributedToIRI(v *url.URL) {
-	t.attributedTo = append(t.attributedTo, &attributedToTentativeRejectIntermediateType{IRI: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{IRI: v})
 
 }
 
 // PrependAttributedToIRI adds to the front of attributedTo a *url.URL type
 func (t *TentativeReject) PrependAttributedToIRI(v *url.URL) {
-	t.attributedTo = append([]*attributedToTentativeRejectIntermediateType{&attributedToTentativeRejectIntermediateType{IRI: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{IRI: v}}, t.attributedTo...)
 
 }
 
@@ -1721,7 +1720,7 @@ func (t *TentativeReject) SetUnknownAttributedTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attributedToTentativeRejectIntermediateType{}
+	tmp := &attributedToIntermediateType{}
 	tmp.unknown_ = i
 	t.attributedTo = append(t.attributedTo, tmp)
 
@@ -1747,13 +1746,13 @@ func (t *TentativeReject) GetAudienceObject(index int) (v ObjectType) {
 
 // AppendAudienceObject adds to the back of audience a ObjectType type
 func (t *TentativeReject) AppendAudienceObject(v ObjectType) {
-	t.audience = append(t.audience, &audienceTentativeRejectIntermediateType{Object: v})
+	t.audience = append(t.audience, &audienceIntermediateType{Object: v})
 
 }
 
 // PrependAudienceObject adds to the front of audience a ObjectType type
 func (t *TentativeReject) PrependAudienceObject(v ObjectType) {
-	t.audience = append([]*audienceTentativeRejectIntermediateType{&audienceTentativeRejectIntermediateType{Object: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{Object: v}}, t.audience...)
 
 }
 
@@ -1779,13 +1778,13 @@ func (t *TentativeReject) GetAudienceLink(index int) (v LinkType) {
 
 // AppendAudienceLink adds to the back of audience a LinkType type
 func (t *TentativeReject) AppendAudienceLink(v LinkType) {
-	t.audience = append(t.audience, &audienceTentativeRejectIntermediateType{Link: v})
+	t.audience = append(t.audience, &audienceIntermediateType{Link: v})
 
 }
 
 // PrependAudienceLink adds to the front of audience a LinkType type
 func (t *TentativeReject) PrependAudienceLink(v LinkType) {
-	t.audience = append([]*audienceTentativeRejectIntermediateType{&audienceTentativeRejectIntermediateType{Link: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{Link: v}}, t.audience...)
 
 }
 
@@ -1811,13 +1810,13 @@ func (t *TentativeReject) GetAudienceIRI(index int) (v *url.URL) {
 
 // AppendAudienceIRI adds to the back of audience a *url.URL type
 func (t *TentativeReject) AppendAudienceIRI(v *url.URL) {
-	t.audience = append(t.audience, &audienceTentativeRejectIntermediateType{IRI: v})
+	t.audience = append(t.audience, &audienceIntermediateType{IRI: v})
 
 }
 
 // PrependAudienceIRI adds to the front of audience a *url.URL type
 func (t *TentativeReject) PrependAudienceIRI(v *url.URL) {
-	t.audience = append([]*audienceTentativeRejectIntermediateType{&audienceTentativeRejectIntermediateType{IRI: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{IRI: v}}, t.audience...)
 
 }
 
@@ -1846,7 +1845,7 @@ func (t *TentativeReject) SetUnknownAudience(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &audienceTentativeRejectIntermediateType{}
+	tmp := &audienceIntermediateType{}
 	tmp.unknown_ = i
 	t.audience = append(t.audience, tmp)
 
@@ -1872,13 +1871,13 @@ func (t *TentativeReject) GetContentString(index int) (v string) {
 
 // AppendContentString adds to the back of content a string type
 func (t *TentativeReject) AppendContentString(v string) {
-	t.content = append(t.content, &contentTentativeRejectIntermediateType{stringName: &v})
+	t.content = append(t.content, &contentIntermediateType{stringName: &v})
 
 }
 
 // PrependContentString adds to the front of content a string type
 func (t *TentativeReject) PrependContentString(v string) {
-	t.content = append([]*contentTentativeRejectIntermediateType{&contentTentativeRejectIntermediateType{stringName: &v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{stringName: &v}}, t.content...)
 
 }
 
@@ -1904,13 +1903,13 @@ func (t *TentativeReject) GetContentLangString(index int) (v string) {
 
 // AppendContentLangString adds to the back of content a string type
 func (t *TentativeReject) AppendContentLangString(v string) {
-	t.content = append(t.content, &contentTentativeRejectIntermediateType{langString: &v})
+	t.content = append(t.content, &contentIntermediateType{langString: &v})
 
 }
 
 // PrependContentLangString adds to the front of content a string type
 func (t *TentativeReject) PrependContentLangString(v string) {
-	t.content = append([]*contentTentativeRejectIntermediateType{&contentTentativeRejectIntermediateType{langString: &v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{langString: &v}}, t.content...)
 
 }
 
@@ -1936,13 +1935,13 @@ func (t *TentativeReject) GetContentIRI(index int) (v *url.URL) {
 
 // AppendContentIRI adds to the back of content a *url.URL type
 func (t *TentativeReject) AppendContentIRI(v *url.URL) {
-	t.content = append(t.content, &contentTentativeRejectIntermediateType{IRI: v})
+	t.content = append(t.content, &contentIntermediateType{IRI: v})
 
 }
 
 // PrependContentIRI adds to the front of content a *url.URL type
 func (t *TentativeReject) PrependContentIRI(v *url.URL) {
-	t.content = append([]*contentTentativeRejectIntermediateType{&contentTentativeRejectIntermediateType{IRI: v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{IRI: v}}, t.content...)
 
 }
 
@@ -1971,7 +1970,7 @@ func (t *TentativeReject) SetUnknownContent(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &contentTentativeRejectIntermediateType{}
+	tmp := &contentIntermediateType{}
 	tmp.unknown_ = i
 	t.content = append(t.content, tmp)
 
@@ -2032,13 +2031,13 @@ func (t *TentativeReject) GetContextObject(index int) (v ObjectType) {
 
 // AppendContextObject adds to the back of context a ObjectType type
 func (t *TentativeReject) AppendContextObject(v ObjectType) {
-	t.context = append(t.context, &contextTentativeRejectIntermediateType{Object: v})
+	t.context = append(t.context, &contextIntermediateType{Object: v})
 
 }
 
 // PrependContextObject adds to the front of context a ObjectType type
 func (t *TentativeReject) PrependContextObject(v ObjectType) {
-	t.context = append([]*contextTentativeRejectIntermediateType{&contextTentativeRejectIntermediateType{Object: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{Object: v}}, t.context...)
 
 }
 
@@ -2064,13 +2063,13 @@ func (t *TentativeReject) GetContextLink(index int) (v LinkType) {
 
 // AppendContextLink adds to the back of context a LinkType type
 func (t *TentativeReject) AppendContextLink(v LinkType) {
-	t.context = append(t.context, &contextTentativeRejectIntermediateType{Link: v})
+	t.context = append(t.context, &contextIntermediateType{Link: v})
 
 }
 
 // PrependContextLink adds to the front of context a LinkType type
 func (t *TentativeReject) PrependContextLink(v LinkType) {
-	t.context = append([]*contextTentativeRejectIntermediateType{&contextTentativeRejectIntermediateType{Link: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{Link: v}}, t.context...)
 
 }
 
@@ -2096,13 +2095,13 @@ func (t *TentativeReject) GetContextIRI(index int) (v *url.URL) {
 
 // AppendContextIRI adds to the back of context a *url.URL type
 func (t *TentativeReject) AppendContextIRI(v *url.URL) {
-	t.context = append(t.context, &contextTentativeRejectIntermediateType{IRI: v})
+	t.context = append(t.context, &contextIntermediateType{IRI: v})
 
 }
 
 // PrependContextIRI adds to the front of context a *url.URL type
 func (t *TentativeReject) PrependContextIRI(v *url.URL) {
-	t.context = append([]*contextTentativeRejectIntermediateType{&contextTentativeRejectIntermediateType{IRI: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{IRI: v}}, t.context...)
 
 }
 
@@ -2131,7 +2130,7 @@ func (t *TentativeReject) SetUnknownContext(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &contextTentativeRejectIntermediateType{}
+	tmp := &contextIntermediateType{}
 	tmp.unknown_ = i
 	t.context = append(t.context, tmp)
 
@@ -2157,13 +2156,13 @@ func (t *TentativeReject) GetNameString(index int) (v string) {
 
 // AppendNameString adds to the back of name a string type
 func (t *TentativeReject) AppendNameString(v string) {
-	t.name = append(t.name, &nameTentativeRejectIntermediateType{stringName: &v})
+	t.name = append(t.name, &nameIntermediateType{stringName: &v})
 
 }
 
 // PrependNameString adds to the front of name a string type
 func (t *TentativeReject) PrependNameString(v string) {
-	t.name = append([]*nameTentativeRejectIntermediateType{&nameTentativeRejectIntermediateType{stringName: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{stringName: &v}}, t.name...)
 
 }
 
@@ -2189,13 +2188,13 @@ func (t *TentativeReject) GetNameLangString(index int) (v string) {
 
 // AppendNameLangString adds to the back of name a string type
 func (t *TentativeReject) AppendNameLangString(v string) {
-	t.name = append(t.name, &nameTentativeRejectIntermediateType{langString: &v})
+	t.name = append(t.name, &nameIntermediateType{langString: &v})
 
 }
 
 // PrependNameLangString adds to the front of name a string type
 func (t *TentativeReject) PrependNameLangString(v string) {
-	t.name = append([]*nameTentativeRejectIntermediateType{&nameTentativeRejectIntermediateType{langString: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{langString: &v}}, t.name...)
 
 }
 
@@ -2221,13 +2220,13 @@ func (t *TentativeReject) GetNameIRI(index int) (v *url.URL) {
 
 // AppendNameIRI adds to the back of name a *url.URL type
 func (t *TentativeReject) AppendNameIRI(v *url.URL) {
-	t.name = append(t.name, &nameTentativeRejectIntermediateType{IRI: v})
+	t.name = append(t.name, &nameIntermediateType{IRI: v})
 
 }
 
 // PrependNameIRI adds to the front of name a *url.URL type
 func (t *TentativeReject) PrependNameIRI(v *url.URL) {
-	t.name = append([]*nameTentativeRejectIntermediateType{&nameTentativeRejectIntermediateType{IRI: v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{IRI: v}}, t.name...)
 
 }
 
@@ -2256,7 +2255,7 @@ func (t *TentativeReject) SetUnknownName(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &nameTentativeRejectIntermediateType{}
+	tmp := &nameIntermediateType{}
 	tmp.unknown_ = i
 	t.name = append(t.name, tmp)
 
@@ -2311,7 +2310,7 @@ func (t *TentativeReject) GetEndTime() (v time.Time) {
 
 // SetEndTime sets the value of endTime to be of time.Time type
 func (t *TentativeReject) SetEndTime(v time.Time) {
-	t.endTime = &endTimeTentativeRejectIntermediateType{dateTime: &v}
+	t.endTime = &endTimeIntermediateType{dateTime: &v}
 
 }
 
@@ -2329,7 +2328,7 @@ func (t *TentativeReject) GetEndTimeIRI() (v *url.URL) {
 
 // SetEndTimeIRI sets the value of endTime to be of *url.URL type
 func (t *TentativeReject) SetEndTimeIRI(v *url.URL) {
-	t.endTime = &endTimeTentativeRejectIntermediateType{IRI: v}
+	t.endTime = &endTimeIntermediateType{IRI: v}
 
 }
 
@@ -2350,7 +2349,7 @@ func (t *TentativeReject) SetUnknownEndTime(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &endTimeTentativeRejectIntermediateType{}
+	tmp := &endTimeIntermediateType{}
 	tmp.unknown_ = i
 	t.endTime = tmp
 
@@ -2376,13 +2375,13 @@ func (t *TentativeReject) GetGeneratorObject(index int) (v ObjectType) {
 
 // AppendGeneratorObject adds to the back of generator a ObjectType type
 func (t *TentativeReject) AppendGeneratorObject(v ObjectType) {
-	t.generator = append(t.generator, &generatorTentativeRejectIntermediateType{Object: v})
+	t.generator = append(t.generator, &generatorIntermediateType{Object: v})
 
 }
 
 // PrependGeneratorObject adds to the front of generator a ObjectType type
 func (t *TentativeReject) PrependGeneratorObject(v ObjectType) {
-	t.generator = append([]*generatorTentativeRejectIntermediateType{&generatorTentativeRejectIntermediateType{Object: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{Object: v}}, t.generator...)
 
 }
 
@@ -2408,13 +2407,13 @@ func (t *TentativeReject) GetGeneratorLink(index int) (v LinkType) {
 
 // AppendGeneratorLink adds to the back of generator a LinkType type
 func (t *TentativeReject) AppendGeneratorLink(v LinkType) {
-	t.generator = append(t.generator, &generatorTentativeRejectIntermediateType{Link: v})
+	t.generator = append(t.generator, &generatorIntermediateType{Link: v})
 
 }
 
 // PrependGeneratorLink adds to the front of generator a LinkType type
 func (t *TentativeReject) PrependGeneratorLink(v LinkType) {
-	t.generator = append([]*generatorTentativeRejectIntermediateType{&generatorTentativeRejectIntermediateType{Link: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{Link: v}}, t.generator...)
 
 }
 
@@ -2440,13 +2439,13 @@ func (t *TentativeReject) GetGeneratorIRI(index int) (v *url.URL) {
 
 // AppendGeneratorIRI adds to the back of generator a *url.URL type
 func (t *TentativeReject) AppendGeneratorIRI(v *url.URL) {
-	t.generator = append(t.generator, &generatorTentativeRejectIntermediateType{IRI: v})
+	t.generator = append(t.generator, &generatorIntermediateType{IRI: v})
 
 }
 
 // PrependGeneratorIRI adds to the front of generator a *url.URL type
 func (t *TentativeReject) PrependGeneratorIRI(v *url.URL) {
-	t.generator = append([]*generatorTentativeRejectIntermediateType{&generatorTentativeRejectIntermediateType{IRI: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{IRI: v}}, t.generator...)
 
 }
 
@@ -2475,7 +2474,7 @@ func (t *TentativeReject) SetUnknownGenerator(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &generatorTentativeRejectIntermediateType{}
+	tmp := &generatorIntermediateType{}
 	tmp.unknown_ = i
 	t.generator = append(t.generator, tmp)
 
@@ -2501,13 +2500,13 @@ func (t *TentativeReject) GetIconImage(index int) (v ImageType) {
 
 // AppendIconImage adds to the back of icon a ImageType type
 func (t *TentativeReject) AppendIconImage(v ImageType) {
-	t.icon = append(t.icon, &iconTentativeRejectIntermediateType{Image: v})
+	t.icon = append(t.icon, &iconIntermediateType{Image: v})
 
 }
 
 // PrependIconImage adds to the front of icon a ImageType type
 func (t *TentativeReject) PrependIconImage(v ImageType) {
-	t.icon = append([]*iconTentativeRejectIntermediateType{&iconTentativeRejectIntermediateType{Image: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{Image: v}}, t.icon...)
 
 }
 
@@ -2533,13 +2532,13 @@ func (t *TentativeReject) GetIconLink(index int) (v LinkType) {
 
 // AppendIconLink adds to the back of icon a LinkType type
 func (t *TentativeReject) AppendIconLink(v LinkType) {
-	t.icon = append(t.icon, &iconTentativeRejectIntermediateType{Link: v})
+	t.icon = append(t.icon, &iconIntermediateType{Link: v})
 
 }
 
 // PrependIconLink adds to the front of icon a LinkType type
 func (t *TentativeReject) PrependIconLink(v LinkType) {
-	t.icon = append([]*iconTentativeRejectIntermediateType{&iconTentativeRejectIntermediateType{Link: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{Link: v}}, t.icon...)
 
 }
 
@@ -2565,13 +2564,13 @@ func (t *TentativeReject) GetIconIRI(index int) (v *url.URL) {
 
 // AppendIconIRI adds to the back of icon a *url.URL type
 func (t *TentativeReject) AppendIconIRI(v *url.URL) {
-	t.icon = append(t.icon, &iconTentativeRejectIntermediateType{IRI: v})
+	t.icon = append(t.icon, &iconIntermediateType{IRI: v})
 
 }
 
 // PrependIconIRI adds to the front of icon a *url.URL type
 func (t *TentativeReject) PrependIconIRI(v *url.URL) {
-	t.icon = append([]*iconTentativeRejectIntermediateType{&iconTentativeRejectIntermediateType{IRI: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{IRI: v}}, t.icon...)
 
 }
 
@@ -2600,7 +2599,7 @@ func (t *TentativeReject) SetUnknownIcon(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &iconTentativeRejectIntermediateType{}
+	tmp := &iconIntermediateType{}
 	tmp.unknown_ = i
 	t.icon = append(t.icon, tmp)
 
@@ -2665,13 +2664,13 @@ func (t *TentativeReject) GetImageImage(index int) (v ImageType) {
 
 // AppendImageImage adds to the back of image a ImageType type
 func (t *TentativeReject) AppendImageImage(v ImageType) {
-	t.image = append(t.image, &imageTentativeRejectIntermediateType{Image: v})
+	t.image = append(t.image, &imageIntermediateType{Image: v})
 
 }
 
 // PrependImageImage adds to the front of image a ImageType type
 func (t *TentativeReject) PrependImageImage(v ImageType) {
-	t.image = append([]*imageTentativeRejectIntermediateType{&imageTentativeRejectIntermediateType{Image: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{Image: v}}, t.image...)
 
 }
 
@@ -2697,13 +2696,13 @@ func (t *TentativeReject) GetImageLink(index int) (v LinkType) {
 
 // AppendImageLink adds to the back of image a LinkType type
 func (t *TentativeReject) AppendImageLink(v LinkType) {
-	t.image = append(t.image, &imageTentativeRejectIntermediateType{Link: v})
+	t.image = append(t.image, &imageIntermediateType{Link: v})
 
 }
 
 // PrependImageLink adds to the front of image a LinkType type
 func (t *TentativeReject) PrependImageLink(v LinkType) {
-	t.image = append([]*imageTentativeRejectIntermediateType{&imageTentativeRejectIntermediateType{Link: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{Link: v}}, t.image...)
 
 }
 
@@ -2729,13 +2728,13 @@ func (t *TentativeReject) GetImageIRI(index int) (v *url.URL) {
 
 // AppendImageIRI adds to the back of image a *url.URL type
 func (t *TentativeReject) AppendImageIRI(v *url.URL) {
-	t.image = append(t.image, &imageTentativeRejectIntermediateType{IRI: v})
+	t.image = append(t.image, &imageIntermediateType{IRI: v})
 
 }
 
 // PrependImageIRI adds to the front of image a *url.URL type
 func (t *TentativeReject) PrependImageIRI(v *url.URL) {
-	t.image = append([]*imageTentativeRejectIntermediateType{&imageTentativeRejectIntermediateType{IRI: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{IRI: v}}, t.image...)
 
 }
 
@@ -2764,7 +2763,7 @@ func (t *TentativeReject) SetUnknownImage(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &imageTentativeRejectIntermediateType{}
+	tmp := &imageIntermediateType{}
 	tmp.unknown_ = i
 	t.image = append(t.image, tmp)
 
@@ -2790,13 +2789,13 @@ func (t *TentativeReject) GetInReplyToObject(index int) (v ObjectType) {
 
 // AppendInReplyToObject adds to the back of inReplyTo a ObjectType type
 func (t *TentativeReject) AppendInReplyToObject(v ObjectType) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToTentativeRejectIntermediateType{Object: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{Object: v})
 
 }
 
 // PrependInReplyToObject adds to the front of inReplyTo a ObjectType type
 func (t *TentativeReject) PrependInReplyToObject(v ObjectType) {
-	t.inReplyTo = append([]*inReplyToTentativeRejectIntermediateType{&inReplyToTentativeRejectIntermediateType{Object: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{Object: v}}, t.inReplyTo...)
 
 }
 
@@ -2822,13 +2821,13 @@ func (t *TentativeReject) GetInReplyToLink(index int) (v LinkType) {
 
 // AppendInReplyToLink adds to the back of inReplyTo a LinkType type
 func (t *TentativeReject) AppendInReplyToLink(v LinkType) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToTentativeRejectIntermediateType{Link: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{Link: v})
 
 }
 
 // PrependInReplyToLink adds to the front of inReplyTo a LinkType type
 func (t *TentativeReject) PrependInReplyToLink(v LinkType) {
-	t.inReplyTo = append([]*inReplyToTentativeRejectIntermediateType{&inReplyToTentativeRejectIntermediateType{Link: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{Link: v}}, t.inReplyTo...)
 
 }
 
@@ -2854,13 +2853,13 @@ func (t *TentativeReject) GetInReplyToIRI(index int) (v *url.URL) {
 
 // AppendInReplyToIRI adds to the back of inReplyTo a *url.URL type
 func (t *TentativeReject) AppendInReplyToIRI(v *url.URL) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToTentativeRejectIntermediateType{IRI: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{IRI: v})
 
 }
 
 // PrependInReplyToIRI adds to the front of inReplyTo a *url.URL type
 func (t *TentativeReject) PrependInReplyToIRI(v *url.URL) {
-	t.inReplyTo = append([]*inReplyToTentativeRejectIntermediateType{&inReplyToTentativeRejectIntermediateType{IRI: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{IRI: v}}, t.inReplyTo...)
 
 }
 
@@ -2889,7 +2888,7 @@ func (t *TentativeReject) SetUnknownInReplyTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &inReplyToTentativeRejectIntermediateType{}
+	tmp := &inReplyToIntermediateType{}
 	tmp.unknown_ = i
 	t.inReplyTo = append(t.inReplyTo, tmp)
 
@@ -2915,13 +2914,13 @@ func (t *TentativeReject) GetLocationObject(index int) (v ObjectType) {
 
 // AppendLocationObject adds to the back of location a ObjectType type
 func (t *TentativeReject) AppendLocationObject(v ObjectType) {
-	t.location = append(t.location, &locationTentativeRejectIntermediateType{Object: v})
+	t.location = append(t.location, &locationIntermediateType{Object: v})
 
 }
 
 // PrependLocationObject adds to the front of location a ObjectType type
 func (t *TentativeReject) PrependLocationObject(v ObjectType) {
-	t.location = append([]*locationTentativeRejectIntermediateType{&locationTentativeRejectIntermediateType{Object: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{Object: v}}, t.location...)
 
 }
 
@@ -2947,13 +2946,13 @@ func (t *TentativeReject) GetLocationLink(index int) (v LinkType) {
 
 // AppendLocationLink adds to the back of location a LinkType type
 func (t *TentativeReject) AppendLocationLink(v LinkType) {
-	t.location = append(t.location, &locationTentativeRejectIntermediateType{Link: v})
+	t.location = append(t.location, &locationIntermediateType{Link: v})
 
 }
 
 // PrependLocationLink adds to the front of location a LinkType type
 func (t *TentativeReject) PrependLocationLink(v LinkType) {
-	t.location = append([]*locationTentativeRejectIntermediateType{&locationTentativeRejectIntermediateType{Link: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{Link: v}}, t.location...)
 
 }
 
@@ -2979,13 +2978,13 @@ func (t *TentativeReject) GetLocationIRI(index int) (v *url.URL) {
 
 // AppendLocationIRI adds to the back of location a *url.URL type
 func (t *TentativeReject) AppendLocationIRI(v *url.URL) {
-	t.location = append(t.location, &locationTentativeRejectIntermediateType{IRI: v})
+	t.location = append(t.location, &locationIntermediateType{IRI: v})
 
 }
 
 // PrependLocationIRI adds to the front of location a *url.URL type
 func (t *TentativeReject) PrependLocationIRI(v *url.URL) {
-	t.location = append([]*locationTentativeRejectIntermediateType{&locationTentativeRejectIntermediateType{IRI: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{IRI: v}}, t.location...)
 
 }
 
@@ -3014,7 +3013,7 @@ func (t *TentativeReject) SetUnknownLocation(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &locationTentativeRejectIntermediateType{}
+	tmp := &locationIntermediateType{}
 	tmp.unknown_ = i
 	t.location = append(t.location, tmp)
 
@@ -3040,13 +3039,13 @@ func (t *TentativeReject) GetPreviewObject(index int) (v ObjectType) {
 
 // AppendPreviewObject adds to the back of preview a ObjectType type
 func (t *TentativeReject) AppendPreviewObject(v ObjectType) {
-	t.preview = append(t.preview, &previewTentativeRejectIntermediateType{Object: v})
+	t.preview = append(t.preview, &previewIntermediateType{Object: v})
 
 }
 
 // PrependPreviewObject adds to the front of preview a ObjectType type
 func (t *TentativeReject) PrependPreviewObject(v ObjectType) {
-	t.preview = append([]*previewTentativeRejectIntermediateType{&previewTentativeRejectIntermediateType{Object: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Object: v}}, t.preview...)
 
 }
 
@@ -3072,13 +3071,13 @@ func (t *TentativeReject) GetPreviewLink(index int) (v LinkType) {
 
 // AppendPreviewLink adds to the back of preview a LinkType type
 func (t *TentativeReject) AppendPreviewLink(v LinkType) {
-	t.preview = append(t.preview, &previewTentativeRejectIntermediateType{Link: v})
+	t.preview = append(t.preview, &previewIntermediateType{Link: v})
 
 }
 
 // PrependPreviewLink adds to the front of preview a LinkType type
 func (t *TentativeReject) PrependPreviewLink(v LinkType) {
-	t.preview = append([]*previewTentativeRejectIntermediateType{&previewTentativeRejectIntermediateType{Link: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Link: v}}, t.preview...)
 
 }
 
@@ -3104,13 +3103,13 @@ func (t *TentativeReject) GetPreviewIRI(index int) (v *url.URL) {
 
 // AppendPreviewIRI adds to the back of preview a *url.URL type
 func (t *TentativeReject) AppendPreviewIRI(v *url.URL) {
-	t.preview = append(t.preview, &previewTentativeRejectIntermediateType{IRI: v})
+	t.preview = append(t.preview, &previewIntermediateType{IRI: v})
 
 }
 
 // PrependPreviewIRI adds to the front of preview a *url.URL type
 func (t *TentativeReject) PrependPreviewIRI(v *url.URL) {
-	t.preview = append([]*previewTentativeRejectIntermediateType{&previewTentativeRejectIntermediateType{IRI: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{IRI: v}}, t.preview...)
 
 }
 
@@ -3139,7 +3138,7 @@ func (t *TentativeReject) SetUnknownPreview(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &previewTentativeRejectIntermediateType{}
+	tmp := &previewIntermediateType{}
 	tmp.unknown_ = i
 	t.preview = append(t.preview, tmp)
 
@@ -3159,7 +3158,7 @@ func (t *TentativeReject) GetPublished() (v time.Time) {
 
 // SetPublished sets the value of published to be of time.Time type
 func (t *TentativeReject) SetPublished(v time.Time) {
-	t.published = &publishedTentativeRejectIntermediateType{dateTime: &v}
+	t.published = &publishedIntermediateType{dateTime: &v}
 
 }
 
@@ -3177,7 +3176,7 @@ func (t *TentativeReject) GetPublishedIRI() (v *url.URL) {
 
 // SetPublishedIRI sets the value of published to be of *url.URL type
 func (t *TentativeReject) SetPublishedIRI(v *url.URL) {
-	t.published = &publishedTentativeRejectIntermediateType{IRI: v}
+	t.published = &publishedIntermediateType{IRI: v}
 
 }
 
@@ -3198,7 +3197,7 @@ func (t *TentativeReject) SetUnknownPublished(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &publishedTentativeRejectIntermediateType{}
+	tmp := &publishedIntermediateType{}
 	tmp.unknown_ = i
 	t.published = tmp
 
@@ -3218,7 +3217,7 @@ func (t *TentativeReject) GetReplies() (v CollectionType) {
 
 // SetReplies sets the value of replies to be of CollectionType type
 func (t *TentativeReject) SetReplies(v CollectionType) {
-	t.replies = &repliesTentativeRejectIntermediateType{Collection: v}
+	t.replies = &repliesIntermediateType{Collection: v}
 
 }
 
@@ -3236,7 +3235,7 @@ func (t *TentativeReject) GetRepliesIRI() (v *url.URL) {
 
 // SetRepliesIRI sets the value of replies to be of *url.URL type
 func (t *TentativeReject) SetRepliesIRI(v *url.URL) {
-	t.replies = &repliesTentativeRejectIntermediateType{IRI: v}
+	t.replies = &repliesIntermediateType{IRI: v}
 
 }
 
@@ -3257,7 +3256,7 @@ func (t *TentativeReject) SetUnknownReplies(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &repliesTentativeRejectIntermediateType{}
+	tmp := &repliesIntermediateType{}
 	tmp.unknown_ = i
 	t.replies = tmp
 
@@ -3277,7 +3276,7 @@ func (t *TentativeReject) GetStartTime() (v time.Time) {
 
 // SetStartTime sets the value of startTime to be of time.Time type
 func (t *TentativeReject) SetStartTime(v time.Time) {
-	t.startTime = &startTimeTentativeRejectIntermediateType{dateTime: &v}
+	t.startTime = &startTimeIntermediateType{dateTime: &v}
 
 }
 
@@ -3295,7 +3294,7 @@ func (t *TentativeReject) GetStartTimeIRI() (v *url.URL) {
 
 // SetStartTimeIRI sets the value of startTime to be of *url.URL type
 func (t *TentativeReject) SetStartTimeIRI(v *url.URL) {
-	t.startTime = &startTimeTentativeRejectIntermediateType{IRI: v}
+	t.startTime = &startTimeIntermediateType{IRI: v}
 
 }
 
@@ -3316,7 +3315,7 @@ func (t *TentativeReject) SetUnknownStartTime(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &startTimeTentativeRejectIntermediateType{}
+	tmp := &startTimeIntermediateType{}
 	tmp.unknown_ = i
 	t.startTime = tmp
 
@@ -3342,13 +3341,13 @@ func (t *TentativeReject) GetSummaryString(index int) (v string) {
 
 // AppendSummaryString adds to the back of summary a string type
 func (t *TentativeReject) AppendSummaryString(v string) {
-	t.summary = append(t.summary, &summaryTentativeRejectIntermediateType{stringName: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{stringName: &v})
 
 }
 
 // PrependSummaryString adds to the front of summary a string type
 func (t *TentativeReject) PrependSummaryString(v string) {
-	t.summary = append([]*summaryTentativeRejectIntermediateType{&summaryTentativeRejectIntermediateType{stringName: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{stringName: &v}}, t.summary...)
 
 }
 
@@ -3374,13 +3373,13 @@ func (t *TentativeReject) GetSummaryLangString(index int) (v string) {
 
 // AppendSummaryLangString adds to the back of summary a string type
 func (t *TentativeReject) AppendSummaryLangString(v string) {
-	t.summary = append(t.summary, &summaryTentativeRejectIntermediateType{langString: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{langString: &v})
 
 }
 
 // PrependSummaryLangString adds to the front of summary a string type
 func (t *TentativeReject) PrependSummaryLangString(v string) {
-	t.summary = append([]*summaryTentativeRejectIntermediateType{&summaryTentativeRejectIntermediateType{langString: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{langString: &v}}, t.summary...)
 
 }
 
@@ -3406,13 +3405,13 @@ func (t *TentativeReject) GetSummaryIRI(index int) (v *url.URL) {
 
 // AppendSummaryIRI adds to the back of summary a *url.URL type
 func (t *TentativeReject) AppendSummaryIRI(v *url.URL) {
-	t.summary = append(t.summary, &summaryTentativeRejectIntermediateType{IRI: v})
+	t.summary = append(t.summary, &summaryIntermediateType{IRI: v})
 
 }
 
 // PrependSummaryIRI adds to the front of summary a *url.URL type
 func (t *TentativeReject) PrependSummaryIRI(v *url.URL) {
-	t.summary = append([]*summaryTentativeRejectIntermediateType{&summaryTentativeRejectIntermediateType{IRI: v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{IRI: v}}, t.summary...)
 
 }
 
@@ -3441,7 +3440,7 @@ func (t *TentativeReject) SetUnknownSummary(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &summaryTentativeRejectIntermediateType{}
+	tmp := &summaryIntermediateType{}
 	tmp.unknown_ = i
 	t.summary = append(t.summary, tmp)
 
@@ -3502,13 +3501,13 @@ func (t *TentativeReject) GetTagObject(index int) (v ObjectType) {
 
 // AppendTagObject adds to the back of tag a ObjectType type
 func (t *TentativeReject) AppendTagObject(v ObjectType) {
-	t.tag = append(t.tag, &tagTentativeRejectIntermediateType{Object: v})
+	t.tag = append(t.tag, &tagIntermediateType{Object: v})
 
 }
 
 // PrependTagObject adds to the front of tag a ObjectType type
 func (t *TentativeReject) PrependTagObject(v ObjectType) {
-	t.tag = append([]*tagTentativeRejectIntermediateType{&tagTentativeRejectIntermediateType{Object: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{Object: v}}, t.tag...)
 
 }
 
@@ -3534,13 +3533,13 @@ func (t *TentativeReject) GetTagLink(index int) (v LinkType) {
 
 // AppendTagLink adds to the back of tag a LinkType type
 func (t *TentativeReject) AppendTagLink(v LinkType) {
-	t.tag = append(t.tag, &tagTentativeRejectIntermediateType{Link: v})
+	t.tag = append(t.tag, &tagIntermediateType{Link: v})
 
 }
 
 // PrependTagLink adds to the front of tag a LinkType type
 func (t *TentativeReject) PrependTagLink(v LinkType) {
-	t.tag = append([]*tagTentativeRejectIntermediateType{&tagTentativeRejectIntermediateType{Link: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{Link: v}}, t.tag...)
 
 }
 
@@ -3566,13 +3565,13 @@ func (t *TentativeReject) GetTagIRI(index int) (v *url.URL) {
 
 // AppendTagIRI adds to the back of tag a *url.URL type
 func (t *TentativeReject) AppendTagIRI(v *url.URL) {
-	t.tag = append(t.tag, &tagTentativeRejectIntermediateType{IRI: v})
+	t.tag = append(t.tag, &tagIntermediateType{IRI: v})
 
 }
 
 // PrependTagIRI adds to the front of tag a *url.URL type
 func (t *TentativeReject) PrependTagIRI(v *url.URL) {
-	t.tag = append([]*tagTentativeRejectIntermediateType{&tagTentativeRejectIntermediateType{IRI: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{IRI: v}}, t.tag...)
 
 }
 
@@ -3601,7 +3600,7 @@ func (t *TentativeReject) SetUnknownTag(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &tagTentativeRejectIntermediateType{}
+	tmp := &tagIntermediateType{}
 	tmp.unknown_ = i
 	t.tag = append(t.tag, tmp)
 
@@ -3653,7 +3652,7 @@ func (t *TentativeReject) GetUpdated() (v time.Time) {
 
 // SetUpdated sets the value of updated to be of time.Time type
 func (t *TentativeReject) SetUpdated(v time.Time) {
-	t.updated = &updatedTentativeRejectIntermediateType{dateTime: &v}
+	t.updated = &updatedIntermediateType{dateTime: &v}
 
 }
 
@@ -3671,7 +3670,7 @@ func (t *TentativeReject) GetUpdatedIRI() (v *url.URL) {
 
 // SetUpdatedIRI sets the value of updated to be of *url.URL type
 func (t *TentativeReject) SetUpdatedIRI(v *url.URL) {
-	t.updated = &updatedTentativeRejectIntermediateType{IRI: v}
+	t.updated = &updatedIntermediateType{IRI: v}
 
 }
 
@@ -3692,7 +3691,7 @@ func (t *TentativeReject) SetUnknownUpdated(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &updatedTentativeRejectIntermediateType{}
+	tmp := &updatedIntermediateType{}
 	tmp.unknown_ = i
 	t.updated = tmp
 
@@ -3718,13 +3717,13 @@ func (t *TentativeReject) GetUrlAnyURI(index int) (v *url.URL) {
 
 // AppendUrlAnyURI adds to the back of url a *url.URL type
 func (t *TentativeReject) AppendUrlAnyURI(v *url.URL) {
-	t.url = append(t.url, &urlTentativeRejectIntermediateType{anyURI: v})
+	t.url = append(t.url, &urlIntermediateType{anyURI: v})
 
 }
 
 // PrependUrlAnyURI adds to the front of url a *url.URL type
 func (t *TentativeReject) PrependUrlAnyURI(v *url.URL) {
-	t.url = append([]*urlTentativeRejectIntermediateType{&urlTentativeRejectIntermediateType{anyURI: v}}, t.url...)
+	t.url = append([]*urlIntermediateType{&urlIntermediateType{anyURI: v}}, t.url...)
 
 }
 
@@ -3750,13 +3749,13 @@ func (t *TentativeReject) GetUrlLink(index int) (v LinkType) {
 
 // AppendUrlLink adds to the back of url a LinkType type
 func (t *TentativeReject) AppendUrlLink(v LinkType) {
-	t.url = append(t.url, &urlTentativeRejectIntermediateType{Link: v})
+	t.url = append(t.url, &urlIntermediateType{Link: v})
 
 }
 
 // PrependUrlLink adds to the front of url a LinkType type
 func (t *TentativeReject) PrependUrlLink(v LinkType) {
-	t.url = append([]*urlTentativeRejectIntermediateType{&urlTentativeRejectIntermediateType{Link: v}}, t.url...)
+	t.url = append([]*urlIntermediateType{&urlIntermediateType{Link: v}}, t.url...)
 
 }
 
@@ -3785,7 +3784,7 @@ func (t *TentativeReject) SetUnknownUrl(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &urlTentativeRejectIntermediateType{}
+	tmp := &urlIntermediateType{}
 	tmp.unknown_ = i
 	t.url = append(t.url, tmp)
 
@@ -3811,13 +3810,13 @@ func (t *TentativeReject) GetToObject(index int) (v ObjectType) {
 
 // AppendToObject adds to the back of to a ObjectType type
 func (t *TentativeReject) AppendToObject(v ObjectType) {
-	t.to = append(t.to, &toTentativeRejectIntermediateType{Object: v})
+	t.to = append(t.to, &toIntermediateType{Object: v})
 
 }
 
 // PrependToObject adds to the front of to a ObjectType type
 func (t *TentativeReject) PrependToObject(v ObjectType) {
-	t.to = append([]*toTentativeRejectIntermediateType{&toTentativeRejectIntermediateType{Object: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{Object: v}}, t.to...)
 
 }
 
@@ -3843,13 +3842,13 @@ func (t *TentativeReject) GetToLink(index int) (v LinkType) {
 
 // AppendToLink adds to the back of to a LinkType type
 func (t *TentativeReject) AppendToLink(v LinkType) {
-	t.to = append(t.to, &toTentativeRejectIntermediateType{Link: v})
+	t.to = append(t.to, &toIntermediateType{Link: v})
 
 }
 
 // PrependToLink adds to the front of to a LinkType type
 func (t *TentativeReject) PrependToLink(v LinkType) {
-	t.to = append([]*toTentativeRejectIntermediateType{&toTentativeRejectIntermediateType{Link: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{Link: v}}, t.to...)
 
 }
 
@@ -3875,13 +3874,13 @@ func (t *TentativeReject) GetToIRI(index int) (v *url.URL) {
 
 // AppendToIRI adds to the back of to a *url.URL type
 func (t *TentativeReject) AppendToIRI(v *url.URL) {
-	t.to = append(t.to, &toTentativeRejectIntermediateType{IRI: v})
+	t.to = append(t.to, &toIntermediateType{IRI: v})
 
 }
 
 // PrependToIRI adds to the front of to a *url.URL type
 func (t *TentativeReject) PrependToIRI(v *url.URL) {
-	t.to = append([]*toTentativeRejectIntermediateType{&toTentativeRejectIntermediateType{IRI: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{IRI: v}}, t.to...)
 
 }
 
@@ -3910,7 +3909,7 @@ func (t *TentativeReject) SetUnknownTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &toTentativeRejectIntermediateType{}
+	tmp := &toIntermediateType{}
 	tmp.unknown_ = i
 	t.to = append(t.to, tmp)
 
@@ -3936,13 +3935,13 @@ func (t *TentativeReject) GetBtoObject(index int) (v ObjectType) {
 
 // AppendBtoObject adds to the back of bto a ObjectType type
 func (t *TentativeReject) AppendBtoObject(v ObjectType) {
-	t.bto = append(t.bto, &btoTentativeRejectIntermediateType{Object: v})
+	t.bto = append(t.bto, &btoIntermediateType{Object: v})
 
 }
 
 // PrependBtoObject adds to the front of bto a ObjectType type
 func (t *TentativeReject) PrependBtoObject(v ObjectType) {
-	t.bto = append([]*btoTentativeRejectIntermediateType{&btoTentativeRejectIntermediateType{Object: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{Object: v}}, t.bto...)
 
 }
 
@@ -3968,13 +3967,13 @@ func (t *TentativeReject) GetBtoLink(index int) (v LinkType) {
 
 // AppendBtoLink adds to the back of bto a LinkType type
 func (t *TentativeReject) AppendBtoLink(v LinkType) {
-	t.bto = append(t.bto, &btoTentativeRejectIntermediateType{Link: v})
+	t.bto = append(t.bto, &btoIntermediateType{Link: v})
 
 }
 
 // PrependBtoLink adds to the front of bto a LinkType type
 func (t *TentativeReject) PrependBtoLink(v LinkType) {
-	t.bto = append([]*btoTentativeRejectIntermediateType{&btoTentativeRejectIntermediateType{Link: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{Link: v}}, t.bto...)
 
 }
 
@@ -4000,13 +3999,13 @@ func (t *TentativeReject) GetBtoIRI(index int) (v *url.URL) {
 
 // AppendBtoIRI adds to the back of bto a *url.URL type
 func (t *TentativeReject) AppendBtoIRI(v *url.URL) {
-	t.bto = append(t.bto, &btoTentativeRejectIntermediateType{IRI: v})
+	t.bto = append(t.bto, &btoIntermediateType{IRI: v})
 
 }
 
 // PrependBtoIRI adds to the front of bto a *url.URL type
 func (t *TentativeReject) PrependBtoIRI(v *url.URL) {
-	t.bto = append([]*btoTentativeRejectIntermediateType{&btoTentativeRejectIntermediateType{IRI: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{IRI: v}}, t.bto...)
 
 }
 
@@ -4035,7 +4034,7 @@ func (t *TentativeReject) SetUnknownBto(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &btoTentativeRejectIntermediateType{}
+	tmp := &btoIntermediateType{}
 	tmp.unknown_ = i
 	t.bto = append(t.bto, tmp)
 
@@ -4061,13 +4060,13 @@ func (t *TentativeReject) GetCcObject(index int) (v ObjectType) {
 
 // AppendCcObject adds to the back of cc a ObjectType type
 func (t *TentativeReject) AppendCcObject(v ObjectType) {
-	t.cc = append(t.cc, &ccTentativeRejectIntermediateType{Object: v})
+	t.cc = append(t.cc, &ccIntermediateType{Object: v})
 
 }
 
 // PrependCcObject adds to the front of cc a ObjectType type
 func (t *TentativeReject) PrependCcObject(v ObjectType) {
-	t.cc = append([]*ccTentativeRejectIntermediateType{&ccTentativeRejectIntermediateType{Object: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{Object: v}}, t.cc...)
 
 }
 
@@ -4093,13 +4092,13 @@ func (t *TentativeReject) GetCcLink(index int) (v LinkType) {
 
 // AppendCcLink adds to the back of cc a LinkType type
 func (t *TentativeReject) AppendCcLink(v LinkType) {
-	t.cc = append(t.cc, &ccTentativeRejectIntermediateType{Link: v})
+	t.cc = append(t.cc, &ccIntermediateType{Link: v})
 
 }
 
 // PrependCcLink adds to the front of cc a LinkType type
 func (t *TentativeReject) PrependCcLink(v LinkType) {
-	t.cc = append([]*ccTentativeRejectIntermediateType{&ccTentativeRejectIntermediateType{Link: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{Link: v}}, t.cc...)
 
 }
 
@@ -4125,13 +4124,13 @@ func (t *TentativeReject) GetCcIRI(index int) (v *url.URL) {
 
 // AppendCcIRI adds to the back of cc a *url.URL type
 func (t *TentativeReject) AppendCcIRI(v *url.URL) {
-	t.cc = append(t.cc, &ccTentativeRejectIntermediateType{IRI: v})
+	t.cc = append(t.cc, &ccIntermediateType{IRI: v})
 
 }
 
 // PrependCcIRI adds to the front of cc a *url.URL type
 func (t *TentativeReject) PrependCcIRI(v *url.URL) {
-	t.cc = append([]*ccTentativeRejectIntermediateType{&ccTentativeRejectIntermediateType{IRI: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{IRI: v}}, t.cc...)
 
 }
 
@@ -4160,7 +4159,7 @@ func (t *TentativeReject) SetUnknownCc(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &ccTentativeRejectIntermediateType{}
+	tmp := &ccIntermediateType{}
 	tmp.unknown_ = i
 	t.cc = append(t.cc, tmp)
 
@@ -4186,13 +4185,13 @@ func (t *TentativeReject) GetBccObject(index int) (v ObjectType) {
 
 // AppendBccObject adds to the back of bcc a ObjectType type
 func (t *TentativeReject) AppendBccObject(v ObjectType) {
-	t.bcc = append(t.bcc, &bccTentativeRejectIntermediateType{Object: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{Object: v})
 
 }
 
 // PrependBccObject adds to the front of bcc a ObjectType type
 func (t *TentativeReject) PrependBccObject(v ObjectType) {
-	t.bcc = append([]*bccTentativeRejectIntermediateType{&bccTentativeRejectIntermediateType{Object: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{Object: v}}, t.bcc...)
 
 }
 
@@ -4218,13 +4217,13 @@ func (t *TentativeReject) GetBccLink(index int) (v LinkType) {
 
 // AppendBccLink adds to the back of bcc a LinkType type
 func (t *TentativeReject) AppendBccLink(v LinkType) {
-	t.bcc = append(t.bcc, &bccTentativeRejectIntermediateType{Link: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{Link: v})
 
 }
 
 // PrependBccLink adds to the front of bcc a LinkType type
 func (t *TentativeReject) PrependBccLink(v LinkType) {
-	t.bcc = append([]*bccTentativeRejectIntermediateType{&bccTentativeRejectIntermediateType{Link: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{Link: v}}, t.bcc...)
 
 }
 
@@ -4250,13 +4249,13 @@ func (t *TentativeReject) GetBccIRI(index int) (v *url.URL) {
 
 // AppendBccIRI adds to the back of bcc a *url.URL type
 func (t *TentativeReject) AppendBccIRI(v *url.URL) {
-	t.bcc = append(t.bcc, &bccTentativeRejectIntermediateType{IRI: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{IRI: v})
 
 }
 
 // PrependBccIRI adds to the front of bcc a *url.URL type
 func (t *TentativeReject) PrependBccIRI(v *url.URL) {
-	t.bcc = append([]*bccTentativeRejectIntermediateType{&bccTentativeRejectIntermediateType{IRI: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{IRI: v}}, t.bcc...)
 
 }
 
@@ -4285,7 +4284,7 @@ func (t *TentativeReject) SetUnknownBcc(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &bccTentativeRejectIntermediateType{}
+	tmp := &bccIntermediateType{}
 	tmp.unknown_ = i
 	t.bcc = append(t.bcc, tmp)
 
@@ -4305,7 +4304,7 @@ func (t *TentativeReject) GetMediaType() (v string) {
 
 // SetMediaType sets the value of mediaType to be of string type
 func (t *TentativeReject) SetMediaType(v string) {
-	t.mediaType = &mediaTypeTentativeRejectIntermediateType{mimeMediaTypeValue: &v}
+	t.mediaType = &mediaTypeIntermediateType{mimeMediaTypeValue: &v}
 
 }
 
@@ -4323,7 +4322,7 @@ func (t *TentativeReject) GetMediaTypeIRI() (v *url.URL) {
 
 // SetMediaTypeIRI sets the value of mediaType to be of *url.URL type
 func (t *TentativeReject) SetMediaTypeIRI(v *url.URL) {
-	t.mediaType = &mediaTypeTentativeRejectIntermediateType{IRI: v}
+	t.mediaType = &mediaTypeIntermediateType{IRI: v}
 
 }
 
@@ -4344,7 +4343,7 @@ func (t *TentativeReject) SetUnknownMediaType(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &mediaTypeTentativeRejectIntermediateType{}
+	tmp := &mediaTypeIntermediateType{}
 	tmp.unknown_ = i
 	t.mediaType = tmp
 
@@ -4364,7 +4363,7 @@ func (t *TentativeReject) GetDuration() (v time.Duration) {
 
 // SetDuration sets the value of duration to be of time.Duration type
 func (t *TentativeReject) SetDuration(v time.Duration) {
-	t.duration = &durationTentativeRejectIntermediateType{duration: &v}
+	t.duration = &durationIntermediateType{duration: &v}
 
 }
 
@@ -4382,7 +4381,7 @@ func (t *TentativeReject) GetDurationIRI() (v *url.URL) {
 
 // SetDurationIRI sets the value of duration to be of *url.URL type
 func (t *TentativeReject) SetDurationIRI(v *url.URL) {
-	t.duration = &durationTentativeRejectIntermediateType{IRI: v}
+	t.duration = &durationIntermediateType{IRI: v}
 
 }
 
@@ -4403,7 +4402,7 @@ func (t *TentativeReject) SetUnknownDuration(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &durationTentativeRejectIntermediateType{}
+	tmp := &durationIntermediateType{}
 	tmp.unknown_ = i
 	t.duration = tmp
 
@@ -4423,7 +4422,7 @@ func (t *TentativeReject) GetSource() (v ObjectType) {
 
 // SetSource sets the value of source to be of ObjectType type
 func (t *TentativeReject) SetSource(v ObjectType) {
-	t.source = &sourceTentativeRejectIntermediateType{Object: v}
+	t.source = &sourceIntermediateType{Object: v}
 
 }
 
@@ -4441,7 +4440,7 @@ func (t *TentativeReject) GetSourceIRI() (v *url.URL) {
 
 // SetSourceIRI sets the value of source to be of *url.URL type
 func (t *TentativeReject) SetSourceIRI(v *url.URL) {
-	t.source = &sourceTentativeRejectIntermediateType{IRI: v}
+	t.source = &sourceIntermediateType{IRI: v}
 
 }
 
@@ -4462,7 +4461,7 @@ func (t *TentativeReject) SetUnknownSource(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &sourceTentativeRejectIntermediateType{}
+	tmp := &sourceIntermediateType{}
 	tmp.unknown_ = i
 	t.source = tmp
 
@@ -4482,7 +4481,7 @@ func (t *TentativeReject) GetInboxOrderedCollection() (v OrderedCollectionType) 
 
 // SetInboxOrderedCollection sets the value of inbox to be of OrderedCollectionType type
 func (t *TentativeReject) SetInboxOrderedCollection(v OrderedCollectionType) {
-	t.inbox = &inboxTentativeRejectIntermediateType{OrderedCollection: v}
+	t.inbox = &inboxIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4500,7 +4499,7 @@ func (t *TentativeReject) GetInboxAnyURI() (v *url.URL) {
 
 // SetInboxAnyURI sets the value of inbox to be of *url.URL type
 func (t *TentativeReject) SetInboxAnyURI(v *url.URL) {
-	t.inbox = &inboxTentativeRejectIntermediateType{anyURI: v}
+	t.inbox = &inboxIntermediateType{anyURI: v}
 
 }
 
@@ -4521,7 +4520,7 @@ func (t *TentativeReject) SetUnknownInbox(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &inboxTentativeRejectIntermediateType{}
+	tmp := &inboxIntermediateType{}
 	tmp.unknown_ = i
 	t.inbox = tmp
 
@@ -4541,7 +4540,7 @@ func (t *TentativeReject) GetOutboxOrderedCollection() (v OrderedCollectionType)
 
 // SetOutboxOrderedCollection sets the value of outbox to be of OrderedCollectionType type
 func (t *TentativeReject) SetOutboxOrderedCollection(v OrderedCollectionType) {
-	t.outbox = &outboxTentativeRejectIntermediateType{OrderedCollection: v}
+	t.outbox = &outboxIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4559,7 +4558,7 @@ func (t *TentativeReject) GetOutboxAnyURI() (v *url.URL) {
 
 // SetOutboxAnyURI sets the value of outbox to be of *url.URL type
 func (t *TentativeReject) SetOutboxAnyURI(v *url.URL) {
-	t.outbox = &outboxTentativeRejectIntermediateType{anyURI: v}
+	t.outbox = &outboxIntermediateType{anyURI: v}
 
 }
 
@@ -4580,7 +4579,7 @@ func (t *TentativeReject) SetUnknownOutbox(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &outboxTentativeRejectIntermediateType{}
+	tmp := &outboxIntermediateType{}
 	tmp.unknown_ = i
 	t.outbox = tmp
 
@@ -4600,7 +4599,7 @@ func (t *TentativeReject) GetFollowingCollection() (v CollectionType) {
 
 // SetFollowingCollection sets the value of following to be of CollectionType type
 func (t *TentativeReject) SetFollowingCollection(v CollectionType) {
-	t.following = &followingTentativeRejectIntermediateType{Collection: v}
+	t.following = &followingIntermediateType{Collection: v}
 
 }
 
@@ -4618,7 +4617,7 @@ func (t *TentativeReject) GetFollowingOrderedCollection() (v OrderedCollectionTy
 
 // SetFollowingOrderedCollection sets the value of following to be of OrderedCollectionType type
 func (t *TentativeReject) SetFollowingOrderedCollection(v OrderedCollectionType) {
-	t.following = &followingTentativeRejectIntermediateType{OrderedCollection: v}
+	t.following = &followingIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4636,7 +4635,7 @@ func (t *TentativeReject) GetFollowingAnyURI() (v *url.URL) {
 
 // SetFollowingAnyURI sets the value of following to be of *url.URL type
 func (t *TentativeReject) SetFollowingAnyURI(v *url.URL) {
-	t.following = &followingTentativeRejectIntermediateType{anyURI: v}
+	t.following = &followingIntermediateType{anyURI: v}
 
 }
 
@@ -4657,7 +4656,7 @@ func (t *TentativeReject) SetUnknownFollowing(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &followingTentativeRejectIntermediateType{}
+	tmp := &followingIntermediateType{}
 	tmp.unknown_ = i
 	t.following = tmp
 
@@ -4677,7 +4676,7 @@ func (t *TentativeReject) GetFollowersCollection() (v CollectionType) {
 
 // SetFollowersCollection sets the value of followers to be of CollectionType type
 func (t *TentativeReject) SetFollowersCollection(v CollectionType) {
-	t.followers = &followersTentativeRejectIntermediateType{Collection: v}
+	t.followers = &followersIntermediateType{Collection: v}
 
 }
 
@@ -4695,7 +4694,7 @@ func (t *TentativeReject) GetFollowersOrderedCollection() (v OrderedCollectionTy
 
 // SetFollowersOrderedCollection sets the value of followers to be of OrderedCollectionType type
 func (t *TentativeReject) SetFollowersOrderedCollection(v OrderedCollectionType) {
-	t.followers = &followersTentativeRejectIntermediateType{OrderedCollection: v}
+	t.followers = &followersIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4713,7 +4712,7 @@ func (t *TentativeReject) GetFollowersAnyURI() (v *url.URL) {
 
 // SetFollowersAnyURI sets the value of followers to be of *url.URL type
 func (t *TentativeReject) SetFollowersAnyURI(v *url.URL) {
-	t.followers = &followersTentativeRejectIntermediateType{anyURI: v}
+	t.followers = &followersIntermediateType{anyURI: v}
 
 }
 
@@ -4734,7 +4733,7 @@ func (t *TentativeReject) SetUnknownFollowers(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &followersTentativeRejectIntermediateType{}
+	tmp := &followersIntermediateType{}
 	tmp.unknown_ = i
 	t.followers = tmp
 
@@ -4754,7 +4753,7 @@ func (t *TentativeReject) GetLikedCollection() (v CollectionType) {
 
 // SetLikedCollection sets the value of liked to be of CollectionType type
 func (t *TentativeReject) SetLikedCollection(v CollectionType) {
-	t.liked = &likedTentativeRejectIntermediateType{Collection: v}
+	t.liked = &likedIntermediateType{Collection: v}
 
 }
 
@@ -4772,7 +4771,7 @@ func (t *TentativeReject) GetLikedOrderedCollection() (v OrderedCollectionType) 
 
 // SetLikedOrderedCollection sets the value of liked to be of OrderedCollectionType type
 func (t *TentativeReject) SetLikedOrderedCollection(v OrderedCollectionType) {
-	t.liked = &likedTentativeRejectIntermediateType{OrderedCollection: v}
+	t.liked = &likedIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4790,7 +4789,7 @@ func (t *TentativeReject) GetLikedAnyURI() (v *url.URL) {
 
 // SetLikedAnyURI sets the value of liked to be of *url.URL type
 func (t *TentativeReject) SetLikedAnyURI(v *url.URL) {
-	t.liked = &likedTentativeRejectIntermediateType{anyURI: v}
+	t.liked = &likedIntermediateType{anyURI: v}
 
 }
 
@@ -4811,7 +4810,7 @@ func (t *TentativeReject) SetUnknownLiked(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &likedTentativeRejectIntermediateType{}
+	tmp := &likedIntermediateType{}
 	tmp.unknown_ = i
 	t.liked = tmp
 
@@ -4831,7 +4830,7 @@ func (t *TentativeReject) GetLikesCollection() (v CollectionType) {
 
 // SetLikesCollection sets the value of likes to be of CollectionType type
 func (t *TentativeReject) SetLikesCollection(v CollectionType) {
-	t.likes = &likesTentativeRejectIntermediateType{Collection: v}
+	t.likes = &likesIntermediateType{Collection: v}
 
 }
 
@@ -4849,7 +4848,7 @@ func (t *TentativeReject) GetLikesOrderedCollection() (v OrderedCollectionType) 
 
 // SetLikesOrderedCollection sets the value of likes to be of OrderedCollectionType type
 func (t *TentativeReject) SetLikesOrderedCollection(v OrderedCollectionType) {
-	t.likes = &likesTentativeRejectIntermediateType{OrderedCollection: v}
+	t.likes = &likesIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4867,7 +4866,7 @@ func (t *TentativeReject) GetLikesAnyURI() (v *url.URL) {
 
 // SetLikesAnyURI sets the value of likes to be of *url.URL type
 func (t *TentativeReject) SetLikesAnyURI(v *url.URL) {
-	t.likes = &likesTentativeRejectIntermediateType{anyURI: v}
+	t.likes = &likesIntermediateType{anyURI: v}
 
 }
 
@@ -4888,7 +4887,7 @@ func (t *TentativeReject) SetUnknownLikes(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &likesTentativeRejectIntermediateType{}
+	tmp := &likesIntermediateType{}
 	tmp.unknown_ = i
 	t.likes = tmp
 
@@ -4961,7 +4960,7 @@ func (t *TentativeReject) GetPreferredUsername() (v string) {
 
 // SetPreferredUsername sets the value of preferredUsername to be of string type
 func (t *TentativeReject) SetPreferredUsername(v string) {
-	t.preferredUsername = &preferredUsernameTentativeRejectIntermediateType{stringName: &v}
+	t.preferredUsername = &preferredUsernameIntermediateType{stringName: &v}
 
 }
 
@@ -4979,7 +4978,7 @@ func (t *TentativeReject) GetPreferredUsernameIRI() (v *url.URL) {
 
 // SetPreferredUsernameIRI sets the value of preferredUsername to be of *url.URL type
 func (t *TentativeReject) SetPreferredUsernameIRI(v *url.URL) {
-	t.preferredUsername = &preferredUsernameTentativeRejectIntermediateType{IRI: v}
+	t.preferredUsername = &preferredUsernameIntermediateType{IRI: v}
 
 }
 
@@ -5000,7 +4999,7 @@ func (t *TentativeReject) SetUnknownPreferredUsername(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &preferredUsernameTentativeRejectIntermediateType{}
+	tmp := &preferredUsernameIntermediateType{}
 	tmp.unknown_ = i
 	t.preferredUsername = tmp
 
@@ -5055,7 +5054,7 @@ func (t *TentativeReject) GetEndpoints() (v ObjectType) {
 
 // SetEndpoints sets the value of endpoints to be of ObjectType type
 func (t *TentativeReject) SetEndpoints(v ObjectType) {
-	t.endpoints = &endpointsTentativeRejectIntermediateType{Object: v}
+	t.endpoints = &endpointsIntermediateType{Object: v}
 
 }
 
@@ -5073,7 +5072,7 @@ func (t *TentativeReject) GetEndpointsIRI() (v *url.URL) {
 
 // SetEndpointsIRI sets the value of endpoints to be of *url.URL type
 func (t *TentativeReject) SetEndpointsIRI(v *url.URL) {
-	t.endpoints = &endpointsTentativeRejectIntermediateType{IRI: v}
+	t.endpoints = &endpointsIntermediateType{IRI: v}
 
 }
 
@@ -5094,7 +5093,7 @@ func (t *TentativeReject) SetUnknownEndpoints(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &endpointsTentativeRejectIntermediateType{}
+	tmp := &endpointsIntermediateType{}
 	tmp.unknown_ = i
 	t.endpoints = tmp
 
@@ -5380,7 +5379,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 		t.typeName = append(t.typeName, "TentativeReject")
 	}
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceActorTentativeRejectIntermediateType(t.actor); err == nil && v != nil {
+	if v, err := serializeSliceActorIntermediateType(t.actor); err == nil && v != nil {
 		if len(v) == 1 {
 			m["actor"] = v[0]
 		} else {
@@ -5391,7 +5390,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceObjectTentativeRejectIntermediateType(t.object); err == nil && v != nil {
+	if v, err := serializeSliceObjectIntermediateType(t.object); err == nil && v != nil {
 		if len(v) == 1 {
 			m["object"] = v[0]
 		} else {
@@ -5402,7 +5401,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceTargetTentativeRejectIntermediateType(t.target); err == nil && v != nil {
+	if v, err := serializeSliceTargetIntermediateType(t.target); err == nil && v != nil {
 		if len(v) == 1 {
 			m["target"] = v[0]
 		} else {
@@ -5413,7 +5412,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceResultTentativeRejectIntermediateType(t.result); err == nil && v != nil {
+	if v, err := serializeSliceResultIntermediateType(t.result); err == nil && v != nil {
 		if len(v) == 1 {
 			m["result"] = v[0]
 		} else {
@@ -5424,7 +5423,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceOriginTentativeRejectIntermediateType(t.origin); err == nil && v != nil {
+	if v, err := serializeSliceOriginIntermediateType(t.origin); err == nil && v != nil {
 		if len(v) == 1 {
 			m["origin"] = v[0]
 		} else {
@@ -5435,7 +5434,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceInstrumentTentativeRejectIntermediateType(t.instrument); err == nil && v != nil {
+	if v, err := serializeSliceInstrumentIntermediateType(t.instrument); err == nil && v != nil {
 		if len(v) == 1 {
 			m["instrument"] = v[0]
 		} else {
@@ -5447,7 +5446,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.altitude != nil {
-		if v, err := serializeAltitudeTentativeRejectIntermediateType(t.altitude); err == nil {
+		if v, err := serializeAltitudeIntermediateType(t.altitude); err == nil {
 			m["altitude"] = v
 		} else {
 			return m, err
@@ -5455,7 +5454,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttachmentTentativeRejectIntermediateType(t.attachment); err == nil && v != nil {
+	if v, err := serializeSliceAttachmentIntermediateType(t.attachment); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attachment"] = v[0]
 		} else {
@@ -5466,7 +5465,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttributedToTentativeRejectIntermediateType(t.attributedTo); err == nil && v != nil {
+	if v, err := serializeSliceAttributedToIntermediateType(t.attributedTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attributedTo"] = v[0]
 		} else {
@@ -5477,7 +5476,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAudienceTentativeRejectIntermediateType(t.audience); err == nil && v != nil {
+	if v, err := serializeSliceAudienceIntermediateType(t.audience); err == nil && v != nil {
 		if len(v) == 1 {
 			m["audience"] = v[0]
 		} else {
@@ -5488,7 +5487,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceContentTentativeRejectIntermediateType(t.content); err == nil && v != nil {
+	if v, err := serializeSliceContentIntermediateType(t.content); err == nil && v != nil {
 		if len(v) == 1 {
 			m["content"] = v[0]
 		} else {
@@ -5505,7 +5504,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceContextTentativeRejectIntermediateType(t.context); err == nil && v != nil {
+	if v, err := serializeSliceContextIntermediateType(t.context); err == nil && v != nil {
 		if len(v) == 1 {
 			m["context"] = v[0]
 		} else {
@@ -5516,7 +5515,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceNameTentativeRejectIntermediateType(t.name); err == nil && v != nil {
+	if v, err := serializeSliceNameIntermediateType(t.name); err == nil && v != nil {
 		if len(v) == 1 {
 			m["name"] = v[0]
 		} else {
@@ -5534,7 +5533,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.endTime != nil {
-		if v, err := serializeEndTimeTentativeRejectIntermediateType(t.endTime); err == nil {
+		if v, err := serializeEndTimeIntermediateType(t.endTime); err == nil {
 			m["endTime"] = v
 		} else {
 			return m, err
@@ -5542,7 +5541,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceGeneratorTentativeRejectIntermediateType(t.generator); err == nil && v != nil {
+	if v, err := serializeSliceGeneratorIntermediateType(t.generator); err == nil && v != nil {
 		if len(v) == 1 {
 			m["generator"] = v[0]
 		} else {
@@ -5553,7 +5552,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceIconTentativeRejectIntermediateType(t.icon); err == nil && v != nil {
+	if v, err := serializeSliceIconIntermediateType(t.icon); err == nil && v != nil {
 		if len(v) == 1 {
 			m["icon"] = v[0]
 		} else {
@@ -5579,7 +5578,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceImageTentativeRejectIntermediateType(t.image); err == nil && v != nil {
+	if v, err := serializeSliceImageIntermediateType(t.image); err == nil && v != nil {
 		if len(v) == 1 {
 			m["image"] = v[0]
 		} else {
@@ -5590,7 +5589,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceInReplyToTentativeRejectIntermediateType(t.inReplyTo); err == nil && v != nil {
+	if v, err := serializeSliceInReplyToIntermediateType(t.inReplyTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["inReplyTo"] = v[0]
 		} else {
@@ -5601,7 +5600,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceLocationTentativeRejectIntermediateType(t.location); err == nil && v != nil {
+	if v, err := serializeSliceLocationIntermediateType(t.location); err == nil && v != nil {
 		if len(v) == 1 {
 			m["location"] = v[0]
 		} else {
@@ -5612,7 +5611,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSlicePreviewTentativeRejectIntermediateType(t.preview); err == nil && v != nil {
+	if v, err := serializeSlicePreviewIntermediateType(t.preview); err == nil && v != nil {
 		if len(v) == 1 {
 			m["preview"] = v[0]
 		} else {
@@ -5624,7 +5623,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.published != nil {
-		if v, err := serializePublishedTentativeRejectIntermediateType(t.published); err == nil {
+		if v, err := serializePublishedIntermediateType(t.published); err == nil {
 			m["published"] = v
 		} else {
 			return m, err
@@ -5633,7 +5632,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.replies != nil {
-		if v, err := serializeRepliesTentativeRejectIntermediateType(t.replies); err == nil {
+		if v, err := serializeRepliesIntermediateType(t.replies); err == nil {
 			m["replies"] = v
 		} else {
 			return m, err
@@ -5642,7 +5641,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.startTime != nil {
-		if v, err := serializeStartTimeTentativeRejectIntermediateType(t.startTime); err == nil {
+		if v, err := serializeStartTimeIntermediateType(t.startTime); err == nil {
 			m["startTime"] = v
 		} else {
 			return m, err
@@ -5650,7 +5649,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceSummaryTentativeRejectIntermediateType(t.summary); err == nil && v != nil {
+	if v, err := serializeSliceSummaryIntermediateType(t.summary); err == nil && v != nil {
 		if len(v) == 1 {
 			m["summary"] = v[0]
 		} else {
@@ -5667,7 +5666,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceTagTentativeRejectIntermediateType(t.tag); err == nil && v != nil {
+	if v, err := serializeSliceTagIntermediateType(t.tag); err == nil && v != nil {
 		if len(v) == 1 {
 			m["tag"] = v[0]
 		} else {
@@ -5688,7 +5687,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalAnyDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.updated != nil {
-		if v, err := serializeUpdatedTentativeRejectIntermediateType(t.updated); err == nil {
+		if v, err := serializeUpdatedIntermediateType(t.updated); err == nil {
 			m["updated"] = v
 		} else {
 			return m, err
@@ -5696,7 +5695,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceUrlTentativeRejectIntermediateType(t.url); err == nil && v != nil {
+	if v, err := serializeSliceUrlIntermediateType(t.url); err == nil && v != nil {
 		if len(v) == 1 {
 			m["url"] = v[0]
 		} else {
@@ -5707,7 +5706,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceToTentativeRejectIntermediateType(t.to); err == nil && v != nil {
+	if v, err := serializeSliceToIntermediateType(t.to); err == nil && v != nil {
 		if len(v) == 1 {
 			m["to"] = v[0]
 		} else {
@@ -5718,7 +5717,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceBtoTentativeRejectIntermediateType(t.bto); err == nil && v != nil {
+	if v, err := serializeSliceBtoIntermediateType(t.bto); err == nil && v != nil {
 		if len(v) == 1 {
 			m["bto"] = v[0]
 		} else {
@@ -5729,7 +5728,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceCcTentativeRejectIntermediateType(t.cc); err == nil && v != nil {
+	if v, err := serializeSliceCcIntermediateType(t.cc); err == nil && v != nil {
 		if len(v) == 1 {
 			m["cc"] = v[0]
 		} else {
@@ -5740,7 +5739,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceBccTentativeRejectIntermediateType(t.bcc); err == nil && v != nil {
+	if v, err := serializeSliceBccIntermediateType(t.bcc); err == nil && v != nil {
 		if len(v) == 1 {
 			m["bcc"] = v[0]
 		} else {
@@ -5752,7 +5751,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.mediaType != nil {
-		if v, err := serializeMediaTypeTentativeRejectIntermediateType(t.mediaType); err == nil {
+		if v, err := serializeMediaTypeIntermediateType(t.mediaType); err == nil {
 			m["mediaType"] = v
 		} else {
 			return m, err
@@ -5761,7 +5760,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.duration != nil {
-		if v, err := serializeDurationTentativeRejectIntermediateType(t.duration); err == nil {
+		if v, err := serializeDurationIntermediateType(t.duration); err == nil {
 			m["duration"] = v
 		} else {
 			return m, err
@@ -5770,7 +5769,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.source != nil {
-		if v, err := serializeSourceTentativeRejectIntermediateType(t.source); err == nil {
+		if v, err := serializeSourceIntermediateType(t.source); err == nil {
 			m["source"] = v
 		} else {
 			return m, err
@@ -5779,7 +5778,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.inbox != nil {
-		if v, err := serializeInboxTentativeRejectIntermediateType(t.inbox); err == nil {
+		if v, err := serializeInboxIntermediateType(t.inbox); err == nil {
 			m["inbox"] = v
 		} else {
 			return m, err
@@ -5788,7 +5787,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.outbox != nil {
-		if v, err := serializeOutboxTentativeRejectIntermediateType(t.outbox); err == nil {
+		if v, err := serializeOutboxIntermediateType(t.outbox); err == nil {
 			m["outbox"] = v
 		} else {
 			return m, err
@@ -5797,7 +5796,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.following != nil {
-		if v, err := serializeFollowingTentativeRejectIntermediateType(t.following); err == nil {
+		if v, err := serializeFollowingIntermediateType(t.following); err == nil {
 			m["following"] = v
 		} else {
 			return m, err
@@ -5806,7 +5805,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.followers != nil {
-		if v, err := serializeFollowersTentativeRejectIntermediateType(t.followers); err == nil {
+		if v, err := serializeFollowersIntermediateType(t.followers); err == nil {
 			m["followers"] = v
 		} else {
 			return m, err
@@ -5815,7 +5814,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.liked != nil {
-		if v, err := serializeLikedTentativeRejectIntermediateType(t.liked); err == nil {
+		if v, err := serializeLikedIntermediateType(t.liked); err == nil {
 			m["liked"] = v
 		} else {
 			return m, err
@@ -5824,7 +5823,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.likes != nil {
-		if v, err := serializeLikesTentativeRejectIntermediateType(t.likes); err == nil {
+		if v, err := serializeLikesIntermediateType(t.likes); err == nil {
 			m["likes"] = v
 		} else {
 			return m, err
@@ -5847,7 +5846,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.preferredUsername != nil {
-		if v, err := serializePreferredUsernameTentativeRejectIntermediateType(t.preferredUsername); err == nil {
+		if v, err := serializePreferredUsernameIntermediateType(t.preferredUsername); err == nil {
 			m["preferredUsername"] = v
 		} else {
 			return m, err
@@ -5862,7 +5861,7 @@ func (t *TentativeReject) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.endpoints != nil {
-		if v, err := serializeEndpointsTentativeRejectIntermediateType(t.endpoints); err == nil {
+		if v, err := serializeEndpointsIntermediateType(t.endpoints); err == nil {
 			m["endpoints"] = v
 		} else {
 			return m, err
@@ -5971,25 +5970,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "actor" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeActorTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeActorIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.actor = []*actorTentativeRejectIntermediateType{tmp}
+					t.actor = []*actorIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.actor, err = deserializeSliceActorTentativeRejectIntermediateType(tmpSlice)
+					t.actor, err = deserializeSliceActorIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &actorTentativeRejectIntermediateType{}
+					tmp := &actorIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.actor = []*actorTentativeRejectIntermediateType{tmp}
+					t.actor = []*actorIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5999,25 +5998,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "object" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeObjectTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeObjectIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.object = []*objectTentativeRejectIntermediateType{tmp}
+					t.object = []*objectIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.object, err = deserializeSliceObjectTentativeRejectIntermediateType(tmpSlice)
+					t.object, err = deserializeSliceObjectIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &objectTentativeRejectIntermediateType{}
+					tmp := &objectIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.object = []*objectTentativeRejectIntermediateType{tmp}
+					t.object = []*objectIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6027,25 +6026,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "target" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeTargetTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeTargetIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.target = []*targetTentativeRejectIntermediateType{tmp}
+					t.target = []*targetIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.target, err = deserializeSliceTargetTentativeRejectIntermediateType(tmpSlice)
+					t.target, err = deserializeSliceTargetIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &targetTentativeRejectIntermediateType{}
+					tmp := &targetIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.target = []*targetTentativeRejectIntermediateType{tmp}
+					t.target = []*targetIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6055,25 +6054,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "result" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeResultTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeResultIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.result = []*resultTentativeRejectIntermediateType{tmp}
+					t.result = []*resultIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.result, err = deserializeSliceResultTentativeRejectIntermediateType(tmpSlice)
+					t.result, err = deserializeSliceResultIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &resultTentativeRejectIntermediateType{}
+					tmp := &resultIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.result = []*resultTentativeRejectIntermediateType{tmp}
+					t.result = []*resultIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6083,25 +6082,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "origin" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeOriginTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeOriginIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.origin = []*originTentativeRejectIntermediateType{tmp}
+					t.origin = []*originIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.origin, err = deserializeSliceOriginTentativeRejectIntermediateType(tmpSlice)
+					t.origin, err = deserializeSliceOriginIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &originTentativeRejectIntermediateType{}
+					tmp := &originIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.origin = []*originTentativeRejectIntermediateType{tmp}
+					t.origin = []*originIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6111,25 +6110,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "instrument" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeInstrumentTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeInstrumentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.instrument = []*instrumentTentativeRejectIntermediateType{tmp}
+					t.instrument = []*instrumentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.instrument, err = deserializeSliceInstrumentTentativeRejectIntermediateType(tmpSlice)
+					t.instrument, err = deserializeSliceInstrumentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &instrumentTentativeRejectIntermediateType{}
+					tmp := &instrumentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.instrument = []*instrumentTentativeRejectIntermediateType{tmp}
+					t.instrument = []*instrumentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6138,7 +6137,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "altitude" {
-				t.altitude, err = deserializeAltitudeTentativeRejectIntermediateType(v)
+				t.altitude, err = deserializeAltitudeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6150,25 +6149,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attachment" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttachmentTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeAttachmentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attachment = []*attachmentTentativeRejectIntermediateType{tmp}
+					t.attachment = []*attachmentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attachment, err = deserializeSliceAttachmentTentativeRejectIntermediateType(tmpSlice)
+					t.attachment, err = deserializeSliceAttachmentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attachmentTentativeRejectIntermediateType{}
+					tmp := &attachmentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attachment = []*attachmentTentativeRejectIntermediateType{tmp}
+					t.attachment = []*attachmentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6178,25 +6177,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attributedTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttributedToTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeAttributedToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToTentativeRejectIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attributedTo, err = deserializeSliceAttributedToTentativeRejectIntermediateType(tmpSlice)
+					t.attributedTo, err = deserializeSliceAttributedToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attributedToTentativeRejectIntermediateType{}
+					tmp := &attributedToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToTentativeRejectIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6206,25 +6205,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "audience" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAudienceTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeAudienceIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.audience = []*audienceTentativeRejectIntermediateType{tmp}
+					t.audience = []*audienceIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.audience, err = deserializeSliceAudienceTentativeRejectIntermediateType(tmpSlice)
+					t.audience, err = deserializeSliceAudienceIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &audienceTentativeRejectIntermediateType{}
+					tmp := &audienceIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.audience = []*audienceTentativeRejectIntermediateType{tmp}
+					t.audience = []*audienceIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6234,25 +6233,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "content" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeContentTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeContentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.content = []*contentTentativeRejectIntermediateType{tmp}
+					t.content = []*contentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.content, err = deserializeSliceContentTentativeRejectIntermediateType(tmpSlice)
+					t.content, err = deserializeSliceContentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &contentTentativeRejectIntermediateType{}
+					tmp := &contentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.content = []*contentTentativeRejectIntermediateType{tmp}
+					t.content = []*contentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6277,25 +6276,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "context" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeContextTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeContextIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.context = []*contextTentativeRejectIntermediateType{tmp}
+					t.context = []*contextIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.context, err = deserializeSliceContextTentativeRejectIntermediateType(tmpSlice)
+					t.context, err = deserializeSliceContextIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &contextTentativeRejectIntermediateType{}
+					tmp := &contextIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.context = []*contextTentativeRejectIntermediateType{tmp}
+					t.context = []*contextIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6305,25 +6304,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "name" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeNameTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeNameIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameTentativeRejectIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.name, err = deserializeSliceNameTentativeRejectIntermediateType(tmpSlice)
+					t.name, err = deserializeSliceNameIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &nameTentativeRejectIntermediateType{}
+					tmp := &nameIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameTentativeRejectIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6347,7 +6346,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "endTime" {
-				t.endTime, err = deserializeEndTimeTentativeRejectIntermediateType(v)
+				t.endTime, err = deserializeEndTimeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6359,25 +6358,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "generator" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeGeneratorTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeGeneratorIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.generator = []*generatorTentativeRejectIntermediateType{tmp}
+					t.generator = []*generatorIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.generator, err = deserializeSliceGeneratorTentativeRejectIntermediateType(tmpSlice)
+					t.generator, err = deserializeSliceGeneratorIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &generatorTentativeRejectIntermediateType{}
+					tmp := &generatorIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.generator = []*generatorTentativeRejectIntermediateType{tmp}
+					t.generator = []*generatorIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6387,25 +6386,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "icon" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeIconTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeIconIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.icon = []*iconTentativeRejectIntermediateType{tmp}
+					t.icon = []*iconIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.icon, err = deserializeSliceIconTentativeRejectIntermediateType(tmpSlice)
+					t.icon, err = deserializeSliceIconIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &iconTentativeRejectIntermediateType{}
+					tmp := &iconIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.icon = []*iconTentativeRejectIntermediateType{tmp}
+					t.icon = []*iconIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6429,25 +6428,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "image" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeImageTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeImageIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.image = []*imageTentativeRejectIntermediateType{tmp}
+					t.image = []*imageIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.image, err = deserializeSliceImageTentativeRejectIntermediateType(tmpSlice)
+					t.image, err = deserializeSliceImageIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &imageTentativeRejectIntermediateType{}
+					tmp := &imageIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.image = []*imageTentativeRejectIntermediateType{tmp}
+					t.image = []*imageIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6457,25 +6456,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "inReplyTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeInReplyToTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeInReplyToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.inReplyTo = []*inReplyToTentativeRejectIntermediateType{tmp}
+					t.inReplyTo = []*inReplyToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.inReplyTo, err = deserializeSliceInReplyToTentativeRejectIntermediateType(tmpSlice)
+					t.inReplyTo, err = deserializeSliceInReplyToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &inReplyToTentativeRejectIntermediateType{}
+					tmp := &inReplyToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.inReplyTo = []*inReplyToTentativeRejectIntermediateType{tmp}
+					t.inReplyTo = []*inReplyToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6485,25 +6484,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "location" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeLocationTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeLocationIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.location = []*locationTentativeRejectIntermediateType{tmp}
+					t.location = []*locationIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.location, err = deserializeSliceLocationTentativeRejectIntermediateType(tmpSlice)
+					t.location, err = deserializeSliceLocationIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &locationTentativeRejectIntermediateType{}
+					tmp := &locationIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.location = []*locationTentativeRejectIntermediateType{tmp}
+					t.location = []*locationIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6513,25 +6512,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "preview" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializePreviewTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializePreviewIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewTentativeRejectIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.preview, err = deserializeSlicePreviewTentativeRejectIntermediateType(tmpSlice)
+					t.preview, err = deserializeSlicePreviewIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &previewTentativeRejectIntermediateType{}
+					tmp := &previewIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewTentativeRejectIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6540,7 +6539,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "published" {
-				t.published, err = deserializePublishedTentativeRejectIntermediateType(v)
+				t.published, err = deserializePublishedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6551,7 +6550,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "replies" {
-				t.replies, err = deserializeRepliesTentativeRejectIntermediateType(v)
+				t.replies, err = deserializeRepliesIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6562,7 +6561,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "startTime" {
-				t.startTime, err = deserializeStartTimeTentativeRejectIntermediateType(v)
+				t.startTime, err = deserializeStartTimeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6574,25 +6573,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "summary" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeSummaryTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeSummaryIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryTentativeRejectIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.summary, err = deserializeSliceSummaryTentativeRejectIntermediateType(tmpSlice)
+					t.summary, err = deserializeSliceSummaryIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &summaryTentativeRejectIntermediateType{}
+					tmp := &summaryIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryTentativeRejectIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6617,25 +6616,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "tag" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeTagTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeTagIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.tag = []*tagTentativeRejectIntermediateType{tmp}
+					t.tag = []*tagIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.tag, err = deserializeSliceTagTentativeRejectIntermediateType(tmpSlice)
+					t.tag, err = deserializeSliceTagIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &tagTentativeRejectIntermediateType{}
+					tmp := &tagIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.tag = []*tagTentativeRejectIntermediateType{tmp}
+					t.tag = []*tagIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6657,7 +6656,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "updated" {
-				t.updated, err = deserializeUpdatedTentativeRejectIntermediateType(v)
+				t.updated, err = deserializeUpdatedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6669,25 +6668,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "url" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeUrlTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeUrlIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.url = []*urlTentativeRejectIntermediateType{tmp}
+					t.url = []*urlIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.url, err = deserializeSliceUrlTentativeRejectIntermediateType(tmpSlice)
+					t.url, err = deserializeSliceUrlIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &urlTentativeRejectIntermediateType{}
+					tmp := &urlIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.url = []*urlTentativeRejectIntermediateType{tmp}
+					t.url = []*urlIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6697,25 +6696,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "to" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeToTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.to = []*toTentativeRejectIntermediateType{tmp}
+					t.to = []*toIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.to, err = deserializeSliceToTentativeRejectIntermediateType(tmpSlice)
+					t.to, err = deserializeSliceToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &toTentativeRejectIntermediateType{}
+					tmp := &toIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.to = []*toTentativeRejectIntermediateType{tmp}
+					t.to = []*toIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6725,25 +6724,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "bto" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeBtoTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeBtoIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.bto = []*btoTentativeRejectIntermediateType{tmp}
+					t.bto = []*btoIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.bto, err = deserializeSliceBtoTentativeRejectIntermediateType(tmpSlice)
+					t.bto, err = deserializeSliceBtoIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &btoTentativeRejectIntermediateType{}
+					tmp := &btoIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.bto = []*btoTentativeRejectIntermediateType{tmp}
+					t.bto = []*btoIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6753,25 +6752,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "cc" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeCcTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeCcIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.cc = []*ccTentativeRejectIntermediateType{tmp}
+					t.cc = []*ccIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.cc, err = deserializeSliceCcTentativeRejectIntermediateType(tmpSlice)
+					t.cc, err = deserializeSliceCcIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &ccTentativeRejectIntermediateType{}
+					tmp := &ccIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.cc = []*ccTentativeRejectIntermediateType{tmp}
+					t.cc = []*ccIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6781,25 +6780,25 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "bcc" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeBccTentativeRejectIntermediateType(tmpMap)
+					tmp, err := deserializeBccIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.bcc = []*bccTentativeRejectIntermediateType{tmp}
+					t.bcc = []*bccIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.bcc, err = deserializeSliceBccTentativeRejectIntermediateType(tmpSlice)
+					t.bcc, err = deserializeSliceBccIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &bccTentativeRejectIntermediateType{}
+					tmp := &bccIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.bcc = []*bccTentativeRejectIntermediateType{tmp}
+					t.bcc = []*bccIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6808,7 +6807,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "mediaType" {
-				t.mediaType, err = deserializeMediaTypeTentativeRejectIntermediateType(v)
+				t.mediaType, err = deserializeMediaTypeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6819,7 +6818,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "duration" {
-				t.duration, err = deserializeDurationTentativeRejectIntermediateType(v)
+				t.duration, err = deserializeDurationIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6830,7 +6829,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "source" {
-				t.source, err = deserializeSourceTentativeRejectIntermediateType(v)
+				t.source, err = deserializeSourceIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6841,7 +6840,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "inbox" {
-				t.inbox, err = deserializeInboxTentativeRejectIntermediateType(v)
+				t.inbox, err = deserializeInboxIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6852,7 +6851,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "outbox" {
-				t.outbox, err = deserializeOutboxTentativeRejectIntermediateType(v)
+				t.outbox, err = deserializeOutboxIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6863,7 +6862,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "following" {
-				t.following, err = deserializeFollowingTentativeRejectIntermediateType(v)
+				t.following, err = deserializeFollowingIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6874,7 +6873,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "followers" {
-				t.followers, err = deserializeFollowersTentativeRejectIntermediateType(v)
+				t.followers, err = deserializeFollowersIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6885,7 +6884,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "liked" {
-				t.liked, err = deserializeLikedTentativeRejectIntermediateType(v)
+				t.liked, err = deserializeLikedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6896,7 +6895,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "likes" {
-				t.likes, err = deserializeLikesTentativeRejectIntermediateType(v)
+				t.likes, err = deserializeLikesIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6932,7 +6931,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "preferredUsername" {
-				t.preferredUsername, err = deserializePreferredUsernameTentativeRejectIntermediateType(v)
+				t.preferredUsername, err = deserializePreferredUsernameIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6958,7 +6957,7 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "endpoints" {
-				t.endpoints, err = deserializeEndpointsTentativeRejectIntermediateType(v)
+				t.endpoints, err = deserializeEndpointsIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -7056,4874 +7055,6 @@ func (t *TentativeReject) Deserialize(m map[string]interface{}) (err error) {
 			}
 			t.unknown_[k] = unknownValueDeserialize(v)
 		}
-	}
-	return
-
-}
-
-// actorTentativeRejectIntermediateType will only have one of its values set at most
-type actorTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for actor property
-	Object ObjectType
-	// Stores possible LinkType type for actor property
-	Link LinkType
-	// Stores possible *url.URL type for actor property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *actorTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *actorTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// objectTentativeRejectIntermediateType will only have one of its values set at most
-type objectTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for object property
-	Object ObjectType
-	// Stores possible *url.URL type for object property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *objectTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *objectTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// targetTentativeRejectIntermediateType will only have one of its values set at most
-type targetTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for target property
-	Object ObjectType
-	// Stores possible LinkType type for target property
-	Link LinkType
-	// Stores possible *url.URL type for target property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *targetTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *targetTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// resultTentativeRejectIntermediateType will only have one of its values set at most
-type resultTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for result property
-	Object ObjectType
-	// Stores possible LinkType type for result property
-	Link LinkType
-	// Stores possible *url.URL type for result property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *resultTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *resultTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// originTentativeRejectIntermediateType will only have one of its values set at most
-type originTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for origin property
-	Object ObjectType
-	// Stores possible LinkType type for origin property
-	Link LinkType
-	// Stores possible *url.URL type for origin property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *originTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *originTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// instrumentTentativeRejectIntermediateType will only have one of its values set at most
-type instrumentTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for instrument property
-	Object ObjectType
-	// Stores possible LinkType type for instrument property
-	Link LinkType
-	// Stores possible *url.URL type for instrument property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *instrumentTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *instrumentTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// altitudeTentativeRejectIntermediateType will only have one of its values set at most
-type altitudeTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *float64 type for altitude property
-	float *float64
-	// Stores possible *url.URL type for altitude property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *altitudeTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.float, err = floatDeserialize(i)
-			if err != nil {
-				t.float = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *altitudeTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.float != nil {
-		i = floatSerialize(*t.float)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// attachmentTentativeRejectIntermediateType will only have one of its values set at most
-type attachmentTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attachment property
-	Object ObjectType
-	// Stores possible LinkType type for attachment property
-	Link LinkType
-	// Stores possible *url.URL type for attachment property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attachmentTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attachmentTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// attributedToTentativeRejectIntermediateType will only have one of its values set at most
-type attributedToTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attributedTo property
-	Object ObjectType
-	// Stores possible LinkType type for attributedTo property
-	Link LinkType
-	// Stores possible *url.URL type for attributedTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attributedToTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attributedToTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// audienceTentativeRejectIntermediateType will only have one of its values set at most
-type audienceTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for audience property
-	Object ObjectType
-	// Stores possible LinkType type for audience property
-	Link LinkType
-	// Stores possible *url.URL type for audience property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *audienceTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *audienceTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// contentTentativeRejectIntermediateType will only have one of its values set at most
-type contentTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for content property
-	stringName *string
-	// Stores possible *string type for content property
-	langString *string
-	// Stores possible *url.URL type for content property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *contentTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *contentTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// contextTentativeRejectIntermediateType will only have one of its values set at most
-type contextTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for context property
-	Object ObjectType
-	// Stores possible LinkType type for context property
-	Link LinkType
-	// Stores possible *url.URL type for context property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *contextTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *contextTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// nameTentativeRejectIntermediateType will only have one of its values set at most
-type nameTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for name property
-	stringName *string
-	// Stores possible *string type for name property
-	langString *string
-	// Stores possible *url.URL type for name property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *nameTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *nameTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// endTimeTentativeRejectIntermediateType will only have one of its values set at most
-type endTimeTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for endTime property
-	dateTime *time.Time
-	// Stores possible *url.URL type for endTime property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *endTimeTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *endTimeTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// generatorTentativeRejectIntermediateType will only have one of its values set at most
-type generatorTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for generator property
-	Object ObjectType
-	// Stores possible LinkType type for generator property
-	Link LinkType
-	// Stores possible *url.URL type for generator property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *generatorTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *generatorTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// iconTentativeRejectIntermediateType will only have one of its values set at most
-type iconTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ImageType type for icon property
-	Image ImageType
-	// Stores possible LinkType type for icon property
-	Link LinkType
-	// Stores possible *url.URL type for icon property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *iconTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Image, ok = resolveObject(kind).(ImageType); t.Image != nil && ok {
-						err = t.Image.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *iconTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Image != nil {
-		i, err = t.Image.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// imageTentativeRejectIntermediateType will only have one of its values set at most
-type imageTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ImageType type for image property
-	Image ImageType
-	// Stores possible LinkType type for image property
-	Link LinkType
-	// Stores possible *url.URL type for image property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *imageTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Image, ok = resolveObject(kind).(ImageType); t.Image != nil && ok {
-						err = t.Image.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *imageTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Image != nil {
-		i, err = t.Image.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// inReplyToTentativeRejectIntermediateType will only have one of its values set at most
-type inReplyToTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for inReplyTo property
-	Object ObjectType
-	// Stores possible LinkType type for inReplyTo property
-	Link LinkType
-	// Stores possible *url.URL type for inReplyTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *inReplyToTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *inReplyToTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// locationTentativeRejectIntermediateType will only have one of its values set at most
-type locationTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for location property
-	Object ObjectType
-	// Stores possible LinkType type for location property
-	Link LinkType
-	// Stores possible *url.URL type for location property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *locationTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *locationTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// previewTentativeRejectIntermediateType will only have one of its values set at most
-type previewTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for preview property
-	Object ObjectType
-	// Stores possible LinkType type for preview property
-	Link LinkType
-	// Stores possible *url.URL type for preview property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *previewTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *previewTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// publishedTentativeRejectIntermediateType will only have one of its values set at most
-type publishedTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for published property
-	dateTime *time.Time
-	// Stores possible *url.URL type for published property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *publishedTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *publishedTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// repliesTentativeRejectIntermediateType will only have one of its values set at most
-type repliesTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for replies property
-	Collection CollectionType
-	// Stores possible *url.URL type for replies property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *repliesTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *repliesTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// startTimeTentativeRejectIntermediateType will only have one of its values set at most
-type startTimeTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for startTime property
-	dateTime *time.Time
-	// Stores possible *url.URL type for startTime property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *startTimeTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *startTimeTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// summaryTentativeRejectIntermediateType will only have one of its values set at most
-type summaryTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for summary property
-	stringName *string
-	// Stores possible *string type for summary property
-	langString *string
-	// Stores possible *url.URL type for summary property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *summaryTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *summaryTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// tagTentativeRejectIntermediateType will only have one of its values set at most
-type tagTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for tag property
-	Object ObjectType
-	// Stores possible LinkType type for tag property
-	Link LinkType
-	// Stores possible *url.URL type for tag property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *tagTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *tagTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// updatedTentativeRejectIntermediateType will only have one of its values set at most
-type updatedTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for updated property
-	dateTime *time.Time
-	// Stores possible *url.URL type for updated property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *updatedTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *updatedTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// urlTentativeRejectIntermediateType will only have one of its values set at most
-type urlTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *url.URL type for url property
-	anyURI *url.URL
-	// Stores possible LinkType type for url property
-	Link LinkType
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *urlTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *urlTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// toTentativeRejectIntermediateType will only have one of its values set at most
-type toTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for to property
-	Object ObjectType
-	// Stores possible LinkType type for to property
-	Link LinkType
-	// Stores possible *url.URL type for to property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *toTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *toTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// btoTentativeRejectIntermediateType will only have one of its values set at most
-type btoTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for bto property
-	Object ObjectType
-	// Stores possible LinkType type for bto property
-	Link LinkType
-	// Stores possible *url.URL type for bto property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *btoTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *btoTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// ccTentativeRejectIntermediateType will only have one of its values set at most
-type ccTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for cc property
-	Object ObjectType
-	// Stores possible LinkType type for cc property
-	Link LinkType
-	// Stores possible *url.URL type for cc property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *ccTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *ccTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// bccTentativeRejectIntermediateType will only have one of its values set at most
-type bccTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for bcc property
-	Object ObjectType
-	// Stores possible LinkType type for bcc property
-	Link LinkType
-	// Stores possible *url.URL type for bcc property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *bccTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *bccTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// mediaTypeTentativeRejectIntermediateType will only have one of its values set at most
-type mediaTypeTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for mediaType property
-	mimeMediaTypeValue *string
-	// Stores possible *url.URL type for mediaType property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *mediaTypeTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.mimeMediaTypeValue, err = mimeMediaTypeValueDeserialize(i)
-			if err != nil {
-				t.mimeMediaTypeValue = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *mediaTypeTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.mimeMediaTypeValue != nil {
-		i = mimeMediaTypeValueSerialize(*t.mimeMediaTypeValue)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// durationTentativeRejectIntermediateType will only have one of its values set at most
-type durationTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Duration type for duration property
-	duration *time.Duration
-	// Stores possible *url.URL type for duration property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *durationTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.duration, err = durationDeserialize(i)
-			if err != nil {
-				t.duration = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *durationTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.duration != nil {
-		i = durationSerialize(*t.duration)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// sourceTentativeRejectIntermediateType will only have one of its values set at most
-type sourceTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for source property
-	Object ObjectType
-	// Stores possible *url.URL type for source property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *sourceTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *sourceTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// inboxTentativeRejectIntermediateType will only have one of its values set at most
-type inboxTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionType type for inbox property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for inbox property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *inboxTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *inboxTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// outboxTentativeRejectIntermediateType will only have one of its values set at most
-type outboxTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionType type for outbox property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for outbox property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *outboxTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *outboxTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// followingTentativeRejectIntermediateType will only have one of its values set at most
-type followingTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for following property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for following property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for following property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *followingTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *followingTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// followersTentativeRejectIntermediateType will only have one of its values set at most
-type followersTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for followers property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for followers property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for followers property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *followersTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *followersTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// likedTentativeRejectIntermediateType will only have one of its values set at most
-type likedTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for liked property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for liked property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for liked property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *likedTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *likedTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// likesTentativeRejectIntermediateType will only have one of its values set at most
-type likesTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for likes property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for likes property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for likes property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *likesTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *likesTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// preferredUsernameTentativeRejectIntermediateType will only have one of its values set at most
-type preferredUsernameTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for preferredUsername property
-	stringName *string
-	// Stores possible *url.URL type for preferredUsername property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *preferredUsernameTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *preferredUsernameTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// endpointsTentativeRejectIntermediateType will only have one of its values set at most
-type endpointsTentativeRejectIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for endpoints property
-	Object ObjectType
-	// Stores possible *url.URL type for endpoints property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *endpointsTentativeRejectIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *endpointsTentativeRejectIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// deserializeactorTentativeRejectIntermediateType will accept a map to create a actorTentativeRejectIntermediateType
-func deserializeActorTentativeRejectIntermediateType(in interface{}) (t *actorTentativeRejectIntermediateType, err error) {
-	tmp := &actorTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice actorTentativeRejectIntermediateType will accept a slice to create a slice of actorTentativeRejectIntermediateType
-func deserializeSliceActorTentativeRejectIntermediateType(in []interface{}) (t []*actorTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &actorTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeactorTentativeRejectIntermediateType will accept a actorTentativeRejectIntermediateType to create a map
-func serializeActorTentativeRejectIntermediateType(t *actorTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceactorTentativeRejectIntermediateType will accept a slice of actorTentativeRejectIntermediateType to create a slice result
-func serializeSliceActorTentativeRejectIntermediateType(s []*actorTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeobjectTentativeRejectIntermediateType will accept a map to create a objectTentativeRejectIntermediateType
-func deserializeObjectTentativeRejectIntermediateType(in interface{}) (t *objectTentativeRejectIntermediateType, err error) {
-	tmp := &objectTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice objectTentativeRejectIntermediateType will accept a slice to create a slice of objectTentativeRejectIntermediateType
-func deserializeSliceObjectTentativeRejectIntermediateType(in []interface{}) (t []*objectTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &objectTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeobjectTentativeRejectIntermediateType will accept a objectTentativeRejectIntermediateType to create a map
-func serializeObjectTentativeRejectIntermediateType(t *objectTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceobjectTentativeRejectIntermediateType will accept a slice of objectTentativeRejectIntermediateType to create a slice result
-func serializeSliceObjectTentativeRejectIntermediateType(s []*objectTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetargetTentativeRejectIntermediateType will accept a map to create a targetTentativeRejectIntermediateType
-func deserializeTargetTentativeRejectIntermediateType(in interface{}) (t *targetTentativeRejectIntermediateType, err error) {
-	tmp := &targetTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice targetTentativeRejectIntermediateType will accept a slice to create a slice of targetTentativeRejectIntermediateType
-func deserializeSliceTargetTentativeRejectIntermediateType(in []interface{}) (t []*targetTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &targetTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetargetTentativeRejectIntermediateType will accept a targetTentativeRejectIntermediateType to create a map
-func serializeTargetTentativeRejectIntermediateType(t *targetTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetargetTentativeRejectIntermediateType will accept a slice of targetTentativeRejectIntermediateType to create a slice result
-func serializeSliceTargetTentativeRejectIntermediateType(s []*targetTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeresultTentativeRejectIntermediateType will accept a map to create a resultTentativeRejectIntermediateType
-func deserializeResultTentativeRejectIntermediateType(in interface{}) (t *resultTentativeRejectIntermediateType, err error) {
-	tmp := &resultTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice resultTentativeRejectIntermediateType will accept a slice to create a slice of resultTentativeRejectIntermediateType
-func deserializeSliceResultTentativeRejectIntermediateType(in []interface{}) (t []*resultTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &resultTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeresultTentativeRejectIntermediateType will accept a resultTentativeRejectIntermediateType to create a map
-func serializeResultTentativeRejectIntermediateType(t *resultTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceresultTentativeRejectIntermediateType will accept a slice of resultTentativeRejectIntermediateType to create a slice result
-func serializeSliceResultTentativeRejectIntermediateType(s []*resultTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeoriginTentativeRejectIntermediateType will accept a map to create a originTentativeRejectIntermediateType
-func deserializeOriginTentativeRejectIntermediateType(in interface{}) (t *originTentativeRejectIntermediateType, err error) {
-	tmp := &originTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice originTentativeRejectIntermediateType will accept a slice to create a slice of originTentativeRejectIntermediateType
-func deserializeSliceOriginTentativeRejectIntermediateType(in []interface{}) (t []*originTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &originTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeoriginTentativeRejectIntermediateType will accept a originTentativeRejectIntermediateType to create a map
-func serializeOriginTentativeRejectIntermediateType(t *originTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceoriginTentativeRejectIntermediateType will accept a slice of originTentativeRejectIntermediateType to create a slice result
-func serializeSliceOriginTentativeRejectIntermediateType(s []*originTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinstrumentTentativeRejectIntermediateType will accept a map to create a instrumentTentativeRejectIntermediateType
-func deserializeInstrumentTentativeRejectIntermediateType(in interface{}) (t *instrumentTentativeRejectIntermediateType, err error) {
-	tmp := &instrumentTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice instrumentTentativeRejectIntermediateType will accept a slice to create a slice of instrumentTentativeRejectIntermediateType
-func deserializeSliceInstrumentTentativeRejectIntermediateType(in []interface{}) (t []*instrumentTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &instrumentTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinstrumentTentativeRejectIntermediateType will accept a instrumentTentativeRejectIntermediateType to create a map
-func serializeInstrumentTentativeRejectIntermediateType(t *instrumentTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinstrumentTentativeRejectIntermediateType will accept a slice of instrumentTentativeRejectIntermediateType to create a slice result
-func serializeSliceInstrumentTentativeRejectIntermediateType(s []*instrumentTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializealtitudeTentativeRejectIntermediateType will accept a map to create a altitudeTentativeRejectIntermediateType
-func deserializeAltitudeTentativeRejectIntermediateType(in interface{}) (t *altitudeTentativeRejectIntermediateType, err error) {
-	tmp := &altitudeTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice altitudeTentativeRejectIntermediateType will accept a slice to create a slice of altitudeTentativeRejectIntermediateType
-func deserializeSliceAltitudeTentativeRejectIntermediateType(in []interface{}) (t []*altitudeTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &altitudeTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializealtitudeTentativeRejectIntermediateType will accept a altitudeTentativeRejectIntermediateType to create a map
-func serializeAltitudeTentativeRejectIntermediateType(t *altitudeTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicealtitudeTentativeRejectIntermediateType will accept a slice of altitudeTentativeRejectIntermediateType to create a slice result
-func serializeSliceAltitudeTentativeRejectIntermediateType(s []*altitudeTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeattachmentTentativeRejectIntermediateType will accept a map to create a attachmentTentativeRejectIntermediateType
-func deserializeAttachmentTentativeRejectIntermediateType(in interface{}) (t *attachmentTentativeRejectIntermediateType, err error) {
-	tmp := &attachmentTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attachmentTentativeRejectIntermediateType will accept a slice to create a slice of attachmentTentativeRejectIntermediateType
-func deserializeSliceAttachmentTentativeRejectIntermediateType(in []interface{}) (t []*attachmentTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attachmentTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattachmentTentativeRejectIntermediateType will accept a attachmentTentativeRejectIntermediateType to create a map
-func serializeAttachmentTentativeRejectIntermediateType(t *attachmentTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattachmentTentativeRejectIntermediateType will accept a slice of attachmentTentativeRejectIntermediateType to create a slice result
-func serializeSliceAttachmentTentativeRejectIntermediateType(s []*attachmentTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeattributedToTentativeRejectIntermediateType will accept a map to create a attributedToTentativeRejectIntermediateType
-func deserializeAttributedToTentativeRejectIntermediateType(in interface{}) (t *attributedToTentativeRejectIntermediateType, err error) {
-	tmp := &attributedToTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attributedToTentativeRejectIntermediateType will accept a slice to create a slice of attributedToTentativeRejectIntermediateType
-func deserializeSliceAttributedToTentativeRejectIntermediateType(in []interface{}) (t []*attributedToTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attributedToTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattributedToTentativeRejectIntermediateType will accept a attributedToTentativeRejectIntermediateType to create a map
-func serializeAttributedToTentativeRejectIntermediateType(t *attributedToTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattributedToTentativeRejectIntermediateType will accept a slice of attributedToTentativeRejectIntermediateType to create a slice result
-func serializeSliceAttributedToTentativeRejectIntermediateType(s []*attributedToTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeaudienceTentativeRejectIntermediateType will accept a map to create a audienceTentativeRejectIntermediateType
-func deserializeAudienceTentativeRejectIntermediateType(in interface{}) (t *audienceTentativeRejectIntermediateType, err error) {
-	tmp := &audienceTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice audienceTentativeRejectIntermediateType will accept a slice to create a slice of audienceTentativeRejectIntermediateType
-func deserializeSliceAudienceTentativeRejectIntermediateType(in []interface{}) (t []*audienceTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &audienceTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeaudienceTentativeRejectIntermediateType will accept a audienceTentativeRejectIntermediateType to create a map
-func serializeAudienceTentativeRejectIntermediateType(t *audienceTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceaudienceTentativeRejectIntermediateType will accept a slice of audienceTentativeRejectIntermediateType to create a slice result
-func serializeSliceAudienceTentativeRejectIntermediateType(s []*audienceTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecontentTentativeRejectIntermediateType will accept a map to create a contentTentativeRejectIntermediateType
-func deserializeContentTentativeRejectIntermediateType(in interface{}) (t *contentTentativeRejectIntermediateType, err error) {
-	tmp := &contentTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice contentTentativeRejectIntermediateType will accept a slice to create a slice of contentTentativeRejectIntermediateType
-func deserializeSliceContentTentativeRejectIntermediateType(in []interface{}) (t []*contentTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &contentTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecontentTentativeRejectIntermediateType will accept a contentTentativeRejectIntermediateType to create a map
-func serializeContentTentativeRejectIntermediateType(t *contentTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecontentTentativeRejectIntermediateType will accept a slice of contentTentativeRejectIntermediateType to create a slice result
-func serializeSliceContentTentativeRejectIntermediateType(s []*contentTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecontextTentativeRejectIntermediateType will accept a map to create a contextTentativeRejectIntermediateType
-func deserializeContextTentativeRejectIntermediateType(in interface{}) (t *contextTentativeRejectIntermediateType, err error) {
-	tmp := &contextTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice contextTentativeRejectIntermediateType will accept a slice to create a slice of contextTentativeRejectIntermediateType
-func deserializeSliceContextTentativeRejectIntermediateType(in []interface{}) (t []*contextTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &contextTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecontextTentativeRejectIntermediateType will accept a contextTentativeRejectIntermediateType to create a map
-func serializeContextTentativeRejectIntermediateType(t *contextTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecontextTentativeRejectIntermediateType will accept a slice of contextTentativeRejectIntermediateType to create a slice result
-func serializeSliceContextTentativeRejectIntermediateType(s []*contextTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializenameTentativeRejectIntermediateType will accept a map to create a nameTentativeRejectIntermediateType
-func deserializeNameTentativeRejectIntermediateType(in interface{}) (t *nameTentativeRejectIntermediateType, err error) {
-	tmp := &nameTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice nameTentativeRejectIntermediateType will accept a slice to create a slice of nameTentativeRejectIntermediateType
-func deserializeSliceNameTentativeRejectIntermediateType(in []interface{}) (t []*nameTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &nameTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializenameTentativeRejectIntermediateType will accept a nameTentativeRejectIntermediateType to create a map
-func serializeNameTentativeRejectIntermediateType(t *nameTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicenameTentativeRejectIntermediateType will accept a slice of nameTentativeRejectIntermediateType to create a slice result
-func serializeSliceNameTentativeRejectIntermediateType(s []*nameTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeendTimeTentativeRejectIntermediateType will accept a map to create a endTimeTentativeRejectIntermediateType
-func deserializeEndTimeTentativeRejectIntermediateType(in interface{}) (t *endTimeTentativeRejectIntermediateType, err error) {
-	tmp := &endTimeTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice endTimeTentativeRejectIntermediateType will accept a slice to create a slice of endTimeTentativeRejectIntermediateType
-func deserializeSliceEndTimeTentativeRejectIntermediateType(in []interface{}) (t []*endTimeTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &endTimeTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeendTimeTentativeRejectIntermediateType will accept a endTimeTentativeRejectIntermediateType to create a map
-func serializeEndTimeTentativeRejectIntermediateType(t *endTimeTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceendTimeTentativeRejectIntermediateType will accept a slice of endTimeTentativeRejectIntermediateType to create a slice result
-func serializeSliceEndTimeTentativeRejectIntermediateType(s []*endTimeTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializegeneratorTentativeRejectIntermediateType will accept a map to create a generatorTentativeRejectIntermediateType
-func deserializeGeneratorTentativeRejectIntermediateType(in interface{}) (t *generatorTentativeRejectIntermediateType, err error) {
-	tmp := &generatorTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice generatorTentativeRejectIntermediateType will accept a slice to create a slice of generatorTentativeRejectIntermediateType
-func deserializeSliceGeneratorTentativeRejectIntermediateType(in []interface{}) (t []*generatorTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &generatorTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializegeneratorTentativeRejectIntermediateType will accept a generatorTentativeRejectIntermediateType to create a map
-func serializeGeneratorTentativeRejectIntermediateType(t *generatorTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicegeneratorTentativeRejectIntermediateType will accept a slice of generatorTentativeRejectIntermediateType to create a slice result
-func serializeSliceGeneratorTentativeRejectIntermediateType(s []*generatorTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeiconTentativeRejectIntermediateType will accept a map to create a iconTentativeRejectIntermediateType
-func deserializeIconTentativeRejectIntermediateType(in interface{}) (t *iconTentativeRejectIntermediateType, err error) {
-	tmp := &iconTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice iconTentativeRejectIntermediateType will accept a slice to create a slice of iconTentativeRejectIntermediateType
-func deserializeSliceIconTentativeRejectIntermediateType(in []interface{}) (t []*iconTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &iconTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeiconTentativeRejectIntermediateType will accept a iconTentativeRejectIntermediateType to create a map
-func serializeIconTentativeRejectIntermediateType(t *iconTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceiconTentativeRejectIntermediateType will accept a slice of iconTentativeRejectIntermediateType to create a slice result
-func serializeSliceIconTentativeRejectIntermediateType(s []*iconTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeimageTentativeRejectIntermediateType will accept a map to create a imageTentativeRejectIntermediateType
-func deserializeImageTentativeRejectIntermediateType(in interface{}) (t *imageTentativeRejectIntermediateType, err error) {
-	tmp := &imageTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice imageTentativeRejectIntermediateType will accept a slice to create a slice of imageTentativeRejectIntermediateType
-func deserializeSliceImageTentativeRejectIntermediateType(in []interface{}) (t []*imageTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &imageTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeimageTentativeRejectIntermediateType will accept a imageTentativeRejectIntermediateType to create a map
-func serializeImageTentativeRejectIntermediateType(t *imageTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceimageTentativeRejectIntermediateType will accept a slice of imageTentativeRejectIntermediateType to create a slice result
-func serializeSliceImageTentativeRejectIntermediateType(s []*imageTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinReplyToTentativeRejectIntermediateType will accept a map to create a inReplyToTentativeRejectIntermediateType
-func deserializeInReplyToTentativeRejectIntermediateType(in interface{}) (t *inReplyToTentativeRejectIntermediateType, err error) {
-	tmp := &inReplyToTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice inReplyToTentativeRejectIntermediateType will accept a slice to create a slice of inReplyToTentativeRejectIntermediateType
-func deserializeSliceInReplyToTentativeRejectIntermediateType(in []interface{}) (t []*inReplyToTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &inReplyToTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinReplyToTentativeRejectIntermediateType will accept a inReplyToTentativeRejectIntermediateType to create a map
-func serializeInReplyToTentativeRejectIntermediateType(t *inReplyToTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinReplyToTentativeRejectIntermediateType will accept a slice of inReplyToTentativeRejectIntermediateType to create a slice result
-func serializeSliceInReplyToTentativeRejectIntermediateType(s []*inReplyToTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelocationTentativeRejectIntermediateType will accept a map to create a locationTentativeRejectIntermediateType
-func deserializeLocationTentativeRejectIntermediateType(in interface{}) (t *locationTentativeRejectIntermediateType, err error) {
-	tmp := &locationTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice locationTentativeRejectIntermediateType will accept a slice to create a slice of locationTentativeRejectIntermediateType
-func deserializeSliceLocationTentativeRejectIntermediateType(in []interface{}) (t []*locationTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &locationTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelocationTentativeRejectIntermediateType will accept a locationTentativeRejectIntermediateType to create a map
-func serializeLocationTentativeRejectIntermediateType(t *locationTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelocationTentativeRejectIntermediateType will accept a slice of locationTentativeRejectIntermediateType to create a slice result
-func serializeSliceLocationTentativeRejectIntermediateType(s []*locationTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreviewTentativeRejectIntermediateType will accept a map to create a previewTentativeRejectIntermediateType
-func deserializePreviewTentativeRejectIntermediateType(in interface{}) (t *previewTentativeRejectIntermediateType, err error) {
-	tmp := &previewTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice previewTentativeRejectIntermediateType will accept a slice to create a slice of previewTentativeRejectIntermediateType
-func deserializeSlicePreviewTentativeRejectIntermediateType(in []interface{}) (t []*previewTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &previewTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreviewTentativeRejectIntermediateType will accept a previewTentativeRejectIntermediateType to create a map
-func serializePreviewTentativeRejectIntermediateType(t *previewTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreviewTentativeRejectIntermediateType will accept a slice of previewTentativeRejectIntermediateType to create a slice result
-func serializeSlicePreviewTentativeRejectIntermediateType(s []*previewTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepublishedTentativeRejectIntermediateType will accept a map to create a publishedTentativeRejectIntermediateType
-func deserializePublishedTentativeRejectIntermediateType(in interface{}) (t *publishedTentativeRejectIntermediateType, err error) {
-	tmp := &publishedTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice publishedTentativeRejectIntermediateType will accept a slice to create a slice of publishedTentativeRejectIntermediateType
-func deserializeSlicePublishedTentativeRejectIntermediateType(in []interface{}) (t []*publishedTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &publishedTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepublishedTentativeRejectIntermediateType will accept a publishedTentativeRejectIntermediateType to create a map
-func serializePublishedTentativeRejectIntermediateType(t *publishedTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepublishedTentativeRejectIntermediateType will accept a slice of publishedTentativeRejectIntermediateType to create a slice result
-func serializeSlicePublishedTentativeRejectIntermediateType(s []*publishedTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializerepliesTentativeRejectIntermediateType will accept a map to create a repliesTentativeRejectIntermediateType
-func deserializeRepliesTentativeRejectIntermediateType(in interface{}) (t *repliesTentativeRejectIntermediateType, err error) {
-	tmp := &repliesTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice repliesTentativeRejectIntermediateType will accept a slice to create a slice of repliesTentativeRejectIntermediateType
-func deserializeSliceRepliesTentativeRejectIntermediateType(in []interface{}) (t []*repliesTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &repliesTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializerepliesTentativeRejectIntermediateType will accept a repliesTentativeRejectIntermediateType to create a map
-func serializeRepliesTentativeRejectIntermediateType(t *repliesTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicerepliesTentativeRejectIntermediateType will accept a slice of repliesTentativeRejectIntermediateType to create a slice result
-func serializeSliceRepliesTentativeRejectIntermediateType(s []*repliesTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializestartTimeTentativeRejectIntermediateType will accept a map to create a startTimeTentativeRejectIntermediateType
-func deserializeStartTimeTentativeRejectIntermediateType(in interface{}) (t *startTimeTentativeRejectIntermediateType, err error) {
-	tmp := &startTimeTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice startTimeTentativeRejectIntermediateType will accept a slice to create a slice of startTimeTentativeRejectIntermediateType
-func deserializeSliceStartTimeTentativeRejectIntermediateType(in []interface{}) (t []*startTimeTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &startTimeTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializestartTimeTentativeRejectIntermediateType will accept a startTimeTentativeRejectIntermediateType to create a map
-func serializeStartTimeTentativeRejectIntermediateType(t *startTimeTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicestartTimeTentativeRejectIntermediateType will accept a slice of startTimeTentativeRejectIntermediateType to create a slice result
-func serializeSliceStartTimeTentativeRejectIntermediateType(s []*startTimeTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesummaryTentativeRejectIntermediateType will accept a map to create a summaryTentativeRejectIntermediateType
-func deserializeSummaryTentativeRejectIntermediateType(in interface{}) (t *summaryTentativeRejectIntermediateType, err error) {
-	tmp := &summaryTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice summaryTentativeRejectIntermediateType will accept a slice to create a slice of summaryTentativeRejectIntermediateType
-func deserializeSliceSummaryTentativeRejectIntermediateType(in []interface{}) (t []*summaryTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &summaryTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesummaryTentativeRejectIntermediateType will accept a summaryTentativeRejectIntermediateType to create a map
-func serializeSummaryTentativeRejectIntermediateType(t *summaryTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesummaryTentativeRejectIntermediateType will accept a slice of summaryTentativeRejectIntermediateType to create a slice result
-func serializeSliceSummaryTentativeRejectIntermediateType(s []*summaryTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetagTentativeRejectIntermediateType will accept a map to create a tagTentativeRejectIntermediateType
-func deserializeTagTentativeRejectIntermediateType(in interface{}) (t *tagTentativeRejectIntermediateType, err error) {
-	tmp := &tagTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice tagTentativeRejectIntermediateType will accept a slice to create a slice of tagTentativeRejectIntermediateType
-func deserializeSliceTagTentativeRejectIntermediateType(in []interface{}) (t []*tagTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &tagTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetagTentativeRejectIntermediateType will accept a tagTentativeRejectIntermediateType to create a map
-func serializeTagTentativeRejectIntermediateType(t *tagTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetagTentativeRejectIntermediateType will accept a slice of tagTentativeRejectIntermediateType to create a slice result
-func serializeSliceTagTentativeRejectIntermediateType(s []*tagTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeupdatedTentativeRejectIntermediateType will accept a map to create a updatedTentativeRejectIntermediateType
-func deserializeUpdatedTentativeRejectIntermediateType(in interface{}) (t *updatedTentativeRejectIntermediateType, err error) {
-	tmp := &updatedTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice updatedTentativeRejectIntermediateType will accept a slice to create a slice of updatedTentativeRejectIntermediateType
-func deserializeSliceUpdatedTentativeRejectIntermediateType(in []interface{}) (t []*updatedTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &updatedTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeupdatedTentativeRejectIntermediateType will accept a updatedTentativeRejectIntermediateType to create a map
-func serializeUpdatedTentativeRejectIntermediateType(t *updatedTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceupdatedTentativeRejectIntermediateType will accept a slice of updatedTentativeRejectIntermediateType to create a slice result
-func serializeSliceUpdatedTentativeRejectIntermediateType(s []*updatedTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeurlTentativeRejectIntermediateType will accept a map to create a urlTentativeRejectIntermediateType
-func deserializeUrlTentativeRejectIntermediateType(in interface{}) (t *urlTentativeRejectIntermediateType, err error) {
-	tmp := &urlTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice urlTentativeRejectIntermediateType will accept a slice to create a slice of urlTentativeRejectIntermediateType
-func deserializeSliceUrlTentativeRejectIntermediateType(in []interface{}) (t []*urlTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &urlTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeurlTentativeRejectIntermediateType will accept a urlTentativeRejectIntermediateType to create a map
-func serializeUrlTentativeRejectIntermediateType(t *urlTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceurlTentativeRejectIntermediateType will accept a slice of urlTentativeRejectIntermediateType to create a slice result
-func serializeSliceUrlTentativeRejectIntermediateType(s []*urlTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetoTentativeRejectIntermediateType will accept a map to create a toTentativeRejectIntermediateType
-func deserializeToTentativeRejectIntermediateType(in interface{}) (t *toTentativeRejectIntermediateType, err error) {
-	tmp := &toTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice toTentativeRejectIntermediateType will accept a slice to create a slice of toTentativeRejectIntermediateType
-func deserializeSliceToTentativeRejectIntermediateType(in []interface{}) (t []*toTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &toTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetoTentativeRejectIntermediateType will accept a toTentativeRejectIntermediateType to create a map
-func serializeToTentativeRejectIntermediateType(t *toTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetoTentativeRejectIntermediateType will accept a slice of toTentativeRejectIntermediateType to create a slice result
-func serializeSliceToTentativeRejectIntermediateType(s []*toTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializebtoTentativeRejectIntermediateType will accept a map to create a btoTentativeRejectIntermediateType
-func deserializeBtoTentativeRejectIntermediateType(in interface{}) (t *btoTentativeRejectIntermediateType, err error) {
-	tmp := &btoTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice btoTentativeRejectIntermediateType will accept a slice to create a slice of btoTentativeRejectIntermediateType
-func deserializeSliceBtoTentativeRejectIntermediateType(in []interface{}) (t []*btoTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &btoTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializebtoTentativeRejectIntermediateType will accept a btoTentativeRejectIntermediateType to create a map
-func serializeBtoTentativeRejectIntermediateType(t *btoTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicebtoTentativeRejectIntermediateType will accept a slice of btoTentativeRejectIntermediateType to create a slice result
-func serializeSliceBtoTentativeRejectIntermediateType(s []*btoTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeccTentativeRejectIntermediateType will accept a map to create a ccTentativeRejectIntermediateType
-func deserializeCcTentativeRejectIntermediateType(in interface{}) (t *ccTentativeRejectIntermediateType, err error) {
-	tmp := &ccTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice ccTentativeRejectIntermediateType will accept a slice to create a slice of ccTentativeRejectIntermediateType
-func deserializeSliceCcTentativeRejectIntermediateType(in []interface{}) (t []*ccTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &ccTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeccTentativeRejectIntermediateType will accept a ccTentativeRejectIntermediateType to create a map
-func serializeCcTentativeRejectIntermediateType(t *ccTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceccTentativeRejectIntermediateType will accept a slice of ccTentativeRejectIntermediateType to create a slice result
-func serializeSliceCcTentativeRejectIntermediateType(s []*ccTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializebccTentativeRejectIntermediateType will accept a map to create a bccTentativeRejectIntermediateType
-func deserializeBccTentativeRejectIntermediateType(in interface{}) (t *bccTentativeRejectIntermediateType, err error) {
-	tmp := &bccTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice bccTentativeRejectIntermediateType will accept a slice to create a slice of bccTentativeRejectIntermediateType
-func deserializeSliceBccTentativeRejectIntermediateType(in []interface{}) (t []*bccTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &bccTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializebccTentativeRejectIntermediateType will accept a bccTentativeRejectIntermediateType to create a map
-func serializeBccTentativeRejectIntermediateType(t *bccTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicebccTentativeRejectIntermediateType will accept a slice of bccTentativeRejectIntermediateType to create a slice result
-func serializeSliceBccTentativeRejectIntermediateType(s []*bccTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializemediaTypeTentativeRejectIntermediateType will accept a map to create a mediaTypeTentativeRejectIntermediateType
-func deserializeMediaTypeTentativeRejectIntermediateType(in interface{}) (t *mediaTypeTentativeRejectIntermediateType, err error) {
-	tmp := &mediaTypeTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice mediaTypeTentativeRejectIntermediateType will accept a slice to create a slice of mediaTypeTentativeRejectIntermediateType
-func deserializeSliceMediaTypeTentativeRejectIntermediateType(in []interface{}) (t []*mediaTypeTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &mediaTypeTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializemediaTypeTentativeRejectIntermediateType will accept a mediaTypeTentativeRejectIntermediateType to create a map
-func serializeMediaTypeTentativeRejectIntermediateType(t *mediaTypeTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicemediaTypeTentativeRejectIntermediateType will accept a slice of mediaTypeTentativeRejectIntermediateType to create a slice result
-func serializeSliceMediaTypeTentativeRejectIntermediateType(s []*mediaTypeTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializedurationTentativeRejectIntermediateType will accept a map to create a durationTentativeRejectIntermediateType
-func deserializeDurationTentativeRejectIntermediateType(in interface{}) (t *durationTentativeRejectIntermediateType, err error) {
-	tmp := &durationTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice durationTentativeRejectIntermediateType will accept a slice to create a slice of durationTentativeRejectIntermediateType
-func deserializeSliceDurationTentativeRejectIntermediateType(in []interface{}) (t []*durationTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &durationTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializedurationTentativeRejectIntermediateType will accept a durationTentativeRejectIntermediateType to create a map
-func serializeDurationTentativeRejectIntermediateType(t *durationTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicedurationTentativeRejectIntermediateType will accept a slice of durationTentativeRejectIntermediateType to create a slice result
-func serializeSliceDurationTentativeRejectIntermediateType(s []*durationTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesourceTentativeRejectIntermediateType will accept a map to create a sourceTentativeRejectIntermediateType
-func deserializeSourceTentativeRejectIntermediateType(in interface{}) (t *sourceTentativeRejectIntermediateType, err error) {
-	tmp := &sourceTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice sourceTentativeRejectIntermediateType will accept a slice to create a slice of sourceTentativeRejectIntermediateType
-func deserializeSliceSourceTentativeRejectIntermediateType(in []interface{}) (t []*sourceTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &sourceTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesourceTentativeRejectIntermediateType will accept a sourceTentativeRejectIntermediateType to create a map
-func serializeSourceTentativeRejectIntermediateType(t *sourceTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesourceTentativeRejectIntermediateType will accept a slice of sourceTentativeRejectIntermediateType to create a slice result
-func serializeSliceSourceTentativeRejectIntermediateType(s []*sourceTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinboxTentativeRejectIntermediateType will accept a map to create a inboxTentativeRejectIntermediateType
-func deserializeInboxTentativeRejectIntermediateType(in interface{}) (t *inboxTentativeRejectIntermediateType, err error) {
-	tmp := &inboxTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice inboxTentativeRejectIntermediateType will accept a slice to create a slice of inboxTentativeRejectIntermediateType
-func deserializeSliceInboxTentativeRejectIntermediateType(in []interface{}) (t []*inboxTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &inboxTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinboxTentativeRejectIntermediateType will accept a inboxTentativeRejectIntermediateType to create a map
-func serializeInboxTentativeRejectIntermediateType(t *inboxTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinboxTentativeRejectIntermediateType will accept a slice of inboxTentativeRejectIntermediateType to create a slice result
-func serializeSliceInboxTentativeRejectIntermediateType(s []*inboxTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeoutboxTentativeRejectIntermediateType will accept a map to create a outboxTentativeRejectIntermediateType
-func deserializeOutboxTentativeRejectIntermediateType(in interface{}) (t *outboxTentativeRejectIntermediateType, err error) {
-	tmp := &outboxTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice outboxTentativeRejectIntermediateType will accept a slice to create a slice of outboxTentativeRejectIntermediateType
-func deserializeSliceOutboxTentativeRejectIntermediateType(in []interface{}) (t []*outboxTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &outboxTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeoutboxTentativeRejectIntermediateType will accept a outboxTentativeRejectIntermediateType to create a map
-func serializeOutboxTentativeRejectIntermediateType(t *outboxTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceoutboxTentativeRejectIntermediateType will accept a slice of outboxTentativeRejectIntermediateType to create a slice result
-func serializeSliceOutboxTentativeRejectIntermediateType(s []*outboxTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefollowingTentativeRejectIntermediateType will accept a map to create a followingTentativeRejectIntermediateType
-func deserializeFollowingTentativeRejectIntermediateType(in interface{}) (t *followingTentativeRejectIntermediateType, err error) {
-	tmp := &followingTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice followingTentativeRejectIntermediateType will accept a slice to create a slice of followingTentativeRejectIntermediateType
-func deserializeSliceFollowingTentativeRejectIntermediateType(in []interface{}) (t []*followingTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &followingTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefollowingTentativeRejectIntermediateType will accept a followingTentativeRejectIntermediateType to create a map
-func serializeFollowingTentativeRejectIntermediateType(t *followingTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefollowingTentativeRejectIntermediateType will accept a slice of followingTentativeRejectIntermediateType to create a slice result
-func serializeSliceFollowingTentativeRejectIntermediateType(s []*followingTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefollowersTentativeRejectIntermediateType will accept a map to create a followersTentativeRejectIntermediateType
-func deserializeFollowersTentativeRejectIntermediateType(in interface{}) (t *followersTentativeRejectIntermediateType, err error) {
-	tmp := &followersTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice followersTentativeRejectIntermediateType will accept a slice to create a slice of followersTentativeRejectIntermediateType
-func deserializeSliceFollowersTentativeRejectIntermediateType(in []interface{}) (t []*followersTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &followersTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefollowersTentativeRejectIntermediateType will accept a followersTentativeRejectIntermediateType to create a map
-func serializeFollowersTentativeRejectIntermediateType(t *followersTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefollowersTentativeRejectIntermediateType will accept a slice of followersTentativeRejectIntermediateType to create a slice result
-func serializeSliceFollowersTentativeRejectIntermediateType(s []*followersTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelikedTentativeRejectIntermediateType will accept a map to create a likedTentativeRejectIntermediateType
-func deserializeLikedTentativeRejectIntermediateType(in interface{}) (t *likedTentativeRejectIntermediateType, err error) {
-	tmp := &likedTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice likedTentativeRejectIntermediateType will accept a slice to create a slice of likedTentativeRejectIntermediateType
-func deserializeSliceLikedTentativeRejectIntermediateType(in []interface{}) (t []*likedTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &likedTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelikedTentativeRejectIntermediateType will accept a likedTentativeRejectIntermediateType to create a map
-func serializeLikedTentativeRejectIntermediateType(t *likedTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelikedTentativeRejectIntermediateType will accept a slice of likedTentativeRejectIntermediateType to create a slice result
-func serializeSliceLikedTentativeRejectIntermediateType(s []*likedTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelikesTentativeRejectIntermediateType will accept a map to create a likesTentativeRejectIntermediateType
-func deserializeLikesTentativeRejectIntermediateType(in interface{}) (t *likesTentativeRejectIntermediateType, err error) {
-	tmp := &likesTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice likesTentativeRejectIntermediateType will accept a slice to create a slice of likesTentativeRejectIntermediateType
-func deserializeSliceLikesTentativeRejectIntermediateType(in []interface{}) (t []*likesTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &likesTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelikesTentativeRejectIntermediateType will accept a likesTentativeRejectIntermediateType to create a map
-func serializeLikesTentativeRejectIntermediateType(t *likesTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelikesTentativeRejectIntermediateType will accept a slice of likesTentativeRejectIntermediateType to create a slice result
-func serializeSliceLikesTentativeRejectIntermediateType(s []*likesTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreferredUsernameTentativeRejectIntermediateType will accept a map to create a preferredUsernameTentativeRejectIntermediateType
-func deserializePreferredUsernameTentativeRejectIntermediateType(in interface{}) (t *preferredUsernameTentativeRejectIntermediateType, err error) {
-	tmp := &preferredUsernameTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice preferredUsernameTentativeRejectIntermediateType will accept a slice to create a slice of preferredUsernameTentativeRejectIntermediateType
-func deserializeSlicePreferredUsernameTentativeRejectIntermediateType(in []interface{}) (t []*preferredUsernameTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &preferredUsernameTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreferredUsernameTentativeRejectIntermediateType will accept a preferredUsernameTentativeRejectIntermediateType to create a map
-func serializePreferredUsernameTentativeRejectIntermediateType(t *preferredUsernameTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreferredUsernameTentativeRejectIntermediateType will accept a slice of preferredUsernameTentativeRejectIntermediateType to create a slice result
-func serializeSlicePreferredUsernameTentativeRejectIntermediateType(s []*preferredUsernameTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeendpointsTentativeRejectIntermediateType will accept a map to create a endpointsTentativeRejectIntermediateType
-func deserializeEndpointsTentativeRejectIntermediateType(in interface{}) (t *endpointsTentativeRejectIntermediateType, err error) {
-	tmp := &endpointsTentativeRejectIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice endpointsTentativeRejectIntermediateType will accept a slice to create a slice of endpointsTentativeRejectIntermediateType
-func deserializeSliceEndpointsTentativeRejectIntermediateType(in []interface{}) (t []*endpointsTentativeRejectIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &endpointsTentativeRejectIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeendpointsTentativeRejectIntermediateType will accept a endpointsTentativeRejectIntermediateType to create a map
-func serializeEndpointsTentativeRejectIntermediateType(t *endpointsTentativeRejectIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceendpointsTentativeRejectIntermediateType will accept a slice of endpointsTentativeRejectIntermediateType to create a slice result
-func serializeSliceEndpointsTentativeRejectIntermediateType(s []*endpointsTentativeRejectIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
 	}
 	return
 

@@ -6,7 +6,7 @@ import (
 	"github.com/go-fed/activity/tools/defs"
 )
 
-func generateDefinitions(t *defs.Type) (fd []*defs.FunctionDef, sd []*defs.StructDef, x []*defs.InterfaceDef, imports map[string]bool) {
+func generateDefinitions(t *defs.Type, m map[*defs.PropertyType]*intermedDef) (fd []*defs.FunctionDef, sd []*defs.StructDef, x []*defs.InterfaceDef, imports map[string]bool) {
 	imports = make(map[string]bool)
 	this := &defs.StructDef{
 		Typename: t.Name,
@@ -23,7 +23,7 @@ func generateDefinitions(t *defs.Type) (fd []*defs.FunctionDef, sd []*defs.Struc
 	var serializeFragments []string
 	var deserializeFragments []string
 	for _, p := range t.GetProperties() {
-		pf, pd, s, d := generatePropertyDefinitions(p, this, thisInterface)
+		pf, pd, s, d := generatePropertyDefinitions(p, this, thisInterface, m)
 		serializeFragments = append(serializeFragments, s)
 		deserializeFragments = append(deserializeFragments, d)
 		fd = append(fd, pf...)
@@ -36,7 +36,7 @@ func generateDefinitions(t *defs.Type) (fd []*defs.FunctionDef, sd []*defs.Struc
 			}
 		}
 	}
-	generateWithoutProperties(t, this, thisInterface)
+	generateWithoutProperties(t, this, thisInterface, m)
 	generateAddUnknownFunction(t, this)
 	generateHasUnknownFunction(t, this)
 	generateRemoveUnknownFunction(t, this)
@@ -237,7 +237,7 @@ func generateSerializeFunction(t *defs.Type, this *defs.StructDef, fragments []s
 	this.F = append(this.F, d)
 }
 
-func generateWithoutProperties(d *defs.Type, this *defs.StructDef, it *defs.InterfaceDef) {
+func generateWithoutProperties(d *defs.Type, this *defs.StructDef, it *defs.InterfaceDef, m map[*defs.PropertyType]*intermedDef) {
 	hasNamed := make(map[string]bool, 0)
 	for _, p := range d.GetProperties() {
 		hasNamed[p.Name] = true
@@ -251,7 +251,7 @@ func generateWithoutProperties(d *defs.Type, this *defs.StructDef, it *defs.Inte
 			Typename: this.Typename,
 			Comment:  this.Comment,
 		}
-		_, _, _, _ = generatePropertyDefinitions(t, clonedThis, it)
+		_, _, _, _ = generatePropertyDefinitions(t, clonedThis, it, m)
 		for _, f := range clonedThis.F {
 			if len(f.Return) > 1 {
 				panic("generateWithoutProperties can only handle replacing functions with zero or one return types")

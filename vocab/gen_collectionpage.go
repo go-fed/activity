@@ -2,7 +2,6 @@
 package vocab
 
 import (
-	"fmt"
 	"net/url"
 	"time"
 )
@@ -574,107 +573,107 @@ type CollectionPage struct {
 	// An unknown value.
 	unknown_ map[string]interface{}
 	// The functional 'partOf' value could have multiple types, but only a single value
-	partOf *partOfCollectionPageIntermediateType
+	partOf *partOfIntermediateType
 	// The functional 'next' value could have multiple types, but only a single value
-	next *nextCollectionPageIntermediateType
+	next *nextIntermediateType
 	// The functional 'prev' value could have multiple types, but only a single value
-	prev *prevCollectionPageIntermediateType
+	prev *prevIntermediateType
 	// The functional 'totalItems' value could have multiple types, but only a single value
-	totalItems *totalItemsCollectionPageIntermediateType
+	totalItems *totalItemsIntermediateType
 	// The functional 'current' value could have multiple types, but only a single value
-	current *currentCollectionPageIntermediateType
+	current *currentIntermediateType
 	// The functional 'first' value could have multiple types, but only a single value
-	first *firstCollectionPageIntermediateType
+	first *firstIntermediateType
 	// The functional 'last' value could have multiple types, but only a single value
-	last *lastCollectionPageIntermediateType
+	last *lastIntermediateType
 	// The 'items' value could have multiple types and values
-	items []*itemsCollectionPageIntermediateType
+	items []*itemsIntermediateType
 	// The functional 'altitude' value could have multiple types, but only a single value
-	altitude *altitudeCollectionPageIntermediateType
+	altitude *altitudeIntermediateType
 	// The 'attachment' value could have multiple types and values
-	attachment []*attachmentCollectionPageIntermediateType
+	attachment []*attachmentIntermediateType
 	// The 'attributedTo' value could have multiple types and values
-	attributedTo []*attributedToCollectionPageIntermediateType
+	attributedTo []*attributedToIntermediateType
 	// The 'audience' value could have multiple types and values
-	audience []*audienceCollectionPageIntermediateType
+	audience []*audienceIntermediateType
 	// The 'content' value could have multiple types and values
-	content []*contentCollectionPageIntermediateType
+	content []*contentIntermediateType
 	// The 'contentMap' value holds language-specific values for property 'content'
 	contentMap map[string]string
 	// The 'context' value could have multiple types and values
-	context []*contextCollectionPageIntermediateType
+	context []*contextIntermediateType
 	// The 'name' value could have multiple types and values
-	name []*nameCollectionPageIntermediateType
+	name []*nameIntermediateType
 	// The 'nameMap' value holds language-specific values for property 'name'
 	nameMap map[string]string
 	// The functional 'endTime' value could have multiple types, but only a single value
-	endTime *endTimeCollectionPageIntermediateType
+	endTime *endTimeIntermediateType
 	// The 'generator' value could have multiple types and values
-	generator []*generatorCollectionPageIntermediateType
+	generator []*generatorIntermediateType
 	// The 'icon' value could have multiple types and values
-	icon []*iconCollectionPageIntermediateType
+	icon []*iconIntermediateType
 	// The functional 'id' value holds a single type and a single value
 	id *url.URL
 	// The 'image' value could have multiple types and values
-	image []*imageCollectionPageIntermediateType
+	image []*imageIntermediateType
 	// The 'inReplyTo' value could have multiple types and values
-	inReplyTo []*inReplyToCollectionPageIntermediateType
+	inReplyTo []*inReplyToIntermediateType
 	// The 'location' value could have multiple types and values
-	location []*locationCollectionPageIntermediateType
+	location []*locationIntermediateType
 	// The 'preview' value could have multiple types and values
-	preview []*previewCollectionPageIntermediateType
+	preview []*previewIntermediateType
 	// The functional 'published' value could have multiple types, but only a single value
-	published *publishedCollectionPageIntermediateType
+	published *publishedIntermediateType
 	// The functional 'replies' value could have multiple types, but only a single value
-	replies *repliesCollectionPageIntermediateType
+	replies *repliesIntermediateType
 	// The functional 'startTime' value could have multiple types, but only a single value
-	startTime *startTimeCollectionPageIntermediateType
+	startTime *startTimeIntermediateType
 	// The 'summary' value could have multiple types and values
-	summary []*summaryCollectionPageIntermediateType
+	summary []*summaryIntermediateType
 	// The 'summaryMap' value holds language-specific values for property 'summary'
 	summaryMap map[string]string
 	// The 'tag' value could have multiple types and values
-	tag []*tagCollectionPageIntermediateType
+	tag []*tagIntermediateType
 	// The 'type' value can hold any type and any number of values
 	typeName []interface{}
 	// The functional 'updated' value could have multiple types, but only a single value
-	updated *updatedCollectionPageIntermediateType
+	updated *updatedIntermediateType
 	// The 'url' value could have multiple types and values
-	url []*urlCollectionPageIntermediateType
+	url []*urlIntermediateType
 	// The 'to' value could have multiple types and values
-	to []*toCollectionPageIntermediateType
+	to []*toIntermediateType
 	// The 'bto' value could have multiple types and values
-	bto []*btoCollectionPageIntermediateType
+	bto []*btoIntermediateType
 	// The 'cc' value could have multiple types and values
-	cc []*ccCollectionPageIntermediateType
+	cc []*ccIntermediateType
 	// The 'bcc' value could have multiple types and values
-	bcc []*bccCollectionPageIntermediateType
+	bcc []*bccIntermediateType
 	// The functional 'mediaType' value could have multiple types, but only a single value
-	mediaType *mediaTypeCollectionPageIntermediateType
+	mediaType *mediaTypeIntermediateType
 	// The functional 'duration' value could have multiple types, but only a single value
-	duration *durationCollectionPageIntermediateType
+	duration *durationIntermediateType
 	// The functional 'source' value could have multiple types, but only a single value
-	source *sourceCollectionPageIntermediateType
+	source *sourceIntermediateType
 	// The functional 'inbox' value could have multiple types, but only a single value
-	inbox *inboxCollectionPageIntermediateType
+	inbox *inboxIntermediateType
 	// The functional 'outbox' value could have multiple types, but only a single value
-	outbox *outboxCollectionPageIntermediateType
+	outbox *outboxIntermediateType
 	// The functional 'following' value could have multiple types, but only a single value
-	following *followingCollectionPageIntermediateType
+	following *followingIntermediateType
 	// The functional 'followers' value could have multiple types, but only a single value
-	followers *followersCollectionPageIntermediateType
+	followers *followersIntermediateType
 	// The functional 'liked' value could have multiple types, but only a single value
-	liked *likedCollectionPageIntermediateType
+	liked *likedIntermediateType
 	// The functional 'likes' value could have multiple types, but only a single value
-	likes *likesCollectionPageIntermediateType
+	likes *likesIntermediateType
 	// The 'streams' value holds a single type and any number of values
 	streams []*url.URL
 	// The functional 'preferredUsername' value could have multiple types, but only a single value
-	preferredUsername *preferredUsernameCollectionPageIntermediateType
+	preferredUsername *preferredUsernameIntermediateType
 	// The 'preferredUsernameMap' value holds language-specific values for property 'preferredUsername'
 	preferredUsernameMap map[string]string
 	// The functional 'endpoints' value could have multiple types, but only a single value
-	endpoints *endpointsCollectionPageIntermediateType
+	endpoints *endpointsIntermediateType
 	// The functional 'proxyUrl' value holds a single type and a single value
 	proxyUrl *url.URL
 	// The functional 'oauthAuthorizationEndpoint' value holds a single type and a single value
@@ -703,7 +702,7 @@ func (t *CollectionPage) GetPartOfLink() (v LinkType) {
 
 // SetPartOfLink sets the value of partOf to be of LinkType type
 func (t *CollectionPage) SetPartOfLink(v LinkType) {
-	t.partOf = &partOfCollectionPageIntermediateType{Link: v}
+	t.partOf = &partOfIntermediateType{Link: v}
 
 }
 
@@ -721,7 +720,7 @@ func (t *CollectionPage) GetPartOfCollection() (v CollectionType) {
 
 // SetPartOfCollection sets the value of partOf to be of CollectionType type
 func (t *CollectionPage) SetPartOfCollection(v CollectionType) {
-	t.partOf = &partOfCollectionPageIntermediateType{Collection: v}
+	t.partOf = &partOfIntermediateType{Collection: v}
 
 }
 
@@ -739,7 +738,7 @@ func (t *CollectionPage) GetPartOfIRI() (v *url.URL) {
 
 // SetPartOfIRI sets the value of partOf to be of *url.URL type
 func (t *CollectionPage) SetPartOfIRI(v *url.URL) {
-	t.partOf = &partOfCollectionPageIntermediateType{IRI: v}
+	t.partOf = &partOfIntermediateType{IRI: v}
 
 }
 
@@ -760,7 +759,7 @@ func (t *CollectionPage) SetUnknownPartOf(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &partOfCollectionPageIntermediateType{}
+	tmp := &partOfIntermediateType{}
 	tmp.unknown_ = i
 	t.partOf = tmp
 
@@ -780,7 +779,7 @@ func (t *CollectionPage) GetNextCollectionPage() (v CollectionPageType) {
 
 // SetNextCollectionPage sets the value of next to be of CollectionPageType type
 func (t *CollectionPage) SetNextCollectionPage(v CollectionPageType) {
-	t.next = &nextCollectionPageIntermediateType{CollectionPage: v}
+	t.next = &nextIntermediateType{CollectionPage: v}
 
 }
 
@@ -798,7 +797,7 @@ func (t *CollectionPage) GetNextLink() (v LinkType) {
 
 // SetNextLink sets the value of next to be of LinkType type
 func (t *CollectionPage) SetNextLink(v LinkType) {
-	t.next = &nextCollectionPageIntermediateType{Link: v}
+	t.next = &nextIntermediateType{Link: v}
 
 }
 
@@ -816,7 +815,7 @@ func (t *CollectionPage) GetNextIRI() (v *url.URL) {
 
 // SetNextIRI sets the value of next to be of *url.URL type
 func (t *CollectionPage) SetNextIRI(v *url.URL) {
-	t.next = &nextCollectionPageIntermediateType{IRI: v}
+	t.next = &nextIntermediateType{IRI: v}
 
 }
 
@@ -837,7 +836,7 @@ func (t *CollectionPage) SetUnknownNext(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &nextCollectionPageIntermediateType{}
+	tmp := &nextIntermediateType{}
 	tmp.unknown_ = i
 	t.next = tmp
 
@@ -857,7 +856,7 @@ func (t *CollectionPage) GetPrevCollectionPage() (v CollectionPageType) {
 
 // SetPrevCollectionPage sets the value of prev to be of CollectionPageType type
 func (t *CollectionPage) SetPrevCollectionPage(v CollectionPageType) {
-	t.prev = &prevCollectionPageIntermediateType{CollectionPage: v}
+	t.prev = &prevIntermediateType{CollectionPage: v}
 
 }
 
@@ -875,7 +874,7 @@ func (t *CollectionPage) GetPrevLink() (v LinkType) {
 
 // SetPrevLink sets the value of prev to be of LinkType type
 func (t *CollectionPage) SetPrevLink(v LinkType) {
-	t.prev = &prevCollectionPageIntermediateType{Link: v}
+	t.prev = &prevIntermediateType{Link: v}
 
 }
 
@@ -893,7 +892,7 @@ func (t *CollectionPage) GetPrevIRI() (v *url.URL) {
 
 // SetPrevIRI sets the value of prev to be of *url.URL type
 func (t *CollectionPage) SetPrevIRI(v *url.URL) {
-	t.prev = &prevCollectionPageIntermediateType{IRI: v}
+	t.prev = &prevIntermediateType{IRI: v}
 
 }
 
@@ -914,7 +913,7 @@ func (t *CollectionPage) SetUnknownPrev(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &prevCollectionPageIntermediateType{}
+	tmp := &prevIntermediateType{}
 	tmp.unknown_ = i
 	t.prev = tmp
 
@@ -934,7 +933,7 @@ func (t *CollectionPage) GetTotalItems() (v int64) {
 
 // SetTotalItems sets the value of totalItems to be of int64 type
 func (t *CollectionPage) SetTotalItems(v int64) {
-	t.totalItems = &totalItemsCollectionPageIntermediateType{nonNegativeInteger: &v}
+	t.totalItems = &totalItemsIntermediateType{nonNegativeInteger: &v}
 
 }
 
@@ -952,7 +951,7 @@ func (t *CollectionPage) GetTotalItemsIRI() (v *url.URL) {
 
 // SetTotalItemsIRI sets the value of totalItems to be of *url.URL type
 func (t *CollectionPage) SetTotalItemsIRI(v *url.URL) {
-	t.totalItems = &totalItemsCollectionPageIntermediateType{IRI: v}
+	t.totalItems = &totalItemsIntermediateType{IRI: v}
 
 }
 
@@ -973,7 +972,7 @@ func (t *CollectionPage) SetUnknownTotalItems(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &totalItemsCollectionPageIntermediateType{}
+	tmp := &totalItemsIntermediateType{}
 	tmp.unknown_ = i
 	t.totalItems = tmp
 
@@ -993,7 +992,7 @@ func (t *CollectionPage) GetCurrentCollectionPage() (v CollectionPageType) {
 
 // SetCurrentCollectionPage sets the value of current to be of CollectionPageType type
 func (t *CollectionPage) SetCurrentCollectionPage(v CollectionPageType) {
-	t.current = &currentCollectionPageIntermediateType{CollectionPage: v}
+	t.current = &currentIntermediateType{CollectionPage: v}
 
 }
 
@@ -1011,7 +1010,7 @@ func (t *CollectionPage) GetCurrentLink() (v LinkType) {
 
 // SetCurrentLink sets the value of current to be of LinkType type
 func (t *CollectionPage) SetCurrentLink(v LinkType) {
-	t.current = &currentCollectionPageIntermediateType{Link: v}
+	t.current = &currentIntermediateType{Link: v}
 
 }
 
@@ -1029,7 +1028,7 @@ func (t *CollectionPage) GetCurrentIRI() (v *url.URL) {
 
 // SetCurrentIRI sets the value of current to be of *url.URL type
 func (t *CollectionPage) SetCurrentIRI(v *url.URL) {
-	t.current = &currentCollectionPageIntermediateType{IRI: v}
+	t.current = &currentIntermediateType{IRI: v}
 
 }
 
@@ -1050,7 +1049,7 @@ func (t *CollectionPage) SetUnknownCurrent(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &currentCollectionPageIntermediateType{}
+	tmp := &currentIntermediateType{}
 	tmp.unknown_ = i
 	t.current = tmp
 
@@ -1070,7 +1069,7 @@ func (t *CollectionPage) GetFirstCollectionPage() (v CollectionPageType) {
 
 // SetFirstCollectionPage sets the value of first to be of CollectionPageType type
 func (t *CollectionPage) SetFirstCollectionPage(v CollectionPageType) {
-	t.first = &firstCollectionPageIntermediateType{CollectionPage: v}
+	t.first = &firstIntermediateType{CollectionPage: v}
 
 }
 
@@ -1088,7 +1087,7 @@ func (t *CollectionPage) GetFirstLink() (v LinkType) {
 
 // SetFirstLink sets the value of first to be of LinkType type
 func (t *CollectionPage) SetFirstLink(v LinkType) {
-	t.first = &firstCollectionPageIntermediateType{Link: v}
+	t.first = &firstIntermediateType{Link: v}
 
 }
 
@@ -1106,7 +1105,7 @@ func (t *CollectionPage) GetFirstIRI() (v *url.URL) {
 
 // SetFirstIRI sets the value of first to be of *url.URL type
 func (t *CollectionPage) SetFirstIRI(v *url.URL) {
-	t.first = &firstCollectionPageIntermediateType{IRI: v}
+	t.first = &firstIntermediateType{IRI: v}
 
 }
 
@@ -1127,7 +1126,7 @@ func (t *CollectionPage) SetUnknownFirst(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &firstCollectionPageIntermediateType{}
+	tmp := &firstIntermediateType{}
 	tmp.unknown_ = i
 	t.first = tmp
 
@@ -1147,7 +1146,7 @@ func (t *CollectionPage) GetLastCollectionPage() (v CollectionPageType) {
 
 // SetLastCollectionPage sets the value of last to be of CollectionPageType type
 func (t *CollectionPage) SetLastCollectionPage(v CollectionPageType) {
-	t.last = &lastCollectionPageIntermediateType{CollectionPage: v}
+	t.last = &lastIntermediateType{CollectionPage: v}
 
 }
 
@@ -1165,7 +1164,7 @@ func (t *CollectionPage) GetLastLink() (v LinkType) {
 
 // SetLastLink sets the value of last to be of LinkType type
 func (t *CollectionPage) SetLastLink(v LinkType) {
-	t.last = &lastCollectionPageIntermediateType{Link: v}
+	t.last = &lastIntermediateType{Link: v}
 
 }
 
@@ -1183,7 +1182,7 @@ func (t *CollectionPage) GetLastIRI() (v *url.URL) {
 
 // SetLastIRI sets the value of last to be of *url.URL type
 func (t *CollectionPage) SetLastIRI(v *url.URL) {
-	t.last = &lastCollectionPageIntermediateType{IRI: v}
+	t.last = &lastIntermediateType{IRI: v}
 
 }
 
@@ -1204,7 +1203,7 @@ func (t *CollectionPage) SetUnknownLast(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &lastCollectionPageIntermediateType{}
+	tmp := &lastIntermediateType{}
 	tmp.unknown_ = i
 	t.last = tmp
 
@@ -1230,13 +1229,13 @@ func (t *CollectionPage) GetItemsObject(index int) (v ObjectType) {
 
 // AppendItemsObject adds to the back of items a ObjectType type
 func (t *CollectionPage) AppendItemsObject(v ObjectType) {
-	t.items = append(t.items, &itemsCollectionPageIntermediateType{Object: v})
+	t.items = append(t.items, &itemsIntermediateType{Object: v})
 
 }
 
 // PrependItemsObject adds to the front of items a ObjectType type
 func (t *CollectionPage) PrependItemsObject(v ObjectType) {
-	t.items = append([]*itemsCollectionPageIntermediateType{&itemsCollectionPageIntermediateType{Object: v}}, t.items...)
+	t.items = append([]*itemsIntermediateType{&itemsIntermediateType{Object: v}}, t.items...)
 
 }
 
@@ -1262,13 +1261,13 @@ func (t *CollectionPage) GetItemsLink(index int) (v LinkType) {
 
 // AppendItemsLink adds to the back of items a LinkType type
 func (t *CollectionPage) AppendItemsLink(v LinkType) {
-	t.items = append(t.items, &itemsCollectionPageIntermediateType{Link: v})
+	t.items = append(t.items, &itemsIntermediateType{Link: v})
 
 }
 
 // PrependItemsLink adds to the front of items a LinkType type
 func (t *CollectionPage) PrependItemsLink(v LinkType) {
-	t.items = append([]*itemsCollectionPageIntermediateType{&itemsCollectionPageIntermediateType{Link: v}}, t.items...)
+	t.items = append([]*itemsIntermediateType{&itemsIntermediateType{Link: v}}, t.items...)
 
 }
 
@@ -1294,13 +1293,13 @@ func (t *CollectionPage) GetItemsIRI(index int) (v *url.URL) {
 
 // AppendItemsIRI adds to the back of items a *url.URL type
 func (t *CollectionPage) AppendItemsIRI(v *url.URL) {
-	t.items = append(t.items, &itemsCollectionPageIntermediateType{IRI: v})
+	t.items = append(t.items, &itemsIntermediateType{IRI: v})
 
 }
 
 // PrependItemsIRI adds to the front of items a *url.URL type
 func (t *CollectionPage) PrependItemsIRI(v *url.URL) {
-	t.items = append([]*itemsCollectionPageIntermediateType{&itemsCollectionPageIntermediateType{IRI: v}}, t.items...)
+	t.items = append([]*itemsIntermediateType{&itemsIntermediateType{IRI: v}}, t.items...)
 
 }
 
@@ -1329,7 +1328,7 @@ func (t *CollectionPage) SetUnknownItems(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &itemsCollectionPageIntermediateType{}
+	tmp := &itemsIntermediateType{}
 	tmp.unknown_ = i
 	t.items = append(t.items, tmp)
 
@@ -1349,7 +1348,7 @@ func (t *CollectionPage) GetAltitude() (v float64) {
 
 // SetAltitude sets the value of altitude to be of float64 type
 func (t *CollectionPage) SetAltitude(v float64) {
-	t.altitude = &altitudeCollectionPageIntermediateType{float: &v}
+	t.altitude = &altitudeIntermediateType{float: &v}
 
 }
 
@@ -1367,7 +1366,7 @@ func (t *CollectionPage) GetAltitudeIRI() (v *url.URL) {
 
 // SetAltitudeIRI sets the value of altitude to be of *url.URL type
 func (t *CollectionPage) SetAltitudeIRI(v *url.URL) {
-	t.altitude = &altitudeCollectionPageIntermediateType{IRI: v}
+	t.altitude = &altitudeIntermediateType{IRI: v}
 
 }
 
@@ -1388,7 +1387,7 @@ func (t *CollectionPage) SetUnknownAltitude(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &altitudeCollectionPageIntermediateType{}
+	tmp := &altitudeIntermediateType{}
 	tmp.unknown_ = i
 	t.altitude = tmp
 
@@ -1414,13 +1413,13 @@ func (t *CollectionPage) GetAttachmentObject(index int) (v ObjectType) {
 
 // AppendAttachmentObject adds to the back of attachment a ObjectType type
 func (t *CollectionPage) AppendAttachmentObject(v ObjectType) {
-	t.attachment = append(t.attachment, &attachmentCollectionPageIntermediateType{Object: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{Object: v})
 
 }
 
 // PrependAttachmentObject adds to the front of attachment a ObjectType type
 func (t *CollectionPage) PrependAttachmentObject(v ObjectType) {
-	t.attachment = append([]*attachmentCollectionPageIntermediateType{&attachmentCollectionPageIntermediateType{Object: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{Object: v}}, t.attachment...)
 
 }
 
@@ -1446,13 +1445,13 @@ func (t *CollectionPage) GetAttachmentLink(index int) (v LinkType) {
 
 // AppendAttachmentLink adds to the back of attachment a LinkType type
 func (t *CollectionPage) AppendAttachmentLink(v LinkType) {
-	t.attachment = append(t.attachment, &attachmentCollectionPageIntermediateType{Link: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{Link: v})
 
 }
 
 // PrependAttachmentLink adds to the front of attachment a LinkType type
 func (t *CollectionPage) PrependAttachmentLink(v LinkType) {
-	t.attachment = append([]*attachmentCollectionPageIntermediateType{&attachmentCollectionPageIntermediateType{Link: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{Link: v}}, t.attachment...)
 
 }
 
@@ -1478,13 +1477,13 @@ func (t *CollectionPage) GetAttachmentIRI(index int) (v *url.URL) {
 
 // AppendAttachmentIRI adds to the back of attachment a *url.URL type
 func (t *CollectionPage) AppendAttachmentIRI(v *url.URL) {
-	t.attachment = append(t.attachment, &attachmentCollectionPageIntermediateType{IRI: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{IRI: v})
 
 }
 
 // PrependAttachmentIRI adds to the front of attachment a *url.URL type
 func (t *CollectionPage) PrependAttachmentIRI(v *url.URL) {
-	t.attachment = append([]*attachmentCollectionPageIntermediateType{&attachmentCollectionPageIntermediateType{IRI: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{IRI: v}}, t.attachment...)
 
 }
 
@@ -1513,7 +1512,7 @@ func (t *CollectionPage) SetUnknownAttachment(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attachmentCollectionPageIntermediateType{}
+	tmp := &attachmentIntermediateType{}
 	tmp.unknown_ = i
 	t.attachment = append(t.attachment, tmp)
 
@@ -1539,13 +1538,13 @@ func (t *CollectionPage) GetAttributedToObject(index int) (v ObjectType) {
 
 // AppendAttributedToObject adds to the back of attributedTo a ObjectType type
 func (t *CollectionPage) AppendAttributedToObject(v ObjectType) {
-	t.attributedTo = append(t.attributedTo, &attributedToCollectionPageIntermediateType{Object: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Object: v})
 
 }
 
 // PrependAttributedToObject adds to the front of attributedTo a ObjectType type
 func (t *CollectionPage) PrependAttributedToObject(v ObjectType) {
-	t.attributedTo = append([]*attributedToCollectionPageIntermediateType{&attributedToCollectionPageIntermediateType{Object: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Object: v}}, t.attributedTo...)
 
 }
 
@@ -1571,13 +1570,13 @@ func (t *CollectionPage) GetAttributedToLink(index int) (v LinkType) {
 
 // AppendAttributedToLink adds to the back of attributedTo a LinkType type
 func (t *CollectionPage) AppendAttributedToLink(v LinkType) {
-	t.attributedTo = append(t.attributedTo, &attributedToCollectionPageIntermediateType{Link: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Link: v})
 
 }
 
 // PrependAttributedToLink adds to the front of attributedTo a LinkType type
 func (t *CollectionPage) PrependAttributedToLink(v LinkType) {
-	t.attributedTo = append([]*attributedToCollectionPageIntermediateType{&attributedToCollectionPageIntermediateType{Link: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Link: v}}, t.attributedTo...)
 
 }
 
@@ -1603,13 +1602,13 @@ func (t *CollectionPage) GetAttributedToIRI(index int) (v *url.URL) {
 
 // AppendAttributedToIRI adds to the back of attributedTo a *url.URL type
 func (t *CollectionPage) AppendAttributedToIRI(v *url.URL) {
-	t.attributedTo = append(t.attributedTo, &attributedToCollectionPageIntermediateType{IRI: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{IRI: v})
 
 }
 
 // PrependAttributedToIRI adds to the front of attributedTo a *url.URL type
 func (t *CollectionPage) PrependAttributedToIRI(v *url.URL) {
-	t.attributedTo = append([]*attributedToCollectionPageIntermediateType{&attributedToCollectionPageIntermediateType{IRI: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{IRI: v}}, t.attributedTo...)
 
 }
 
@@ -1638,7 +1637,7 @@ func (t *CollectionPage) SetUnknownAttributedTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attributedToCollectionPageIntermediateType{}
+	tmp := &attributedToIntermediateType{}
 	tmp.unknown_ = i
 	t.attributedTo = append(t.attributedTo, tmp)
 
@@ -1664,13 +1663,13 @@ func (t *CollectionPage) GetAudienceObject(index int) (v ObjectType) {
 
 // AppendAudienceObject adds to the back of audience a ObjectType type
 func (t *CollectionPage) AppendAudienceObject(v ObjectType) {
-	t.audience = append(t.audience, &audienceCollectionPageIntermediateType{Object: v})
+	t.audience = append(t.audience, &audienceIntermediateType{Object: v})
 
 }
 
 // PrependAudienceObject adds to the front of audience a ObjectType type
 func (t *CollectionPage) PrependAudienceObject(v ObjectType) {
-	t.audience = append([]*audienceCollectionPageIntermediateType{&audienceCollectionPageIntermediateType{Object: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{Object: v}}, t.audience...)
 
 }
 
@@ -1696,13 +1695,13 @@ func (t *CollectionPage) GetAudienceLink(index int) (v LinkType) {
 
 // AppendAudienceLink adds to the back of audience a LinkType type
 func (t *CollectionPage) AppendAudienceLink(v LinkType) {
-	t.audience = append(t.audience, &audienceCollectionPageIntermediateType{Link: v})
+	t.audience = append(t.audience, &audienceIntermediateType{Link: v})
 
 }
 
 // PrependAudienceLink adds to the front of audience a LinkType type
 func (t *CollectionPage) PrependAudienceLink(v LinkType) {
-	t.audience = append([]*audienceCollectionPageIntermediateType{&audienceCollectionPageIntermediateType{Link: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{Link: v}}, t.audience...)
 
 }
 
@@ -1728,13 +1727,13 @@ func (t *CollectionPage) GetAudienceIRI(index int) (v *url.URL) {
 
 // AppendAudienceIRI adds to the back of audience a *url.URL type
 func (t *CollectionPage) AppendAudienceIRI(v *url.URL) {
-	t.audience = append(t.audience, &audienceCollectionPageIntermediateType{IRI: v})
+	t.audience = append(t.audience, &audienceIntermediateType{IRI: v})
 
 }
 
 // PrependAudienceIRI adds to the front of audience a *url.URL type
 func (t *CollectionPage) PrependAudienceIRI(v *url.URL) {
-	t.audience = append([]*audienceCollectionPageIntermediateType{&audienceCollectionPageIntermediateType{IRI: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{IRI: v}}, t.audience...)
 
 }
 
@@ -1763,7 +1762,7 @@ func (t *CollectionPage) SetUnknownAudience(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &audienceCollectionPageIntermediateType{}
+	tmp := &audienceIntermediateType{}
 	tmp.unknown_ = i
 	t.audience = append(t.audience, tmp)
 
@@ -1789,13 +1788,13 @@ func (t *CollectionPage) GetContentString(index int) (v string) {
 
 // AppendContentString adds to the back of content a string type
 func (t *CollectionPage) AppendContentString(v string) {
-	t.content = append(t.content, &contentCollectionPageIntermediateType{stringName: &v})
+	t.content = append(t.content, &contentIntermediateType{stringName: &v})
 
 }
 
 // PrependContentString adds to the front of content a string type
 func (t *CollectionPage) PrependContentString(v string) {
-	t.content = append([]*contentCollectionPageIntermediateType{&contentCollectionPageIntermediateType{stringName: &v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{stringName: &v}}, t.content...)
 
 }
 
@@ -1821,13 +1820,13 @@ func (t *CollectionPage) GetContentLangString(index int) (v string) {
 
 // AppendContentLangString adds to the back of content a string type
 func (t *CollectionPage) AppendContentLangString(v string) {
-	t.content = append(t.content, &contentCollectionPageIntermediateType{langString: &v})
+	t.content = append(t.content, &contentIntermediateType{langString: &v})
 
 }
 
 // PrependContentLangString adds to the front of content a string type
 func (t *CollectionPage) PrependContentLangString(v string) {
-	t.content = append([]*contentCollectionPageIntermediateType{&contentCollectionPageIntermediateType{langString: &v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{langString: &v}}, t.content...)
 
 }
 
@@ -1853,13 +1852,13 @@ func (t *CollectionPage) GetContentIRI(index int) (v *url.URL) {
 
 // AppendContentIRI adds to the back of content a *url.URL type
 func (t *CollectionPage) AppendContentIRI(v *url.URL) {
-	t.content = append(t.content, &contentCollectionPageIntermediateType{IRI: v})
+	t.content = append(t.content, &contentIntermediateType{IRI: v})
 
 }
 
 // PrependContentIRI adds to the front of content a *url.URL type
 func (t *CollectionPage) PrependContentIRI(v *url.URL) {
-	t.content = append([]*contentCollectionPageIntermediateType{&contentCollectionPageIntermediateType{IRI: v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{IRI: v}}, t.content...)
 
 }
 
@@ -1888,7 +1887,7 @@ func (t *CollectionPage) SetUnknownContent(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &contentCollectionPageIntermediateType{}
+	tmp := &contentIntermediateType{}
 	tmp.unknown_ = i
 	t.content = append(t.content, tmp)
 
@@ -1949,13 +1948,13 @@ func (t *CollectionPage) GetContextObject(index int) (v ObjectType) {
 
 // AppendContextObject adds to the back of context a ObjectType type
 func (t *CollectionPage) AppendContextObject(v ObjectType) {
-	t.context = append(t.context, &contextCollectionPageIntermediateType{Object: v})
+	t.context = append(t.context, &contextIntermediateType{Object: v})
 
 }
 
 // PrependContextObject adds to the front of context a ObjectType type
 func (t *CollectionPage) PrependContextObject(v ObjectType) {
-	t.context = append([]*contextCollectionPageIntermediateType{&contextCollectionPageIntermediateType{Object: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{Object: v}}, t.context...)
 
 }
 
@@ -1981,13 +1980,13 @@ func (t *CollectionPage) GetContextLink(index int) (v LinkType) {
 
 // AppendContextLink adds to the back of context a LinkType type
 func (t *CollectionPage) AppendContextLink(v LinkType) {
-	t.context = append(t.context, &contextCollectionPageIntermediateType{Link: v})
+	t.context = append(t.context, &contextIntermediateType{Link: v})
 
 }
 
 // PrependContextLink adds to the front of context a LinkType type
 func (t *CollectionPage) PrependContextLink(v LinkType) {
-	t.context = append([]*contextCollectionPageIntermediateType{&contextCollectionPageIntermediateType{Link: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{Link: v}}, t.context...)
 
 }
 
@@ -2013,13 +2012,13 @@ func (t *CollectionPage) GetContextIRI(index int) (v *url.URL) {
 
 // AppendContextIRI adds to the back of context a *url.URL type
 func (t *CollectionPage) AppendContextIRI(v *url.URL) {
-	t.context = append(t.context, &contextCollectionPageIntermediateType{IRI: v})
+	t.context = append(t.context, &contextIntermediateType{IRI: v})
 
 }
 
 // PrependContextIRI adds to the front of context a *url.URL type
 func (t *CollectionPage) PrependContextIRI(v *url.URL) {
-	t.context = append([]*contextCollectionPageIntermediateType{&contextCollectionPageIntermediateType{IRI: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{IRI: v}}, t.context...)
 
 }
 
@@ -2048,7 +2047,7 @@ func (t *CollectionPage) SetUnknownContext(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &contextCollectionPageIntermediateType{}
+	tmp := &contextIntermediateType{}
 	tmp.unknown_ = i
 	t.context = append(t.context, tmp)
 
@@ -2074,13 +2073,13 @@ func (t *CollectionPage) GetNameString(index int) (v string) {
 
 // AppendNameString adds to the back of name a string type
 func (t *CollectionPage) AppendNameString(v string) {
-	t.name = append(t.name, &nameCollectionPageIntermediateType{stringName: &v})
+	t.name = append(t.name, &nameIntermediateType{stringName: &v})
 
 }
 
 // PrependNameString adds to the front of name a string type
 func (t *CollectionPage) PrependNameString(v string) {
-	t.name = append([]*nameCollectionPageIntermediateType{&nameCollectionPageIntermediateType{stringName: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{stringName: &v}}, t.name...)
 
 }
 
@@ -2106,13 +2105,13 @@ func (t *CollectionPage) GetNameLangString(index int) (v string) {
 
 // AppendNameLangString adds to the back of name a string type
 func (t *CollectionPage) AppendNameLangString(v string) {
-	t.name = append(t.name, &nameCollectionPageIntermediateType{langString: &v})
+	t.name = append(t.name, &nameIntermediateType{langString: &v})
 
 }
 
 // PrependNameLangString adds to the front of name a string type
 func (t *CollectionPage) PrependNameLangString(v string) {
-	t.name = append([]*nameCollectionPageIntermediateType{&nameCollectionPageIntermediateType{langString: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{langString: &v}}, t.name...)
 
 }
 
@@ -2138,13 +2137,13 @@ func (t *CollectionPage) GetNameIRI(index int) (v *url.URL) {
 
 // AppendNameIRI adds to the back of name a *url.URL type
 func (t *CollectionPage) AppendNameIRI(v *url.URL) {
-	t.name = append(t.name, &nameCollectionPageIntermediateType{IRI: v})
+	t.name = append(t.name, &nameIntermediateType{IRI: v})
 
 }
 
 // PrependNameIRI adds to the front of name a *url.URL type
 func (t *CollectionPage) PrependNameIRI(v *url.URL) {
-	t.name = append([]*nameCollectionPageIntermediateType{&nameCollectionPageIntermediateType{IRI: v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{IRI: v}}, t.name...)
 
 }
 
@@ -2173,7 +2172,7 @@ func (t *CollectionPage) SetUnknownName(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &nameCollectionPageIntermediateType{}
+	tmp := &nameIntermediateType{}
 	tmp.unknown_ = i
 	t.name = append(t.name, tmp)
 
@@ -2228,7 +2227,7 @@ func (t *CollectionPage) GetEndTime() (v time.Time) {
 
 // SetEndTime sets the value of endTime to be of time.Time type
 func (t *CollectionPage) SetEndTime(v time.Time) {
-	t.endTime = &endTimeCollectionPageIntermediateType{dateTime: &v}
+	t.endTime = &endTimeIntermediateType{dateTime: &v}
 
 }
 
@@ -2246,7 +2245,7 @@ func (t *CollectionPage) GetEndTimeIRI() (v *url.URL) {
 
 // SetEndTimeIRI sets the value of endTime to be of *url.URL type
 func (t *CollectionPage) SetEndTimeIRI(v *url.URL) {
-	t.endTime = &endTimeCollectionPageIntermediateType{IRI: v}
+	t.endTime = &endTimeIntermediateType{IRI: v}
 
 }
 
@@ -2267,7 +2266,7 @@ func (t *CollectionPage) SetUnknownEndTime(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &endTimeCollectionPageIntermediateType{}
+	tmp := &endTimeIntermediateType{}
 	tmp.unknown_ = i
 	t.endTime = tmp
 
@@ -2293,13 +2292,13 @@ func (t *CollectionPage) GetGeneratorObject(index int) (v ObjectType) {
 
 // AppendGeneratorObject adds to the back of generator a ObjectType type
 func (t *CollectionPage) AppendGeneratorObject(v ObjectType) {
-	t.generator = append(t.generator, &generatorCollectionPageIntermediateType{Object: v})
+	t.generator = append(t.generator, &generatorIntermediateType{Object: v})
 
 }
 
 // PrependGeneratorObject adds to the front of generator a ObjectType type
 func (t *CollectionPage) PrependGeneratorObject(v ObjectType) {
-	t.generator = append([]*generatorCollectionPageIntermediateType{&generatorCollectionPageIntermediateType{Object: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{Object: v}}, t.generator...)
 
 }
 
@@ -2325,13 +2324,13 @@ func (t *CollectionPage) GetGeneratorLink(index int) (v LinkType) {
 
 // AppendGeneratorLink adds to the back of generator a LinkType type
 func (t *CollectionPage) AppendGeneratorLink(v LinkType) {
-	t.generator = append(t.generator, &generatorCollectionPageIntermediateType{Link: v})
+	t.generator = append(t.generator, &generatorIntermediateType{Link: v})
 
 }
 
 // PrependGeneratorLink adds to the front of generator a LinkType type
 func (t *CollectionPage) PrependGeneratorLink(v LinkType) {
-	t.generator = append([]*generatorCollectionPageIntermediateType{&generatorCollectionPageIntermediateType{Link: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{Link: v}}, t.generator...)
 
 }
 
@@ -2357,13 +2356,13 @@ func (t *CollectionPage) GetGeneratorIRI(index int) (v *url.URL) {
 
 // AppendGeneratorIRI adds to the back of generator a *url.URL type
 func (t *CollectionPage) AppendGeneratorIRI(v *url.URL) {
-	t.generator = append(t.generator, &generatorCollectionPageIntermediateType{IRI: v})
+	t.generator = append(t.generator, &generatorIntermediateType{IRI: v})
 
 }
 
 // PrependGeneratorIRI adds to the front of generator a *url.URL type
 func (t *CollectionPage) PrependGeneratorIRI(v *url.URL) {
-	t.generator = append([]*generatorCollectionPageIntermediateType{&generatorCollectionPageIntermediateType{IRI: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{IRI: v}}, t.generator...)
 
 }
 
@@ -2392,7 +2391,7 @@ func (t *CollectionPage) SetUnknownGenerator(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &generatorCollectionPageIntermediateType{}
+	tmp := &generatorIntermediateType{}
 	tmp.unknown_ = i
 	t.generator = append(t.generator, tmp)
 
@@ -2418,13 +2417,13 @@ func (t *CollectionPage) GetIconImage(index int) (v ImageType) {
 
 // AppendIconImage adds to the back of icon a ImageType type
 func (t *CollectionPage) AppendIconImage(v ImageType) {
-	t.icon = append(t.icon, &iconCollectionPageIntermediateType{Image: v})
+	t.icon = append(t.icon, &iconIntermediateType{Image: v})
 
 }
 
 // PrependIconImage adds to the front of icon a ImageType type
 func (t *CollectionPage) PrependIconImage(v ImageType) {
-	t.icon = append([]*iconCollectionPageIntermediateType{&iconCollectionPageIntermediateType{Image: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{Image: v}}, t.icon...)
 
 }
 
@@ -2450,13 +2449,13 @@ func (t *CollectionPage) GetIconLink(index int) (v LinkType) {
 
 // AppendIconLink adds to the back of icon a LinkType type
 func (t *CollectionPage) AppendIconLink(v LinkType) {
-	t.icon = append(t.icon, &iconCollectionPageIntermediateType{Link: v})
+	t.icon = append(t.icon, &iconIntermediateType{Link: v})
 
 }
 
 // PrependIconLink adds to the front of icon a LinkType type
 func (t *CollectionPage) PrependIconLink(v LinkType) {
-	t.icon = append([]*iconCollectionPageIntermediateType{&iconCollectionPageIntermediateType{Link: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{Link: v}}, t.icon...)
 
 }
 
@@ -2482,13 +2481,13 @@ func (t *CollectionPage) GetIconIRI(index int) (v *url.URL) {
 
 // AppendIconIRI adds to the back of icon a *url.URL type
 func (t *CollectionPage) AppendIconIRI(v *url.URL) {
-	t.icon = append(t.icon, &iconCollectionPageIntermediateType{IRI: v})
+	t.icon = append(t.icon, &iconIntermediateType{IRI: v})
 
 }
 
 // PrependIconIRI adds to the front of icon a *url.URL type
 func (t *CollectionPage) PrependIconIRI(v *url.URL) {
-	t.icon = append([]*iconCollectionPageIntermediateType{&iconCollectionPageIntermediateType{IRI: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{IRI: v}}, t.icon...)
 
 }
 
@@ -2517,7 +2516,7 @@ func (t *CollectionPage) SetUnknownIcon(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &iconCollectionPageIntermediateType{}
+	tmp := &iconIntermediateType{}
 	tmp.unknown_ = i
 	t.icon = append(t.icon, tmp)
 
@@ -2582,13 +2581,13 @@ func (t *CollectionPage) GetImageImage(index int) (v ImageType) {
 
 // AppendImageImage adds to the back of image a ImageType type
 func (t *CollectionPage) AppendImageImage(v ImageType) {
-	t.image = append(t.image, &imageCollectionPageIntermediateType{Image: v})
+	t.image = append(t.image, &imageIntermediateType{Image: v})
 
 }
 
 // PrependImageImage adds to the front of image a ImageType type
 func (t *CollectionPage) PrependImageImage(v ImageType) {
-	t.image = append([]*imageCollectionPageIntermediateType{&imageCollectionPageIntermediateType{Image: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{Image: v}}, t.image...)
 
 }
 
@@ -2614,13 +2613,13 @@ func (t *CollectionPage) GetImageLink(index int) (v LinkType) {
 
 // AppendImageLink adds to the back of image a LinkType type
 func (t *CollectionPage) AppendImageLink(v LinkType) {
-	t.image = append(t.image, &imageCollectionPageIntermediateType{Link: v})
+	t.image = append(t.image, &imageIntermediateType{Link: v})
 
 }
 
 // PrependImageLink adds to the front of image a LinkType type
 func (t *CollectionPage) PrependImageLink(v LinkType) {
-	t.image = append([]*imageCollectionPageIntermediateType{&imageCollectionPageIntermediateType{Link: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{Link: v}}, t.image...)
 
 }
 
@@ -2646,13 +2645,13 @@ func (t *CollectionPage) GetImageIRI(index int) (v *url.URL) {
 
 // AppendImageIRI adds to the back of image a *url.URL type
 func (t *CollectionPage) AppendImageIRI(v *url.URL) {
-	t.image = append(t.image, &imageCollectionPageIntermediateType{IRI: v})
+	t.image = append(t.image, &imageIntermediateType{IRI: v})
 
 }
 
 // PrependImageIRI adds to the front of image a *url.URL type
 func (t *CollectionPage) PrependImageIRI(v *url.URL) {
-	t.image = append([]*imageCollectionPageIntermediateType{&imageCollectionPageIntermediateType{IRI: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{IRI: v}}, t.image...)
 
 }
 
@@ -2681,7 +2680,7 @@ func (t *CollectionPage) SetUnknownImage(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &imageCollectionPageIntermediateType{}
+	tmp := &imageIntermediateType{}
 	tmp.unknown_ = i
 	t.image = append(t.image, tmp)
 
@@ -2707,13 +2706,13 @@ func (t *CollectionPage) GetInReplyToObject(index int) (v ObjectType) {
 
 // AppendInReplyToObject adds to the back of inReplyTo a ObjectType type
 func (t *CollectionPage) AppendInReplyToObject(v ObjectType) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToCollectionPageIntermediateType{Object: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{Object: v})
 
 }
 
 // PrependInReplyToObject adds to the front of inReplyTo a ObjectType type
 func (t *CollectionPage) PrependInReplyToObject(v ObjectType) {
-	t.inReplyTo = append([]*inReplyToCollectionPageIntermediateType{&inReplyToCollectionPageIntermediateType{Object: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{Object: v}}, t.inReplyTo...)
 
 }
 
@@ -2739,13 +2738,13 @@ func (t *CollectionPage) GetInReplyToLink(index int) (v LinkType) {
 
 // AppendInReplyToLink adds to the back of inReplyTo a LinkType type
 func (t *CollectionPage) AppendInReplyToLink(v LinkType) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToCollectionPageIntermediateType{Link: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{Link: v})
 
 }
 
 // PrependInReplyToLink adds to the front of inReplyTo a LinkType type
 func (t *CollectionPage) PrependInReplyToLink(v LinkType) {
-	t.inReplyTo = append([]*inReplyToCollectionPageIntermediateType{&inReplyToCollectionPageIntermediateType{Link: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{Link: v}}, t.inReplyTo...)
 
 }
 
@@ -2771,13 +2770,13 @@ func (t *CollectionPage) GetInReplyToIRI(index int) (v *url.URL) {
 
 // AppendInReplyToIRI adds to the back of inReplyTo a *url.URL type
 func (t *CollectionPage) AppendInReplyToIRI(v *url.URL) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToCollectionPageIntermediateType{IRI: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{IRI: v})
 
 }
 
 // PrependInReplyToIRI adds to the front of inReplyTo a *url.URL type
 func (t *CollectionPage) PrependInReplyToIRI(v *url.URL) {
-	t.inReplyTo = append([]*inReplyToCollectionPageIntermediateType{&inReplyToCollectionPageIntermediateType{IRI: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{IRI: v}}, t.inReplyTo...)
 
 }
 
@@ -2806,7 +2805,7 @@ func (t *CollectionPage) SetUnknownInReplyTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &inReplyToCollectionPageIntermediateType{}
+	tmp := &inReplyToIntermediateType{}
 	tmp.unknown_ = i
 	t.inReplyTo = append(t.inReplyTo, tmp)
 
@@ -2832,13 +2831,13 @@ func (t *CollectionPage) GetLocationObject(index int) (v ObjectType) {
 
 // AppendLocationObject adds to the back of location a ObjectType type
 func (t *CollectionPage) AppendLocationObject(v ObjectType) {
-	t.location = append(t.location, &locationCollectionPageIntermediateType{Object: v})
+	t.location = append(t.location, &locationIntermediateType{Object: v})
 
 }
 
 // PrependLocationObject adds to the front of location a ObjectType type
 func (t *CollectionPage) PrependLocationObject(v ObjectType) {
-	t.location = append([]*locationCollectionPageIntermediateType{&locationCollectionPageIntermediateType{Object: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{Object: v}}, t.location...)
 
 }
 
@@ -2864,13 +2863,13 @@ func (t *CollectionPage) GetLocationLink(index int) (v LinkType) {
 
 // AppendLocationLink adds to the back of location a LinkType type
 func (t *CollectionPage) AppendLocationLink(v LinkType) {
-	t.location = append(t.location, &locationCollectionPageIntermediateType{Link: v})
+	t.location = append(t.location, &locationIntermediateType{Link: v})
 
 }
 
 // PrependLocationLink adds to the front of location a LinkType type
 func (t *CollectionPage) PrependLocationLink(v LinkType) {
-	t.location = append([]*locationCollectionPageIntermediateType{&locationCollectionPageIntermediateType{Link: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{Link: v}}, t.location...)
 
 }
 
@@ -2896,13 +2895,13 @@ func (t *CollectionPage) GetLocationIRI(index int) (v *url.URL) {
 
 // AppendLocationIRI adds to the back of location a *url.URL type
 func (t *CollectionPage) AppendLocationIRI(v *url.URL) {
-	t.location = append(t.location, &locationCollectionPageIntermediateType{IRI: v})
+	t.location = append(t.location, &locationIntermediateType{IRI: v})
 
 }
 
 // PrependLocationIRI adds to the front of location a *url.URL type
 func (t *CollectionPage) PrependLocationIRI(v *url.URL) {
-	t.location = append([]*locationCollectionPageIntermediateType{&locationCollectionPageIntermediateType{IRI: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{IRI: v}}, t.location...)
 
 }
 
@@ -2931,7 +2930,7 @@ func (t *CollectionPage) SetUnknownLocation(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &locationCollectionPageIntermediateType{}
+	tmp := &locationIntermediateType{}
 	tmp.unknown_ = i
 	t.location = append(t.location, tmp)
 
@@ -2957,13 +2956,13 @@ func (t *CollectionPage) GetPreviewObject(index int) (v ObjectType) {
 
 // AppendPreviewObject adds to the back of preview a ObjectType type
 func (t *CollectionPage) AppendPreviewObject(v ObjectType) {
-	t.preview = append(t.preview, &previewCollectionPageIntermediateType{Object: v})
+	t.preview = append(t.preview, &previewIntermediateType{Object: v})
 
 }
 
 // PrependPreviewObject adds to the front of preview a ObjectType type
 func (t *CollectionPage) PrependPreviewObject(v ObjectType) {
-	t.preview = append([]*previewCollectionPageIntermediateType{&previewCollectionPageIntermediateType{Object: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Object: v}}, t.preview...)
 
 }
 
@@ -2989,13 +2988,13 @@ func (t *CollectionPage) GetPreviewLink(index int) (v LinkType) {
 
 // AppendPreviewLink adds to the back of preview a LinkType type
 func (t *CollectionPage) AppendPreviewLink(v LinkType) {
-	t.preview = append(t.preview, &previewCollectionPageIntermediateType{Link: v})
+	t.preview = append(t.preview, &previewIntermediateType{Link: v})
 
 }
 
 // PrependPreviewLink adds to the front of preview a LinkType type
 func (t *CollectionPage) PrependPreviewLink(v LinkType) {
-	t.preview = append([]*previewCollectionPageIntermediateType{&previewCollectionPageIntermediateType{Link: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Link: v}}, t.preview...)
 
 }
 
@@ -3021,13 +3020,13 @@ func (t *CollectionPage) GetPreviewIRI(index int) (v *url.URL) {
 
 // AppendPreviewIRI adds to the back of preview a *url.URL type
 func (t *CollectionPage) AppendPreviewIRI(v *url.URL) {
-	t.preview = append(t.preview, &previewCollectionPageIntermediateType{IRI: v})
+	t.preview = append(t.preview, &previewIntermediateType{IRI: v})
 
 }
 
 // PrependPreviewIRI adds to the front of preview a *url.URL type
 func (t *CollectionPage) PrependPreviewIRI(v *url.URL) {
-	t.preview = append([]*previewCollectionPageIntermediateType{&previewCollectionPageIntermediateType{IRI: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{IRI: v}}, t.preview...)
 
 }
 
@@ -3056,7 +3055,7 @@ func (t *CollectionPage) SetUnknownPreview(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &previewCollectionPageIntermediateType{}
+	tmp := &previewIntermediateType{}
 	tmp.unknown_ = i
 	t.preview = append(t.preview, tmp)
 
@@ -3076,7 +3075,7 @@ func (t *CollectionPage) GetPublished() (v time.Time) {
 
 // SetPublished sets the value of published to be of time.Time type
 func (t *CollectionPage) SetPublished(v time.Time) {
-	t.published = &publishedCollectionPageIntermediateType{dateTime: &v}
+	t.published = &publishedIntermediateType{dateTime: &v}
 
 }
 
@@ -3094,7 +3093,7 @@ func (t *CollectionPage) GetPublishedIRI() (v *url.URL) {
 
 // SetPublishedIRI sets the value of published to be of *url.URL type
 func (t *CollectionPage) SetPublishedIRI(v *url.URL) {
-	t.published = &publishedCollectionPageIntermediateType{IRI: v}
+	t.published = &publishedIntermediateType{IRI: v}
 
 }
 
@@ -3115,7 +3114,7 @@ func (t *CollectionPage) SetUnknownPublished(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &publishedCollectionPageIntermediateType{}
+	tmp := &publishedIntermediateType{}
 	tmp.unknown_ = i
 	t.published = tmp
 
@@ -3135,7 +3134,7 @@ func (t *CollectionPage) GetReplies() (v CollectionType) {
 
 // SetReplies sets the value of replies to be of CollectionType type
 func (t *CollectionPage) SetReplies(v CollectionType) {
-	t.replies = &repliesCollectionPageIntermediateType{Collection: v}
+	t.replies = &repliesIntermediateType{Collection: v}
 
 }
 
@@ -3153,7 +3152,7 @@ func (t *CollectionPage) GetRepliesIRI() (v *url.URL) {
 
 // SetRepliesIRI sets the value of replies to be of *url.URL type
 func (t *CollectionPage) SetRepliesIRI(v *url.URL) {
-	t.replies = &repliesCollectionPageIntermediateType{IRI: v}
+	t.replies = &repliesIntermediateType{IRI: v}
 
 }
 
@@ -3174,7 +3173,7 @@ func (t *CollectionPage) SetUnknownReplies(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &repliesCollectionPageIntermediateType{}
+	tmp := &repliesIntermediateType{}
 	tmp.unknown_ = i
 	t.replies = tmp
 
@@ -3194,7 +3193,7 @@ func (t *CollectionPage) GetStartTime() (v time.Time) {
 
 // SetStartTime sets the value of startTime to be of time.Time type
 func (t *CollectionPage) SetStartTime(v time.Time) {
-	t.startTime = &startTimeCollectionPageIntermediateType{dateTime: &v}
+	t.startTime = &startTimeIntermediateType{dateTime: &v}
 
 }
 
@@ -3212,7 +3211,7 @@ func (t *CollectionPage) GetStartTimeIRI() (v *url.URL) {
 
 // SetStartTimeIRI sets the value of startTime to be of *url.URL type
 func (t *CollectionPage) SetStartTimeIRI(v *url.URL) {
-	t.startTime = &startTimeCollectionPageIntermediateType{IRI: v}
+	t.startTime = &startTimeIntermediateType{IRI: v}
 
 }
 
@@ -3233,7 +3232,7 @@ func (t *CollectionPage) SetUnknownStartTime(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &startTimeCollectionPageIntermediateType{}
+	tmp := &startTimeIntermediateType{}
 	tmp.unknown_ = i
 	t.startTime = tmp
 
@@ -3259,13 +3258,13 @@ func (t *CollectionPage) GetSummaryString(index int) (v string) {
 
 // AppendSummaryString adds to the back of summary a string type
 func (t *CollectionPage) AppendSummaryString(v string) {
-	t.summary = append(t.summary, &summaryCollectionPageIntermediateType{stringName: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{stringName: &v})
 
 }
 
 // PrependSummaryString adds to the front of summary a string type
 func (t *CollectionPage) PrependSummaryString(v string) {
-	t.summary = append([]*summaryCollectionPageIntermediateType{&summaryCollectionPageIntermediateType{stringName: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{stringName: &v}}, t.summary...)
 
 }
 
@@ -3291,13 +3290,13 @@ func (t *CollectionPage) GetSummaryLangString(index int) (v string) {
 
 // AppendSummaryLangString adds to the back of summary a string type
 func (t *CollectionPage) AppendSummaryLangString(v string) {
-	t.summary = append(t.summary, &summaryCollectionPageIntermediateType{langString: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{langString: &v})
 
 }
 
 // PrependSummaryLangString adds to the front of summary a string type
 func (t *CollectionPage) PrependSummaryLangString(v string) {
-	t.summary = append([]*summaryCollectionPageIntermediateType{&summaryCollectionPageIntermediateType{langString: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{langString: &v}}, t.summary...)
 
 }
 
@@ -3323,13 +3322,13 @@ func (t *CollectionPage) GetSummaryIRI(index int) (v *url.URL) {
 
 // AppendSummaryIRI adds to the back of summary a *url.URL type
 func (t *CollectionPage) AppendSummaryIRI(v *url.URL) {
-	t.summary = append(t.summary, &summaryCollectionPageIntermediateType{IRI: v})
+	t.summary = append(t.summary, &summaryIntermediateType{IRI: v})
 
 }
 
 // PrependSummaryIRI adds to the front of summary a *url.URL type
 func (t *CollectionPage) PrependSummaryIRI(v *url.URL) {
-	t.summary = append([]*summaryCollectionPageIntermediateType{&summaryCollectionPageIntermediateType{IRI: v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{IRI: v}}, t.summary...)
 
 }
 
@@ -3358,7 +3357,7 @@ func (t *CollectionPage) SetUnknownSummary(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &summaryCollectionPageIntermediateType{}
+	tmp := &summaryIntermediateType{}
 	tmp.unknown_ = i
 	t.summary = append(t.summary, tmp)
 
@@ -3419,13 +3418,13 @@ func (t *CollectionPage) GetTagObject(index int) (v ObjectType) {
 
 // AppendTagObject adds to the back of tag a ObjectType type
 func (t *CollectionPage) AppendTagObject(v ObjectType) {
-	t.tag = append(t.tag, &tagCollectionPageIntermediateType{Object: v})
+	t.tag = append(t.tag, &tagIntermediateType{Object: v})
 
 }
 
 // PrependTagObject adds to the front of tag a ObjectType type
 func (t *CollectionPage) PrependTagObject(v ObjectType) {
-	t.tag = append([]*tagCollectionPageIntermediateType{&tagCollectionPageIntermediateType{Object: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{Object: v}}, t.tag...)
 
 }
 
@@ -3451,13 +3450,13 @@ func (t *CollectionPage) GetTagLink(index int) (v LinkType) {
 
 // AppendTagLink adds to the back of tag a LinkType type
 func (t *CollectionPage) AppendTagLink(v LinkType) {
-	t.tag = append(t.tag, &tagCollectionPageIntermediateType{Link: v})
+	t.tag = append(t.tag, &tagIntermediateType{Link: v})
 
 }
 
 // PrependTagLink adds to the front of tag a LinkType type
 func (t *CollectionPage) PrependTagLink(v LinkType) {
-	t.tag = append([]*tagCollectionPageIntermediateType{&tagCollectionPageIntermediateType{Link: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{Link: v}}, t.tag...)
 
 }
 
@@ -3483,13 +3482,13 @@ func (t *CollectionPage) GetTagIRI(index int) (v *url.URL) {
 
 // AppendTagIRI adds to the back of tag a *url.URL type
 func (t *CollectionPage) AppendTagIRI(v *url.URL) {
-	t.tag = append(t.tag, &tagCollectionPageIntermediateType{IRI: v})
+	t.tag = append(t.tag, &tagIntermediateType{IRI: v})
 
 }
 
 // PrependTagIRI adds to the front of tag a *url.URL type
 func (t *CollectionPage) PrependTagIRI(v *url.URL) {
-	t.tag = append([]*tagCollectionPageIntermediateType{&tagCollectionPageIntermediateType{IRI: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{IRI: v}}, t.tag...)
 
 }
 
@@ -3518,7 +3517,7 @@ func (t *CollectionPage) SetUnknownTag(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &tagCollectionPageIntermediateType{}
+	tmp := &tagIntermediateType{}
 	tmp.unknown_ = i
 	t.tag = append(t.tag, tmp)
 
@@ -3570,7 +3569,7 @@ func (t *CollectionPage) GetUpdated() (v time.Time) {
 
 // SetUpdated sets the value of updated to be of time.Time type
 func (t *CollectionPage) SetUpdated(v time.Time) {
-	t.updated = &updatedCollectionPageIntermediateType{dateTime: &v}
+	t.updated = &updatedIntermediateType{dateTime: &v}
 
 }
 
@@ -3588,7 +3587,7 @@ func (t *CollectionPage) GetUpdatedIRI() (v *url.URL) {
 
 // SetUpdatedIRI sets the value of updated to be of *url.URL type
 func (t *CollectionPage) SetUpdatedIRI(v *url.URL) {
-	t.updated = &updatedCollectionPageIntermediateType{IRI: v}
+	t.updated = &updatedIntermediateType{IRI: v}
 
 }
 
@@ -3609,7 +3608,7 @@ func (t *CollectionPage) SetUnknownUpdated(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &updatedCollectionPageIntermediateType{}
+	tmp := &updatedIntermediateType{}
 	tmp.unknown_ = i
 	t.updated = tmp
 
@@ -3635,13 +3634,13 @@ func (t *CollectionPage) GetUrlAnyURI(index int) (v *url.URL) {
 
 // AppendUrlAnyURI adds to the back of url a *url.URL type
 func (t *CollectionPage) AppendUrlAnyURI(v *url.URL) {
-	t.url = append(t.url, &urlCollectionPageIntermediateType{anyURI: v})
+	t.url = append(t.url, &urlIntermediateType{anyURI: v})
 
 }
 
 // PrependUrlAnyURI adds to the front of url a *url.URL type
 func (t *CollectionPage) PrependUrlAnyURI(v *url.URL) {
-	t.url = append([]*urlCollectionPageIntermediateType{&urlCollectionPageIntermediateType{anyURI: v}}, t.url...)
+	t.url = append([]*urlIntermediateType{&urlIntermediateType{anyURI: v}}, t.url...)
 
 }
 
@@ -3667,13 +3666,13 @@ func (t *CollectionPage) GetUrlLink(index int) (v LinkType) {
 
 // AppendUrlLink adds to the back of url a LinkType type
 func (t *CollectionPage) AppendUrlLink(v LinkType) {
-	t.url = append(t.url, &urlCollectionPageIntermediateType{Link: v})
+	t.url = append(t.url, &urlIntermediateType{Link: v})
 
 }
 
 // PrependUrlLink adds to the front of url a LinkType type
 func (t *CollectionPage) PrependUrlLink(v LinkType) {
-	t.url = append([]*urlCollectionPageIntermediateType{&urlCollectionPageIntermediateType{Link: v}}, t.url...)
+	t.url = append([]*urlIntermediateType{&urlIntermediateType{Link: v}}, t.url...)
 
 }
 
@@ -3702,7 +3701,7 @@ func (t *CollectionPage) SetUnknownUrl(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &urlCollectionPageIntermediateType{}
+	tmp := &urlIntermediateType{}
 	tmp.unknown_ = i
 	t.url = append(t.url, tmp)
 
@@ -3728,13 +3727,13 @@ func (t *CollectionPage) GetToObject(index int) (v ObjectType) {
 
 // AppendToObject adds to the back of to a ObjectType type
 func (t *CollectionPage) AppendToObject(v ObjectType) {
-	t.to = append(t.to, &toCollectionPageIntermediateType{Object: v})
+	t.to = append(t.to, &toIntermediateType{Object: v})
 
 }
 
 // PrependToObject adds to the front of to a ObjectType type
 func (t *CollectionPage) PrependToObject(v ObjectType) {
-	t.to = append([]*toCollectionPageIntermediateType{&toCollectionPageIntermediateType{Object: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{Object: v}}, t.to...)
 
 }
 
@@ -3760,13 +3759,13 @@ func (t *CollectionPage) GetToLink(index int) (v LinkType) {
 
 // AppendToLink adds to the back of to a LinkType type
 func (t *CollectionPage) AppendToLink(v LinkType) {
-	t.to = append(t.to, &toCollectionPageIntermediateType{Link: v})
+	t.to = append(t.to, &toIntermediateType{Link: v})
 
 }
 
 // PrependToLink adds to the front of to a LinkType type
 func (t *CollectionPage) PrependToLink(v LinkType) {
-	t.to = append([]*toCollectionPageIntermediateType{&toCollectionPageIntermediateType{Link: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{Link: v}}, t.to...)
 
 }
 
@@ -3792,13 +3791,13 @@ func (t *CollectionPage) GetToIRI(index int) (v *url.URL) {
 
 // AppendToIRI adds to the back of to a *url.URL type
 func (t *CollectionPage) AppendToIRI(v *url.URL) {
-	t.to = append(t.to, &toCollectionPageIntermediateType{IRI: v})
+	t.to = append(t.to, &toIntermediateType{IRI: v})
 
 }
 
 // PrependToIRI adds to the front of to a *url.URL type
 func (t *CollectionPage) PrependToIRI(v *url.URL) {
-	t.to = append([]*toCollectionPageIntermediateType{&toCollectionPageIntermediateType{IRI: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{IRI: v}}, t.to...)
 
 }
 
@@ -3827,7 +3826,7 @@ func (t *CollectionPage) SetUnknownTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &toCollectionPageIntermediateType{}
+	tmp := &toIntermediateType{}
 	tmp.unknown_ = i
 	t.to = append(t.to, tmp)
 
@@ -3853,13 +3852,13 @@ func (t *CollectionPage) GetBtoObject(index int) (v ObjectType) {
 
 // AppendBtoObject adds to the back of bto a ObjectType type
 func (t *CollectionPage) AppendBtoObject(v ObjectType) {
-	t.bto = append(t.bto, &btoCollectionPageIntermediateType{Object: v})
+	t.bto = append(t.bto, &btoIntermediateType{Object: v})
 
 }
 
 // PrependBtoObject adds to the front of bto a ObjectType type
 func (t *CollectionPage) PrependBtoObject(v ObjectType) {
-	t.bto = append([]*btoCollectionPageIntermediateType{&btoCollectionPageIntermediateType{Object: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{Object: v}}, t.bto...)
 
 }
 
@@ -3885,13 +3884,13 @@ func (t *CollectionPage) GetBtoLink(index int) (v LinkType) {
 
 // AppendBtoLink adds to the back of bto a LinkType type
 func (t *CollectionPage) AppendBtoLink(v LinkType) {
-	t.bto = append(t.bto, &btoCollectionPageIntermediateType{Link: v})
+	t.bto = append(t.bto, &btoIntermediateType{Link: v})
 
 }
 
 // PrependBtoLink adds to the front of bto a LinkType type
 func (t *CollectionPage) PrependBtoLink(v LinkType) {
-	t.bto = append([]*btoCollectionPageIntermediateType{&btoCollectionPageIntermediateType{Link: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{Link: v}}, t.bto...)
 
 }
 
@@ -3917,13 +3916,13 @@ func (t *CollectionPage) GetBtoIRI(index int) (v *url.URL) {
 
 // AppendBtoIRI adds to the back of bto a *url.URL type
 func (t *CollectionPage) AppendBtoIRI(v *url.URL) {
-	t.bto = append(t.bto, &btoCollectionPageIntermediateType{IRI: v})
+	t.bto = append(t.bto, &btoIntermediateType{IRI: v})
 
 }
 
 // PrependBtoIRI adds to the front of bto a *url.URL type
 func (t *CollectionPage) PrependBtoIRI(v *url.URL) {
-	t.bto = append([]*btoCollectionPageIntermediateType{&btoCollectionPageIntermediateType{IRI: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{IRI: v}}, t.bto...)
 
 }
 
@@ -3952,7 +3951,7 @@ func (t *CollectionPage) SetUnknownBto(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &btoCollectionPageIntermediateType{}
+	tmp := &btoIntermediateType{}
 	tmp.unknown_ = i
 	t.bto = append(t.bto, tmp)
 
@@ -3978,13 +3977,13 @@ func (t *CollectionPage) GetCcObject(index int) (v ObjectType) {
 
 // AppendCcObject adds to the back of cc a ObjectType type
 func (t *CollectionPage) AppendCcObject(v ObjectType) {
-	t.cc = append(t.cc, &ccCollectionPageIntermediateType{Object: v})
+	t.cc = append(t.cc, &ccIntermediateType{Object: v})
 
 }
 
 // PrependCcObject adds to the front of cc a ObjectType type
 func (t *CollectionPage) PrependCcObject(v ObjectType) {
-	t.cc = append([]*ccCollectionPageIntermediateType{&ccCollectionPageIntermediateType{Object: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{Object: v}}, t.cc...)
 
 }
 
@@ -4010,13 +4009,13 @@ func (t *CollectionPage) GetCcLink(index int) (v LinkType) {
 
 // AppendCcLink adds to the back of cc a LinkType type
 func (t *CollectionPage) AppendCcLink(v LinkType) {
-	t.cc = append(t.cc, &ccCollectionPageIntermediateType{Link: v})
+	t.cc = append(t.cc, &ccIntermediateType{Link: v})
 
 }
 
 // PrependCcLink adds to the front of cc a LinkType type
 func (t *CollectionPage) PrependCcLink(v LinkType) {
-	t.cc = append([]*ccCollectionPageIntermediateType{&ccCollectionPageIntermediateType{Link: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{Link: v}}, t.cc...)
 
 }
 
@@ -4042,13 +4041,13 @@ func (t *CollectionPage) GetCcIRI(index int) (v *url.URL) {
 
 // AppendCcIRI adds to the back of cc a *url.URL type
 func (t *CollectionPage) AppendCcIRI(v *url.URL) {
-	t.cc = append(t.cc, &ccCollectionPageIntermediateType{IRI: v})
+	t.cc = append(t.cc, &ccIntermediateType{IRI: v})
 
 }
 
 // PrependCcIRI adds to the front of cc a *url.URL type
 func (t *CollectionPage) PrependCcIRI(v *url.URL) {
-	t.cc = append([]*ccCollectionPageIntermediateType{&ccCollectionPageIntermediateType{IRI: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{IRI: v}}, t.cc...)
 
 }
 
@@ -4077,7 +4076,7 @@ func (t *CollectionPage) SetUnknownCc(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &ccCollectionPageIntermediateType{}
+	tmp := &ccIntermediateType{}
 	tmp.unknown_ = i
 	t.cc = append(t.cc, tmp)
 
@@ -4103,13 +4102,13 @@ func (t *CollectionPage) GetBccObject(index int) (v ObjectType) {
 
 // AppendBccObject adds to the back of bcc a ObjectType type
 func (t *CollectionPage) AppendBccObject(v ObjectType) {
-	t.bcc = append(t.bcc, &bccCollectionPageIntermediateType{Object: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{Object: v})
 
 }
 
 // PrependBccObject adds to the front of bcc a ObjectType type
 func (t *CollectionPage) PrependBccObject(v ObjectType) {
-	t.bcc = append([]*bccCollectionPageIntermediateType{&bccCollectionPageIntermediateType{Object: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{Object: v}}, t.bcc...)
 
 }
 
@@ -4135,13 +4134,13 @@ func (t *CollectionPage) GetBccLink(index int) (v LinkType) {
 
 // AppendBccLink adds to the back of bcc a LinkType type
 func (t *CollectionPage) AppendBccLink(v LinkType) {
-	t.bcc = append(t.bcc, &bccCollectionPageIntermediateType{Link: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{Link: v})
 
 }
 
 // PrependBccLink adds to the front of bcc a LinkType type
 func (t *CollectionPage) PrependBccLink(v LinkType) {
-	t.bcc = append([]*bccCollectionPageIntermediateType{&bccCollectionPageIntermediateType{Link: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{Link: v}}, t.bcc...)
 
 }
 
@@ -4167,13 +4166,13 @@ func (t *CollectionPage) GetBccIRI(index int) (v *url.URL) {
 
 // AppendBccIRI adds to the back of bcc a *url.URL type
 func (t *CollectionPage) AppendBccIRI(v *url.URL) {
-	t.bcc = append(t.bcc, &bccCollectionPageIntermediateType{IRI: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{IRI: v})
 
 }
 
 // PrependBccIRI adds to the front of bcc a *url.URL type
 func (t *CollectionPage) PrependBccIRI(v *url.URL) {
-	t.bcc = append([]*bccCollectionPageIntermediateType{&bccCollectionPageIntermediateType{IRI: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{IRI: v}}, t.bcc...)
 
 }
 
@@ -4202,7 +4201,7 @@ func (t *CollectionPage) SetUnknownBcc(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &bccCollectionPageIntermediateType{}
+	tmp := &bccIntermediateType{}
 	tmp.unknown_ = i
 	t.bcc = append(t.bcc, tmp)
 
@@ -4222,7 +4221,7 @@ func (t *CollectionPage) GetMediaType() (v string) {
 
 // SetMediaType sets the value of mediaType to be of string type
 func (t *CollectionPage) SetMediaType(v string) {
-	t.mediaType = &mediaTypeCollectionPageIntermediateType{mimeMediaTypeValue: &v}
+	t.mediaType = &mediaTypeIntermediateType{mimeMediaTypeValue: &v}
 
 }
 
@@ -4240,7 +4239,7 @@ func (t *CollectionPage) GetMediaTypeIRI() (v *url.URL) {
 
 // SetMediaTypeIRI sets the value of mediaType to be of *url.URL type
 func (t *CollectionPage) SetMediaTypeIRI(v *url.URL) {
-	t.mediaType = &mediaTypeCollectionPageIntermediateType{IRI: v}
+	t.mediaType = &mediaTypeIntermediateType{IRI: v}
 
 }
 
@@ -4261,7 +4260,7 @@ func (t *CollectionPage) SetUnknownMediaType(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &mediaTypeCollectionPageIntermediateType{}
+	tmp := &mediaTypeIntermediateType{}
 	tmp.unknown_ = i
 	t.mediaType = tmp
 
@@ -4281,7 +4280,7 @@ func (t *CollectionPage) GetDuration() (v time.Duration) {
 
 // SetDuration sets the value of duration to be of time.Duration type
 func (t *CollectionPage) SetDuration(v time.Duration) {
-	t.duration = &durationCollectionPageIntermediateType{duration: &v}
+	t.duration = &durationIntermediateType{duration: &v}
 
 }
 
@@ -4299,7 +4298,7 @@ func (t *CollectionPage) GetDurationIRI() (v *url.URL) {
 
 // SetDurationIRI sets the value of duration to be of *url.URL type
 func (t *CollectionPage) SetDurationIRI(v *url.URL) {
-	t.duration = &durationCollectionPageIntermediateType{IRI: v}
+	t.duration = &durationIntermediateType{IRI: v}
 
 }
 
@@ -4320,7 +4319,7 @@ func (t *CollectionPage) SetUnknownDuration(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &durationCollectionPageIntermediateType{}
+	tmp := &durationIntermediateType{}
 	tmp.unknown_ = i
 	t.duration = tmp
 
@@ -4340,7 +4339,7 @@ func (t *CollectionPage) GetSource() (v ObjectType) {
 
 // SetSource sets the value of source to be of ObjectType type
 func (t *CollectionPage) SetSource(v ObjectType) {
-	t.source = &sourceCollectionPageIntermediateType{Object: v}
+	t.source = &sourceIntermediateType{Object: v}
 
 }
 
@@ -4358,7 +4357,7 @@ func (t *CollectionPage) GetSourceIRI() (v *url.URL) {
 
 // SetSourceIRI sets the value of source to be of *url.URL type
 func (t *CollectionPage) SetSourceIRI(v *url.URL) {
-	t.source = &sourceCollectionPageIntermediateType{IRI: v}
+	t.source = &sourceIntermediateType{IRI: v}
 
 }
 
@@ -4379,7 +4378,7 @@ func (t *CollectionPage) SetUnknownSource(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &sourceCollectionPageIntermediateType{}
+	tmp := &sourceIntermediateType{}
 	tmp.unknown_ = i
 	t.source = tmp
 
@@ -4399,7 +4398,7 @@ func (t *CollectionPage) GetInboxOrderedCollection() (v OrderedCollectionType) {
 
 // SetInboxOrderedCollection sets the value of inbox to be of OrderedCollectionType type
 func (t *CollectionPage) SetInboxOrderedCollection(v OrderedCollectionType) {
-	t.inbox = &inboxCollectionPageIntermediateType{OrderedCollection: v}
+	t.inbox = &inboxIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4417,7 +4416,7 @@ func (t *CollectionPage) GetInboxAnyURI() (v *url.URL) {
 
 // SetInboxAnyURI sets the value of inbox to be of *url.URL type
 func (t *CollectionPage) SetInboxAnyURI(v *url.URL) {
-	t.inbox = &inboxCollectionPageIntermediateType{anyURI: v}
+	t.inbox = &inboxIntermediateType{anyURI: v}
 
 }
 
@@ -4438,7 +4437,7 @@ func (t *CollectionPage) SetUnknownInbox(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &inboxCollectionPageIntermediateType{}
+	tmp := &inboxIntermediateType{}
 	tmp.unknown_ = i
 	t.inbox = tmp
 
@@ -4458,7 +4457,7 @@ func (t *CollectionPage) GetOutboxOrderedCollection() (v OrderedCollectionType) 
 
 // SetOutboxOrderedCollection sets the value of outbox to be of OrderedCollectionType type
 func (t *CollectionPage) SetOutboxOrderedCollection(v OrderedCollectionType) {
-	t.outbox = &outboxCollectionPageIntermediateType{OrderedCollection: v}
+	t.outbox = &outboxIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4476,7 +4475,7 @@ func (t *CollectionPage) GetOutboxAnyURI() (v *url.URL) {
 
 // SetOutboxAnyURI sets the value of outbox to be of *url.URL type
 func (t *CollectionPage) SetOutboxAnyURI(v *url.URL) {
-	t.outbox = &outboxCollectionPageIntermediateType{anyURI: v}
+	t.outbox = &outboxIntermediateType{anyURI: v}
 
 }
 
@@ -4497,7 +4496,7 @@ func (t *CollectionPage) SetUnknownOutbox(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &outboxCollectionPageIntermediateType{}
+	tmp := &outboxIntermediateType{}
 	tmp.unknown_ = i
 	t.outbox = tmp
 
@@ -4517,7 +4516,7 @@ func (t *CollectionPage) GetFollowingCollection() (v CollectionType) {
 
 // SetFollowingCollection sets the value of following to be of CollectionType type
 func (t *CollectionPage) SetFollowingCollection(v CollectionType) {
-	t.following = &followingCollectionPageIntermediateType{Collection: v}
+	t.following = &followingIntermediateType{Collection: v}
 
 }
 
@@ -4535,7 +4534,7 @@ func (t *CollectionPage) GetFollowingOrderedCollection() (v OrderedCollectionTyp
 
 // SetFollowingOrderedCollection sets the value of following to be of OrderedCollectionType type
 func (t *CollectionPage) SetFollowingOrderedCollection(v OrderedCollectionType) {
-	t.following = &followingCollectionPageIntermediateType{OrderedCollection: v}
+	t.following = &followingIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4553,7 +4552,7 @@ func (t *CollectionPage) GetFollowingAnyURI() (v *url.URL) {
 
 // SetFollowingAnyURI sets the value of following to be of *url.URL type
 func (t *CollectionPage) SetFollowingAnyURI(v *url.URL) {
-	t.following = &followingCollectionPageIntermediateType{anyURI: v}
+	t.following = &followingIntermediateType{anyURI: v}
 
 }
 
@@ -4574,7 +4573,7 @@ func (t *CollectionPage) SetUnknownFollowing(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &followingCollectionPageIntermediateType{}
+	tmp := &followingIntermediateType{}
 	tmp.unknown_ = i
 	t.following = tmp
 
@@ -4594,7 +4593,7 @@ func (t *CollectionPage) GetFollowersCollection() (v CollectionType) {
 
 // SetFollowersCollection sets the value of followers to be of CollectionType type
 func (t *CollectionPage) SetFollowersCollection(v CollectionType) {
-	t.followers = &followersCollectionPageIntermediateType{Collection: v}
+	t.followers = &followersIntermediateType{Collection: v}
 
 }
 
@@ -4612,7 +4611,7 @@ func (t *CollectionPage) GetFollowersOrderedCollection() (v OrderedCollectionTyp
 
 // SetFollowersOrderedCollection sets the value of followers to be of OrderedCollectionType type
 func (t *CollectionPage) SetFollowersOrderedCollection(v OrderedCollectionType) {
-	t.followers = &followersCollectionPageIntermediateType{OrderedCollection: v}
+	t.followers = &followersIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4630,7 +4629,7 @@ func (t *CollectionPage) GetFollowersAnyURI() (v *url.URL) {
 
 // SetFollowersAnyURI sets the value of followers to be of *url.URL type
 func (t *CollectionPage) SetFollowersAnyURI(v *url.URL) {
-	t.followers = &followersCollectionPageIntermediateType{anyURI: v}
+	t.followers = &followersIntermediateType{anyURI: v}
 
 }
 
@@ -4651,7 +4650,7 @@ func (t *CollectionPage) SetUnknownFollowers(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &followersCollectionPageIntermediateType{}
+	tmp := &followersIntermediateType{}
 	tmp.unknown_ = i
 	t.followers = tmp
 
@@ -4671,7 +4670,7 @@ func (t *CollectionPage) GetLikedCollection() (v CollectionType) {
 
 // SetLikedCollection sets the value of liked to be of CollectionType type
 func (t *CollectionPage) SetLikedCollection(v CollectionType) {
-	t.liked = &likedCollectionPageIntermediateType{Collection: v}
+	t.liked = &likedIntermediateType{Collection: v}
 
 }
 
@@ -4689,7 +4688,7 @@ func (t *CollectionPage) GetLikedOrderedCollection() (v OrderedCollectionType) {
 
 // SetLikedOrderedCollection sets the value of liked to be of OrderedCollectionType type
 func (t *CollectionPage) SetLikedOrderedCollection(v OrderedCollectionType) {
-	t.liked = &likedCollectionPageIntermediateType{OrderedCollection: v}
+	t.liked = &likedIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4707,7 +4706,7 @@ func (t *CollectionPage) GetLikedAnyURI() (v *url.URL) {
 
 // SetLikedAnyURI sets the value of liked to be of *url.URL type
 func (t *CollectionPage) SetLikedAnyURI(v *url.URL) {
-	t.liked = &likedCollectionPageIntermediateType{anyURI: v}
+	t.liked = &likedIntermediateType{anyURI: v}
 
 }
 
@@ -4728,7 +4727,7 @@ func (t *CollectionPage) SetUnknownLiked(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &likedCollectionPageIntermediateType{}
+	tmp := &likedIntermediateType{}
 	tmp.unknown_ = i
 	t.liked = tmp
 
@@ -4748,7 +4747,7 @@ func (t *CollectionPage) GetLikesCollection() (v CollectionType) {
 
 // SetLikesCollection sets the value of likes to be of CollectionType type
 func (t *CollectionPage) SetLikesCollection(v CollectionType) {
-	t.likes = &likesCollectionPageIntermediateType{Collection: v}
+	t.likes = &likesIntermediateType{Collection: v}
 
 }
 
@@ -4766,7 +4765,7 @@ func (t *CollectionPage) GetLikesOrderedCollection() (v OrderedCollectionType) {
 
 // SetLikesOrderedCollection sets the value of likes to be of OrderedCollectionType type
 func (t *CollectionPage) SetLikesOrderedCollection(v OrderedCollectionType) {
-	t.likes = &likesCollectionPageIntermediateType{OrderedCollection: v}
+	t.likes = &likesIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4784,7 +4783,7 @@ func (t *CollectionPage) GetLikesAnyURI() (v *url.URL) {
 
 // SetLikesAnyURI sets the value of likes to be of *url.URL type
 func (t *CollectionPage) SetLikesAnyURI(v *url.URL) {
-	t.likes = &likesCollectionPageIntermediateType{anyURI: v}
+	t.likes = &likesIntermediateType{anyURI: v}
 
 }
 
@@ -4805,7 +4804,7 @@ func (t *CollectionPage) SetUnknownLikes(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &likesCollectionPageIntermediateType{}
+	tmp := &likesIntermediateType{}
 	tmp.unknown_ = i
 	t.likes = tmp
 
@@ -4878,7 +4877,7 @@ func (t *CollectionPage) GetPreferredUsername() (v string) {
 
 // SetPreferredUsername sets the value of preferredUsername to be of string type
 func (t *CollectionPage) SetPreferredUsername(v string) {
-	t.preferredUsername = &preferredUsernameCollectionPageIntermediateType{stringName: &v}
+	t.preferredUsername = &preferredUsernameIntermediateType{stringName: &v}
 
 }
 
@@ -4896,7 +4895,7 @@ func (t *CollectionPage) GetPreferredUsernameIRI() (v *url.URL) {
 
 // SetPreferredUsernameIRI sets the value of preferredUsername to be of *url.URL type
 func (t *CollectionPage) SetPreferredUsernameIRI(v *url.URL) {
-	t.preferredUsername = &preferredUsernameCollectionPageIntermediateType{IRI: v}
+	t.preferredUsername = &preferredUsernameIntermediateType{IRI: v}
 
 }
 
@@ -4917,7 +4916,7 @@ func (t *CollectionPage) SetUnknownPreferredUsername(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &preferredUsernameCollectionPageIntermediateType{}
+	tmp := &preferredUsernameIntermediateType{}
 	tmp.unknown_ = i
 	t.preferredUsername = tmp
 
@@ -4972,7 +4971,7 @@ func (t *CollectionPage) GetEndpoints() (v ObjectType) {
 
 // SetEndpoints sets the value of endpoints to be of ObjectType type
 func (t *CollectionPage) SetEndpoints(v ObjectType) {
-	t.endpoints = &endpointsCollectionPageIntermediateType{Object: v}
+	t.endpoints = &endpointsIntermediateType{Object: v}
 
 }
 
@@ -4990,7 +4989,7 @@ func (t *CollectionPage) GetEndpointsIRI() (v *url.URL) {
 
 // SetEndpointsIRI sets the value of endpoints to be of *url.URL type
 func (t *CollectionPage) SetEndpointsIRI(v *url.URL) {
-	t.endpoints = &endpointsCollectionPageIntermediateType{IRI: v}
+	t.endpoints = &endpointsIntermediateType{IRI: v}
 
 }
 
@@ -5011,7 +5010,7 @@ func (t *CollectionPage) SetUnknownEndpoints(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &endpointsCollectionPageIntermediateType{}
+	tmp := &endpointsIntermediateType{}
 	tmp.unknown_ = i
 	t.endpoints = tmp
 
@@ -5298,7 +5297,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.partOf != nil {
-		if v, err := serializePartOfCollectionPageIntermediateType(t.partOf); err == nil {
+		if v, err := serializePartOfIntermediateType(t.partOf); err == nil {
 			m["partOf"] = v
 		} else {
 			return m, err
@@ -5307,7 +5306,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.next != nil {
-		if v, err := serializeNextCollectionPageIntermediateType(t.next); err == nil {
+		if v, err := serializeNextIntermediateType(t.next); err == nil {
 			m["next"] = v
 		} else {
 			return m, err
@@ -5316,7 +5315,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.prev != nil {
-		if v, err := serializePrevCollectionPageIntermediateType(t.prev); err == nil {
+		if v, err := serializePrevIntermediateType(t.prev); err == nil {
 			m["prev"] = v
 		} else {
 			return m, err
@@ -5325,7 +5324,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.totalItems != nil {
-		if v, err := serializeTotalItemsCollectionPageIntermediateType(t.totalItems); err == nil {
+		if v, err := serializeTotalItemsIntermediateType(t.totalItems); err == nil {
 			m["totalItems"] = v
 		} else {
 			return m, err
@@ -5334,7 +5333,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.current != nil {
-		if v, err := serializeCurrentCollectionPageIntermediateType(t.current); err == nil {
+		if v, err := serializeCurrentIntermediateType(t.current); err == nil {
 			m["current"] = v
 		} else {
 			return m, err
@@ -5343,7 +5342,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.first != nil {
-		if v, err := serializeFirstCollectionPageIntermediateType(t.first); err == nil {
+		if v, err := serializeFirstIntermediateType(t.first); err == nil {
 			m["first"] = v
 		} else {
 			return m, err
@@ -5352,7 +5351,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.last != nil {
-		if v, err := serializeLastCollectionPageIntermediateType(t.last); err == nil {
+		if v, err := serializeLastIntermediateType(t.last); err == nil {
 			m["last"] = v
 		} else {
 			return m, err
@@ -5360,7 +5359,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceItemsCollectionPageIntermediateType(t.items); err == nil && v != nil {
+	if v, err := serializeSliceItemsIntermediateType(t.items); err == nil && v != nil {
 		if len(v) == 1 {
 			m["items"] = v[0]
 		} else {
@@ -5372,7 +5371,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.altitude != nil {
-		if v, err := serializeAltitudeCollectionPageIntermediateType(t.altitude); err == nil {
+		if v, err := serializeAltitudeIntermediateType(t.altitude); err == nil {
 			m["altitude"] = v
 		} else {
 			return m, err
@@ -5380,7 +5379,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttachmentCollectionPageIntermediateType(t.attachment); err == nil && v != nil {
+	if v, err := serializeSliceAttachmentIntermediateType(t.attachment); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attachment"] = v[0]
 		} else {
@@ -5391,7 +5390,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttributedToCollectionPageIntermediateType(t.attributedTo); err == nil && v != nil {
+	if v, err := serializeSliceAttributedToIntermediateType(t.attributedTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attributedTo"] = v[0]
 		} else {
@@ -5402,7 +5401,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAudienceCollectionPageIntermediateType(t.audience); err == nil && v != nil {
+	if v, err := serializeSliceAudienceIntermediateType(t.audience); err == nil && v != nil {
 		if len(v) == 1 {
 			m["audience"] = v[0]
 		} else {
@@ -5413,7 +5412,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceContentCollectionPageIntermediateType(t.content); err == nil && v != nil {
+	if v, err := serializeSliceContentIntermediateType(t.content); err == nil && v != nil {
 		if len(v) == 1 {
 			m["content"] = v[0]
 		} else {
@@ -5430,7 +5429,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceContextCollectionPageIntermediateType(t.context); err == nil && v != nil {
+	if v, err := serializeSliceContextIntermediateType(t.context); err == nil && v != nil {
 		if len(v) == 1 {
 			m["context"] = v[0]
 		} else {
@@ -5441,7 +5440,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceNameCollectionPageIntermediateType(t.name); err == nil && v != nil {
+	if v, err := serializeSliceNameIntermediateType(t.name); err == nil && v != nil {
 		if len(v) == 1 {
 			m["name"] = v[0]
 		} else {
@@ -5459,7 +5458,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.endTime != nil {
-		if v, err := serializeEndTimeCollectionPageIntermediateType(t.endTime); err == nil {
+		if v, err := serializeEndTimeIntermediateType(t.endTime); err == nil {
 			m["endTime"] = v
 		} else {
 			return m, err
@@ -5467,7 +5466,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceGeneratorCollectionPageIntermediateType(t.generator); err == nil && v != nil {
+	if v, err := serializeSliceGeneratorIntermediateType(t.generator); err == nil && v != nil {
 		if len(v) == 1 {
 			m["generator"] = v[0]
 		} else {
@@ -5478,7 +5477,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceIconCollectionPageIntermediateType(t.icon); err == nil && v != nil {
+	if v, err := serializeSliceIconIntermediateType(t.icon); err == nil && v != nil {
 		if len(v) == 1 {
 			m["icon"] = v[0]
 		} else {
@@ -5504,7 +5503,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceImageCollectionPageIntermediateType(t.image); err == nil && v != nil {
+	if v, err := serializeSliceImageIntermediateType(t.image); err == nil && v != nil {
 		if len(v) == 1 {
 			m["image"] = v[0]
 		} else {
@@ -5515,7 +5514,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceInReplyToCollectionPageIntermediateType(t.inReplyTo); err == nil && v != nil {
+	if v, err := serializeSliceInReplyToIntermediateType(t.inReplyTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["inReplyTo"] = v[0]
 		} else {
@@ -5526,7 +5525,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceLocationCollectionPageIntermediateType(t.location); err == nil && v != nil {
+	if v, err := serializeSliceLocationIntermediateType(t.location); err == nil && v != nil {
 		if len(v) == 1 {
 			m["location"] = v[0]
 		} else {
@@ -5537,7 +5536,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSlicePreviewCollectionPageIntermediateType(t.preview); err == nil && v != nil {
+	if v, err := serializeSlicePreviewIntermediateType(t.preview); err == nil && v != nil {
 		if len(v) == 1 {
 			m["preview"] = v[0]
 		} else {
@@ -5549,7 +5548,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.published != nil {
-		if v, err := serializePublishedCollectionPageIntermediateType(t.published); err == nil {
+		if v, err := serializePublishedIntermediateType(t.published); err == nil {
 			m["published"] = v
 		} else {
 			return m, err
@@ -5558,7 +5557,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.replies != nil {
-		if v, err := serializeRepliesCollectionPageIntermediateType(t.replies); err == nil {
+		if v, err := serializeRepliesIntermediateType(t.replies); err == nil {
 			m["replies"] = v
 		} else {
 			return m, err
@@ -5567,7 +5566,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.startTime != nil {
-		if v, err := serializeStartTimeCollectionPageIntermediateType(t.startTime); err == nil {
+		if v, err := serializeStartTimeIntermediateType(t.startTime); err == nil {
 			m["startTime"] = v
 		} else {
 			return m, err
@@ -5575,7 +5574,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceSummaryCollectionPageIntermediateType(t.summary); err == nil && v != nil {
+	if v, err := serializeSliceSummaryIntermediateType(t.summary); err == nil && v != nil {
 		if len(v) == 1 {
 			m["summary"] = v[0]
 		} else {
@@ -5592,7 +5591,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceTagCollectionPageIntermediateType(t.tag); err == nil && v != nil {
+	if v, err := serializeSliceTagIntermediateType(t.tag); err == nil && v != nil {
 		if len(v) == 1 {
 			m["tag"] = v[0]
 		} else {
@@ -5613,7 +5612,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalAnyDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.updated != nil {
-		if v, err := serializeUpdatedCollectionPageIntermediateType(t.updated); err == nil {
+		if v, err := serializeUpdatedIntermediateType(t.updated); err == nil {
 			m["updated"] = v
 		} else {
 			return m, err
@@ -5621,7 +5620,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceUrlCollectionPageIntermediateType(t.url); err == nil && v != nil {
+	if v, err := serializeSliceUrlIntermediateType(t.url); err == nil && v != nil {
 		if len(v) == 1 {
 			m["url"] = v[0]
 		} else {
@@ -5632,7 +5631,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceToCollectionPageIntermediateType(t.to); err == nil && v != nil {
+	if v, err := serializeSliceToIntermediateType(t.to); err == nil && v != nil {
 		if len(v) == 1 {
 			m["to"] = v[0]
 		} else {
@@ -5643,7 +5642,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceBtoCollectionPageIntermediateType(t.bto); err == nil && v != nil {
+	if v, err := serializeSliceBtoIntermediateType(t.bto); err == nil && v != nil {
 		if len(v) == 1 {
 			m["bto"] = v[0]
 		} else {
@@ -5654,7 +5653,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceCcCollectionPageIntermediateType(t.cc); err == nil && v != nil {
+	if v, err := serializeSliceCcIntermediateType(t.cc); err == nil && v != nil {
 		if len(v) == 1 {
 			m["cc"] = v[0]
 		} else {
@@ -5665,7 +5664,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceBccCollectionPageIntermediateType(t.bcc); err == nil && v != nil {
+	if v, err := serializeSliceBccIntermediateType(t.bcc); err == nil && v != nil {
 		if len(v) == 1 {
 			m["bcc"] = v[0]
 		} else {
@@ -5677,7 +5676,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.mediaType != nil {
-		if v, err := serializeMediaTypeCollectionPageIntermediateType(t.mediaType); err == nil {
+		if v, err := serializeMediaTypeIntermediateType(t.mediaType); err == nil {
 			m["mediaType"] = v
 		} else {
 			return m, err
@@ -5686,7 +5685,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.duration != nil {
-		if v, err := serializeDurationCollectionPageIntermediateType(t.duration); err == nil {
+		if v, err := serializeDurationIntermediateType(t.duration); err == nil {
 			m["duration"] = v
 		} else {
 			return m, err
@@ -5695,7 +5694,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.source != nil {
-		if v, err := serializeSourceCollectionPageIntermediateType(t.source); err == nil {
+		if v, err := serializeSourceIntermediateType(t.source); err == nil {
 			m["source"] = v
 		} else {
 			return m, err
@@ -5704,7 +5703,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.inbox != nil {
-		if v, err := serializeInboxCollectionPageIntermediateType(t.inbox); err == nil {
+		if v, err := serializeInboxIntermediateType(t.inbox); err == nil {
 			m["inbox"] = v
 		} else {
 			return m, err
@@ -5713,7 +5712,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.outbox != nil {
-		if v, err := serializeOutboxCollectionPageIntermediateType(t.outbox); err == nil {
+		if v, err := serializeOutboxIntermediateType(t.outbox); err == nil {
 			m["outbox"] = v
 		} else {
 			return m, err
@@ -5722,7 +5721,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.following != nil {
-		if v, err := serializeFollowingCollectionPageIntermediateType(t.following); err == nil {
+		if v, err := serializeFollowingIntermediateType(t.following); err == nil {
 			m["following"] = v
 		} else {
 			return m, err
@@ -5731,7 +5730,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.followers != nil {
-		if v, err := serializeFollowersCollectionPageIntermediateType(t.followers); err == nil {
+		if v, err := serializeFollowersIntermediateType(t.followers); err == nil {
 			m["followers"] = v
 		} else {
 			return m, err
@@ -5740,7 +5739,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.liked != nil {
-		if v, err := serializeLikedCollectionPageIntermediateType(t.liked); err == nil {
+		if v, err := serializeLikedIntermediateType(t.liked); err == nil {
 			m["liked"] = v
 		} else {
 			return m, err
@@ -5749,7 +5748,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.likes != nil {
-		if v, err := serializeLikesCollectionPageIntermediateType(t.likes); err == nil {
+		if v, err := serializeLikesIntermediateType(t.likes); err == nil {
 			m["likes"] = v
 		} else {
 			return m, err
@@ -5772,7 +5771,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.preferredUsername != nil {
-		if v, err := serializePreferredUsernameCollectionPageIntermediateType(t.preferredUsername); err == nil {
+		if v, err := serializePreferredUsernameIntermediateType(t.preferredUsername); err == nil {
 			m["preferredUsername"] = v
 		} else {
 			return m, err
@@ -5787,7 +5786,7 @@ func (t *CollectionPage) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.endpoints != nil {
-		if v, err := serializeEndpointsCollectionPageIntermediateType(t.endpoints); err == nil {
+		if v, err := serializeEndpointsIntermediateType(t.endpoints); err == nil {
 			m["endpoints"] = v
 		} else {
 			return m, err
@@ -5895,7 +5894,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "partOf" {
-				t.partOf, err = deserializePartOfCollectionPageIntermediateType(v)
+				t.partOf, err = deserializePartOfIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5906,7 +5905,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "next" {
-				t.next, err = deserializeNextCollectionPageIntermediateType(v)
+				t.next, err = deserializeNextIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5917,7 +5916,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "prev" {
-				t.prev, err = deserializePrevCollectionPageIntermediateType(v)
+				t.prev, err = deserializePrevIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5928,7 +5927,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "totalItems" {
-				t.totalItems, err = deserializeTotalItemsCollectionPageIntermediateType(v)
+				t.totalItems, err = deserializeTotalItemsIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5939,7 +5938,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "current" {
-				t.current, err = deserializeCurrentCollectionPageIntermediateType(v)
+				t.current, err = deserializeCurrentIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5950,7 +5949,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "first" {
-				t.first, err = deserializeFirstCollectionPageIntermediateType(v)
+				t.first, err = deserializeFirstIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5961,7 +5960,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "last" {
-				t.last, err = deserializeLastCollectionPageIntermediateType(v)
+				t.last, err = deserializeLastIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5973,25 +5972,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "items" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeItemsCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeItemsIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.items = []*itemsCollectionPageIntermediateType{tmp}
+					t.items = []*itemsIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.items, err = deserializeSliceItemsCollectionPageIntermediateType(tmpSlice)
+					t.items, err = deserializeSliceItemsIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &itemsCollectionPageIntermediateType{}
+					tmp := &itemsIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.items = []*itemsCollectionPageIntermediateType{tmp}
+					t.items = []*itemsIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6000,7 +5999,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "altitude" {
-				t.altitude, err = deserializeAltitudeCollectionPageIntermediateType(v)
+				t.altitude, err = deserializeAltitudeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6012,25 +6011,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attachment" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttachmentCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeAttachmentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attachment = []*attachmentCollectionPageIntermediateType{tmp}
+					t.attachment = []*attachmentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attachment, err = deserializeSliceAttachmentCollectionPageIntermediateType(tmpSlice)
+					t.attachment, err = deserializeSliceAttachmentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attachmentCollectionPageIntermediateType{}
+					tmp := &attachmentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attachment = []*attachmentCollectionPageIntermediateType{tmp}
+					t.attachment = []*attachmentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6040,25 +6039,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attributedTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttributedToCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeAttributedToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToCollectionPageIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attributedTo, err = deserializeSliceAttributedToCollectionPageIntermediateType(tmpSlice)
+					t.attributedTo, err = deserializeSliceAttributedToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attributedToCollectionPageIntermediateType{}
+					tmp := &attributedToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToCollectionPageIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6068,25 +6067,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "audience" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAudienceCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeAudienceIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.audience = []*audienceCollectionPageIntermediateType{tmp}
+					t.audience = []*audienceIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.audience, err = deserializeSliceAudienceCollectionPageIntermediateType(tmpSlice)
+					t.audience, err = deserializeSliceAudienceIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &audienceCollectionPageIntermediateType{}
+					tmp := &audienceIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.audience = []*audienceCollectionPageIntermediateType{tmp}
+					t.audience = []*audienceIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6096,25 +6095,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "content" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeContentCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeContentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.content = []*contentCollectionPageIntermediateType{tmp}
+					t.content = []*contentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.content, err = deserializeSliceContentCollectionPageIntermediateType(tmpSlice)
+					t.content, err = deserializeSliceContentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &contentCollectionPageIntermediateType{}
+					tmp := &contentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.content = []*contentCollectionPageIntermediateType{tmp}
+					t.content = []*contentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6139,25 +6138,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "context" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeContextCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeContextIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.context = []*contextCollectionPageIntermediateType{tmp}
+					t.context = []*contextIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.context, err = deserializeSliceContextCollectionPageIntermediateType(tmpSlice)
+					t.context, err = deserializeSliceContextIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &contextCollectionPageIntermediateType{}
+					tmp := &contextIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.context = []*contextCollectionPageIntermediateType{tmp}
+					t.context = []*contextIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6167,25 +6166,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "name" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeNameCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeNameIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameCollectionPageIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.name, err = deserializeSliceNameCollectionPageIntermediateType(tmpSlice)
+					t.name, err = deserializeSliceNameIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &nameCollectionPageIntermediateType{}
+					tmp := &nameIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameCollectionPageIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6209,7 +6208,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "endTime" {
-				t.endTime, err = deserializeEndTimeCollectionPageIntermediateType(v)
+				t.endTime, err = deserializeEndTimeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6221,25 +6220,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "generator" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeGeneratorCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeGeneratorIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.generator = []*generatorCollectionPageIntermediateType{tmp}
+					t.generator = []*generatorIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.generator, err = deserializeSliceGeneratorCollectionPageIntermediateType(tmpSlice)
+					t.generator, err = deserializeSliceGeneratorIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &generatorCollectionPageIntermediateType{}
+					tmp := &generatorIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.generator = []*generatorCollectionPageIntermediateType{tmp}
+					t.generator = []*generatorIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6249,25 +6248,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "icon" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeIconCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeIconIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.icon = []*iconCollectionPageIntermediateType{tmp}
+					t.icon = []*iconIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.icon, err = deserializeSliceIconCollectionPageIntermediateType(tmpSlice)
+					t.icon, err = deserializeSliceIconIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &iconCollectionPageIntermediateType{}
+					tmp := &iconIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.icon = []*iconCollectionPageIntermediateType{tmp}
+					t.icon = []*iconIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6291,25 +6290,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "image" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeImageCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeImageIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.image = []*imageCollectionPageIntermediateType{tmp}
+					t.image = []*imageIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.image, err = deserializeSliceImageCollectionPageIntermediateType(tmpSlice)
+					t.image, err = deserializeSliceImageIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &imageCollectionPageIntermediateType{}
+					tmp := &imageIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.image = []*imageCollectionPageIntermediateType{tmp}
+					t.image = []*imageIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6319,25 +6318,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "inReplyTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeInReplyToCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeInReplyToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.inReplyTo = []*inReplyToCollectionPageIntermediateType{tmp}
+					t.inReplyTo = []*inReplyToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.inReplyTo, err = deserializeSliceInReplyToCollectionPageIntermediateType(tmpSlice)
+					t.inReplyTo, err = deserializeSliceInReplyToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &inReplyToCollectionPageIntermediateType{}
+					tmp := &inReplyToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.inReplyTo = []*inReplyToCollectionPageIntermediateType{tmp}
+					t.inReplyTo = []*inReplyToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6347,25 +6346,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "location" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeLocationCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeLocationIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.location = []*locationCollectionPageIntermediateType{tmp}
+					t.location = []*locationIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.location, err = deserializeSliceLocationCollectionPageIntermediateType(tmpSlice)
+					t.location, err = deserializeSliceLocationIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &locationCollectionPageIntermediateType{}
+					tmp := &locationIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.location = []*locationCollectionPageIntermediateType{tmp}
+					t.location = []*locationIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6375,25 +6374,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "preview" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializePreviewCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializePreviewIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewCollectionPageIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.preview, err = deserializeSlicePreviewCollectionPageIntermediateType(tmpSlice)
+					t.preview, err = deserializeSlicePreviewIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &previewCollectionPageIntermediateType{}
+					tmp := &previewIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewCollectionPageIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6402,7 +6401,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "published" {
-				t.published, err = deserializePublishedCollectionPageIntermediateType(v)
+				t.published, err = deserializePublishedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6413,7 +6412,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "replies" {
-				t.replies, err = deserializeRepliesCollectionPageIntermediateType(v)
+				t.replies, err = deserializeRepliesIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6424,7 +6423,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "startTime" {
-				t.startTime, err = deserializeStartTimeCollectionPageIntermediateType(v)
+				t.startTime, err = deserializeStartTimeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6436,25 +6435,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "summary" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeSummaryCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeSummaryIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryCollectionPageIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.summary, err = deserializeSliceSummaryCollectionPageIntermediateType(tmpSlice)
+					t.summary, err = deserializeSliceSummaryIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &summaryCollectionPageIntermediateType{}
+					tmp := &summaryIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryCollectionPageIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6479,25 +6478,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "tag" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeTagCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeTagIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.tag = []*tagCollectionPageIntermediateType{tmp}
+					t.tag = []*tagIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.tag, err = deserializeSliceTagCollectionPageIntermediateType(tmpSlice)
+					t.tag, err = deserializeSliceTagIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &tagCollectionPageIntermediateType{}
+					tmp := &tagIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.tag = []*tagCollectionPageIntermediateType{tmp}
+					t.tag = []*tagIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6519,7 +6518,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "updated" {
-				t.updated, err = deserializeUpdatedCollectionPageIntermediateType(v)
+				t.updated, err = deserializeUpdatedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6531,25 +6530,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "url" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeUrlCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeUrlIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.url = []*urlCollectionPageIntermediateType{tmp}
+					t.url = []*urlIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.url, err = deserializeSliceUrlCollectionPageIntermediateType(tmpSlice)
+					t.url, err = deserializeSliceUrlIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &urlCollectionPageIntermediateType{}
+					tmp := &urlIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.url = []*urlCollectionPageIntermediateType{tmp}
+					t.url = []*urlIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6559,25 +6558,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "to" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeToCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.to = []*toCollectionPageIntermediateType{tmp}
+					t.to = []*toIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.to, err = deserializeSliceToCollectionPageIntermediateType(tmpSlice)
+					t.to, err = deserializeSliceToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &toCollectionPageIntermediateType{}
+					tmp := &toIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.to = []*toCollectionPageIntermediateType{tmp}
+					t.to = []*toIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6587,25 +6586,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "bto" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeBtoCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeBtoIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.bto = []*btoCollectionPageIntermediateType{tmp}
+					t.bto = []*btoIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.bto, err = deserializeSliceBtoCollectionPageIntermediateType(tmpSlice)
+					t.bto, err = deserializeSliceBtoIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &btoCollectionPageIntermediateType{}
+					tmp := &btoIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.bto = []*btoCollectionPageIntermediateType{tmp}
+					t.bto = []*btoIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6615,25 +6614,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "cc" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeCcCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeCcIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.cc = []*ccCollectionPageIntermediateType{tmp}
+					t.cc = []*ccIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.cc, err = deserializeSliceCcCollectionPageIntermediateType(tmpSlice)
+					t.cc, err = deserializeSliceCcIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &ccCollectionPageIntermediateType{}
+					tmp := &ccIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.cc = []*ccCollectionPageIntermediateType{tmp}
+					t.cc = []*ccIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6643,25 +6642,25 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "bcc" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeBccCollectionPageIntermediateType(tmpMap)
+					tmp, err := deserializeBccIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.bcc = []*bccCollectionPageIntermediateType{tmp}
+					t.bcc = []*bccIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.bcc, err = deserializeSliceBccCollectionPageIntermediateType(tmpSlice)
+					t.bcc, err = deserializeSliceBccIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &bccCollectionPageIntermediateType{}
+					tmp := &bccIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.bcc = []*bccCollectionPageIntermediateType{tmp}
+					t.bcc = []*bccIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6670,7 +6669,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "mediaType" {
-				t.mediaType, err = deserializeMediaTypeCollectionPageIntermediateType(v)
+				t.mediaType, err = deserializeMediaTypeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6681,7 +6680,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "duration" {
-				t.duration, err = deserializeDurationCollectionPageIntermediateType(v)
+				t.duration, err = deserializeDurationIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6692,7 +6691,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "source" {
-				t.source, err = deserializeSourceCollectionPageIntermediateType(v)
+				t.source, err = deserializeSourceIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6703,7 +6702,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "inbox" {
-				t.inbox, err = deserializeInboxCollectionPageIntermediateType(v)
+				t.inbox, err = deserializeInboxIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6714,7 +6713,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "outbox" {
-				t.outbox, err = deserializeOutboxCollectionPageIntermediateType(v)
+				t.outbox, err = deserializeOutboxIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6725,7 +6724,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "following" {
-				t.following, err = deserializeFollowingCollectionPageIntermediateType(v)
+				t.following, err = deserializeFollowingIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6736,7 +6735,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "followers" {
-				t.followers, err = deserializeFollowersCollectionPageIntermediateType(v)
+				t.followers, err = deserializeFollowersIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6747,7 +6746,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "liked" {
-				t.liked, err = deserializeLikedCollectionPageIntermediateType(v)
+				t.liked, err = deserializeLikedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6758,7 +6757,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "likes" {
-				t.likes, err = deserializeLikesCollectionPageIntermediateType(v)
+				t.likes, err = deserializeLikesIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6794,7 +6793,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "preferredUsername" {
-				t.preferredUsername, err = deserializePreferredUsernameCollectionPageIntermediateType(v)
+				t.preferredUsername, err = deserializePreferredUsernameIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6820,7 +6819,7 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "endpoints" {
-				t.endpoints, err = deserializeEndpointsCollectionPageIntermediateType(v)
+				t.endpoints, err = deserializeEndpointsIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6918,5110 +6917,6 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 			}
 			t.unknown_[k] = unknownValueDeserialize(v)
 		}
-	}
-	return
-
-}
-
-// partOfCollectionPageIntermediateType will only have one of its values set at most
-type partOfCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible LinkType type for partOf property
-	Link LinkType
-	// Stores possible CollectionType type for partOf property
-	Collection CollectionType
-	// Stores possible *url.URL type for partOf property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *partOfCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *partOfCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// nextCollectionPageIntermediateType will only have one of its values set at most
-type nextCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionPageType type for next property
-	CollectionPage CollectionPageType
-	// Stores possible LinkType type for next property
-	Link LinkType
-	// Stores possible *url.URL type for next property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *nextCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.CollectionPage, ok = resolveObject(kind).(CollectionPageType); t.CollectionPage != nil && ok {
-						err = t.CollectionPage.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *nextCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.CollectionPage != nil {
-		i, err = t.CollectionPage.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// prevCollectionPageIntermediateType will only have one of its values set at most
-type prevCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionPageType type for prev property
-	CollectionPage CollectionPageType
-	// Stores possible LinkType type for prev property
-	Link LinkType
-	// Stores possible *url.URL type for prev property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *prevCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.CollectionPage, ok = resolveObject(kind).(CollectionPageType); t.CollectionPage != nil && ok {
-						err = t.CollectionPage.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *prevCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.CollectionPage != nil {
-		i, err = t.CollectionPage.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// totalItemsCollectionPageIntermediateType will only have one of its values set at most
-type totalItemsCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *int64 type for totalItems property
-	nonNegativeInteger *int64
-	// Stores possible *url.URL type for totalItems property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *totalItemsCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.nonNegativeInteger, err = nonNegativeIntegerDeserialize(i)
-			if err != nil {
-				t.nonNegativeInteger = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *totalItemsCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.nonNegativeInteger != nil {
-		i = nonNegativeIntegerSerialize(*t.nonNegativeInteger)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// currentCollectionPageIntermediateType will only have one of its values set at most
-type currentCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionPageType type for current property
-	CollectionPage CollectionPageType
-	// Stores possible LinkType type for current property
-	Link LinkType
-	// Stores possible *url.URL type for current property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *currentCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.CollectionPage, ok = resolveObject(kind).(CollectionPageType); t.CollectionPage != nil && ok {
-						err = t.CollectionPage.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *currentCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.CollectionPage != nil {
-		i, err = t.CollectionPage.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// firstCollectionPageIntermediateType will only have one of its values set at most
-type firstCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionPageType type for first property
-	CollectionPage CollectionPageType
-	// Stores possible LinkType type for first property
-	Link LinkType
-	// Stores possible *url.URL type for first property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *firstCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.CollectionPage, ok = resolveObject(kind).(CollectionPageType); t.CollectionPage != nil && ok {
-						err = t.CollectionPage.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *firstCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.CollectionPage != nil {
-		i, err = t.CollectionPage.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// lastCollectionPageIntermediateType will only have one of its values set at most
-type lastCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionPageType type for last property
-	CollectionPage CollectionPageType
-	// Stores possible LinkType type for last property
-	Link LinkType
-	// Stores possible *url.URL type for last property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *lastCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.CollectionPage, ok = resolveObject(kind).(CollectionPageType); t.CollectionPage != nil && ok {
-						err = t.CollectionPage.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *lastCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.CollectionPage != nil {
-		i, err = t.CollectionPage.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// itemsCollectionPageIntermediateType will only have one of its values set at most
-type itemsCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for items property
-	Object ObjectType
-	// Stores possible LinkType type for items property
-	Link LinkType
-	// Stores possible *url.URL type for items property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *itemsCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *itemsCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// altitudeCollectionPageIntermediateType will only have one of its values set at most
-type altitudeCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *float64 type for altitude property
-	float *float64
-	// Stores possible *url.URL type for altitude property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *altitudeCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.float, err = floatDeserialize(i)
-			if err != nil {
-				t.float = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *altitudeCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.float != nil {
-		i = floatSerialize(*t.float)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// attachmentCollectionPageIntermediateType will only have one of its values set at most
-type attachmentCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attachment property
-	Object ObjectType
-	// Stores possible LinkType type for attachment property
-	Link LinkType
-	// Stores possible *url.URL type for attachment property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attachmentCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attachmentCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// attributedToCollectionPageIntermediateType will only have one of its values set at most
-type attributedToCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attributedTo property
-	Object ObjectType
-	// Stores possible LinkType type for attributedTo property
-	Link LinkType
-	// Stores possible *url.URL type for attributedTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attributedToCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attributedToCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// audienceCollectionPageIntermediateType will only have one of its values set at most
-type audienceCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for audience property
-	Object ObjectType
-	// Stores possible LinkType type for audience property
-	Link LinkType
-	// Stores possible *url.URL type for audience property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *audienceCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *audienceCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// contentCollectionPageIntermediateType will only have one of its values set at most
-type contentCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for content property
-	stringName *string
-	// Stores possible *string type for content property
-	langString *string
-	// Stores possible *url.URL type for content property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *contentCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *contentCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// contextCollectionPageIntermediateType will only have one of its values set at most
-type contextCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for context property
-	Object ObjectType
-	// Stores possible LinkType type for context property
-	Link LinkType
-	// Stores possible *url.URL type for context property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *contextCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *contextCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// nameCollectionPageIntermediateType will only have one of its values set at most
-type nameCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for name property
-	stringName *string
-	// Stores possible *string type for name property
-	langString *string
-	// Stores possible *url.URL type for name property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *nameCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *nameCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// endTimeCollectionPageIntermediateType will only have one of its values set at most
-type endTimeCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for endTime property
-	dateTime *time.Time
-	// Stores possible *url.URL type for endTime property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *endTimeCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *endTimeCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// generatorCollectionPageIntermediateType will only have one of its values set at most
-type generatorCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for generator property
-	Object ObjectType
-	// Stores possible LinkType type for generator property
-	Link LinkType
-	// Stores possible *url.URL type for generator property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *generatorCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *generatorCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// iconCollectionPageIntermediateType will only have one of its values set at most
-type iconCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ImageType type for icon property
-	Image ImageType
-	// Stores possible LinkType type for icon property
-	Link LinkType
-	// Stores possible *url.URL type for icon property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *iconCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Image, ok = resolveObject(kind).(ImageType); t.Image != nil && ok {
-						err = t.Image.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *iconCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Image != nil {
-		i, err = t.Image.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// imageCollectionPageIntermediateType will only have one of its values set at most
-type imageCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ImageType type for image property
-	Image ImageType
-	// Stores possible LinkType type for image property
-	Link LinkType
-	// Stores possible *url.URL type for image property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *imageCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Image, ok = resolveObject(kind).(ImageType); t.Image != nil && ok {
-						err = t.Image.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *imageCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Image != nil {
-		i, err = t.Image.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// inReplyToCollectionPageIntermediateType will only have one of its values set at most
-type inReplyToCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for inReplyTo property
-	Object ObjectType
-	// Stores possible LinkType type for inReplyTo property
-	Link LinkType
-	// Stores possible *url.URL type for inReplyTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *inReplyToCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *inReplyToCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// locationCollectionPageIntermediateType will only have one of its values set at most
-type locationCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for location property
-	Object ObjectType
-	// Stores possible LinkType type for location property
-	Link LinkType
-	// Stores possible *url.URL type for location property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *locationCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *locationCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// previewCollectionPageIntermediateType will only have one of its values set at most
-type previewCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for preview property
-	Object ObjectType
-	// Stores possible LinkType type for preview property
-	Link LinkType
-	// Stores possible *url.URL type for preview property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *previewCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *previewCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// publishedCollectionPageIntermediateType will only have one of its values set at most
-type publishedCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for published property
-	dateTime *time.Time
-	// Stores possible *url.URL type for published property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *publishedCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *publishedCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// repliesCollectionPageIntermediateType will only have one of its values set at most
-type repliesCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for replies property
-	Collection CollectionType
-	// Stores possible *url.URL type for replies property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *repliesCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *repliesCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// startTimeCollectionPageIntermediateType will only have one of its values set at most
-type startTimeCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for startTime property
-	dateTime *time.Time
-	// Stores possible *url.URL type for startTime property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *startTimeCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *startTimeCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// summaryCollectionPageIntermediateType will only have one of its values set at most
-type summaryCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for summary property
-	stringName *string
-	// Stores possible *string type for summary property
-	langString *string
-	// Stores possible *url.URL type for summary property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *summaryCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *summaryCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// tagCollectionPageIntermediateType will only have one of its values set at most
-type tagCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for tag property
-	Object ObjectType
-	// Stores possible LinkType type for tag property
-	Link LinkType
-	// Stores possible *url.URL type for tag property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *tagCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *tagCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// updatedCollectionPageIntermediateType will only have one of its values set at most
-type updatedCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for updated property
-	dateTime *time.Time
-	// Stores possible *url.URL type for updated property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *updatedCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *updatedCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// urlCollectionPageIntermediateType will only have one of its values set at most
-type urlCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *url.URL type for url property
-	anyURI *url.URL
-	// Stores possible LinkType type for url property
-	Link LinkType
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *urlCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *urlCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// toCollectionPageIntermediateType will only have one of its values set at most
-type toCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for to property
-	Object ObjectType
-	// Stores possible LinkType type for to property
-	Link LinkType
-	// Stores possible *url.URL type for to property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *toCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *toCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// btoCollectionPageIntermediateType will only have one of its values set at most
-type btoCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for bto property
-	Object ObjectType
-	// Stores possible LinkType type for bto property
-	Link LinkType
-	// Stores possible *url.URL type for bto property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *btoCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *btoCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// ccCollectionPageIntermediateType will only have one of its values set at most
-type ccCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for cc property
-	Object ObjectType
-	// Stores possible LinkType type for cc property
-	Link LinkType
-	// Stores possible *url.URL type for cc property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *ccCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *ccCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// bccCollectionPageIntermediateType will only have one of its values set at most
-type bccCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for bcc property
-	Object ObjectType
-	// Stores possible LinkType type for bcc property
-	Link LinkType
-	// Stores possible *url.URL type for bcc property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *bccCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *bccCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// mediaTypeCollectionPageIntermediateType will only have one of its values set at most
-type mediaTypeCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for mediaType property
-	mimeMediaTypeValue *string
-	// Stores possible *url.URL type for mediaType property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *mediaTypeCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.mimeMediaTypeValue, err = mimeMediaTypeValueDeserialize(i)
-			if err != nil {
-				t.mimeMediaTypeValue = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *mediaTypeCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.mimeMediaTypeValue != nil {
-		i = mimeMediaTypeValueSerialize(*t.mimeMediaTypeValue)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// durationCollectionPageIntermediateType will only have one of its values set at most
-type durationCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Duration type for duration property
-	duration *time.Duration
-	// Stores possible *url.URL type for duration property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *durationCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.duration, err = durationDeserialize(i)
-			if err != nil {
-				t.duration = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *durationCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.duration != nil {
-		i = durationSerialize(*t.duration)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// sourceCollectionPageIntermediateType will only have one of its values set at most
-type sourceCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for source property
-	Object ObjectType
-	// Stores possible *url.URL type for source property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *sourceCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *sourceCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// inboxCollectionPageIntermediateType will only have one of its values set at most
-type inboxCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionType type for inbox property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for inbox property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *inboxCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *inboxCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// outboxCollectionPageIntermediateType will only have one of its values set at most
-type outboxCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionType type for outbox property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for outbox property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *outboxCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *outboxCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// followingCollectionPageIntermediateType will only have one of its values set at most
-type followingCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for following property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for following property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for following property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *followingCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *followingCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// followersCollectionPageIntermediateType will only have one of its values set at most
-type followersCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for followers property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for followers property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for followers property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *followersCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *followersCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// likedCollectionPageIntermediateType will only have one of its values set at most
-type likedCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for liked property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for liked property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for liked property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *likedCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *likedCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// likesCollectionPageIntermediateType will only have one of its values set at most
-type likesCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for likes property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for likes property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for likes property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *likesCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *likesCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// preferredUsernameCollectionPageIntermediateType will only have one of its values set at most
-type preferredUsernameCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for preferredUsername property
-	stringName *string
-	// Stores possible *url.URL type for preferredUsername property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *preferredUsernameCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *preferredUsernameCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// endpointsCollectionPageIntermediateType will only have one of its values set at most
-type endpointsCollectionPageIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for endpoints property
-	Object ObjectType
-	// Stores possible *url.URL type for endpoints property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *endpointsCollectionPageIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *endpointsCollectionPageIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// deserializepartOfCollectionPageIntermediateType will accept a map to create a partOfCollectionPageIntermediateType
-func deserializePartOfCollectionPageIntermediateType(in interface{}) (t *partOfCollectionPageIntermediateType, err error) {
-	tmp := &partOfCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice partOfCollectionPageIntermediateType will accept a slice to create a slice of partOfCollectionPageIntermediateType
-func deserializeSlicePartOfCollectionPageIntermediateType(in []interface{}) (t []*partOfCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &partOfCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepartOfCollectionPageIntermediateType will accept a partOfCollectionPageIntermediateType to create a map
-func serializePartOfCollectionPageIntermediateType(t *partOfCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepartOfCollectionPageIntermediateType will accept a slice of partOfCollectionPageIntermediateType to create a slice result
-func serializeSlicePartOfCollectionPageIntermediateType(s []*partOfCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializenextCollectionPageIntermediateType will accept a map to create a nextCollectionPageIntermediateType
-func deserializeNextCollectionPageIntermediateType(in interface{}) (t *nextCollectionPageIntermediateType, err error) {
-	tmp := &nextCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice nextCollectionPageIntermediateType will accept a slice to create a slice of nextCollectionPageIntermediateType
-func deserializeSliceNextCollectionPageIntermediateType(in []interface{}) (t []*nextCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &nextCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializenextCollectionPageIntermediateType will accept a nextCollectionPageIntermediateType to create a map
-func serializeNextCollectionPageIntermediateType(t *nextCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicenextCollectionPageIntermediateType will accept a slice of nextCollectionPageIntermediateType to create a slice result
-func serializeSliceNextCollectionPageIntermediateType(s []*nextCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeprevCollectionPageIntermediateType will accept a map to create a prevCollectionPageIntermediateType
-func deserializePrevCollectionPageIntermediateType(in interface{}) (t *prevCollectionPageIntermediateType, err error) {
-	tmp := &prevCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice prevCollectionPageIntermediateType will accept a slice to create a slice of prevCollectionPageIntermediateType
-func deserializeSlicePrevCollectionPageIntermediateType(in []interface{}) (t []*prevCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &prevCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeprevCollectionPageIntermediateType will accept a prevCollectionPageIntermediateType to create a map
-func serializePrevCollectionPageIntermediateType(t *prevCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceprevCollectionPageIntermediateType will accept a slice of prevCollectionPageIntermediateType to create a slice result
-func serializeSlicePrevCollectionPageIntermediateType(s []*prevCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetotalItemsCollectionPageIntermediateType will accept a map to create a totalItemsCollectionPageIntermediateType
-func deserializeTotalItemsCollectionPageIntermediateType(in interface{}) (t *totalItemsCollectionPageIntermediateType, err error) {
-	tmp := &totalItemsCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice totalItemsCollectionPageIntermediateType will accept a slice to create a slice of totalItemsCollectionPageIntermediateType
-func deserializeSliceTotalItemsCollectionPageIntermediateType(in []interface{}) (t []*totalItemsCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &totalItemsCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetotalItemsCollectionPageIntermediateType will accept a totalItemsCollectionPageIntermediateType to create a map
-func serializeTotalItemsCollectionPageIntermediateType(t *totalItemsCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetotalItemsCollectionPageIntermediateType will accept a slice of totalItemsCollectionPageIntermediateType to create a slice result
-func serializeSliceTotalItemsCollectionPageIntermediateType(s []*totalItemsCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecurrentCollectionPageIntermediateType will accept a map to create a currentCollectionPageIntermediateType
-func deserializeCurrentCollectionPageIntermediateType(in interface{}) (t *currentCollectionPageIntermediateType, err error) {
-	tmp := &currentCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice currentCollectionPageIntermediateType will accept a slice to create a slice of currentCollectionPageIntermediateType
-func deserializeSliceCurrentCollectionPageIntermediateType(in []interface{}) (t []*currentCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &currentCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecurrentCollectionPageIntermediateType will accept a currentCollectionPageIntermediateType to create a map
-func serializeCurrentCollectionPageIntermediateType(t *currentCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecurrentCollectionPageIntermediateType will accept a slice of currentCollectionPageIntermediateType to create a slice result
-func serializeSliceCurrentCollectionPageIntermediateType(s []*currentCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefirstCollectionPageIntermediateType will accept a map to create a firstCollectionPageIntermediateType
-func deserializeFirstCollectionPageIntermediateType(in interface{}) (t *firstCollectionPageIntermediateType, err error) {
-	tmp := &firstCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice firstCollectionPageIntermediateType will accept a slice to create a slice of firstCollectionPageIntermediateType
-func deserializeSliceFirstCollectionPageIntermediateType(in []interface{}) (t []*firstCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &firstCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefirstCollectionPageIntermediateType will accept a firstCollectionPageIntermediateType to create a map
-func serializeFirstCollectionPageIntermediateType(t *firstCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefirstCollectionPageIntermediateType will accept a slice of firstCollectionPageIntermediateType to create a slice result
-func serializeSliceFirstCollectionPageIntermediateType(s []*firstCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelastCollectionPageIntermediateType will accept a map to create a lastCollectionPageIntermediateType
-func deserializeLastCollectionPageIntermediateType(in interface{}) (t *lastCollectionPageIntermediateType, err error) {
-	tmp := &lastCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice lastCollectionPageIntermediateType will accept a slice to create a slice of lastCollectionPageIntermediateType
-func deserializeSliceLastCollectionPageIntermediateType(in []interface{}) (t []*lastCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &lastCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelastCollectionPageIntermediateType will accept a lastCollectionPageIntermediateType to create a map
-func serializeLastCollectionPageIntermediateType(t *lastCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelastCollectionPageIntermediateType will accept a slice of lastCollectionPageIntermediateType to create a slice result
-func serializeSliceLastCollectionPageIntermediateType(s []*lastCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeitemsCollectionPageIntermediateType will accept a map to create a itemsCollectionPageIntermediateType
-func deserializeItemsCollectionPageIntermediateType(in interface{}) (t *itemsCollectionPageIntermediateType, err error) {
-	tmp := &itemsCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice itemsCollectionPageIntermediateType will accept a slice to create a slice of itemsCollectionPageIntermediateType
-func deserializeSliceItemsCollectionPageIntermediateType(in []interface{}) (t []*itemsCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &itemsCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeitemsCollectionPageIntermediateType will accept a itemsCollectionPageIntermediateType to create a map
-func serializeItemsCollectionPageIntermediateType(t *itemsCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceitemsCollectionPageIntermediateType will accept a slice of itemsCollectionPageIntermediateType to create a slice result
-func serializeSliceItemsCollectionPageIntermediateType(s []*itemsCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializealtitudeCollectionPageIntermediateType will accept a map to create a altitudeCollectionPageIntermediateType
-func deserializeAltitudeCollectionPageIntermediateType(in interface{}) (t *altitudeCollectionPageIntermediateType, err error) {
-	tmp := &altitudeCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice altitudeCollectionPageIntermediateType will accept a slice to create a slice of altitudeCollectionPageIntermediateType
-func deserializeSliceAltitudeCollectionPageIntermediateType(in []interface{}) (t []*altitudeCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &altitudeCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializealtitudeCollectionPageIntermediateType will accept a altitudeCollectionPageIntermediateType to create a map
-func serializeAltitudeCollectionPageIntermediateType(t *altitudeCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicealtitudeCollectionPageIntermediateType will accept a slice of altitudeCollectionPageIntermediateType to create a slice result
-func serializeSliceAltitudeCollectionPageIntermediateType(s []*altitudeCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeattachmentCollectionPageIntermediateType will accept a map to create a attachmentCollectionPageIntermediateType
-func deserializeAttachmentCollectionPageIntermediateType(in interface{}) (t *attachmentCollectionPageIntermediateType, err error) {
-	tmp := &attachmentCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attachmentCollectionPageIntermediateType will accept a slice to create a slice of attachmentCollectionPageIntermediateType
-func deserializeSliceAttachmentCollectionPageIntermediateType(in []interface{}) (t []*attachmentCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attachmentCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattachmentCollectionPageIntermediateType will accept a attachmentCollectionPageIntermediateType to create a map
-func serializeAttachmentCollectionPageIntermediateType(t *attachmentCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattachmentCollectionPageIntermediateType will accept a slice of attachmentCollectionPageIntermediateType to create a slice result
-func serializeSliceAttachmentCollectionPageIntermediateType(s []*attachmentCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeattributedToCollectionPageIntermediateType will accept a map to create a attributedToCollectionPageIntermediateType
-func deserializeAttributedToCollectionPageIntermediateType(in interface{}) (t *attributedToCollectionPageIntermediateType, err error) {
-	tmp := &attributedToCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attributedToCollectionPageIntermediateType will accept a slice to create a slice of attributedToCollectionPageIntermediateType
-func deserializeSliceAttributedToCollectionPageIntermediateType(in []interface{}) (t []*attributedToCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attributedToCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattributedToCollectionPageIntermediateType will accept a attributedToCollectionPageIntermediateType to create a map
-func serializeAttributedToCollectionPageIntermediateType(t *attributedToCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattributedToCollectionPageIntermediateType will accept a slice of attributedToCollectionPageIntermediateType to create a slice result
-func serializeSliceAttributedToCollectionPageIntermediateType(s []*attributedToCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeaudienceCollectionPageIntermediateType will accept a map to create a audienceCollectionPageIntermediateType
-func deserializeAudienceCollectionPageIntermediateType(in interface{}) (t *audienceCollectionPageIntermediateType, err error) {
-	tmp := &audienceCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice audienceCollectionPageIntermediateType will accept a slice to create a slice of audienceCollectionPageIntermediateType
-func deserializeSliceAudienceCollectionPageIntermediateType(in []interface{}) (t []*audienceCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &audienceCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeaudienceCollectionPageIntermediateType will accept a audienceCollectionPageIntermediateType to create a map
-func serializeAudienceCollectionPageIntermediateType(t *audienceCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceaudienceCollectionPageIntermediateType will accept a slice of audienceCollectionPageIntermediateType to create a slice result
-func serializeSliceAudienceCollectionPageIntermediateType(s []*audienceCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecontentCollectionPageIntermediateType will accept a map to create a contentCollectionPageIntermediateType
-func deserializeContentCollectionPageIntermediateType(in interface{}) (t *contentCollectionPageIntermediateType, err error) {
-	tmp := &contentCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice contentCollectionPageIntermediateType will accept a slice to create a slice of contentCollectionPageIntermediateType
-func deserializeSliceContentCollectionPageIntermediateType(in []interface{}) (t []*contentCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &contentCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecontentCollectionPageIntermediateType will accept a contentCollectionPageIntermediateType to create a map
-func serializeContentCollectionPageIntermediateType(t *contentCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecontentCollectionPageIntermediateType will accept a slice of contentCollectionPageIntermediateType to create a slice result
-func serializeSliceContentCollectionPageIntermediateType(s []*contentCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecontextCollectionPageIntermediateType will accept a map to create a contextCollectionPageIntermediateType
-func deserializeContextCollectionPageIntermediateType(in interface{}) (t *contextCollectionPageIntermediateType, err error) {
-	tmp := &contextCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice contextCollectionPageIntermediateType will accept a slice to create a slice of contextCollectionPageIntermediateType
-func deserializeSliceContextCollectionPageIntermediateType(in []interface{}) (t []*contextCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &contextCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecontextCollectionPageIntermediateType will accept a contextCollectionPageIntermediateType to create a map
-func serializeContextCollectionPageIntermediateType(t *contextCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecontextCollectionPageIntermediateType will accept a slice of contextCollectionPageIntermediateType to create a slice result
-func serializeSliceContextCollectionPageIntermediateType(s []*contextCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializenameCollectionPageIntermediateType will accept a map to create a nameCollectionPageIntermediateType
-func deserializeNameCollectionPageIntermediateType(in interface{}) (t *nameCollectionPageIntermediateType, err error) {
-	tmp := &nameCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice nameCollectionPageIntermediateType will accept a slice to create a slice of nameCollectionPageIntermediateType
-func deserializeSliceNameCollectionPageIntermediateType(in []interface{}) (t []*nameCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &nameCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializenameCollectionPageIntermediateType will accept a nameCollectionPageIntermediateType to create a map
-func serializeNameCollectionPageIntermediateType(t *nameCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicenameCollectionPageIntermediateType will accept a slice of nameCollectionPageIntermediateType to create a slice result
-func serializeSliceNameCollectionPageIntermediateType(s []*nameCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeendTimeCollectionPageIntermediateType will accept a map to create a endTimeCollectionPageIntermediateType
-func deserializeEndTimeCollectionPageIntermediateType(in interface{}) (t *endTimeCollectionPageIntermediateType, err error) {
-	tmp := &endTimeCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice endTimeCollectionPageIntermediateType will accept a slice to create a slice of endTimeCollectionPageIntermediateType
-func deserializeSliceEndTimeCollectionPageIntermediateType(in []interface{}) (t []*endTimeCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &endTimeCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeendTimeCollectionPageIntermediateType will accept a endTimeCollectionPageIntermediateType to create a map
-func serializeEndTimeCollectionPageIntermediateType(t *endTimeCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceendTimeCollectionPageIntermediateType will accept a slice of endTimeCollectionPageIntermediateType to create a slice result
-func serializeSliceEndTimeCollectionPageIntermediateType(s []*endTimeCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializegeneratorCollectionPageIntermediateType will accept a map to create a generatorCollectionPageIntermediateType
-func deserializeGeneratorCollectionPageIntermediateType(in interface{}) (t *generatorCollectionPageIntermediateType, err error) {
-	tmp := &generatorCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice generatorCollectionPageIntermediateType will accept a slice to create a slice of generatorCollectionPageIntermediateType
-func deserializeSliceGeneratorCollectionPageIntermediateType(in []interface{}) (t []*generatorCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &generatorCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializegeneratorCollectionPageIntermediateType will accept a generatorCollectionPageIntermediateType to create a map
-func serializeGeneratorCollectionPageIntermediateType(t *generatorCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicegeneratorCollectionPageIntermediateType will accept a slice of generatorCollectionPageIntermediateType to create a slice result
-func serializeSliceGeneratorCollectionPageIntermediateType(s []*generatorCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeiconCollectionPageIntermediateType will accept a map to create a iconCollectionPageIntermediateType
-func deserializeIconCollectionPageIntermediateType(in interface{}) (t *iconCollectionPageIntermediateType, err error) {
-	tmp := &iconCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice iconCollectionPageIntermediateType will accept a slice to create a slice of iconCollectionPageIntermediateType
-func deserializeSliceIconCollectionPageIntermediateType(in []interface{}) (t []*iconCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &iconCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeiconCollectionPageIntermediateType will accept a iconCollectionPageIntermediateType to create a map
-func serializeIconCollectionPageIntermediateType(t *iconCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceiconCollectionPageIntermediateType will accept a slice of iconCollectionPageIntermediateType to create a slice result
-func serializeSliceIconCollectionPageIntermediateType(s []*iconCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeimageCollectionPageIntermediateType will accept a map to create a imageCollectionPageIntermediateType
-func deserializeImageCollectionPageIntermediateType(in interface{}) (t *imageCollectionPageIntermediateType, err error) {
-	tmp := &imageCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice imageCollectionPageIntermediateType will accept a slice to create a slice of imageCollectionPageIntermediateType
-func deserializeSliceImageCollectionPageIntermediateType(in []interface{}) (t []*imageCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &imageCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeimageCollectionPageIntermediateType will accept a imageCollectionPageIntermediateType to create a map
-func serializeImageCollectionPageIntermediateType(t *imageCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceimageCollectionPageIntermediateType will accept a slice of imageCollectionPageIntermediateType to create a slice result
-func serializeSliceImageCollectionPageIntermediateType(s []*imageCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinReplyToCollectionPageIntermediateType will accept a map to create a inReplyToCollectionPageIntermediateType
-func deserializeInReplyToCollectionPageIntermediateType(in interface{}) (t *inReplyToCollectionPageIntermediateType, err error) {
-	tmp := &inReplyToCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice inReplyToCollectionPageIntermediateType will accept a slice to create a slice of inReplyToCollectionPageIntermediateType
-func deserializeSliceInReplyToCollectionPageIntermediateType(in []interface{}) (t []*inReplyToCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &inReplyToCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinReplyToCollectionPageIntermediateType will accept a inReplyToCollectionPageIntermediateType to create a map
-func serializeInReplyToCollectionPageIntermediateType(t *inReplyToCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinReplyToCollectionPageIntermediateType will accept a slice of inReplyToCollectionPageIntermediateType to create a slice result
-func serializeSliceInReplyToCollectionPageIntermediateType(s []*inReplyToCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelocationCollectionPageIntermediateType will accept a map to create a locationCollectionPageIntermediateType
-func deserializeLocationCollectionPageIntermediateType(in interface{}) (t *locationCollectionPageIntermediateType, err error) {
-	tmp := &locationCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice locationCollectionPageIntermediateType will accept a slice to create a slice of locationCollectionPageIntermediateType
-func deserializeSliceLocationCollectionPageIntermediateType(in []interface{}) (t []*locationCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &locationCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelocationCollectionPageIntermediateType will accept a locationCollectionPageIntermediateType to create a map
-func serializeLocationCollectionPageIntermediateType(t *locationCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelocationCollectionPageIntermediateType will accept a slice of locationCollectionPageIntermediateType to create a slice result
-func serializeSliceLocationCollectionPageIntermediateType(s []*locationCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreviewCollectionPageIntermediateType will accept a map to create a previewCollectionPageIntermediateType
-func deserializePreviewCollectionPageIntermediateType(in interface{}) (t *previewCollectionPageIntermediateType, err error) {
-	tmp := &previewCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice previewCollectionPageIntermediateType will accept a slice to create a slice of previewCollectionPageIntermediateType
-func deserializeSlicePreviewCollectionPageIntermediateType(in []interface{}) (t []*previewCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &previewCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreviewCollectionPageIntermediateType will accept a previewCollectionPageIntermediateType to create a map
-func serializePreviewCollectionPageIntermediateType(t *previewCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreviewCollectionPageIntermediateType will accept a slice of previewCollectionPageIntermediateType to create a slice result
-func serializeSlicePreviewCollectionPageIntermediateType(s []*previewCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepublishedCollectionPageIntermediateType will accept a map to create a publishedCollectionPageIntermediateType
-func deserializePublishedCollectionPageIntermediateType(in interface{}) (t *publishedCollectionPageIntermediateType, err error) {
-	tmp := &publishedCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice publishedCollectionPageIntermediateType will accept a slice to create a slice of publishedCollectionPageIntermediateType
-func deserializeSlicePublishedCollectionPageIntermediateType(in []interface{}) (t []*publishedCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &publishedCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepublishedCollectionPageIntermediateType will accept a publishedCollectionPageIntermediateType to create a map
-func serializePublishedCollectionPageIntermediateType(t *publishedCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepublishedCollectionPageIntermediateType will accept a slice of publishedCollectionPageIntermediateType to create a slice result
-func serializeSlicePublishedCollectionPageIntermediateType(s []*publishedCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializerepliesCollectionPageIntermediateType will accept a map to create a repliesCollectionPageIntermediateType
-func deserializeRepliesCollectionPageIntermediateType(in interface{}) (t *repliesCollectionPageIntermediateType, err error) {
-	tmp := &repliesCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice repliesCollectionPageIntermediateType will accept a slice to create a slice of repliesCollectionPageIntermediateType
-func deserializeSliceRepliesCollectionPageIntermediateType(in []interface{}) (t []*repliesCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &repliesCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializerepliesCollectionPageIntermediateType will accept a repliesCollectionPageIntermediateType to create a map
-func serializeRepliesCollectionPageIntermediateType(t *repliesCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicerepliesCollectionPageIntermediateType will accept a slice of repliesCollectionPageIntermediateType to create a slice result
-func serializeSliceRepliesCollectionPageIntermediateType(s []*repliesCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializestartTimeCollectionPageIntermediateType will accept a map to create a startTimeCollectionPageIntermediateType
-func deserializeStartTimeCollectionPageIntermediateType(in interface{}) (t *startTimeCollectionPageIntermediateType, err error) {
-	tmp := &startTimeCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice startTimeCollectionPageIntermediateType will accept a slice to create a slice of startTimeCollectionPageIntermediateType
-func deserializeSliceStartTimeCollectionPageIntermediateType(in []interface{}) (t []*startTimeCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &startTimeCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializestartTimeCollectionPageIntermediateType will accept a startTimeCollectionPageIntermediateType to create a map
-func serializeStartTimeCollectionPageIntermediateType(t *startTimeCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicestartTimeCollectionPageIntermediateType will accept a slice of startTimeCollectionPageIntermediateType to create a slice result
-func serializeSliceStartTimeCollectionPageIntermediateType(s []*startTimeCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesummaryCollectionPageIntermediateType will accept a map to create a summaryCollectionPageIntermediateType
-func deserializeSummaryCollectionPageIntermediateType(in interface{}) (t *summaryCollectionPageIntermediateType, err error) {
-	tmp := &summaryCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice summaryCollectionPageIntermediateType will accept a slice to create a slice of summaryCollectionPageIntermediateType
-func deserializeSliceSummaryCollectionPageIntermediateType(in []interface{}) (t []*summaryCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &summaryCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesummaryCollectionPageIntermediateType will accept a summaryCollectionPageIntermediateType to create a map
-func serializeSummaryCollectionPageIntermediateType(t *summaryCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesummaryCollectionPageIntermediateType will accept a slice of summaryCollectionPageIntermediateType to create a slice result
-func serializeSliceSummaryCollectionPageIntermediateType(s []*summaryCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetagCollectionPageIntermediateType will accept a map to create a tagCollectionPageIntermediateType
-func deserializeTagCollectionPageIntermediateType(in interface{}) (t *tagCollectionPageIntermediateType, err error) {
-	tmp := &tagCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice tagCollectionPageIntermediateType will accept a slice to create a slice of tagCollectionPageIntermediateType
-func deserializeSliceTagCollectionPageIntermediateType(in []interface{}) (t []*tagCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &tagCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetagCollectionPageIntermediateType will accept a tagCollectionPageIntermediateType to create a map
-func serializeTagCollectionPageIntermediateType(t *tagCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetagCollectionPageIntermediateType will accept a slice of tagCollectionPageIntermediateType to create a slice result
-func serializeSliceTagCollectionPageIntermediateType(s []*tagCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeupdatedCollectionPageIntermediateType will accept a map to create a updatedCollectionPageIntermediateType
-func deserializeUpdatedCollectionPageIntermediateType(in interface{}) (t *updatedCollectionPageIntermediateType, err error) {
-	tmp := &updatedCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice updatedCollectionPageIntermediateType will accept a slice to create a slice of updatedCollectionPageIntermediateType
-func deserializeSliceUpdatedCollectionPageIntermediateType(in []interface{}) (t []*updatedCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &updatedCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeupdatedCollectionPageIntermediateType will accept a updatedCollectionPageIntermediateType to create a map
-func serializeUpdatedCollectionPageIntermediateType(t *updatedCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceupdatedCollectionPageIntermediateType will accept a slice of updatedCollectionPageIntermediateType to create a slice result
-func serializeSliceUpdatedCollectionPageIntermediateType(s []*updatedCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeurlCollectionPageIntermediateType will accept a map to create a urlCollectionPageIntermediateType
-func deserializeUrlCollectionPageIntermediateType(in interface{}) (t *urlCollectionPageIntermediateType, err error) {
-	tmp := &urlCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice urlCollectionPageIntermediateType will accept a slice to create a slice of urlCollectionPageIntermediateType
-func deserializeSliceUrlCollectionPageIntermediateType(in []interface{}) (t []*urlCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &urlCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeurlCollectionPageIntermediateType will accept a urlCollectionPageIntermediateType to create a map
-func serializeUrlCollectionPageIntermediateType(t *urlCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceurlCollectionPageIntermediateType will accept a slice of urlCollectionPageIntermediateType to create a slice result
-func serializeSliceUrlCollectionPageIntermediateType(s []*urlCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetoCollectionPageIntermediateType will accept a map to create a toCollectionPageIntermediateType
-func deserializeToCollectionPageIntermediateType(in interface{}) (t *toCollectionPageIntermediateType, err error) {
-	tmp := &toCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice toCollectionPageIntermediateType will accept a slice to create a slice of toCollectionPageIntermediateType
-func deserializeSliceToCollectionPageIntermediateType(in []interface{}) (t []*toCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &toCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetoCollectionPageIntermediateType will accept a toCollectionPageIntermediateType to create a map
-func serializeToCollectionPageIntermediateType(t *toCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetoCollectionPageIntermediateType will accept a slice of toCollectionPageIntermediateType to create a slice result
-func serializeSliceToCollectionPageIntermediateType(s []*toCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializebtoCollectionPageIntermediateType will accept a map to create a btoCollectionPageIntermediateType
-func deserializeBtoCollectionPageIntermediateType(in interface{}) (t *btoCollectionPageIntermediateType, err error) {
-	tmp := &btoCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice btoCollectionPageIntermediateType will accept a slice to create a slice of btoCollectionPageIntermediateType
-func deserializeSliceBtoCollectionPageIntermediateType(in []interface{}) (t []*btoCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &btoCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializebtoCollectionPageIntermediateType will accept a btoCollectionPageIntermediateType to create a map
-func serializeBtoCollectionPageIntermediateType(t *btoCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicebtoCollectionPageIntermediateType will accept a slice of btoCollectionPageIntermediateType to create a slice result
-func serializeSliceBtoCollectionPageIntermediateType(s []*btoCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeccCollectionPageIntermediateType will accept a map to create a ccCollectionPageIntermediateType
-func deserializeCcCollectionPageIntermediateType(in interface{}) (t *ccCollectionPageIntermediateType, err error) {
-	tmp := &ccCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice ccCollectionPageIntermediateType will accept a slice to create a slice of ccCollectionPageIntermediateType
-func deserializeSliceCcCollectionPageIntermediateType(in []interface{}) (t []*ccCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &ccCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeccCollectionPageIntermediateType will accept a ccCollectionPageIntermediateType to create a map
-func serializeCcCollectionPageIntermediateType(t *ccCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceccCollectionPageIntermediateType will accept a slice of ccCollectionPageIntermediateType to create a slice result
-func serializeSliceCcCollectionPageIntermediateType(s []*ccCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializebccCollectionPageIntermediateType will accept a map to create a bccCollectionPageIntermediateType
-func deserializeBccCollectionPageIntermediateType(in interface{}) (t *bccCollectionPageIntermediateType, err error) {
-	tmp := &bccCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice bccCollectionPageIntermediateType will accept a slice to create a slice of bccCollectionPageIntermediateType
-func deserializeSliceBccCollectionPageIntermediateType(in []interface{}) (t []*bccCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &bccCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializebccCollectionPageIntermediateType will accept a bccCollectionPageIntermediateType to create a map
-func serializeBccCollectionPageIntermediateType(t *bccCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicebccCollectionPageIntermediateType will accept a slice of bccCollectionPageIntermediateType to create a slice result
-func serializeSliceBccCollectionPageIntermediateType(s []*bccCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializemediaTypeCollectionPageIntermediateType will accept a map to create a mediaTypeCollectionPageIntermediateType
-func deserializeMediaTypeCollectionPageIntermediateType(in interface{}) (t *mediaTypeCollectionPageIntermediateType, err error) {
-	tmp := &mediaTypeCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice mediaTypeCollectionPageIntermediateType will accept a slice to create a slice of mediaTypeCollectionPageIntermediateType
-func deserializeSliceMediaTypeCollectionPageIntermediateType(in []interface{}) (t []*mediaTypeCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &mediaTypeCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializemediaTypeCollectionPageIntermediateType will accept a mediaTypeCollectionPageIntermediateType to create a map
-func serializeMediaTypeCollectionPageIntermediateType(t *mediaTypeCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicemediaTypeCollectionPageIntermediateType will accept a slice of mediaTypeCollectionPageIntermediateType to create a slice result
-func serializeSliceMediaTypeCollectionPageIntermediateType(s []*mediaTypeCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializedurationCollectionPageIntermediateType will accept a map to create a durationCollectionPageIntermediateType
-func deserializeDurationCollectionPageIntermediateType(in interface{}) (t *durationCollectionPageIntermediateType, err error) {
-	tmp := &durationCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice durationCollectionPageIntermediateType will accept a slice to create a slice of durationCollectionPageIntermediateType
-func deserializeSliceDurationCollectionPageIntermediateType(in []interface{}) (t []*durationCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &durationCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializedurationCollectionPageIntermediateType will accept a durationCollectionPageIntermediateType to create a map
-func serializeDurationCollectionPageIntermediateType(t *durationCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicedurationCollectionPageIntermediateType will accept a slice of durationCollectionPageIntermediateType to create a slice result
-func serializeSliceDurationCollectionPageIntermediateType(s []*durationCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesourceCollectionPageIntermediateType will accept a map to create a sourceCollectionPageIntermediateType
-func deserializeSourceCollectionPageIntermediateType(in interface{}) (t *sourceCollectionPageIntermediateType, err error) {
-	tmp := &sourceCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice sourceCollectionPageIntermediateType will accept a slice to create a slice of sourceCollectionPageIntermediateType
-func deserializeSliceSourceCollectionPageIntermediateType(in []interface{}) (t []*sourceCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &sourceCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesourceCollectionPageIntermediateType will accept a sourceCollectionPageIntermediateType to create a map
-func serializeSourceCollectionPageIntermediateType(t *sourceCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesourceCollectionPageIntermediateType will accept a slice of sourceCollectionPageIntermediateType to create a slice result
-func serializeSliceSourceCollectionPageIntermediateType(s []*sourceCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinboxCollectionPageIntermediateType will accept a map to create a inboxCollectionPageIntermediateType
-func deserializeInboxCollectionPageIntermediateType(in interface{}) (t *inboxCollectionPageIntermediateType, err error) {
-	tmp := &inboxCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice inboxCollectionPageIntermediateType will accept a slice to create a slice of inboxCollectionPageIntermediateType
-func deserializeSliceInboxCollectionPageIntermediateType(in []interface{}) (t []*inboxCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &inboxCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinboxCollectionPageIntermediateType will accept a inboxCollectionPageIntermediateType to create a map
-func serializeInboxCollectionPageIntermediateType(t *inboxCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinboxCollectionPageIntermediateType will accept a slice of inboxCollectionPageIntermediateType to create a slice result
-func serializeSliceInboxCollectionPageIntermediateType(s []*inboxCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeoutboxCollectionPageIntermediateType will accept a map to create a outboxCollectionPageIntermediateType
-func deserializeOutboxCollectionPageIntermediateType(in interface{}) (t *outboxCollectionPageIntermediateType, err error) {
-	tmp := &outboxCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice outboxCollectionPageIntermediateType will accept a slice to create a slice of outboxCollectionPageIntermediateType
-func deserializeSliceOutboxCollectionPageIntermediateType(in []interface{}) (t []*outboxCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &outboxCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeoutboxCollectionPageIntermediateType will accept a outboxCollectionPageIntermediateType to create a map
-func serializeOutboxCollectionPageIntermediateType(t *outboxCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceoutboxCollectionPageIntermediateType will accept a slice of outboxCollectionPageIntermediateType to create a slice result
-func serializeSliceOutboxCollectionPageIntermediateType(s []*outboxCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefollowingCollectionPageIntermediateType will accept a map to create a followingCollectionPageIntermediateType
-func deserializeFollowingCollectionPageIntermediateType(in interface{}) (t *followingCollectionPageIntermediateType, err error) {
-	tmp := &followingCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice followingCollectionPageIntermediateType will accept a slice to create a slice of followingCollectionPageIntermediateType
-func deserializeSliceFollowingCollectionPageIntermediateType(in []interface{}) (t []*followingCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &followingCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefollowingCollectionPageIntermediateType will accept a followingCollectionPageIntermediateType to create a map
-func serializeFollowingCollectionPageIntermediateType(t *followingCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefollowingCollectionPageIntermediateType will accept a slice of followingCollectionPageIntermediateType to create a slice result
-func serializeSliceFollowingCollectionPageIntermediateType(s []*followingCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefollowersCollectionPageIntermediateType will accept a map to create a followersCollectionPageIntermediateType
-func deserializeFollowersCollectionPageIntermediateType(in interface{}) (t *followersCollectionPageIntermediateType, err error) {
-	tmp := &followersCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice followersCollectionPageIntermediateType will accept a slice to create a slice of followersCollectionPageIntermediateType
-func deserializeSliceFollowersCollectionPageIntermediateType(in []interface{}) (t []*followersCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &followersCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefollowersCollectionPageIntermediateType will accept a followersCollectionPageIntermediateType to create a map
-func serializeFollowersCollectionPageIntermediateType(t *followersCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefollowersCollectionPageIntermediateType will accept a slice of followersCollectionPageIntermediateType to create a slice result
-func serializeSliceFollowersCollectionPageIntermediateType(s []*followersCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelikedCollectionPageIntermediateType will accept a map to create a likedCollectionPageIntermediateType
-func deserializeLikedCollectionPageIntermediateType(in interface{}) (t *likedCollectionPageIntermediateType, err error) {
-	tmp := &likedCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice likedCollectionPageIntermediateType will accept a slice to create a slice of likedCollectionPageIntermediateType
-func deserializeSliceLikedCollectionPageIntermediateType(in []interface{}) (t []*likedCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &likedCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelikedCollectionPageIntermediateType will accept a likedCollectionPageIntermediateType to create a map
-func serializeLikedCollectionPageIntermediateType(t *likedCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelikedCollectionPageIntermediateType will accept a slice of likedCollectionPageIntermediateType to create a slice result
-func serializeSliceLikedCollectionPageIntermediateType(s []*likedCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelikesCollectionPageIntermediateType will accept a map to create a likesCollectionPageIntermediateType
-func deserializeLikesCollectionPageIntermediateType(in interface{}) (t *likesCollectionPageIntermediateType, err error) {
-	tmp := &likesCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice likesCollectionPageIntermediateType will accept a slice to create a slice of likesCollectionPageIntermediateType
-func deserializeSliceLikesCollectionPageIntermediateType(in []interface{}) (t []*likesCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &likesCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelikesCollectionPageIntermediateType will accept a likesCollectionPageIntermediateType to create a map
-func serializeLikesCollectionPageIntermediateType(t *likesCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelikesCollectionPageIntermediateType will accept a slice of likesCollectionPageIntermediateType to create a slice result
-func serializeSliceLikesCollectionPageIntermediateType(s []*likesCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreferredUsernameCollectionPageIntermediateType will accept a map to create a preferredUsernameCollectionPageIntermediateType
-func deserializePreferredUsernameCollectionPageIntermediateType(in interface{}) (t *preferredUsernameCollectionPageIntermediateType, err error) {
-	tmp := &preferredUsernameCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice preferredUsernameCollectionPageIntermediateType will accept a slice to create a slice of preferredUsernameCollectionPageIntermediateType
-func deserializeSlicePreferredUsernameCollectionPageIntermediateType(in []interface{}) (t []*preferredUsernameCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &preferredUsernameCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreferredUsernameCollectionPageIntermediateType will accept a preferredUsernameCollectionPageIntermediateType to create a map
-func serializePreferredUsernameCollectionPageIntermediateType(t *preferredUsernameCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreferredUsernameCollectionPageIntermediateType will accept a slice of preferredUsernameCollectionPageIntermediateType to create a slice result
-func serializeSlicePreferredUsernameCollectionPageIntermediateType(s []*preferredUsernameCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeendpointsCollectionPageIntermediateType will accept a map to create a endpointsCollectionPageIntermediateType
-func deserializeEndpointsCollectionPageIntermediateType(in interface{}) (t *endpointsCollectionPageIntermediateType, err error) {
-	tmp := &endpointsCollectionPageIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice endpointsCollectionPageIntermediateType will accept a slice to create a slice of endpointsCollectionPageIntermediateType
-func deserializeSliceEndpointsCollectionPageIntermediateType(in []interface{}) (t []*endpointsCollectionPageIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &endpointsCollectionPageIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeendpointsCollectionPageIntermediateType will accept a endpointsCollectionPageIntermediateType to create a map
-func serializeEndpointsCollectionPageIntermediateType(t *endpointsCollectionPageIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceendpointsCollectionPageIntermediateType will accept a slice of endpointsCollectionPageIntermediateType to create a slice result
-func serializeSliceEndpointsCollectionPageIntermediateType(s []*endpointsCollectionPageIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
 	}
 	return
 

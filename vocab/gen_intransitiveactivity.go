@@ -2,7 +2,6 @@
 package vocab
 
 import (
-	"fmt"
 	"net/url"
 	"time"
 )
@@ -589,101 +588,101 @@ type IntransitiveActivity struct {
 	// An unknown value.
 	unknown_ map[string]interface{}
 	// The 'actor' value could have multiple types and values
-	actor []*actorIntransitiveActivityIntermediateType
+	actor []*actorIntermediateType
 	// The 'target' value could have multiple types and values
-	target []*targetIntransitiveActivityIntermediateType
+	target []*targetIntermediateType
 	// The 'result' value could have multiple types and values
-	result []*resultIntransitiveActivityIntermediateType
+	result []*resultIntermediateType
 	// The 'origin' value could have multiple types and values
-	origin []*originIntransitiveActivityIntermediateType
+	origin []*originIntermediateType
 	// The 'instrument' value could have multiple types and values
-	instrument []*instrumentIntransitiveActivityIntermediateType
+	instrument []*instrumentIntermediateType
 	// The functional 'altitude' value could have multiple types, but only a single value
-	altitude *altitudeIntransitiveActivityIntermediateType
+	altitude *altitudeIntermediateType
 	// The 'attachment' value could have multiple types and values
-	attachment []*attachmentIntransitiveActivityIntermediateType
+	attachment []*attachmentIntermediateType
 	// The 'attributedTo' value could have multiple types and values
-	attributedTo []*attributedToIntransitiveActivityIntermediateType
+	attributedTo []*attributedToIntermediateType
 	// The 'audience' value could have multiple types and values
-	audience []*audienceIntransitiveActivityIntermediateType
+	audience []*audienceIntermediateType
 	// The 'content' value could have multiple types and values
-	content []*contentIntransitiveActivityIntermediateType
+	content []*contentIntermediateType
 	// The 'contentMap' value holds language-specific values for property 'content'
 	contentMap map[string]string
 	// The 'context' value could have multiple types and values
-	context []*contextIntransitiveActivityIntermediateType
+	context []*contextIntermediateType
 	// The 'name' value could have multiple types and values
-	name []*nameIntransitiveActivityIntermediateType
+	name []*nameIntermediateType
 	// The 'nameMap' value holds language-specific values for property 'name'
 	nameMap map[string]string
 	// The functional 'endTime' value could have multiple types, but only a single value
-	endTime *endTimeIntransitiveActivityIntermediateType
+	endTime *endTimeIntermediateType
 	// The 'generator' value could have multiple types and values
-	generator []*generatorIntransitiveActivityIntermediateType
+	generator []*generatorIntermediateType
 	// The 'icon' value could have multiple types and values
-	icon []*iconIntransitiveActivityIntermediateType
+	icon []*iconIntermediateType
 	// The functional 'id' value holds a single type and a single value
 	id *url.URL
 	// The 'image' value could have multiple types and values
-	image []*imageIntransitiveActivityIntermediateType
+	image []*imageIntermediateType
 	// The 'inReplyTo' value could have multiple types and values
-	inReplyTo []*inReplyToIntransitiveActivityIntermediateType
+	inReplyTo []*inReplyToIntermediateType
 	// The 'location' value could have multiple types and values
-	location []*locationIntransitiveActivityIntermediateType
+	location []*locationIntermediateType
 	// The 'preview' value could have multiple types and values
-	preview []*previewIntransitiveActivityIntermediateType
+	preview []*previewIntermediateType
 	// The functional 'published' value could have multiple types, but only a single value
-	published *publishedIntransitiveActivityIntermediateType
+	published *publishedIntermediateType
 	// The functional 'replies' value could have multiple types, but only a single value
-	replies *repliesIntransitiveActivityIntermediateType
+	replies *repliesIntermediateType
 	// The functional 'startTime' value could have multiple types, but only a single value
-	startTime *startTimeIntransitiveActivityIntermediateType
+	startTime *startTimeIntermediateType
 	// The 'summary' value could have multiple types and values
-	summary []*summaryIntransitiveActivityIntermediateType
+	summary []*summaryIntermediateType
 	// The 'summaryMap' value holds language-specific values for property 'summary'
 	summaryMap map[string]string
 	// The 'tag' value could have multiple types and values
-	tag []*tagIntransitiveActivityIntermediateType
+	tag []*tagIntermediateType
 	// The 'type' value can hold any type and any number of values
 	typeName []interface{}
 	// The functional 'updated' value could have multiple types, but only a single value
-	updated *updatedIntransitiveActivityIntermediateType
+	updated *updatedIntermediateType
 	// The 'url' value could have multiple types and values
-	url []*urlIntransitiveActivityIntermediateType
+	url []*urlIntermediateType
 	// The 'to' value could have multiple types and values
-	to []*toIntransitiveActivityIntermediateType
+	to []*toIntermediateType
 	// The 'bto' value could have multiple types and values
-	bto []*btoIntransitiveActivityIntermediateType
+	bto []*btoIntermediateType
 	// The 'cc' value could have multiple types and values
-	cc []*ccIntransitiveActivityIntermediateType
+	cc []*ccIntermediateType
 	// The 'bcc' value could have multiple types and values
-	bcc []*bccIntransitiveActivityIntermediateType
+	bcc []*bccIntermediateType
 	// The functional 'mediaType' value could have multiple types, but only a single value
-	mediaType *mediaTypeIntransitiveActivityIntermediateType
+	mediaType *mediaTypeIntermediateType
 	// The functional 'duration' value could have multiple types, but only a single value
-	duration *durationIntransitiveActivityIntermediateType
+	duration *durationIntermediateType
 	// The functional 'source' value could have multiple types, but only a single value
-	source *sourceIntransitiveActivityIntermediateType
+	source *sourceIntermediateType
 	// The functional 'inbox' value could have multiple types, but only a single value
-	inbox *inboxIntransitiveActivityIntermediateType
+	inbox *inboxIntermediateType
 	// The functional 'outbox' value could have multiple types, but only a single value
-	outbox *outboxIntransitiveActivityIntermediateType
+	outbox *outboxIntermediateType
 	// The functional 'following' value could have multiple types, but only a single value
-	following *followingIntransitiveActivityIntermediateType
+	following *followingIntermediateType
 	// The functional 'followers' value could have multiple types, but only a single value
-	followers *followersIntransitiveActivityIntermediateType
+	followers *followersIntermediateType
 	// The functional 'liked' value could have multiple types, but only a single value
-	liked *likedIntransitiveActivityIntermediateType
+	liked *likedIntermediateType
 	// The functional 'likes' value could have multiple types, but only a single value
-	likes *likesIntransitiveActivityIntermediateType
+	likes *likesIntermediateType
 	// The 'streams' value holds a single type and any number of values
 	streams []*url.URL
 	// The functional 'preferredUsername' value could have multiple types, but only a single value
-	preferredUsername *preferredUsernameIntransitiveActivityIntermediateType
+	preferredUsername *preferredUsernameIntermediateType
 	// The 'preferredUsernameMap' value holds language-specific values for property 'preferredUsername'
 	preferredUsernameMap map[string]string
 	// The functional 'endpoints' value could have multiple types, but only a single value
-	endpoints *endpointsIntransitiveActivityIntermediateType
+	endpoints *endpointsIntermediateType
 	// The functional 'proxyUrl' value holds a single type and a single value
 	proxyUrl *url.URL
 	// The functional 'oauthAuthorizationEndpoint' value holds a single type and a single value
@@ -718,13 +717,13 @@ func (t *IntransitiveActivity) GetActorObject(index int) (v ObjectType) {
 
 // AppendActorObject adds to the back of actor a ObjectType type
 func (t *IntransitiveActivity) AppendActorObject(v ObjectType) {
-	t.actor = append(t.actor, &actorIntransitiveActivityIntermediateType{Object: v})
+	t.actor = append(t.actor, &actorIntermediateType{Object: v})
 
 }
 
 // PrependActorObject adds to the front of actor a ObjectType type
 func (t *IntransitiveActivity) PrependActorObject(v ObjectType) {
-	t.actor = append([]*actorIntransitiveActivityIntermediateType{&actorIntransitiveActivityIntermediateType{Object: v}}, t.actor...)
+	t.actor = append([]*actorIntermediateType{&actorIntermediateType{Object: v}}, t.actor...)
 
 }
 
@@ -750,13 +749,13 @@ func (t *IntransitiveActivity) GetActorLink(index int) (v LinkType) {
 
 // AppendActorLink adds to the back of actor a LinkType type
 func (t *IntransitiveActivity) AppendActorLink(v LinkType) {
-	t.actor = append(t.actor, &actorIntransitiveActivityIntermediateType{Link: v})
+	t.actor = append(t.actor, &actorIntermediateType{Link: v})
 
 }
 
 // PrependActorLink adds to the front of actor a LinkType type
 func (t *IntransitiveActivity) PrependActorLink(v LinkType) {
-	t.actor = append([]*actorIntransitiveActivityIntermediateType{&actorIntransitiveActivityIntermediateType{Link: v}}, t.actor...)
+	t.actor = append([]*actorIntermediateType{&actorIntermediateType{Link: v}}, t.actor...)
 
 }
 
@@ -782,13 +781,13 @@ func (t *IntransitiveActivity) GetActorIRI(index int) (v *url.URL) {
 
 // AppendActorIRI adds to the back of actor a *url.URL type
 func (t *IntransitiveActivity) AppendActorIRI(v *url.URL) {
-	t.actor = append(t.actor, &actorIntransitiveActivityIntermediateType{IRI: v})
+	t.actor = append(t.actor, &actorIntermediateType{IRI: v})
 
 }
 
 // PrependActorIRI adds to the front of actor a *url.URL type
 func (t *IntransitiveActivity) PrependActorIRI(v *url.URL) {
-	t.actor = append([]*actorIntransitiveActivityIntermediateType{&actorIntransitiveActivityIntermediateType{IRI: v}}, t.actor...)
+	t.actor = append([]*actorIntermediateType{&actorIntermediateType{IRI: v}}, t.actor...)
 
 }
 
@@ -817,7 +816,7 @@ func (t *IntransitiveActivity) SetUnknownActor(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &actorIntransitiveActivityIntermediateType{}
+	tmp := &actorIntermediateType{}
 	tmp.unknown_ = i
 	t.actor = append(t.actor, tmp)
 
@@ -843,13 +842,13 @@ func (t *IntransitiveActivity) GetTargetObject(index int) (v ObjectType) {
 
 // AppendTargetObject adds to the back of target a ObjectType type
 func (t *IntransitiveActivity) AppendTargetObject(v ObjectType) {
-	t.target = append(t.target, &targetIntransitiveActivityIntermediateType{Object: v})
+	t.target = append(t.target, &targetIntermediateType{Object: v})
 
 }
 
 // PrependTargetObject adds to the front of target a ObjectType type
 func (t *IntransitiveActivity) PrependTargetObject(v ObjectType) {
-	t.target = append([]*targetIntransitiveActivityIntermediateType{&targetIntransitiveActivityIntermediateType{Object: v}}, t.target...)
+	t.target = append([]*targetIntermediateType{&targetIntermediateType{Object: v}}, t.target...)
 
 }
 
@@ -875,13 +874,13 @@ func (t *IntransitiveActivity) GetTargetLink(index int) (v LinkType) {
 
 // AppendTargetLink adds to the back of target a LinkType type
 func (t *IntransitiveActivity) AppendTargetLink(v LinkType) {
-	t.target = append(t.target, &targetIntransitiveActivityIntermediateType{Link: v})
+	t.target = append(t.target, &targetIntermediateType{Link: v})
 
 }
 
 // PrependTargetLink adds to the front of target a LinkType type
 func (t *IntransitiveActivity) PrependTargetLink(v LinkType) {
-	t.target = append([]*targetIntransitiveActivityIntermediateType{&targetIntransitiveActivityIntermediateType{Link: v}}, t.target...)
+	t.target = append([]*targetIntermediateType{&targetIntermediateType{Link: v}}, t.target...)
 
 }
 
@@ -907,13 +906,13 @@ func (t *IntransitiveActivity) GetTargetIRI(index int) (v *url.URL) {
 
 // AppendTargetIRI adds to the back of target a *url.URL type
 func (t *IntransitiveActivity) AppendTargetIRI(v *url.URL) {
-	t.target = append(t.target, &targetIntransitiveActivityIntermediateType{IRI: v})
+	t.target = append(t.target, &targetIntermediateType{IRI: v})
 
 }
 
 // PrependTargetIRI adds to the front of target a *url.URL type
 func (t *IntransitiveActivity) PrependTargetIRI(v *url.URL) {
-	t.target = append([]*targetIntransitiveActivityIntermediateType{&targetIntransitiveActivityIntermediateType{IRI: v}}, t.target...)
+	t.target = append([]*targetIntermediateType{&targetIntermediateType{IRI: v}}, t.target...)
 
 }
 
@@ -942,7 +941,7 @@ func (t *IntransitiveActivity) SetUnknownTarget(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &targetIntransitiveActivityIntermediateType{}
+	tmp := &targetIntermediateType{}
 	tmp.unknown_ = i
 	t.target = append(t.target, tmp)
 
@@ -968,13 +967,13 @@ func (t *IntransitiveActivity) GetResultObject(index int) (v ObjectType) {
 
 // AppendResultObject adds to the back of result a ObjectType type
 func (t *IntransitiveActivity) AppendResultObject(v ObjectType) {
-	t.result = append(t.result, &resultIntransitiveActivityIntermediateType{Object: v})
+	t.result = append(t.result, &resultIntermediateType{Object: v})
 
 }
 
 // PrependResultObject adds to the front of result a ObjectType type
 func (t *IntransitiveActivity) PrependResultObject(v ObjectType) {
-	t.result = append([]*resultIntransitiveActivityIntermediateType{&resultIntransitiveActivityIntermediateType{Object: v}}, t.result...)
+	t.result = append([]*resultIntermediateType{&resultIntermediateType{Object: v}}, t.result...)
 
 }
 
@@ -1000,13 +999,13 @@ func (t *IntransitiveActivity) GetResultLink(index int) (v LinkType) {
 
 // AppendResultLink adds to the back of result a LinkType type
 func (t *IntransitiveActivity) AppendResultLink(v LinkType) {
-	t.result = append(t.result, &resultIntransitiveActivityIntermediateType{Link: v})
+	t.result = append(t.result, &resultIntermediateType{Link: v})
 
 }
 
 // PrependResultLink adds to the front of result a LinkType type
 func (t *IntransitiveActivity) PrependResultLink(v LinkType) {
-	t.result = append([]*resultIntransitiveActivityIntermediateType{&resultIntransitiveActivityIntermediateType{Link: v}}, t.result...)
+	t.result = append([]*resultIntermediateType{&resultIntermediateType{Link: v}}, t.result...)
 
 }
 
@@ -1032,13 +1031,13 @@ func (t *IntransitiveActivity) GetResultIRI(index int) (v *url.URL) {
 
 // AppendResultIRI adds to the back of result a *url.URL type
 func (t *IntransitiveActivity) AppendResultIRI(v *url.URL) {
-	t.result = append(t.result, &resultIntransitiveActivityIntermediateType{IRI: v})
+	t.result = append(t.result, &resultIntermediateType{IRI: v})
 
 }
 
 // PrependResultIRI adds to the front of result a *url.URL type
 func (t *IntransitiveActivity) PrependResultIRI(v *url.URL) {
-	t.result = append([]*resultIntransitiveActivityIntermediateType{&resultIntransitiveActivityIntermediateType{IRI: v}}, t.result...)
+	t.result = append([]*resultIntermediateType{&resultIntermediateType{IRI: v}}, t.result...)
 
 }
 
@@ -1067,7 +1066,7 @@ func (t *IntransitiveActivity) SetUnknownResult(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &resultIntransitiveActivityIntermediateType{}
+	tmp := &resultIntermediateType{}
 	tmp.unknown_ = i
 	t.result = append(t.result, tmp)
 
@@ -1093,13 +1092,13 @@ func (t *IntransitiveActivity) GetOriginObject(index int) (v ObjectType) {
 
 // AppendOriginObject adds to the back of origin a ObjectType type
 func (t *IntransitiveActivity) AppendOriginObject(v ObjectType) {
-	t.origin = append(t.origin, &originIntransitiveActivityIntermediateType{Object: v})
+	t.origin = append(t.origin, &originIntermediateType{Object: v})
 
 }
 
 // PrependOriginObject adds to the front of origin a ObjectType type
 func (t *IntransitiveActivity) PrependOriginObject(v ObjectType) {
-	t.origin = append([]*originIntransitiveActivityIntermediateType{&originIntransitiveActivityIntermediateType{Object: v}}, t.origin...)
+	t.origin = append([]*originIntermediateType{&originIntermediateType{Object: v}}, t.origin...)
 
 }
 
@@ -1125,13 +1124,13 @@ func (t *IntransitiveActivity) GetOriginLink(index int) (v LinkType) {
 
 // AppendOriginLink adds to the back of origin a LinkType type
 func (t *IntransitiveActivity) AppendOriginLink(v LinkType) {
-	t.origin = append(t.origin, &originIntransitiveActivityIntermediateType{Link: v})
+	t.origin = append(t.origin, &originIntermediateType{Link: v})
 
 }
 
 // PrependOriginLink adds to the front of origin a LinkType type
 func (t *IntransitiveActivity) PrependOriginLink(v LinkType) {
-	t.origin = append([]*originIntransitiveActivityIntermediateType{&originIntransitiveActivityIntermediateType{Link: v}}, t.origin...)
+	t.origin = append([]*originIntermediateType{&originIntermediateType{Link: v}}, t.origin...)
 
 }
 
@@ -1157,13 +1156,13 @@ func (t *IntransitiveActivity) GetOriginIRI(index int) (v *url.URL) {
 
 // AppendOriginIRI adds to the back of origin a *url.URL type
 func (t *IntransitiveActivity) AppendOriginIRI(v *url.URL) {
-	t.origin = append(t.origin, &originIntransitiveActivityIntermediateType{IRI: v})
+	t.origin = append(t.origin, &originIntermediateType{IRI: v})
 
 }
 
 // PrependOriginIRI adds to the front of origin a *url.URL type
 func (t *IntransitiveActivity) PrependOriginIRI(v *url.URL) {
-	t.origin = append([]*originIntransitiveActivityIntermediateType{&originIntransitiveActivityIntermediateType{IRI: v}}, t.origin...)
+	t.origin = append([]*originIntermediateType{&originIntermediateType{IRI: v}}, t.origin...)
 
 }
 
@@ -1192,7 +1191,7 @@ func (t *IntransitiveActivity) SetUnknownOrigin(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &originIntransitiveActivityIntermediateType{}
+	tmp := &originIntermediateType{}
 	tmp.unknown_ = i
 	t.origin = append(t.origin, tmp)
 
@@ -1218,13 +1217,13 @@ func (t *IntransitiveActivity) GetInstrumentObject(index int) (v ObjectType) {
 
 // AppendInstrumentObject adds to the back of instrument a ObjectType type
 func (t *IntransitiveActivity) AppendInstrumentObject(v ObjectType) {
-	t.instrument = append(t.instrument, &instrumentIntransitiveActivityIntermediateType{Object: v})
+	t.instrument = append(t.instrument, &instrumentIntermediateType{Object: v})
 
 }
 
 // PrependInstrumentObject adds to the front of instrument a ObjectType type
 func (t *IntransitiveActivity) PrependInstrumentObject(v ObjectType) {
-	t.instrument = append([]*instrumentIntransitiveActivityIntermediateType{&instrumentIntransitiveActivityIntermediateType{Object: v}}, t.instrument...)
+	t.instrument = append([]*instrumentIntermediateType{&instrumentIntermediateType{Object: v}}, t.instrument...)
 
 }
 
@@ -1250,13 +1249,13 @@ func (t *IntransitiveActivity) GetInstrumentLink(index int) (v LinkType) {
 
 // AppendInstrumentLink adds to the back of instrument a LinkType type
 func (t *IntransitiveActivity) AppendInstrumentLink(v LinkType) {
-	t.instrument = append(t.instrument, &instrumentIntransitiveActivityIntermediateType{Link: v})
+	t.instrument = append(t.instrument, &instrumentIntermediateType{Link: v})
 
 }
 
 // PrependInstrumentLink adds to the front of instrument a LinkType type
 func (t *IntransitiveActivity) PrependInstrumentLink(v LinkType) {
-	t.instrument = append([]*instrumentIntransitiveActivityIntermediateType{&instrumentIntransitiveActivityIntermediateType{Link: v}}, t.instrument...)
+	t.instrument = append([]*instrumentIntermediateType{&instrumentIntermediateType{Link: v}}, t.instrument...)
 
 }
 
@@ -1282,13 +1281,13 @@ func (t *IntransitiveActivity) GetInstrumentIRI(index int) (v *url.URL) {
 
 // AppendInstrumentIRI adds to the back of instrument a *url.URL type
 func (t *IntransitiveActivity) AppendInstrumentIRI(v *url.URL) {
-	t.instrument = append(t.instrument, &instrumentIntransitiveActivityIntermediateType{IRI: v})
+	t.instrument = append(t.instrument, &instrumentIntermediateType{IRI: v})
 
 }
 
 // PrependInstrumentIRI adds to the front of instrument a *url.URL type
 func (t *IntransitiveActivity) PrependInstrumentIRI(v *url.URL) {
-	t.instrument = append([]*instrumentIntransitiveActivityIntermediateType{&instrumentIntransitiveActivityIntermediateType{IRI: v}}, t.instrument...)
+	t.instrument = append([]*instrumentIntermediateType{&instrumentIntermediateType{IRI: v}}, t.instrument...)
 
 }
 
@@ -1317,7 +1316,7 @@ func (t *IntransitiveActivity) SetUnknownInstrument(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &instrumentIntransitiveActivityIntermediateType{}
+	tmp := &instrumentIntermediateType{}
 	tmp.unknown_ = i
 	t.instrument = append(t.instrument, tmp)
 
@@ -1337,7 +1336,7 @@ func (t *IntransitiveActivity) GetAltitude() (v float64) {
 
 // SetAltitude sets the value of altitude to be of float64 type
 func (t *IntransitiveActivity) SetAltitude(v float64) {
-	t.altitude = &altitudeIntransitiveActivityIntermediateType{float: &v}
+	t.altitude = &altitudeIntermediateType{float: &v}
 
 }
 
@@ -1355,7 +1354,7 @@ func (t *IntransitiveActivity) GetAltitudeIRI() (v *url.URL) {
 
 // SetAltitudeIRI sets the value of altitude to be of *url.URL type
 func (t *IntransitiveActivity) SetAltitudeIRI(v *url.URL) {
-	t.altitude = &altitudeIntransitiveActivityIntermediateType{IRI: v}
+	t.altitude = &altitudeIntermediateType{IRI: v}
 
 }
 
@@ -1376,7 +1375,7 @@ func (t *IntransitiveActivity) SetUnknownAltitude(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &altitudeIntransitiveActivityIntermediateType{}
+	tmp := &altitudeIntermediateType{}
 	tmp.unknown_ = i
 	t.altitude = tmp
 
@@ -1402,13 +1401,13 @@ func (t *IntransitiveActivity) GetAttachmentObject(index int) (v ObjectType) {
 
 // AppendAttachmentObject adds to the back of attachment a ObjectType type
 func (t *IntransitiveActivity) AppendAttachmentObject(v ObjectType) {
-	t.attachment = append(t.attachment, &attachmentIntransitiveActivityIntermediateType{Object: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{Object: v})
 
 }
 
 // PrependAttachmentObject adds to the front of attachment a ObjectType type
 func (t *IntransitiveActivity) PrependAttachmentObject(v ObjectType) {
-	t.attachment = append([]*attachmentIntransitiveActivityIntermediateType{&attachmentIntransitiveActivityIntermediateType{Object: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{Object: v}}, t.attachment...)
 
 }
 
@@ -1434,13 +1433,13 @@ func (t *IntransitiveActivity) GetAttachmentLink(index int) (v LinkType) {
 
 // AppendAttachmentLink adds to the back of attachment a LinkType type
 func (t *IntransitiveActivity) AppendAttachmentLink(v LinkType) {
-	t.attachment = append(t.attachment, &attachmentIntransitiveActivityIntermediateType{Link: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{Link: v})
 
 }
 
 // PrependAttachmentLink adds to the front of attachment a LinkType type
 func (t *IntransitiveActivity) PrependAttachmentLink(v LinkType) {
-	t.attachment = append([]*attachmentIntransitiveActivityIntermediateType{&attachmentIntransitiveActivityIntermediateType{Link: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{Link: v}}, t.attachment...)
 
 }
 
@@ -1466,13 +1465,13 @@ func (t *IntransitiveActivity) GetAttachmentIRI(index int) (v *url.URL) {
 
 // AppendAttachmentIRI adds to the back of attachment a *url.URL type
 func (t *IntransitiveActivity) AppendAttachmentIRI(v *url.URL) {
-	t.attachment = append(t.attachment, &attachmentIntransitiveActivityIntermediateType{IRI: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{IRI: v})
 
 }
 
 // PrependAttachmentIRI adds to the front of attachment a *url.URL type
 func (t *IntransitiveActivity) PrependAttachmentIRI(v *url.URL) {
-	t.attachment = append([]*attachmentIntransitiveActivityIntermediateType{&attachmentIntransitiveActivityIntermediateType{IRI: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{IRI: v}}, t.attachment...)
 
 }
 
@@ -1501,7 +1500,7 @@ func (t *IntransitiveActivity) SetUnknownAttachment(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attachmentIntransitiveActivityIntermediateType{}
+	tmp := &attachmentIntermediateType{}
 	tmp.unknown_ = i
 	t.attachment = append(t.attachment, tmp)
 
@@ -1527,13 +1526,13 @@ func (t *IntransitiveActivity) GetAttributedToObject(index int) (v ObjectType) {
 
 // AppendAttributedToObject adds to the back of attributedTo a ObjectType type
 func (t *IntransitiveActivity) AppendAttributedToObject(v ObjectType) {
-	t.attributedTo = append(t.attributedTo, &attributedToIntransitiveActivityIntermediateType{Object: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Object: v})
 
 }
 
 // PrependAttributedToObject adds to the front of attributedTo a ObjectType type
 func (t *IntransitiveActivity) PrependAttributedToObject(v ObjectType) {
-	t.attributedTo = append([]*attributedToIntransitiveActivityIntermediateType{&attributedToIntransitiveActivityIntermediateType{Object: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Object: v}}, t.attributedTo...)
 
 }
 
@@ -1559,13 +1558,13 @@ func (t *IntransitiveActivity) GetAttributedToLink(index int) (v LinkType) {
 
 // AppendAttributedToLink adds to the back of attributedTo a LinkType type
 func (t *IntransitiveActivity) AppendAttributedToLink(v LinkType) {
-	t.attributedTo = append(t.attributedTo, &attributedToIntransitiveActivityIntermediateType{Link: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Link: v})
 
 }
 
 // PrependAttributedToLink adds to the front of attributedTo a LinkType type
 func (t *IntransitiveActivity) PrependAttributedToLink(v LinkType) {
-	t.attributedTo = append([]*attributedToIntransitiveActivityIntermediateType{&attributedToIntransitiveActivityIntermediateType{Link: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Link: v}}, t.attributedTo...)
 
 }
 
@@ -1591,13 +1590,13 @@ func (t *IntransitiveActivity) GetAttributedToIRI(index int) (v *url.URL) {
 
 // AppendAttributedToIRI adds to the back of attributedTo a *url.URL type
 func (t *IntransitiveActivity) AppendAttributedToIRI(v *url.URL) {
-	t.attributedTo = append(t.attributedTo, &attributedToIntransitiveActivityIntermediateType{IRI: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{IRI: v})
 
 }
 
 // PrependAttributedToIRI adds to the front of attributedTo a *url.URL type
 func (t *IntransitiveActivity) PrependAttributedToIRI(v *url.URL) {
-	t.attributedTo = append([]*attributedToIntransitiveActivityIntermediateType{&attributedToIntransitiveActivityIntermediateType{IRI: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{IRI: v}}, t.attributedTo...)
 
 }
 
@@ -1626,7 +1625,7 @@ func (t *IntransitiveActivity) SetUnknownAttributedTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attributedToIntransitiveActivityIntermediateType{}
+	tmp := &attributedToIntermediateType{}
 	tmp.unknown_ = i
 	t.attributedTo = append(t.attributedTo, tmp)
 
@@ -1652,13 +1651,13 @@ func (t *IntransitiveActivity) GetAudienceObject(index int) (v ObjectType) {
 
 // AppendAudienceObject adds to the back of audience a ObjectType type
 func (t *IntransitiveActivity) AppendAudienceObject(v ObjectType) {
-	t.audience = append(t.audience, &audienceIntransitiveActivityIntermediateType{Object: v})
+	t.audience = append(t.audience, &audienceIntermediateType{Object: v})
 
 }
 
 // PrependAudienceObject adds to the front of audience a ObjectType type
 func (t *IntransitiveActivity) PrependAudienceObject(v ObjectType) {
-	t.audience = append([]*audienceIntransitiveActivityIntermediateType{&audienceIntransitiveActivityIntermediateType{Object: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{Object: v}}, t.audience...)
 
 }
 
@@ -1684,13 +1683,13 @@ func (t *IntransitiveActivity) GetAudienceLink(index int) (v LinkType) {
 
 // AppendAudienceLink adds to the back of audience a LinkType type
 func (t *IntransitiveActivity) AppendAudienceLink(v LinkType) {
-	t.audience = append(t.audience, &audienceIntransitiveActivityIntermediateType{Link: v})
+	t.audience = append(t.audience, &audienceIntermediateType{Link: v})
 
 }
 
 // PrependAudienceLink adds to the front of audience a LinkType type
 func (t *IntransitiveActivity) PrependAudienceLink(v LinkType) {
-	t.audience = append([]*audienceIntransitiveActivityIntermediateType{&audienceIntransitiveActivityIntermediateType{Link: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{Link: v}}, t.audience...)
 
 }
 
@@ -1716,13 +1715,13 @@ func (t *IntransitiveActivity) GetAudienceIRI(index int) (v *url.URL) {
 
 // AppendAudienceIRI adds to the back of audience a *url.URL type
 func (t *IntransitiveActivity) AppendAudienceIRI(v *url.URL) {
-	t.audience = append(t.audience, &audienceIntransitiveActivityIntermediateType{IRI: v})
+	t.audience = append(t.audience, &audienceIntermediateType{IRI: v})
 
 }
 
 // PrependAudienceIRI adds to the front of audience a *url.URL type
 func (t *IntransitiveActivity) PrependAudienceIRI(v *url.URL) {
-	t.audience = append([]*audienceIntransitiveActivityIntermediateType{&audienceIntransitiveActivityIntermediateType{IRI: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{IRI: v}}, t.audience...)
 
 }
 
@@ -1751,7 +1750,7 @@ func (t *IntransitiveActivity) SetUnknownAudience(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &audienceIntransitiveActivityIntermediateType{}
+	tmp := &audienceIntermediateType{}
 	tmp.unknown_ = i
 	t.audience = append(t.audience, tmp)
 
@@ -1777,13 +1776,13 @@ func (t *IntransitiveActivity) GetContentString(index int) (v string) {
 
 // AppendContentString adds to the back of content a string type
 func (t *IntransitiveActivity) AppendContentString(v string) {
-	t.content = append(t.content, &contentIntransitiveActivityIntermediateType{stringName: &v})
+	t.content = append(t.content, &contentIntermediateType{stringName: &v})
 
 }
 
 // PrependContentString adds to the front of content a string type
 func (t *IntransitiveActivity) PrependContentString(v string) {
-	t.content = append([]*contentIntransitiveActivityIntermediateType{&contentIntransitiveActivityIntermediateType{stringName: &v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{stringName: &v}}, t.content...)
 
 }
 
@@ -1809,13 +1808,13 @@ func (t *IntransitiveActivity) GetContentLangString(index int) (v string) {
 
 // AppendContentLangString adds to the back of content a string type
 func (t *IntransitiveActivity) AppendContentLangString(v string) {
-	t.content = append(t.content, &contentIntransitiveActivityIntermediateType{langString: &v})
+	t.content = append(t.content, &contentIntermediateType{langString: &v})
 
 }
 
 // PrependContentLangString adds to the front of content a string type
 func (t *IntransitiveActivity) PrependContentLangString(v string) {
-	t.content = append([]*contentIntransitiveActivityIntermediateType{&contentIntransitiveActivityIntermediateType{langString: &v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{langString: &v}}, t.content...)
 
 }
 
@@ -1841,13 +1840,13 @@ func (t *IntransitiveActivity) GetContentIRI(index int) (v *url.URL) {
 
 // AppendContentIRI adds to the back of content a *url.URL type
 func (t *IntransitiveActivity) AppendContentIRI(v *url.URL) {
-	t.content = append(t.content, &contentIntransitiveActivityIntermediateType{IRI: v})
+	t.content = append(t.content, &contentIntermediateType{IRI: v})
 
 }
 
 // PrependContentIRI adds to the front of content a *url.URL type
 func (t *IntransitiveActivity) PrependContentIRI(v *url.URL) {
-	t.content = append([]*contentIntransitiveActivityIntermediateType{&contentIntransitiveActivityIntermediateType{IRI: v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{IRI: v}}, t.content...)
 
 }
 
@@ -1876,7 +1875,7 @@ func (t *IntransitiveActivity) SetUnknownContent(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &contentIntransitiveActivityIntermediateType{}
+	tmp := &contentIntermediateType{}
 	tmp.unknown_ = i
 	t.content = append(t.content, tmp)
 
@@ -1937,13 +1936,13 @@ func (t *IntransitiveActivity) GetContextObject(index int) (v ObjectType) {
 
 // AppendContextObject adds to the back of context a ObjectType type
 func (t *IntransitiveActivity) AppendContextObject(v ObjectType) {
-	t.context = append(t.context, &contextIntransitiveActivityIntermediateType{Object: v})
+	t.context = append(t.context, &contextIntermediateType{Object: v})
 
 }
 
 // PrependContextObject adds to the front of context a ObjectType type
 func (t *IntransitiveActivity) PrependContextObject(v ObjectType) {
-	t.context = append([]*contextIntransitiveActivityIntermediateType{&contextIntransitiveActivityIntermediateType{Object: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{Object: v}}, t.context...)
 
 }
 
@@ -1969,13 +1968,13 @@ func (t *IntransitiveActivity) GetContextLink(index int) (v LinkType) {
 
 // AppendContextLink adds to the back of context a LinkType type
 func (t *IntransitiveActivity) AppendContextLink(v LinkType) {
-	t.context = append(t.context, &contextIntransitiveActivityIntermediateType{Link: v})
+	t.context = append(t.context, &contextIntermediateType{Link: v})
 
 }
 
 // PrependContextLink adds to the front of context a LinkType type
 func (t *IntransitiveActivity) PrependContextLink(v LinkType) {
-	t.context = append([]*contextIntransitiveActivityIntermediateType{&contextIntransitiveActivityIntermediateType{Link: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{Link: v}}, t.context...)
 
 }
 
@@ -2001,13 +2000,13 @@ func (t *IntransitiveActivity) GetContextIRI(index int) (v *url.URL) {
 
 // AppendContextIRI adds to the back of context a *url.URL type
 func (t *IntransitiveActivity) AppendContextIRI(v *url.URL) {
-	t.context = append(t.context, &contextIntransitiveActivityIntermediateType{IRI: v})
+	t.context = append(t.context, &contextIntermediateType{IRI: v})
 
 }
 
 // PrependContextIRI adds to the front of context a *url.URL type
 func (t *IntransitiveActivity) PrependContextIRI(v *url.URL) {
-	t.context = append([]*contextIntransitiveActivityIntermediateType{&contextIntransitiveActivityIntermediateType{IRI: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{IRI: v}}, t.context...)
 
 }
 
@@ -2036,7 +2035,7 @@ func (t *IntransitiveActivity) SetUnknownContext(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &contextIntransitiveActivityIntermediateType{}
+	tmp := &contextIntermediateType{}
 	tmp.unknown_ = i
 	t.context = append(t.context, tmp)
 
@@ -2062,13 +2061,13 @@ func (t *IntransitiveActivity) GetNameString(index int) (v string) {
 
 // AppendNameString adds to the back of name a string type
 func (t *IntransitiveActivity) AppendNameString(v string) {
-	t.name = append(t.name, &nameIntransitiveActivityIntermediateType{stringName: &v})
+	t.name = append(t.name, &nameIntermediateType{stringName: &v})
 
 }
 
 // PrependNameString adds to the front of name a string type
 func (t *IntransitiveActivity) PrependNameString(v string) {
-	t.name = append([]*nameIntransitiveActivityIntermediateType{&nameIntransitiveActivityIntermediateType{stringName: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{stringName: &v}}, t.name...)
 
 }
 
@@ -2094,13 +2093,13 @@ func (t *IntransitiveActivity) GetNameLangString(index int) (v string) {
 
 // AppendNameLangString adds to the back of name a string type
 func (t *IntransitiveActivity) AppendNameLangString(v string) {
-	t.name = append(t.name, &nameIntransitiveActivityIntermediateType{langString: &v})
+	t.name = append(t.name, &nameIntermediateType{langString: &v})
 
 }
 
 // PrependNameLangString adds to the front of name a string type
 func (t *IntransitiveActivity) PrependNameLangString(v string) {
-	t.name = append([]*nameIntransitiveActivityIntermediateType{&nameIntransitiveActivityIntermediateType{langString: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{langString: &v}}, t.name...)
 
 }
 
@@ -2126,13 +2125,13 @@ func (t *IntransitiveActivity) GetNameIRI(index int) (v *url.URL) {
 
 // AppendNameIRI adds to the back of name a *url.URL type
 func (t *IntransitiveActivity) AppendNameIRI(v *url.URL) {
-	t.name = append(t.name, &nameIntransitiveActivityIntermediateType{IRI: v})
+	t.name = append(t.name, &nameIntermediateType{IRI: v})
 
 }
 
 // PrependNameIRI adds to the front of name a *url.URL type
 func (t *IntransitiveActivity) PrependNameIRI(v *url.URL) {
-	t.name = append([]*nameIntransitiveActivityIntermediateType{&nameIntransitiveActivityIntermediateType{IRI: v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{IRI: v}}, t.name...)
 
 }
 
@@ -2161,7 +2160,7 @@ func (t *IntransitiveActivity) SetUnknownName(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &nameIntransitiveActivityIntermediateType{}
+	tmp := &nameIntermediateType{}
 	tmp.unknown_ = i
 	t.name = append(t.name, tmp)
 
@@ -2216,7 +2215,7 @@ func (t *IntransitiveActivity) GetEndTime() (v time.Time) {
 
 // SetEndTime sets the value of endTime to be of time.Time type
 func (t *IntransitiveActivity) SetEndTime(v time.Time) {
-	t.endTime = &endTimeIntransitiveActivityIntermediateType{dateTime: &v}
+	t.endTime = &endTimeIntermediateType{dateTime: &v}
 
 }
 
@@ -2234,7 +2233,7 @@ func (t *IntransitiveActivity) GetEndTimeIRI() (v *url.URL) {
 
 // SetEndTimeIRI sets the value of endTime to be of *url.URL type
 func (t *IntransitiveActivity) SetEndTimeIRI(v *url.URL) {
-	t.endTime = &endTimeIntransitiveActivityIntermediateType{IRI: v}
+	t.endTime = &endTimeIntermediateType{IRI: v}
 
 }
 
@@ -2255,7 +2254,7 @@ func (t *IntransitiveActivity) SetUnknownEndTime(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &endTimeIntransitiveActivityIntermediateType{}
+	tmp := &endTimeIntermediateType{}
 	tmp.unknown_ = i
 	t.endTime = tmp
 
@@ -2281,13 +2280,13 @@ func (t *IntransitiveActivity) GetGeneratorObject(index int) (v ObjectType) {
 
 // AppendGeneratorObject adds to the back of generator a ObjectType type
 func (t *IntransitiveActivity) AppendGeneratorObject(v ObjectType) {
-	t.generator = append(t.generator, &generatorIntransitiveActivityIntermediateType{Object: v})
+	t.generator = append(t.generator, &generatorIntermediateType{Object: v})
 
 }
 
 // PrependGeneratorObject adds to the front of generator a ObjectType type
 func (t *IntransitiveActivity) PrependGeneratorObject(v ObjectType) {
-	t.generator = append([]*generatorIntransitiveActivityIntermediateType{&generatorIntransitiveActivityIntermediateType{Object: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{Object: v}}, t.generator...)
 
 }
 
@@ -2313,13 +2312,13 @@ func (t *IntransitiveActivity) GetGeneratorLink(index int) (v LinkType) {
 
 // AppendGeneratorLink adds to the back of generator a LinkType type
 func (t *IntransitiveActivity) AppendGeneratorLink(v LinkType) {
-	t.generator = append(t.generator, &generatorIntransitiveActivityIntermediateType{Link: v})
+	t.generator = append(t.generator, &generatorIntermediateType{Link: v})
 
 }
 
 // PrependGeneratorLink adds to the front of generator a LinkType type
 func (t *IntransitiveActivity) PrependGeneratorLink(v LinkType) {
-	t.generator = append([]*generatorIntransitiveActivityIntermediateType{&generatorIntransitiveActivityIntermediateType{Link: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{Link: v}}, t.generator...)
 
 }
 
@@ -2345,13 +2344,13 @@ func (t *IntransitiveActivity) GetGeneratorIRI(index int) (v *url.URL) {
 
 // AppendGeneratorIRI adds to the back of generator a *url.URL type
 func (t *IntransitiveActivity) AppendGeneratorIRI(v *url.URL) {
-	t.generator = append(t.generator, &generatorIntransitiveActivityIntermediateType{IRI: v})
+	t.generator = append(t.generator, &generatorIntermediateType{IRI: v})
 
 }
 
 // PrependGeneratorIRI adds to the front of generator a *url.URL type
 func (t *IntransitiveActivity) PrependGeneratorIRI(v *url.URL) {
-	t.generator = append([]*generatorIntransitiveActivityIntermediateType{&generatorIntransitiveActivityIntermediateType{IRI: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{IRI: v}}, t.generator...)
 
 }
 
@@ -2380,7 +2379,7 @@ func (t *IntransitiveActivity) SetUnknownGenerator(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &generatorIntransitiveActivityIntermediateType{}
+	tmp := &generatorIntermediateType{}
 	tmp.unknown_ = i
 	t.generator = append(t.generator, tmp)
 
@@ -2406,13 +2405,13 @@ func (t *IntransitiveActivity) GetIconImage(index int) (v ImageType) {
 
 // AppendIconImage adds to the back of icon a ImageType type
 func (t *IntransitiveActivity) AppendIconImage(v ImageType) {
-	t.icon = append(t.icon, &iconIntransitiveActivityIntermediateType{Image: v})
+	t.icon = append(t.icon, &iconIntermediateType{Image: v})
 
 }
 
 // PrependIconImage adds to the front of icon a ImageType type
 func (t *IntransitiveActivity) PrependIconImage(v ImageType) {
-	t.icon = append([]*iconIntransitiveActivityIntermediateType{&iconIntransitiveActivityIntermediateType{Image: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{Image: v}}, t.icon...)
 
 }
 
@@ -2438,13 +2437,13 @@ func (t *IntransitiveActivity) GetIconLink(index int) (v LinkType) {
 
 // AppendIconLink adds to the back of icon a LinkType type
 func (t *IntransitiveActivity) AppendIconLink(v LinkType) {
-	t.icon = append(t.icon, &iconIntransitiveActivityIntermediateType{Link: v})
+	t.icon = append(t.icon, &iconIntermediateType{Link: v})
 
 }
 
 // PrependIconLink adds to the front of icon a LinkType type
 func (t *IntransitiveActivity) PrependIconLink(v LinkType) {
-	t.icon = append([]*iconIntransitiveActivityIntermediateType{&iconIntransitiveActivityIntermediateType{Link: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{Link: v}}, t.icon...)
 
 }
 
@@ -2470,13 +2469,13 @@ func (t *IntransitiveActivity) GetIconIRI(index int) (v *url.URL) {
 
 // AppendIconIRI adds to the back of icon a *url.URL type
 func (t *IntransitiveActivity) AppendIconIRI(v *url.URL) {
-	t.icon = append(t.icon, &iconIntransitiveActivityIntermediateType{IRI: v})
+	t.icon = append(t.icon, &iconIntermediateType{IRI: v})
 
 }
 
 // PrependIconIRI adds to the front of icon a *url.URL type
 func (t *IntransitiveActivity) PrependIconIRI(v *url.URL) {
-	t.icon = append([]*iconIntransitiveActivityIntermediateType{&iconIntransitiveActivityIntermediateType{IRI: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{IRI: v}}, t.icon...)
 
 }
 
@@ -2505,7 +2504,7 @@ func (t *IntransitiveActivity) SetUnknownIcon(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &iconIntransitiveActivityIntermediateType{}
+	tmp := &iconIntermediateType{}
 	tmp.unknown_ = i
 	t.icon = append(t.icon, tmp)
 
@@ -2570,13 +2569,13 @@ func (t *IntransitiveActivity) GetImageImage(index int) (v ImageType) {
 
 // AppendImageImage adds to the back of image a ImageType type
 func (t *IntransitiveActivity) AppendImageImage(v ImageType) {
-	t.image = append(t.image, &imageIntransitiveActivityIntermediateType{Image: v})
+	t.image = append(t.image, &imageIntermediateType{Image: v})
 
 }
 
 // PrependImageImage adds to the front of image a ImageType type
 func (t *IntransitiveActivity) PrependImageImage(v ImageType) {
-	t.image = append([]*imageIntransitiveActivityIntermediateType{&imageIntransitiveActivityIntermediateType{Image: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{Image: v}}, t.image...)
 
 }
 
@@ -2602,13 +2601,13 @@ func (t *IntransitiveActivity) GetImageLink(index int) (v LinkType) {
 
 // AppendImageLink adds to the back of image a LinkType type
 func (t *IntransitiveActivity) AppendImageLink(v LinkType) {
-	t.image = append(t.image, &imageIntransitiveActivityIntermediateType{Link: v})
+	t.image = append(t.image, &imageIntermediateType{Link: v})
 
 }
 
 // PrependImageLink adds to the front of image a LinkType type
 func (t *IntransitiveActivity) PrependImageLink(v LinkType) {
-	t.image = append([]*imageIntransitiveActivityIntermediateType{&imageIntransitiveActivityIntermediateType{Link: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{Link: v}}, t.image...)
 
 }
 
@@ -2634,13 +2633,13 @@ func (t *IntransitiveActivity) GetImageIRI(index int) (v *url.URL) {
 
 // AppendImageIRI adds to the back of image a *url.URL type
 func (t *IntransitiveActivity) AppendImageIRI(v *url.URL) {
-	t.image = append(t.image, &imageIntransitiveActivityIntermediateType{IRI: v})
+	t.image = append(t.image, &imageIntermediateType{IRI: v})
 
 }
 
 // PrependImageIRI adds to the front of image a *url.URL type
 func (t *IntransitiveActivity) PrependImageIRI(v *url.URL) {
-	t.image = append([]*imageIntransitiveActivityIntermediateType{&imageIntransitiveActivityIntermediateType{IRI: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{IRI: v}}, t.image...)
 
 }
 
@@ -2669,7 +2668,7 @@ func (t *IntransitiveActivity) SetUnknownImage(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &imageIntransitiveActivityIntermediateType{}
+	tmp := &imageIntermediateType{}
 	tmp.unknown_ = i
 	t.image = append(t.image, tmp)
 
@@ -2695,13 +2694,13 @@ func (t *IntransitiveActivity) GetInReplyToObject(index int) (v ObjectType) {
 
 // AppendInReplyToObject adds to the back of inReplyTo a ObjectType type
 func (t *IntransitiveActivity) AppendInReplyToObject(v ObjectType) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToIntransitiveActivityIntermediateType{Object: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{Object: v})
 
 }
 
 // PrependInReplyToObject adds to the front of inReplyTo a ObjectType type
 func (t *IntransitiveActivity) PrependInReplyToObject(v ObjectType) {
-	t.inReplyTo = append([]*inReplyToIntransitiveActivityIntermediateType{&inReplyToIntransitiveActivityIntermediateType{Object: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{Object: v}}, t.inReplyTo...)
 
 }
 
@@ -2727,13 +2726,13 @@ func (t *IntransitiveActivity) GetInReplyToLink(index int) (v LinkType) {
 
 // AppendInReplyToLink adds to the back of inReplyTo a LinkType type
 func (t *IntransitiveActivity) AppendInReplyToLink(v LinkType) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToIntransitiveActivityIntermediateType{Link: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{Link: v})
 
 }
 
 // PrependInReplyToLink adds to the front of inReplyTo a LinkType type
 func (t *IntransitiveActivity) PrependInReplyToLink(v LinkType) {
-	t.inReplyTo = append([]*inReplyToIntransitiveActivityIntermediateType{&inReplyToIntransitiveActivityIntermediateType{Link: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{Link: v}}, t.inReplyTo...)
 
 }
 
@@ -2759,13 +2758,13 @@ func (t *IntransitiveActivity) GetInReplyToIRI(index int) (v *url.URL) {
 
 // AppendInReplyToIRI adds to the back of inReplyTo a *url.URL type
 func (t *IntransitiveActivity) AppendInReplyToIRI(v *url.URL) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToIntransitiveActivityIntermediateType{IRI: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{IRI: v})
 
 }
 
 // PrependInReplyToIRI adds to the front of inReplyTo a *url.URL type
 func (t *IntransitiveActivity) PrependInReplyToIRI(v *url.URL) {
-	t.inReplyTo = append([]*inReplyToIntransitiveActivityIntermediateType{&inReplyToIntransitiveActivityIntermediateType{IRI: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{IRI: v}}, t.inReplyTo...)
 
 }
 
@@ -2794,7 +2793,7 @@ func (t *IntransitiveActivity) SetUnknownInReplyTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &inReplyToIntransitiveActivityIntermediateType{}
+	tmp := &inReplyToIntermediateType{}
 	tmp.unknown_ = i
 	t.inReplyTo = append(t.inReplyTo, tmp)
 
@@ -2820,13 +2819,13 @@ func (t *IntransitiveActivity) GetLocationObject(index int) (v ObjectType) {
 
 // AppendLocationObject adds to the back of location a ObjectType type
 func (t *IntransitiveActivity) AppendLocationObject(v ObjectType) {
-	t.location = append(t.location, &locationIntransitiveActivityIntermediateType{Object: v})
+	t.location = append(t.location, &locationIntermediateType{Object: v})
 
 }
 
 // PrependLocationObject adds to the front of location a ObjectType type
 func (t *IntransitiveActivity) PrependLocationObject(v ObjectType) {
-	t.location = append([]*locationIntransitiveActivityIntermediateType{&locationIntransitiveActivityIntermediateType{Object: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{Object: v}}, t.location...)
 
 }
 
@@ -2852,13 +2851,13 @@ func (t *IntransitiveActivity) GetLocationLink(index int) (v LinkType) {
 
 // AppendLocationLink adds to the back of location a LinkType type
 func (t *IntransitiveActivity) AppendLocationLink(v LinkType) {
-	t.location = append(t.location, &locationIntransitiveActivityIntermediateType{Link: v})
+	t.location = append(t.location, &locationIntermediateType{Link: v})
 
 }
 
 // PrependLocationLink adds to the front of location a LinkType type
 func (t *IntransitiveActivity) PrependLocationLink(v LinkType) {
-	t.location = append([]*locationIntransitiveActivityIntermediateType{&locationIntransitiveActivityIntermediateType{Link: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{Link: v}}, t.location...)
 
 }
 
@@ -2884,13 +2883,13 @@ func (t *IntransitiveActivity) GetLocationIRI(index int) (v *url.URL) {
 
 // AppendLocationIRI adds to the back of location a *url.URL type
 func (t *IntransitiveActivity) AppendLocationIRI(v *url.URL) {
-	t.location = append(t.location, &locationIntransitiveActivityIntermediateType{IRI: v})
+	t.location = append(t.location, &locationIntermediateType{IRI: v})
 
 }
 
 // PrependLocationIRI adds to the front of location a *url.URL type
 func (t *IntransitiveActivity) PrependLocationIRI(v *url.URL) {
-	t.location = append([]*locationIntransitiveActivityIntermediateType{&locationIntransitiveActivityIntermediateType{IRI: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{IRI: v}}, t.location...)
 
 }
 
@@ -2919,7 +2918,7 @@ func (t *IntransitiveActivity) SetUnknownLocation(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &locationIntransitiveActivityIntermediateType{}
+	tmp := &locationIntermediateType{}
 	tmp.unknown_ = i
 	t.location = append(t.location, tmp)
 
@@ -2945,13 +2944,13 @@ func (t *IntransitiveActivity) GetPreviewObject(index int) (v ObjectType) {
 
 // AppendPreviewObject adds to the back of preview a ObjectType type
 func (t *IntransitiveActivity) AppendPreviewObject(v ObjectType) {
-	t.preview = append(t.preview, &previewIntransitiveActivityIntermediateType{Object: v})
+	t.preview = append(t.preview, &previewIntermediateType{Object: v})
 
 }
 
 // PrependPreviewObject adds to the front of preview a ObjectType type
 func (t *IntransitiveActivity) PrependPreviewObject(v ObjectType) {
-	t.preview = append([]*previewIntransitiveActivityIntermediateType{&previewIntransitiveActivityIntermediateType{Object: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Object: v}}, t.preview...)
 
 }
 
@@ -2977,13 +2976,13 @@ func (t *IntransitiveActivity) GetPreviewLink(index int) (v LinkType) {
 
 // AppendPreviewLink adds to the back of preview a LinkType type
 func (t *IntransitiveActivity) AppendPreviewLink(v LinkType) {
-	t.preview = append(t.preview, &previewIntransitiveActivityIntermediateType{Link: v})
+	t.preview = append(t.preview, &previewIntermediateType{Link: v})
 
 }
 
 // PrependPreviewLink adds to the front of preview a LinkType type
 func (t *IntransitiveActivity) PrependPreviewLink(v LinkType) {
-	t.preview = append([]*previewIntransitiveActivityIntermediateType{&previewIntransitiveActivityIntermediateType{Link: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Link: v}}, t.preview...)
 
 }
 
@@ -3009,13 +3008,13 @@ func (t *IntransitiveActivity) GetPreviewIRI(index int) (v *url.URL) {
 
 // AppendPreviewIRI adds to the back of preview a *url.URL type
 func (t *IntransitiveActivity) AppendPreviewIRI(v *url.URL) {
-	t.preview = append(t.preview, &previewIntransitiveActivityIntermediateType{IRI: v})
+	t.preview = append(t.preview, &previewIntermediateType{IRI: v})
 
 }
 
 // PrependPreviewIRI adds to the front of preview a *url.URL type
 func (t *IntransitiveActivity) PrependPreviewIRI(v *url.URL) {
-	t.preview = append([]*previewIntransitiveActivityIntermediateType{&previewIntransitiveActivityIntermediateType{IRI: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{IRI: v}}, t.preview...)
 
 }
 
@@ -3044,7 +3043,7 @@ func (t *IntransitiveActivity) SetUnknownPreview(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &previewIntransitiveActivityIntermediateType{}
+	tmp := &previewIntermediateType{}
 	tmp.unknown_ = i
 	t.preview = append(t.preview, tmp)
 
@@ -3064,7 +3063,7 @@ func (t *IntransitiveActivity) GetPublished() (v time.Time) {
 
 // SetPublished sets the value of published to be of time.Time type
 func (t *IntransitiveActivity) SetPublished(v time.Time) {
-	t.published = &publishedIntransitiveActivityIntermediateType{dateTime: &v}
+	t.published = &publishedIntermediateType{dateTime: &v}
 
 }
 
@@ -3082,7 +3081,7 @@ func (t *IntransitiveActivity) GetPublishedIRI() (v *url.URL) {
 
 // SetPublishedIRI sets the value of published to be of *url.URL type
 func (t *IntransitiveActivity) SetPublishedIRI(v *url.URL) {
-	t.published = &publishedIntransitiveActivityIntermediateType{IRI: v}
+	t.published = &publishedIntermediateType{IRI: v}
 
 }
 
@@ -3103,7 +3102,7 @@ func (t *IntransitiveActivity) SetUnknownPublished(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &publishedIntransitiveActivityIntermediateType{}
+	tmp := &publishedIntermediateType{}
 	tmp.unknown_ = i
 	t.published = tmp
 
@@ -3123,7 +3122,7 @@ func (t *IntransitiveActivity) GetReplies() (v CollectionType) {
 
 // SetReplies sets the value of replies to be of CollectionType type
 func (t *IntransitiveActivity) SetReplies(v CollectionType) {
-	t.replies = &repliesIntransitiveActivityIntermediateType{Collection: v}
+	t.replies = &repliesIntermediateType{Collection: v}
 
 }
 
@@ -3141,7 +3140,7 @@ func (t *IntransitiveActivity) GetRepliesIRI() (v *url.URL) {
 
 // SetRepliesIRI sets the value of replies to be of *url.URL type
 func (t *IntransitiveActivity) SetRepliesIRI(v *url.URL) {
-	t.replies = &repliesIntransitiveActivityIntermediateType{IRI: v}
+	t.replies = &repliesIntermediateType{IRI: v}
 
 }
 
@@ -3162,7 +3161,7 @@ func (t *IntransitiveActivity) SetUnknownReplies(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &repliesIntransitiveActivityIntermediateType{}
+	tmp := &repliesIntermediateType{}
 	tmp.unknown_ = i
 	t.replies = tmp
 
@@ -3182,7 +3181,7 @@ func (t *IntransitiveActivity) GetStartTime() (v time.Time) {
 
 // SetStartTime sets the value of startTime to be of time.Time type
 func (t *IntransitiveActivity) SetStartTime(v time.Time) {
-	t.startTime = &startTimeIntransitiveActivityIntermediateType{dateTime: &v}
+	t.startTime = &startTimeIntermediateType{dateTime: &v}
 
 }
 
@@ -3200,7 +3199,7 @@ func (t *IntransitiveActivity) GetStartTimeIRI() (v *url.URL) {
 
 // SetStartTimeIRI sets the value of startTime to be of *url.URL type
 func (t *IntransitiveActivity) SetStartTimeIRI(v *url.URL) {
-	t.startTime = &startTimeIntransitiveActivityIntermediateType{IRI: v}
+	t.startTime = &startTimeIntermediateType{IRI: v}
 
 }
 
@@ -3221,7 +3220,7 @@ func (t *IntransitiveActivity) SetUnknownStartTime(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &startTimeIntransitiveActivityIntermediateType{}
+	tmp := &startTimeIntermediateType{}
 	tmp.unknown_ = i
 	t.startTime = tmp
 
@@ -3247,13 +3246,13 @@ func (t *IntransitiveActivity) GetSummaryString(index int) (v string) {
 
 // AppendSummaryString adds to the back of summary a string type
 func (t *IntransitiveActivity) AppendSummaryString(v string) {
-	t.summary = append(t.summary, &summaryIntransitiveActivityIntermediateType{stringName: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{stringName: &v})
 
 }
 
 // PrependSummaryString adds to the front of summary a string type
 func (t *IntransitiveActivity) PrependSummaryString(v string) {
-	t.summary = append([]*summaryIntransitiveActivityIntermediateType{&summaryIntransitiveActivityIntermediateType{stringName: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{stringName: &v}}, t.summary...)
 
 }
 
@@ -3279,13 +3278,13 @@ func (t *IntransitiveActivity) GetSummaryLangString(index int) (v string) {
 
 // AppendSummaryLangString adds to the back of summary a string type
 func (t *IntransitiveActivity) AppendSummaryLangString(v string) {
-	t.summary = append(t.summary, &summaryIntransitiveActivityIntermediateType{langString: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{langString: &v})
 
 }
 
 // PrependSummaryLangString adds to the front of summary a string type
 func (t *IntransitiveActivity) PrependSummaryLangString(v string) {
-	t.summary = append([]*summaryIntransitiveActivityIntermediateType{&summaryIntransitiveActivityIntermediateType{langString: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{langString: &v}}, t.summary...)
 
 }
 
@@ -3311,13 +3310,13 @@ func (t *IntransitiveActivity) GetSummaryIRI(index int) (v *url.URL) {
 
 // AppendSummaryIRI adds to the back of summary a *url.URL type
 func (t *IntransitiveActivity) AppendSummaryIRI(v *url.URL) {
-	t.summary = append(t.summary, &summaryIntransitiveActivityIntermediateType{IRI: v})
+	t.summary = append(t.summary, &summaryIntermediateType{IRI: v})
 
 }
 
 // PrependSummaryIRI adds to the front of summary a *url.URL type
 func (t *IntransitiveActivity) PrependSummaryIRI(v *url.URL) {
-	t.summary = append([]*summaryIntransitiveActivityIntermediateType{&summaryIntransitiveActivityIntermediateType{IRI: v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{IRI: v}}, t.summary...)
 
 }
 
@@ -3346,7 +3345,7 @@ func (t *IntransitiveActivity) SetUnknownSummary(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &summaryIntransitiveActivityIntermediateType{}
+	tmp := &summaryIntermediateType{}
 	tmp.unknown_ = i
 	t.summary = append(t.summary, tmp)
 
@@ -3407,13 +3406,13 @@ func (t *IntransitiveActivity) GetTagObject(index int) (v ObjectType) {
 
 // AppendTagObject adds to the back of tag a ObjectType type
 func (t *IntransitiveActivity) AppendTagObject(v ObjectType) {
-	t.tag = append(t.tag, &tagIntransitiveActivityIntermediateType{Object: v})
+	t.tag = append(t.tag, &tagIntermediateType{Object: v})
 
 }
 
 // PrependTagObject adds to the front of tag a ObjectType type
 func (t *IntransitiveActivity) PrependTagObject(v ObjectType) {
-	t.tag = append([]*tagIntransitiveActivityIntermediateType{&tagIntransitiveActivityIntermediateType{Object: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{Object: v}}, t.tag...)
 
 }
 
@@ -3439,13 +3438,13 @@ func (t *IntransitiveActivity) GetTagLink(index int) (v LinkType) {
 
 // AppendTagLink adds to the back of tag a LinkType type
 func (t *IntransitiveActivity) AppendTagLink(v LinkType) {
-	t.tag = append(t.tag, &tagIntransitiveActivityIntermediateType{Link: v})
+	t.tag = append(t.tag, &tagIntermediateType{Link: v})
 
 }
 
 // PrependTagLink adds to the front of tag a LinkType type
 func (t *IntransitiveActivity) PrependTagLink(v LinkType) {
-	t.tag = append([]*tagIntransitiveActivityIntermediateType{&tagIntransitiveActivityIntermediateType{Link: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{Link: v}}, t.tag...)
 
 }
 
@@ -3471,13 +3470,13 @@ func (t *IntransitiveActivity) GetTagIRI(index int) (v *url.URL) {
 
 // AppendTagIRI adds to the back of tag a *url.URL type
 func (t *IntransitiveActivity) AppendTagIRI(v *url.URL) {
-	t.tag = append(t.tag, &tagIntransitiveActivityIntermediateType{IRI: v})
+	t.tag = append(t.tag, &tagIntermediateType{IRI: v})
 
 }
 
 // PrependTagIRI adds to the front of tag a *url.URL type
 func (t *IntransitiveActivity) PrependTagIRI(v *url.URL) {
-	t.tag = append([]*tagIntransitiveActivityIntermediateType{&tagIntransitiveActivityIntermediateType{IRI: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{IRI: v}}, t.tag...)
 
 }
 
@@ -3506,7 +3505,7 @@ func (t *IntransitiveActivity) SetUnknownTag(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &tagIntransitiveActivityIntermediateType{}
+	tmp := &tagIntermediateType{}
 	tmp.unknown_ = i
 	t.tag = append(t.tag, tmp)
 
@@ -3558,7 +3557,7 @@ func (t *IntransitiveActivity) GetUpdated() (v time.Time) {
 
 // SetUpdated sets the value of updated to be of time.Time type
 func (t *IntransitiveActivity) SetUpdated(v time.Time) {
-	t.updated = &updatedIntransitiveActivityIntermediateType{dateTime: &v}
+	t.updated = &updatedIntermediateType{dateTime: &v}
 
 }
 
@@ -3576,7 +3575,7 @@ func (t *IntransitiveActivity) GetUpdatedIRI() (v *url.URL) {
 
 // SetUpdatedIRI sets the value of updated to be of *url.URL type
 func (t *IntransitiveActivity) SetUpdatedIRI(v *url.URL) {
-	t.updated = &updatedIntransitiveActivityIntermediateType{IRI: v}
+	t.updated = &updatedIntermediateType{IRI: v}
 
 }
 
@@ -3597,7 +3596,7 @@ func (t *IntransitiveActivity) SetUnknownUpdated(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &updatedIntransitiveActivityIntermediateType{}
+	tmp := &updatedIntermediateType{}
 	tmp.unknown_ = i
 	t.updated = tmp
 
@@ -3623,13 +3622,13 @@ func (t *IntransitiveActivity) GetUrlAnyURI(index int) (v *url.URL) {
 
 // AppendUrlAnyURI adds to the back of url a *url.URL type
 func (t *IntransitiveActivity) AppendUrlAnyURI(v *url.URL) {
-	t.url = append(t.url, &urlIntransitiveActivityIntermediateType{anyURI: v})
+	t.url = append(t.url, &urlIntermediateType{anyURI: v})
 
 }
 
 // PrependUrlAnyURI adds to the front of url a *url.URL type
 func (t *IntransitiveActivity) PrependUrlAnyURI(v *url.URL) {
-	t.url = append([]*urlIntransitiveActivityIntermediateType{&urlIntransitiveActivityIntermediateType{anyURI: v}}, t.url...)
+	t.url = append([]*urlIntermediateType{&urlIntermediateType{anyURI: v}}, t.url...)
 
 }
 
@@ -3655,13 +3654,13 @@ func (t *IntransitiveActivity) GetUrlLink(index int) (v LinkType) {
 
 // AppendUrlLink adds to the back of url a LinkType type
 func (t *IntransitiveActivity) AppendUrlLink(v LinkType) {
-	t.url = append(t.url, &urlIntransitiveActivityIntermediateType{Link: v})
+	t.url = append(t.url, &urlIntermediateType{Link: v})
 
 }
 
 // PrependUrlLink adds to the front of url a LinkType type
 func (t *IntransitiveActivity) PrependUrlLink(v LinkType) {
-	t.url = append([]*urlIntransitiveActivityIntermediateType{&urlIntransitiveActivityIntermediateType{Link: v}}, t.url...)
+	t.url = append([]*urlIntermediateType{&urlIntermediateType{Link: v}}, t.url...)
 
 }
 
@@ -3690,7 +3689,7 @@ func (t *IntransitiveActivity) SetUnknownUrl(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &urlIntransitiveActivityIntermediateType{}
+	tmp := &urlIntermediateType{}
 	tmp.unknown_ = i
 	t.url = append(t.url, tmp)
 
@@ -3716,13 +3715,13 @@ func (t *IntransitiveActivity) GetToObject(index int) (v ObjectType) {
 
 // AppendToObject adds to the back of to a ObjectType type
 func (t *IntransitiveActivity) AppendToObject(v ObjectType) {
-	t.to = append(t.to, &toIntransitiveActivityIntermediateType{Object: v})
+	t.to = append(t.to, &toIntermediateType{Object: v})
 
 }
 
 // PrependToObject adds to the front of to a ObjectType type
 func (t *IntransitiveActivity) PrependToObject(v ObjectType) {
-	t.to = append([]*toIntransitiveActivityIntermediateType{&toIntransitiveActivityIntermediateType{Object: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{Object: v}}, t.to...)
 
 }
 
@@ -3748,13 +3747,13 @@ func (t *IntransitiveActivity) GetToLink(index int) (v LinkType) {
 
 // AppendToLink adds to the back of to a LinkType type
 func (t *IntransitiveActivity) AppendToLink(v LinkType) {
-	t.to = append(t.to, &toIntransitiveActivityIntermediateType{Link: v})
+	t.to = append(t.to, &toIntermediateType{Link: v})
 
 }
 
 // PrependToLink adds to the front of to a LinkType type
 func (t *IntransitiveActivity) PrependToLink(v LinkType) {
-	t.to = append([]*toIntransitiveActivityIntermediateType{&toIntransitiveActivityIntermediateType{Link: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{Link: v}}, t.to...)
 
 }
 
@@ -3780,13 +3779,13 @@ func (t *IntransitiveActivity) GetToIRI(index int) (v *url.URL) {
 
 // AppendToIRI adds to the back of to a *url.URL type
 func (t *IntransitiveActivity) AppendToIRI(v *url.URL) {
-	t.to = append(t.to, &toIntransitiveActivityIntermediateType{IRI: v})
+	t.to = append(t.to, &toIntermediateType{IRI: v})
 
 }
 
 // PrependToIRI adds to the front of to a *url.URL type
 func (t *IntransitiveActivity) PrependToIRI(v *url.URL) {
-	t.to = append([]*toIntransitiveActivityIntermediateType{&toIntransitiveActivityIntermediateType{IRI: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{IRI: v}}, t.to...)
 
 }
 
@@ -3815,7 +3814,7 @@ func (t *IntransitiveActivity) SetUnknownTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &toIntransitiveActivityIntermediateType{}
+	tmp := &toIntermediateType{}
 	tmp.unknown_ = i
 	t.to = append(t.to, tmp)
 
@@ -3841,13 +3840,13 @@ func (t *IntransitiveActivity) GetBtoObject(index int) (v ObjectType) {
 
 // AppendBtoObject adds to the back of bto a ObjectType type
 func (t *IntransitiveActivity) AppendBtoObject(v ObjectType) {
-	t.bto = append(t.bto, &btoIntransitiveActivityIntermediateType{Object: v})
+	t.bto = append(t.bto, &btoIntermediateType{Object: v})
 
 }
 
 // PrependBtoObject adds to the front of bto a ObjectType type
 func (t *IntransitiveActivity) PrependBtoObject(v ObjectType) {
-	t.bto = append([]*btoIntransitiveActivityIntermediateType{&btoIntransitiveActivityIntermediateType{Object: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{Object: v}}, t.bto...)
 
 }
 
@@ -3873,13 +3872,13 @@ func (t *IntransitiveActivity) GetBtoLink(index int) (v LinkType) {
 
 // AppendBtoLink adds to the back of bto a LinkType type
 func (t *IntransitiveActivity) AppendBtoLink(v LinkType) {
-	t.bto = append(t.bto, &btoIntransitiveActivityIntermediateType{Link: v})
+	t.bto = append(t.bto, &btoIntermediateType{Link: v})
 
 }
 
 // PrependBtoLink adds to the front of bto a LinkType type
 func (t *IntransitiveActivity) PrependBtoLink(v LinkType) {
-	t.bto = append([]*btoIntransitiveActivityIntermediateType{&btoIntransitiveActivityIntermediateType{Link: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{Link: v}}, t.bto...)
 
 }
 
@@ -3905,13 +3904,13 @@ func (t *IntransitiveActivity) GetBtoIRI(index int) (v *url.URL) {
 
 // AppendBtoIRI adds to the back of bto a *url.URL type
 func (t *IntransitiveActivity) AppendBtoIRI(v *url.URL) {
-	t.bto = append(t.bto, &btoIntransitiveActivityIntermediateType{IRI: v})
+	t.bto = append(t.bto, &btoIntermediateType{IRI: v})
 
 }
 
 // PrependBtoIRI adds to the front of bto a *url.URL type
 func (t *IntransitiveActivity) PrependBtoIRI(v *url.URL) {
-	t.bto = append([]*btoIntransitiveActivityIntermediateType{&btoIntransitiveActivityIntermediateType{IRI: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{IRI: v}}, t.bto...)
 
 }
 
@@ -3940,7 +3939,7 @@ func (t *IntransitiveActivity) SetUnknownBto(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &btoIntransitiveActivityIntermediateType{}
+	tmp := &btoIntermediateType{}
 	tmp.unknown_ = i
 	t.bto = append(t.bto, tmp)
 
@@ -3966,13 +3965,13 @@ func (t *IntransitiveActivity) GetCcObject(index int) (v ObjectType) {
 
 // AppendCcObject adds to the back of cc a ObjectType type
 func (t *IntransitiveActivity) AppendCcObject(v ObjectType) {
-	t.cc = append(t.cc, &ccIntransitiveActivityIntermediateType{Object: v})
+	t.cc = append(t.cc, &ccIntermediateType{Object: v})
 
 }
 
 // PrependCcObject adds to the front of cc a ObjectType type
 func (t *IntransitiveActivity) PrependCcObject(v ObjectType) {
-	t.cc = append([]*ccIntransitiveActivityIntermediateType{&ccIntransitiveActivityIntermediateType{Object: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{Object: v}}, t.cc...)
 
 }
 
@@ -3998,13 +3997,13 @@ func (t *IntransitiveActivity) GetCcLink(index int) (v LinkType) {
 
 // AppendCcLink adds to the back of cc a LinkType type
 func (t *IntransitiveActivity) AppendCcLink(v LinkType) {
-	t.cc = append(t.cc, &ccIntransitiveActivityIntermediateType{Link: v})
+	t.cc = append(t.cc, &ccIntermediateType{Link: v})
 
 }
 
 // PrependCcLink adds to the front of cc a LinkType type
 func (t *IntransitiveActivity) PrependCcLink(v LinkType) {
-	t.cc = append([]*ccIntransitiveActivityIntermediateType{&ccIntransitiveActivityIntermediateType{Link: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{Link: v}}, t.cc...)
 
 }
 
@@ -4030,13 +4029,13 @@ func (t *IntransitiveActivity) GetCcIRI(index int) (v *url.URL) {
 
 // AppendCcIRI adds to the back of cc a *url.URL type
 func (t *IntransitiveActivity) AppendCcIRI(v *url.URL) {
-	t.cc = append(t.cc, &ccIntransitiveActivityIntermediateType{IRI: v})
+	t.cc = append(t.cc, &ccIntermediateType{IRI: v})
 
 }
 
 // PrependCcIRI adds to the front of cc a *url.URL type
 func (t *IntransitiveActivity) PrependCcIRI(v *url.URL) {
-	t.cc = append([]*ccIntransitiveActivityIntermediateType{&ccIntransitiveActivityIntermediateType{IRI: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{IRI: v}}, t.cc...)
 
 }
 
@@ -4065,7 +4064,7 @@ func (t *IntransitiveActivity) SetUnknownCc(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &ccIntransitiveActivityIntermediateType{}
+	tmp := &ccIntermediateType{}
 	tmp.unknown_ = i
 	t.cc = append(t.cc, tmp)
 
@@ -4091,13 +4090,13 @@ func (t *IntransitiveActivity) GetBccObject(index int) (v ObjectType) {
 
 // AppendBccObject adds to the back of bcc a ObjectType type
 func (t *IntransitiveActivity) AppendBccObject(v ObjectType) {
-	t.bcc = append(t.bcc, &bccIntransitiveActivityIntermediateType{Object: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{Object: v})
 
 }
 
 // PrependBccObject adds to the front of bcc a ObjectType type
 func (t *IntransitiveActivity) PrependBccObject(v ObjectType) {
-	t.bcc = append([]*bccIntransitiveActivityIntermediateType{&bccIntransitiveActivityIntermediateType{Object: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{Object: v}}, t.bcc...)
 
 }
 
@@ -4123,13 +4122,13 @@ func (t *IntransitiveActivity) GetBccLink(index int) (v LinkType) {
 
 // AppendBccLink adds to the back of bcc a LinkType type
 func (t *IntransitiveActivity) AppendBccLink(v LinkType) {
-	t.bcc = append(t.bcc, &bccIntransitiveActivityIntermediateType{Link: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{Link: v})
 
 }
 
 // PrependBccLink adds to the front of bcc a LinkType type
 func (t *IntransitiveActivity) PrependBccLink(v LinkType) {
-	t.bcc = append([]*bccIntransitiveActivityIntermediateType{&bccIntransitiveActivityIntermediateType{Link: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{Link: v}}, t.bcc...)
 
 }
 
@@ -4155,13 +4154,13 @@ func (t *IntransitiveActivity) GetBccIRI(index int) (v *url.URL) {
 
 // AppendBccIRI adds to the back of bcc a *url.URL type
 func (t *IntransitiveActivity) AppendBccIRI(v *url.URL) {
-	t.bcc = append(t.bcc, &bccIntransitiveActivityIntermediateType{IRI: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{IRI: v})
 
 }
 
 // PrependBccIRI adds to the front of bcc a *url.URL type
 func (t *IntransitiveActivity) PrependBccIRI(v *url.URL) {
-	t.bcc = append([]*bccIntransitiveActivityIntermediateType{&bccIntransitiveActivityIntermediateType{IRI: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{IRI: v}}, t.bcc...)
 
 }
 
@@ -4190,7 +4189,7 @@ func (t *IntransitiveActivity) SetUnknownBcc(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &bccIntransitiveActivityIntermediateType{}
+	tmp := &bccIntermediateType{}
 	tmp.unknown_ = i
 	t.bcc = append(t.bcc, tmp)
 
@@ -4210,7 +4209,7 @@ func (t *IntransitiveActivity) GetMediaType() (v string) {
 
 // SetMediaType sets the value of mediaType to be of string type
 func (t *IntransitiveActivity) SetMediaType(v string) {
-	t.mediaType = &mediaTypeIntransitiveActivityIntermediateType{mimeMediaTypeValue: &v}
+	t.mediaType = &mediaTypeIntermediateType{mimeMediaTypeValue: &v}
 
 }
 
@@ -4228,7 +4227,7 @@ func (t *IntransitiveActivity) GetMediaTypeIRI() (v *url.URL) {
 
 // SetMediaTypeIRI sets the value of mediaType to be of *url.URL type
 func (t *IntransitiveActivity) SetMediaTypeIRI(v *url.URL) {
-	t.mediaType = &mediaTypeIntransitiveActivityIntermediateType{IRI: v}
+	t.mediaType = &mediaTypeIntermediateType{IRI: v}
 
 }
 
@@ -4249,7 +4248,7 @@ func (t *IntransitiveActivity) SetUnknownMediaType(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &mediaTypeIntransitiveActivityIntermediateType{}
+	tmp := &mediaTypeIntermediateType{}
 	tmp.unknown_ = i
 	t.mediaType = tmp
 
@@ -4269,7 +4268,7 @@ func (t *IntransitiveActivity) GetDuration() (v time.Duration) {
 
 // SetDuration sets the value of duration to be of time.Duration type
 func (t *IntransitiveActivity) SetDuration(v time.Duration) {
-	t.duration = &durationIntransitiveActivityIntermediateType{duration: &v}
+	t.duration = &durationIntermediateType{duration: &v}
 
 }
 
@@ -4287,7 +4286,7 @@ func (t *IntransitiveActivity) GetDurationIRI() (v *url.URL) {
 
 // SetDurationIRI sets the value of duration to be of *url.URL type
 func (t *IntransitiveActivity) SetDurationIRI(v *url.URL) {
-	t.duration = &durationIntransitiveActivityIntermediateType{IRI: v}
+	t.duration = &durationIntermediateType{IRI: v}
 
 }
 
@@ -4308,7 +4307,7 @@ func (t *IntransitiveActivity) SetUnknownDuration(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &durationIntransitiveActivityIntermediateType{}
+	tmp := &durationIntermediateType{}
 	tmp.unknown_ = i
 	t.duration = tmp
 
@@ -4328,7 +4327,7 @@ func (t *IntransitiveActivity) GetSource() (v ObjectType) {
 
 // SetSource sets the value of source to be of ObjectType type
 func (t *IntransitiveActivity) SetSource(v ObjectType) {
-	t.source = &sourceIntransitiveActivityIntermediateType{Object: v}
+	t.source = &sourceIntermediateType{Object: v}
 
 }
 
@@ -4346,7 +4345,7 @@ func (t *IntransitiveActivity) GetSourceIRI() (v *url.URL) {
 
 // SetSourceIRI sets the value of source to be of *url.URL type
 func (t *IntransitiveActivity) SetSourceIRI(v *url.URL) {
-	t.source = &sourceIntransitiveActivityIntermediateType{IRI: v}
+	t.source = &sourceIntermediateType{IRI: v}
 
 }
 
@@ -4367,7 +4366,7 @@ func (t *IntransitiveActivity) SetUnknownSource(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &sourceIntransitiveActivityIntermediateType{}
+	tmp := &sourceIntermediateType{}
 	tmp.unknown_ = i
 	t.source = tmp
 
@@ -4387,7 +4386,7 @@ func (t *IntransitiveActivity) GetInboxOrderedCollection() (v OrderedCollectionT
 
 // SetInboxOrderedCollection sets the value of inbox to be of OrderedCollectionType type
 func (t *IntransitiveActivity) SetInboxOrderedCollection(v OrderedCollectionType) {
-	t.inbox = &inboxIntransitiveActivityIntermediateType{OrderedCollection: v}
+	t.inbox = &inboxIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4405,7 +4404,7 @@ func (t *IntransitiveActivity) GetInboxAnyURI() (v *url.URL) {
 
 // SetInboxAnyURI sets the value of inbox to be of *url.URL type
 func (t *IntransitiveActivity) SetInboxAnyURI(v *url.URL) {
-	t.inbox = &inboxIntransitiveActivityIntermediateType{anyURI: v}
+	t.inbox = &inboxIntermediateType{anyURI: v}
 
 }
 
@@ -4426,7 +4425,7 @@ func (t *IntransitiveActivity) SetUnknownInbox(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &inboxIntransitiveActivityIntermediateType{}
+	tmp := &inboxIntermediateType{}
 	tmp.unknown_ = i
 	t.inbox = tmp
 
@@ -4446,7 +4445,7 @@ func (t *IntransitiveActivity) GetOutboxOrderedCollection() (v OrderedCollection
 
 // SetOutboxOrderedCollection sets the value of outbox to be of OrderedCollectionType type
 func (t *IntransitiveActivity) SetOutboxOrderedCollection(v OrderedCollectionType) {
-	t.outbox = &outboxIntransitiveActivityIntermediateType{OrderedCollection: v}
+	t.outbox = &outboxIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4464,7 +4463,7 @@ func (t *IntransitiveActivity) GetOutboxAnyURI() (v *url.URL) {
 
 // SetOutboxAnyURI sets the value of outbox to be of *url.URL type
 func (t *IntransitiveActivity) SetOutboxAnyURI(v *url.URL) {
-	t.outbox = &outboxIntransitiveActivityIntermediateType{anyURI: v}
+	t.outbox = &outboxIntermediateType{anyURI: v}
 
 }
 
@@ -4485,7 +4484,7 @@ func (t *IntransitiveActivity) SetUnknownOutbox(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &outboxIntransitiveActivityIntermediateType{}
+	tmp := &outboxIntermediateType{}
 	tmp.unknown_ = i
 	t.outbox = tmp
 
@@ -4505,7 +4504,7 @@ func (t *IntransitiveActivity) GetFollowingCollection() (v CollectionType) {
 
 // SetFollowingCollection sets the value of following to be of CollectionType type
 func (t *IntransitiveActivity) SetFollowingCollection(v CollectionType) {
-	t.following = &followingIntransitiveActivityIntermediateType{Collection: v}
+	t.following = &followingIntermediateType{Collection: v}
 
 }
 
@@ -4523,7 +4522,7 @@ func (t *IntransitiveActivity) GetFollowingOrderedCollection() (v OrderedCollect
 
 // SetFollowingOrderedCollection sets the value of following to be of OrderedCollectionType type
 func (t *IntransitiveActivity) SetFollowingOrderedCollection(v OrderedCollectionType) {
-	t.following = &followingIntransitiveActivityIntermediateType{OrderedCollection: v}
+	t.following = &followingIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4541,7 +4540,7 @@ func (t *IntransitiveActivity) GetFollowingAnyURI() (v *url.URL) {
 
 // SetFollowingAnyURI sets the value of following to be of *url.URL type
 func (t *IntransitiveActivity) SetFollowingAnyURI(v *url.URL) {
-	t.following = &followingIntransitiveActivityIntermediateType{anyURI: v}
+	t.following = &followingIntermediateType{anyURI: v}
 
 }
 
@@ -4562,7 +4561,7 @@ func (t *IntransitiveActivity) SetUnknownFollowing(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &followingIntransitiveActivityIntermediateType{}
+	tmp := &followingIntermediateType{}
 	tmp.unknown_ = i
 	t.following = tmp
 
@@ -4582,7 +4581,7 @@ func (t *IntransitiveActivity) GetFollowersCollection() (v CollectionType) {
 
 // SetFollowersCollection sets the value of followers to be of CollectionType type
 func (t *IntransitiveActivity) SetFollowersCollection(v CollectionType) {
-	t.followers = &followersIntransitiveActivityIntermediateType{Collection: v}
+	t.followers = &followersIntermediateType{Collection: v}
 
 }
 
@@ -4600,7 +4599,7 @@ func (t *IntransitiveActivity) GetFollowersOrderedCollection() (v OrderedCollect
 
 // SetFollowersOrderedCollection sets the value of followers to be of OrderedCollectionType type
 func (t *IntransitiveActivity) SetFollowersOrderedCollection(v OrderedCollectionType) {
-	t.followers = &followersIntransitiveActivityIntermediateType{OrderedCollection: v}
+	t.followers = &followersIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4618,7 +4617,7 @@ func (t *IntransitiveActivity) GetFollowersAnyURI() (v *url.URL) {
 
 // SetFollowersAnyURI sets the value of followers to be of *url.URL type
 func (t *IntransitiveActivity) SetFollowersAnyURI(v *url.URL) {
-	t.followers = &followersIntransitiveActivityIntermediateType{anyURI: v}
+	t.followers = &followersIntermediateType{anyURI: v}
 
 }
 
@@ -4639,7 +4638,7 @@ func (t *IntransitiveActivity) SetUnknownFollowers(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &followersIntransitiveActivityIntermediateType{}
+	tmp := &followersIntermediateType{}
 	tmp.unknown_ = i
 	t.followers = tmp
 
@@ -4659,7 +4658,7 @@ func (t *IntransitiveActivity) GetLikedCollection() (v CollectionType) {
 
 // SetLikedCollection sets the value of liked to be of CollectionType type
 func (t *IntransitiveActivity) SetLikedCollection(v CollectionType) {
-	t.liked = &likedIntransitiveActivityIntermediateType{Collection: v}
+	t.liked = &likedIntermediateType{Collection: v}
 
 }
 
@@ -4677,7 +4676,7 @@ func (t *IntransitiveActivity) GetLikedOrderedCollection() (v OrderedCollectionT
 
 // SetLikedOrderedCollection sets the value of liked to be of OrderedCollectionType type
 func (t *IntransitiveActivity) SetLikedOrderedCollection(v OrderedCollectionType) {
-	t.liked = &likedIntransitiveActivityIntermediateType{OrderedCollection: v}
+	t.liked = &likedIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4695,7 +4694,7 @@ func (t *IntransitiveActivity) GetLikedAnyURI() (v *url.URL) {
 
 // SetLikedAnyURI sets the value of liked to be of *url.URL type
 func (t *IntransitiveActivity) SetLikedAnyURI(v *url.URL) {
-	t.liked = &likedIntransitiveActivityIntermediateType{anyURI: v}
+	t.liked = &likedIntermediateType{anyURI: v}
 
 }
 
@@ -4716,7 +4715,7 @@ func (t *IntransitiveActivity) SetUnknownLiked(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &likedIntransitiveActivityIntermediateType{}
+	tmp := &likedIntermediateType{}
 	tmp.unknown_ = i
 	t.liked = tmp
 
@@ -4736,7 +4735,7 @@ func (t *IntransitiveActivity) GetLikesCollection() (v CollectionType) {
 
 // SetLikesCollection sets the value of likes to be of CollectionType type
 func (t *IntransitiveActivity) SetLikesCollection(v CollectionType) {
-	t.likes = &likesIntransitiveActivityIntermediateType{Collection: v}
+	t.likes = &likesIntermediateType{Collection: v}
 
 }
 
@@ -4754,7 +4753,7 @@ func (t *IntransitiveActivity) GetLikesOrderedCollection() (v OrderedCollectionT
 
 // SetLikesOrderedCollection sets the value of likes to be of OrderedCollectionType type
 func (t *IntransitiveActivity) SetLikesOrderedCollection(v OrderedCollectionType) {
-	t.likes = &likesIntransitiveActivityIntermediateType{OrderedCollection: v}
+	t.likes = &likesIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4772,7 +4771,7 @@ func (t *IntransitiveActivity) GetLikesAnyURI() (v *url.URL) {
 
 // SetLikesAnyURI sets the value of likes to be of *url.URL type
 func (t *IntransitiveActivity) SetLikesAnyURI(v *url.URL) {
-	t.likes = &likesIntransitiveActivityIntermediateType{anyURI: v}
+	t.likes = &likesIntermediateType{anyURI: v}
 
 }
 
@@ -4793,7 +4792,7 @@ func (t *IntransitiveActivity) SetUnknownLikes(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &likesIntransitiveActivityIntermediateType{}
+	tmp := &likesIntermediateType{}
 	tmp.unknown_ = i
 	t.likes = tmp
 
@@ -4866,7 +4865,7 @@ func (t *IntransitiveActivity) GetPreferredUsername() (v string) {
 
 // SetPreferredUsername sets the value of preferredUsername to be of string type
 func (t *IntransitiveActivity) SetPreferredUsername(v string) {
-	t.preferredUsername = &preferredUsernameIntransitiveActivityIntermediateType{stringName: &v}
+	t.preferredUsername = &preferredUsernameIntermediateType{stringName: &v}
 
 }
 
@@ -4884,7 +4883,7 @@ func (t *IntransitiveActivity) GetPreferredUsernameIRI() (v *url.URL) {
 
 // SetPreferredUsernameIRI sets the value of preferredUsername to be of *url.URL type
 func (t *IntransitiveActivity) SetPreferredUsernameIRI(v *url.URL) {
-	t.preferredUsername = &preferredUsernameIntransitiveActivityIntermediateType{IRI: v}
+	t.preferredUsername = &preferredUsernameIntermediateType{IRI: v}
 
 }
 
@@ -4905,7 +4904,7 @@ func (t *IntransitiveActivity) SetUnknownPreferredUsername(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &preferredUsernameIntransitiveActivityIntermediateType{}
+	tmp := &preferredUsernameIntermediateType{}
 	tmp.unknown_ = i
 	t.preferredUsername = tmp
 
@@ -4960,7 +4959,7 @@ func (t *IntransitiveActivity) GetEndpoints() (v ObjectType) {
 
 // SetEndpoints sets the value of endpoints to be of ObjectType type
 func (t *IntransitiveActivity) SetEndpoints(v ObjectType) {
-	t.endpoints = &endpointsIntransitiveActivityIntermediateType{Object: v}
+	t.endpoints = &endpointsIntermediateType{Object: v}
 
 }
 
@@ -4978,7 +4977,7 @@ func (t *IntransitiveActivity) GetEndpointsIRI() (v *url.URL) {
 
 // SetEndpointsIRI sets the value of endpoints to be of *url.URL type
 func (t *IntransitiveActivity) SetEndpointsIRI(v *url.URL) {
-	t.endpoints = &endpointsIntransitiveActivityIntermediateType{IRI: v}
+	t.endpoints = &endpointsIntermediateType{IRI: v}
 
 }
 
@@ -4999,7 +4998,7 @@ func (t *IntransitiveActivity) SetUnknownEndpoints(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &endpointsIntransitiveActivityIntermediateType{}
+	tmp := &endpointsIntermediateType{}
 	tmp.unknown_ = i
 	t.endpoints = tmp
 
@@ -5362,7 +5361,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 		t.typeName = append(t.typeName, "IntransitiveActivity")
 	}
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceActorIntransitiveActivityIntermediateType(t.actor); err == nil && v != nil {
+	if v, err := serializeSliceActorIntermediateType(t.actor); err == nil && v != nil {
 		if len(v) == 1 {
 			m["actor"] = v[0]
 		} else {
@@ -5373,7 +5372,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceTargetIntransitiveActivityIntermediateType(t.target); err == nil && v != nil {
+	if v, err := serializeSliceTargetIntermediateType(t.target); err == nil && v != nil {
 		if len(v) == 1 {
 			m["target"] = v[0]
 		} else {
@@ -5384,7 +5383,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceResultIntransitiveActivityIntermediateType(t.result); err == nil && v != nil {
+	if v, err := serializeSliceResultIntermediateType(t.result); err == nil && v != nil {
 		if len(v) == 1 {
 			m["result"] = v[0]
 		} else {
@@ -5395,7 +5394,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceOriginIntransitiveActivityIntermediateType(t.origin); err == nil && v != nil {
+	if v, err := serializeSliceOriginIntermediateType(t.origin); err == nil && v != nil {
 		if len(v) == 1 {
 			m["origin"] = v[0]
 		} else {
@@ -5406,7 +5405,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceInstrumentIntransitiveActivityIntermediateType(t.instrument); err == nil && v != nil {
+	if v, err := serializeSliceInstrumentIntermediateType(t.instrument); err == nil && v != nil {
 		if len(v) == 1 {
 			m["instrument"] = v[0]
 		} else {
@@ -5418,7 +5417,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.altitude != nil {
-		if v, err := serializeAltitudeIntransitiveActivityIntermediateType(t.altitude); err == nil {
+		if v, err := serializeAltitudeIntermediateType(t.altitude); err == nil {
 			m["altitude"] = v
 		} else {
 			return m, err
@@ -5426,7 +5425,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttachmentIntransitiveActivityIntermediateType(t.attachment); err == nil && v != nil {
+	if v, err := serializeSliceAttachmentIntermediateType(t.attachment); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attachment"] = v[0]
 		} else {
@@ -5437,7 +5436,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttributedToIntransitiveActivityIntermediateType(t.attributedTo); err == nil && v != nil {
+	if v, err := serializeSliceAttributedToIntermediateType(t.attributedTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attributedTo"] = v[0]
 		} else {
@@ -5448,7 +5447,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAudienceIntransitiveActivityIntermediateType(t.audience); err == nil && v != nil {
+	if v, err := serializeSliceAudienceIntermediateType(t.audience); err == nil && v != nil {
 		if len(v) == 1 {
 			m["audience"] = v[0]
 		} else {
@@ -5459,7 +5458,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceContentIntransitiveActivityIntermediateType(t.content); err == nil && v != nil {
+	if v, err := serializeSliceContentIntermediateType(t.content); err == nil && v != nil {
 		if len(v) == 1 {
 			m["content"] = v[0]
 		} else {
@@ -5476,7 +5475,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceContextIntransitiveActivityIntermediateType(t.context); err == nil && v != nil {
+	if v, err := serializeSliceContextIntermediateType(t.context); err == nil && v != nil {
 		if len(v) == 1 {
 			m["context"] = v[0]
 		} else {
@@ -5487,7 +5486,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceNameIntransitiveActivityIntermediateType(t.name); err == nil && v != nil {
+	if v, err := serializeSliceNameIntermediateType(t.name); err == nil && v != nil {
 		if len(v) == 1 {
 			m["name"] = v[0]
 		} else {
@@ -5505,7 +5504,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.endTime != nil {
-		if v, err := serializeEndTimeIntransitiveActivityIntermediateType(t.endTime); err == nil {
+		if v, err := serializeEndTimeIntermediateType(t.endTime); err == nil {
 			m["endTime"] = v
 		} else {
 			return m, err
@@ -5513,7 +5512,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceGeneratorIntransitiveActivityIntermediateType(t.generator); err == nil && v != nil {
+	if v, err := serializeSliceGeneratorIntermediateType(t.generator); err == nil && v != nil {
 		if len(v) == 1 {
 			m["generator"] = v[0]
 		} else {
@@ -5524,7 +5523,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceIconIntransitiveActivityIntermediateType(t.icon); err == nil && v != nil {
+	if v, err := serializeSliceIconIntermediateType(t.icon); err == nil && v != nil {
 		if len(v) == 1 {
 			m["icon"] = v[0]
 		} else {
@@ -5550,7 +5549,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceImageIntransitiveActivityIntermediateType(t.image); err == nil && v != nil {
+	if v, err := serializeSliceImageIntermediateType(t.image); err == nil && v != nil {
 		if len(v) == 1 {
 			m["image"] = v[0]
 		} else {
@@ -5561,7 +5560,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceInReplyToIntransitiveActivityIntermediateType(t.inReplyTo); err == nil && v != nil {
+	if v, err := serializeSliceInReplyToIntermediateType(t.inReplyTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["inReplyTo"] = v[0]
 		} else {
@@ -5572,7 +5571,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceLocationIntransitiveActivityIntermediateType(t.location); err == nil && v != nil {
+	if v, err := serializeSliceLocationIntermediateType(t.location); err == nil && v != nil {
 		if len(v) == 1 {
 			m["location"] = v[0]
 		} else {
@@ -5583,7 +5582,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSlicePreviewIntransitiveActivityIntermediateType(t.preview); err == nil && v != nil {
+	if v, err := serializeSlicePreviewIntermediateType(t.preview); err == nil && v != nil {
 		if len(v) == 1 {
 			m["preview"] = v[0]
 		} else {
@@ -5595,7 +5594,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.published != nil {
-		if v, err := serializePublishedIntransitiveActivityIntermediateType(t.published); err == nil {
+		if v, err := serializePublishedIntermediateType(t.published); err == nil {
 			m["published"] = v
 		} else {
 			return m, err
@@ -5604,7 +5603,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.replies != nil {
-		if v, err := serializeRepliesIntransitiveActivityIntermediateType(t.replies); err == nil {
+		if v, err := serializeRepliesIntermediateType(t.replies); err == nil {
 			m["replies"] = v
 		} else {
 			return m, err
@@ -5613,7 +5612,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.startTime != nil {
-		if v, err := serializeStartTimeIntransitiveActivityIntermediateType(t.startTime); err == nil {
+		if v, err := serializeStartTimeIntermediateType(t.startTime); err == nil {
 			m["startTime"] = v
 		} else {
 			return m, err
@@ -5621,7 +5620,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceSummaryIntransitiveActivityIntermediateType(t.summary); err == nil && v != nil {
+	if v, err := serializeSliceSummaryIntermediateType(t.summary); err == nil && v != nil {
 		if len(v) == 1 {
 			m["summary"] = v[0]
 		} else {
@@ -5638,7 +5637,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceTagIntransitiveActivityIntermediateType(t.tag); err == nil && v != nil {
+	if v, err := serializeSliceTagIntermediateType(t.tag); err == nil && v != nil {
 		if len(v) == 1 {
 			m["tag"] = v[0]
 		} else {
@@ -5659,7 +5658,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateNonFunctionalAnyDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.updated != nil {
-		if v, err := serializeUpdatedIntransitiveActivityIntermediateType(t.updated); err == nil {
+		if v, err := serializeUpdatedIntermediateType(t.updated); err == nil {
 			m["updated"] = v
 		} else {
 			return m, err
@@ -5667,7 +5666,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceUrlIntransitiveActivityIntermediateType(t.url); err == nil && v != nil {
+	if v, err := serializeSliceUrlIntermediateType(t.url); err == nil && v != nil {
 		if len(v) == 1 {
 			m["url"] = v[0]
 		} else {
@@ -5678,7 +5677,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceToIntransitiveActivityIntermediateType(t.to); err == nil && v != nil {
+	if v, err := serializeSliceToIntermediateType(t.to); err == nil && v != nil {
 		if len(v) == 1 {
 			m["to"] = v[0]
 		} else {
@@ -5689,7 +5688,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceBtoIntransitiveActivityIntermediateType(t.bto); err == nil && v != nil {
+	if v, err := serializeSliceBtoIntermediateType(t.bto); err == nil && v != nil {
 		if len(v) == 1 {
 			m["bto"] = v[0]
 		} else {
@@ -5700,7 +5699,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceCcIntransitiveActivityIntermediateType(t.cc); err == nil && v != nil {
+	if v, err := serializeSliceCcIntermediateType(t.cc); err == nil && v != nil {
 		if len(v) == 1 {
 			m["cc"] = v[0]
 		} else {
@@ -5711,7 +5710,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceBccIntransitiveActivityIntermediateType(t.bcc); err == nil && v != nil {
+	if v, err := serializeSliceBccIntermediateType(t.bcc); err == nil && v != nil {
 		if len(v) == 1 {
 			m["bcc"] = v[0]
 		} else {
@@ -5723,7 +5722,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.mediaType != nil {
-		if v, err := serializeMediaTypeIntransitiveActivityIntermediateType(t.mediaType); err == nil {
+		if v, err := serializeMediaTypeIntermediateType(t.mediaType); err == nil {
 			m["mediaType"] = v
 		} else {
 			return m, err
@@ -5732,7 +5731,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.duration != nil {
-		if v, err := serializeDurationIntransitiveActivityIntermediateType(t.duration); err == nil {
+		if v, err := serializeDurationIntermediateType(t.duration); err == nil {
 			m["duration"] = v
 		} else {
 			return m, err
@@ -5741,7 +5740,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.source != nil {
-		if v, err := serializeSourceIntransitiveActivityIntermediateType(t.source); err == nil {
+		if v, err := serializeSourceIntermediateType(t.source); err == nil {
 			m["source"] = v
 		} else {
 			return m, err
@@ -5750,7 +5749,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.inbox != nil {
-		if v, err := serializeInboxIntransitiveActivityIntermediateType(t.inbox); err == nil {
+		if v, err := serializeInboxIntermediateType(t.inbox); err == nil {
 			m["inbox"] = v
 		} else {
 			return m, err
@@ -5759,7 +5758,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.outbox != nil {
-		if v, err := serializeOutboxIntransitiveActivityIntermediateType(t.outbox); err == nil {
+		if v, err := serializeOutboxIntermediateType(t.outbox); err == nil {
 			m["outbox"] = v
 		} else {
 			return m, err
@@ -5768,7 +5767,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.following != nil {
-		if v, err := serializeFollowingIntransitiveActivityIntermediateType(t.following); err == nil {
+		if v, err := serializeFollowingIntermediateType(t.following); err == nil {
 			m["following"] = v
 		} else {
 			return m, err
@@ -5777,7 +5776,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.followers != nil {
-		if v, err := serializeFollowersIntransitiveActivityIntermediateType(t.followers); err == nil {
+		if v, err := serializeFollowersIntermediateType(t.followers); err == nil {
 			m["followers"] = v
 		} else {
 			return m, err
@@ -5786,7 +5785,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.liked != nil {
-		if v, err := serializeLikedIntransitiveActivityIntermediateType(t.liked); err == nil {
+		if v, err := serializeLikedIntermediateType(t.liked); err == nil {
 			m["liked"] = v
 		} else {
 			return m, err
@@ -5795,7 +5794,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.likes != nil {
-		if v, err := serializeLikesIntransitiveActivityIntermediateType(t.likes); err == nil {
+		if v, err := serializeLikesIntermediateType(t.likes); err == nil {
 			m["likes"] = v
 		} else {
 			return m, err
@@ -5818,7 +5817,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.preferredUsername != nil {
-		if v, err := serializePreferredUsernameIntransitiveActivityIntermediateType(t.preferredUsername); err == nil {
+		if v, err := serializePreferredUsernameIntermediateType(t.preferredUsername); err == nil {
 			m["preferredUsername"] = v
 		} else {
 			return m, err
@@ -5833,7 +5832,7 @@ func (t *IntransitiveActivity) Serialize() (m map[string]interface{}, err error)
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.endpoints != nil {
-		if v, err := serializeEndpointsIntransitiveActivityIntermediateType(t.endpoints); err == nil {
+		if v, err := serializeEndpointsIntermediateType(t.endpoints); err == nil {
 			m["endpoints"] = v
 		} else {
 			return m, err
@@ -5942,25 +5941,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "actor" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeActorIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeActorIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.actor = []*actorIntransitiveActivityIntermediateType{tmp}
+					t.actor = []*actorIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.actor, err = deserializeSliceActorIntransitiveActivityIntermediateType(tmpSlice)
+					t.actor, err = deserializeSliceActorIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &actorIntransitiveActivityIntermediateType{}
+					tmp := &actorIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.actor = []*actorIntransitiveActivityIntermediateType{tmp}
+					t.actor = []*actorIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5970,25 +5969,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "target" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeTargetIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeTargetIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.target = []*targetIntransitiveActivityIntermediateType{tmp}
+					t.target = []*targetIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.target, err = deserializeSliceTargetIntransitiveActivityIntermediateType(tmpSlice)
+					t.target, err = deserializeSliceTargetIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &targetIntransitiveActivityIntermediateType{}
+					tmp := &targetIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.target = []*targetIntransitiveActivityIntermediateType{tmp}
+					t.target = []*targetIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5998,25 +5997,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "result" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeResultIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeResultIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.result = []*resultIntransitiveActivityIntermediateType{tmp}
+					t.result = []*resultIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.result, err = deserializeSliceResultIntransitiveActivityIntermediateType(tmpSlice)
+					t.result, err = deserializeSliceResultIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &resultIntransitiveActivityIntermediateType{}
+					tmp := &resultIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.result = []*resultIntransitiveActivityIntermediateType{tmp}
+					t.result = []*resultIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6026,25 +6025,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "origin" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeOriginIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeOriginIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.origin = []*originIntransitiveActivityIntermediateType{tmp}
+					t.origin = []*originIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.origin, err = deserializeSliceOriginIntransitiveActivityIntermediateType(tmpSlice)
+					t.origin, err = deserializeSliceOriginIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &originIntransitiveActivityIntermediateType{}
+					tmp := &originIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.origin = []*originIntransitiveActivityIntermediateType{tmp}
+					t.origin = []*originIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6054,25 +6053,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "instrument" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeInstrumentIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeInstrumentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.instrument = []*instrumentIntransitiveActivityIntermediateType{tmp}
+					t.instrument = []*instrumentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.instrument, err = deserializeSliceInstrumentIntransitiveActivityIntermediateType(tmpSlice)
+					t.instrument, err = deserializeSliceInstrumentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &instrumentIntransitiveActivityIntermediateType{}
+					tmp := &instrumentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.instrument = []*instrumentIntransitiveActivityIntermediateType{tmp}
+					t.instrument = []*instrumentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6081,7 +6080,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "altitude" {
-				t.altitude, err = deserializeAltitudeIntransitiveActivityIntermediateType(v)
+				t.altitude, err = deserializeAltitudeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6093,25 +6092,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attachment" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttachmentIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeAttachmentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attachment = []*attachmentIntransitiveActivityIntermediateType{tmp}
+					t.attachment = []*attachmentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attachment, err = deserializeSliceAttachmentIntransitiveActivityIntermediateType(tmpSlice)
+					t.attachment, err = deserializeSliceAttachmentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attachmentIntransitiveActivityIntermediateType{}
+					tmp := &attachmentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attachment = []*attachmentIntransitiveActivityIntermediateType{tmp}
+					t.attachment = []*attachmentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6121,25 +6120,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attributedTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttributedToIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeAttributedToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToIntransitiveActivityIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attributedTo, err = deserializeSliceAttributedToIntransitiveActivityIntermediateType(tmpSlice)
+					t.attributedTo, err = deserializeSliceAttributedToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attributedToIntransitiveActivityIntermediateType{}
+					tmp := &attributedToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToIntransitiveActivityIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6149,25 +6148,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "audience" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAudienceIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeAudienceIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.audience = []*audienceIntransitiveActivityIntermediateType{tmp}
+					t.audience = []*audienceIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.audience, err = deserializeSliceAudienceIntransitiveActivityIntermediateType(tmpSlice)
+					t.audience, err = deserializeSliceAudienceIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &audienceIntransitiveActivityIntermediateType{}
+					tmp := &audienceIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.audience = []*audienceIntransitiveActivityIntermediateType{tmp}
+					t.audience = []*audienceIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6177,25 +6176,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "content" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeContentIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeContentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.content = []*contentIntransitiveActivityIntermediateType{tmp}
+					t.content = []*contentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.content, err = deserializeSliceContentIntransitiveActivityIntermediateType(tmpSlice)
+					t.content, err = deserializeSliceContentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &contentIntransitiveActivityIntermediateType{}
+					tmp := &contentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.content = []*contentIntransitiveActivityIntermediateType{tmp}
+					t.content = []*contentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6220,25 +6219,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "context" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeContextIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeContextIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.context = []*contextIntransitiveActivityIntermediateType{tmp}
+					t.context = []*contextIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.context, err = deserializeSliceContextIntransitiveActivityIntermediateType(tmpSlice)
+					t.context, err = deserializeSliceContextIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &contextIntransitiveActivityIntermediateType{}
+					tmp := &contextIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.context = []*contextIntransitiveActivityIntermediateType{tmp}
+					t.context = []*contextIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6248,25 +6247,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "name" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeNameIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeNameIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameIntransitiveActivityIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.name, err = deserializeSliceNameIntransitiveActivityIntermediateType(tmpSlice)
+					t.name, err = deserializeSliceNameIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &nameIntransitiveActivityIntermediateType{}
+					tmp := &nameIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameIntransitiveActivityIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6290,7 +6289,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "endTime" {
-				t.endTime, err = deserializeEndTimeIntransitiveActivityIntermediateType(v)
+				t.endTime, err = deserializeEndTimeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6302,25 +6301,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "generator" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeGeneratorIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeGeneratorIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.generator = []*generatorIntransitiveActivityIntermediateType{tmp}
+					t.generator = []*generatorIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.generator, err = deserializeSliceGeneratorIntransitiveActivityIntermediateType(tmpSlice)
+					t.generator, err = deserializeSliceGeneratorIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &generatorIntransitiveActivityIntermediateType{}
+					tmp := &generatorIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.generator = []*generatorIntransitiveActivityIntermediateType{tmp}
+					t.generator = []*generatorIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6330,25 +6329,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "icon" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeIconIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeIconIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.icon = []*iconIntransitiveActivityIntermediateType{tmp}
+					t.icon = []*iconIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.icon, err = deserializeSliceIconIntransitiveActivityIntermediateType(tmpSlice)
+					t.icon, err = deserializeSliceIconIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &iconIntransitiveActivityIntermediateType{}
+					tmp := &iconIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.icon = []*iconIntransitiveActivityIntermediateType{tmp}
+					t.icon = []*iconIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6372,25 +6371,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "image" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeImageIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeImageIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.image = []*imageIntransitiveActivityIntermediateType{tmp}
+					t.image = []*imageIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.image, err = deserializeSliceImageIntransitiveActivityIntermediateType(tmpSlice)
+					t.image, err = deserializeSliceImageIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &imageIntransitiveActivityIntermediateType{}
+					tmp := &imageIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.image = []*imageIntransitiveActivityIntermediateType{tmp}
+					t.image = []*imageIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6400,25 +6399,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "inReplyTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeInReplyToIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeInReplyToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.inReplyTo = []*inReplyToIntransitiveActivityIntermediateType{tmp}
+					t.inReplyTo = []*inReplyToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.inReplyTo, err = deserializeSliceInReplyToIntransitiveActivityIntermediateType(tmpSlice)
+					t.inReplyTo, err = deserializeSliceInReplyToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &inReplyToIntransitiveActivityIntermediateType{}
+					tmp := &inReplyToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.inReplyTo = []*inReplyToIntransitiveActivityIntermediateType{tmp}
+					t.inReplyTo = []*inReplyToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6428,25 +6427,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "location" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeLocationIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeLocationIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.location = []*locationIntransitiveActivityIntermediateType{tmp}
+					t.location = []*locationIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.location, err = deserializeSliceLocationIntransitiveActivityIntermediateType(tmpSlice)
+					t.location, err = deserializeSliceLocationIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &locationIntransitiveActivityIntermediateType{}
+					tmp := &locationIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.location = []*locationIntransitiveActivityIntermediateType{tmp}
+					t.location = []*locationIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6456,25 +6455,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "preview" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializePreviewIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializePreviewIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewIntransitiveActivityIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.preview, err = deserializeSlicePreviewIntransitiveActivityIntermediateType(tmpSlice)
+					t.preview, err = deserializeSlicePreviewIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &previewIntransitiveActivityIntermediateType{}
+					tmp := &previewIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewIntransitiveActivityIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6483,7 +6482,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "published" {
-				t.published, err = deserializePublishedIntransitiveActivityIntermediateType(v)
+				t.published, err = deserializePublishedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6494,7 +6493,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "replies" {
-				t.replies, err = deserializeRepliesIntransitiveActivityIntermediateType(v)
+				t.replies, err = deserializeRepliesIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6505,7 +6504,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "startTime" {
-				t.startTime, err = deserializeStartTimeIntransitiveActivityIntermediateType(v)
+				t.startTime, err = deserializeStartTimeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6517,25 +6516,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "summary" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeSummaryIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeSummaryIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryIntransitiveActivityIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.summary, err = deserializeSliceSummaryIntransitiveActivityIntermediateType(tmpSlice)
+					t.summary, err = deserializeSliceSummaryIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &summaryIntransitiveActivityIntermediateType{}
+					tmp := &summaryIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryIntransitiveActivityIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6560,25 +6559,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "tag" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeTagIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeTagIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.tag = []*tagIntransitiveActivityIntermediateType{tmp}
+					t.tag = []*tagIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.tag, err = deserializeSliceTagIntransitiveActivityIntermediateType(tmpSlice)
+					t.tag, err = deserializeSliceTagIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &tagIntransitiveActivityIntermediateType{}
+					tmp := &tagIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.tag = []*tagIntransitiveActivityIntermediateType{tmp}
+					t.tag = []*tagIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6600,7 +6599,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "updated" {
-				t.updated, err = deserializeUpdatedIntransitiveActivityIntermediateType(v)
+				t.updated, err = deserializeUpdatedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6612,25 +6611,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "url" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeUrlIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeUrlIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.url = []*urlIntransitiveActivityIntermediateType{tmp}
+					t.url = []*urlIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.url, err = deserializeSliceUrlIntransitiveActivityIntermediateType(tmpSlice)
+					t.url, err = deserializeSliceUrlIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &urlIntransitiveActivityIntermediateType{}
+					tmp := &urlIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.url = []*urlIntransitiveActivityIntermediateType{tmp}
+					t.url = []*urlIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6640,25 +6639,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "to" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeToIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.to = []*toIntransitiveActivityIntermediateType{tmp}
+					t.to = []*toIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.to, err = deserializeSliceToIntransitiveActivityIntermediateType(tmpSlice)
+					t.to, err = deserializeSliceToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &toIntransitiveActivityIntermediateType{}
+					tmp := &toIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.to = []*toIntransitiveActivityIntermediateType{tmp}
+					t.to = []*toIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6668,25 +6667,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "bto" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeBtoIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeBtoIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.bto = []*btoIntransitiveActivityIntermediateType{tmp}
+					t.bto = []*btoIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.bto, err = deserializeSliceBtoIntransitiveActivityIntermediateType(tmpSlice)
+					t.bto, err = deserializeSliceBtoIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &btoIntransitiveActivityIntermediateType{}
+					tmp := &btoIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.bto = []*btoIntransitiveActivityIntermediateType{tmp}
+					t.bto = []*btoIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6696,25 +6695,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "cc" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeCcIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeCcIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.cc = []*ccIntransitiveActivityIntermediateType{tmp}
+					t.cc = []*ccIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.cc, err = deserializeSliceCcIntransitiveActivityIntermediateType(tmpSlice)
+					t.cc, err = deserializeSliceCcIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &ccIntransitiveActivityIntermediateType{}
+					tmp := &ccIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.cc = []*ccIntransitiveActivityIntermediateType{tmp}
+					t.cc = []*ccIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6724,25 +6723,25 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "bcc" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeBccIntransitiveActivityIntermediateType(tmpMap)
+					tmp, err := deserializeBccIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.bcc = []*bccIntransitiveActivityIntermediateType{tmp}
+					t.bcc = []*bccIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.bcc, err = deserializeSliceBccIntransitiveActivityIntermediateType(tmpSlice)
+					t.bcc, err = deserializeSliceBccIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &bccIntransitiveActivityIntermediateType{}
+					tmp := &bccIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.bcc = []*bccIntransitiveActivityIntermediateType{tmp}
+					t.bcc = []*bccIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6751,7 +6750,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "mediaType" {
-				t.mediaType, err = deserializeMediaTypeIntransitiveActivityIntermediateType(v)
+				t.mediaType, err = deserializeMediaTypeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6762,7 +6761,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "duration" {
-				t.duration, err = deserializeDurationIntransitiveActivityIntermediateType(v)
+				t.duration, err = deserializeDurationIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6773,7 +6772,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "source" {
-				t.source, err = deserializeSourceIntransitiveActivityIntermediateType(v)
+				t.source, err = deserializeSourceIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6784,7 +6783,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "inbox" {
-				t.inbox, err = deserializeInboxIntransitiveActivityIntermediateType(v)
+				t.inbox, err = deserializeInboxIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6795,7 +6794,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "outbox" {
-				t.outbox, err = deserializeOutboxIntransitiveActivityIntermediateType(v)
+				t.outbox, err = deserializeOutboxIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6806,7 +6805,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "following" {
-				t.following, err = deserializeFollowingIntransitiveActivityIntermediateType(v)
+				t.following, err = deserializeFollowingIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6817,7 +6816,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "followers" {
-				t.followers, err = deserializeFollowersIntransitiveActivityIntermediateType(v)
+				t.followers, err = deserializeFollowersIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6828,7 +6827,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "liked" {
-				t.liked, err = deserializeLikedIntransitiveActivityIntermediateType(v)
+				t.liked, err = deserializeLikedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6839,7 +6838,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "likes" {
-				t.likes, err = deserializeLikesIntransitiveActivityIntermediateType(v)
+				t.likes, err = deserializeLikesIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6875,7 +6874,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "preferredUsername" {
-				t.preferredUsername, err = deserializePreferredUsernameIntransitiveActivityIntermediateType(v)
+				t.preferredUsername, err = deserializePreferredUsernameIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6901,7 +6900,7 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "endpoints" {
-				t.endpoints, err = deserializeEndpointsIntransitiveActivityIntermediateType(v)
+				t.endpoints, err = deserializeEndpointsIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6999,4764 +6998,6 @@ func (t *IntransitiveActivity) Deserialize(m map[string]interface{}) (err error)
 			}
 			t.unknown_[k] = unknownValueDeserialize(v)
 		}
-	}
-	return
-
-}
-
-// actorIntransitiveActivityIntermediateType will only have one of its values set at most
-type actorIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for actor property
-	Object ObjectType
-	// Stores possible LinkType type for actor property
-	Link LinkType
-	// Stores possible *url.URL type for actor property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *actorIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *actorIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// targetIntransitiveActivityIntermediateType will only have one of its values set at most
-type targetIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for target property
-	Object ObjectType
-	// Stores possible LinkType type for target property
-	Link LinkType
-	// Stores possible *url.URL type for target property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *targetIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *targetIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// resultIntransitiveActivityIntermediateType will only have one of its values set at most
-type resultIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for result property
-	Object ObjectType
-	// Stores possible LinkType type for result property
-	Link LinkType
-	// Stores possible *url.URL type for result property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *resultIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *resultIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// originIntransitiveActivityIntermediateType will only have one of its values set at most
-type originIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for origin property
-	Object ObjectType
-	// Stores possible LinkType type for origin property
-	Link LinkType
-	// Stores possible *url.URL type for origin property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *originIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *originIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// instrumentIntransitiveActivityIntermediateType will only have one of its values set at most
-type instrumentIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for instrument property
-	Object ObjectType
-	// Stores possible LinkType type for instrument property
-	Link LinkType
-	// Stores possible *url.URL type for instrument property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *instrumentIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *instrumentIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// altitudeIntransitiveActivityIntermediateType will only have one of its values set at most
-type altitudeIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *float64 type for altitude property
-	float *float64
-	// Stores possible *url.URL type for altitude property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *altitudeIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.float, err = floatDeserialize(i)
-			if err != nil {
-				t.float = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *altitudeIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.float != nil {
-		i = floatSerialize(*t.float)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// attachmentIntransitiveActivityIntermediateType will only have one of its values set at most
-type attachmentIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attachment property
-	Object ObjectType
-	// Stores possible LinkType type for attachment property
-	Link LinkType
-	// Stores possible *url.URL type for attachment property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attachmentIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attachmentIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// attributedToIntransitiveActivityIntermediateType will only have one of its values set at most
-type attributedToIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attributedTo property
-	Object ObjectType
-	// Stores possible LinkType type for attributedTo property
-	Link LinkType
-	// Stores possible *url.URL type for attributedTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attributedToIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attributedToIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// audienceIntransitiveActivityIntermediateType will only have one of its values set at most
-type audienceIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for audience property
-	Object ObjectType
-	// Stores possible LinkType type for audience property
-	Link LinkType
-	// Stores possible *url.URL type for audience property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *audienceIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *audienceIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// contentIntransitiveActivityIntermediateType will only have one of its values set at most
-type contentIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for content property
-	stringName *string
-	// Stores possible *string type for content property
-	langString *string
-	// Stores possible *url.URL type for content property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *contentIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *contentIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// contextIntransitiveActivityIntermediateType will only have one of its values set at most
-type contextIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for context property
-	Object ObjectType
-	// Stores possible LinkType type for context property
-	Link LinkType
-	// Stores possible *url.URL type for context property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *contextIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *contextIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// nameIntransitiveActivityIntermediateType will only have one of its values set at most
-type nameIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for name property
-	stringName *string
-	// Stores possible *string type for name property
-	langString *string
-	// Stores possible *url.URL type for name property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *nameIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *nameIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// endTimeIntransitiveActivityIntermediateType will only have one of its values set at most
-type endTimeIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for endTime property
-	dateTime *time.Time
-	// Stores possible *url.URL type for endTime property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *endTimeIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *endTimeIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// generatorIntransitiveActivityIntermediateType will only have one of its values set at most
-type generatorIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for generator property
-	Object ObjectType
-	// Stores possible LinkType type for generator property
-	Link LinkType
-	// Stores possible *url.URL type for generator property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *generatorIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *generatorIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// iconIntransitiveActivityIntermediateType will only have one of its values set at most
-type iconIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ImageType type for icon property
-	Image ImageType
-	// Stores possible LinkType type for icon property
-	Link LinkType
-	// Stores possible *url.URL type for icon property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *iconIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Image, ok = resolveObject(kind).(ImageType); t.Image != nil && ok {
-						err = t.Image.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *iconIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Image != nil {
-		i, err = t.Image.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// imageIntransitiveActivityIntermediateType will only have one of its values set at most
-type imageIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ImageType type for image property
-	Image ImageType
-	// Stores possible LinkType type for image property
-	Link LinkType
-	// Stores possible *url.URL type for image property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *imageIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Image, ok = resolveObject(kind).(ImageType); t.Image != nil && ok {
-						err = t.Image.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *imageIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Image != nil {
-		i, err = t.Image.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// inReplyToIntransitiveActivityIntermediateType will only have one of its values set at most
-type inReplyToIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for inReplyTo property
-	Object ObjectType
-	// Stores possible LinkType type for inReplyTo property
-	Link LinkType
-	// Stores possible *url.URL type for inReplyTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *inReplyToIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *inReplyToIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// locationIntransitiveActivityIntermediateType will only have one of its values set at most
-type locationIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for location property
-	Object ObjectType
-	// Stores possible LinkType type for location property
-	Link LinkType
-	// Stores possible *url.URL type for location property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *locationIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *locationIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// previewIntransitiveActivityIntermediateType will only have one of its values set at most
-type previewIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for preview property
-	Object ObjectType
-	// Stores possible LinkType type for preview property
-	Link LinkType
-	// Stores possible *url.URL type for preview property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *previewIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *previewIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// publishedIntransitiveActivityIntermediateType will only have one of its values set at most
-type publishedIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for published property
-	dateTime *time.Time
-	// Stores possible *url.URL type for published property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *publishedIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *publishedIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// repliesIntransitiveActivityIntermediateType will only have one of its values set at most
-type repliesIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for replies property
-	Collection CollectionType
-	// Stores possible *url.URL type for replies property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *repliesIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *repliesIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// startTimeIntransitiveActivityIntermediateType will only have one of its values set at most
-type startTimeIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for startTime property
-	dateTime *time.Time
-	// Stores possible *url.URL type for startTime property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *startTimeIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *startTimeIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// summaryIntransitiveActivityIntermediateType will only have one of its values set at most
-type summaryIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for summary property
-	stringName *string
-	// Stores possible *string type for summary property
-	langString *string
-	// Stores possible *url.URL type for summary property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *summaryIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *summaryIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// tagIntransitiveActivityIntermediateType will only have one of its values set at most
-type tagIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for tag property
-	Object ObjectType
-	// Stores possible LinkType type for tag property
-	Link LinkType
-	// Stores possible *url.URL type for tag property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *tagIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *tagIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// updatedIntransitiveActivityIntermediateType will only have one of its values set at most
-type updatedIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for updated property
-	dateTime *time.Time
-	// Stores possible *url.URL type for updated property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *updatedIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *updatedIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// urlIntransitiveActivityIntermediateType will only have one of its values set at most
-type urlIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *url.URL type for url property
-	anyURI *url.URL
-	// Stores possible LinkType type for url property
-	Link LinkType
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *urlIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *urlIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// toIntransitiveActivityIntermediateType will only have one of its values set at most
-type toIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for to property
-	Object ObjectType
-	// Stores possible LinkType type for to property
-	Link LinkType
-	// Stores possible *url.URL type for to property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *toIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *toIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// btoIntransitiveActivityIntermediateType will only have one of its values set at most
-type btoIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for bto property
-	Object ObjectType
-	// Stores possible LinkType type for bto property
-	Link LinkType
-	// Stores possible *url.URL type for bto property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *btoIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *btoIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// ccIntransitiveActivityIntermediateType will only have one of its values set at most
-type ccIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for cc property
-	Object ObjectType
-	// Stores possible LinkType type for cc property
-	Link LinkType
-	// Stores possible *url.URL type for cc property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *ccIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *ccIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// bccIntransitiveActivityIntermediateType will only have one of its values set at most
-type bccIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for bcc property
-	Object ObjectType
-	// Stores possible LinkType type for bcc property
-	Link LinkType
-	// Stores possible *url.URL type for bcc property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *bccIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *bccIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// mediaTypeIntransitiveActivityIntermediateType will only have one of its values set at most
-type mediaTypeIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for mediaType property
-	mimeMediaTypeValue *string
-	// Stores possible *url.URL type for mediaType property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *mediaTypeIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.mimeMediaTypeValue, err = mimeMediaTypeValueDeserialize(i)
-			if err != nil {
-				t.mimeMediaTypeValue = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *mediaTypeIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.mimeMediaTypeValue != nil {
-		i = mimeMediaTypeValueSerialize(*t.mimeMediaTypeValue)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// durationIntransitiveActivityIntermediateType will only have one of its values set at most
-type durationIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Duration type for duration property
-	duration *time.Duration
-	// Stores possible *url.URL type for duration property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *durationIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.duration, err = durationDeserialize(i)
-			if err != nil {
-				t.duration = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *durationIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.duration != nil {
-		i = durationSerialize(*t.duration)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// sourceIntransitiveActivityIntermediateType will only have one of its values set at most
-type sourceIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for source property
-	Object ObjectType
-	// Stores possible *url.URL type for source property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *sourceIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *sourceIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// inboxIntransitiveActivityIntermediateType will only have one of its values set at most
-type inboxIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionType type for inbox property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for inbox property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *inboxIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *inboxIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// outboxIntransitiveActivityIntermediateType will only have one of its values set at most
-type outboxIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionType type for outbox property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for outbox property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *outboxIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *outboxIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// followingIntransitiveActivityIntermediateType will only have one of its values set at most
-type followingIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for following property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for following property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for following property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *followingIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *followingIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// followersIntransitiveActivityIntermediateType will only have one of its values set at most
-type followersIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for followers property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for followers property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for followers property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *followersIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *followersIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// likedIntransitiveActivityIntermediateType will only have one of its values set at most
-type likedIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for liked property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for liked property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for liked property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *likedIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *likedIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// likesIntransitiveActivityIntermediateType will only have one of its values set at most
-type likesIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for likes property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for likes property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for likes property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *likesIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *likesIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// preferredUsernameIntransitiveActivityIntermediateType will only have one of its values set at most
-type preferredUsernameIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for preferredUsername property
-	stringName *string
-	// Stores possible *url.URL type for preferredUsername property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *preferredUsernameIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *preferredUsernameIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// endpointsIntransitiveActivityIntermediateType will only have one of its values set at most
-type endpointsIntransitiveActivityIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for endpoints property
-	Object ObjectType
-	// Stores possible *url.URL type for endpoints property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *endpointsIntransitiveActivityIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *endpointsIntransitiveActivityIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// deserializeactorIntransitiveActivityIntermediateType will accept a map to create a actorIntransitiveActivityIntermediateType
-func deserializeActorIntransitiveActivityIntermediateType(in interface{}) (t *actorIntransitiveActivityIntermediateType, err error) {
-	tmp := &actorIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice actorIntransitiveActivityIntermediateType will accept a slice to create a slice of actorIntransitiveActivityIntermediateType
-func deserializeSliceActorIntransitiveActivityIntermediateType(in []interface{}) (t []*actorIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &actorIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeactorIntransitiveActivityIntermediateType will accept a actorIntransitiveActivityIntermediateType to create a map
-func serializeActorIntransitiveActivityIntermediateType(t *actorIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceactorIntransitiveActivityIntermediateType will accept a slice of actorIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceActorIntransitiveActivityIntermediateType(s []*actorIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetargetIntransitiveActivityIntermediateType will accept a map to create a targetIntransitiveActivityIntermediateType
-func deserializeTargetIntransitiveActivityIntermediateType(in interface{}) (t *targetIntransitiveActivityIntermediateType, err error) {
-	tmp := &targetIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice targetIntransitiveActivityIntermediateType will accept a slice to create a slice of targetIntransitiveActivityIntermediateType
-func deserializeSliceTargetIntransitiveActivityIntermediateType(in []interface{}) (t []*targetIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &targetIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetargetIntransitiveActivityIntermediateType will accept a targetIntransitiveActivityIntermediateType to create a map
-func serializeTargetIntransitiveActivityIntermediateType(t *targetIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetargetIntransitiveActivityIntermediateType will accept a slice of targetIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceTargetIntransitiveActivityIntermediateType(s []*targetIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeresultIntransitiveActivityIntermediateType will accept a map to create a resultIntransitiveActivityIntermediateType
-func deserializeResultIntransitiveActivityIntermediateType(in interface{}) (t *resultIntransitiveActivityIntermediateType, err error) {
-	tmp := &resultIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice resultIntransitiveActivityIntermediateType will accept a slice to create a slice of resultIntransitiveActivityIntermediateType
-func deserializeSliceResultIntransitiveActivityIntermediateType(in []interface{}) (t []*resultIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &resultIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeresultIntransitiveActivityIntermediateType will accept a resultIntransitiveActivityIntermediateType to create a map
-func serializeResultIntransitiveActivityIntermediateType(t *resultIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceresultIntransitiveActivityIntermediateType will accept a slice of resultIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceResultIntransitiveActivityIntermediateType(s []*resultIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeoriginIntransitiveActivityIntermediateType will accept a map to create a originIntransitiveActivityIntermediateType
-func deserializeOriginIntransitiveActivityIntermediateType(in interface{}) (t *originIntransitiveActivityIntermediateType, err error) {
-	tmp := &originIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice originIntransitiveActivityIntermediateType will accept a slice to create a slice of originIntransitiveActivityIntermediateType
-func deserializeSliceOriginIntransitiveActivityIntermediateType(in []interface{}) (t []*originIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &originIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeoriginIntransitiveActivityIntermediateType will accept a originIntransitiveActivityIntermediateType to create a map
-func serializeOriginIntransitiveActivityIntermediateType(t *originIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceoriginIntransitiveActivityIntermediateType will accept a slice of originIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceOriginIntransitiveActivityIntermediateType(s []*originIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinstrumentIntransitiveActivityIntermediateType will accept a map to create a instrumentIntransitiveActivityIntermediateType
-func deserializeInstrumentIntransitiveActivityIntermediateType(in interface{}) (t *instrumentIntransitiveActivityIntermediateType, err error) {
-	tmp := &instrumentIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice instrumentIntransitiveActivityIntermediateType will accept a slice to create a slice of instrumentIntransitiveActivityIntermediateType
-func deserializeSliceInstrumentIntransitiveActivityIntermediateType(in []interface{}) (t []*instrumentIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &instrumentIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinstrumentIntransitiveActivityIntermediateType will accept a instrumentIntransitiveActivityIntermediateType to create a map
-func serializeInstrumentIntransitiveActivityIntermediateType(t *instrumentIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinstrumentIntransitiveActivityIntermediateType will accept a slice of instrumentIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceInstrumentIntransitiveActivityIntermediateType(s []*instrumentIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializealtitudeIntransitiveActivityIntermediateType will accept a map to create a altitudeIntransitiveActivityIntermediateType
-func deserializeAltitudeIntransitiveActivityIntermediateType(in interface{}) (t *altitudeIntransitiveActivityIntermediateType, err error) {
-	tmp := &altitudeIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice altitudeIntransitiveActivityIntermediateType will accept a slice to create a slice of altitudeIntransitiveActivityIntermediateType
-func deserializeSliceAltitudeIntransitiveActivityIntermediateType(in []interface{}) (t []*altitudeIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &altitudeIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializealtitudeIntransitiveActivityIntermediateType will accept a altitudeIntransitiveActivityIntermediateType to create a map
-func serializeAltitudeIntransitiveActivityIntermediateType(t *altitudeIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicealtitudeIntransitiveActivityIntermediateType will accept a slice of altitudeIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceAltitudeIntransitiveActivityIntermediateType(s []*altitudeIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeattachmentIntransitiveActivityIntermediateType will accept a map to create a attachmentIntransitiveActivityIntermediateType
-func deserializeAttachmentIntransitiveActivityIntermediateType(in interface{}) (t *attachmentIntransitiveActivityIntermediateType, err error) {
-	tmp := &attachmentIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attachmentIntransitiveActivityIntermediateType will accept a slice to create a slice of attachmentIntransitiveActivityIntermediateType
-func deserializeSliceAttachmentIntransitiveActivityIntermediateType(in []interface{}) (t []*attachmentIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attachmentIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattachmentIntransitiveActivityIntermediateType will accept a attachmentIntransitiveActivityIntermediateType to create a map
-func serializeAttachmentIntransitiveActivityIntermediateType(t *attachmentIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattachmentIntransitiveActivityIntermediateType will accept a slice of attachmentIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceAttachmentIntransitiveActivityIntermediateType(s []*attachmentIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeattributedToIntransitiveActivityIntermediateType will accept a map to create a attributedToIntransitiveActivityIntermediateType
-func deserializeAttributedToIntransitiveActivityIntermediateType(in interface{}) (t *attributedToIntransitiveActivityIntermediateType, err error) {
-	tmp := &attributedToIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attributedToIntransitiveActivityIntermediateType will accept a slice to create a slice of attributedToIntransitiveActivityIntermediateType
-func deserializeSliceAttributedToIntransitiveActivityIntermediateType(in []interface{}) (t []*attributedToIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attributedToIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattributedToIntransitiveActivityIntermediateType will accept a attributedToIntransitiveActivityIntermediateType to create a map
-func serializeAttributedToIntransitiveActivityIntermediateType(t *attributedToIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattributedToIntransitiveActivityIntermediateType will accept a slice of attributedToIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceAttributedToIntransitiveActivityIntermediateType(s []*attributedToIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeaudienceIntransitiveActivityIntermediateType will accept a map to create a audienceIntransitiveActivityIntermediateType
-func deserializeAudienceIntransitiveActivityIntermediateType(in interface{}) (t *audienceIntransitiveActivityIntermediateType, err error) {
-	tmp := &audienceIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice audienceIntransitiveActivityIntermediateType will accept a slice to create a slice of audienceIntransitiveActivityIntermediateType
-func deserializeSliceAudienceIntransitiveActivityIntermediateType(in []interface{}) (t []*audienceIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &audienceIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeaudienceIntransitiveActivityIntermediateType will accept a audienceIntransitiveActivityIntermediateType to create a map
-func serializeAudienceIntransitiveActivityIntermediateType(t *audienceIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceaudienceIntransitiveActivityIntermediateType will accept a slice of audienceIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceAudienceIntransitiveActivityIntermediateType(s []*audienceIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecontentIntransitiveActivityIntermediateType will accept a map to create a contentIntransitiveActivityIntermediateType
-func deserializeContentIntransitiveActivityIntermediateType(in interface{}) (t *contentIntransitiveActivityIntermediateType, err error) {
-	tmp := &contentIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice contentIntransitiveActivityIntermediateType will accept a slice to create a slice of contentIntransitiveActivityIntermediateType
-func deserializeSliceContentIntransitiveActivityIntermediateType(in []interface{}) (t []*contentIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &contentIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecontentIntransitiveActivityIntermediateType will accept a contentIntransitiveActivityIntermediateType to create a map
-func serializeContentIntransitiveActivityIntermediateType(t *contentIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecontentIntransitiveActivityIntermediateType will accept a slice of contentIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceContentIntransitiveActivityIntermediateType(s []*contentIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecontextIntransitiveActivityIntermediateType will accept a map to create a contextIntransitiveActivityIntermediateType
-func deserializeContextIntransitiveActivityIntermediateType(in interface{}) (t *contextIntransitiveActivityIntermediateType, err error) {
-	tmp := &contextIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice contextIntransitiveActivityIntermediateType will accept a slice to create a slice of contextIntransitiveActivityIntermediateType
-func deserializeSliceContextIntransitiveActivityIntermediateType(in []interface{}) (t []*contextIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &contextIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecontextIntransitiveActivityIntermediateType will accept a contextIntransitiveActivityIntermediateType to create a map
-func serializeContextIntransitiveActivityIntermediateType(t *contextIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecontextIntransitiveActivityIntermediateType will accept a slice of contextIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceContextIntransitiveActivityIntermediateType(s []*contextIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializenameIntransitiveActivityIntermediateType will accept a map to create a nameIntransitiveActivityIntermediateType
-func deserializeNameIntransitiveActivityIntermediateType(in interface{}) (t *nameIntransitiveActivityIntermediateType, err error) {
-	tmp := &nameIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice nameIntransitiveActivityIntermediateType will accept a slice to create a slice of nameIntransitiveActivityIntermediateType
-func deserializeSliceNameIntransitiveActivityIntermediateType(in []interface{}) (t []*nameIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &nameIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializenameIntransitiveActivityIntermediateType will accept a nameIntransitiveActivityIntermediateType to create a map
-func serializeNameIntransitiveActivityIntermediateType(t *nameIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicenameIntransitiveActivityIntermediateType will accept a slice of nameIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceNameIntransitiveActivityIntermediateType(s []*nameIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeendTimeIntransitiveActivityIntermediateType will accept a map to create a endTimeIntransitiveActivityIntermediateType
-func deserializeEndTimeIntransitiveActivityIntermediateType(in interface{}) (t *endTimeIntransitiveActivityIntermediateType, err error) {
-	tmp := &endTimeIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice endTimeIntransitiveActivityIntermediateType will accept a slice to create a slice of endTimeIntransitiveActivityIntermediateType
-func deserializeSliceEndTimeIntransitiveActivityIntermediateType(in []interface{}) (t []*endTimeIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &endTimeIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeendTimeIntransitiveActivityIntermediateType will accept a endTimeIntransitiveActivityIntermediateType to create a map
-func serializeEndTimeIntransitiveActivityIntermediateType(t *endTimeIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceendTimeIntransitiveActivityIntermediateType will accept a slice of endTimeIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceEndTimeIntransitiveActivityIntermediateType(s []*endTimeIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializegeneratorIntransitiveActivityIntermediateType will accept a map to create a generatorIntransitiveActivityIntermediateType
-func deserializeGeneratorIntransitiveActivityIntermediateType(in interface{}) (t *generatorIntransitiveActivityIntermediateType, err error) {
-	tmp := &generatorIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice generatorIntransitiveActivityIntermediateType will accept a slice to create a slice of generatorIntransitiveActivityIntermediateType
-func deserializeSliceGeneratorIntransitiveActivityIntermediateType(in []interface{}) (t []*generatorIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &generatorIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializegeneratorIntransitiveActivityIntermediateType will accept a generatorIntransitiveActivityIntermediateType to create a map
-func serializeGeneratorIntransitiveActivityIntermediateType(t *generatorIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicegeneratorIntransitiveActivityIntermediateType will accept a slice of generatorIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceGeneratorIntransitiveActivityIntermediateType(s []*generatorIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeiconIntransitiveActivityIntermediateType will accept a map to create a iconIntransitiveActivityIntermediateType
-func deserializeIconIntransitiveActivityIntermediateType(in interface{}) (t *iconIntransitiveActivityIntermediateType, err error) {
-	tmp := &iconIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice iconIntransitiveActivityIntermediateType will accept a slice to create a slice of iconIntransitiveActivityIntermediateType
-func deserializeSliceIconIntransitiveActivityIntermediateType(in []interface{}) (t []*iconIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &iconIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeiconIntransitiveActivityIntermediateType will accept a iconIntransitiveActivityIntermediateType to create a map
-func serializeIconIntransitiveActivityIntermediateType(t *iconIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceiconIntransitiveActivityIntermediateType will accept a slice of iconIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceIconIntransitiveActivityIntermediateType(s []*iconIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeimageIntransitiveActivityIntermediateType will accept a map to create a imageIntransitiveActivityIntermediateType
-func deserializeImageIntransitiveActivityIntermediateType(in interface{}) (t *imageIntransitiveActivityIntermediateType, err error) {
-	tmp := &imageIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice imageIntransitiveActivityIntermediateType will accept a slice to create a slice of imageIntransitiveActivityIntermediateType
-func deserializeSliceImageIntransitiveActivityIntermediateType(in []interface{}) (t []*imageIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &imageIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeimageIntransitiveActivityIntermediateType will accept a imageIntransitiveActivityIntermediateType to create a map
-func serializeImageIntransitiveActivityIntermediateType(t *imageIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceimageIntransitiveActivityIntermediateType will accept a slice of imageIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceImageIntransitiveActivityIntermediateType(s []*imageIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinReplyToIntransitiveActivityIntermediateType will accept a map to create a inReplyToIntransitiveActivityIntermediateType
-func deserializeInReplyToIntransitiveActivityIntermediateType(in interface{}) (t *inReplyToIntransitiveActivityIntermediateType, err error) {
-	tmp := &inReplyToIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice inReplyToIntransitiveActivityIntermediateType will accept a slice to create a slice of inReplyToIntransitiveActivityIntermediateType
-func deserializeSliceInReplyToIntransitiveActivityIntermediateType(in []interface{}) (t []*inReplyToIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &inReplyToIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinReplyToIntransitiveActivityIntermediateType will accept a inReplyToIntransitiveActivityIntermediateType to create a map
-func serializeInReplyToIntransitiveActivityIntermediateType(t *inReplyToIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinReplyToIntransitiveActivityIntermediateType will accept a slice of inReplyToIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceInReplyToIntransitiveActivityIntermediateType(s []*inReplyToIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelocationIntransitiveActivityIntermediateType will accept a map to create a locationIntransitiveActivityIntermediateType
-func deserializeLocationIntransitiveActivityIntermediateType(in interface{}) (t *locationIntransitiveActivityIntermediateType, err error) {
-	tmp := &locationIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice locationIntransitiveActivityIntermediateType will accept a slice to create a slice of locationIntransitiveActivityIntermediateType
-func deserializeSliceLocationIntransitiveActivityIntermediateType(in []interface{}) (t []*locationIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &locationIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelocationIntransitiveActivityIntermediateType will accept a locationIntransitiveActivityIntermediateType to create a map
-func serializeLocationIntransitiveActivityIntermediateType(t *locationIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelocationIntransitiveActivityIntermediateType will accept a slice of locationIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceLocationIntransitiveActivityIntermediateType(s []*locationIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreviewIntransitiveActivityIntermediateType will accept a map to create a previewIntransitiveActivityIntermediateType
-func deserializePreviewIntransitiveActivityIntermediateType(in interface{}) (t *previewIntransitiveActivityIntermediateType, err error) {
-	tmp := &previewIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice previewIntransitiveActivityIntermediateType will accept a slice to create a slice of previewIntransitiveActivityIntermediateType
-func deserializeSlicePreviewIntransitiveActivityIntermediateType(in []interface{}) (t []*previewIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &previewIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreviewIntransitiveActivityIntermediateType will accept a previewIntransitiveActivityIntermediateType to create a map
-func serializePreviewIntransitiveActivityIntermediateType(t *previewIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreviewIntransitiveActivityIntermediateType will accept a slice of previewIntransitiveActivityIntermediateType to create a slice result
-func serializeSlicePreviewIntransitiveActivityIntermediateType(s []*previewIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepublishedIntransitiveActivityIntermediateType will accept a map to create a publishedIntransitiveActivityIntermediateType
-func deserializePublishedIntransitiveActivityIntermediateType(in interface{}) (t *publishedIntransitiveActivityIntermediateType, err error) {
-	tmp := &publishedIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice publishedIntransitiveActivityIntermediateType will accept a slice to create a slice of publishedIntransitiveActivityIntermediateType
-func deserializeSlicePublishedIntransitiveActivityIntermediateType(in []interface{}) (t []*publishedIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &publishedIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepublishedIntransitiveActivityIntermediateType will accept a publishedIntransitiveActivityIntermediateType to create a map
-func serializePublishedIntransitiveActivityIntermediateType(t *publishedIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepublishedIntransitiveActivityIntermediateType will accept a slice of publishedIntransitiveActivityIntermediateType to create a slice result
-func serializeSlicePublishedIntransitiveActivityIntermediateType(s []*publishedIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializerepliesIntransitiveActivityIntermediateType will accept a map to create a repliesIntransitiveActivityIntermediateType
-func deserializeRepliesIntransitiveActivityIntermediateType(in interface{}) (t *repliesIntransitiveActivityIntermediateType, err error) {
-	tmp := &repliesIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice repliesIntransitiveActivityIntermediateType will accept a slice to create a slice of repliesIntransitiveActivityIntermediateType
-func deserializeSliceRepliesIntransitiveActivityIntermediateType(in []interface{}) (t []*repliesIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &repliesIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializerepliesIntransitiveActivityIntermediateType will accept a repliesIntransitiveActivityIntermediateType to create a map
-func serializeRepliesIntransitiveActivityIntermediateType(t *repliesIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicerepliesIntransitiveActivityIntermediateType will accept a slice of repliesIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceRepliesIntransitiveActivityIntermediateType(s []*repliesIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializestartTimeIntransitiveActivityIntermediateType will accept a map to create a startTimeIntransitiveActivityIntermediateType
-func deserializeStartTimeIntransitiveActivityIntermediateType(in interface{}) (t *startTimeIntransitiveActivityIntermediateType, err error) {
-	tmp := &startTimeIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice startTimeIntransitiveActivityIntermediateType will accept a slice to create a slice of startTimeIntransitiveActivityIntermediateType
-func deserializeSliceStartTimeIntransitiveActivityIntermediateType(in []interface{}) (t []*startTimeIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &startTimeIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializestartTimeIntransitiveActivityIntermediateType will accept a startTimeIntransitiveActivityIntermediateType to create a map
-func serializeStartTimeIntransitiveActivityIntermediateType(t *startTimeIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicestartTimeIntransitiveActivityIntermediateType will accept a slice of startTimeIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceStartTimeIntransitiveActivityIntermediateType(s []*startTimeIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesummaryIntransitiveActivityIntermediateType will accept a map to create a summaryIntransitiveActivityIntermediateType
-func deserializeSummaryIntransitiveActivityIntermediateType(in interface{}) (t *summaryIntransitiveActivityIntermediateType, err error) {
-	tmp := &summaryIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice summaryIntransitiveActivityIntermediateType will accept a slice to create a slice of summaryIntransitiveActivityIntermediateType
-func deserializeSliceSummaryIntransitiveActivityIntermediateType(in []interface{}) (t []*summaryIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &summaryIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesummaryIntransitiveActivityIntermediateType will accept a summaryIntransitiveActivityIntermediateType to create a map
-func serializeSummaryIntransitiveActivityIntermediateType(t *summaryIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesummaryIntransitiveActivityIntermediateType will accept a slice of summaryIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceSummaryIntransitiveActivityIntermediateType(s []*summaryIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetagIntransitiveActivityIntermediateType will accept a map to create a tagIntransitiveActivityIntermediateType
-func deserializeTagIntransitiveActivityIntermediateType(in interface{}) (t *tagIntransitiveActivityIntermediateType, err error) {
-	tmp := &tagIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice tagIntransitiveActivityIntermediateType will accept a slice to create a slice of tagIntransitiveActivityIntermediateType
-func deserializeSliceTagIntransitiveActivityIntermediateType(in []interface{}) (t []*tagIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &tagIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetagIntransitiveActivityIntermediateType will accept a tagIntransitiveActivityIntermediateType to create a map
-func serializeTagIntransitiveActivityIntermediateType(t *tagIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetagIntransitiveActivityIntermediateType will accept a slice of tagIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceTagIntransitiveActivityIntermediateType(s []*tagIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeupdatedIntransitiveActivityIntermediateType will accept a map to create a updatedIntransitiveActivityIntermediateType
-func deserializeUpdatedIntransitiveActivityIntermediateType(in interface{}) (t *updatedIntransitiveActivityIntermediateType, err error) {
-	tmp := &updatedIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice updatedIntransitiveActivityIntermediateType will accept a slice to create a slice of updatedIntransitiveActivityIntermediateType
-func deserializeSliceUpdatedIntransitiveActivityIntermediateType(in []interface{}) (t []*updatedIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &updatedIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeupdatedIntransitiveActivityIntermediateType will accept a updatedIntransitiveActivityIntermediateType to create a map
-func serializeUpdatedIntransitiveActivityIntermediateType(t *updatedIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceupdatedIntransitiveActivityIntermediateType will accept a slice of updatedIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceUpdatedIntransitiveActivityIntermediateType(s []*updatedIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeurlIntransitiveActivityIntermediateType will accept a map to create a urlIntransitiveActivityIntermediateType
-func deserializeUrlIntransitiveActivityIntermediateType(in interface{}) (t *urlIntransitiveActivityIntermediateType, err error) {
-	tmp := &urlIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice urlIntransitiveActivityIntermediateType will accept a slice to create a slice of urlIntransitiveActivityIntermediateType
-func deserializeSliceUrlIntransitiveActivityIntermediateType(in []interface{}) (t []*urlIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &urlIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeurlIntransitiveActivityIntermediateType will accept a urlIntransitiveActivityIntermediateType to create a map
-func serializeUrlIntransitiveActivityIntermediateType(t *urlIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceurlIntransitiveActivityIntermediateType will accept a slice of urlIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceUrlIntransitiveActivityIntermediateType(s []*urlIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetoIntransitiveActivityIntermediateType will accept a map to create a toIntransitiveActivityIntermediateType
-func deserializeToIntransitiveActivityIntermediateType(in interface{}) (t *toIntransitiveActivityIntermediateType, err error) {
-	tmp := &toIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice toIntransitiveActivityIntermediateType will accept a slice to create a slice of toIntransitiveActivityIntermediateType
-func deserializeSliceToIntransitiveActivityIntermediateType(in []interface{}) (t []*toIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &toIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetoIntransitiveActivityIntermediateType will accept a toIntransitiveActivityIntermediateType to create a map
-func serializeToIntransitiveActivityIntermediateType(t *toIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetoIntransitiveActivityIntermediateType will accept a slice of toIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceToIntransitiveActivityIntermediateType(s []*toIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializebtoIntransitiveActivityIntermediateType will accept a map to create a btoIntransitiveActivityIntermediateType
-func deserializeBtoIntransitiveActivityIntermediateType(in interface{}) (t *btoIntransitiveActivityIntermediateType, err error) {
-	tmp := &btoIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice btoIntransitiveActivityIntermediateType will accept a slice to create a slice of btoIntransitiveActivityIntermediateType
-func deserializeSliceBtoIntransitiveActivityIntermediateType(in []interface{}) (t []*btoIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &btoIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializebtoIntransitiveActivityIntermediateType will accept a btoIntransitiveActivityIntermediateType to create a map
-func serializeBtoIntransitiveActivityIntermediateType(t *btoIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicebtoIntransitiveActivityIntermediateType will accept a slice of btoIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceBtoIntransitiveActivityIntermediateType(s []*btoIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeccIntransitiveActivityIntermediateType will accept a map to create a ccIntransitiveActivityIntermediateType
-func deserializeCcIntransitiveActivityIntermediateType(in interface{}) (t *ccIntransitiveActivityIntermediateType, err error) {
-	tmp := &ccIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice ccIntransitiveActivityIntermediateType will accept a slice to create a slice of ccIntransitiveActivityIntermediateType
-func deserializeSliceCcIntransitiveActivityIntermediateType(in []interface{}) (t []*ccIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &ccIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeccIntransitiveActivityIntermediateType will accept a ccIntransitiveActivityIntermediateType to create a map
-func serializeCcIntransitiveActivityIntermediateType(t *ccIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceccIntransitiveActivityIntermediateType will accept a slice of ccIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceCcIntransitiveActivityIntermediateType(s []*ccIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializebccIntransitiveActivityIntermediateType will accept a map to create a bccIntransitiveActivityIntermediateType
-func deserializeBccIntransitiveActivityIntermediateType(in interface{}) (t *bccIntransitiveActivityIntermediateType, err error) {
-	tmp := &bccIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice bccIntransitiveActivityIntermediateType will accept a slice to create a slice of bccIntransitiveActivityIntermediateType
-func deserializeSliceBccIntransitiveActivityIntermediateType(in []interface{}) (t []*bccIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &bccIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializebccIntransitiveActivityIntermediateType will accept a bccIntransitiveActivityIntermediateType to create a map
-func serializeBccIntransitiveActivityIntermediateType(t *bccIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicebccIntransitiveActivityIntermediateType will accept a slice of bccIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceBccIntransitiveActivityIntermediateType(s []*bccIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializemediaTypeIntransitiveActivityIntermediateType will accept a map to create a mediaTypeIntransitiveActivityIntermediateType
-func deserializeMediaTypeIntransitiveActivityIntermediateType(in interface{}) (t *mediaTypeIntransitiveActivityIntermediateType, err error) {
-	tmp := &mediaTypeIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice mediaTypeIntransitiveActivityIntermediateType will accept a slice to create a slice of mediaTypeIntransitiveActivityIntermediateType
-func deserializeSliceMediaTypeIntransitiveActivityIntermediateType(in []interface{}) (t []*mediaTypeIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &mediaTypeIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializemediaTypeIntransitiveActivityIntermediateType will accept a mediaTypeIntransitiveActivityIntermediateType to create a map
-func serializeMediaTypeIntransitiveActivityIntermediateType(t *mediaTypeIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicemediaTypeIntransitiveActivityIntermediateType will accept a slice of mediaTypeIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceMediaTypeIntransitiveActivityIntermediateType(s []*mediaTypeIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializedurationIntransitiveActivityIntermediateType will accept a map to create a durationIntransitiveActivityIntermediateType
-func deserializeDurationIntransitiveActivityIntermediateType(in interface{}) (t *durationIntransitiveActivityIntermediateType, err error) {
-	tmp := &durationIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice durationIntransitiveActivityIntermediateType will accept a slice to create a slice of durationIntransitiveActivityIntermediateType
-func deserializeSliceDurationIntransitiveActivityIntermediateType(in []interface{}) (t []*durationIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &durationIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializedurationIntransitiveActivityIntermediateType will accept a durationIntransitiveActivityIntermediateType to create a map
-func serializeDurationIntransitiveActivityIntermediateType(t *durationIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicedurationIntransitiveActivityIntermediateType will accept a slice of durationIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceDurationIntransitiveActivityIntermediateType(s []*durationIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesourceIntransitiveActivityIntermediateType will accept a map to create a sourceIntransitiveActivityIntermediateType
-func deserializeSourceIntransitiveActivityIntermediateType(in interface{}) (t *sourceIntransitiveActivityIntermediateType, err error) {
-	tmp := &sourceIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice sourceIntransitiveActivityIntermediateType will accept a slice to create a slice of sourceIntransitiveActivityIntermediateType
-func deserializeSliceSourceIntransitiveActivityIntermediateType(in []interface{}) (t []*sourceIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &sourceIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesourceIntransitiveActivityIntermediateType will accept a sourceIntransitiveActivityIntermediateType to create a map
-func serializeSourceIntransitiveActivityIntermediateType(t *sourceIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesourceIntransitiveActivityIntermediateType will accept a slice of sourceIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceSourceIntransitiveActivityIntermediateType(s []*sourceIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinboxIntransitiveActivityIntermediateType will accept a map to create a inboxIntransitiveActivityIntermediateType
-func deserializeInboxIntransitiveActivityIntermediateType(in interface{}) (t *inboxIntransitiveActivityIntermediateType, err error) {
-	tmp := &inboxIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice inboxIntransitiveActivityIntermediateType will accept a slice to create a slice of inboxIntransitiveActivityIntermediateType
-func deserializeSliceInboxIntransitiveActivityIntermediateType(in []interface{}) (t []*inboxIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &inboxIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinboxIntransitiveActivityIntermediateType will accept a inboxIntransitiveActivityIntermediateType to create a map
-func serializeInboxIntransitiveActivityIntermediateType(t *inboxIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinboxIntransitiveActivityIntermediateType will accept a slice of inboxIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceInboxIntransitiveActivityIntermediateType(s []*inboxIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeoutboxIntransitiveActivityIntermediateType will accept a map to create a outboxIntransitiveActivityIntermediateType
-func deserializeOutboxIntransitiveActivityIntermediateType(in interface{}) (t *outboxIntransitiveActivityIntermediateType, err error) {
-	tmp := &outboxIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice outboxIntransitiveActivityIntermediateType will accept a slice to create a slice of outboxIntransitiveActivityIntermediateType
-func deserializeSliceOutboxIntransitiveActivityIntermediateType(in []interface{}) (t []*outboxIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &outboxIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeoutboxIntransitiveActivityIntermediateType will accept a outboxIntransitiveActivityIntermediateType to create a map
-func serializeOutboxIntransitiveActivityIntermediateType(t *outboxIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceoutboxIntransitiveActivityIntermediateType will accept a slice of outboxIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceOutboxIntransitiveActivityIntermediateType(s []*outboxIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefollowingIntransitiveActivityIntermediateType will accept a map to create a followingIntransitiveActivityIntermediateType
-func deserializeFollowingIntransitiveActivityIntermediateType(in interface{}) (t *followingIntransitiveActivityIntermediateType, err error) {
-	tmp := &followingIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice followingIntransitiveActivityIntermediateType will accept a slice to create a slice of followingIntransitiveActivityIntermediateType
-func deserializeSliceFollowingIntransitiveActivityIntermediateType(in []interface{}) (t []*followingIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &followingIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefollowingIntransitiveActivityIntermediateType will accept a followingIntransitiveActivityIntermediateType to create a map
-func serializeFollowingIntransitiveActivityIntermediateType(t *followingIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefollowingIntransitiveActivityIntermediateType will accept a slice of followingIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceFollowingIntransitiveActivityIntermediateType(s []*followingIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefollowersIntransitiveActivityIntermediateType will accept a map to create a followersIntransitiveActivityIntermediateType
-func deserializeFollowersIntransitiveActivityIntermediateType(in interface{}) (t *followersIntransitiveActivityIntermediateType, err error) {
-	tmp := &followersIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice followersIntransitiveActivityIntermediateType will accept a slice to create a slice of followersIntransitiveActivityIntermediateType
-func deserializeSliceFollowersIntransitiveActivityIntermediateType(in []interface{}) (t []*followersIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &followersIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefollowersIntransitiveActivityIntermediateType will accept a followersIntransitiveActivityIntermediateType to create a map
-func serializeFollowersIntransitiveActivityIntermediateType(t *followersIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefollowersIntransitiveActivityIntermediateType will accept a slice of followersIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceFollowersIntransitiveActivityIntermediateType(s []*followersIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelikedIntransitiveActivityIntermediateType will accept a map to create a likedIntransitiveActivityIntermediateType
-func deserializeLikedIntransitiveActivityIntermediateType(in interface{}) (t *likedIntransitiveActivityIntermediateType, err error) {
-	tmp := &likedIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice likedIntransitiveActivityIntermediateType will accept a slice to create a slice of likedIntransitiveActivityIntermediateType
-func deserializeSliceLikedIntransitiveActivityIntermediateType(in []interface{}) (t []*likedIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &likedIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelikedIntransitiveActivityIntermediateType will accept a likedIntransitiveActivityIntermediateType to create a map
-func serializeLikedIntransitiveActivityIntermediateType(t *likedIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelikedIntransitiveActivityIntermediateType will accept a slice of likedIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceLikedIntransitiveActivityIntermediateType(s []*likedIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelikesIntransitiveActivityIntermediateType will accept a map to create a likesIntransitiveActivityIntermediateType
-func deserializeLikesIntransitiveActivityIntermediateType(in interface{}) (t *likesIntransitiveActivityIntermediateType, err error) {
-	tmp := &likesIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice likesIntransitiveActivityIntermediateType will accept a slice to create a slice of likesIntransitiveActivityIntermediateType
-func deserializeSliceLikesIntransitiveActivityIntermediateType(in []interface{}) (t []*likesIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &likesIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelikesIntransitiveActivityIntermediateType will accept a likesIntransitiveActivityIntermediateType to create a map
-func serializeLikesIntransitiveActivityIntermediateType(t *likesIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelikesIntransitiveActivityIntermediateType will accept a slice of likesIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceLikesIntransitiveActivityIntermediateType(s []*likesIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreferredUsernameIntransitiveActivityIntermediateType will accept a map to create a preferredUsernameIntransitiveActivityIntermediateType
-func deserializePreferredUsernameIntransitiveActivityIntermediateType(in interface{}) (t *preferredUsernameIntransitiveActivityIntermediateType, err error) {
-	tmp := &preferredUsernameIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice preferredUsernameIntransitiveActivityIntermediateType will accept a slice to create a slice of preferredUsernameIntransitiveActivityIntermediateType
-func deserializeSlicePreferredUsernameIntransitiveActivityIntermediateType(in []interface{}) (t []*preferredUsernameIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &preferredUsernameIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreferredUsernameIntransitiveActivityIntermediateType will accept a preferredUsernameIntransitiveActivityIntermediateType to create a map
-func serializePreferredUsernameIntransitiveActivityIntermediateType(t *preferredUsernameIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreferredUsernameIntransitiveActivityIntermediateType will accept a slice of preferredUsernameIntransitiveActivityIntermediateType to create a slice result
-func serializeSlicePreferredUsernameIntransitiveActivityIntermediateType(s []*preferredUsernameIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeendpointsIntransitiveActivityIntermediateType will accept a map to create a endpointsIntransitiveActivityIntermediateType
-func deserializeEndpointsIntransitiveActivityIntermediateType(in interface{}) (t *endpointsIntransitiveActivityIntermediateType, err error) {
-	tmp := &endpointsIntransitiveActivityIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice endpointsIntransitiveActivityIntermediateType will accept a slice to create a slice of endpointsIntransitiveActivityIntermediateType
-func deserializeSliceEndpointsIntransitiveActivityIntermediateType(in []interface{}) (t []*endpointsIntransitiveActivityIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &endpointsIntransitiveActivityIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeendpointsIntransitiveActivityIntermediateType will accept a endpointsIntransitiveActivityIntermediateType to create a map
-func serializeEndpointsIntransitiveActivityIntermediateType(t *endpointsIntransitiveActivityIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceendpointsIntransitiveActivityIntermediateType will accept a slice of endpointsIntransitiveActivityIntermediateType to create a slice result
-func serializeSliceEndpointsIntransitiveActivityIntermediateType(s []*endpointsIntransitiveActivityIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
 	}
 	return
 

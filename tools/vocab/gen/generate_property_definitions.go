@@ -7,13 +7,13 @@ import (
 	"strings"
 )
 
-func generatePropertyDefinitions(t *defs.PropertyType, this *defs.StructDef, i *defs.InterfaceDef) (fd []*defs.FunctionDef, sd []*defs.StructDef, s, d string) {
+func generatePropertyDefinitions(t *defs.PropertyType, this *defs.StructDef, i *defs.InterfaceDef, m map[*defs.PropertyType]*intermedDef) (fd []*defs.FunctionDef, sd []*defs.StructDef, s, d string) {
 	if isAny(t) {
 		fd, sd, s, d = generateAnyDefinitions(t, this, i)
 	} else if isSingleType(t) {
 		fd, sd, s, d = generateSingleTypeDefinitions(t, this, i)
 	} else {
-		fd, sd, s, d = generateMultiTypeDefinitions(t, this, i)
+		fd, sd, s, d = generateMultiTypeDefinitions(t, this, i, m)
 	}
 	if t.NaturalLanguageMap {
 		fdMap, sdMap, sMap, dMap := generateNaturalLanguageMap(t, this, i)
@@ -589,19 +589,34 @@ func generateNonFunctionalSingleTypeDefinition(t *defs.PropertyType, this *defs.
 	return
 }
 
-func generateMultiTypeDefinitions(t *defs.PropertyType, this *defs.StructDef, i *defs.InterfaceDef) (fd []*defs.FunctionDef, sd []*defs.StructDef, s, d string) {
+func generateMultiTypeDefinitions(t *defs.PropertyType, this *defs.StructDef, i *defs.InterfaceDef, m map[*defs.PropertyType]*intermedDef) (fd []*defs.FunctionDef, sd []*defs.StructDef, s, d string) {
 	if t.Functional {
-		return generateFunctionalMultiTypeDefinition(t, this, i)
+		return generateFunctionalMultiTypeDefinition(t, this, i, m)
 	} else {
-		return generateNonFunctionalMultiTypeDefinition(t, this, i)
+		return generateNonFunctionalMultiTypeDefinition(t, this, i, m)
 	}
 }
 
-func generateFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.StructDef, i *defs.InterfaceDef) (fd []*defs.FunctionDef, sd []*defs.StructDef, s, d string) {
+func generateFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.StructDef, i *defs.InterfaceDef, intermedMap map[*defs.PropertyType]*intermedDef) (fd []*defs.FunctionDef, sd []*defs.StructDef, s, d string) {
 	titleName := strings.Title(t.Name)
-	intermed, f := generateIntermediateTypeDefinition(t, strings.Title(this.Typename))
-	fd = append(fd, f...)
-	sd = append(sd, intermed)
+	var intermed *defs.StructDef
+	if i, ok := intermedMap[t]; ok {
+		intermed = i.S
+	} else {
+		double := false
+		for k := range intermedMap {
+			if k.Name == t.Name {
+				intermedMap[k] = generateIntermediateTypeDefinition([]*defs.PropertyType{k, t})
+				intermed = intermedMap[k].S
+				double = true
+				break
+			}
+		}
+		if !double {
+			intermedMap[t] = generateIntermediateTypeDefinition([]*defs.PropertyType{t})
+			intermed = intermedMap[t].S
+		}
+	}
 	thisIntermed := &defs.StructMember{
 		Name:    cleanName(t.Name),
 		Type:    "*" + intermed.Typename,
@@ -610,16 +625,12 @@ func generateFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.Stru
 	this.M = append(this.M, thisIntermed)
 	for idx, r := range t.Range {
 		r := r
-		member := &defs.StructMember{
-			Name:    cleanName(Name(r)),
-			Type:    Type(r),
-			Comment: fmt.Sprintf("Stores possible %s type for %s property", Type(r), t.Name),
-		}
-		intermed.M = append(intermed.M, member)
-		isIRI := isIRIType(member.Type)
-		retKind := deref(member.Type)
+		memberName := cleanName(Name(r))
+		memberType := Type(r)
+		isIRI := isIRIType(memberType)
+		retKind := deref(memberType)
 		if isIRI {
-			retKind = member.Type
+			retKind = memberType
 		}
 		typeExtensionName := strings.Title(Name(r))
 		if defs.IsOnlyOtherPropertyBesidesIRI(idx, t.Range) {
@@ -632,7 +643,7 @@ func generateFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.Stru
 				P:       this,
 				Return:  []*defs.FunctionVarDef{{"ok", "bool"}},
 				Body: func() string {
-					return fmt.Sprintf("return t.%s != nil && t.%s.%s != nil\n", thisIntermed.Name, thisIntermed.Name, member.Name)
+					return fmt.Sprintf("return t.%s != nil && t.%s.%s != nil\n", thisIntermed.Name, thisIntermed.Name, memberName)
 				},
 			},
 			{
@@ -646,7 +657,7 @@ func generateFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.Stru
 					if isPtrType(Type(r)) && !isIRI {
 						b.WriteString("*")
 					}
-					b.WriteString(fmt.Sprintf("t.%s.%s\n", thisIntermed.Name, member.Name))
+					b.WriteString(fmt.Sprintf("t.%s.%s\n", thisIntermed.Name, memberName))
 					return b.String()
 				},
 			},
@@ -657,7 +668,7 @@ func generateFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.Stru
 				Args:    []*defs.FunctionVarDef{{"v", retKind}},
 				Body: func() string {
 					var b bytes.Buffer
-					b.WriteString(fmt.Sprintf("t.%s = &%s{%s:", thisIntermed.Name, intermed.Typename, member.Name))
+					b.WriteString(fmt.Sprintf("t.%s = &%s{%s:", thisIntermed.Name, intermed.Typename, memberName))
 					if isPtrType(Type(r)) && !isIRI {
 						b.WriteString("&")
 					}
@@ -708,11 +719,26 @@ func generateFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.Stru
 	return
 }
 
-func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.StructDef, i *defs.InterfaceDef) (fd []*defs.FunctionDef, sd []*defs.StructDef, s, d string) {
+func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.StructDef, i *defs.InterfaceDef, intermedMap map[*defs.PropertyType]*intermedDef) (fd []*defs.FunctionDef, sd []*defs.StructDef, s, d string) {
 	titleName := strings.Title(t.Name)
-	intermed, f := generateIntermediateTypeDefinition(t, strings.Title(this.Typename))
-	fd = append(fd, f...)
-	sd = append(sd, intermed)
+	var intermed *defs.StructDef
+	if i, ok := intermedMap[t]; ok {
+		intermed = i.S
+	} else {
+		double := false
+		for k := range intermedMap {
+			if k.Name == t.Name {
+				intermedMap[k] = generateIntermediateTypeDefinition([]*defs.PropertyType{k, t})
+				intermed = intermedMap[k].S
+				double = true
+				break
+			}
+		}
+		if !double {
+			intermedMap[t] = generateIntermediateTypeDefinition([]*defs.PropertyType{t})
+			intermed = intermedMap[t].S
+		}
+	}
 	thisIntermed := &defs.StructMember{
 		Name:    cleanName(t.Name),
 		Type:    fmt.Sprintf("[]*%s", intermed.Typename),
@@ -721,16 +747,12 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 	this.M = append(this.M, thisIntermed)
 	for idx, r := range t.Range {
 		r := r
-		member := &defs.StructMember{
-			Name:    cleanName(Name(r)),
-			Type:    Type(r),
-			Comment: fmt.Sprintf("Stores possible %s type for %s property", Type(r), t.Name),
-		}
-		intermed.M = append(intermed.M, member)
-		isIRI := isIRIType(member.Type)
-		retKind := deref(member.Type)
+		memberName := cleanName(Name(r))
+		memberType := Type(r)
+		isIRI := isIRIType(memberType)
+		retKind := deref(memberType)
 		if isIRI {
-			retKind = member.Type
+			retKind = memberType
 		}
 		typeExtensionName := strings.Title(Name(r))
 		if defs.IsOnlyOtherPropertyBesidesIRI(idx, t.Range) {
@@ -760,7 +782,7 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 				Args:    []*defs.FunctionVarDef{{"index", "int"}},
 				Return:  []*defs.FunctionVarDef{{"ok", "bool"}},
 				Body: func() string {
-					return fmt.Sprintf("return t.%s[index].%s != nil\n", thisIntermed.Name, member.Name)
+					return fmt.Sprintf("return t.%s[index].%s != nil\n", thisIntermed.Name, memberName)
 				},
 			},
 			{
@@ -775,7 +797,7 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 					if isPtrType(Type(r)) && !isIRI {
 						b.WriteString("*")
 					}
-					b.WriteString(fmt.Sprintf("t.%s[index].%s\n", thisIntermed.Name, member.Name))
+					b.WriteString(fmt.Sprintf("t.%s[index].%s\n", thisIntermed.Name, memberName))
 					return b.String()
 				},
 			},
@@ -786,7 +808,7 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 				Args:    []*defs.FunctionVarDef{{"v", retKind}},
 				Body: func() string {
 					var b bytes.Buffer
-					b.WriteString(fmt.Sprintf("t.%s = append(t.%s, &%s{%s:", thisIntermed.Name, thisIntermed.Name, intermed.Typename, member.Name))
+					b.WriteString(fmt.Sprintf("t.%s = append(t.%s, &%s{%s:", thisIntermed.Name, thisIntermed.Name, intermed.Typename, memberName))
 					if isPtrType(Type(r)) && !isIRI {
 						b.WriteString("&")
 					}
@@ -801,7 +823,7 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 				Args:    []*defs.FunctionVarDef{{"v", retKind}},
 				Body: func() string {
 					var b bytes.Buffer
-					b.WriteString(fmt.Sprintf("t.%s = append([]*%s{&%s{%s:", thisIntermed.Name, intermed.Typename, intermed.Typename, member.Name))
+					b.WriteString(fmt.Sprintf("t.%s = append([]*%s{&%s{%s:", thisIntermed.Name, intermed.Typename, intermed.Typename, memberName))
 					if isPtrType(Type(r)) && !isIRI {
 						b.WriteString("&")
 					}
@@ -893,25 +915,36 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 	return
 }
 
-func generateIntermediateTypeDefinition(t *defs.PropertyType, parentTitle string) (intermed *defs.StructDef, f []*defs.FunctionDef) {
-	intermed = &defs.StructDef{
-		Typename: fmt.Sprintf("%s%sIntermediateType", cleanName(t.Name), parentTitle),
-		Comment:  fmt.Sprintf("%s%sIntermediateType will only have one of its values set at most", cleanName(t.Name), parentTitle),
+type intermedDef struct {
+	Name string
+	S    *defs.StructDef
+	F    []*defs.FunctionDef
+}
+
+func generateIntermediateTypeDefinition(types []*defs.PropertyType) (d *intermedDef) {
+	t := types[0]
+	d = &intermedDef{}
+	d.Name = fmt.Sprintf("%sIntermediateType", cleanName(t.Name))
+	d.S = &defs.StructDef{
+		Typename: d.Name,
+		Comment:  fmt.Sprintf("%sIntermediateType will only have one of its values set at most", cleanName(t.Name)),
 		M:        []*defs.StructMember{{"unknown_", "interface{}", "An unknown value."}},
 	}
-	intermed.F = []*defs.MemberFunctionDef{
+	d.S.F = []*defs.MemberFunctionDef{
 		{
 			Name:    "Deserialize",
 			Comment: "Deserialize takes an interface{} and attempts to create a valid intermediate type.",
-			P:       intermed,
+			P:       d.S,
 			Args:    []*defs.FunctionVarDef{{"i", "interface{}"}},
 			Return:  []*defs.FunctionVarDef{{"err", "error"}},
 			Body: func() string {
 				bHasType := false
-				for _, r := range t.Range {
-					if r.T != nil {
-						bHasType = true
-						break
+				for _, t := range types {
+					for _, r := range t.Range {
+						if r.T != nil {
+							bHasType = true
+							break
+						}
 					}
 				}
 				var b bytes.Buffer
@@ -929,25 +962,33 @@ func generateIntermediateTypeDefinition(t *defs.PropertyType, parentTitle string
 					b.WriteString("} else if typeString, ok := tv.(string); ok {\n")
 					b.WriteString("types = append(types, typeString)\n")
 					b.WriteString("}\n")
-					for _, r := range t.Range {
-						if r.T != nil {
-							var resolve string
-							if isALinkType(r.T) {
-								resolve = resolveLinkName
-							} else if isAnObjectType(r.T) {
-								resolve = resolveObjectName
-							} else {
-								panic("Unknown resolution function: not object and not link")
+					alreadyMember := make(map[string]bool)
+					for _, t := range types {
+						for _, r := range t.Range {
+							kind := cleanName(Name(r))
+							if alreadyMember[kind] {
+								continue
 							}
-							b.WriteString("if !matched {\n")
-							b.WriteString("for _, kind := range types {\n")
-							b.WriteString(fmt.Sprintf("if t.%s, ok = %s(kind).(%sType); t.%s != nil && ok {\n", cleanName(Name(r)), resolve, Name(r), cleanName(Name(r))))
-							b.WriteString(fmt.Sprintf("err = t.%s.Deserialize(m)\n", cleanName(Name(r))))
-							b.WriteString("matched = true\n")
-							b.WriteString("break\n")
-							b.WriteString("}\n")
-							b.WriteString("}\n")
-							b.WriteString("}\n")
+							alreadyMember[kind] = true
+							if r.T != nil {
+								var resolve string
+								if isALinkType(r.T) {
+									resolve = resolveLinkName
+								} else if isAnObjectType(r.T) {
+									resolve = resolveObjectName
+								} else {
+									panic("Unknown resolution function: not object and not link")
+								}
+								b.WriteString("if !matched {\n")
+								b.WriteString("for _, kind := range types {\n")
+								b.WriteString(fmt.Sprintf("if t.%s, ok = %s(kind).(%sType); t.%s != nil && ok {\n", cleanName(Name(r)), resolve, Name(r), cleanName(Name(r))))
+								b.WriteString(fmt.Sprintf("err = t.%s.Deserialize(m)\n", cleanName(Name(r))))
+								b.WriteString("matched = true\n")
+								b.WriteString("break\n")
+								b.WriteString("}\n")
+								b.WriteString("}\n")
+								b.WriteString("}\n")
+							}
 						}
 					}
 					b.WriteString("} else {\n")
@@ -957,16 +998,24 @@ func generateIntermediateTypeDefinition(t *defs.PropertyType, parentTitle string
 					b.WriteString("err = fmt.Errorf(\"Given map but nothing to do with it for this type: %v\", m)")
 				}
 				b.WriteString("} else if i != nil {\n")
-				for _, r := range t.Range {
-					if r.V != nil {
-						b.WriteString("if !matched {\n")
-						b.WriteString(fmt.Sprintf("t.%s, err = %s(i)\n", cleanName(Name(r)), r.V.DeserializeFn.Name))
-						b.WriteString("if err != nil {\n")
-						b.WriteString(fmt.Sprintf("t.%s = nil\n", cleanName(Name(r))))
-						b.WriteString("} else {\n")
-						b.WriteString("matched = true\n")
-						b.WriteString("}\n")
-						b.WriteString("}\n")
+				alreadyMember := make(map[string]bool)
+				for _, t := range types {
+					for _, r := range t.Range {
+						kind := cleanName(Name(r))
+						if alreadyMember[kind] {
+							continue
+						}
+						alreadyMember[kind] = true
+						if r.V != nil {
+							b.WriteString("if !matched {\n")
+							b.WriteString(fmt.Sprintf("t.%s, err = %s(i)\n", cleanName(Name(r)), r.V.DeserializeFn.Name))
+							b.WriteString("if err != nil {\n")
+							b.WriteString(fmt.Sprintf("t.%s = nil\n", cleanName(Name(r))))
+							b.WriteString("} else {\n")
+							b.WriteString("matched = true\n")
+							b.WriteString("}\n")
+							b.WriteString("}\n")
+						}
 					}
 				}
 				b.WriteString("}\n")
@@ -980,28 +1029,36 @@ func generateIntermediateTypeDefinition(t *defs.PropertyType, parentTitle string
 		{
 			Name:    "Serialize",
 			Comment: "Serialize turns this object into an interface{}.",
-			P:       intermed,
+			P:       d.S,
 			Return:  []*defs.FunctionVarDef{{"i", "interface{}"}, {"err", "error"}},
 			Body: func() string {
 				var b bytes.Buffer
-				for _, r := range t.Range {
-					isIRI := isIRIType(Type(r))
-					deref := "*"
-					if isIRI {
-						deref = ""
+				alreadyMember := make(map[string]bool)
+				for _, t := range types {
+					for _, r := range t.Range {
+						kind := cleanName(Name(r))
+						if alreadyMember[kind] {
+							continue
+						}
+						alreadyMember[kind] = true
+						isIRI := isIRIType(Type(r))
+						deref := "*"
+						if isIRI {
+							deref = ""
+						}
+						b.WriteString(fmt.Sprintf("if t.%s != nil {\n", cleanName(Name(r))))
+						if r.T != nil {
+							b.WriteString(fmt.Sprintf("i, err = t.%s.Serialize()\n", cleanName(Name(r))))
+							b.WriteString("return\n")
+						} else if r.V != nil {
+							b.WriteString(fmt.Sprintf("i = %s(%st.%s)\n", r.V.SerializeFn.Name, deref, cleanName(Name(r))))
+							b.WriteString("return\n")
+						} else {
+							b.WriteString(fmt.Sprintf("i = t.%s\n", cleanName(Name(r))))
+							b.WriteString("return\n")
+						}
+						b.WriteString("}\n")
 					}
-					b.WriteString(fmt.Sprintf("if t.%s != nil {\n", cleanName(Name(r))))
-					if r.T != nil {
-						b.WriteString(fmt.Sprintf("i, err = t.%s.Serialize()\n", cleanName(Name(r))))
-						b.WriteString("return\n")
-					} else if r.V != nil {
-						b.WriteString(fmt.Sprintf("i = %s(%st.%s)\n", r.V.SerializeFn.Name, deref, cleanName(Name(r))))
-						b.WriteString("return\n")
-					} else {
-						b.WriteString(fmt.Sprintf("i = t.%s\n", cleanName(Name(r))))
-						b.WriteString("return\n")
-					}
-					b.WriteString("}\n")
 				}
 				b.WriteString(fmt.Sprintf("i = %s(t.unknown_)\n", unknownValueSerializeFnName))
 				b.WriteString("return")
@@ -1009,29 +1066,29 @@ func generateIntermediateTypeDefinition(t *defs.PropertyType, parentTitle string
 			},
 		},
 	}
-	f = append(f, []*defs.FunctionDef{
+	d.F = append(d.F, []*defs.FunctionDef{
 		{
-			Name:    fmt.Sprintf("deserialize%s", strings.Title(intermed.Typename)),
-			Comment: fmt.Sprintf("deserialize%s will accept a map to create a %s", intermed.Typename, intermed.Typename),
+			Name:    fmt.Sprintf("deserialize%s", strings.Title(d.S.Typename)),
+			Comment: fmt.Sprintf("deserialize%s will accept a map to create a %s", d.S.Typename, d.S.Typename),
 			Args:    []*defs.FunctionVarDef{{"in", "interface{}"}},
-			Return:  []*defs.FunctionVarDef{{"t", "*" + intermed.Typename}, {"err", "error"}},
+			Return:  []*defs.FunctionVarDef{{"t", "*" + d.S.Typename}, {"err", "error"}},
 			Body: func() string {
 				var b bytes.Buffer
-				b.WriteString(fmt.Sprintf("tmp := &%s{}\n", intermed.Typename))
+				b.WriteString(fmt.Sprintf("tmp := &%s{}\n", d.S.Typename))
 				b.WriteString("err = tmp.Deserialize(in)\n")
 				b.WriteString("return tmp, err\n")
 				return b.String()
 			},
 		},
 		{
-			Name:    fmt.Sprintf("deserializeSlice%s", strings.Title(intermed.Typename)),
-			Comment: fmt.Sprintf("deserializeSlice %s will accept a slice to create a slice of %s", intermed.Typename, intermed.Typename),
+			Name:    fmt.Sprintf("deserializeSlice%s", strings.Title(d.S.Typename)),
+			Comment: fmt.Sprintf("deserializeSlice %s will accept a slice to create a slice of %s", d.S.Typename, d.S.Typename),
 			Args:    []*defs.FunctionVarDef{{"in", "[]interface{}"}},
-			Return:  []*defs.FunctionVarDef{{"t", "[]*" + intermed.Typename}, {"err", "error"}},
+			Return:  []*defs.FunctionVarDef{{"t", "[]*" + d.S.Typename}, {"err", "error"}},
 			Body: func() string {
 				var b bytes.Buffer
 				b.WriteString("for _, i := range in {\n")
-				b.WriteString(fmt.Sprintf("tmp := &%s{}\n", intermed.Typename))
+				b.WriteString(fmt.Sprintf("tmp := &%s{}\n", d.S.Typename))
 				b.WriteString("err = tmp.Deserialize(i)\n")
 				b.WriteString("if err != nil {\nreturn\n}\n")
 				b.WriteString("t = append(t, tmp)\n")
@@ -1041,9 +1098,9 @@ func generateIntermediateTypeDefinition(t *defs.PropertyType, parentTitle string
 			},
 		},
 		{
-			Name:    fmt.Sprintf("serialize%s", strings.Title(intermed.Typename)),
-			Comment: fmt.Sprintf("serialize%s will accept a %s to create a map", intermed.Typename, intermed.Typename),
-			Args:    []*defs.FunctionVarDef{{"t", "*" + intermed.Typename}},
+			Name:    fmt.Sprintf("serialize%s", strings.Title(d.S.Typename)),
+			Comment: fmt.Sprintf("serialize%s will accept a %s to create a map", d.S.Typename, d.S.Typename),
+			Args:    []*defs.FunctionVarDef{{"t", "*" + d.S.Typename}},
 			Return:  []*defs.FunctionVarDef{{"i", "interface{}"}, {"err", "error"}},
 			Body: func() string {
 				var b bytes.Buffer
@@ -1053,9 +1110,9 @@ func generateIntermediateTypeDefinition(t *defs.PropertyType, parentTitle string
 			},
 		},
 		{
-			Name:    fmt.Sprintf("serializeSlice%s", strings.Title(intermed.Typename)),
-			Comment: fmt.Sprintf("serializeSlice%s will accept a slice of %s to create a slice result", intermed.Typename, intermed.Typename),
-			Args:    []*defs.FunctionVarDef{{"s", "[]*" + intermed.Typename}},
+			Name:    fmt.Sprintf("serializeSlice%s", strings.Title(d.S.Typename)),
+			Comment: fmt.Sprintf("serializeSlice%s will accept a slice of %s to create a slice result", d.S.Typename, d.S.Typename),
+			Args:    []*defs.FunctionVarDef{{"s", "[]*" + d.S.Typename}},
 			Return:  []*defs.FunctionVarDef{{"out", "[]interface{}"}, {"err", "error"}},
 			Body: func() string {
 				var b bytes.Buffer
@@ -1069,6 +1126,21 @@ func generateIntermediateTypeDefinition(t *defs.PropertyType, parentTitle string
 			},
 		},
 	}...)
+	alreadyMember := make(map[string]bool)
+	for _, t := range types {
+		for _, r := range t.Range {
+			kind := cleanName(Name(r))
+			if alreadyMember[kind] {
+				continue
+			}
+			alreadyMember[kind] = true
+			d.S.M = append(d.S.M, &defs.StructMember{
+				Name:    kind,
+				Type:    Type(r),
+				Comment: fmt.Sprintf("Stores possible %s type for %s property", Type(r), t.Name),
+			})
+		}
+	}
 	return
 }
 

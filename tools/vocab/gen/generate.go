@@ -69,12 +69,13 @@ func GenerateImplementations(types []*defs.Type, properties []*defs.PropertyType
 		Content: b,
 	})
 
+	// ActivityStream Types
+	m := make(map[*defs.PropertyType]*intermedDef)
 	for _, t := range types {
 		p := &defs.PackageDef{
 			Name: "vocab",
 		}
-		funcs, defs, interfaces, imports := generateDefinitions(t)
-		imports["fmt"] = true
+		funcs, defs, interfaces, imports := generateDefinitions(t, m)
 		for i, _ := range imports {
 			p.Imports = append(p.Imports, i)
 		}
@@ -92,6 +93,24 @@ func GenerateImplementations(types []*defs.Type, properties []*defs.PropertyType
 			Content: b,
 		})
 	}
+
+	// Intermediate definitions
+	p = &defs.PackageDef{
+		Name:    "vocab",
+		Imports: []string{"fmt", "net/url", "time"},
+	}
+	for _, v := range m {
+		p.F = append(p.F, v.F...)
+		p.Defs = append(p.Defs, v.S)
+	}
+	b, err = format.Source([]byte(p.Generate()))
+	if err != nil {
+		return
+	}
+	f = append(f, &File{
+		Name:    fmt.Sprintf("gen_intermediate.go"),
+		Content: b,
+	})
 	return
 }
 

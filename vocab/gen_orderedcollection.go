@@ -2,7 +2,6 @@
 package vocab
 
 import (
-	"fmt"
 	"net/url"
 	"time"
 )
@@ -563,101 +562,101 @@ type OrderedCollection struct {
 	// An unknown value.
 	unknown_ map[string]interface{}
 	// The 'orderedItems' value could have multiple types and values
-	orderedItems []*orderedItemsOrderedCollectionIntermediateType
+	orderedItems []*orderedItemsIntermediateType
 	// The functional 'current' value could have multiple types, but only a single value
-	current *currentOrderedCollectionIntermediateType
+	current *currentIntermediateType
 	// The functional 'first' value could have multiple types, but only a single value
-	first *firstOrderedCollectionIntermediateType
+	first *firstIntermediateType
 	// The functional 'last' value could have multiple types, but only a single value
-	last *lastOrderedCollectionIntermediateType
+	last *lastIntermediateType
 	// The functional 'totalItems' value could have multiple types, but only a single value
-	totalItems *totalItemsOrderedCollectionIntermediateType
+	totalItems *totalItemsIntermediateType
 	// The functional 'altitude' value could have multiple types, but only a single value
-	altitude *altitudeOrderedCollectionIntermediateType
+	altitude *altitudeIntermediateType
 	// The 'attachment' value could have multiple types and values
-	attachment []*attachmentOrderedCollectionIntermediateType
+	attachment []*attachmentIntermediateType
 	// The 'attributedTo' value could have multiple types and values
-	attributedTo []*attributedToOrderedCollectionIntermediateType
+	attributedTo []*attributedToIntermediateType
 	// The 'audience' value could have multiple types and values
-	audience []*audienceOrderedCollectionIntermediateType
+	audience []*audienceIntermediateType
 	// The 'content' value could have multiple types and values
-	content []*contentOrderedCollectionIntermediateType
+	content []*contentIntermediateType
 	// The 'contentMap' value holds language-specific values for property 'content'
 	contentMap map[string]string
 	// The 'context' value could have multiple types and values
-	context []*contextOrderedCollectionIntermediateType
+	context []*contextIntermediateType
 	// The 'name' value could have multiple types and values
-	name []*nameOrderedCollectionIntermediateType
+	name []*nameIntermediateType
 	// The 'nameMap' value holds language-specific values for property 'name'
 	nameMap map[string]string
 	// The functional 'endTime' value could have multiple types, but only a single value
-	endTime *endTimeOrderedCollectionIntermediateType
+	endTime *endTimeIntermediateType
 	// The 'generator' value could have multiple types and values
-	generator []*generatorOrderedCollectionIntermediateType
+	generator []*generatorIntermediateType
 	// The 'icon' value could have multiple types and values
-	icon []*iconOrderedCollectionIntermediateType
+	icon []*iconIntermediateType
 	// The functional 'id' value holds a single type and a single value
 	id *url.URL
 	// The 'image' value could have multiple types and values
-	image []*imageOrderedCollectionIntermediateType
+	image []*imageIntermediateType
 	// The 'inReplyTo' value could have multiple types and values
-	inReplyTo []*inReplyToOrderedCollectionIntermediateType
+	inReplyTo []*inReplyToIntermediateType
 	// The 'location' value could have multiple types and values
-	location []*locationOrderedCollectionIntermediateType
+	location []*locationIntermediateType
 	// The 'preview' value could have multiple types and values
-	preview []*previewOrderedCollectionIntermediateType
+	preview []*previewIntermediateType
 	// The functional 'published' value could have multiple types, but only a single value
-	published *publishedOrderedCollectionIntermediateType
+	published *publishedIntermediateType
 	// The functional 'replies' value could have multiple types, but only a single value
-	replies *repliesOrderedCollectionIntermediateType
+	replies *repliesIntermediateType
 	// The functional 'startTime' value could have multiple types, but only a single value
-	startTime *startTimeOrderedCollectionIntermediateType
+	startTime *startTimeIntermediateType
 	// The 'summary' value could have multiple types and values
-	summary []*summaryOrderedCollectionIntermediateType
+	summary []*summaryIntermediateType
 	// The 'summaryMap' value holds language-specific values for property 'summary'
 	summaryMap map[string]string
 	// The 'tag' value could have multiple types and values
-	tag []*tagOrderedCollectionIntermediateType
+	tag []*tagIntermediateType
 	// The 'type' value can hold any type and any number of values
 	typeName []interface{}
 	// The functional 'updated' value could have multiple types, but only a single value
-	updated *updatedOrderedCollectionIntermediateType
+	updated *updatedIntermediateType
 	// The 'url' value could have multiple types and values
-	url []*urlOrderedCollectionIntermediateType
+	url []*urlIntermediateType
 	// The 'to' value could have multiple types and values
-	to []*toOrderedCollectionIntermediateType
+	to []*toIntermediateType
 	// The 'bto' value could have multiple types and values
-	bto []*btoOrderedCollectionIntermediateType
+	bto []*btoIntermediateType
 	// The 'cc' value could have multiple types and values
-	cc []*ccOrderedCollectionIntermediateType
+	cc []*ccIntermediateType
 	// The 'bcc' value could have multiple types and values
-	bcc []*bccOrderedCollectionIntermediateType
+	bcc []*bccIntermediateType
 	// The functional 'mediaType' value could have multiple types, but only a single value
-	mediaType *mediaTypeOrderedCollectionIntermediateType
+	mediaType *mediaTypeIntermediateType
 	// The functional 'duration' value could have multiple types, but only a single value
-	duration *durationOrderedCollectionIntermediateType
+	duration *durationIntermediateType
 	// The functional 'source' value could have multiple types, but only a single value
-	source *sourceOrderedCollectionIntermediateType
+	source *sourceIntermediateType
 	// The functional 'inbox' value could have multiple types, but only a single value
-	inbox *inboxOrderedCollectionIntermediateType
+	inbox *inboxIntermediateType
 	// The functional 'outbox' value could have multiple types, but only a single value
-	outbox *outboxOrderedCollectionIntermediateType
+	outbox *outboxIntermediateType
 	// The functional 'following' value could have multiple types, but only a single value
-	following *followingOrderedCollectionIntermediateType
+	following *followingIntermediateType
 	// The functional 'followers' value could have multiple types, but only a single value
-	followers *followersOrderedCollectionIntermediateType
+	followers *followersIntermediateType
 	// The functional 'liked' value could have multiple types, but only a single value
-	liked *likedOrderedCollectionIntermediateType
+	liked *likedIntermediateType
 	// The functional 'likes' value could have multiple types, but only a single value
-	likes *likesOrderedCollectionIntermediateType
+	likes *likesIntermediateType
 	// The 'streams' value holds a single type and any number of values
 	streams []*url.URL
 	// The functional 'preferredUsername' value could have multiple types, but only a single value
-	preferredUsername *preferredUsernameOrderedCollectionIntermediateType
+	preferredUsername *preferredUsernameIntermediateType
 	// The 'preferredUsernameMap' value holds language-specific values for property 'preferredUsername'
 	preferredUsernameMap map[string]string
 	// The functional 'endpoints' value could have multiple types, but only a single value
-	endpoints *endpointsOrderedCollectionIntermediateType
+	endpoints *endpointsIntermediateType
 	// The functional 'proxyUrl' value holds a single type and a single value
 	proxyUrl *url.URL
 	// The functional 'oauthAuthorizationEndpoint' value holds a single type and a single value
@@ -692,13 +691,13 @@ func (t *OrderedCollection) GetOrderedItemsObject(index int) (v ObjectType) {
 
 // AppendOrderedItemsObject adds to the back of orderedItems a ObjectType type
 func (t *OrderedCollection) AppendOrderedItemsObject(v ObjectType) {
-	t.orderedItems = append(t.orderedItems, &orderedItemsOrderedCollectionIntermediateType{Object: v})
+	t.orderedItems = append(t.orderedItems, &orderedItemsIntermediateType{Object: v})
 
 }
 
 // PrependOrderedItemsObject adds to the front of orderedItems a ObjectType type
 func (t *OrderedCollection) PrependOrderedItemsObject(v ObjectType) {
-	t.orderedItems = append([]*orderedItemsOrderedCollectionIntermediateType{&orderedItemsOrderedCollectionIntermediateType{Object: v}}, t.orderedItems...)
+	t.orderedItems = append([]*orderedItemsIntermediateType{&orderedItemsIntermediateType{Object: v}}, t.orderedItems...)
 
 }
 
@@ -724,13 +723,13 @@ func (t *OrderedCollection) GetOrderedItemsLink(index int) (v LinkType) {
 
 // AppendOrderedItemsLink adds to the back of orderedItems a LinkType type
 func (t *OrderedCollection) AppendOrderedItemsLink(v LinkType) {
-	t.orderedItems = append(t.orderedItems, &orderedItemsOrderedCollectionIntermediateType{Link: v})
+	t.orderedItems = append(t.orderedItems, &orderedItemsIntermediateType{Link: v})
 
 }
 
 // PrependOrderedItemsLink adds to the front of orderedItems a LinkType type
 func (t *OrderedCollection) PrependOrderedItemsLink(v LinkType) {
-	t.orderedItems = append([]*orderedItemsOrderedCollectionIntermediateType{&orderedItemsOrderedCollectionIntermediateType{Link: v}}, t.orderedItems...)
+	t.orderedItems = append([]*orderedItemsIntermediateType{&orderedItemsIntermediateType{Link: v}}, t.orderedItems...)
 
 }
 
@@ -756,13 +755,13 @@ func (t *OrderedCollection) GetOrderedItemsIRI(index int) (v *url.URL) {
 
 // AppendOrderedItemsIRI adds to the back of orderedItems a *url.URL type
 func (t *OrderedCollection) AppendOrderedItemsIRI(v *url.URL) {
-	t.orderedItems = append(t.orderedItems, &orderedItemsOrderedCollectionIntermediateType{IRI: v})
+	t.orderedItems = append(t.orderedItems, &orderedItemsIntermediateType{IRI: v})
 
 }
 
 // PrependOrderedItemsIRI adds to the front of orderedItems a *url.URL type
 func (t *OrderedCollection) PrependOrderedItemsIRI(v *url.URL) {
-	t.orderedItems = append([]*orderedItemsOrderedCollectionIntermediateType{&orderedItemsOrderedCollectionIntermediateType{IRI: v}}, t.orderedItems...)
+	t.orderedItems = append([]*orderedItemsIntermediateType{&orderedItemsIntermediateType{IRI: v}}, t.orderedItems...)
 
 }
 
@@ -791,7 +790,7 @@ func (t *OrderedCollection) SetUnknownOrderedItems(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &orderedItemsOrderedCollectionIntermediateType{}
+	tmp := &orderedItemsIntermediateType{}
 	tmp.unknown_ = i
 	t.orderedItems = append(t.orderedItems, tmp)
 
@@ -811,7 +810,7 @@ func (t *OrderedCollection) GetCurrentOrderedCollectionPage() (v OrderedCollecti
 
 // SetCurrentOrderedCollectionPage sets the value of current to be of OrderedCollectionPageType type
 func (t *OrderedCollection) SetCurrentOrderedCollectionPage(v OrderedCollectionPageType) {
-	t.current = &currentOrderedCollectionIntermediateType{OrderedCollectionPage: v}
+	t.current = &currentIntermediateType{OrderedCollectionPage: v}
 
 }
 
@@ -829,7 +828,7 @@ func (t *OrderedCollection) GetCurrentLink() (v LinkType) {
 
 // SetCurrentLink sets the value of current to be of LinkType type
 func (t *OrderedCollection) SetCurrentLink(v LinkType) {
-	t.current = &currentOrderedCollectionIntermediateType{Link: v}
+	t.current = &currentIntermediateType{Link: v}
 
 }
 
@@ -847,7 +846,7 @@ func (t *OrderedCollection) GetCurrentIRI() (v *url.URL) {
 
 // SetCurrentIRI sets the value of current to be of *url.URL type
 func (t *OrderedCollection) SetCurrentIRI(v *url.URL) {
-	t.current = &currentOrderedCollectionIntermediateType{IRI: v}
+	t.current = &currentIntermediateType{IRI: v}
 
 }
 
@@ -868,7 +867,7 @@ func (t *OrderedCollection) SetUnknownCurrent(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &currentOrderedCollectionIntermediateType{}
+	tmp := &currentIntermediateType{}
 	tmp.unknown_ = i
 	t.current = tmp
 
@@ -888,7 +887,7 @@ func (t *OrderedCollection) GetFirstOrderedCollectionPage() (v OrderedCollection
 
 // SetFirstOrderedCollectionPage sets the value of first to be of OrderedCollectionPageType type
 func (t *OrderedCollection) SetFirstOrderedCollectionPage(v OrderedCollectionPageType) {
-	t.first = &firstOrderedCollectionIntermediateType{OrderedCollectionPage: v}
+	t.first = &firstIntermediateType{OrderedCollectionPage: v}
 
 }
 
@@ -906,7 +905,7 @@ func (t *OrderedCollection) GetFirstLink() (v LinkType) {
 
 // SetFirstLink sets the value of first to be of LinkType type
 func (t *OrderedCollection) SetFirstLink(v LinkType) {
-	t.first = &firstOrderedCollectionIntermediateType{Link: v}
+	t.first = &firstIntermediateType{Link: v}
 
 }
 
@@ -924,7 +923,7 @@ func (t *OrderedCollection) GetFirstIRI() (v *url.URL) {
 
 // SetFirstIRI sets the value of first to be of *url.URL type
 func (t *OrderedCollection) SetFirstIRI(v *url.URL) {
-	t.first = &firstOrderedCollectionIntermediateType{IRI: v}
+	t.first = &firstIntermediateType{IRI: v}
 
 }
 
@@ -945,7 +944,7 @@ func (t *OrderedCollection) SetUnknownFirst(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &firstOrderedCollectionIntermediateType{}
+	tmp := &firstIntermediateType{}
 	tmp.unknown_ = i
 	t.first = tmp
 
@@ -965,7 +964,7 @@ func (t *OrderedCollection) GetLastOrderedCollectionPage() (v OrderedCollectionP
 
 // SetLastOrderedCollectionPage sets the value of last to be of OrderedCollectionPageType type
 func (t *OrderedCollection) SetLastOrderedCollectionPage(v OrderedCollectionPageType) {
-	t.last = &lastOrderedCollectionIntermediateType{OrderedCollectionPage: v}
+	t.last = &lastIntermediateType{OrderedCollectionPage: v}
 
 }
 
@@ -983,7 +982,7 @@ func (t *OrderedCollection) GetLastLink() (v LinkType) {
 
 // SetLastLink sets the value of last to be of LinkType type
 func (t *OrderedCollection) SetLastLink(v LinkType) {
-	t.last = &lastOrderedCollectionIntermediateType{Link: v}
+	t.last = &lastIntermediateType{Link: v}
 
 }
 
@@ -1001,7 +1000,7 @@ func (t *OrderedCollection) GetLastIRI() (v *url.URL) {
 
 // SetLastIRI sets the value of last to be of *url.URL type
 func (t *OrderedCollection) SetLastIRI(v *url.URL) {
-	t.last = &lastOrderedCollectionIntermediateType{IRI: v}
+	t.last = &lastIntermediateType{IRI: v}
 
 }
 
@@ -1022,7 +1021,7 @@ func (t *OrderedCollection) SetUnknownLast(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &lastOrderedCollectionIntermediateType{}
+	tmp := &lastIntermediateType{}
 	tmp.unknown_ = i
 	t.last = tmp
 
@@ -1042,7 +1041,7 @@ func (t *OrderedCollection) GetTotalItems() (v int64) {
 
 // SetTotalItems sets the value of totalItems to be of int64 type
 func (t *OrderedCollection) SetTotalItems(v int64) {
-	t.totalItems = &totalItemsOrderedCollectionIntermediateType{nonNegativeInteger: &v}
+	t.totalItems = &totalItemsIntermediateType{nonNegativeInteger: &v}
 
 }
 
@@ -1060,7 +1059,7 @@ func (t *OrderedCollection) GetTotalItemsIRI() (v *url.URL) {
 
 // SetTotalItemsIRI sets the value of totalItems to be of *url.URL type
 func (t *OrderedCollection) SetTotalItemsIRI(v *url.URL) {
-	t.totalItems = &totalItemsOrderedCollectionIntermediateType{IRI: v}
+	t.totalItems = &totalItemsIntermediateType{IRI: v}
 
 }
 
@@ -1081,7 +1080,7 @@ func (t *OrderedCollection) SetUnknownTotalItems(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &totalItemsOrderedCollectionIntermediateType{}
+	tmp := &totalItemsIntermediateType{}
 	tmp.unknown_ = i
 	t.totalItems = tmp
 
@@ -1101,7 +1100,7 @@ func (t *OrderedCollection) GetAltitude() (v float64) {
 
 // SetAltitude sets the value of altitude to be of float64 type
 func (t *OrderedCollection) SetAltitude(v float64) {
-	t.altitude = &altitudeOrderedCollectionIntermediateType{float: &v}
+	t.altitude = &altitudeIntermediateType{float: &v}
 
 }
 
@@ -1119,7 +1118,7 @@ func (t *OrderedCollection) GetAltitudeIRI() (v *url.URL) {
 
 // SetAltitudeIRI sets the value of altitude to be of *url.URL type
 func (t *OrderedCollection) SetAltitudeIRI(v *url.URL) {
-	t.altitude = &altitudeOrderedCollectionIntermediateType{IRI: v}
+	t.altitude = &altitudeIntermediateType{IRI: v}
 
 }
 
@@ -1140,7 +1139,7 @@ func (t *OrderedCollection) SetUnknownAltitude(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &altitudeOrderedCollectionIntermediateType{}
+	tmp := &altitudeIntermediateType{}
 	tmp.unknown_ = i
 	t.altitude = tmp
 
@@ -1166,13 +1165,13 @@ func (t *OrderedCollection) GetAttachmentObject(index int) (v ObjectType) {
 
 // AppendAttachmentObject adds to the back of attachment a ObjectType type
 func (t *OrderedCollection) AppendAttachmentObject(v ObjectType) {
-	t.attachment = append(t.attachment, &attachmentOrderedCollectionIntermediateType{Object: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{Object: v})
 
 }
 
 // PrependAttachmentObject adds to the front of attachment a ObjectType type
 func (t *OrderedCollection) PrependAttachmentObject(v ObjectType) {
-	t.attachment = append([]*attachmentOrderedCollectionIntermediateType{&attachmentOrderedCollectionIntermediateType{Object: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{Object: v}}, t.attachment...)
 
 }
 
@@ -1198,13 +1197,13 @@ func (t *OrderedCollection) GetAttachmentLink(index int) (v LinkType) {
 
 // AppendAttachmentLink adds to the back of attachment a LinkType type
 func (t *OrderedCollection) AppendAttachmentLink(v LinkType) {
-	t.attachment = append(t.attachment, &attachmentOrderedCollectionIntermediateType{Link: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{Link: v})
 
 }
 
 // PrependAttachmentLink adds to the front of attachment a LinkType type
 func (t *OrderedCollection) PrependAttachmentLink(v LinkType) {
-	t.attachment = append([]*attachmentOrderedCollectionIntermediateType{&attachmentOrderedCollectionIntermediateType{Link: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{Link: v}}, t.attachment...)
 
 }
 
@@ -1230,13 +1229,13 @@ func (t *OrderedCollection) GetAttachmentIRI(index int) (v *url.URL) {
 
 // AppendAttachmentIRI adds to the back of attachment a *url.URL type
 func (t *OrderedCollection) AppendAttachmentIRI(v *url.URL) {
-	t.attachment = append(t.attachment, &attachmentOrderedCollectionIntermediateType{IRI: v})
+	t.attachment = append(t.attachment, &attachmentIntermediateType{IRI: v})
 
 }
 
 // PrependAttachmentIRI adds to the front of attachment a *url.URL type
 func (t *OrderedCollection) PrependAttachmentIRI(v *url.URL) {
-	t.attachment = append([]*attachmentOrderedCollectionIntermediateType{&attachmentOrderedCollectionIntermediateType{IRI: v}}, t.attachment...)
+	t.attachment = append([]*attachmentIntermediateType{&attachmentIntermediateType{IRI: v}}, t.attachment...)
 
 }
 
@@ -1265,7 +1264,7 @@ func (t *OrderedCollection) SetUnknownAttachment(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attachmentOrderedCollectionIntermediateType{}
+	tmp := &attachmentIntermediateType{}
 	tmp.unknown_ = i
 	t.attachment = append(t.attachment, tmp)
 
@@ -1291,13 +1290,13 @@ func (t *OrderedCollection) GetAttributedToObject(index int) (v ObjectType) {
 
 // AppendAttributedToObject adds to the back of attributedTo a ObjectType type
 func (t *OrderedCollection) AppendAttributedToObject(v ObjectType) {
-	t.attributedTo = append(t.attributedTo, &attributedToOrderedCollectionIntermediateType{Object: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Object: v})
 
 }
 
 // PrependAttributedToObject adds to the front of attributedTo a ObjectType type
 func (t *OrderedCollection) PrependAttributedToObject(v ObjectType) {
-	t.attributedTo = append([]*attributedToOrderedCollectionIntermediateType{&attributedToOrderedCollectionIntermediateType{Object: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Object: v}}, t.attributedTo...)
 
 }
 
@@ -1323,13 +1322,13 @@ func (t *OrderedCollection) GetAttributedToLink(index int) (v LinkType) {
 
 // AppendAttributedToLink adds to the back of attributedTo a LinkType type
 func (t *OrderedCollection) AppendAttributedToLink(v LinkType) {
-	t.attributedTo = append(t.attributedTo, &attributedToOrderedCollectionIntermediateType{Link: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Link: v})
 
 }
 
 // PrependAttributedToLink adds to the front of attributedTo a LinkType type
 func (t *OrderedCollection) PrependAttributedToLink(v LinkType) {
-	t.attributedTo = append([]*attributedToOrderedCollectionIntermediateType{&attributedToOrderedCollectionIntermediateType{Link: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Link: v}}, t.attributedTo...)
 
 }
 
@@ -1355,13 +1354,13 @@ func (t *OrderedCollection) GetAttributedToIRI(index int) (v *url.URL) {
 
 // AppendAttributedToIRI adds to the back of attributedTo a *url.URL type
 func (t *OrderedCollection) AppendAttributedToIRI(v *url.URL) {
-	t.attributedTo = append(t.attributedTo, &attributedToOrderedCollectionIntermediateType{IRI: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{IRI: v})
 
 }
 
 // PrependAttributedToIRI adds to the front of attributedTo a *url.URL type
 func (t *OrderedCollection) PrependAttributedToIRI(v *url.URL) {
-	t.attributedTo = append([]*attributedToOrderedCollectionIntermediateType{&attributedToOrderedCollectionIntermediateType{IRI: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{IRI: v}}, t.attributedTo...)
 
 }
 
@@ -1390,7 +1389,7 @@ func (t *OrderedCollection) SetUnknownAttributedTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attributedToOrderedCollectionIntermediateType{}
+	tmp := &attributedToIntermediateType{}
 	tmp.unknown_ = i
 	t.attributedTo = append(t.attributedTo, tmp)
 
@@ -1416,13 +1415,13 @@ func (t *OrderedCollection) GetAudienceObject(index int) (v ObjectType) {
 
 // AppendAudienceObject adds to the back of audience a ObjectType type
 func (t *OrderedCollection) AppendAudienceObject(v ObjectType) {
-	t.audience = append(t.audience, &audienceOrderedCollectionIntermediateType{Object: v})
+	t.audience = append(t.audience, &audienceIntermediateType{Object: v})
 
 }
 
 // PrependAudienceObject adds to the front of audience a ObjectType type
 func (t *OrderedCollection) PrependAudienceObject(v ObjectType) {
-	t.audience = append([]*audienceOrderedCollectionIntermediateType{&audienceOrderedCollectionIntermediateType{Object: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{Object: v}}, t.audience...)
 
 }
 
@@ -1448,13 +1447,13 @@ func (t *OrderedCollection) GetAudienceLink(index int) (v LinkType) {
 
 // AppendAudienceLink adds to the back of audience a LinkType type
 func (t *OrderedCollection) AppendAudienceLink(v LinkType) {
-	t.audience = append(t.audience, &audienceOrderedCollectionIntermediateType{Link: v})
+	t.audience = append(t.audience, &audienceIntermediateType{Link: v})
 
 }
 
 // PrependAudienceLink adds to the front of audience a LinkType type
 func (t *OrderedCollection) PrependAudienceLink(v LinkType) {
-	t.audience = append([]*audienceOrderedCollectionIntermediateType{&audienceOrderedCollectionIntermediateType{Link: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{Link: v}}, t.audience...)
 
 }
 
@@ -1480,13 +1479,13 @@ func (t *OrderedCollection) GetAudienceIRI(index int) (v *url.URL) {
 
 // AppendAudienceIRI adds to the back of audience a *url.URL type
 func (t *OrderedCollection) AppendAudienceIRI(v *url.URL) {
-	t.audience = append(t.audience, &audienceOrderedCollectionIntermediateType{IRI: v})
+	t.audience = append(t.audience, &audienceIntermediateType{IRI: v})
 
 }
 
 // PrependAudienceIRI adds to the front of audience a *url.URL type
 func (t *OrderedCollection) PrependAudienceIRI(v *url.URL) {
-	t.audience = append([]*audienceOrderedCollectionIntermediateType{&audienceOrderedCollectionIntermediateType{IRI: v}}, t.audience...)
+	t.audience = append([]*audienceIntermediateType{&audienceIntermediateType{IRI: v}}, t.audience...)
 
 }
 
@@ -1515,7 +1514,7 @@ func (t *OrderedCollection) SetUnknownAudience(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &audienceOrderedCollectionIntermediateType{}
+	tmp := &audienceIntermediateType{}
 	tmp.unknown_ = i
 	t.audience = append(t.audience, tmp)
 
@@ -1541,13 +1540,13 @@ func (t *OrderedCollection) GetContentString(index int) (v string) {
 
 // AppendContentString adds to the back of content a string type
 func (t *OrderedCollection) AppendContentString(v string) {
-	t.content = append(t.content, &contentOrderedCollectionIntermediateType{stringName: &v})
+	t.content = append(t.content, &contentIntermediateType{stringName: &v})
 
 }
 
 // PrependContentString adds to the front of content a string type
 func (t *OrderedCollection) PrependContentString(v string) {
-	t.content = append([]*contentOrderedCollectionIntermediateType{&contentOrderedCollectionIntermediateType{stringName: &v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{stringName: &v}}, t.content...)
 
 }
 
@@ -1573,13 +1572,13 @@ func (t *OrderedCollection) GetContentLangString(index int) (v string) {
 
 // AppendContentLangString adds to the back of content a string type
 func (t *OrderedCollection) AppendContentLangString(v string) {
-	t.content = append(t.content, &contentOrderedCollectionIntermediateType{langString: &v})
+	t.content = append(t.content, &contentIntermediateType{langString: &v})
 
 }
 
 // PrependContentLangString adds to the front of content a string type
 func (t *OrderedCollection) PrependContentLangString(v string) {
-	t.content = append([]*contentOrderedCollectionIntermediateType{&contentOrderedCollectionIntermediateType{langString: &v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{langString: &v}}, t.content...)
 
 }
 
@@ -1605,13 +1604,13 @@ func (t *OrderedCollection) GetContentIRI(index int) (v *url.URL) {
 
 // AppendContentIRI adds to the back of content a *url.URL type
 func (t *OrderedCollection) AppendContentIRI(v *url.URL) {
-	t.content = append(t.content, &contentOrderedCollectionIntermediateType{IRI: v})
+	t.content = append(t.content, &contentIntermediateType{IRI: v})
 
 }
 
 // PrependContentIRI adds to the front of content a *url.URL type
 func (t *OrderedCollection) PrependContentIRI(v *url.URL) {
-	t.content = append([]*contentOrderedCollectionIntermediateType{&contentOrderedCollectionIntermediateType{IRI: v}}, t.content...)
+	t.content = append([]*contentIntermediateType{&contentIntermediateType{IRI: v}}, t.content...)
 
 }
 
@@ -1640,7 +1639,7 @@ func (t *OrderedCollection) SetUnknownContent(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &contentOrderedCollectionIntermediateType{}
+	tmp := &contentIntermediateType{}
 	tmp.unknown_ = i
 	t.content = append(t.content, tmp)
 
@@ -1701,13 +1700,13 @@ func (t *OrderedCollection) GetContextObject(index int) (v ObjectType) {
 
 // AppendContextObject adds to the back of context a ObjectType type
 func (t *OrderedCollection) AppendContextObject(v ObjectType) {
-	t.context = append(t.context, &contextOrderedCollectionIntermediateType{Object: v})
+	t.context = append(t.context, &contextIntermediateType{Object: v})
 
 }
 
 // PrependContextObject adds to the front of context a ObjectType type
 func (t *OrderedCollection) PrependContextObject(v ObjectType) {
-	t.context = append([]*contextOrderedCollectionIntermediateType{&contextOrderedCollectionIntermediateType{Object: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{Object: v}}, t.context...)
 
 }
 
@@ -1733,13 +1732,13 @@ func (t *OrderedCollection) GetContextLink(index int) (v LinkType) {
 
 // AppendContextLink adds to the back of context a LinkType type
 func (t *OrderedCollection) AppendContextLink(v LinkType) {
-	t.context = append(t.context, &contextOrderedCollectionIntermediateType{Link: v})
+	t.context = append(t.context, &contextIntermediateType{Link: v})
 
 }
 
 // PrependContextLink adds to the front of context a LinkType type
 func (t *OrderedCollection) PrependContextLink(v LinkType) {
-	t.context = append([]*contextOrderedCollectionIntermediateType{&contextOrderedCollectionIntermediateType{Link: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{Link: v}}, t.context...)
 
 }
 
@@ -1765,13 +1764,13 @@ func (t *OrderedCollection) GetContextIRI(index int) (v *url.URL) {
 
 // AppendContextIRI adds to the back of context a *url.URL type
 func (t *OrderedCollection) AppendContextIRI(v *url.URL) {
-	t.context = append(t.context, &contextOrderedCollectionIntermediateType{IRI: v})
+	t.context = append(t.context, &contextIntermediateType{IRI: v})
 
 }
 
 // PrependContextIRI adds to the front of context a *url.URL type
 func (t *OrderedCollection) PrependContextIRI(v *url.URL) {
-	t.context = append([]*contextOrderedCollectionIntermediateType{&contextOrderedCollectionIntermediateType{IRI: v}}, t.context...)
+	t.context = append([]*contextIntermediateType{&contextIntermediateType{IRI: v}}, t.context...)
 
 }
 
@@ -1800,7 +1799,7 @@ func (t *OrderedCollection) SetUnknownContext(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &contextOrderedCollectionIntermediateType{}
+	tmp := &contextIntermediateType{}
 	tmp.unknown_ = i
 	t.context = append(t.context, tmp)
 
@@ -1826,13 +1825,13 @@ func (t *OrderedCollection) GetNameString(index int) (v string) {
 
 // AppendNameString adds to the back of name a string type
 func (t *OrderedCollection) AppendNameString(v string) {
-	t.name = append(t.name, &nameOrderedCollectionIntermediateType{stringName: &v})
+	t.name = append(t.name, &nameIntermediateType{stringName: &v})
 
 }
 
 // PrependNameString adds to the front of name a string type
 func (t *OrderedCollection) PrependNameString(v string) {
-	t.name = append([]*nameOrderedCollectionIntermediateType{&nameOrderedCollectionIntermediateType{stringName: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{stringName: &v}}, t.name...)
 
 }
 
@@ -1858,13 +1857,13 @@ func (t *OrderedCollection) GetNameLangString(index int) (v string) {
 
 // AppendNameLangString adds to the back of name a string type
 func (t *OrderedCollection) AppendNameLangString(v string) {
-	t.name = append(t.name, &nameOrderedCollectionIntermediateType{langString: &v})
+	t.name = append(t.name, &nameIntermediateType{langString: &v})
 
 }
 
 // PrependNameLangString adds to the front of name a string type
 func (t *OrderedCollection) PrependNameLangString(v string) {
-	t.name = append([]*nameOrderedCollectionIntermediateType{&nameOrderedCollectionIntermediateType{langString: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{langString: &v}}, t.name...)
 
 }
 
@@ -1890,13 +1889,13 @@ func (t *OrderedCollection) GetNameIRI(index int) (v *url.URL) {
 
 // AppendNameIRI adds to the back of name a *url.URL type
 func (t *OrderedCollection) AppendNameIRI(v *url.URL) {
-	t.name = append(t.name, &nameOrderedCollectionIntermediateType{IRI: v})
+	t.name = append(t.name, &nameIntermediateType{IRI: v})
 
 }
 
 // PrependNameIRI adds to the front of name a *url.URL type
 func (t *OrderedCollection) PrependNameIRI(v *url.URL) {
-	t.name = append([]*nameOrderedCollectionIntermediateType{&nameOrderedCollectionIntermediateType{IRI: v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{IRI: v}}, t.name...)
 
 }
 
@@ -1925,7 +1924,7 @@ func (t *OrderedCollection) SetUnknownName(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &nameOrderedCollectionIntermediateType{}
+	tmp := &nameIntermediateType{}
 	tmp.unknown_ = i
 	t.name = append(t.name, tmp)
 
@@ -1980,7 +1979,7 @@ func (t *OrderedCollection) GetEndTime() (v time.Time) {
 
 // SetEndTime sets the value of endTime to be of time.Time type
 func (t *OrderedCollection) SetEndTime(v time.Time) {
-	t.endTime = &endTimeOrderedCollectionIntermediateType{dateTime: &v}
+	t.endTime = &endTimeIntermediateType{dateTime: &v}
 
 }
 
@@ -1998,7 +1997,7 @@ func (t *OrderedCollection) GetEndTimeIRI() (v *url.URL) {
 
 // SetEndTimeIRI sets the value of endTime to be of *url.URL type
 func (t *OrderedCollection) SetEndTimeIRI(v *url.URL) {
-	t.endTime = &endTimeOrderedCollectionIntermediateType{IRI: v}
+	t.endTime = &endTimeIntermediateType{IRI: v}
 
 }
 
@@ -2019,7 +2018,7 @@ func (t *OrderedCollection) SetUnknownEndTime(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &endTimeOrderedCollectionIntermediateType{}
+	tmp := &endTimeIntermediateType{}
 	tmp.unknown_ = i
 	t.endTime = tmp
 
@@ -2045,13 +2044,13 @@ func (t *OrderedCollection) GetGeneratorObject(index int) (v ObjectType) {
 
 // AppendGeneratorObject adds to the back of generator a ObjectType type
 func (t *OrderedCollection) AppendGeneratorObject(v ObjectType) {
-	t.generator = append(t.generator, &generatorOrderedCollectionIntermediateType{Object: v})
+	t.generator = append(t.generator, &generatorIntermediateType{Object: v})
 
 }
 
 // PrependGeneratorObject adds to the front of generator a ObjectType type
 func (t *OrderedCollection) PrependGeneratorObject(v ObjectType) {
-	t.generator = append([]*generatorOrderedCollectionIntermediateType{&generatorOrderedCollectionIntermediateType{Object: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{Object: v}}, t.generator...)
 
 }
 
@@ -2077,13 +2076,13 @@ func (t *OrderedCollection) GetGeneratorLink(index int) (v LinkType) {
 
 // AppendGeneratorLink adds to the back of generator a LinkType type
 func (t *OrderedCollection) AppendGeneratorLink(v LinkType) {
-	t.generator = append(t.generator, &generatorOrderedCollectionIntermediateType{Link: v})
+	t.generator = append(t.generator, &generatorIntermediateType{Link: v})
 
 }
 
 // PrependGeneratorLink adds to the front of generator a LinkType type
 func (t *OrderedCollection) PrependGeneratorLink(v LinkType) {
-	t.generator = append([]*generatorOrderedCollectionIntermediateType{&generatorOrderedCollectionIntermediateType{Link: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{Link: v}}, t.generator...)
 
 }
 
@@ -2109,13 +2108,13 @@ func (t *OrderedCollection) GetGeneratorIRI(index int) (v *url.URL) {
 
 // AppendGeneratorIRI adds to the back of generator a *url.URL type
 func (t *OrderedCollection) AppendGeneratorIRI(v *url.URL) {
-	t.generator = append(t.generator, &generatorOrderedCollectionIntermediateType{IRI: v})
+	t.generator = append(t.generator, &generatorIntermediateType{IRI: v})
 
 }
 
 // PrependGeneratorIRI adds to the front of generator a *url.URL type
 func (t *OrderedCollection) PrependGeneratorIRI(v *url.URL) {
-	t.generator = append([]*generatorOrderedCollectionIntermediateType{&generatorOrderedCollectionIntermediateType{IRI: v}}, t.generator...)
+	t.generator = append([]*generatorIntermediateType{&generatorIntermediateType{IRI: v}}, t.generator...)
 
 }
 
@@ -2144,7 +2143,7 @@ func (t *OrderedCollection) SetUnknownGenerator(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &generatorOrderedCollectionIntermediateType{}
+	tmp := &generatorIntermediateType{}
 	tmp.unknown_ = i
 	t.generator = append(t.generator, tmp)
 
@@ -2170,13 +2169,13 @@ func (t *OrderedCollection) GetIconImage(index int) (v ImageType) {
 
 // AppendIconImage adds to the back of icon a ImageType type
 func (t *OrderedCollection) AppendIconImage(v ImageType) {
-	t.icon = append(t.icon, &iconOrderedCollectionIntermediateType{Image: v})
+	t.icon = append(t.icon, &iconIntermediateType{Image: v})
 
 }
 
 // PrependIconImage adds to the front of icon a ImageType type
 func (t *OrderedCollection) PrependIconImage(v ImageType) {
-	t.icon = append([]*iconOrderedCollectionIntermediateType{&iconOrderedCollectionIntermediateType{Image: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{Image: v}}, t.icon...)
 
 }
 
@@ -2202,13 +2201,13 @@ func (t *OrderedCollection) GetIconLink(index int) (v LinkType) {
 
 // AppendIconLink adds to the back of icon a LinkType type
 func (t *OrderedCollection) AppendIconLink(v LinkType) {
-	t.icon = append(t.icon, &iconOrderedCollectionIntermediateType{Link: v})
+	t.icon = append(t.icon, &iconIntermediateType{Link: v})
 
 }
 
 // PrependIconLink adds to the front of icon a LinkType type
 func (t *OrderedCollection) PrependIconLink(v LinkType) {
-	t.icon = append([]*iconOrderedCollectionIntermediateType{&iconOrderedCollectionIntermediateType{Link: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{Link: v}}, t.icon...)
 
 }
 
@@ -2234,13 +2233,13 @@ func (t *OrderedCollection) GetIconIRI(index int) (v *url.URL) {
 
 // AppendIconIRI adds to the back of icon a *url.URL type
 func (t *OrderedCollection) AppendIconIRI(v *url.URL) {
-	t.icon = append(t.icon, &iconOrderedCollectionIntermediateType{IRI: v})
+	t.icon = append(t.icon, &iconIntermediateType{IRI: v})
 
 }
 
 // PrependIconIRI adds to the front of icon a *url.URL type
 func (t *OrderedCollection) PrependIconIRI(v *url.URL) {
-	t.icon = append([]*iconOrderedCollectionIntermediateType{&iconOrderedCollectionIntermediateType{IRI: v}}, t.icon...)
+	t.icon = append([]*iconIntermediateType{&iconIntermediateType{IRI: v}}, t.icon...)
 
 }
 
@@ -2269,7 +2268,7 @@ func (t *OrderedCollection) SetUnknownIcon(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &iconOrderedCollectionIntermediateType{}
+	tmp := &iconIntermediateType{}
 	tmp.unknown_ = i
 	t.icon = append(t.icon, tmp)
 
@@ -2334,13 +2333,13 @@ func (t *OrderedCollection) GetImageImage(index int) (v ImageType) {
 
 // AppendImageImage adds to the back of image a ImageType type
 func (t *OrderedCollection) AppendImageImage(v ImageType) {
-	t.image = append(t.image, &imageOrderedCollectionIntermediateType{Image: v})
+	t.image = append(t.image, &imageIntermediateType{Image: v})
 
 }
 
 // PrependImageImage adds to the front of image a ImageType type
 func (t *OrderedCollection) PrependImageImage(v ImageType) {
-	t.image = append([]*imageOrderedCollectionIntermediateType{&imageOrderedCollectionIntermediateType{Image: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{Image: v}}, t.image...)
 
 }
 
@@ -2366,13 +2365,13 @@ func (t *OrderedCollection) GetImageLink(index int) (v LinkType) {
 
 // AppendImageLink adds to the back of image a LinkType type
 func (t *OrderedCollection) AppendImageLink(v LinkType) {
-	t.image = append(t.image, &imageOrderedCollectionIntermediateType{Link: v})
+	t.image = append(t.image, &imageIntermediateType{Link: v})
 
 }
 
 // PrependImageLink adds to the front of image a LinkType type
 func (t *OrderedCollection) PrependImageLink(v LinkType) {
-	t.image = append([]*imageOrderedCollectionIntermediateType{&imageOrderedCollectionIntermediateType{Link: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{Link: v}}, t.image...)
 
 }
 
@@ -2398,13 +2397,13 @@ func (t *OrderedCollection) GetImageIRI(index int) (v *url.URL) {
 
 // AppendImageIRI adds to the back of image a *url.URL type
 func (t *OrderedCollection) AppendImageIRI(v *url.URL) {
-	t.image = append(t.image, &imageOrderedCollectionIntermediateType{IRI: v})
+	t.image = append(t.image, &imageIntermediateType{IRI: v})
 
 }
 
 // PrependImageIRI adds to the front of image a *url.URL type
 func (t *OrderedCollection) PrependImageIRI(v *url.URL) {
-	t.image = append([]*imageOrderedCollectionIntermediateType{&imageOrderedCollectionIntermediateType{IRI: v}}, t.image...)
+	t.image = append([]*imageIntermediateType{&imageIntermediateType{IRI: v}}, t.image...)
 
 }
 
@@ -2433,7 +2432,7 @@ func (t *OrderedCollection) SetUnknownImage(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &imageOrderedCollectionIntermediateType{}
+	tmp := &imageIntermediateType{}
 	tmp.unknown_ = i
 	t.image = append(t.image, tmp)
 
@@ -2459,13 +2458,13 @@ func (t *OrderedCollection) GetInReplyToObject(index int) (v ObjectType) {
 
 // AppendInReplyToObject adds to the back of inReplyTo a ObjectType type
 func (t *OrderedCollection) AppendInReplyToObject(v ObjectType) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToOrderedCollectionIntermediateType{Object: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{Object: v})
 
 }
 
 // PrependInReplyToObject adds to the front of inReplyTo a ObjectType type
 func (t *OrderedCollection) PrependInReplyToObject(v ObjectType) {
-	t.inReplyTo = append([]*inReplyToOrderedCollectionIntermediateType{&inReplyToOrderedCollectionIntermediateType{Object: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{Object: v}}, t.inReplyTo...)
 
 }
 
@@ -2491,13 +2490,13 @@ func (t *OrderedCollection) GetInReplyToLink(index int) (v LinkType) {
 
 // AppendInReplyToLink adds to the back of inReplyTo a LinkType type
 func (t *OrderedCollection) AppendInReplyToLink(v LinkType) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToOrderedCollectionIntermediateType{Link: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{Link: v})
 
 }
 
 // PrependInReplyToLink adds to the front of inReplyTo a LinkType type
 func (t *OrderedCollection) PrependInReplyToLink(v LinkType) {
-	t.inReplyTo = append([]*inReplyToOrderedCollectionIntermediateType{&inReplyToOrderedCollectionIntermediateType{Link: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{Link: v}}, t.inReplyTo...)
 
 }
 
@@ -2523,13 +2522,13 @@ func (t *OrderedCollection) GetInReplyToIRI(index int) (v *url.URL) {
 
 // AppendInReplyToIRI adds to the back of inReplyTo a *url.URL type
 func (t *OrderedCollection) AppendInReplyToIRI(v *url.URL) {
-	t.inReplyTo = append(t.inReplyTo, &inReplyToOrderedCollectionIntermediateType{IRI: v})
+	t.inReplyTo = append(t.inReplyTo, &inReplyToIntermediateType{IRI: v})
 
 }
 
 // PrependInReplyToIRI adds to the front of inReplyTo a *url.URL type
 func (t *OrderedCollection) PrependInReplyToIRI(v *url.URL) {
-	t.inReplyTo = append([]*inReplyToOrderedCollectionIntermediateType{&inReplyToOrderedCollectionIntermediateType{IRI: v}}, t.inReplyTo...)
+	t.inReplyTo = append([]*inReplyToIntermediateType{&inReplyToIntermediateType{IRI: v}}, t.inReplyTo...)
 
 }
 
@@ -2558,7 +2557,7 @@ func (t *OrderedCollection) SetUnknownInReplyTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &inReplyToOrderedCollectionIntermediateType{}
+	tmp := &inReplyToIntermediateType{}
 	tmp.unknown_ = i
 	t.inReplyTo = append(t.inReplyTo, tmp)
 
@@ -2584,13 +2583,13 @@ func (t *OrderedCollection) GetLocationObject(index int) (v ObjectType) {
 
 // AppendLocationObject adds to the back of location a ObjectType type
 func (t *OrderedCollection) AppendLocationObject(v ObjectType) {
-	t.location = append(t.location, &locationOrderedCollectionIntermediateType{Object: v})
+	t.location = append(t.location, &locationIntermediateType{Object: v})
 
 }
 
 // PrependLocationObject adds to the front of location a ObjectType type
 func (t *OrderedCollection) PrependLocationObject(v ObjectType) {
-	t.location = append([]*locationOrderedCollectionIntermediateType{&locationOrderedCollectionIntermediateType{Object: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{Object: v}}, t.location...)
 
 }
 
@@ -2616,13 +2615,13 @@ func (t *OrderedCollection) GetLocationLink(index int) (v LinkType) {
 
 // AppendLocationLink adds to the back of location a LinkType type
 func (t *OrderedCollection) AppendLocationLink(v LinkType) {
-	t.location = append(t.location, &locationOrderedCollectionIntermediateType{Link: v})
+	t.location = append(t.location, &locationIntermediateType{Link: v})
 
 }
 
 // PrependLocationLink adds to the front of location a LinkType type
 func (t *OrderedCollection) PrependLocationLink(v LinkType) {
-	t.location = append([]*locationOrderedCollectionIntermediateType{&locationOrderedCollectionIntermediateType{Link: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{Link: v}}, t.location...)
 
 }
 
@@ -2648,13 +2647,13 @@ func (t *OrderedCollection) GetLocationIRI(index int) (v *url.URL) {
 
 // AppendLocationIRI adds to the back of location a *url.URL type
 func (t *OrderedCollection) AppendLocationIRI(v *url.URL) {
-	t.location = append(t.location, &locationOrderedCollectionIntermediateType{IRI: v})
+	t.location = append(t.location, &locationIntermediateType{IRI: v})
 
 }
 
 // PrependLocationIRI adds to the front of location a *url.URL type
 func (t *OrderedCollection) PrependLocationIRI(v *url.URL) {
-	t.location = append([]*locationOrderedCollectionIntermediateType{&locationOrderedCollectionIntermediateType{IRI: v}}, t.location...)
+	t.location = append([]*locationIntermediateType{&locationIntermediateType{IRI: v}}, t.location...)
 
 }
 
@@ -2683,7 +2682,7 @@ func (t *OrderedCollection) SetUnknownLocation(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &locationOrderedCollectionIntermediateType{}
+	tmp := &locationIntermediateType{}
 	tmp.unknown_ = i
 	t.location = append(t.location, tmp)
 
@@ -2709,13 +2708,13 @@ func (t *OrderedCollection) GetPreviewObject(index int) (v ObjectType) {
 
 // AppendPreviewObject adds to the back of preview a ObjectType type
 func (t *OrderedCollection) AppendPreviewObject(v ObjectType) {
-	t.preview = append(t.preview, &previewOrderedCollectionIntermediateType{Object: v})
+	t.preview = append(t.preview, &previewIntermediateType{Object: v})
 
 }
 
 // PrependPreviewObject adds to the front of preview a ObjectType type
 func (t *OrderedCollection) PrependPreviewObject(v ObjectType) {
-	t.preview = append([]*previewOrderedCollectionIntermediateType{&previewOrderedCollectionIntermediateType{Object: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Object: v}}, t.preview...)
 
 }
 
@@ -2741,13 +2740,13 @@ func (t *OrderedCollection) GetPreviewLink(index int) (v LinkType) {
 
 // AppendPreviewLink adds to the back of preview a LinkType type
 func (t *OrderedCollection) AppendPreviewLink(v LinkType) {
-	t.preview = append(t.preview, &previewOrderedCollectionIntermediateType{Link: v})
+	t.preview = append(t.preview, &previewIntermediateType{Link: v})
 
 }
 
 // PrependPreviewLink adds to the front of preview a LinkType type
 func (t *OrderedCollection) PrependPreviewLink(v LinkType) {
-	t.preview = append([]*previewOrderedCollectionIntermediateType{&previewOrderedCollectionIntermediateType{Link: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Link: v}}, t.preview...)
 
 }
 
@@ -2773,13 +2772,13 @@ func (t *OrderedCollection) GetPreviewIRI(index int) (v *url.URL) {
 
 // AppendPreviewIRI adds to the back of preview a *url.URL type
 func (t *OrderedCollection) AppendPreviewIRI(v *url.URL) {
-	t.preview = append(t.preview, &previewOrderedCollectionIntermediateType{IRI: v})
+	t.preview = append(t.preview, &previewIntermediateType{IRI: v})
 
 }
 
 // PrependPreviewIRI adds to the front of preview a *url.URL type
 func (t *OrderedCollection) PrependPreviewIRI(v *url.URL) {
-	t.preview = append([]*previewOrderedCollectionIntermediateType{&previewOrderedCollectionIntermediateType{IRI: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{IRI: v}}, t.preview...)
 
 }
 
@@ -2808,7 +2807,7 @@ func (t *OrderedCollection) SetUnknownPreview(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &previewOrderedCollectionIntermediateType{}
+	tmp := &previewIntermediateType{}
 	tmp.unknown_ = i
 	t.preview = append(t.preview, tmp)
 
@@ -2828,7 +2827,7 @@ func (t *OrderedCollection) GetPublished() (v time.Time) {
 
 // SetPublished sets the value of published to be of time.Time type
 func (t *OrderedCollection) SetPublished(v time.Time) {
-	t.published = &publishedOrderedCollectionIntermediateType{dateTime: &v}
+	t.published = &publishedIntermediateType{dateTime: &v}
 
 }
 
@@ -2846,7 +2845,7 @@ func (t *OrderedCollection) GetPublishedIRI() (v *url.URL) {
 
 // SetPublishedIRI sets the value of published to be of *url.URL type
 func (t *OrderedCollection) SetPublishedIRI(v *url.URL) {
-	t.published = &publishedOrderedCollectionIntermediateType{IRI: v}
+	t.published = &publishedIntermediateType{IRI: v}
 
 }
 
@@ -2867,7 +2866,7 @@ func (t *OrderedCollection) SetUnknownPublished(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &publishedOrderedCollectionIntermediateType{}
+	tmp := &publishedIntermediateType{}
 	tmp.unknown_ = i
 	t.published = tmp
 
@@ -2887,7 +2886,7 @@ func (t *OrderedCollection) GetReplies() (v CollectionType) {
 
 // SetReplies sets the value of replies to be of CollectionType type
 func (t *OrderedCollection) SetReplies(v CollectionType) {
-	t.replies = &repliesOrderedCollectionIntermediateType{Collection: v}
+	t.replies = &repliesIntermediateType{Collection: v}
 
 }
 
@@ -2905,7 +2904,7 @@ func (t *OrderedCollection) GetRepliesIRI() (v *url.URL) {
 
 // SetRepliesIRI sets the value of replies to be of *url.URL type
 func (t *OrderedCollection) SetRepliesIRI(v *url.URL) {
-	t.replies = &repliesOrderedCollectionIntermediateType{IRI: v}
+	t.replies = &repliesIntermediateType{IRI: v}
 
 }
 
@@ -2926,7 +2925,7 @@ func (t *OrderedCollection) SetUnknownReplies(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &repliesOrderedCollectionIntermediateType{}
+	tmp := &repliesIntermediateType{}
 	tmp.unknown_ = i
 	t.replies = tmp
 
@@ -2946,7 +2945,7 @@ func (t *OrderedCollection) GetStartTime() (v time.Time) {
 
 // SetStartTime sets the value of startTime to be of time.Time type
 func (t *OrderedCollection) SetStartTime(v time.Time) {
-	t.startTime = &startTimeOrderedCollectionIntermediateType{dateTime: &v}
+	t.startTime = &startTimeIntermediateType{dateTime: &v}
 
 }
 
@@ -2964,7 +2963,7 @@ func (t *OrderedCollection) GetStartTimeIRI() (v *url.URL) {
 
 // SetStartTimeIRI sets the value of startTime to be of *url.URL type
 func (t *OrderedCollection) SetStartTimeIRI(v *url.URL) {
-	t.startTime = &startTimeOrderedCollectionIntermediateType{IRI: v}
+	t.startTime = &startTimeIntermediateType{IRI: v}
 
 }
 
@@ -2985,7 +2984,7 @@ func (t *OrderedCollection) SetUnknownStartTime(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &startTimeOrderedCollectionIntermediateType{}
+	tmp := &startTimeIntermediateType{}
 	tmp.unknown_ = i
 	t.startTime = tmp
 
@@ -3011,13 +3010,13 @@ func (t *OrderedCollection) GetSummaryString(index int) (v string) {
 
 // AppendSummaryString adds to the back of summary a string type
 func (t *OrderedCollection) AppendSummaryString(v string) {
-	t.summary = append(t.summary, &summaryOrderedCollectionIntermediateType{stringName: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{stringName: &v})
 
 }
 
 // PrependSummaryString adds to the front of summary a string type
 func (t *OrderedCollection) PrependSummaryString(v string) {
-	t.summary = append([]*summaryOrderedCollectionIntermediateType{&summaryOrderedCollectionIntermediateType{stringName: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{stringName: &v}}, t.summary...)
 
 }
 
@@ -3043,13 +3042,13 @@ func (t *OrderedCollection) GetSummaryLangString(index int) (v string) {
 
 // AppendSummaryLangString adds to the back of summary a string type
 func (t *OrderedCollection) AppendSummaryLangString(v string) {
-	t.summary = append(t.summary, &summaryOrderedCollectionIntermediateType{langString: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{langString: &v})
 
 }
 
 // PrependSummaryLangString adds to the front of summary a string type
 func (t *OrderedCollection) PrependSummaryLangString(v string) {
-	t.summary = append([]*summaryOrderedCollectionIntermediateType{&summaryOrderedCollectionIntermediateType{langString: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{langString: &v}}, t.summary...)
 
 }
 
@@ -3075,13 +3074,13 @@ func (t *OrderedCollection) GetSummaryIRI(index int) (v *url.URL) {
 
 // AppendSummaryIRI adds to the back of summary a *url.URL type
 func (t *OrderedCollection) AppendSummaryIRI(v *url.URL) {
-	t.summary = append(t.summary, &summaryOrderedCollectionIntermediateType{IRI: v})
+	t.summary = append(t.summary, &summaryIntermediateType{IRI: v})
 
 }
 
 // PrependSummaryIRI adds to the front of summary a *url.URL type
 func (t *OrderedCollection) PrependSummaryIRI(v *url.URL) {
-	t.summary = append([]*summaryOrderedCollectionIntermediateType{&summaryOrderedCollectionIntermediateType{IRI: v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{IRI: v}}, t.summary...)
 
 }
 
@@ -3110,7 +3109,7 @@ func (t *OrderedCollection) SetUnknownSummary(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &summaryOrderedCollectionIntermediateType{}
+	tmp := &summaryIntermediateType{}
 	tmp.unknown_ = i
 	t.summary = append(t.summary, tmp)
 
@@ -3171,13 +3170,13 @@ func (t *OrderedCollection) GetTagObject(index int) (v ObjectType) {
 
 // AppendTagObject adds to the back of tag a ObjectType type
 func (t *OrderedCollection) AppendTagObject(v ObjectType) {
-	t.tag = append(t.tag, &tagOrderedCollectionIntermediateType{Object: v})
+	t.tag = append(t.tag, &tagIntermediateType{Object: v})
 
 }
 
 // PrependTagObject adds to the front of tag a ObjectType type
 func (t *OrderedCollection) PrependTagObject(v ObjectType) {
-	t.tag = append([]*tagOrderedCollectionIntermediateType{&tagOrderedCollectionIntermediateType{Object: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{Object: v}}, t.tag...)
 
 }
 
@@ -3203,13 +3202,13 @@ func (t *OrderedCollection) GetTagLink(index int) (v LinkType) {
 
 // AppendTagLink adds to the back of tag a LinkType type
 func (t *OrderedCollection) AppendTagLink(v LinkType) {
-	t.tag = append(t.tag, &tagOrderedCollectionIntermediateType{Link: v})
+	t.tag = append(t.tag, &tagIntermediateType{Link: v})
 
 }
 
 // PrependTagLink adds to the front of tag a LinkType type
 func (t *OrderedCollection) PrependTagLink(v LinkType) {
-	t.tag = append([]*tagOrderedCollectionIntermediateType{&tagOrderedCollectionIntermediateType{Link: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{Link: v}}, t.tag...)
 
 }
 
@@ -3235,13 +3234,13 @@ func (t *OrderedCollection) GetTagIRI(index int) (v *url.URL) {
 
 // AppendTagIRI adds to the back of tag a *url.URL type
 func (t *OrderedCollection) AppendTagIRI(v *url.URL) {
-	t.tag = append(t.tag, &tagOrderedCollectionIntermediateType{IRI: v})
+	t.tag = append(t.tag, &tagIntermediateType{IRI: v})
 
 }
 
 // PrependTagIRI adds to the front of tag a *url.URL type
 func (t *OrderedCollection) PrependTagIRI(v *url.URL) {
-	t.tag = append([]*tagOrderedCollectionIntermediateType{&tagOrderedCollectionIntermediateType{IRI: v}}, t.tag...)
+	t.tag = append([]*tagIntermediateType{&tagIntermediateType{IRI: v}}, t.tag...)
 
 }
 
@@ -3270,7 +3269,7 @@ func (t *OrderedCollection) SetUnknownTag(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &tagOrderedCollectionIntermediateType{}
+	tmp := &tagIntermediateType{}
 	tmp.unknown_ = i
 	t.tag = append(t.tag, tmp)
 
@@ -3322,7 +3321,7 @@ func (t *OrderedCollection) GetUpdated() (v time.Time) {
 
 // SetUpdated sets the value of updated to be of time.Time type
 func (t *OrderedCollection) SetUpdated(v time.Time) {
-	t.updated = &updatedOrderedCollectionIntermediateType{dateTime: &v}
+	t.updated = &updatedIntermediateType{dateTime: &v}
 
 }
 
@@ -3340,7 +3339,7 @@ func (t *OrderedCollection) GetUpdatedIRI() (v *url.URL) {
 
 // SetUpdatedIRI sets the value of updated to be of *url.URL type
 func (t *OrderedCollection) SetUpdatedIRI(v *url.URL) {
-	t.updated = &updatedOrderedCollectionIntermediateType{IRI: v}
+	t.updated = &updatedIntermediateType{IRI: v}
 
 }
 
@@ -3361,7 +3360,7 @@ func (t *OrderedCollection) SetUnknownUpdated(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &updatedOrderedCollectionIntermediateType{}
+	tmp := &updatedIntermediateType{}
 	tmp.unknown_ = i
 	t.updated = tmp
 
@@ -3387,13 +3386,13 @@ func (t *OrderedCollection) GetUrlAnyURI(index int) (v *url.URL) {
 
 // AppendUrlAnyURI adds to the back of url a *url.URL type
 func (t *OrderedCollection) AppendUrlAnyURI(v *url.URL) {
-	t.url = append(t.url, &urlOrderedCollectionIntermediateType{anyURI: v})
+	t.url = append(t.url, &urlIntermediateType{anyURI: v})
 
 }
 
 // PrependUrlAnyURI adds to the front of url a *url.URL type
 func (t *OrderedCollection) PrependUrlAnyURI(v *url.URL) {
-	t.url = append([]*urlOrderedCollectionIntermediateType{&urlOrderedCollectionIntermediateType{anyURI: v}}, t.url...)
+	t.url = append([]*urlIntermediateType{&urlIntermediateType{anyURI: v}}, t.url...)
 
 }
 
@@ -3419,13 +3418,13 @@ func (t *OrderedCollection) GetUrlLink(index int) (v LinkType) {
 
 // AppendUrlLink adds to the back of url a LinkType type
 func (t *OrderedCollection) AppendUrlLink(v LinkType) {
-	t.url = append(t.url, &urlOrderedCollectionIntermediateType{Link: v})
+	t.url = append(t.url, &urlIntermediateType{Link: v})
 
 }
 
 // PrependUrlLink adds to the front of url a LinkType type
 func (t *OrderedCollection) PrependUrlLink(v LinkType) {
-	t.url = append([]*urlOrderedCollectionIntermediateType{&urlOrderedCollectionIntermediateType{Link: v}}, t.url...)
+	t.url = append([]*urlIntermediateType{&urlIntermediateType{Link: v}}, t.url...)
 
 }
 
@@ -3454,7 +3453,7 @@ func (t *OrderedCollection) SetUnknownUrl(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &urlOrderedCollectionIntermediateType{}
+	tmp := &urlIntermediateType{}
 	tmp.unknown_ = i
 	t.url = append(t.url, tmp)
 
@@ -3480,13 +3479,13 @@ func (t *OrderedCollection) GetToObject(index int) (v ObjectType) {
 
 // AppendToObject adds to the back of to a ObjectType type
 func (t *OrderedCollection) AppendToObject(v ObjectType) {
-	t.to = append(t.to, &toOrderedCollectionIntermediateType{Object: v})
+	t.to = append(t.to, &toIntermediateType{Object: v})
 
 }
 
 // PrependToObject adds to the front of to a ObjectType type
 func (t *OrderedCollection) PrependToObject(v ObjectType) {
-	t.to = append([]*toOrderedCollectionIntermediateType{&toOrderedCollectionIntermediateType{Object: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{Object: v}}, t.to...)
 
 }
 
@@ -3512,13 +3511,13 @@ func (t *OrderedCollection) GetToLink(index int) (v LinkType) {
 
 // AppendToLink adds to the back of to a LinkType type
 func (t *OrderedCollection) AppendToLink(v LinkType) {
-	t.to = append(t.to, &toOrderedCollectionIntermediateType{Link: v})
+	t.to = append(t.to, &toIntermediateType{Link: v})
 
 }
 
 // PrependToLink adds to the front of to a LinkType type
 func (t *OrderedCollection) PrependToLink(v LinkType) {
-	t.to = append([]*toOrderedCollectionIntermediateType{&toOrderedCollectionIntermediateType{Link: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{Link: v}}, t.to...)
 
 }
 
@@ -3544,13 +3543,13 @@ func (t *OrderedCollection) GetToIRI(index int) (v *url.URL) {
 
 // AppendToIRI adds to the back of to a *url.URL type
 func (t *OrderedCollection) AppendToIRI(v *url.URL) {
-	t.to = append(t.to, &toOrderedCollectionIntermediateType{IRI: v})
+	t.to = append(t.to, &toIntermediateType{IRI: v})
 
 }
 
 // PrependToIRI adds to the front of to a *url.URL type
 func (t *OrderedCollection) PrependToIRI(v *url.URL) {
-	t.to = append([]*toOrderedCollectionIntermediateType{&toOrderedCollectionIntermediateType{IRI: v}}, t.to...)
+	t.to = append([]*toIntermediateType{&toIntermediateType{IRI: v}}, t.to...)
 
 }
 
@@ -3579,7 +3578,7 @@ func (t *OrderedCollection) SetUnknownTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &toOrderedCollectionIntermediateType{}
+	tmp := &toIntermediateType{}
 	tmp.unknown_ = i
 	t.to = append(t.to, tmp)
 
@@ -3605,13 +3604,13 @@ func (t *OrderedCollection) GetBtoObject(index int) (v ObjectType) {
 
 // AppendBtoObject adds to the back of bto a ObjectType type
 func (t *OrderedCollection) AppendBtoObject(v ObjectType) {
-	t.bto = append(t.bto, &btoOrderedCollectionIntermediateType{Object: v})
+	t.bto = append(t.bto, &btoIntermediateType{Object: v})
 
 }
 
 // PrependBtoObject adds to the front of bto a ObjectType type
 func (t *OrderedCollection) PrependBtoObject(v ObjectType) {
-	t.bto = append([]*btoOrderedCollectionIntermediateType{&btoOrderedCollectionIntermediateType{Object: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{Object: v}}, t.bto...)
 
 }
 
@@ -3637,13 +3636,13 @@ func (t *OrderedCollection) GetBtoLink(index int) (v LinkType) {
 
 // AppendBtoLink adds to the back of bto a LinkType type
 func (t *OrderedCollection) AppendBtoLink(v LinkType) {
-	t.bto = append(t.bto, &btoOrderedCollectionIntermediateType{Link: v})
+	t.bto = append(t.bto, &btoIntermediateType{Link: v})
 
 }
 
 // PrependBtoLink adds to the front of bto a LinkType type
 func (t *OrderedCollection) PrependBtoLink(v LinkType) {
-	t.bto = append([]*btoOrderedCollectionIntermediateType{&btoOrderedCollectionIntermediateType{Link: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{Link: v}}, t.bto...)
 
 }
 
@@ -3669,13 +3668,13 @@ func (t *OrderedCollection) GetBtoIRI(index int) (v *url.URL) {
 
 // AppendBtoIRI adds to the back of bto a *url.URL type
 func (t *OrderedCollection) AppendBtoIRI(v *url.URL) {
-	t.bto = append(t.bto, &btoOrderedCollectionIntermediateType{IRI: v})
+	t.bto = append(t.bto, &btoIntermediateType{IRI: v})
 
 }
 
 // PrependBtoIRI adds to the front of bto a *url.URL type
 func (t *OrderedCollection) PrependBtoIRI(v *url.URL) {
-	t.bto = append([]*btoOrderedCollectionIntermediateType{&btoOrderedCollectionIntermediateType{IRI: v}}, t.bto...)
+	t.bto = append([]*btoIntermediateType{&btoIntermediateType{IRI: v}}, t.bto...)
 
 }
 
@@ -3704,7 +3703,7 @@ func (t *OrderedCollection) SetUnknownBto(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &btoOrderedCollectionIntermediateType{}
+	tmp := &btoIntermediateType{}
 	tmp.unknown_ = i
 	t.bto = append(t.bto, tmp)
 
@@ -3730,13 +3729,13 @@ func (t *OrderedCollection) GetCcObject(index int) (v ObjectType) {
 
 // AppendCcObject adds to the back of cc a ObjectType type
 func (t *OrderedCollection) AppendCcObject(v ObjectType) {
-	t.cc = append(t.cc, &ccOrderedCollectionIntermediateType{Object: v})
+	t.cc = append(t.cc, &ccIntermediateType{Object: v})
 
 }
 
 // PrependCcObject adds to the front of cc a ObjectType type
 func (t *OrderedCollection) PrependCcObject(v ObjectType) {
-	t.cc = append([]*ccOrderedCollectionIntermediateType{&ccOrderedCollectionIntermediateType{Object: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{Object: v}}, t.cc...)
 
 }
 
@@ -3762,13 +3761,13 @@ func (t *OrderedCollection) GetCcLink(index int) (v LinkType) {
 
 // AppendCcLink adds to the back of cc a LinkType type
 func (t *OrderedCollection) AppendCcLink(v LinkType) {
-	t.cc = append(t.cc, &ccOrderedCollectionIntermediateType{Link: v})
+	t.cc = append(t.cc, &ccIntermediateType{Link: v})
 
 }
 
 // PrependCcLink adds to the front of cc a LinkType type
 func (t *OrderedCollection) PrependCcLink(v LinkType) {
-	t.cc = append([]*ccOrderedCollectionIntermediateType{&ccOrderedCollectionIntermediateType{Link: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{Link: v}}, t.cc...)
 
 }
 
@@ -3794,13 +3793,13 @@ func (t *OrderedCollection) GetCcIRI(index int) (v *url.URL) {
 
 // AppendCcIRI adds to the back of cc a *url.URL type
 func (t *OrderedCollection) AppendCcIRI(v *url.URL) {
-	t.cc = append(t.cc, &ccOrderedCollectionIntermediateType{IRI: v})
+	t.cc = append(t.cc, &ccIntermediateType{IRI: v})
 
 }
 
 // PrependCcIRI adds to the front of cc a *url.URL type
 func (t *OrderedCollection) PrependCcIRI(v *url.URL) {
-	t.cc = append([]*ccOrderedCollectionIntermediateType{&ccOrderedCollectionIntermediateType{IRI: v}}, t.cc...)
+	t.cc = append([]*ccIntermediateType{&ccIntermediateType{IRI: v}}, t.cc...)
 
 }
 
@@ -3829,7 +3828,7 @@ func (t *OrderedCollection) SetUnknownCc(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &ccOrderedCollectionIntermediateType{}
+	tmp := &ccIntermediateType{}
 	tmp.unknown_ = i
 	t.cc = append(t.cc, tmp)
 
@@ -3855,13 +3854,13 @@ func (t *OrderedCollection) GetBccObject(index int) (v ObjectType) {
 
 // AppendBccObject adds to the back of bcc a ObjectType type
 func (t *OrderedCollection) AppendBccObject(v ObjectType) {
-	t.bcc = append(t.bcc, &bccOrderedCollectionIntermediateType{Object: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{Object: v})
 
 }
 
 // PrependBccObject adds to the front of bcc a ObjectType type
 func (t *OrderedCollection) PrependBccObject(v ObjectType) {
-	t.bcc = append([]*bccOrderedCollectionIntermediateType{&bccOrderedCollectionIntermediateType{Object: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{Object: v}}, t.bcc...)
 
 }
 
@@ -3887,13 +3886,13 @@ func (t *OrderedCollection) GetBccLink(index int) (v LinkType) {
 
 // AppendBccLink adds to the back of bcc a LinkType type
 func (t *OrderedCollection) AppendBccLink(v LinkType) {
-	t.bcc = append(t.bcc, &bccOrderedCollectionIntermediateType{Link: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{Link: v})
 
 }
 
 // PrependBccLink adds to the front of bcc a LinkType type
 func (t *OrderedCollection) PrependBccLink(v LinkType) {
-	t.bcc = append([]*bccOrderedCollectionIntermediateType{&bccOrderedCollectionIntermediateType{Link: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{Link: v}}, t.bcc...)
 
 }
 
@@ -3919,13 +3918,13 @@ func (t *OrderedCollection) GetBccIRI(index int) (v *url.URL) {
 
 // AppendBccIRI adds to the back of bcc a *url.URL type
 func (t *OrderedCollection) AppendBccIRI(v *url.URL) {
-	t.bcc = append(t.bcc, &bccOrderedCollectionIntermediateType{IRI: v})
+	t.bcc = append(t.bcc, &bccIntermediateType{IRI: v})
 
 }
 
 // PrependBccIRI adds to the front of bcc a *url.URL type
 func (t *OrderedCollection) PrependBccIRI(v *url.URL) {
-	t.bcc = append([]*bccOrderedCollectionIntermediateType{&bccOrderedCollectionIntermediateType{IRI: v}}, t.bcc...)
+	t.bcc = append([]*bccIntermediateType{&bccIntermediateType{IRI: v}}, t.bcc...)
 
 }
 
@@ -3954,7 +3953,7 @@ func (t *OrderedCollection) SetUnknownBcc(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &bccOrderedCollectionIntermediateType{}
+	tmp := &bccIntermediateType{}
 	tmp.unknown_ = i
 	t.bcc = append(t.bcc, tmp)
 
@@ -3974,7 +3973,7 @@ func (t *OrderedCollection) GetMediaType() (v string) {
 
 // SetMediaType sets the value of mediaType to be of string type
 func (t *OrderedCollection) SetMediaType(v string) {
-	t.mediaType = &mediaTypeOrderedCollectionIntermediateType{mimeMediaTypeValue: &v}
+	t.mediaType = &mediaTypeIntermediateType{mimeMediaTypeValue: &v}
 
 }
 
@@ -3992,7 +3991,7 @@ func (t *OrderedCollection) GetMediaTypeIRI() (v *url.URL) {
 
 // SetMediaTypeIRI sets the value of mediaType to be of *url.URL type
 func (t *OrderedCollection) SetMediaTypeIRI(v *url.URL) {
-	t.mediaType = &mediaTypeOrderedCollectionIntermediateType{IRI: v}
+	t.mediaType = &mediaTypeIntermediateType{IRI: v}
 
 }
 
@@ -4013,7 +4012,7 @@ func (t *OrderedCollection) SetUnknownMediaType(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &mediaTypeOrderedCollectionIntermediateType{}
+	tmp := &mediaTypeIntermediateType{}
 	tmp.unknown_ = i
 	t.mediaType = tmp
 
@@ -4033,7 +4032,7 @@ func (t *OrderedCollection) GetDuration() (v time.Duration) {
 
 // SetDuration sets the value of duration to be of time.Duration type
 func (t *OrderedCollection) SetDuration(v time.Duration) {
-	t.duration = &durationOrderedCollectionIntermediateType{duration: &v}
+	t.duration = &durationIntermediateType{duration: &v}
 
 }
 
@@ -4051,7 +4050,7 @@ func (t *OrderedCollection) GetDurationIRI() (v *url.URL) {
 
 // SetDurationIRI sets the value of duration to be of *url.URL type
 func (t *OrderedCollection) SetDurationIRI(v *url.URL) {
-	t.duration = &durationOrderedCollectionIntermediateType{IRI: v}
+	t.duration = &durationIntermediateType{IRI: v}
 
 }
 
@@ -4072,7 +4071,7 @@ func (t *OrderedCollection) SetUnknownDuration(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &durationOrderedCollectionIntermediateType{}
+	tmp := &durationIntermediateType{}
 	tmp.unknown_ = i
 	t.duration = tmp
 
@@ -4092,7 +4091,7 @@ func (t *OrderedCollection) GetSource() (v ObjectType) {
 
 // SetSource sets the value of source to be of ObjectType type
 func (t *OrderedCollection) SetSource(v ObjectType) {
-	t.source = &sourceOrderedCollectionIntermediateType{Object: v}
+	t.source = &sourceIntermediateType{Object: v}
 
 }
 
@@ -4110,7 +4109,7 @@ func (t *OrderedCollection) GetSourceIRI() (v *url.URL) {
 
 // SetSourceIRI sets the value of source to be of *url.URL type
 func (t *OrderedCollection) SetSourceIRI(v *url.URL) {
-	t.source = &sourceOrderedCollectionIntermediateType{IRI: v}
+	t.source = &sourceIntermediateType{IRI: v}
 
 }
 
@@ -4131,7 +4130,7 @@ func (t *OrderedCollection) SetUnknownSource(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &sourceOrderedCollectionIntermediateType{}
+	tmp := &sourceIntermediateType{}
 	tmp.unknown_ = i
 	t.source = tmp
 
@@ -4151,7 +4150,7 @@ func (t *OrderedCollection) GetInboxOrderedCollection() (v OrderedCollectionType
 
 // SetInboxOrderedCollection sets the value of inbox to be of OrderedCollectionType type
 func (t *OrderedCollection) SetInboxOrderedCollection(v OrderedCollectionType) {
-	t.inbox = &inboxOrderedCollectionIntermediateType{OrderedCollection: v}
+	t.inbox = &inboxIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4169,7 +4168,7 @@ func (t *OrderedCollection) GetInboxAnyURI() (v *url.URL) {
 
 // SetInboxAnyURI sets the value of inbox to be of *url.URL type
 func (t *OrderedCollection) SetInboxAnyURI(v *url.URL) {
-	t.inbox = &inboxOrderedCollectionIntermediateType{anyURI: v}
+	t.inbox = &inboxIntermediateType{anyURI: v}
 
 }
 
@@ -4190,7 +4189,7 @@ func (t *OrderedCollection) SetUnknownInbox(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &inboxOrderedCollectionIntermediateType{}
+	tmp := &inboxIntermediateType{}
 	tmp.unknown_ = i
 	t.inbox = tmp
 
@@ -4210,7 +4209,7 @@ func (t *OrderedCollection) GetOutboxOrderedCollection() (v OrderedCollectionTyp
 
 // SetOutboxOrderedCollection sets the value of outbox to be of OrderedCollectionType type
 func (t *OrderedCollection) SetOutboxOrderedCollection(v OrderedCollectionType) {
-	t.outbox = &outboxOrderedCollectionIntermediateType{OrderedCollection: v}
+	t.outbox = &outboxIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4228,7 +4227,7 @@ func (t *OrderedCollection) GetOutboxAnyURI() (v *url.URL) {
 
 // SetOutboxAnyURI sets the value of outbox to be of *url.URL type
 func (t *OrderedCollection) SetOutboxAnyURI(v *url.URL) {
-	t.outbox = &outboxOrderedCollectionIntermediateType{anyURI: v}
+	t.outbox = &outboxIntermediateType{anyURI: v}
 
 }
 
@@ -4249,7 +4248,7 @@ func (t *OrderedCollection) SetUnknownOutbox(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &outboxOrderedCollectionIntermediateType{}
+	tmp := &outboxIntermediateType{}
 	tmp.unknown_ = i
 	t.outbox = tmp
 
@@ -4269,7 +4268,7 @@ func (t *OrderedCollection) GetFollowingCollection() (v CollectionType) {
 
 // SetFollowingCollection sets the value of following to be of CollectionType type
 func (t *OrderedCollection) SetFollowingCollection(v CollectionType) {
-	t.following = &followingOrderedCollectionIntermediateType{Collection: v}
+	t.following = &followingIntermediateType{Collection: v}
 
 }
 
@@ -4287,7 +4286,7 @@ func (t *OrderedCollection) GetFollowingOrderedCollection() (v OrderedCollection
 
 // SetFollowingOrderedCollection sets the value of following to be of OrderedCollectionType type
 func (t *OrderedCollection) SetFollowingOrderedCollection(v OrderedCollectionType) {
-	t.following = &followingOrderedCollectionIntermediateType{OrderedCollection: v}
+	t.following = &followingIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4305,7 +4304,7 @@ func (t *OrderedCollection) GetFollowingAnyURI() (v *url.URL) {
 
 // SetFollowingAnyURI sets the value of following to be of *url.URL type
 func (t *OrderedCollection) SetFollowingAnyURI(v *url.URL) {
-	t.following = &followingOrderedCollectionIntermediateType{anyURI: v}
+	t.following = &followingIntermediateType{anyURI: v}
 
 }
 
@@ -4326,7 +4325,7 @@ func (t *OrderedCollection) SetUnknownFollowing(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &followingOrderedCollectionIntermediateType{}
+	tmp := &followingIntermediateType{}
 	tmp.unknown_ = i
 	t.following = tmp
 
@@ -4346,7 +4345,7 @@ func (t *OrderedCollection) GetFollowersCollection() (v CollectionType) {
 
 // SetFollowersCollection sets the value of followers to be of CollectionType type
 func (t *OrderedCollection) SetFollowersCollection(v CollectionType) {
-	t.followers = &followersOrderedCollectionIntermediateType{Collection: v}
+	t.followers = &followersIntermediateType{Collection: v}
 
 }
 
@@ -4364,7 +4363,7 @@ func (t *OrderedCollection) GetFollowersOrderedCollection() (v OrderedCollection
 
 // SetFollowersOrderedCollection sets the value of followers to be of OrderedCollectionType type
 func (t *OrderedCollection) SetFollowersOrderedCollection(v OrderedCollectionType) {
-	t.followers = &followersOrderedCollectionIntermediateType{OrderedCollection: v}
+	t.followers = &followersIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4382,7 +4381,7 @@ func (t *OrderedCollection) GetFollowersAnyURI() (v *url.URL) {
 
 // SetFollowersAnyURI sets the value of followers to be of *url.URL type
 func (t *OrderedCollection) SetFollowersAnyURI(v *url.URL) {
-	t.followers = &followersOrderedCollectionIntermediateType{anyURI: v}
+	t.followers = &followersIntermediateType{anyURI: v}
 
 }
 
@@ -4403,7 +4402,7 @@ func (t *OrderedCollection) SetUnknownFollowers(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &followersOrderedCollectionIntermediateType{}
+	tmp := &followersIntermediateType{}
 	tmp.unknown_ = i
 	t.followers = tmp
 
@@ -4423,7 +4422,7 @@ func (t *OrderedCollection) GetLikedCollection() (v CollectionType) {
 
 // SetLikedCollection sets the value of liked to be of CollectionType type
 func (t *OrderedCollection) SetLikedCollection(v CollectionType) {
-	t.liked = &likedOrderedCollectionIntermediateType{Collection: v}
+	t.liked = &likedIntermediateType{Collection: v}
 
 }
 
@@ -4441,7 +4440,7 @@ func (t *OrderedCollection) GetLikedOrderedCollection() (v OrderedCollectionType
 
 // SetLikedOrderedCollection sets the value of liked to be of OrderedCollectionType type
 func (t *OrderedCollection) SetLikedOrderedCollection(v OrderedCollectionType) {
-	t.liked = &likedOrderedCollectionIntermediateType{OrderedCollection: v}
+	t.liked = &likedIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4459,7 +4458,7 @@ func (t *OrderedCollection) GetLikedAnyURI() (v *url.URL) {
 
 // SetLikedAnyURI sets the value of liked to be of *url.URL type
 func (t *OrderedCollection) SetLikedAnyURI(v *url.URL) {
-	t.liked = &likedOrderedCollectionIntermediateType{anyURI: v}
+	t.liked = &likedIntermediateType{anyURI: v}
 
 }
 
@@ -4480,7 +4479,7 @@ func (t *OrderedCollection) SetUnknownLiked(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &likedOrderedCollectionIntermediateType{}
+	tmp := &likedIntermediateType{}
 	tmp.unknown_ = i
 	t.liked = tmp
 
@@ -4500,7 +4499,7 @@ func (t *OrderedCollection) GetLikesCollection() (v CollectionType) {
 
 // SetLikesCollection sets the value of likes to be of CollectionType type
 func (t *OrderedCollection) SetLikesCollection(v CollectionType) {
-	t.likes = &likesOrderedCollectionIntermediateType{Collection: v}
+	t.likes = &likesIntermediateType{Collection: v}
 
 }
 
@@ -4518,7 +4517,7 @@ func (t *OrderedCollection) GetLikesOrderedCollection() (v OrderedCollectionType
 
 // SetLikesOrderedCollection sets the value of likes to be of OrderedCollectionType type
 func (t *OrderedCollection) SetLikesOrderedCollection(v OrderedCollectionType) {
-	t.likes = &likesOrderedCollectionIntermediateType{OrderedCollection: v}
+	t.likes = &likesIntermediateType{OrderedCollection: v}
 
 }
 
@@ -4536,7 +4535,7 @@ func (t *OrderedCollection) GetLikesAnyURI() (v *url.URL) {
 
 // SetLikesAnyURI sets the value of likes to be of *url.URL type
 func (t *OrderedCollection) SetLikesAnyURI(v *url.URL) {
-	t.likes = &likesOrderedCollectionIntermediateType{anyURI: v}
+	t.likes = &likesIntermediateType{anyURI: v}
 
 }
 
@@ -4557,7 +4556,7 @@ func (t *OrderedCollection) SetUnknownLikes(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &likesOrderedCollectionIntermediateType{}
+	tmp := &likesIntermediateType{}
 	tmp.unknown_ = i
 	t.likes = tmp
 
@@ -4630,7 +4629,7 @@ func (t *OrderedCollection) GetPreferredUsername() (v string) {
 
 // SetPreferredUsername sets the value of preferredUsername to be of string type
 func (t *OrderedCollection) SetPreferredUsername(v string) {
-	t.preferredUsername = &preferredUsernameOrderedCollectionIntermediateType{stringName: &v}
+	t.preferredUsername = &preferredUsernameIntermediateType{stringName: &v}
 
 }
 
@@ -4648,7 +4647,7 @@ func (t *OrderedCollection) GetPreferredUsernameIRI() (v *url.URL) {
 
 // SetPreferredUsernameIRI sets the value of preferredUsername to be of *url.URL type
 func (t *OrderedCollection) SetPreferredUsernameIRI(v *url.URL) {
-	t.preferredUsername = &preferredUsernameOrderedCollectionIntermediateType{IRI: v}
+	t.preferredUsername = &preferredUsernameIntermediateType{IRI: v}
 
 }
 
@@ -4669,7 +4668,7 @@ func (t *OrderedCollection) SetUnknownPreferredUsername(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &preferredUsernameOrderedCollectionIntermediateType{}
+	tmp := &preferredUsernameIntermediateType{}
 	tmp.unknown_ = i
 	t.preferredUsername = tmp
 
@@ -4724,7 +4723,7 @@ func (t *OrderedCollection) GetEndpoints() (v ObjectType) {
 
 // SetEndpoints sets the value of endpoints to be of ObjectType type
 func (t *OrderedCollection) SetEndpoints(v ObjectType) {
-	t.endpoints = &endpointsOrderedCollectionIntermediateType{Object: v}
+	t.endpoints = &endpointsIntermediateType{Object: v}
 
 }
 
@@ -4742,7 +4741,7 @@ func (t *OrderedCollection) GetEndpointsIRI() (v *url.URL) {
 
 // SetEndpointsIRI sets the value of endpoints to be of *url.URL type
 func (t *OrderedCollection) SetEndpointsIRI(v *url.URL) {
-	t.endpoints = &endpointsOrderedCollectionIntermediateType{IRI: v}
+	t.endpoints = &endpointsIntermediateType{IRI: v}
 
 }
 
@@ -4763,7 +4762,7 @@ func (t *OrderedCollection) SetUnknownEndpoints(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &endpointsOrderedCollectionIntermediateType{}
+	tmp := &endpointsIntermediateType{}
 	tmp.unknown_ = i
 	t.endpoints = tmp
 
@@ -5153,7 +5152,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 		t.typeName = append(t.typeName, "OrderedCollection")
 	}
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceOrderedItemsOrderedCollectionIntermediateType(t.orderedItems); err == nil && v != nil {
+	if v, err := serializeSliceOrderedItemsIntermediateType(t.orderedItems); err == nil && v != nil {
 		if len(v) == 1 {
 			m["orderedItems"] = v[0]
 		} else {
@@ -5165,7 +5164,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.current != nil {
-		if v, err := serializeCurrentOrderedCollectionIntermediateType(t.current); err == nil {
+		if v, err := serializeCurrentIntermediateType(t.current); err == nil {
 			m["current"] = v
 		} else {
 			return m, err
@@ -5174,7 +5173,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.first != nil {
-		if v, err := serializeFirstOrderedCollectionIntermediateType(t.first); err == nil {
+		if v, err := serializeFirstIntermediateType(t.first); err == nil {
 			m["first"] = v
 		} else {
 			return m, err
@@ -5183,7 +5182,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.last != nil {
-		if v, err := serializeLastOrderedCollectionIntermediateType(t.last); err == nil {
+		if v, err := serializeLastIntermediateType(t.last); err == nil {
 			m["last"] = v
 		} else {
 			return m, err
@@ -5192,7 +5191,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.totalItems != nil {
-		if v, err := serializeTotalItemsOrderedCollectionIntermediateType(t.totalItems); err == nil {
+		if v, err := serializeTotalItemsIntermediateType(t.totalItems); err == nil {
 			m["totalItems"] = v
 		} else {
 			return m, err
@@ -5201,7 +5200,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.altitude != nil {
-		if v, err := serializeAltitudeOrderedCollectionIntermediateType(t.altitude); err == nil {
+		if v, err := serializeAltitudeIntermediateType(t.altitude); err == nil {
 			m["altitude"] = v
 		} else {
 			return m, err
@@ -5209,7 +5208,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttachmentOrderedCollectionIntermediateType(t.attachment); err == nil && v != nil {
+	if v, err := serializeSliceAttachmentIntermediateType(t.attachment); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attachment"] = v[0]
 		} else {
@@ -5220,7 +5219,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttributedToOrderedCollectionIntermediateType(t.attributedTo); err == nil && v != nil {
+	if v, err := serializeSliceAttributedToIntermediateType(t.attributedTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attributedTo"] = v[0]
 		} else {
@@ -5231,7 +5230,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAudienceOrderedCollectionIntermediateType(t.audience); err == nil && v != nil {
+	if v, err := serializeSliceAudienceIntermediateType(t.audience); err == nil && v != nil {
 		if len(v) == 1 {
 			m["audience"] = v[0]
 		} else {
@@ -5242,7 +5241,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceContentOrderedCollectionIntermediateType(t.content); err == nil && v != nil {
+	if v, err := serializeSliceContentIntermediateType(t.content); err == nil && v != nil {
 		if len(v) == 1 {
 			m["content"] = v[0]
 		} else {
@@ -5259,7 +5258,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceContextOrderedCollectionIntermediateType(t.context); err == nil && v != nil {
+	if v, err := serializeSliceContextIntermediateType(t.context); err == nil && v != nil {
 		if len(v) == 1 {
 			m["context"] = v[0]
 		} else {
@@ -5270,7 +5269,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceNameOrderedCollectionIntermediateType(t.name); err == nil && v != nil {
+	if v, err := serializeSliceNameIntermediateType(t.name); err == nil && v != nil {
 		if len(v) == 1 {
 			m["name"] = v[0]
 		} else {
@@ -5288,7 +5287,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.endTime != nil {
-		if v, err := serializeEndTimeOrderedCollectionIntermediateType(t.endTime); err == nil {
+		if v, err := serializeEndTimeIntermediateType(t.endTime); err == nil {
 			m["endTime"] = v
 		} else {
 			return m, err
@@ -5296,7 +5295,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceGeneratorOrderedCollectionIntermediateType(t.generator); err == nil && v != nil {
+	if v, err := serializeSliceGeneratorIntermediateType(t.generator); err == nil && v != nil {
 		if len(v) == 1 {
 			m["generator"] = v[0]
 		} else {
@@ -5307,7 +5306,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceIconOrderedCollectionIntermediateType(t.icon); err == nil && v != nil {
+	if v, err := serializeSliceIconIntermediateType(t.icon); err == nil && v != nil {
 		if len(v) == 1 {
 			m["icon"] = v[0]
 		} else {
@@ -5333,7 +5332,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceImageOrderedCollectionIntermediateType(t.image); err == nil && v != nil {
+	if v, err := serializeSliceImageIntermediateType(t.image); err == nil && v != nil {
 		if len(v) == 1 {
 			m["image"] = v[0]
 		} else {
@@ -5344,7 +5343,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceInReplyToOrderedCollectionIntermediateType(t.inReplyTo); err == nil && v != nil {
+	if v, err := serializeSliceInReplyToIntermediateType(t.inReplyTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["inReplyTo"] = v[0]
 		} else {
@@ -5355,7 +5354,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceLocationOrderedCollectionIntermediateType(t.location); err == nil && v != nil {
+	if v, err := serializeSliceLocationIntermediateType(t.location); err == nil && v != nil {
 		if len(v) == 1 {
 			m["location"] = v[0]
 		} else {
@@ -5366,7 +5365,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSlicePreviewOrderedCollectionIntermediateType(t.preview); err == nil && v != nil {
+	if v, err := serializeSlicePreviewIntermediateType(t.preview); err == nil && v != nil {
 		if len(v) == 1 {
 			m["preview"] = v[0]
 		} else {
@@ -5378,7 +5377,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.published != nil {
-		if v, err := serializePublishedOrderedCollectionIntermediateType(t.published); err == nil {
+		if v, err := serializePublishedIntermediateType(t.published); err == nil {
 			m["published"] = v
 		} else {
 			return m, err
@@ -5387,7 +5386,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.replies != nil {
-		if v, err := serializeRepliesOrderedCollectionIntermediateType(t.replies); err == nil {
+		if v, err := serializeRepliesIntermediateType(t.replies); err == nil {
 			m["replies"] = v
 		} else {
 			return m, err
@@ -5396,7 +5395,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.startTime != nil {
-		if v, err := serializeStartTimeOrderedCollectionIntermediateType(t.startTime); err == nil {
+		if v, err := serializeStartTimeIntermediateType(t.startTime); err == nil {
 			m["startTime"] = v
 		} else {
 			return m, err
@@ -5404,7 +5403,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceSummaryOrderedCollectionIntermediateType(t.summary); err == nil && v != nil {
+	if v, err := serializeSliceSummaryIntermediateType(t.summary); err == nil && v != nil {
 		if len(v) == 1 {
 			m["summary"] = v[0]
 		} else {
@@ -5421,7 +5420,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceTagOrderedCollectionIntermediateType(t.tag); err == nil && v != nil {
+	if v, err := serializeSliceTagIntermediateType(t.tag); err == nil && v != nil {
 		if len(v) == 1 {
 			m["tag"] = v[0]
 		} else {
@@ -5442,7 +5441,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalAnyDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.updated != nil {
-		if v, err := serializeUpdatedOrderedCollectionIntermediateType(t.updated); err == nil {
+		if v, err := serializeUpdatedIntermediateType(t.updated); err == nil {
 			m["updated"] = v
 		} else {
 			return m, err
@@ -5450,7 +5449,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceUrlOrderedCollectionIntermediateType(t.url); err == nil && v != nil {
+	if v, err := serializeSliceUrlIntermediateType(t.url); err == nil && v != nil {
 		if len(v) == 1 {
 			m["url"] = v[0]
 		} else {
@@ -5461,7 +5460,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceToOrderedCollectionIntermediateType(t.to); err == nil && v != nil {
+	if v, err := serializeSliceToIntermediateType(t.to); err == nil && v != nil {
 		if len(v) == 1 {
 			m["to"] = v[0]
 		} else {
@@ -5472,7 +5471,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceBtoOrderedCollectionIntermediateType(t.bto); err == nil && v != nil {
+	if v, err := serializeSliceBtoIntermediateType(t.bto); err == nil && v != nil {
 		if len(v) == 1 {
 			m["bto"] = v[0]
 		} else {
@@ -5483,7 +5482,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceCcOrderedCollectionIntermediateType(t.cc); err == nil && v != nil {
+	if v, err := serializeSliceCcIntermediateType(t.cc); err == nil && v != nil {
 		if len(v) == 1 {
 			m["cc"] = v[0]
 		} else {
@@ -5494,7 +5493,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceBccOrderedCollectionIntermediateType(t.bcc); err == nil && v != nil {
+	if v, err := serializeSliceBccIntermediateType(t.bcc); err == nil && v != nil {
 		if len(v) == 1 {
 			m["bcc"] = v[0]
 		} else {
@@ -5506,7 +5505,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.mediaType != nil {
-		if v, err := serializeMediaTypeOrderedCollectionIntermediateType(t.mediaType); err == nil {
+		if v, err := serializeMediaTypeIntermediateType(t.mediaType); err == nil {
 			m["mediaType"] = v
 		} else {
 			return m, err
@@ -5515,7 +5514,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.duration != nil {
-		if v, err := serializeDurationOrderedCollectionIntermediateType(t.duration); err == nil {
+		if v, err := serializeDurationIntermediateType(t.duration); err == nil {
 			m["duration"] = v
 		} else {
 			return m, err
@@ -5524,7 +5523,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.source != nil {
-		if v, err := serializeSourceOrderedCollectionIntermediateType(t.source); err == nil {
+		if v, err := serializeSourceIntermediateType(t.source); err == nil {
 			m["source"] = v
 		} else {
 			return m, err
@@ -5533,7 +5532,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.inbox != nil {
-		if v, err := serializeInboxOrderedCollectionIntermediateType(t.inbox); err == nil {
+		if v, err := serializeInboxIntermediateType(t.inbox); err == nil {
 			m["inbox"] = v
 		} else {
 			return m, err
@@ -5542,7 +5541,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.outbox != nil {
-		if v, err := serializeOutboxOrderedCollectionIntermediateType(t.outbox); err == nil {
+		if v, err := serializeOutboxIntermediateType(t.outbox); err == nil {
 			m["outbox"] = v
 		} else {
 			return m, err
@@ -5551,7 +5550,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.following != nil {
-		if v, err := serializeFollowingOrderedCollectionIntermediateType(t.following); err == nil {
+		if v, err := serializeFollowingIntermediateType(t.following); err == nil {
 			m["following"] = v
 		} else {
 			return m, err
@@ -5560,7 +5559,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.followers != nil {
-		if v, err := serializeFollowersOrderedCollectionIntermediateType(t.followers); err == nil {
+		if v, err := serializeFollowersIntermediateType(t.followers); err == nil {
 			m["followers"] = v
 		} else {
 			return m, err
@@ -5569,7 +5568,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.liked != nil {
-		if v, err := serializeLikedOrderedCollectionIntermediateType(t.liked); err == nil {
+		if v, err := serializeLikedIntermediateType(t.liked); err == nil {
 			m["liked"] = v
 		} else {
 			return m, err
@@ -5578,7 +5577,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.likes != nil {
-		if v, err := serializeLikesOrderedCollectionIntermediateType(t.likes); err == nil {
+		if v, err := serializeLikesIntermediateType(t.likes); err == nil {
 			m["likes"] = v
 		} else {
 			return m, err
@@ -5601,7 +5600,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.preferredUsername != nil {
-		if v, err := serializePreferredUsernameOrderedCollectionIntermediateType(t.preferredUsername); err == nil {
+		if v, err := serializePreferredUsernameIntermediateType(t.preferredUsername); err == nil {
 			m["preferredUsername"] = v
 		} else {
 			return m, err
@@ -5616,7 +5615,7 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.endpoints != nil {
-		if v, err := serializeEndpointsOrderedCollectionIntermediateType(t.endpoints); err == nil {
+		if v, err := serializeEndpointsIntermediateType(t.endpoints); err == nil {
 			m["endpoints"] = v
 		} else {
 			return m, err
@@ -5725,25 +5724,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "orderedItems" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeOrderedItemsOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeOrderedItemsIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.orderedItems = []*orderedItemsOrderedCollectionIntermediateType{tmp}
+					t.orderedItems = []*orderedItemsIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.orderedItems, err = deserializeSliceOrderedItemsOrderedCollectionIntermediateType(tmpSlice)
+					t.orderedItems, err = deserializeSliceOrderedItemsIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &orderedItemsOrderedCollectionIntermediateType{}
+					tmp := &orderedItemsIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.orderedItems = []*orderedItemsOrderedCollectionIntermediateType{tmp}
+					t.orderedItems = []*orderedItemsIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5752,7 +5751,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "current" {
-				t.current, err = deserializeCurrentOrderedCollectionIntermediateType(v)
+				t.current, err = deserializeCurrentIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5763,7 +5762,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "first" {
-				t.first, err = deserializeFirstOrderedCollectionIntermediateType(v)
+				t.first, err = deserializeFirstIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5774,7 +5773,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "last" {
-				t.last, err = deserializeLastOrderedCollectionIntermediateType(v)
+				t.last, err = deserializeLastIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5785,7 +5784,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "totalItems" {
-				t.totalItems, err = deserializeTotalItemsOrderedCollectionIntermediateType(v)
+				t.totalItems, err = deserializeTotalItemsIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5796,7 +5795,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "altitude" {
-				t.altitude, err = deserializeAltitudeOrderedCollectionIntermediateType(v)
+				t.altitude, err = deserializeAltitudeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -5808,25 +5807,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attachment" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttachmentOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeAttachmentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attachment = []*attachmentOrderedCollectionIntermediateType{tmp}
+					t.attachment = []*attachmentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attachment, err = deserializeSliceAttachmentOrderedCollectionIntermediateType(tmpSlice)
+					t.attachment, err = deserializeSliceAttachmentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attachmentOrderedCollectionIntermediateType{}
+					tmp := &attachmentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attachment = []*attachmentOrderedCollectionIntermediateType{tmp}
+					t.attachment = []*attachmentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5836,25 +5835,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attributedTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttributedToOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeAttributedToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToOrderedCollectionIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attributedTo, err = deserializeSliceAttributedToOrderedCollectionIntermediateType(tmpSlice)
+					t.attributedTo, err = deserializeSliceAttributedToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attributedToOrderedCollectionIntermediateType{}
+					tmp := &attributedToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToOrderedCollectionIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5864,25 +5863,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "audience" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAudienceOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeAudienceIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.audience = []*audienceOrderedCollectionIntermediateType{tmp}
+					t.audience = []*audienceIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.audience, err = deserializeSliceAudienceOrderedCollectionIntermediateType(tmpSlice)
+					t.audience, err = deserializeSliceAudienceIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &audienceOrderedCollectionIntermediateType{}
+					tmp := &audienceIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.audience = []*audienceOrderedCollectionIntermediateType{tmp}
+					t.audience = []*audienceIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5892,25 +5891,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "content" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeContentOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeContentIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.content = []*contentOrderedCollectionIntermediateType{tmp}
+					t.content = []*contentIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.content, err = deserializeSliceContentOrderedCollectionIntermediateType(tmpSlice)
+					t.content, err = deserializeSliceContentIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &contentOrderedCollectionIntermediateType{}
+					tmp := &contentIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.content = []*contentOrderedCollectionIntermediateType{tmp}
+					t.content = []*contentIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5935,25 +5934,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "context" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeContextOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeContextIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.context = []*contextOrderedCollectionIntermediateType{tmp}
+					t.context = []*contextIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.context, err = deserializeSliceContextOrderedCollectionIntermediateType(tmpSlice)
+					t.context, err = deserializeSliceContextIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &contextOrderedCollectionIntermediateType{}
+					tmp := &contextIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.context = []*contextOrderedCollectionIntermediateType{tmp}
+					t.context = []*contextIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -5963,25 +5962,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "name" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeNameOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeNameIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameOrderedCollectionIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.name, err = deserializeSliceNameOrderedCollectionIntermediateType(tmpSlice)
+					t.name, err = deserializeSliceNameIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &nameOrderedCollectionIntermediateType{}
+					tmp := &nameIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameOrderedCollectionIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6005,7 +6004,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "endTime" {
-				t.endTime, err = deserializeEndTimeOrderedCollectionIntermediateType(v)
+				t.endTime, err = deserializeEndTimeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6017,25 +6016,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "generator" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeGeneratorOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeGeneratorIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.generator = []*generatorOrderedCollectionIntermediateType{tmp}
+					t.generator = []*generatorIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.generator, err = deserializeSliceGeneratorOrderedCollectionIntermediateType(tmpSlice)
+					t.generator, err = deserializeSliceGeneratorIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &generatorOrderedCollectionIntermediateType{}
+					tmp := &generatorIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.generator = []*generatorOrderedCollectionIntermediateType{tmp}
+					t.generator = []*generatorIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6045,25 +6044,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "icon" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeIconOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeIconIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.icon = []*iconOrderedCollectionIntermediateType{tmp}
+					t.icon = []*iconIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.icon, err = deserializeSliceIconOrderedCollectionIntermediateType(tmpSlice)
+					t.icon, err = deserializeSliceIconIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &iconOrderedCollectionIntermediateType{}
+					tmp := &iconIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.icon = []*iconOrderedCollectionIntermediateType{tmp}
+					t.icon = []*iconIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6087,25 +6086,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "image" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeImageOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeImageIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.image = []*imageOrderedCollectionIntermediateType{tmp}
+					t.image = []*imageIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.image, err = deserializeSliceImageOrderedCollectionIntermediateType(tmpSlice)
+					t.image, err = deserializeSliceImageIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &imageOrderedCollectionIntermediateType{}
+					tmp := &imageIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.image = []*imageOrderedCollectionIntermediateType{tmp}
+					t.image = []*imageIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6115,25 +6114,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "inReplyTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeInReplyToOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeInReplyToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.inReplyTo = []*inReplyToOrderedCollectionIntermediateType{tmp}
+					t.inReplyTo = []*inReplyToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.inReplyTo, err = deserializeSliceInReplyToOrderedCollectionIntermediateType(tmpSlice)
+					t.inReplyTo, err = deserializeSliceInReplyToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &inReplyToOrderedCollectionIntermediateType{}
+					tmp := &inReplyToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.inReplyTo = []*inReplyToOrderedCollectionIntermediateType{tmp}
+					t.inReplyTo = []*inReplyToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6143,25 +6142,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "location" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeLocationOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeLocationIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.location = []*locationOrderedCollectionIntermediateType{tmp}
+					t.location = []*locationIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.location, err = deserializeSliceLocationOrderedCollectionIntermediateType(tmpSlice)
+					t.location, err = deserializeSliceLocationIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &locationOrderedCollectionIntermediateType{}
+					tmp := &locationIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.location = []*locationOrderedCollectionIntermediateType{tmp}
+					t.location = []*locationIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6171,25 +6170,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "preview" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializePreviewOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializePreviewIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewOrderedCollectionIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.preview, err = deserializeSlicePreviewOrderedCollectionIntermediateType(tmpSlice)
+					t.preview, err = deserializeSlicePreviewIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &previewOrderedCollectionIntermediateType{}
+					tmp := &previewIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewOrderedCollectionIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6198,7 +6197,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "published" {
-				t.published, err = deserializePublishedOrderedCollectionIntermediateType(v)
+				t.published, err = deserializePublishedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6209,7 +6208,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "replies" {
-				t.replies, err = deserializeRepliesOrderedCollectionIntermediateType(v)
+				t.replies, err = deserializeRepliesIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6220,7 +6219,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "startTime" {
-				t.startTime, err = deserializeStartTimeOrderedCollectionIntermediateType(v)
+				t.startTime, err = deserializeStartTimeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6232,25 +6231,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "summary" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeSummaryOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeSummaryIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryOrderedCollectionIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.summary, err = deserializeSliceSummaryOrderedCollectionIntermediateType(tmpSlice)
+					t.summary, err = deserializeSliceSummaryIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &summaryOrderedCollectionIntermediateType{}
+					tmp := &summaryIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryOrderedCollectionIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6275,25 +6274,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "tag" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeTagOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeTagIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.tag = []*tagOrderedCollectionIntermediateType{tmp}
+					t.tag = []*tagIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.tag, err = deserializeSliceTagOrderedCollectionIntermediateType(tmpSlice)
+					t.tag, err = deserializeSliceTagIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &tagOrderedCollectionIntermediateType{}
+					tmp := &tagIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.tag = []*tagOrderedCollectionIntermediateType{tmp}
+					t.tag = []*tagIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6315,7 +6314,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "updated" {
-				t.updated, err = deserializeUpdatedOrderedCollectionIntermediateType(v)
+				t.updated, err = deserializeUpdatedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6327,25 +6326,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "url" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeUrlOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeUrlIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.url = []*urlOrderedCollectionIntermediateType{tmp}
+					t.url = []*urlIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.url, err = deserializeSliceUrlOrderedCollectionIntermediateType(tmpSlice)
+					t.url, err = deserializeSliceUrlIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &urlOrderedCollectionIntermediateType{}
+					tmp := &urlIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.url = []*urlOrderedCollectionIntermediateType{tmp}
+					t.url = []*urlIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6355,25 +6354,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "to" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeToOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.to = []*toOrderedCollectionIntermediateType{tmp}
+					t.to = []*toIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.to, err = deserializeSliceToOrderedCollectionIntermediateType(tmpSlice)
+					t.to, err = deserializeSliceToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &toOrderedCollectionIntermediateType{}
+					tmp := &toIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.to = []*toOrderedCollectionIntermediateType{tmp}
+					t.to = []*toIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6383,25 +6382,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "bto" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeBtoOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeBtoIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.bto = []*btoOrderedCollectionIntermediateType{tmp}
+					t.bto = []*btoIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.bto, err = deserializeSliceBtoOrderedCollectionIntermediateType(tmpSlice)
+					t.bto, err = deserializeSliceBtoIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &btoOrderedCollectionIntermediateType{}
+					tmp := &btoIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.bto = []*btoOrderedCollectionIntermediateType{tmp}
+					t.bto = []*btoIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6411,25 +6410,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "cc" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeCcOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeCcIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.cc = []*ccOrderedCollectionIntermediateType{tmp}
+					t.cc = []*ccIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.cc, err = deserializeSliceCcOrderedCollectionIntermediateType(tmpSlice)
+					t.cc, err = deserializeSliceCcIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &ccOrderedCollectionIntermediateType{}
+					tmp := &ccIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.cc = []*ccOrderedCollectionIntermediateType{tmp}
+					t.cc = []*ccIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6439,25 +6438,25 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "bcc" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeBccOrderedCollectionIntermediateType(tmpMap)
+					tmp, err := deserializeBccIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.bcc = []*bccOrderedCollectionIntermediateType{tmp}
+					t.bcc = []*bccIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.bcc, err = deserializeSliceBccOrderedCollectionIntermediateType(tmpSlice)
+					t.bcc, err = deserializeSliceBccIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &bccOrderedCollectionIntermediateType{}
+					tmp := &bccIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.bcc = []*bccOrderedCollectionIntermediateType{tmp}
+					t.bcc = []*bccIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -6466,7 +6465,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "mediaType" {
-				t.mediaType, err = deserializeMediaTypeOrderedCollectionIntermediateType(v)
+				t.mediaType, err = deserializeMediaTypeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6477,7 +6476,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "duration" {
-				t.duration, err = deserializeDurationOrderedCollectionIntermediateType(v)
+				t.duration, err = deserializeDurationIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6488,7 +6487,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "source" {
-				t.source, err = deserializeSourceOrderedCollectionIntermediateType(v)
+				t.source, err = deserializeSourceIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6499,7 +6498,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "inbox" {
-				t.inbox, err = deserializeInboxOrderedCollectionIntermediateType(v)
+				t.inbox, err = deserializeInboxIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6510,7 +6509,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "outbox" {
-				t.outbox, err = deserializeOutboxOrderedCollectionIntermediateType(v)
+				t.outbox, err = deserializeOutboxIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6521,7 +6520,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "following" {
-				t.following, err = deserializeFollowingOrderedCollectionIntermediateType(v)
+				t.following, err = deserializeFollowingIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6532,7 +6531,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "followers" {
-				t.followers, err = deserializeFollowersOrderedCollectionIntermediateType(v)
+				t.followers, err = deserializeFollowersIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6543,7 +6542,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "liked" {
-				t.liked, err = deserializeLikedOrderedCollectionIntermediateType(v)
+				t.liked, err = deserializeLikedIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6554,7 +6553,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "likes" {
-				t.likes, err = deserializeLikesOrderedCollectionIntermediateType(v)
+				t.likes, err = deserializeLikesIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6590,7 +6589,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "preferredUsername" {
-				t.preferredUsername, err = deserializePreferredUsernameOrderedCollectionIntermediateType(v)
+				t.preferredUsername, err = deserializePreferredUsernameIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6616,7 +6615,7 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "endpoints" {
-				t.endpoints, err = deserializeEndpointsOrderedCollectionIntermediateType(v)
+				t.endpoints, err = deserializeEndpointsIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -6714,4735 +6713,6 @@ func (t *OrderedCollection) Deserialize(m map[string]interface{}) (err error) {
 			}
 			t.unknown_[k] = unknownValueDeserialize(v)
 		}
-	}
-	return
-
-}
-
-// orderedItemsOrderedCollectionIntermediateType will only have one of its values set at most
-type orderedItemsOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for orderedItems property
-	Object ObjectType
-	// Stores possible LinkType type for orderedItems property
-	Link LinkType
-	// Stores possible *url.URL type for orderedItems property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *orderedItemsOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *orderedItemsOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// currentOrderedCollectionIntermediateType will only have one of its values set at most
-type currentOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionPageType type for current property
-	OrderedCollectionPage OrderedCollectionPageType
-	// Stores possible LinkType type for current property
-	Link LinkType
-	// Stores possible *url.URL type for current property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *currentOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollectionPage, ok = resolveObject(kind).(OrderedCollectionPageType); t.OrderedCollectionPage != nil && ok {
-						err = t.OrderedCollectionPage.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *currentOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollectionPage != nil {
-		i, err = t.OrderedCollectionPage.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// firstOrderedCollectionIntermediateType will only have one of its values set at most
-type firstOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionPageType type for first property
-	OrderedCollectionPage OrderedCollectionPageType
-	// Stores possible LinkType type for first property
-	Link LinkType
-	// Stores possible *url.URL type for first property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *firstOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollectionPage, ok = resolveObject(kind).(OrderedCollectionPageType); t.OrderedCollectionPage != nil && ok {
-						err = t.OrderedCollectionPage.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *firstOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollectionPage != nil {
-		i, err = t.OrderedCollectionPage.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// lastOrderedCollectionIntermediateType will only have one of its values set at most
-type lastOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionPageType type for last property
-	OrderedCollectionPage OrderedCollectionPageType
-	// Stores possible LinkType type for last property
-	Link LinkType
-	// Stores possible *url.URL type for last property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *lastOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollectionPage, ok = resolveObject(kind).(OrderedCollectionPageType); t.OrderedCollectionPage != nil && ok {
-						err = t.OrderedCollectionPage.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *lastOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollectionPage != nil {
-		i, err = t.OrderedCollectionPage.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// totalItemsOrderedCollectionIntermediateType will only have one of its values set at most
-type totalItemsOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *int64 type for totalItems property
-	nonNegativeInteger *int64
-	// Stores possible *url.URL type for totalItems property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *totalItemsOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.nonNegativeInteger, err = nonNegativeIntegerDeserialize(i)
-			if err != nil {
-				t.nonNegativeInteger = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *totalItemsOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.nonNegativeInteger != nil {
-		i = nonNegativeIntegerSerialize(*t.nonNegativeInteger)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// altitudeOrderedCollectionIntermediateType will only have one of its values set at most
-type altitudeOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *float64 type for altitude property
-	float *float64
-	// Stores possible *url.URL type for altitude property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *altitudeOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.float, err = floatDeserialize(i)
-			if err != nil {
-				t.float = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *altitudeOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.float != nil {
-		i = floatSerialize(*t.float)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// attachmentOrderedCollectionIntermediateType will only have one of its values set at most
-type attachmentOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attachment property
-	Object ObjectType
-	// Stores possible LinkType type for attachment property
-	Link LinkType
-	// Stores possible *url.URL type for attachment property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attachmentOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attachmentOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// attributedToOrderedCollectionIntermediateType will only have one of its values set at most
-type attributedToOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attributedTo property
-	Object ObjectType
-	// Stores possible LinkType type for attributedTo property
-	Link LinkType
-	// Stores possible *url.URL type for attributedTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attributedToOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attributedToOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// audienceOrderedCollectionIntermediateType will only have one of its values set at most
-type audienceOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for audience property
-	Object ObjectType
-	// Stores possible LinkType type for audience property
-	Link LinkType
-	// Stores possible *url.URL type for audience property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *audienceOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *audienceOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// contentOrderedCollectionIntermediateType will only have one of its values set at most
-type contentOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for content property
-	stringName *string
-	// Stores possible *string type for content property
-	langString *string
-	// Stores possible *url.URL type for content property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *contentOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *contentOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// contextOrderedCollectionIntermediateType will only have one of its values set at most
-type contextOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for context property
-	Object ObjectType
-	// Stores possible LinkType type for context property
-	Link LinkType
-	// Stores possible *url.URL type for context property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *contextOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *contextOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// nameOrderedCollectionIntermediateType will only have one of its values set at most
-type nameOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for name property
-	stringName *string
-	// Stores possible *string type for name property
-	langString *string
-	// Stores possible *url.URL type for name property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *nameOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *nameOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// endTimeOrderedCollectionIntermediateType will only have one of its values set at most
-type endTimeOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for endTime property
-	dateTime *time.Time
-	// Stores possible *url.URL type for endTime property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *endTimeOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *endTimeOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// generatorOrderedCollectionIntermediateType will only have one of its values set at most
-type generatorOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for generator property
-	Object ObjectType
-	// Stores possible LinkType type for generator property
-	Link LinkType
-	// Stores possible *url.URL type for generator property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *generatorOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *generatorOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// iconOrderedCollectionIntermediateType will only have one of its values set at most
-type iconOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ImageType type for icon property
-	Image ImageType
-	// Stores possible LinkType type for icon property
-	Link LinkType
-	// Stores possible *url.URL type for icon property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *iconOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Image, ok = resolveObject(kind).(ImageType); t.Image != nil && ok {
-						err = t.Image.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *iconOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Image != nil {
-		i, err = t.Image.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// imageOrderedCollectionIntermediateType will only have one of its values set at most
-type imageOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ImageType type for image property
-	Image ImageType
-	// Stores possible LinkType type for image property
-	Link LinkType
-	// Stores possible *url.URL type for image property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *imageOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Image, ok = resolveObject(kind).(ImageType); t.Image != nil && ok {
-						err = t.Image.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *imageOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Image != nil {
-		i, err = t.Image.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// inReplyToOrderedCollectionIntermediateType will only have one of its values set at most
-type inReplyToOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for inReplyTo property
-	Object ObjectType
-	// Stores possible LinkType type for inReplyTo property
-	Link LinkType
-	// Stores possible *url.URL type for inReplyTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *inReplyToOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *inReplyToOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// locationOrderedCollectionIntermediateType will only have one of its values set at most
-type locationOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for location property
-	Object ObjectType
-	// Stores possible LinkType type for location property
-	Link LinkType
-	// Stores possible *url.URL type for location property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *locationOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *locationOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// previewOrderedCollectionIntermediateType will only have one of its values set at most
-type previewOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for preview property
-	Object ObjectType
-	// Stores possible LinkType type for preview property
-	Link LinkType
-	// Stores possible *url.URL type for preview property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *previewOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *previewOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// publishedOrderedCollectionIntermediateType will only have one of its values set at most
-type publishedOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for published property
-	dateTime *time.Time
-	// Stores possible *url.URL type for published property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *publishedOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *publishedOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// repliesOrderedCollectionIntermediateType will only have one of its values set at most
-type repliesOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for replies property
-	Collection CollectionType
-	// Stores possible *url.URL type for replies property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *repliesOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *repliesOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// startTimeOrderedCollectionIntermediateType will only have one of its values set at most
-type startTimeOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for startTime property
-	dateTime *time.Time
-	// Stores possible *url.URL type for startTime property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *startTimeOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *startTimeOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// summaryOrderedCollectionIntermediateType will only have one of its values set at most
-type summaryOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for summary property
-	stringName *string
-	// Stores possible *string type for summary property
-	langString *string
-	// Stores possible *url.URL type for summary property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *summaryOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *summaryOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// tagOrderedCollectionIntermediateType will only have one of its values set at most
-type tagOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for tag property
-	Object ObjectType
-	// Stores possible LinkType type for tag property
-	Link LinkType
-	// Stores possible *url.URL type for tag property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *tagOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *tagOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// updatedOrderedCollectionIntermediateType will only have one of its values set at most
-type updatedOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Time type for updated property
-	dateTime *time.Time
-	// Stores possible *url.URL type for updated property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *updatedOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.dateTime, err = dateTimeDeserialize(i)
-			if err != nil {
-				t.dateTime = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *updatedOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.dateTime != nil {
-		i = dateTimeSerialize(*t.dateTime)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// urlOrderedCollectionIntermediateType will only have one of its values set at most
-type urlOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *url.URL type for url property
-	anyURI *url.URL
-	// Stores possible LinkType type for url property
-	Link LinkType
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *urlOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *urlOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// toOrderedCollectionIntermediateType will only have one of its values set at most
-type toOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for to property
-	Object ObjectType
-	// Stores possible LinkType type for to property
-	Link LinkType
-	// Stores possible *url.URL type for to property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *toOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *toOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// btoOrderedCollectionIntermediateType will only have one of its values set at most
-type btoOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for bto property
-	Object ObjectType
-	// Stores possible LinkType type for bto property
-	Link LinkType
-	// Stores possible *url.URL type for bto property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *btoOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *btoOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// ccOrderedCollectionIntermediateType will only have one of its values set at most
-type ccOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for cc property
-	Object ObjectType
-	// Stores possible LinkType type for cc property
-	Link LinkType
-	// Stores possible *url.URL type for cc property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *ccOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *ccOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// bccOrderedCollectionIntermediateType will only have one of its values set at most
-type bccOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for bcc property
-	Object ObjectType
-	// Stores possible LinkType type for bcc property
-	Link LinkType
-	// Stores possible *url.URL type for bcc property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *bccOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *bccOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// mediaTypeOrderedCollectionIntermediateType will only have one of its values set at most
-type mediaTypeOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for mediaType property
-	mimeMediaTypeValue *string
-	// Stores possible *url.URL type for mediaType property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *mediaTypeOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.mimeMediaTypeValue, err = mimeMediaTypeValueDeserialize(i)
-			if err != nil {
-				t.mimeMediaTypeValue = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *mediaTypeOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.mimeMediaTypeValue != nil {
-		i = mimeMediaTypeValueSerialize(*t.mimeMediaTypeValue)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// durationOrderedCollectionIntermediateType will only have one of its values set at most
-type durationOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *time.Duration type for duration property
-	duration *time.Duration
-	// Stores possible *url.URL type for duration property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *durationOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.duration, err = durationDeserialize(i)
-			if err != nil {
-				t.duration = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *durationOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.duration != nil {
-		i = durationSerialize(*t.duration)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// sourceOrderedCollectionIntermediateType will only have one of its values set at most
-type sourceOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for source property
-	Object ObjectType
-	// Stores possible *url.URL type for source property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *sourceOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *sourceOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// inboxOrderedCollectionIntermediateType will only have one of its values set at most
-type inboxOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionType type for inbox property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for inbox property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *inboxOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *inboxOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// outboxOrderedCollectionIntermediateType will only have one of its values set at most
-type outboxOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible OrderedCollectionType type for outbox property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for outbox property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *outboxOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *outboxOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// followingOrderedCollectionIntermediateType will only have one of its values set at most
-type followingOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for following property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for following property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for following property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *followingOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *followingOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// followersOrderedCollectionIntermediateType will only have one of its values set at most
-type followersOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for followers property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for followers property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for followers property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *followersOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *followersOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// likedOrderedCollectionIntermediateType will only have one of its values set at most
-type likedOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for liked property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for liked property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for liked property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *likedOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *likedOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// likesOrderedCollectionIntermediateType will only have one of its values set at most
-type likesOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible CollectionType type for likes property
-	Collection CollectionType
-	// Stores possible OrderedCollectionType type for likes property
-	OrderedCollection OrderedCollectionType
-	// Stores possible *url.URL type for likes property
-	anyURI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *likesOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Collection, ok = resolveObject(kind).(CollectionType); t.Collection != nil && ok {
-						err = t.Collection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.OrderedCollection, ok = resolveObject(kind).(OrderedCollectionType); t.OrderedCollection != nil && ok {
-						err = t.OrderedCollection.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.anyURI, err = anyURIDeserialize(i)
-			if err != nil {
-				t.anyURI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *likesOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Collection != nil {
-		i, err = t.Collection.Serialize()
-		return
-	}
-	if t.OrderedCollection != nil {
-		i, err = t.OrderedCollection.Serialize()
-		return
-	}
-	if t.anyURI != nil {
-		i = anyURISerialize(t.anyURI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// preferredUsernameOrderedCollectionIntermediateType will only have one of its values set at most
-type preferredUsernameOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for preferredUsername property
-	stringName *string
-	// Stores possible *url.URL type for preferredUsername property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *preferredUsernameOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *preferredUsernameOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// endpointsOrderedCollectionIntermediateType will only have one of its values set at most
-type endpointsOrderedCollectionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for endpoints property
-	Object ObjectType
-	// Stores possible *url.URL type for endpoints property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *endpointsOrderedCollectionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *endpointsOrderedCollectionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// deserializeorderedItemsOrderedCollectionIntermediateType will accept a map to create a orderedItemsOrderedCollectionIntermediateType
-func deserializeOrderedItemsOrderedCollectionIntermediateType(in interface{}) (t *orderedItemsOrderedCollectionIntermediateType, err error) {
-	tmp := &orderedItemsOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice orderedItemsOrderedCollectionIntermediateType will accept a slice to create a slice of orderedItemsOrderedCollectionIntermediateType
-func deserializeSliceOrderedItemsOrderedCollectionIntermediateType(in []interface{}) (t []*orderedItemsOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &orderedItemsOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeorderedItemsOrderedCollectionIntermediateType will accept a orderedItemsOrderedCollectionIntermediateType to create a map
-func serializeOrderedItemsOrderedCollectionIntermediateType(t *orderedItemsOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceorderedItemsOrderedCollectionIntermediateType will accept a slice of orderedItemsOrderedCollectionIntermediateType to create a slice result
-func serializeSliceOrderedItemsOrderedCollectionIntermediateType(s []*orderedItemsOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecurrentOrderedCollectionIntermediateType will accept a map to create a currentOrderedCollectionIntermediateType
-func deserializeCurrentOrderedCollectionIntermediateType(in interface{}) (t *currentOrderedCollectionIntermediateType, err error) {
-	tmp := &currentOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice currentOrderedCollectionIntermediateType will accept a slice to create a slice of currentOrderedCollectionIntermediateType
-func deserializeSliceCurrentOrderedCollectionIntermediateType(in []interface{}) (t []*currentOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &currentOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecurrentOrderedCollectionIntermediateType will accept a currentOrderedCollectionIntermediateType to create a map
-func serializeCurrentOrderedCollectionIntermediateType(t *currentOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecurrentOrderedCollectionIntermediateType will accept a slice of currentOrderedCollectionIntermediateType to create a slice result
-func serializeSliceCurrentOrderedCollectionIntermediateType(s []*currentOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefirstOrderedCollectionIntermediateType will accept a map to create a firstOrderedCollectionIntermediateType
-func deserializeFirstOrderedCollectionIntermediateType(in interface{}) (t *firstOrderedCollectionIntermediateType, err error) {
-	tmp := &firstOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice firstOrderedCollectionIntermediateType will accept a slice to create a slice of firstOrderedCollectionIntermediateType
-func deserializeSliceFirstOrderedCollectionIntermediateType(in []interface{}) (t []*firstOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &firstOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefirstOrderedCollectionIntermediateType will accept a firstOrderedCollectionIntermediateType to create a map
-func serializeFirstOrderedCollectionIntermediateType(t *firstOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefirstOrderedCollectionIntermediateType will accept a slice of firstOrderedCollectionIntermediateType to create a slice result
-func serializeSliceFirstOrderedCollectionIntermediateType(s []*firstOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelastOrderedCollectionIntermediateType will accept a map to create a lastOrderedCollectionIntermediateType
-func deserializeLastOrderedCollectionIntermediateType(in interface{}) (t *lastOrderedCollectionIntermediateType, err error) {
-	tmp := &lastOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice lastOrderedCollectionIntermediateType will accept a slice to create a slice of lastOrderedCollectionIntermediateType
-func deserializeSliceLastOrderedCollectionIntermediateType(in []interface{}) (t []*lastOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &lastOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelastOrderedCollectionIntermediateType will accept a lastOrderedCollectionIntermediateType to create a map
-func serializeLastOrderedCollectionIntermediateType(t *lastOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelastOrderedCollectionIntermediateType will accept a slice of lastOrderedCollectionIntermediateType to create a slice result
-func serializeSliceLastOrderedCollectionIntermediateType(s []*lastOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetotalItemsOrderedCollectionIntermediateType will accept a map to create a totalItemsOrderedCollectionIntermediateType
-func deserializeTotalItemsOrderedCollectionIntermediateType(in interface{}) (t *totalItemsOrderedCollectionIntermediateType, err error) {
-	tmp := &totalItemsOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice totalItemsOrderedCollectionIntermediateType will accept a slice to create a slice of totalItemsOrderedCollectionIntermediateType
-func deserializeSliceTotalItemsOrderedCollectionIntermediateType(in []interface{}) (t []*totalItemsOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &totalItemsOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetotalItemsOrderedCollectionIntermediateType will accept a totalItemsOrderedCollectionIntermediateType to create a map
-func serializeTotalItemsOrderedCollectionIntermediateType(t *totalItemsOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetotalItemsOrderedCollectionIntermediateType will accept a slice of totalItemsOrderedCollectionIntermediateType to create a slice result
-func serializeSliceTotalItemsOrderedCollectionIntermediateType(s []*totalItemsOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializealtitudeOrderedCollectionIntermediateType will accept a map to create a altitudeOrderedCollectionIntermediateType
-func deserializeAltitudeOrderedCollectionIntermediateType(in interface{}) (t *altitudeOrderedCollectionIntermediateType, err error) {
-	tmp := &altitudeOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice altitudeOrderedCollectionIntermediateType will accept a slice to create a slice of altitudeOrderedCollectionIntermediateType
-func deserializeSliceAltitudeOrderedCollectionIntermediateType(in []interface{}) (t []*altitudeOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &altitudeOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializealtitudeOrderedCollectionIntermediateType will accept a altitudeOrderedCollectionIntermediateType to create a map
-func serializeAltitudeOrderedCollectionIntermediateType(t *altitudeOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicealtitudeOrderedCollectionIntermediateType will accept a slice of altitudeOrderedCollectionIntermediateType to create a slice result
-func serializeSliceAltitudeOrderedCollectionIntermediateType(s []*altitudeOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeattachmentOrderedCollectionIntermediateType will accept a map to create a attachmentOrderedCollectionIntermediateType
-func deserializeAttachmentOrderedCollectionIntermediateType(in interface{}) (t *attachmentOrderedCollectionIntermediateType, err error) {
-	tmp := &attachmentOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attachmentOrderedCollectionIntermediateType will accept a slice to create a slice of attachmentOrderedCollectionIntermediateType
-func deserializeSliceAttachmentOrderedCollectionIntermediateType(in []interface{}) (t []*attachmentOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attachmentOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattachmentOrderedCollectionIntermediateType will accept a attachmentOrderedCollectionIntermediateType to create a map
-func serializeAttachmentOrderedCollectionIntermediateType(t *attachmentOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattachmentOrderedCollectionIntermediateType will accept a slice of attachmentOrderedCollectionIntermediateType to create a slice result
-func serializeSliceAttachmentOrderedCollectionIntermediateType(s []*attachmentOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeattributedToOrderedCollectionIntermediateType will accept a map to create a attributedToOrderedCollectionIntermediateType
-func deserializeAttributedToOrderedCollectionIntermediateType(in interface{}) (t *attributedToOrderedCollectionIntermediateType, err error) {
-	tmp := &attributedToOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attributedToOrderedCollectionIntermediateType will accept a slice to create a slice of attributedToOrderedCollectionIntermediateType
-func deserializeSliceAttributedToOrderedCollectionIntermediateType(in []interface{}) (t []*attributedToOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attributedToOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattributedToOrderedCollectionIntermediateType will accept a attributedToOrderedCollectionIntermediateType to create a map
-func serializeAttributedToOrderedCollectionIntermediateType(t *attributedToOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattributedToOrderedCollectionIntermediateType will accept a slice of attributedToOrderedCollectionIntermediateType to create a slice result
-func serializeSliceAttributedToOrderedCollectionIntermediateType(s []*attributedToOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeaudienceOrderedCollectionIntermediateType will accept a map to create a audienceOrderedCollectionIntermediateType
-func deserializeAudienceOrderedCollectionIntermediateType(in interface{}) (t *audienceOrderedCollectionIntermediateType, err error) {
-	tmp := &audienceOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice audienceOrderedCollectionIntermediateType will accept a slice to create a slice of audienceOrderedCollectionIntermediateType
-func deserializeSliceAudienceOrderedCollectionIntermediateType(in []interface{}) (t []*audienceOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &audienceOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeaudienceOrderedCollectionIntermediateType will accept a audienceOrderedCollectionIntermediateType to create a map
-func serializeAudienceOrderedCollectionIntermediateType(t *audienceOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceaudienceOrderedCollectionIntermediateType will accept a slice of audienceOrderedCollectionIntermediateType to create a slice result
-func serializeSliceAudienceOrderedCollectionIntermediateType(s []*audienceOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecontentOrderedCollectionIntermediateType will accept a map to create a contentOrderedCollectionIntermediateType
-func deserializeContentOrderedCollectionIntermediateType(in interface{}) (t *contentOrderedCollectionIntermediateType, err error) {
-	tmp := &contentOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice contentOrderedCollectionIntermediateType will accept a slice to create a slice of contentOrderedCollectionIntermediateType
-func deserializeSliceContentOrderedCollectionIntermediateType(in []interface{}) (t []*contentOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &contentOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecontentOrderedCollectionIntermediateType will accept a contentOrderedCollectionIntermediateType to create a map
-func serializeContentOrderedCollectionIntermediateType(t *contentOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecontentOrderedCollectionIntermediateType will accept a slice of contentOrderedCollectionIntermediateType to create a slice result
-func serializeSliceContentOrderedCollectionIntermediateType(s []*contentOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializecontextOrderedCollectionIntermediateType will accept a map to create a contextOrderedCollectionIntermediateType
-func deserializeContextOrderedCollectionIntermediateType(in interface{}) (t *contextOrderedCollectionIntermediateType, err error) {
-	tmp := &contextOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice contextOrderedCollectionIntermediateType will accept a slice to create a slice of contextOrderedCollectionIntermediateType
-func deserializeSliceContextOrderedCollectionIntermediateType(in []interface{}) (t []*contextOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &contextOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializecontextOrderedCollectionIntermediateType will accept a contextOrderedCollectionIntermediateType to create a map
-func serializeContextOrderedCollectionIntermediateType(t *contextOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicecontextOrderedCollectionIntermediateType will accept a slice of contextOrderedCollectionIntermediateType to create a slice result
-func serializeSliceContextOrderedCollectionIntermediateType(s []*contextOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializenameOrderedCollectionIntermediateType will accept a map to create a nameOrderedCollectionIntermediateType
-func deserializeNameOrderedCollectionIntermediateType(in interface{}) (t *nameOrderedCollectionIntermediateType, err error) {
-	tmp := &nameOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice nameOrderedCollectionIntermediateType will accept a slice to create a slice of nameOrderedCollectionIntermediateType
-func deserializeSliceNameOrderedCollectionIntermediateType(in []interface{}) (t []*nameOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &nameOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializenameOrderedCollectionIntermediateType will accept a nameOrderedCollectionIntermediateType to create a map
-func serializeNameOrderedCollectionIntermediateType(t *nameOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicenameOrderedCollectionIntermediateType will accept a slice of nameOrderedCollectionIntermediateType to create a slice result
-func serializeSliceNameOrderedCollectionIntermediateType(s []*nameOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeendTimeOrderedCollectionIntermediateType will accept a map to create a endTimeOrderedCollectionIntermediateType
-func deserializeEndTimeOrderedCollectionIntermediateType(in interface{}) (t *endTimeOrderedCollectionIntermediateType, err error) {
-	tmp := &endTimeOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice endTimeOrderedCollectionIntermediateType will accept a slice to create a slice of endTimeOrderedCollectionIntermediateType
-func deserializeSliceEndTimeOrderedCollectionIntermediateType(in []interface{}) (t []*endTimeOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &endTimeOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeendTimeOrderedCollectionIntermediateType will accept a endTimeOrderedCollectionIntermediateType to create a map
-func serializeEndTimeOrderedCollectionIntermediateType(t *endTimeOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceendTimeOrderedCollectionIntermediateType will accept a slice of endTimeOrderedCollectionIntermediateType to create a slice result
-func serializeSliceEndTimeOrderedCollectionIntermediateType(s []*endTimeOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializegeneratorOrderedCollectionIntermediateType will accept a map to create a generatorOrderedCollectionIntermediateType
-func deserializeGeneratorOrderedCollectionIntermediateType(in interface{}) (t *generatorOrderedCollectionIntermediateType, err error) {
-	tmp := &generatorOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice generatorOrderedCollectionIntermediateType will accept a slice to create a slice of generatorOrderedCollectionIntermediateType
-func deserializeSliceGeneratorOrderedCollectionIntermediateType(in []interface{}) (t []*generatorOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &generatorOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializegeneratorOrderedCollectionIntermediateType will accept a generatorOrderedCollectionIntermediateType to create a map
-func serializeGeneratorOrderedCollectionIntermediateType(t *generatorOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicegeneratorOrderedCollectionIntermediateType will accept a slice of generatorOrderedCollectionIntermediateType to create a slice result
-func serializeSliceGeneratorOrderedCollectionIntermediateType(s []*generatorOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeiconOrderedCollectionIntermediateType will accept a map to create a iconOrderedCollectionIntermediateType
-func deserializeIconOrderedCollectionIntermediateType(in interface{}) (t *iconOrderedCollectionIntermediateType, err error) {
-	tmp := &iconOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice iconOrderedCollectionIntermediateType will accept a slice to create a slice of iconOrderedCollectionIntermediateType
-func deserializeSliceIconOrderedCollectionIntermediateType(in []interface{}) (t []*iconOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &iconOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeiconOrderedCollectionIntermediateType will accept a iconOrderedCollectionIntermediateType to create a map
-func serializeIconOrderedCollectionIntermediateType(t *iconOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceiconOrderedCollectionIntermediateType will accept a slice of iconOrderedCollectionIntermediateType to create a slice result
-func serializeSliceIconOrderedCollectionIntermediateType(s []*iconOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeimageOrderedCollectionIntermediateType will accept a map to create a imageOrderedCollectionIntermediateType
-func deserializeImageOrderedCollectionIntermediateType(in interface{}) (t *imageOrderedCollectionIntermediateType, err error) {
-	tmp := &imageOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice imageOrderedCollectionIntermediateType will accept a slice to create a slice of imageOrderedCollectionIntermediateType
-func deserializeSliceImageOrderedCollectionIntermediateType(in []interface{}) (t []*imageOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &imageOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeimageOrderedCollectionIntermediateType will accept a imageOrderedCollectionIntermediateType to create a map
-func serializeImageOrderedCollectionIntermediateType(t *imageOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceimageOrderedCollectionIntermediateType will accept a slice of imageOrderedCollectionIntermediateType to create a slice result
-func serializeSliceImageOrderedCollectionIntermediateType(s []*imageOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinReplyToOrderedCollectionIntermediateType will accept a map to create a inReplyToOrderedCollectionIntermediateType
-func deserializeInReplyToOrderedCollectionIntermediateType(in interface{}) (t *inReplyToOrderedCollectionIntermediateType, err error) {
-	tmp := &inReplyToOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice inReplyToOrderedCollectionIntermediateType will accept a slice to create a slice of inReplyToOrderedCollectionIntermediateType
-func deserializeSliceInReplyToOrderedCollectionIntermediateType(in []interface{}) (t []*inReplyToOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &inReplyToOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinReplyToOrderedCollectionIntermediateType will accept a inReplyToOrderedCollectionIntermediateType to create a map
-func serializeInReplyToOrderedCollectionIntermediateType(t *inReplyToOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinReplyToOrderedCollectionIntermediateType will accept a slice of inReplyToOrderedCollectionIntermediateType to create a slice result
-func serializeSliceInReplyToOrderedCollectionIntermediateType(s []*inReplyToOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelocationOrderedCollectionIntermediateType will accept a map to create a locationOrderedCollectionIntermediateType
-func deserializeLocationOrderedCollectionIntermediateType(in interface{}) (t *locationOrderedCollectionIntermediateType, err error) {
-	tmp := &locationOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice locationOrderedCollectionIntermediateType will accept a slice to create a slice of locationOrderedCollectionIntermediateType
-func deserializeSliceLocationOrderedCollectionIntermediateType(in []interface{}) (t []*locationOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &locationOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelocationOrderedCollectionIntermediateType will accept a locationOrderedCollectionIntermediateType to create a map
-func serializeLocationOrderedCollectionIntermediateType(t *locationOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelocationOrderedCollectionIntermediateType will accept a slice of locationOrderedCollectionIntermediateType to create a slice result
-func serializeSliceLocationOrderedCollectionIntermediateType(s []*locationOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreviewOrderedCollectionIntermediateType will accept a map to create a previewOrderedCollectionIntermediateType
-func deserializePreviewOrderedCollectionIntermediateType(in interface{}) (t *previewOrderedCollectionIntermediateType, err error) {
-	tmp := &previewOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice previewOrderedCollectionIntermediateType will accept a slice to create a slice of previewOrderedCollectionIntermediateType
-func deserializeSlicePreviewOrderedCollectionIntermediateType(in []interface{}) (t []*previewOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &previewOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreviewOrderedCollectionIntermediateType will accept a previewOrderedCollectionIntermediateType to create a map
-func serializePreviewOrderedCollectionIntermediateType(t *previewOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreviewOrderedCollectionIntermediateType will accept a slice of previewOrderedCollectionIntermediateType to create a slice result
-func serializeSlicePreviewOrderedCollectionIntermediateType(s []*previewOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepublishedOrderedCollectionIntermediateType will accept a map to create a publishedOrderedCollectionIntermediateType
-func deserializePublishedOrderedCollectionIntermediateType(in interface{}) (t *publishedOrderedCollectionIntermediateType, err error) {
-	tmp := &publishedOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice publishedOrderedCollectionIntermediateType will accept a slice to create a slice of publishedOrderedCollectionIntermediateType
-func deserializeSlicePublishedOrderedCollectionIntermediateType(in []interface{}) (t []*publishedOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &publishedOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepublishedOrderedCollectionIntermediateType will accept a publishedOrderedCollectionIntermediateType to create a map
-func serializePublishedOrderedCollectionIntermediateType(t *publishedOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepublishedOrderedCollectionIntermediateType will accept a slice of publishedOrderedCollectionIntermediateType to create a slice result
-func serializeSlicePublishedOrderedCollectionIntermediateType(s []*publishedOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializerepliesOrderedCollectionIntermediateType will accept a map to create a repliesOrderedCollectionIntermediateType
-func deserializeRepliesOrderedCollectionIntermediateType(in interface{}) (t *repliesOrderedCollectionIntermediateType, err error) {
-	tmp := &repliesOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice repliesOrderedCollectionIntermediateType will accept a slice to create a slice of repliesOrderedCollectionIntermediateType
-func deserializeSliceRepliesOrderedCollectionIntermediateType(in []interface{}) (t []*repliesOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &repliesOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializerepliesOrderedCollectionIntermediateType will accept a repliesOrderedCollectionIntermediateType to create a map
-func serializeRepliesOrderedCollectionIntermediateType(t *repliesOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicerepliesOrderedCollectionIntermediateType will accept a slice of repliesOrderedCollectionIntermediateType to create a slice result
-func serializeSliceRepliesOrderedCollectionIntermediateType(s []*repliesOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializestartTimeOrderedCollectionIntermediateType will accept a map to create a startTimeOrderedCollectionIntermediateType
-func deserializeStartTimeOrderedCollectionIntermediateType(in interface{}) (t *startTimeOrderedCollectionIntermediateType, err error) {
-	tmp := &startTimeOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice startTimeOrderedCollectionIntermediateType will accept a slice to create a slice of startTimeOrderedCollectionIntermediateType
-func deserializeSliceStartTimeOrderedCollectionIntermediateType(in []interface{}) (t []*startTimeOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &startTimeOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializestartTimeOrderedCollectionIntermediateType will accept a startTimeOrderedCollectionIntermediateType to create a map
-func serializeStartTimeOrderedCollectionIntermediateType(t *startTimeOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicestartTimeOrderedCollectionIntermediateType will accept a slice of startTimeOrderedCollectionIntermediateType to create a slice result
-func serializeSliceStartTimeOrderedCollectionIntermediateType(s []*startTimeOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesummaryOrderedCollectionIntermediateType will accept a map to create a summaryOrderedCollectionIntermediateType
-func deserializeSummaryOrderedCollectionIntermediateType(in interface{}) (t *summaryOrderedCollectionIntermediateType, err error) {
-	tmp := &summaryOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice summaryOrderedCollectionIntermediateType will accept a slice to create a slice of summaryOrderedCollectionIntermediateType
-func deserializeSliceSummaryOrderedCollectionIntermediateType(in []interface{}) (t []*summaryOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &summaryOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesummaryOrderedCollectionIntermediateType will accept a summaryOrderedCollectionIntermediateType to create a map
-func serializeSummaryOrderedCollectionIntermediateType(t *summaryOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesummaryOrderedCollectionIntermediateType will accept a slice of summaryOrderedCollectionIntermediateType to create a slice result
-func serializeSliceSummaryOrderedCollectionIntermediateType(s []*summaryOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetagOrderedCollectionIntermediateType will accept a map to create a tagOrderedCollectionIntermediateType
-func deserializeTagOrderedCollectionIntermediateType(in interface{}) (t *tagOrderedCollectionIntermediateType, err error) {
-	tmp := &tagOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice tagOrderedCollectionIntermediateType will accept a slice to create a slice of tagOrderedCollectionIntermediateType
-func deserializeSliceTagOrderedCollectionIntermediateType(in []interface{}) (t []*tagOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &tagOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetagOrderedCollectionIntermediateType will accept a tagOrderedCollectionIntermediateType to create a map
-func serializeTagOrderedCollectionIntermediateType(t *tagOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetagOrderedCollectionIntermediateType will accept a slice of tagOrderedCollectionIntermediateType to create a slice result
-func serializeSliceTagOrderedCollectionIntermediateType(s []*tagOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeupdatedOrderedCollectionIntermediateType will accept a map to create a updatedOrderedCollectionIntermediateType
-func deserializeUpdatedOrderedCollectionIntermediateType(in interface{}) (t *updatedOrderedCollectionIntermediateType, err error) {
-	tmp := &updatedOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice updatedOrderedCollectionIntermediateType will accept a slice to create a slice of updatedOrderedCollectionIntermediateType
-func deserializeSliceUpdatedOrderedCollectionIntermediateType(in []interface{}) (t []*updatedOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &updatedOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeupdatedOrderedCollectionIntermediateType will accept a updatedOrderedCollectionIntermediateType to create a map
-func serializeUpdatedOrderedCollectionIntermediateType(t *updatedOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceupdatedOrderedCollectionIntermediateType will accept a slice of updatedOrderedCollectionIntermediateType to create a slice result
-func serializeSliceUpdatedOrderedCollectionIntermediateType(s []*updatedOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeurlOrderedCollectionIntermediateType will accept a map to create a urlOrderedCollectionIntermediateType
-func deserializeUrlOrderedCollectionIntermediateType(in interface{}) (t *urlOrderedCollectionIntermediateType, err error) {
-	tmp := &urlOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice urlOrderedCollectionIntermediateType will accept a slice to create a slice of urlOrderedCollectionIntermediateType
-func deserializeSliceUrlOrderedCollectionIntermediateType(in []interface{}) (t []*urlOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &urlOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeurlOrderedCollectionIntermediateType will accept a urlOrderedCollectionIntermediateType to create a map
-func serializeUrlOrderedCollectionIntermediateType(t *urlOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceurlOrderedCollectionIntermediateType will accept a slice of urlOrderedCollectionIntermediateType to create a slice result
-func serializeSliceUrlOrderedCollectionIntermediateType(s []*urlOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializetoOrderedCollectionIntermediateType will accept a map to create a toOrderedCollectionIntermediateType
-func deserializeToOrderedCollectionIntermediateType(in interface{}) (t *toOrderedCollectionIntermediateType, err error) {
-	tmp := &toOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice toOrderedCollectionIntermediateType will accept a slice to create a slice of toOrderedCollectionIntermediateType
-func deserializeSliceToOrderedCollectionIntermediateType(in []interface{}) (t []*toOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &toOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializetoOrderedCollectionIntermediateType will accept a toOrderedCollectionIntermediateType to create a map
-func serializeToOrderedCollectionIntermediateType(t *toOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicetoOrderedCollectionIntermediateType will accept a slice of toOrderedCollectionIntermediateType to create a slice result
-func serializeSliceToOrderedCollectionIntermediateType(s []*toOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializebtoOrderedCollectionIntermediateType will accept a map to create a btoOrderedCollectionIntermediateType
-func deserializeBtoOrderedCollectionIntermediateType(in interface{}) (t *btoOrderedCollectionIntermediateType, err error) {
-	tmp := &btoOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice btoOrderedCollectionIntermediateType will accept a slice to create a slice of btoOrderedCollectionIntermediateType
-func deserializeSliceBtoOrderedCollectionIntermediateType(in []interface{}) (t []*btoOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &btoOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializebtoOrderedCollectionIntermediateType will accept a btoOrderedCollectionIntermediateType to create a map
-func serializeBtoOrderedCollectionIntermediateType(t *btoOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicebtoOrderedCollectionIntermediateType will accept a slice of btoOrderedCollectionIntermediateType to create a slice result
-func serializeSliceBtoOrderedCollectionIntermediateType(s []*btoOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeccOrderedCollectionIntermediateType will accept a map to create a ccOrderedCollectionIntermediateType
-func deserializeCcOrderedCollectionIntermediateType(in interface{}) (t *ccOrderedCollectionIntermediateType, err error) {
-	tmp := &ccOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice ccOrderedCollectionIntermediateType will accept a slice to create a slice of ccOrderedCollectionIntermediateType
-func deserializeSliceCcOrderedCollectionIntermediateType(in []interface{}) (t []*ccOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &ccOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeccOrderedCollectionIntermediateType will accept a ccOrderedCollectionIntermediateType to create a map
-func serializeCcOrderedCollectionIntermediateType(t *ccOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceccOrderedCollectionIntermediateType will accept a slice of ccOrderedCollectionIntermediateType to create a slice result
-func serializeSliceCcOrderedCollectionIntermediateType(s []*ccOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializebccOrderedCollectionIntermediateType will accept a map to create a bccOrderedCollectionIntermediateType
-func deserializeBccOrderedCollectionIntermediateType(in interface{}) (t *bccOrderedCollectionIntermediateType, err error) {
-	tmp := &bccOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice bccOrderedCollectionIntermediateType will accept a slice to create a slice of bccOrderedCollectionIntermediateType
-func deserializeSliceBccOrderedCollectionIntermediateType(in []interface{}) (t []*bccOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &bccOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializebccOrderedCollectionIntermediateType will accept a bccOrderedCollectionIntermediateType to create a map
-func serializeBccOrderedCollectionIntermediateType(t *bccOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicebccOrderedCollectionIntermediateType will accept a slice of bccOrderedCollectionIntermediateType to create a slice result
-func serializeSliceBccOrderedCollectionIntermediateType(s []*bccOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializemediaTypeOrderedCollectionIntermediateType will accept a map to create a mediaTypeOrderedCollectionIntermediateType
-func deserializeMediaTypeOrderedCollectionIntermediateType(in interface{}) (t *mediaTypeOrderedCollectionIntermediateType, err error) {
-	tmp := &mediaTypeOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice mediaTypeOrderedCollectionIntermediateType will accept a slice to create a slice of mediaTypeOrderedCollectionIntermediateType
-func deserializeSliceMediaTypeOrderedCollectionIntermediateType(in []interface{}) (t []*mediaTypeOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &mediaTypeOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializemediaTypeOrderedCollectionIntermediateType will accept a mediaTypeOrderedCollectionIntermediateType to create a map
-func serializeMediaTypeOrderedCollectionIntermediateType(t *mediaTypeOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicemediaTypeOrderedCollectionIntermediateType will accept a slice of mediaTypeOrderedCollectionIntermediateType to create a slice result
-func serializeSliceMediaTypeOrderedCollectionIntermediateType(s []*mediaTypeOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializedurationOrderedCollectionIntermediateType will accept a map to create a durationOrderedCollectionIntermediateType
-func deserializeDurationOrderedCollectionIntermediateType(in interface{}) (t *durationOrderedCollectionIntermediateType, err error) {
-	tmp := &durationOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice durationOrderedCollectionIntermediateType will accept a slice to create a slice of durationOrderedCollectionIntermediateType
-func deserializeSliceDurationOrderedCollectionIntermediateType(in []interface{}) (t []*durationOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &durationOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializedurationOrderedCollectionIntermediateType will accept a durationOrderedCollectionIntermediateType to create a map
-func serializeDurationOrderedCollectionIntermediateType(t *durationOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicedurationOrderedCollectionIntermediateType will accept a slice of durationOrderedCollectionIntermediateType to create a slice result
-func serializeSliceDurationOrderedCollectionIntermediateType(s []*durationOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesourceOrderedCollectionIntermediateType will accept a map to create a sourceOrderedCollectionIntermediateType
-func deserializeSourceOrderedCollectionIntermediateType(in interface{}) (t *sourceOrderedCollectionIntermediateType, err error) {
-	tmp := &sourceOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice sourceOrderedCollectionIntermediateType will accept a slice to create a slice of sourceOrderedCollectionIntermediateType
-func deserializeSliceSourceOrderedCollectionIntermediateType(in []interface{}) (t []*sourceOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &sourceOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesourceOrderedCollectionIntermediateType will accept a sourceOrderedCollectionIntermediateType to create a map
-func serializeSourceOrderedCollectionIntermediateType(t *sourceOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesourceOrderedCollectionIntermediateType will accept a slice of sourceOrderedCollectionIntermediateType to create a slice result
-func serializeSliceSourceOrderedCollectionIntermediateType(s []*sourceOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeinboxOrderedCollectionIntermediateType will accept a map to create a inboxOrderedCollectionIntermediateType
-func deserializeInboxOrderedCollectionIntermediateType(in interface{}) (t *inboxOrderedCollectionIntermediateType, err error) {
-	tmp := &inboxOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice inboxOrderedCollectionIntermediateType will accept a slice to create a slice of inboxOrderedCollectionIntermediateType
-func deserializeSliceInboxOrderedCollectionIntermediateType(in []interface{}) (t []*inboxOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &inboxOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeinboxOrderedCollectionIntermediateType will accept a inboxOrderedCollectionIntermediateType to create a map
-func serializeInboxOrderedCollectionIntermediateType(t *inboxOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceinboxOrderedCollectionIntermediateType will accept a slice of inboxOrderedCollectionIntermediateType to create a slice result
-func serializeSliceInboxOrderedCollectionIntermediateType(s []*inboxOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeoutboxOrderedCollectionIntermediateType will accept a map to create a outboxOrderedCollectionIntermediateType
-func deserializeOutboxOrderedCollectionIntermediateType(in interface{}) (t *outboxOrderedCollectionIntermediateType, err error) {
-	tmp := &outboxOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice outboxOrderedCollectionIntermediateType will accept a slice to create a slice of outboxOrderedCollectionIntermediateType
-func deserializeSliceOutboxOrderedCollectionIntermediateType(in []interface{}) (t []*outboxOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &outboxOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeoutboxOrderedCollectionIntermediateType will accept a outboxOrderedCollectionIntermediateType to create a map
-func serializeOutboxOrderedCollectionIntermediateType(t *outboxOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceoutboxOrderedCollectionIntermediateType will accept a slice of outboxOrderedCollectionIntermediateType to create a slice result
-func serializeSliceOutboxOrderedCollectionIntermediateType(s []*outboxOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefollowingOrderedCollectionIntermediateType will accept a map to create a followingOrderedCollectionIntermediateType
-func deserializeFollowingOrderedCollectionIntermediateType(in interface{}) (t *followingOrderedCollectionIntermediateType, err error) {
-	tmp := &followingOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice followingOrderedCollectionIntermediateType will accept a slice to create a slice of followingOrderedCollectionIntermediateType
-func deserializeSliceFollowingOrderedCollectionIntermediateType(in []interface{}) (t []*followingOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &followingOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefollowingOrderedCollectionIntermediateType will accept a followingOrderedCollectionIntermediateType to create a map
-func serializeFollowingOrderedCollectionIntermediateType(t *followingOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefollowingOrderedCollectionIntermediateType will accept a slice of followingOrderedCollectionIntermediateType to create a slice result
-func serializeSliceFollowingOrderedCollectionIntermediateType(s []*followingOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializefollowersOrderedCollectionIntermediateType will accept a map to create a followersOrderedCollectionIntermediateType
-func deserializeFollowersOrderedCollectionIntermediateType(in interface{}) (t *followersOrderedCollectionIntermediateType, err error) {
-	tmp := &followersOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice followersOrderedCollectionIntermediateType will accept a slice to create a slice of followersOrderedCollectionIntermediateType
-func deserializeSliceFollowersOrderedCollectionIntermediateType(in []interface{}) (t []*followersOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &followersOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializefollowersOrderedCollectionIntermediateType will accept a followersOrderedCollectionIntermediateType to create a map
-func serializeFollowersOrderedCollectionIntermediateType(t *followersOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicefollowersOrderedCollectionIntermediateType will accept a slice of followersOrderedCollectionIntermediateType to create a slice result
-func serializeSliceFollowersOrderedCollectionIntermediateType(s []*followersOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelikedOrderedCollectionIntermediateType will accept a map to create a likedOrderedCollectionIntermediateType
-func deserializeLikedOrderedCollectionIntermediateType(in interface{}) (t *likedOrderedCollectionIntermediateType, err error) {
-	tmp := &likedOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice likedOrderedCollectionIntermediateType will accept a slice to create a slice of likedOrderedCollectionIntermediateType
-func deserializeSliceLikedOrderedCollectionIntermediateType(in []interface{}) (t []*likedOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &likedOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelikedOrderedCollectionIntermediateType will accept a likedOrderedCollectionIntermediateType to create a map
-func serializeLikedOrderedCollectionIntermediateType(t *likedOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelikedOrderedCollectionIntermediateType will accept a slice of likedOrderedCollectionIntermediateType to create a slice result
-func serializeSliceLikedOrderedCollectionIntermediateType(s []*likedOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializelikesOrderedCollectionIntermediateType will accept a map to create a likesOrderedCollectionIntermediateType
-func deserializeLikesOrderedCollectionIntermediateType(in interface{}) (t *likesOrderedCollectionIntermediateType, err error) {
-	tmp := &likesOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice likesOrderedCollectionIntermediateType will accept a slice to create a slice of likesOrderedCollectionIntermediateType
-func deserializeSliceLikesOrderedCollectionIntermediateType(in []interface{}) (t []*likesOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &likesOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializelikesOrderedCollectionIntermediateType will accept a likesOrderedCollectionIntermediateType to create a map
-func serializeLikesOrderedCollectionIntermediateType(t *likesOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicelikesOrderedCollectionIntermediateType will accept a slice of likesOrderedCollectionIntermediateType to create a slice result
-func serializeSliceLikesOrderedCollectionIntermediateType(s []*likesOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreferredUsernameOrderedCollectionIntermediateType will accept a map to create a preferredUsernameOrderedCollectionIntermediateType
-func deserializePreferredUsernameOrderedCollectionIntermediateType(in interface{}) (t *preferredUsernameOrderedCollectionIntermediateType, err error) {
-	tmp := &preferredUsernameOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice preferredUsernameOrderedCollectionIntermediateType will accept a slice to create a slice of preferredUsernameOrderedCollectionIntermediateType
-func deserializeSlicePreferredUsernameOrderedCollectionIntermediateType(in []interface{}) (t []*preferredUsernameOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &preferredUsernameOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreferredUsernameOrderedCollectionIntermediateType will accept a preferredUsernameOrderedCollectionIntermediateType to create a map
-func serializePreferredUsernameOrderedCollectionIntermediateType(t *preferredUsernameOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreferredUsernameOrderedCollectionIntermediateType will accept a slice of preferredUsernameOrderedCollectionIntermediateType to create a slice result
-func serializeSlicePreferredUsernameOrderedCollectionIntermediateType(s []*preferredUsernameOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeendpointsOrderedCollectionIntermediateType will accept a map to create a endpointsOrderedCollectionIntermediateType
-func deserializeEndpointsOrderedCollectionIntermediateType(in interface{}) (t *endpointsOrderedCollectionIntermediateType, err error) {
-	tmp := &endpointsOrderedCollectionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice endpointsOrderedCollectionIntermediateType will accept a slice to create a slice of endpointsOrderedCollectionIntermediateType
-func deserializeSliceEndpointsOrderedCollectionIntermediateType(in []interface{}) (t []*endpointsOrderedCollectionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &endpointsOrderedCollectionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeendpointsOrderedCollectionIntermediateType will accept a endpointsOrderedCollectionIntermediateType to create a map
-func serializeEndpointsOrderedCollectionIntermediateType(t *endpointsOrderedCollectionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceendpointsOrderedCollectionIntermediateType will accept a slice of endpointsOrderedCollectionIntermediateType to create a slice result
-func serializeSliceEndpointsOrderedCollectionIntermediateType(s []*endpointsOrderedCollectionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
 	}
 	return
 

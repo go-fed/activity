@@ -2,7 +2,6 @@
 package vocab
 
 import (
-	"fmt"
 	"net/url"
 )
 
@@ -139,33 +138,33 @@ type Mention struct {
 	// An unknown value.
 	unknown_ map[string]interface{}
 	// The 'attributedTo' value could have multiple types and values
-	attributedTo []*attributedToMentionIntermediateType
+	attributedTo []*attributedToIntermediateType
 	// The functional 'href' value holds a single type and a single value
 	href *url.URL
 	// The functional 'id' value holds a single type and a single value
 	id *url.URL
 	// The 'rel' value could have multiple types and values
-	rel []*relMentionIntermediateType
+	rel []*relIntermediateType
 	// The 'type' value can hold any type and any number of values
 	typeName []interface{}
 	// The functional 'mediaType' value could have multiple types, but only a single value
-	mediaType *mediaTypeMentionIntermediateType
+	mediaType *mediaTypeIntermediateType
 	// The 'name' value could have multiple types and values
-	name []*nameMentionIntermediateType
+	name []*nameIntermediateType
 	// The 'nameMap' value holds language-specific values for property 'name'
 	nameMap map[string]string
 	// The 'summary' value could have multiple types and values
-	summary []*summaryMentionIntermediateType
+	summary []*summaryIntermediateType
 	// The 'summaryMap' value holds language-specific values for property 'summary'
 	summaryMap map[string]string
 	// The functional 'hreflang' value could have multiple types, but only a single value
-	hreflang *hreflangMentionIntermediateType
+	hreflang *hreflangIntermediateType
 	// The functional 'height' value could have multiple types, but only a single value
-	height *heightMentionIntermediateType
+	height *heightIntermediateType
 	// The functional 'width' value could have multiple types, but only a single value
-	width *widthMentionIntermediateType
+	width *widthIntermediateType
 	// The 'preview' value could have multiple types and values
-	preview []*previewMentionIntermediateType
+	preview []*previewIntermediateType
 }
 
 // AttributedToLen determines the number of elements able to be used for the IsAttributedToObject, GetAttributedToObject, and RemoveAttributedToObject functions
@@ -188,13 +187,13 @@ func (t *Mention) GetAttributedToObject(index int) (v ObjectType) {
 
 // AppendAttributedToObject adds to the back of attributedTo a ObjectType type
 func (t *Mention) AppendAttributedToObject(v ObjectType) {
-	t.attributedTo = append(t.attributedTo, &attributedToMentionIntermediateType{Object: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Object: v})
 
 }
 
 // PrependAttributedToObject adds to the front of attributedTo a ObjectType type
 func (t *Mention) PrependAttributedToObject(v ObjectType) {
-	t.attributedTo = append([]*attributedToMentionIntermediateType{&attributedToMentionIntermediateType{Object: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Object: v}}, t.attributedTo...)
 
 }
 
@@ -220,13 +219,13 @@ func (t *Mention) GetAttributedToLink(index int) (v LinkType) {
 
 // AppendAttributedToLink adds to the back of attributedTo a LinkType type
 func (t *Mention) AppendAttributedToLink(v LinkType) {
-	t.attributedTo = append(t.attributedTo, &attributedToMentionIntermediateType{Link: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{Link: v})
 
 }
 
 // PrependAttributedToLink adds to the front of attributedTo a LinkType type
 func (t *Mention) PrependAttributedToLink(v LinkType) {
-	t.attributedTo = append([]*attributedToMentionIntermediateType{&attributedToMentionIntermediateType{Link: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{Link: v}}, t.attributedTo...)
 
 }
 
@@ -252,13 +251,13 @@ func (t *Mention) GetAttributedToIRI(index int) (v *url.URL) {
 
 // AppendAttributedToIRI adds to the back of attributedTo a *url.URL type
 func (t *Mention) AppendAttributedToIRI(v *url.URL) {
-	t.attributedTo = append(t.attributedTo, &attributedToMentionIntermediateType{IRI: v})
+	t.attributedTo = append(t.attributedTo, &attributedToIntermediateType{IRI: v})
 
 }
 
 // PrependAttributedToIRI adds to the front of attributedTo a *url.URL type
 func (t *Mention) PrependAttributedToIRI(v *url.URL) {
-	t.attributedTo = append([]*attributedToMentionIntermediateType{&attributedToMentionIntermediateType{IRI: v}}, t.attributedTo...)
+	t.attributedTo = append([]*attributedToIntermediateType{&attributedToIntermediateType{IRI: v}}, t.attributedTo...)
 
 }
 
@@ -287,7 +286,7 @@ func (t *Mention) SetUnknownAttributedTo(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &attributedToMentionIntermediateType{}
+	tmp := &attributedToIntermediateType{}
 	tmp.unknown_ = i
 	t.attributedTo = append(t.attributedTo, tmp)
 
@@ -391,13 +390,13 @@ func (t *Mention) GetRel(index int) (v string) {
 
 // AppendRel adds to the back of rel a string type
 func (t *Mention) AppendRel(v string) {
-	t.rel = append(t.rel, &relMentionIntermediateType{linkRelation: &v})
+	t.rel = append(t.rel, &relIntermediateType{linkRelation: &v})
 
 }
 
 // PrependRel adds to the front of rel a string type
 func (t *Mention) PrependRel(v string) {
-	t.rel = append([]*relMentionIntermediateType{&relMentionIntermediateType{linkRelation: &v}}, t.rel...)
+	t.rel = append([]*relIntermediateType{&relIntermediateType{linkRelation: &v}}, t.rel...)
 
 }
 
@@ -423,13 +422,13 @@ func (t *Mention) GetRelIRI(index int) (v *url.URL) {
 
 // AppendRelIRI adds to the back of rel a *url.URL type
 func (t *Mention) AppendRelIRI(v *url.URL) {
-	t.rel = append(t.rel, &relMentionIntermediateType{IRI: v})
+	t.rel = append(t.rel, &relIntermediateType{IRI: v})
 
 }
 
 // PrependRelIRI adds to the front of rel a *url.URL type
 func (t *Mention) PrependRelIRI(v *url.URL) {
-	t.rel = append([]*relMentionIntermediateType{&relMentionIntermediateType{IRI: v}}, t.rel...)
+	t.rel = append([]*relIntermediateType{&relIntermediateType{IRI: v}}, t.rel...)
 
 }
 
@@ -458,7 +457,7 @@ func (t *Mention) SetUnknownRel(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &relMentionIntermediateType{}
+	tmp := &relIntermediateType{}
 	tmp.unknown_ = i
 	t.rel = append(t.rel, tmp)
 
@@ -510,7 +509,7 @@ func (t *Mention) GetMediaType() (v string) {
 
 // SetMediaType sets the value of mediaType to be of string type
 func (t *Mention) SetMediaType(v string) {
-	t.mediaType = &mediaTypeMentionIntermediateType{mimeMediaTypeValue: &v}
+	t.mediaType = &mediaTypeIntermediateType{mimeMediaTypeValue: &v}
 
 }
 
@@ -528,7 +527,7 @@ func (t *Mention) GetMediaTypeIRI() (v *url.URL) {
 
 // SetMediaTypeIRI sets the value of mediaType to be of *url.URL type
 func (t *Mention) SetMediaTypeIRI(v *url.URL) {
-	t.mediaType = &mediaTypeMentionIntermediateType{IRI: v}
+	t.mediaType = &mediaTypeIntermediateType{IRI: v}
 
 }
 
@@ -549,7 +548,7 @@ func (t *Mention) SetUnknownMediaType(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &mediaTypeMentionIntermediateType{}
+	tmp := &mediaTypeIntermediateType{}
 	tmp.unknown_ = i
 	t.mediaType = tmp
 
@@ -575,13 +574,13 @@ func (t *Mention) GetNameString(index int) (v string) {
 
 // AppendNameString adds to the back of name a string type
 func (t *Mention) AppendNameString(v string) {
-	t.name = append(t.name, &nameMentionIntermediateType{stringName: &v})
+	t.name = append(t.name, &nameIntermediateType{stringName: &v})
 
 }
 
 // PrependNameString adds to the front of name a string type
 func (t *Mention) PrependNameString(v string) {
-	t.name = append([]*nameMentionIntermediateType{&nameMentionIntermediateType{stringName: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{stringName: &v}}, t.name...)
 
 }
 
@@ -607,13 +606,13 @@ func (t *Mention) GetNameLangString(index int) (v string) {
 
 // AppendNameLangString adds to the back of name a string type
 func (t *Mention) AppendNameLangString(v string) {
-	t.name = append(t.name, &nameMentionIntermediateType{langString: &v})
+	t.name = append(t.name, &nameIntermediateType{langString: &v})
 
 }
 
 // PrependNameLangString adds to the front of name a string type
 func (t *Mention) PrependNameLangString(v string) {
-	t.name = append([]*nameMentionIntermediateType{&nameMentionIntermediateType{langString: &v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{langString: &v}}, t.name...)
 
 }
 
@@ -639,13 +638,13 @@ func (t *Mention) GetNameIRI(index int) (v *url.URL) {
 
 // AppendNameIRI adds to the back of name a *url.URL type
 func (t *Mention) AppendNameIRI(v *url.URL) {
-	t.name = append(t.name, &nameMentionIntermediateType{IRI: v})
+	t.name = append(t.name, &nameIntermediateType{IRI: v})
 
 }
 
 // PrependNameIRI adds to the front of name a *url.URL type
 func (t *Mention) PrependNameIRI(v *url.URL) {
-	t.name = append([]*nameMentionIntermediateType{&nameMentionIntermediateType{IRI: v}}, t.name...)
+	t.name = append([]*nameIntermediateType{&nameIntermediateType{IRI: v}}, t.name...)
 
 }
 
@@ -674,7 +673,7 @@ func (t *Mention) SetUnknownName(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &nameMentionIntermediateType{}
+	tmp := &nameIntermediateType{}
 	tmp.unknown_ = i
 	t.name = append(t.name, tmp)
 
@@ -735,13 +734,13 @@ func (t *Mention) GetSummaryString(index int) (v string) {
 
 // AppendSummaryString adds to the back of summary a string type
 func (t *Mention) AppendSummaryString(v string) {
-	t.summary = append(t.summary, &summaryMentionIntermediateType{stringName: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{stringName: &v})
 
 }
 
 // PrependSummaryString adds to the front of summary a string type
 func (t *Mention) PrependSummaryString(v string) {
-	t.summary = append([]*summaryMentionIntermediateType{&summaryMentionIntermediateType{stringName: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{stringName: &v}}, t.summary...)
 
 }
 
@@ -767,13 +766,13 @@ func (t *Mention) GetSummaryLangString(index int) (v string) {
 
 // AppendSummaryLangString adds to the back of summary a string type
 func (t *Mention) AppendSummaryLangString(v string) {
-	t.summary = append(t.summary, &summaryMentionIntermediateType{langString: &v})
+	t.summary = append(t.summary, &summaryIntermediateType{langString: &v})
 
 }
 
 // PrependSummaryLangString adds to the front of summary a string type
 func (t *Mention) PrependSummaryLangString(v string) {
-	t.summary = append([]*summaryMentionIntermediateType{&summaryMentionIntermediateType{langString: &v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{langString: &v}}, t.summary...)
 
 }
 
@@ -799,13 +798,13 @@ func (t *Mention) GetSummaryIRI(index int) (v *url.URL) {
 
 // AppendSummaryIRI adds to the back of summary a *url.URL type
 func (t *Mention) AppendSummaryIRI(v *url.URL) {
-	t.summary = append(t.summary, &summaryMentionIntermediateType{IRI: v})
+	t.summary = append(t.summary, &summaryIntermediateType{IRI: v})
 
 }
 
 // PrependSummaryIRI adds to the front of summary a *url.URL type
 func (t *Mention) PrependSummaryIRI(v *url.URL) {
-	t.summary = append([]*summaryMentionIntermediateType{&summaryMentionIntermediateType{IRI: v}}, t.summary...)
+	t.summary = append([]*summaryIntermediateType{&summaryIntermediateType{IRI: v}}, t.summary...)
 
 }
 
@@ -834,7 +833,7 @@ func (t *Mention) SetUnknownSummary(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &summaryMentionIntermediateType{}
+	tmp := &summaryIntermediateType{}
 	tmp.unknown_ = i
 	t.summary = append(t.summary, tmp)
 
@@ -889,7 +888,7 @@ func (t *Mention) GetHreflang() (v string) {
 
 // SetHreflang sets the value of hreflang to be of string type
 func (t *Mention) SetHreflang(v string) {
-	t.hreflang = &hreflangMentionIntermediateType{bcp47LanguageTag: &v}
+	t.hreflang = &hreflangIntermediateType{bcp47LanguageTag: &v}
 
 }
 
@@ -907,7 +906,7 @@ func (t *Mention) GetHreflangIRI() (v *url.URL) {
 
 // SetHreflangIRI sets the value of hreflang to be of *url.URL type
 func (t *Mention) SetHreflangIRI(v *url.URL) {
-	t.hreflang = &hreflangMentionIntermediateType{IRI: v}
+	t.hreflang = &hreflangIntermediateType{IRI: v}
 
 }
 
@@ -928,7 +927,7 @@ func (t *Mention) SetUnknownHreflang(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &hreflangMentionIntermediateType{}
+	tmp := &hreflangIntermediateType{}
 	tmp.unknown_ = i
 	t.hreflang = tmp
 
@@ -948,7 +947,7 @@ func (t *Mention) GetHeight() (v int64) {
 
 // SetHeight sets the value of height to be of int64 type
 func (t *Mention) SetHeight(v int64) {
-	t.height = &heightMentionIntermediateType{nonNegativeInteger: &v}
+	t.height = &heightIntermediateType{nonNegativeInteger: &v}
 
 }
 
@@ -966,7 +965,7 @@ func (t *Mention) GetHeightIRI() (v *url.URL) {
 
 // SetHeightIRI sets the value of height to be of *url.URL type
 func (t *Mention) SetHeightIRI(v *url.URL) {
-	t.height = &heightMentionIntermediateType{IRI: v}
+	t.height = &heightIntermediateType{IRI: v}
 
 }
 
@@ -987,7 +986,7 @@ func (t *Mention) SetUnknownHeight(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &heightMentionIntermediateType{}
+	tmp := &heightIntermediateType{}
 	tmp.unknown_ = i
 	t.height = tmp
 
@@ -1007,7 +1006,7 @@ func (t *Mention) GetWidth() (v int64) {
 
 // SetWidth sets the value of width to be of int64 type
 func (t *Mention) SetWidth(v int64) {
-	t.width = &widthMentionIntermediateType{nonNegativeInteger: &v}
+	t.width = &widthIntermediateType{nonNegativeInteger: &v}
 
 }
 
@@ -1025,7 +1024,7 @@ func (t *Mention) GetWidthIRI() (v *url.URL) {
 
 // SetWidthIRI sets the value of width to be of *url.URL type
 func (t *Mention) SetWidthIRI(v *url.URL) {
-	t.width = &widthMentionIntermediateType{IRI: v}
+	t.width = &widthIntermediateType{IRI: v}
 
 }
 
@@ -1046,7 +1045,7 @@ func (t *Mention) SetUnknownWidth(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &widthMentionIntermediateType{}
+	tmp := &widthIntermediateType{}
 	tmp.unknown_ = i
 	t.width = tmp
 
@@ -1072,13 +1071,13 @@ func (t *Mention) GetPreviewObject(index int) (v ObjectType) {
 
 // AppendPreviewObject adds to the back of preview a ObjectType type
 func (t *Mention) AppendPreviewObject(v ObjectType) {
-	t.preview = append(t.preview, &previewMentionIntermediateType{Object: v})
+	t.preview = append(t.preview, &previewIntermediateType{Object: v})
 
 }
 
 // PrependPreviewObject adds to the front of preview a ObjectType type
 func (t *Mention) PrependPreviewObject(v ObjectType) {
-	t.preview = append([]*previewMentionIntermediateType{&previewMentionIntermediateType{Object: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Object: v}}, t.preview...)
 
 }
 
@@ -1104,13 +1103,13 @@ func (t *Mention) GetPreviewLink(index int) (v LinkType) {
 
 // AppendPreviewLink adds to the back of preview a LinkType type
 func (t *Mention) AppendPreviewLink(v LinkType) {
-	t.preview = append(t.preview, &previewMentionIntermediateType{Link: v})
+	t.preview = append(t.preview, &previewIntermediateType{Link: v})
 
 }
 
 // PrependPreviewLink adds to the front of preview a LinkType type
 func (t *Mention) PrependPreviewLink(v LinkType) {
-	t.preview = append([]*previewMentionIntermediateType{&previewMentionIntermediateType{Link: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{Link: v}}, t.preview...)
 
 }
 
@@ -1136,13 +1135,13 @@ func (t *Mention) GetPreviewIRI(index int) (v *url.URL) {
 
 // AppendPreviewIRI adds to the back of preview a *url.URL type
 func (t *Mention) AppendPreviewIRI(v *url.URL) {
-	t.preview = append(t.preview, &previewMentionIntermediateType{IRI: v})
+	t.preview = append(t.preview, &previewIntermediateType{IRI: v})
 
 }
 
 // PrependPreviewIRI adds to the front of preview a *url.URL type
 func (t *Mention) PrependPreviewIRI(v *url.URL) {
-	t.preview = append([]*previewMentionIntermediateType{&previewMentionIntermediateType{IRI: v}}, t.preview...)
+	t.preview = append([]*previewIntermediateType{&previewIntermediateType{IRI: v}}, t.preview...)
 
 }
 
@@ -1171,7 +1170,7 @@ func (t *Mention) SetUnknownPreview(i interface{}) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
 	}
-	tmp := &previewMentionIntermediateType{}
+	tmp := &previewIntermediateType{}
 	tmp.unknown_ = i
 	t.preview = append(t.preview, tmp)
 
@@ -1223,7 +1222,7 @@ func (t *Mention) Serialize() (m map[string]interface{}, err error) {
 		t.typeName = append(t.typeName, "Mention")
 	}
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceAttributedToMentionIntermediateType(t.attributedTo); err == nil && v != nil {
+	if v, err := serializeSliceAttributedToIntermediateType(t.attributedTo); err == nil && v != nil {
 		if len(v) == 1 {
 			m["attributedTo"] = v[0]
 		} else {
@@ -1264,7 +1263,7 @@ func (t *Mention) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by RangeReference.Serialize for Value
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceRelMentionIntermediateType(t.rel); err == nil && v != nil {
+	if v, err := serializeSliceRelIntermediateType(t.rel); err == nil && v != nil {
 		if len(v) == 1 {
 			m["rel"] = v[0]
 		} else {
@@ -1285,7 +1284,7 @@ func (t *Mention) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNonFunctionalAnyDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.mediaType != nil {
-		if v, err := serializeMediaTypeMentionIntermediateType(t.mediaType); err == nil {
+		if v, err := serializeMediaTypeIntermediateType(t.mediaType); err == nil {
 			m["mediaType"] = v
 		} else {
 			return m, err
@@ -1293,7 +1292,7 @@ func (t *Mention) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceNameMentionIntermediateType(t.name); err == nil && v != nil {
+	if v, err := serializeSliceNameIntermediateType(t.name); err == nil && v != nil {
 		if len(v) == 1 {
 			m["name"] = v[0]
 		} else {
@@ -1310,7 +1309,7 @@ func (t *Mention) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSliceSummaryMentionIntermediateType(t.summary); err == nil && v != nil {
+	if v, err := serializeSliceSummaryIntermediateType(t.summary); err == nil && v != nil {
 		if len(v) == 1 {
 			m["summary"] = v[0]
 		} else {
@@ -1328,7 +1327,7 @@ func (t *Mention) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateNaturalLanguageMap
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.hreflang != nil {
-		if v, err := serializeHreflangMentionIntermediateType(t.hreflang); err == nil {
+		if v, err := serializeHreflangIntermediateType(t.hreflang); err == nil {
 			m["hreflang"] = v
 		} else {
 			return m, err
@@ -1337,7 +1336,7 @@ func (t *Mention) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.height != nil {
-		if v, err := serializeHeightMentionIntermediateType(t.height); err == nil {
+		if v, err := serializeHeightIntermediateType(t.height); err == nil {
 			m["height"] = v
 		} else {
 			return m, err
@@ -1346,7 +1345,7 @@ func (t *Mention) Serialize() (m map[string]interface{}, err error) {
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateFunctionalMultiTypeDefinition
 	if t.width != nil {
-		if v, err := serializeWidthMentionIntermediateType(t.width); err == nil {
+		if v, err := serializeWidthIntermediateType(t.width); err == nil {
 			m["width"] = v
 		} else {
 			return m, err
@@ -1354,7 +1353,7 @@ func (t *Mention) Serialize() (m map[string]interface{}, err error) {
 	}
 	// End generation by generateFunctionalMultiTypeDefinition
 	// Begin generation by generateNonFunctionalMultiTypeDefinition
-	if v, err := serializeSlicePreviewMentionIntermediateType(t.preview); err == nil && v != nil {
+	if v, err := serializeSlicePreviewIntermediateType(t.preview); err == nil && v != nil {
 		if len(v) == 1 {
 			m["preview"] = v[0]
 		} else {
@@ -1376,25 +1375,25 @@ func (t *Mention) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "attributedTo" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeAttributedToMentionIntermediateType(tmpMap)
+					tmp, err := deserializeAttributedToIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToMentionIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.attributedTo, err = deserializeSliceAttributedToMentionIntermediateType(tmpSlice)
+					t.attributedTo, err = deserializeSliceAttributedToIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &attributedToMentionIntermediateType{}
+					tmp := &attributedToIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.attributedTo = []*attributedToMentionIntermediateType{tmp}
+					t.attributedTo = []*attributedToIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -1432,25 +1431,25 @@ func (t *Mention) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "rel" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeRelMentionIntermediateType(tmpMap)
+					tmp, err := deserializeRelIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.rel = []*relMentionIntermediateType{tmp}
+					t.rel = []*relIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.rel, err = deserializeSliceRelMentionIntermediateType(tmpSlice)
+					t.rel, err = deserializeSliceRelIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &relMentionIntermediateType{}
+					tmp := &relIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.rel = []*relMentionIntermediateType{tmp}
+					t.rel = []*relIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -1472,7 +1471,7 @@ func (t *Mention) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "mediaType" {
-				t.mediaType, err = deserializeMediaTypeMentionIntermediateType(v)
+				t.mediaType, err = deserializeMediaTypeIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -1484,25 +1483,25 @@ func (t *Mention) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "name" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeNameMentionIntermediateType(tmpMap)
+					tmp, err := deserializeNameIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameMentionIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.name, err = deserializeSliceNameMentionIntermediateType(tmpSlice)
+					t.name, err = deserializeSliceNameIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &nameMentionIntermediateType{}
+					tmp := &nameIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.name = []*nameMentionIntermediateType{tmp}
+					t.name = []*nameIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -1527,25 +1526,25 @@ func (t *Mention) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "summary" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializeSummaryMentionIntermediateType(tmpMap)
+					tmp, err := deserializeSummaryIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryMentionIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.summary, err = deserializeSliceSummaryMentionIntermediateType(tmpSlice)
+					t.summary, err = deserializeSliceSummaryIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &summaryMentionIntermediateType{}
+					tmp := &summaryIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.summary = []*summaryMentionIntermediateType{tmp}
+					t.summary = []*summaryIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -1569,7 +1568,7 @@ func (t *Mention) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "hreflang" {
-				t.hreflang, err = deserializeHreflangMentionIntermediateType(v)
+				t.hreflang, err = deserializeHreflangIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -1580,7 +1579,7 @@ func (t *Mention) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "height" {
-				t.height, err = deserializeHeightMentionIntermediateType(v)
+				t.height, err = deserializeHeightIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -1591,7 +1590,7 @@ func (t *Mention) Deserialize(m map[string]interface{}) (err error) {
 		if !handled {
 			// Begin generation by generateFunctionalMultiTypeDefinition
 			if k == "width" {
-				t.width, err = deserializeWidthMentionIntermediateType(v)
+				t.width, err = deserializeWidthIntermediateType(v)
 				if err != nil {
 					return err
 				}
@@ -1603,25 +1602,25 @@ func (t *Mention) Deserialize(m map[string]interface{}) (err error) {
 			// Begin generation by generateNonFunctionalMultiTypeDefinition
 			if k == "preview" {
 				if tmpMap, ok := v.(map[string]interface{}); ok {
-					tmp, err := deserializePreviewMentionIntermediateType(tmpMap)
+					tmp, err := deserializePreviewIntermediateType(tmpMap)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewMentionIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				} else if tmpSlice, ok := v.([]interface{}); ok {
-					t.preview, err = deserializeSlicePreviewMentionIntermediateType(tmpSlice)
+					t.preview, err = deserializeSlicePreviewIntermediateType(tmpSlice)
 					if err != nil {
 						return err
 					}
 					handled = true
 				} else {
-					tmp := &previewMentionIntermediateType{}
+					tmp := &previewIntermediateType{}
 					err = tmp.Deserialize(v)
 					if err != nil {
 						return err
 					}
-					t.preview = []*previewMentionIntermediateType{tmp}
+					t.preview = []*previewIntermediateType{tmp}
 					handled = true
 				}
 			}
@@ -1633,956 +1632,6 @@ func (t *Mention) Deserialize(m map[string]interface{}) (err error) {
 			}
 			t.unknown_[k] = unknownValueDeserialize(v)
 		}
-	}
-	return
-
-}
-
-// attributedToMentionIntermediateType will only have one of its values set at most
-type attributedToMentionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for attributedTo property
-	Object ObjectType
-	// Stores possible LinkType type for attributedTo property
-	Link LinkType
-	// Stores possible *url.URL type for attributedTo property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *attributedToMentionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *attributedToMentionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// relMentionIntermediateType will only have one of its values set at most
-type relMentionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for rel property
-	linkRelation *string
-	// Stores possible *url.URL type for rel property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *relMentionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.linkRelation, err = linkRelationDeserialize(i)
-			if err != nil {
-				t.linkRelation = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *relMentionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.linkRelation != nil {
-		i = linkRelationSerialize(*t.linkRelation)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// mediaTypeMentionIntermediateType will only have one of its values set at most
-type mediaTypeMentionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for mediaType property
-	mimeMediaTypeValue *string
-	// Stores possible *url.URL type for mediaType property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *mediaTypeMentionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.mimeMediaTypeValue, err = mimeMediaTypeValueDeserialize(i)
-			if err != nil {
-				t.mimeMediaTypeValue = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *mediaTypeMentionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.mimeMediaTypeValue != nil {
-		i = mimeMediaTypeValueSerialize(*t.mimeMediaTypeValue)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// nameMentionIntermediateType will only have one of its values set at most
-type nameMentionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for name property
-	stringName *string
-	// Stores possible *string type for name property
-	langString *string
-	// Stores possible *url.URL type for name property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *nameMentionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *nameMentionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// summaryMentionIntermediateType will only have one of its values set at most
-type summaryMentionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for summary property
-	stringName *string
-	// Stores possible *string type for summary property
-	langString *string
-	// Stores possible *url.URL type for summary property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *summaryMentionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.stringName, err = stringDeserialize(i)
-			if err != nil {
-				t.stringName = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.langString, err = langStringDeserialize(i)
-			if err != nil {
-				t.langString = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *summaryMentionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.stringName != nil {
-		i = stringSerialize(*t.stringName)
-		return
-	}
-	if t.langString != nil {
-		i = langStringSerialize(*t.langString)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// hreflangMentionIntermediateType will only have one of its values set at most
-type hreflangMentionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *string type for hreflang property
-	bcp47LanguageTag *string
-	// Stores possible *url.URL type for hreflang property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *hreflangMentionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.bcp47LanguageTag, err = bcp47LanguageTagDeserialize(i)
-			if err != nil {
-				t.bcp47LanguageTag = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *hreflangMentionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.bcp47LanguageTag != nil {
-		i = bcp47LanguageTagSerialize(*t.bcp47LanguageTag)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// heightMentionIntermediateType will only have one of its values set at most
-type heightMentionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *int64 type for height property
-	nonNegativeInteger *int64
-	// Stores possible *url.URL type for height property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *heightMentionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.nonNegativeInteger, err = nonNegativeIntegerDeserialize(i)
-			if err != nil {
-				t.nonNegativeInteger = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *heightMentionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.nonNegativeInteger != nil {
-		i = nonNegativeIntegerSerialize(*t.nonNegativeInteger)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// widthMentionIntermediateType will only have one of its values set at most
-type widthMentionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible *int64 type for width property
-	nonNegativeInteger *int64
-	// Stores possible *url.URL type for width property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *widthMentionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		err = fmt.Errorf("Given map but nothing to do with it for this type: %v", m)
-	} else if i != nil {
-		if !matched {
-			t.nonNegativeInteger, err = nonNegativeIntegerDeserialize(i)
-			if err != nil {
-				t.nonNegativeInteger = nil
-			} else {
-				matched = true
-			}
-		}
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *widthMentionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.nonNegativeInteger != nil {
-		i = nonNegativeIntegerSerialize(*t.nonNegativeInteger)
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// previewMentionIntermediateType will only have one of its values set at most
-type previewMentionIntermediateType struct {
-	// An unknown value.
-	unknown_ interface{}
-	// Stores possible ObjectType type for preview property
-	Object ObjectType
-	// Stores possible LinkType type for preview property
-	Link LinkType
-	// Stores possible *url.URL type for preview property
-	IRI *url.URL
-}
-
-// Deserialize takes an interface{} and attempts to create a valid intermediate type.
-func (t *previewMentionIntermediateType) Deserialize(i interface{}) (err error) {
-	matched := false
-	if m, ok := i.(map[string]interface{}); ok {
-		if tv, ok := m["type"]; ok {
-			var types []string
-			if tvs, ok := tv.([]interface{}); ok {
-				for _, tvi := range tvs {
-					if typeString, ok := tvi.(string); ok {
-						types = append(types, typeString)
-					}
-				}
-			} else if typeString, ok := tv.(string); ok {
-				types = append(types, typeString)
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Object, ok = resolveObject(kind).(ObjectType); t.Object != nil && ok {
-						err = t.Object.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-			if !matched {
-				for _, kind := range types {
-					if t.Link, ok = resolveLink(kind).(LinkType); t.Link != nil && ok {
-						err = t.Link.Deserialize(m)
-						matched = true
-						break
-					}
-				}
-			}
-		} else {
-			t.unknown_ = m
-		}
-	} else if i != nil {
-		if !matched {
-			t.IRI, err = IRIDeserialize(i)
-			if err != nil {
-				t.IRI = nil
-			} else {
-				matched = true
-			}
-		}
-	}
-	if !matched {
-		t.unknown_ = unknownValueDeserialize(i)
-	}
-	return
-
-}
-
-// Serialize turns this object into an interface{}.
-func (t *previewMentionIntermediateType) Serialize() (i interface{}, err error) {
-	if t.Object != nil {
-		i, err = t.Object.Serialize()
-		return
-	}
-	if t.Link != nil {
-		i, err = t.Link.Serialize()
-		return
-	}
-	if t.IRI != nil {
-		i = IRISerialize(t.IRI)
-		return
-	}
-	i = unknownValueSerialize(t.unknown_)
-	return
-}
-
-// deserializeattributedToMentionIntermediateType will accept a map to create a attributedToMentionIntermediateType
-func deserializeAttributedToMentionIntermediateType(in interface{}) (t *attributedToMentionIntermediateType, err error) {
-	tmp := &attributedToMentionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice attributedToMentionIntermediateType will accept a slice to create a slice of attributedToMentionIntermediateType
-func deserializeSliceAttributedToMentionIntermediateType(in []interface{}) (t []*attributedToMentionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &attributedToMentionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeattributedToMentionIntermediateType will accept a attributedToMentionIntermediateType to create a map
-func serializeAttributedToMentionIntermediateType(t *attributedToMentionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceattributedToMentionIntermediateType will accept a slice of attributedToMentionIntermediateType to create a slice result
-func serializeSliceAttributedToMentionIntermediateType(s []*attributedToMentionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializerelMentionIntermediateType will accept a map to create a relMentionIntermediateType
-func deserializeRelMentionIntermediateType(in interface{}) (t *relMentionIntermediateType, err error) {
-	tmp := &relMentionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice relMentionIntermediateType will accept a slice to create a slice of relMentionIntermediateType
-func deserializeSliceRelMentionIntermediateType(in []interface{}) (t []*relMentionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &relMentionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializerelMentionIntermediateType will accept a relMentionIntermediateType to create a map
-func serializeRelMentionIntermediateType(t *relMentionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicerelMentionIntermediateType will accept a slice of relMentionIntermediateType to create a slice result
-func serializeSliceRelMentionIntermediateType(s []*relMentionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializemediaTypeMentionIntermediateType will accept a map to create a mediaTypeMentionIntermediateType
-func deserializeMediaTypeMentionIntermediateType(in interface{}) (t *mediaTypeMentionIntermediateType, err error) {
-	tmp := &mediaTypeMentionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice mediaTypeMentionIntermediateType will accept a slice to create a slice of mediaTypeMentionIntermediateType
-func deserializeSliceMediaTypeMentionIntermediateType(in []interface{}) (t []*mediaTypeMentionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &mediaTypeMentionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializemediaTypeMentionIntermediateType will accept a mediaTypeMentionIntermediateType to create a map
-func serializeMediaTypeMentionIntermediateType(t *mediaTypeMentionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicemediaTypeMentionIntermediateType will accept a slice of mediaTypeMentionIntermediateType to create a slice result
-func serializeSliceMediaTypeMentionIntermediateType(s []*mediaTypeMentionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializenameMentionIntermediateType will accept a map to create a nameMentionIntermediateType
-func deserializeNameMentionIntermediateType(in interface{}) (t *nameMentionIntermediateType, err error) {
-	tmp := &nameMentionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice nameMentionIntermediateType will accept a slice to create a slice of nameMentionIntermediateType
-func deserializeSliceNameMentionIntermediateType(in []interface{}) (t []*nameMentionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &nameMentionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializenameMentionIntermediateType will accept a nameMentionIntermediateType to create a map
-func serializeNameMentionIntermediateType(t *nameMentionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicenameMentionIntermediateType will accept a slice of nameMentionIntermediateType to create a slice result
-func serializeSliceNameMentionIntermediateType(s []*nameMentionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializesummaryMentionIntermediateType will accept a map to create a summaryMentionIntermediateType
-func deserializeSummaryMentionIntermediateType(in interface{}) (t *summaryMentionIntermediateType, err error) {
-	tmp := &summaryMentionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice summaryMentionIntermediateType will accept a slice to create a slice of summaryMentionIntermediateType
-func deserializeSliceSummaryMentionIntermediateType(in []interface{}) (t []*summaryMentionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &summaryMentionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializesummaryMentionIntermediateType will accept a summaryMentionIntermediateType to create a map
-func serializeSummaryMentionIntermediateType(t *summaryMentionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicesummaryMentionIntermediateType will accept a slice of summaryMentionIntermediateType to create a slice result
-func serializeSliceSummaryMentionIntermediateType(s []*summaryMentionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializehreflangMentionIntermediateType will accept a map to create a hreflangMentionIntermediateType
-func deserializeHreflangMentionIntermediateType(in interface{}) (t *hreflangMentionIntermediateType, err error) {
-	tmp := &hreflangMentionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice hreflangMentionIntermediateType will accept a slice to create a slice of hreflangMentionIntermediateType
-func deserializeSliceHreflangMentionIntermediateType(in []interface{}) (t []*hreflangMentionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &hreflangMentionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializehreflangMentionIntermediateType will accept a hreflangMentionIntermediateType to create a map
-func serializeHreflangMentionIntermediateType(t *hreflangMentionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicehreflangMentionIntermediateType will accept a slice of hreflangMentionIntermediateType to create a slice result
-func serializeSliceHreflangMentionIntermediateType(s []*hreflangMentionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializeheightMentionIntermediateType will accept a map to create a heightMentionIntermediateType
-func deserializeHeightMentionIntermediateType(in interface{}) (t *heightMentionIntermediateType, err error) {
-	tmp := &heightMentionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice heightMentionIntermediateType will accept a slice to create a slice of heightMentionIntermediateType
-func deserializeSliceHeightMentionIntermediateType(in []interface{}) (t []*heightMentionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &heightMentionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializeheightMentionIntermediateType will accept a heightMentionIntermediateType to create a map
-func serializeHeightMentionIntermediateType(t *heightMentionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSliceheightMentionIntermediateType will accept a slice of heightMentionIntermediateType to create a slice result
-func serializeSliceHeightMentionIntermediateType(s []*heightMentionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializewidthMentionIntermediateType will accept a map to create a widthMentionIntermediateType
-func deserializeWidthMentionIntermediateType(in interface{}) (t *widthMentionIntermediateType, err error) {
-	tmp := &widthMentionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice widthMentionIntermediateType will accept a slice to create a slice of widthMentionIntermediateType
-func deserializeSliceWidthMentionIntermediateType(in []interface{}) (t []*widthMentionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &widthMentionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializewidthMentionIntermediateType will accept a widthMentionIntermediateType to create a map
-func serializeWidthMentionIntermediateType(t *widthMentionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicewidthMentionIntermediateType will accept a slice of widthMentionIntermediateType to create a slice result
-func serializeSliceWidthMentionIntermediateType(s []*widthMentionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
-	}
-	return
-
-}
-
-// deserializepreviewMentionIntermediateType will accept a map to create a previewMentionIntermediateType
-func deserializePreviewMentionIntermediateType(in interface{}) (t *previewMentionIntermediateType, err error) {
-	tmp := &previewMentionIntermediateType{}
-	err = tmp.Deserialize(in)
-	return tmp, err
-
-}
-
-// deserializeSlice previewMentionIntermediateType will accept a slice to create a slice of previewMentionIntermediateType
-func deserializeSlicePreviewMentionIntermediateType(in []interface{}) (t []*previewMentionIntermediateType, err error) {
-	for _, i := range in {
-		tmp := &previewMentionIntermediateType{}
-		err = tmp.Deserialize(i)
-		if err != nil {
-			return
-		}
-		t = append(t, tmp)
-	}
-	return
-
-}
-
-// serializepreviewMentionIntermediateType will accept a previewMentionIntermediateType to create a map
-func serializePreviewMentionIntermediateType(t *previewMentionIntermediateType) (i interface{}, err error) {
-	i, err = t.Serialize()
-	return
-
-}
-
-// serializeSlicepreviewMentionIntermediateType will accept a slice of previewMentionIntermediateType to create a slice result
-func serializeSlicePreviewMentionIntermediateType(s []*previewMentionIntermediateType) (out []interface{}, err error) {
-	for _, t := range s {
-		v, err := t.Serialize()
-		if err != nil {
-			return nil, err
-		}
-		out = append(out, v)
 	}
 	return
 
