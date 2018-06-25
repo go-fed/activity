@@ -30,7 +30,7 @@ a statically-typed API.
 For example, consider an application that receives the simple ActivityStream
 Vocabulary object in the following JSON:
 
-```
+```golang
 {
   "@context": "https://www.w3.org/ns/activitystreams",
   "type": "Note",
@@ -58,7 +58,7 @@ conditions. Consider:
 Therefore, trying to statically determine this with typical JSON tagging does
 not work:
 
-```
+```golang
 type NaiveActivity struct {
   type string `json:"Type"`   // Not OK, cannot handle array of strings
   name []string `json:"Name"` // Not OK, cannot handle single values
@@ -71,7 +71,7 @@ This is the motivation for this library.
 
 All of these considerations are presented as:
 
-```
+```golang
 type Note struct { ... }
 func (n *Note) NameLen() int { ... }
 func (n *Note) IsNameString(index int) bool { ... }
