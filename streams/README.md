@@ -18,7 +18,7 @@ into its proper type, passed to the corresponding callback.
 
 For example, given the data:
 
-```
+```golang
 {
   "@context": "https://www.w3.org/ns/activitystreams",
   "type": "Note",
@@ -30,7 +30,7 @@ For example, given the data:
 
 in `b []byte` one can do the following:
 
-```
+```golang
 var m map[string]interface{}
 if err := json.Unmarshal(b, &m); err != nil {
 	return err
@@ -64,7 +64,7 @@ For every type in this package (except `Resolver`), there is an equivalent type
 in the `activity/vocab` package. It takes only a call to `Raw` to go from this
 convenience API to the full API:
 
-```
+```golang
 r := &Resolver {
 	NoteCallback: func(n *Note) error {
 		// Raw is available for all ActivityStream types
@@ -82,7 +82,7 @@ client code that tries to handle every possible type that `attachment` can
 take. **The W3C does not require client applications to support all of these
 use cases.** 
 
-```
+```golang
 r := &Resolver {}
 r.NoteCallback = func(n *Note) error {
 	if n.LenAttachment() == 1 {
@@ -112,7 +112,7 @@ r.NoteCallback = func(n *Note) error {
 
 Creating a raw type and serializing it is straightforward:
 
-```
+```golang
 n := &Note{}
 n.AddName("I'll see you again")
 n.AddContent("You don't have to be alone when I leave")
