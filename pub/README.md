@@ -31,7 +31,7 @@ Next, there are two kinds of ActivityPub requests to handle:
 The first is the most complex, and requires the creation of a `Pubber`. It is
 created depending on which APIs are to be supported:
 
-```
+```golang
 // Only support SocialAPI
 s := pub.NewSocialPubber(...)
 // Only support FederateAPI
@@ -49,7 +49,7 @@ the `Pubber` is created.
 To use the `Pubber`, call its methods in the HTTP handlers responsible for an
 `actor`'s `inbox` and `outbox`:
 
-```
+```golang
 // Given:
 //     var myPubber pub.Pubber
 var outboxHandler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {
@@ -90,7 +90,7 @@ Finally, to handle the second kind of request, use the `HandlerFunc` within HTTP
 handler functions in a similar way. There are two ways to create `HandlerFunc`,
 which depend on decisions we will address later:
 
-```
+```golang
 asHandler := pub.ServeActivityPubObject(...)
 var activityStreamHandler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {
   c := context.Background()
