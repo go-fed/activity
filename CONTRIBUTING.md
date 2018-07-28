@@ -10,6 +10,7 @@ with the software engineering, `go-fed` welcomes you!
 3. Whoa, I have a great idea!
 4. Beep boop, I want to contribute code!
 5. FAQ
+6. Contributors
 
 ## I have a question!
 
@@ -68,3 +69,10 @@ Additionally, see [#42](https://github.com/go-fed/activity/issues/42).
 Donations are strictly viewed as tips and not work-for-hire:
 
 * [cjslep](https://liberapay.com/cj/)
+
+## Contributors To This Repository
+
+In order of first commit contribution.
+
+* cjslep
+* 21stio

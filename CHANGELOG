@@ -1,3 +1,10 @@
+master
+
+* Improve code generation to remove 230,000 lines of code from the vocab
+      package.
+* Add list of contributors to CONTRIBUTING.md
+* README examples are tagged with golang syntax highlighting
+
 v0.1.1 2018-06-13
 
 * Begin SocialAPI unofficial implementation report.
