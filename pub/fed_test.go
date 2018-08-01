@@ -805,7 +805,6 @@ type MockFederateApp struct {
 	t                *testing.T
 	onFollow         func(c context.Context, s *streams.Follow) FollowResponse
 	unblocked        func(c context.Context, actorIRIs []*url.URL) error
-	getFollowing     func(c context.Context, actor *url.URL) (vocab.CollectionType, error)
 	filterForwarding func(c context.Context, activity vocab.ActivityType, iris []*url.URL) ([]*url.URL, error)
 	newSigner        func() (httpsig.Signer, error)
 	privateKey       func(boxIRI *url.URL) (crypto.PrivateKey, string, error)
@@ -823,13 +822,6 @@ func (m *MockFederateApp) Unblocked(c context.Context, actorIRIs []*url.URL) err
 		m.t.Fatal("unexpected call to MockFederateApp Unblocked")
 	}
 	return m.unblocked(c, actorIRIs)
-}
-
-func (m *MockFederateApp) GetFollowing(c context.Context, actor *url.URL) (vocab.CollectionType, error) {
-	if m.getFollowing == nil {
-		m.t.Fatal("unexpected call to MockFederateApp GetFollowing")
-	}
-	return m.getFollowing(c, actor)
 }
 
 func (m *MockFederateApp) FilterForwarding(c context.Context, activity vocab.ActivityType, iris []*url.URL) ([]*url.URL, error) {
