@@ -1017,17 +1017,7 @@ func (f *federator) dedupeOrderedItems(oc vocab.OrderedCollectionType) (vocab.Or
 			id = iri.String()
 		} else if oc.IsOrderedItemsIRI(i) {
 			removeFn = oc.RemoveOrderedItemsIRI
-			b, err := dereference(f.Client, oc.GetOrderedItemsIRI(i), f.Agent, nil, f.Clock)
-			var m map[string]interface{}
-			if err := json.Unmarshal(b, &m); err != nil {
-				return oc, err
-			}
-			var iri *url.URL
-			var hasIri bool
-			if err = toIdResolver(&hasIri, &iri).Deserialize(m); err != nil {
-				return oc, err
-			}
-			id = iri.String()
+			id = oc.GetOrderedItemsIRI(i).String()
 		}
 		if seen[id] {
 			removeFn(i)
