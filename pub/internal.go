@@ -35,9 +35,18 @@ const (
 	digestDelimiter           = "="
 )
 
-var alternatives = []string{
-	"application/activity+json",
-	"application/ld+json; profile=https://www.w3.org/ns/activitystreams",
+var mediaTypes []string
+
+func init() {
+	mediaTypes = []string{
+		"application/activity+json",
+	}
+	jsonLdType := "application/ld+json"
+	for _, semi := range []string{";", " ;", " ; ", "; "} {
+		for _, profile := range []string{"profile=https://www.w3.org/ns/activitystreams", "profile=\"https://www.w3.org/ns/activitystreams\""} {
+			mediaTypes = append(mediaTypes, fmt.Sprintf("%s%s%s", jsonLdType, semi, profile))
+		}
+	}
 }
 
 func trimAll(s []string) []string {
@@ -48,36 +57,21 @@ func trimAll(s []string) []string {
 	return r
 }
 
-func headerContainsOneOf(header string, acceptable []string) bool {
-	sanitizedHeaderValues := trimAll(strings.Split(header, ";"))
-	sanitizedHeaderMap := make(map[string]bool, len(sanitizedHeaderValues))
-	for _, s := range sanitizedHeaderValues {
-		sanitizedHeaderMap[s] = true
-	}
-	found := false
-	for _, v := range acceptable {
-		if found {
-			break
-		}
-		// Remove any number of whitespace after ;'s
-		sanitizedAcceptableValues := trimAll(strings.Split(v, ";"))
-		found = true
-		for _, v := range sanitizedAcceptableValues {
-			if has, ok := sanitizedHeaderMap[v]; !has || !ok {
-				found = false
-				break
-			}
+func headerIsActivityPubMediaType(header string) bool {
+	for _, mediaType := range mediaTypes {
+		if strings.Contains(header, mediaType) {
+			return true
 		}
 	}
-	return found
+	return false
 }
 
 func isActivityPubPost(r *http.Request) bool {
-	return r.Method == "POST" && headerContainsOneOf(r.Header.Get(contentTypeHeader), append([]string{postContentTypeHeader}, alternatives...))
+	return r.Method == "POST" && headerIsActivityPubMediaType(r.Header.Get(contentTypeHeader))
 }
 
 func isActivityPubGet(r *http.Request) bool {
-	return r.Method == "GET" && headerContainsOneOf(r.Header.Get(acceptHeader), append([]string{getAcceptHeader}, alternatives...))
+	return r.Method == "GET" && headerIsActivityPubMediaType(r.Header.Get(acceptHeader))
 }
 
 // isPublic determines if a target is the Public collection as defined in the
