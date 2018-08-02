@@ -1646,6 +1646,88 @@ func (f *federator) addAllActorsToObjectCollection(ctx context.Context, getter g
 	return ownsAny, nil
 }
 
+func (f *federator) addActivityToObjectCollection(ctx context.Context, getter getObjectCollectionFn, c vocab.ActivityType, prepend bool) (bool, error) {
+	ownsAny := false
+	for i := 0; i < c.ObjectLen(); i++ {
+		var objIri *url.URL
+		if c.IsObject(i) {
+			obj := c.GetObject(i)
+			if !obj.HasId() {
+				return ownsAny, fmt.Errorf("object does not have id")
+			}
+			objIri = obj.GetId()
+		} else if c.IsObjectIRI(i) {
+			objIri = c.GetObjectIRI(i)
+		}
+		if !f.App.Owns(ctx, objIri) {
+			// TODO: Fetch or just store
+			continue
+		}
+		ownsAny = true
+		var object vocab.ObjectType
+		pObj, err := f.App.Get(ctx, objIri, ReadWrite)
+		if err != nil {
+			return ownsAny, err
+		}
+		ok := false
+		object, ok = pObj.(vocab.ObjectType)
+		if !ok {
+			return ownsAny, fmt.Errorf("object is not vocab.ObjectType")
+		}
+		// Obtain ordered/unordered collection
+		var lc vocab.CollectionType
+		var loc vocab.OrderedCollectionType
+		isIRI := false
+		if isIRI, err = getter(object, &lc, &loc); err != nil {
+			return ownsAny, err
+		}
+		// Duplication detection
+		var iriSet map[string]bool
+		if lc != nil {
+			iriSet, err = getIRISetFromItems(lc)
+		} else if loc != nil {
+			iriSet, err = getIRISetFromOrderedItems(loc)
+		}
+		if err != nil {
+			return ownsAny, err
+		}
+		// Add activity to collection if not a duplicate
+		if !c.HasId() {
+			return ownsAny, fmt.Errorf("activity has no id")
+		}
+		iri := c.GetId()
+		if iriSet[iri.String()] {
+			continue
+		}
+		if lc != nil {
+			if prepend {
+				lc.AppendItemsIRI(iri)
+			} else {
+				lc.PrependItemsIRI(iri)
+			}
+		} else if loc != nil {
+			if prepend {
+				loc.PrependOrderedItemsIRI(iri)
+			} else {
+				loc.AppendOrderedItemsIRI(iri)
+			}
+		}
+		if isIRI {
+			if lc != nil {
+				err = f.App.Set(ctx, lc)
+			} else if loc != nil {
+				err = f.App.Set(ctx, loc)
+			}
+			if err != nil {
+				return ownsAny, err
+			}
+		} else if err := f.App.Set(ctx, object); err != nil {
+			return ownsAny, err
+		}
+	}
+	return ownsAny, nil
+}
+
 func (f *federator) ownsAnyObjects(c context.Context, a vocab.ActivityType) (bool, error) {
 	var iris []*url.URL
 	for i := 0; i < a.ObjectLen(); i++ {

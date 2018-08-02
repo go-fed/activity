@@ -3770,7 +3770,7 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.Collection{}
-	expected.AppendItemsIRI(sallyIRI)
+	expected.AppendItemsIRI(noteActivityIRI)
 	expectedNote := &vocab.Note{}
 	expectedNote.SetId(noteIRI)
 	expectedNote.AppendNameString(noteName)
@@ -3805,7 +3805,7 @@ func TestPostInbox_Like_DoesNotAddLikeToCollectionIfAlreadyPresent(t *testing.T)
 	}
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		likes := &vocab.Collection{}
-		likes.AppendItemsIRI(sallyIRI)
+		likes.AppendItemsIRI(noteActivityIRI)
 		v := &vocab.Note{}
 		v.SetId(noteIRI)
 		v.AppendNameString(noteName)
@@ -3826,20 +3826,15 @@ func TestPostInbox_Like_DoesNotAddLikeToCollectionIfAlreadyPresent(t *testing.T)
 		return nil
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
-	expected := &vocab.Collection{}
-	expected.AppendItemsIRI(sallyIRI)
-	expectedNote := &vocab.Note{}
-	expectedNote.SetId(noteIRI)
-	expectedNote.AppendNameString(noteName)
-	expectedNote.AppendContentString("This is a simple note")
-	expectedNote.SetLikesCollection(expected)
+	expected := &vocab.OrderedCollection{}
+	expected.AppendOrderedItemsIRI(noteActivityIRI)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
-	} else if gotSet != 2 {
-		t.Fatalf("expected %d, got %d", 2, gotSet)
-	} else if err := PubObjectEquals(gotSetObject, expectedNote); err != nil {
+	} else if gotSet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if err := PubObjectEquals(gotSetObject, expected); err != nil {
 		t.Fatalf("unexpected callback object: %s", err)
 	}
 }
@@ -3874,7 +3869,7 @@ func TestPostInbox_Like_AddsToLikeOrderedCollection(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.OrderedCollection{}
-	expected.AppendOrderedItemsIRI(sallyIRI)
+	expected.AppendOrderedItemsIRI(noteActivityIRI)
 	expectedNote := &vocab.Note{}
 	expectedNote.SetId(noteIRI)
 	expectedNote.AppendNameString(noteName)
@@ -3925,7 +3920,7 @@ func TestPostInbox_Like_AddsToLikeIRI(t *testing.T) {
 	}
 	handled, err := p.PostInbox(context.Background(), resp, req)
 	expected := &vocab.OrderedCollection{}
-	expected.AppendOrderedItemsIRI(sallyIRI)
+	expected.AppendOrderedItemsIRI(noteActivityIRI)
 	if err != nil {
 		t.Fatal(err)
 	} else if !handled {

@@ -1226,7 +1226,7 @@ func (f *federator) handleLike(c context.Context) func(s *streams.Like) error {
 			}
 			return false, fmt.Errorf("cannot determine type of object likes")
 		}
-		if _, err := f.addAllActorsToObjectCollection(c, getter, s.Raw(), true); err != nil {
+		if _, err := f.addActivityToObjectCollection(c, getter, s.Raw(), true); err != nil {
 			return err
 		}
 		return f.ServerCallbacker.Like(c, s)
