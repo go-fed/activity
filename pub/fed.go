@@ -205,15 +205,18 @@ func (f *federator) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	if err = f.FederateAPI.Unblocked(c, iris); err != nil {
 		return true, err
 	}
-	if err = f.getPostInboxResolver(c, r.URL).Deserialize(m); err != nil {
+	if err := f.addToInboxIfNew(c, r, m, func() error {
+		if err = f.getPostInboxResolver(c, r.URL).Deserialize(m); err != nil {
+			return err
+		}
+		return nil
+	}); err != nil {
 		if err == errObjectRequired || err == errTargetRequired {
 			w.WriteHeader(http.StatusBadRequest)
 			return true, nil
+		} else {
+			return true, err
 		}
-		return true, err
-	}
-	if err := f.addToInbox(c, r, m); err != nil {
-		return true, err
 	}
 	if err := f.inboxForwarding(c, m); err != nil {
 		return true, err

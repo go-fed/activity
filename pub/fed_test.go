@@ -1989,9 +1989,13 @@ func TestPostInbox_RequiresObject(t *testing.T) {
 			},
 		},
 	}
-	_, _, fedApp, _, _, _, _, p := NewPubberTest(t)
+	app, _, fedApp, _, _, _, _, p := NewPubberTest(t)
 	fedApp.unblocked = func(c context.Context, actorIRIs []*url.URL) error {
 		return nil
+	}
+	app.MockFederateApp.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		inbox := &vocab.OrderedCollection{}
+		return inbox, nil
 	}
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
@@ -2036,9 +2040,13 @@ func TestPostInbox_RequiresTarget(t *testing.T) {
 			},
 		},
 	}
-	_, _, fedApp, _, _, _, _, p := NewPubberTest(t)
+	app, _, fedApp, _, _, _, _, p := NewPubberTest(t)
 	fedApp.unblocked = func(c context.Context, actorIRIs []*url.URL) error {
 		return nil
+	}
+	app.MockFederateApp.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+		inbox := &vocab.OrderedCollection{}
+		return inbox, nil
 	}
 	for _, test := range tests {
 		t.Logf("Running table test case %q", test.name)
@@ -2080,8 +2088,8 @@ func TestPostInbox_DoesNotAddToInboxIfDuplicate(t *testing.T) {
 		t.Fatal(err)
 	} else if !handled {
 		t.Fatalf("expected handled, got !handled")
-	} else if gotSet != 1 {
-		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if gotSet != 0 {
+		t.Fatalf("expected %d, got %d", 0, gotSet)
 	}
 }
 

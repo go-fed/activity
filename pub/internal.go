@@ -1763,7 +1763,7 @@ func (f *federator) addToOutbox(c context.Context, r *http.Request, m map[string
 	return f.App.Set(c, outbox)
 }
 
-func (f *federator) addToInbox(c context.Context, r *http.Request, m map[string]interface{}) error {
+func (f *federator) addToInboxIfNew(c context.Context, r *http.Request, m map[string]interface{}, callback func() error) error {
 	inbox, err := f.App.GetInbox(c, r, ReadWrite)
 	if err != nil {
 		return err
@@ -1780,6 +1780,9 @@ func (f *federator) addToInbox(c context.Context, r *http.Request, m map[string]
 		return fmt.Errorf("activity missing id")
 	}
 	if !iriSet[activity.GetId().String()] {
+		if err := callback(); err != nil {
+			return err
+		}
 		inbox.PrependOrderedItemsIRI(activity.GetId())
 		return f.App.Set(c, inbox)
 	}
