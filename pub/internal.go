@@ -1968,9 +1968,10 @@ func (f *federator) ensureActivityOriginMatchesObjects(a vocab.ActivityType) err
 				return fmt.Errorf("object %q: not in activity origin", iri)
 			}
 		} else if a.IsObjectIRI(i) {
-			// TODO: Dereference IRI
 			iri := a.GetObjectIRI(i)
-			return fmt.Errorf("unimplemented: fetching IRI for origin check: %q", iri)
+			if originHost != iri.Host {
+				return fmt.Errorf("object %q: not in activity origin", iri)
+			}
 		}
 	}
 	return nil

@@ -2114,6 +2114,26 @@ func TestPostInbox_OriginMustMatch(t *testing.T) {
 				a := &vocab.Delete{}
 				a.SetId(otherOriginIRI)
 				a.AppendActorIRI(otherOriginActorIRI)
+				a.AppendObject(testCreateNote)
+				return a
+			},
+		},
+		{
+			name: "update",
+			input: func() vocab.ActivityType {
+				a := &vocab.Update{}
+				a.SetId(otherOriginIRI)
+				a.AppendActorIRI(otherOriginActorIRI)
+				a.AppendObjectIRI(noteIRI)
+				return a
+			},
+		},
+		{
+			name: "delete",
+			input: func() vocab.ActivityType {
+				a := &vocab.Delete{}
+				a.SetId(otherOriginIRI)
+				a.AppendActorIRI(otherOriginActorIRI)
 				a.AppendObjectIRI(noteIRI)
 				return a
 			},
