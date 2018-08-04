@@ -6,7 +6,8 @@ import (
 
 // Type definitions
 const (
-	baseURI = "https://www.w3.org/ns/activitystreams#"
+	baseURI           = "https://www.w3.org/ns/activitystreams#"
+	PublicActivityPub = "https://www.w3.org/ns/activitystreams#Public"
 )
 
 var (
@@ -15,6 +16,9 @@ var (
 		URI:   baseURI + "Object",
 		Notes: "Describes an object of any kind. The Object type serves as the base type for most of the other kinds of objects defined in the Activity Vocabulary, including other Core types such as Activity, IntransitiveActivity, Collection and OrderedCollection.",
 		// Done within init: DisjointWith = []*Type{linkType}
+		Meta: TypeMetadata{
+			HasIsPublicMethod: true,
+		},
 	}
 	linkType = &Type{
 		Name:         "Link",

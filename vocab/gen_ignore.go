@@ -581,6 +581,7 @@ type IgnoreType interface {
 	HasUnknownSharedInbox() (ok bool)
 	GetUnknownSharedInbox() (v interface{})
 	SetUnknownSharedInbox(i interface{})
+	IsPublic() (b bool)
 }
 
 // Indicates that the actor is ignoring the object. The target and origin typically have no defined meaning.
@@ -7057,5 +7058,31 @@ func (t *Ignore) Deserialize(m map[string]interface{}) (err error) {
 		}
 	}
 	return
+
+}
+
+// IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection
+func (t *Ignore) IsPublic() (b bool) {
+	for i := 0; i < t.ToLen(); i++ {
+		if t.IsToIRI(i) && t.GetToIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.BtoLen(); i++ {
+		if t.IsBtoIRI(i) && t.GetBtoIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.CcLen(); i++ {
+		if t.IsCcIRI(i) && t.GetCcIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.BccLen(); i++ {
+		if t.IsBccIRI(i) && t.GetBccIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	return false
 
 }

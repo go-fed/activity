@@ -1,5 +1,9 @@
 package defs
 
+type TypeMetadata struct {
+	HasIsPublicMethod bool
+}
+
 type Type struct {
 	Name              string
 	URI               string
@@ -8,6 +12,18 @@ type Type struct {
 	Extends           []*Type
 	Properties        []*PropertyType
 	WithoutProperties []*PropertyType
+	Meta              TypeMetadata
+}
+
+func (t *Type) GetTypeMetadata() TypeMetadata {
+	m := t.Meta
+	for _, parent := range t.Extends {
+		parentMeta := parent.GetTypeMetadata()
+		if parentMeta.HasIsPublicMethod {
+			m.HasIsPublicMethod = true
+		}
+	}
+	return m
 }
 
 func (t *Type) GetProperties() []*PropertyType {

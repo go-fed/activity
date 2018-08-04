@@ -588,6 +588,7 @@ type OrderedCollectionPageType interface {
 	AppendItemsIRI(v *url.URL)
 	PrependItemsIRI(v *url.URL)
 	RemoveItemsIRI(index int)
+	IsPublic() (b bool)
 }
 
 // Used to represent ordered subsets of items from an OrderedCollection. Refer to the Activity Streams 2.0 Core for a complete description of the OrderedCollectionPage object.
@@ -7126,5 +7127,31 @@ func (t *OrderedCollectionPage) Deserialize(m map[string]interface{}) (err error
 		}
 	}
 	return
+
+}
+
+// IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection
+func (t *OrderedCollectionPage) IsPublic() (b bool) {
+	for i := 0; i < t.ToLen(); i++ {
+		if t.IsToIRI(i) && t.GetToIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.BtoLen(); i++ {
+		if t.IsBtoIRI(i) && t.GetBtoIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.CcLen(); i++ {
+		if t.IsCcIRI(i) && t.GetCcIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.BccLen(); i++ {
+		if t.IsBccIRI(i) && t.GetBccIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	return false
 
 }

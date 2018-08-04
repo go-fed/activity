@@ -581,6 +581,7 @@ type ActivityType interface {
 	HasUnknownSharedInbox() (ok bool)
 	GetUnknownSharedInbox() (v interface{})
 	SetUnknownSharedInbox(i interface{})
+	IsPublic() (b bool)
 }
 
 // An Activity is a subtype of Object that describes some form of action that may happen, is currently happening, or has already happened. The Activity type itself serves as an abstract base type for all types of activities. It is important to note that the Activity type itself does not carry any specific semantics about the kind of action being taken.
@@ -7057,5 +7058,31 @@ func (t *Activity) Deserialize(m map[string]interface{}) (err error) {
 		}
 	}
 	return
+
+}
+
+// IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection
+func (t *Activity) IsPublic() (b bool) {
+	for i := 0; i < t.ToLen(); i++ {
+		if t.IsToIRI(i) && t.GetToIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.BtoLen(); i++ {
+		if t.IsBtoIRI(i) && t.GetBtoIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.CcLen(); i++ {
+		if t.IsCcIRI(i) && t.GetCcIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.BccLen(); i++ {
+		if t.IsBccIRI(i) && t.GetBccIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	return false
 
 }

@@ -566,6 +566,7 @@ type CollectionPageType interface {
 	HasUnknownSharedInbox() (ok bool)
 	GetUnknownSharedInbox() (v interface{})
 	SetUnknownSharedInbox(i interface{})
+	IsPublic() (b bool)
 }
 
 // Used to represent distinct subsets of items from a Collection. Refer to the Activity Streams 2.0 Core for a complete description of the CollectionPage object.
@@ -6919,5 +6920,31 @@ func (t *CollectionPage) Deserialize(m map[string]interface{}) (err error) {
 		}
 	}
 	return
+
+}
+
+// IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection
+func (t *CollectionPage) IsPublic() (b bool) {
+	for i := 0; i < t.ToLen(); i++ {
+		if t.IsToIRI(i) && t.GetToIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.BtoLen(); i++ {
+		if t.IsBtoIRI(i) && t.GetBtoIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.CcLen(); i++ {
+		if t.IsCcIRI(i) && t.GetCcIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.BccLen(); i++ {
+		if t.IsBccIRI(i) && t.GetBccIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	return false
 
 }

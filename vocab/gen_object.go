@@ -490,6 +490,7 @@ type ObjectType interface {
 	HasUnknownSharedInbox() (ok bool)
 	GetUnknownSharedInbox() (v interface{})
 	SetUnknownSharedInbox(i interface{})
+	IsPublic() (b bool)
 }
 
 // Describes an object of any kind. The Object type serves as the base type for most of the other kinds of objects defined in the Activity Vocabulary, including other Core types such as Activity, IntransitiveActivity, Collection and OrderedCollection.
@@ -6002,5 +6003,31 @@ func (t *Object) Deserialize(m map[string]interface{}) (err error) {
 		}
 	}
 	return
+
+}
+
+// IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection
+func (t *Object) IsPublic() (b bool) {
+	for i := 0; i < t.ToLen(); i++ {
+		if t.IsToIRI(i) && t.GetToIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.BtoLen(); i++ {
+		if t.IsBtoIRI(i) && t.GetBtoIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.CcLen(); i++ {
+		if t.IsCcIRI(i) && t.GetCcIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	for i := 0; i < t.BccLen(); i++ {
+		if t.IsBccIRI(i) && t.GetBccIRI(i).String() == "https://www.w3.org/ns/activitystreams#Public" {
+			return true
+		}
+	}
+	return false
 
 }

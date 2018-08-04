@@ -42,6 +42,7 @@ func generateDefinitions(t *defs.Type, m map[*defs.PropertyType]*intermedDef) (f
 	generateRemoveUnknownFunction(t, this)
 	generateSerializeFunction(t, this, serializeFragments)
 	generateDeserializeFunction(t, this, deserializeFragments)
+	generateMetadataFunctions(t, this, thisInterface)
 	return
 }
 
@@ -131,6 +132,48 @@ func generateRemoveUnknownFunction(t *defs.Type, this *defs.StructDef) {
 		},
 	}
 	this.F = append(this.F, m)
+}
+
+func generateMetadataFunctions(t *defs.Type, this *defs.StructDef, it *defs.InterfaceDef) {
+	if t.GetTypeMetadata().HasIsPublicMethod {
+		m := &defs.MemberFunctionDef{
+			Name:    "IsPublic",
+			Comment: "IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection",
+			P:       this,
+			Return:  []*defs.FunctionVarDef{{"b", "bool"}},
+			Body: func() string {
+				var b bytes.Buffer
+				b.WriteString("for i := 0; i < t.ToLen(); i++ {\n")
+				b.WriteString(fmt.Sprintf("if t.IsToIRI(i) && t.GetToIRI(i).String() == \"%s\" {\n", defs.PublicActivityPub))
+				b.WriteString("return true\n")
+				b.WriteString("}\n")
+				b.WriteString("}\n")
+				b.WriteString("for i := 0; i < t.BtoLen(); i++ {\n")
+				b.WriteString(fmt.Sprintf("if t.IsBtoIRI(i) && t.GetBtoIRI(i).String() == \"%s\" {\n", defs.PublicActivityPub))
+				b.WriteString("return true\n")
+				b.WriteString("}\n")
+				b.WriteString("}\n")
+				b.WriteString("for i := 0; i < t.CcLen(); i++ {\n")
+				b.WriteString(fmt.Sprintf("if t.IsCcIRI(i) && t.GetCcIRI(i).String() == \"%s\" {\n", defs.PublicActivityPub))
+				b.WriteString("return true\n")
+				b.WriteString("}\n")
+				b.WriteString("}\n")
+				b.WriteString("for i := 0; i < t.BccLen(); i++ {\n")
+				b.WriteString(fmt.Sprintf("if t.IsBccIRI(i) && t.GetBccIRI(i).String() == \"%s\" {\n", defs.PublicActivityPub))
+				b.WriteString("return true\n")
+				b.WriteString("}\n")
+				b.WriteString("}\n")
+				b.WriteString("return false\n")
+				return b.String()
+			},
+		}
+		this.F = append(this.F, m)
+		it.F = append(it.F, &defs.FunctionDef{
+			Name:    "IsPublic",
+			Comment: "IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection",
+			Return:  []*defs.FunctionVarDef{{"b", "bool"}},
+		})
+	}
 }
 
 func generateHasUnknownFunction(t *defs.Type, this *defs.StructDef) {

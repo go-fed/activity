@@ -1230,3 +1230,367 @@ func TestBooleanOperationsOnEmptyTypes(t *testing.T) {
 		t.Errorf("HasUnknownHref returned true; expected false")
 	}
 }
+
+func TestIsPublic(t *testing.T) {
+	publicIRI, err := url.Parse("https://www.w3.org/ns/activitystreams#Public")
+	if err != nil {
+		t.Fatal(err)
+	}
+	other1, err := url.Parse("https://www.example.com/1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	other2, err := url.Parse("https://www.example.com/2")
+	if err != nil {
+		t.Fatal(err)
+	}
+	other3, err := url.Parse("https://www.example.com/3")
+	if err != nil {
+		t.Fatal(err)
+	}
+	other4, err := url.Parse("https://www.example.com/4")
+	if err != nil {
+		t.Fatal(err)
+	}
+	testKinds := []struct {
+		name string
+		kind func() ObjectType
+	}{
+		{
+			name: "object",
+			kind: func() ObjectType { return &Object{} },
+		},
+		{
+			name: "accept",
+			kind: func() ObjectType { return &Accept{} },
+		},
+		{
+			name: "activity",
+			kind: func() ObjectType { return &Activity{} },
+		},
+		{
+			name: "add",
+			kind: func() ObjectType { return &Add{} },
+		},
+		{
+			name: "announce",
+			kind: func() ObjectType { return &Announce{} },
+		},
+		{
+			name: "application",
+			kind: func() ObjectType { return &Application{} },
+		},
+		{
+			name: "arrive",
+			kind: func() ObjectType { return &Arrive{} },
+		},
+		{
+			name: "article",
+			kind: func() ObjectType { return &Article{} },
+		},
+		{
+			name: "audio",
+			kind: func() ObjectType { return &Audio{} },
+		},
+		{
+			name: "block",
+			kind: func() ObjectType { return &Block{} },
+		},
+		{
+			name: "collection",
+			kind: func() ObjectType { return &Collection{} },
+		},
+		{
+			name: "collectionpage",
+			kind: func() ObjectType { return &CollectionPage{} },
+		},
+		{
+			name: "create",
+			kind: func() ObjectType { return &Create{} },
+		},
+		{
+			name: "delete",
+			kind: func() ObjectType { return &Delete{} },
+		},
+		{
+			name: "dislike",
+			kind: func() ObjectType { return &Dislike{} },
+		},
+		{
+			name: "document",
+			kind: func() ObjectType { return &Document{} },
+		},
+		{
+			name: "event",
+			kind: func() ObjectType { return &Event{} },
+		},
+		{
+			name: "flag",
+			kind: func() ObjectType { return &Flag{} },
+		},
+		{
+			name: "follow",
+			kind: func() ObjectType { return &Follow{} },
+		},
+		{
+			name: "group",
+			kind: func() ObjectType { return &Group{} },
+		},
+		{
+			name: "ignore",
+			kind: func() ObjectType { return &Ignore{} },
+		},
+		{
+			name: "image",
+			kind: func() ObjectType { return &Image{} },
+		},
+		{
+			name: "intransitiveactivity",
+			kind: func() ObjectType { return &IntransitiveActivity{} },
+		},
+		{
+			name: "invite",
+			kind: func() ObjectType { return &Invite{} },
+		},
+		{
+			name: "join",
+			kind: func() ObjectType { return &Join{} },
+		},
+		{
+			name: "leave",
+			kind: func() ObjectType { return &Leave{} },
+		},
+		{
+			name: "like",
+			kind: func() ObjectType { return &Like{} },
+		},
+		{
+			name: "listen",
+			kind: func() ObjectType { return &Listen{} },
+		},
+		{
+			name: "move",
+			kind: func() ObjectType { return &Move{} },
+		},
+		{
+			name: "note",
+			kind: func() ObjectType { return &Note{} },
+		},
+		{
+			name: "offer",
+			kind: func() ObjectType { return &Offer{} },
+		},
+		{
+			name: "orderedcollection",
+			kind: func() ObjectType { return &OrderedCollection{} },
+		},
+		{
+			name: "orderedcollectionpage",
+			kind: func() ObjectType { return &OrderedCollectionPage{} },
+		},
+		{
+			name: "organization",
+			kind: func() ObjectType { return &Organization{} },
+		},
+		{
+			name: "page",
+			kind: func() ObjectType { return &Page{} },
+		},
+		{
+			name: "person",
+			kind: func() ObjectType { return &Person{} },
+		},
+		{
+			name: "profile",
+			kind: func() ObjectType { return &Profile{} },
+		},
+		{
+			name: "question",
+			kind: func() ObjectType { return &Question{} },
+		},
+		{
+			name: "read",
+			kind: func() ObjectType { return &Read{} },
+		},
+		{
+			name: "reject",
+			kind: func() ObjectType { return &Reject{} },
+		},
+		{
+			name: "relationship",
+			kind: func() ObjectType { return &Relationship{} },
+		},
+		{
+			name: "remove",
+			kind: func() ObjectType { return &Remove{} },
+		},
+		{
+			name: "service",
+			kind: func() ObjectType { return &Service{} },
+		},
+		{
+			name: "tentativeaccept",
+			kind: func() ObjectType { return &TentativeAccept{} },
+		},
+		{
+			name: "tentativereject",
+			kind: func() ObjectType { return &TentativeReject{} },
+		},
+		{
+			name: "tombstone",
+			kind: func() ObjectType { return &Tombstone{} },
+		},
+		{
+			name: "travel",
+			kind: func() ObjectType { return &Travel{} },
+		},
+		{
+			name: "undo",
+			kind: func() ObjectType { return &Undo{} },
+		},
+		{
+			name: "update",
+			kind: func() ObjectType { return &Update{} },
+		},
+		{
+			name: "video",
+			kind: func() ObjectType { return &Video{} },
+		},
+		{
+			name: "view",
+			kind: func() ObjectType { return &View{} },
+		},
+	}
+	testCases := []struct {
+		name     string
+		setup    func(o ObjectType)
+		expected bool
+	}{
+		{
+			name: "none",
+			setup: func(o ObjectType) {
+			},
+			expected: false,
+		},
+		{
+			name: "non public others",
+			setup: func(o ObjectType) {
+				o.AppendToIRI(other1)
+				o.AppendBtoIRI(other2)
+				o.AppendCcIRI(other3)
+				o.AppendBccIRI(other4)
+			},
+			expected: false,
+		},
+		{
+			name: "to",
+			setup: func(o ObjectType) {
+				o.AppendToIRI(publicIRI)
+			},
+			expected: true,
+		},
+		{
+			name: "multito",
+			setup: func(o ObjectType) {
+				o.AppendToIRI(other1)
+				o.AppendToIRI(publicIRI)
+			},
+			expected: true,
+		},
+		{
+			name: "bto",
+			setup: func(o ObjectType) {
+				o.AppendBtoIRI(publicIRI)
+			},
+			expected: true,
+		},
+		{
+			name: "multibto",
+			setup: func(o ObjectType) {
+				o.AppendBtoIRI(other1)
+				o.AppendBtoIRI(publicIRI)
+			},
+			expected: true,
+		},
+		{
+			name: "cc",
+			setup: func(o ObjectType) {
+				o.AppendCcIRI(publicIRI)
+			},
+			expected: true,
+		},
+		{
+			name: "multicc",
+			setup: func(o ObjectType) {
+				o.AppendCcIRI(other1)
+				o.AppendCcIRI(publicIRI)
+			},
+			expected: true,
+		},
+		{
+			name: "bcc",
+			setup: func(o ObjectType) {
+				o.AppendBccIRI(publicIRI)
+			},
+			expected: true,
+		},
+		{
+			name: "multibcc",
+			setup: func(o ObjectType) {
+				o.AppendBccIRI(other1)
+				o.AppendBccIRI(publicIRI)
+			},
+			expected: true,
+		},
+		{
+			name: "to and others",
+			setup: func(o ObjectType) {
+				o.AppendToIRI(publicIRI)
+				o.AppendBtoIRI(other2)
+				o.AppendCcIRI(other3)
+				o.AppendBccIRI(other4)
+			},
+			expected: true,
+		},
+		{
+			name: "bto and others",
+			setup: func(o ObjectType) {
+				o.AppendToIRI(other1)
+				o.AppendBtoIRI(publicIRI)
+				o.AppendCcIRI(other3)
+				o.AppendBccIRI(other4)
+			},
+			expected: true,
+		},
+		{
+			name: "cc and others",
+			setup: func(o ObjectType) {
+				o.AppendToIRI(other1)
+				o.AppendBtoIRI(other2)
+				o.AppendCcIRI(publicIRI)
+				o.AppendBccIRI(other4)
+			},
+			expected: true,
+		},
+		{
+			name: "bcc and others",
+			setup: func(o ObjectType) {
+				o.AppendToIRI(other1)
+				o.AppendBtoIRI(other2)
+				o.AppendCcIRI(other3)
+				o.AppendBccIRI(publicIRI)
+			},
+			expected: true,
+		},
+	}
+	for _, kind := range testKinds {
+		for _, test := range testCases {
+			t.Logf("(%q %q): Testing table test case", kind.name, test.name)
+			obj := kind.kind()
+			test.setup(obj)
+			if obj.IsPublic() != test.expected {
+				t.Fatalf("got: %v, want: %v", obj.IsPublic(), test.expected)
+			}
+		}
+	}
+}
