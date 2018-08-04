@@ -25,6 +25,12 @@ func (t *Question) Serialize() (m map[string]interface{}, err error) {
 
 }
 
+// IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection
+func (t *Question) IsPublic() (b bool) {
+	return t.raw.IsPublic()
+
+}
+
 // LenOneOf returns the number of values this property contains. Each index be used with HasOneOf to determine if ResolveOneOf is safe to call or if raw handling would be needed.
 func (t *Question) LenOneOf() (idx int) {
 	return t.raw.OneOfLen()

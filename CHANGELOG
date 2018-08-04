@@ -3,7 +3,8 @@ master (Release Candidate for v0.2.0)
 * Begin FederateAPI unofficial implementation report.
 * All 'vocab.Object' types and types extending from 'vocab.Object' now have an
       'IsPublic' method that will return true if the 'to', 'bto', 'cc', or 'bcc'
-      properties have the ActivityPub special Public collection IRI.
+      properties have the ActivityPub special Public collection IRI. The
+      'streams' types also have a corresponding 'IsPublic' method.
 * Use 'OrderedCollection' as the default type for 'likes', 'liked',
       'following', and 'followers' properties if the actor or object does not
       have an IRI, 'Collection', or 'OrderedCollection' set for these

@@ -25,6 +25,12 @@ func (t *Listen) Serialize() (m map[string]interface{}, err error) {
 
 }
 
+// IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection
+func (t *Listen) IsPublic() (b bool) {
+	return t.raw.IsPublic()
+
+}
+
 // LenActor returns the number of values this property contains. Each index be used with HasActor to determine if GetActor is safe to call or if raw handling would be needed.
 func (t *Listen) LenActor() (idx int) {
 	return t.raw.ActorLen()

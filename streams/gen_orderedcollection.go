@@ -25,6 +25,12 @@ func (t *OrderedCollection) Serialize() (m map[string]interface{}, err error) {
 
 }
 
+// IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection
+func (t *OrderedCollection) IsPublic() (b bool) {
+	return t.raw.IsPublic()
+
+}
+
 // LenOrderedItems returns the number of values this property contains. Each index be used with HasOrderedItems to determine if ResolveOrderedItems is safe to call or if raw handling would be needed.
 func (t *OrderedCollection) LenOrderedItems() (idx int) {
 	return t.raw.OrderedItemsLen()

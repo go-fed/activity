@@ -270,6 +270,19 @@ func generateDefinitions(t *defs.Type) (fd []*defs.FunctionDef, sd []*defs.Struc
 			},
 		},
 	}...)
+	if t.GetTypeMetadata().HasIsPublicMethod {
+		this.F = append(this.F, &defs.MemberFunctionDef{
+			Name:    "IsPublic",
+			Comment: "IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection",
+			P:       this,
+			Return:  []*defs.FunctionVarDef{{"b", "bool"}},
+			Body: func() string {
+				var b bytes.Buffer
+				b.WriteString(fmt.Sprintf("return t.%s.IsPublic()\n", rawMemberName))
+				return b.String()
+			},
+		})
+	}
 	for _, p := range t.GetProperties() {
 		generatePropertyHelpers(p, this)
 		for _, r := range p.Range {

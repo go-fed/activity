@@ -25,6 +25,12 @@ func (t *Place) Serialize() (m map[string]interface{}, err error) {
 
 }
 
+// IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection
+func (t *Place) IsPublic() (b bool) {
+	return t.raw.IsPublic()
+
+}
+
 // GetAccuracy attempts to get this 'accuracy' property as a float64. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
 func (t *Place) GetAccuracy() (r Resolution, k float64) {
 	r = Unresolved

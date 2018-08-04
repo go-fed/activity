@@ -25,6 +25,12 @@ func (t *Profile) Serialize() (m map[string]interface{}, err error) {
 
 }
 
+// IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection
+func (t *Profile) IsPublic() (b bool) {
+	return t.raw.IsPublic()
+
+}
+
 // ResolveDescribes passes the actual concrete type to the resolver for handing property describes. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Profile) ResolveDescribes(r *Resolver) (s Resolution, err error) {
 	s = Unresolved

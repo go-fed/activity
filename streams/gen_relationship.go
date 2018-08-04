@@ -25,6 +25,12 @@ func (t *Relationship) Serialize() (m map[string]interface{}, err error) {
 
 }
 
+// IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection
+func (t *Relationship) IsPublic() (b bool) {
+	return t.raw.IsPublic()
+
+}
+
 // ResolveSubject passes the actual concrete type to the resolver for handing property subject. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *Relationship) ResolveSubject(r *Resolver) (s Resolution, err error) {
 	s = Unresolved

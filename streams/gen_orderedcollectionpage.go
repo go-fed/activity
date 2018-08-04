@@ -25,6 +25,12 @@ func (t *OrderedCollectionPage) Serialize() (m map[string]interface{}, err error
 
 }
 
+// IsPublic returns true if the 'to', 'bto', 'cc', or 'bcc' properties address the special Public ActivityPub collection
+func (t *OrderedCollectionPage) IsPublic() (b bool) {
+	return t.raw.IsPublic()
+
+}
+
 // GetStartIndex attempts to get this 'startIndex' property as a int64. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling.
 func (t *OrderedCollectionPage) GetStartIndex() (r Resolution, k int64) {
 	r = Unresolved
