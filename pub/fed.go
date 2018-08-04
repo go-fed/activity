@@ -803,7 +803,9 @@ func (f *federator) handleClientLike(ctx context.Context, deliverable *bool) fun
 				*loc = actor.GetLikedOrderedCollection()
 				return false, nil
 			}
-			return false, fmt.Errorf("cannot determine type of actor liked")
+			*loc = &vocab.OrderedCollection{}
+			actor.SetLikedOrderedCollection(*loc)
+			return false, nil
 		}
 		if err := f.addAllObjectsToActorCollection(ctx, getter, s.Raw(), true); err != nil {
 			return err
@@ -990,7 +992,9 @@ func (f *federator) handleFollow(c context.Context, inboxURL *url.URL) func(s *s
 						*loc = object.GetFollowersOrderedCollection()
 						return false, nil
 					}
-					return false, fmt.Errorf("cannot determine type of object followers")
+					*loc = &vocab.OrderedCollection{}
+					object.SetFollowersOrderedCollection(*loc)
+					return false, nil
 				}
 				var err error
 				if ownsAny, err = f.addAllActorsToObjectCollection(c, getter, raw, true); err != nil {
@@ -1046,7 +1050,9 @@ func (f *federator) handleAccept(c context.Context) func(s *streams.Accept) erro
 						*loc = actor.GetFollowingOrderedCollection()
 						return false, nil
 					}
-					return false, fmt.Errorf("cannot determine type of actor following")
+					*loc = &vocab.OrderedCollection{}
+					actor.SetFollowingOrderedCollection(*loc)
+					return false, nil
 				}
 				if err := f.addAllObjectsToActorCollection(c, getter, follow, true); err != nil {
 					return err
@@ -1227,7 +1233,9 @@ func (f *federator) handleLike(c context.Context) func(s *streams.Like) error {
 				*loc = object.GetLikesOrderedCollection()
 				return false, nil
 			}
-			return false, fmt.Errorf("cannot determine type of object likes")
+			*loc = &vocab.OrderedCollection{}
+			object.SetLikesOrderedCollection(*loc)
+			return false, nil
 		}
 		if _, err := f.addActivityToObjectCollection(c, getter, s.Raw(), true); err != nil {
 			return err
