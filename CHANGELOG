@@ -1,9 +1,19 @@
-master
+master (Release Candidate for v0.2.0)
 
+* Begin FederateAPI unofficial implementation report.
+* Examine the IRI of 'objects' when applying the Origin Check policy for Update
+      and Delete activities.
+* If a federated Activity was already received, do not execute its side effects
+      a second time.
+* Add 'Like' activities to the 'likes' collection, instead of adding the
+      actors. This was a specification-violating behavior.
+* No longer try to fetch IRIs when deduping by IRI.
+* Remove unused methods from fed_test.go.
+* Fix Media Type header detection for ActivityPub messages.
 * Improve code generation to remove 230,000 lines of code from the vocab
       package.
-* Add list of contributors to CONTRIBUTING.md
-* README examples are tagged with golang syntax highlighting
+* Add list of contributors to CONTRIBUTING.md.
+* README examples are tagged with golang syntax highlighting.
 
 v0.1.1 2018-06-13
 
