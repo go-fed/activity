@@ -17,7 +17,7 @@ Federated, or both kinds of ActivityPub applications just work.
 
 ## Status
 
-**0.1.1** ([Semantic Versioning](https://semver.org/))
+**0.2.0** ([Semantic Versioning](https://semver.org/))
 
 There is no official implementation report available... yet!
 

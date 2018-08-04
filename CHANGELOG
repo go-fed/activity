@@ -1,4 +1,4 @@
-master (Release Candidate for v0.2.0)
+v0.2.0 2018-08-04
 
 * Begin FederateAPI unofficial implementation report.
 * All 'vocab.Object' types and types extending from 'vocab.Object' now have an
