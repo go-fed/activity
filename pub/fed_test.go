@@ -6529,3 +6529,131 @@ func TestGetOutbox_SetsContentTypeHeader(t *testing.T) {
 		t.Fatalf("expected %s, got %s", responseContentTypeHeader, h)
 	}
 }
+
+func TestIssue75(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+
+	// Data as described in the issue
+	jamesIRI, err := url.Parse("http://example.com/activity/person/james")
+	if err != nil {
+		t.Fatal(err)
+	}
+	jamesIRIOutbox, err := url.Parse("http://example.com/activity/person/james/outbox")
+	if err != nil {
+		t.Fatal(err)
+	}
+	jessIRI, err := url.Parse("http://example.com/activity/person/jess")
+	if err != nil {
+		t.Fatal(err)
+	}
+	jessIRIInbox, err := url.Parse("http://example.com/activity/person/jess/inbox")
+	if err != nil {
+		t.Fatal(err)
+	}
+	publicIRI, err := url.Parse("https://www.w3.org/ns/activitystreams#Public")
+	if err != nil {
+		t.Fatal(err)
+	}
+	docIRI, err := url.Parse("https://www.w3.org/TR/activitypub/")
+	if err != nil {
+		t.Fatal(err)
+	}
+	payload := &vocab.Document{}
+	payload.AppendCcIRI(jessIRI)
+	payload.AppendToIRI(publicIRI)
+	payload.AppendNameString("ActivityPub")
+	payload.AppendUrlAnyURI(docIRI)
+	jessActor := &vocab.Person{}
+	jessActor.SetInboxAnyURI(jessIRIInbox)
+	jessActor.SetId(jessIRI)
+	jessActor.AppendNameString("Jess")
+	m, err := jessActor.Serialize()
+	if err != nil {
+		t.Fatal(err)
+	}
+	jessActorJSON, err := json.Marshal(m)
+	if err != nil {
+		t.Fatal(err)
+	}
+	jamesActor := &vocab.Person{}
+	jamesActor.SetOutboxAnyURI(jamesIRIOutbox)
+	jamesActor.SetId(jamesIRI)
+	jamesActor.AppendNameString("James")
+	m, err = jamesActor.Serialize()
+	if err != nil {
+		t.Fatal(err)
+	}
+	jamesActorJSON, err := json.Marshal(m)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", jamesIRIOutbox.String(), bytes.NewBuffer(MustSerialize(payload)))))
+	gotActorIRI := 0
+	socialApp.actorIRI = func(c context.Context, r *http.Request) (*url.URL, error) {
+		gotActorIRI++
+		return jamesIRI, nil
+	}
+	gotCallback := 0
+	var gotCallbackObject *streams.Create
+	socialCb.create = func(c context.Context, s *streams.Create) error {
+		gotCallback++
+		gotCallbackObject = s
+		return nil
+	}
+	gotHttpDo := 0
+	httpClient.do = func(req *http.Request) (*http.Response, error) {
+		gotHttpDo++
+		if gotHttpDo == 1 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(jessActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 2 {
+			actorResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer(jamesActorJSON)),
+			}
+			return actorResp, nil
+		} else if gotHttpDo == 3 {
+			okResp := &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
+			}
+			return okResp, nil
+		}
+		return nil, nil
+	}
+
+	handled, err := p.PostOutbox(context.Background(), resp, req)
+	expectedPayload := &vocab.Document{}
+	expectedPayload.AppendCcIRI(jessIRI)
+	expectedPayload.AppendToIRI(publicIRI)
+	expectedPayload.AppendNameString("ActivityPub")
+	expectedPayload.AppendUrlAnyURI(docIRI)
+	expectedPayload.AppendAttributedToIRI(jamesIRI)
+	expectedPayload.SetId(testNewIRI2)
+	expectedCreate := &vocab.Create{}
+	expectedCreate.AppendActorIRI(jamesIRI)
+	expectedCreate.AppendObject(expectedPayload)
+	expectedCreate.AppendType("Create")
+	expectedCreate.SetId(testNewIRI)
+	expectedCreate.AppendCcIRI(jessIRI)
+	expectedCreate.AppendToIRI(publicIRI)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotActorIRI != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotActorIRI)
+	} else if gotCallback != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotCallback)
+	} else if gotHttpDo != 3 {
+		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
+	} else if err := PubObjectEquals(gotCallbackObject.Raw(), expectedCreate); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
+}
