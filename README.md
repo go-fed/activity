@@ -42,9 +42,15 @@ specifications, official test repositories, and my own end-to-end tests.
 
 ## Who is using this library currently?
 
-No one. Please let me know if you are using it!
+| Application | Description                                       | Repository                                                                 | Point Of Contact                                                                                                    | Homepage                             |
+|:-----------:|:-------------------------------------------------:|:--------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------:|:------------------------------------:|
+| Anancus     | Self-hosted and federated social link aggregation | [https://gitlab.com/tuxether/anancus](https://gitlab.com/tuxether/anancus) | [@tuxether@floss.social](https://floss.social/@tuxether) or [tuxether@protonmail.ch](mailto:tuxether@protonmail.ch) | N/A                                  |
+| Write.as    | Simple, privacy-focused blogging platform         | [https://github.com/writeas/Write.as](https://github.com/writeas/Write.as) | [@write_as@writing.exchange](https://writing.exchange/@write_as) or [hello@write.as](mailto:hello@write.as)         | [https://write.as](https://write.as) |
 
 ## How do I use these libraries?
+
+There is a [tutorial](https://go-fed.org/tutorial) available at
+[https://go-fed.org](https://go-fed.org).
 
 Please see each subdirectory for its own README for further elaboration. The
 recommended reading order is `vocab`, `streams`, and then `pub`. Others are
