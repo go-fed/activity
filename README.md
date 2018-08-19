@@ -15,6 +15,9 @@ This library is biased. It forgoes understanding JSON-LD in exchange for static
 typing. It provides a large amount of default behavior to let Social,
 Federated, or both kinds of ActivityPub applications just work.
 
+The [go-fed.org](https://go-fed.org) website has a tutorial. It also hosts godoc
+documentation for every version of this library.
+
 ## Status
 
 **0.2.0** ([Semantic Versioning](https://semver.org/))

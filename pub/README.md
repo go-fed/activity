@@ -181,7 +181,8 @@ packages are being used, these interfaces will be natively supported.
 
 ## Other Considerations
 
-This library does not have an implementation report generated... yet! Once it is
-available, it will be linked here. Furthermore, the test server will also be an
-excellent tutorial resource. Unfortunately such a resource does not exist...
-yet!
+Please see the README for `go-fed/activity` for the status of the latest
+official implementation report.
+
+The [go-fed.org](https://go-fed.org) website has a tutorial and documentation
+for this library.
