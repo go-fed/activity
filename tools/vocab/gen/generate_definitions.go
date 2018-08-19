@@ -40,6 +40,7 @@ func generateDefinitions(t *defs.Type, m map[*defs.PropertyType]*intermedDef) (f
 	generateAddUnknownFunction(t, this)
 	generateHasUnknownFunction(t, this)
 	generateRemoveUnknownFunction(t, this)
+	generateGetUnknownFunction(t, this)
 	generateSerializeFunction(t, this, serializeFragments)
 	generateDeserializeFunction(t, this, deserializeFragments)
 	generateMetadataFunctions(t, this, thisInterface)
@@ -179,7 +180,7 @@ func generateMetadataFunctions(t *defs.Type, this *defs.StructDef, it *defs.Inte
 func generateHasUnknownFunction(t *defs.Type, this *defs.StructDef) {
 	m := &defs.MemberFunctionDef{
 		Name:    "HasUnknown",
-		Comment: "HasUnknown returns true if there is an unknown object with the specified key",
+		Comment: "HasUnknown returns true if there is an unknown property with the specified key",
 		P:       this,
 		Args:    []*defs.FunctionVarDef{{"k", "string"}},
 		Return:  []*defs.FunctionVarDef{{"b", "bool"}},
@@ -199,7 +200,7 @@ func generateHasUnknownFunction(t *defs.Type, this *defs.StructDef) {
 func generateAddUnknownFunction(t *defs.Type, this *defs.StructDef) {
 	m := &defs.MemberFunctionDef{
 		Name:    "AddUnknown",
-		Comment: "AddUnknown adds a raw extension to this object with the specified key",
+		Comment: "AddUnknown adds an unknown property to this object with the specified key",
 		P:       this,
 		Args:    []*defs.FunctionVarDef{{"k", "string"}, {"i", "interface{}"}},
 		Return:  []*defs.FunctionVarDef{{"this", "*" + t.Name}},
@@ -210,6 +211,22 @@ func generateAddUnknownFunction(t *defs.Type, this *defs.StructDef) {
 			b.WriteString("}\n")
 			b.WriteString("t.unknown_[k] = i\n")
 			b.WriteString("return t\n")
+			return b.String()
+		},
+	}
+	this.F = append(this.F, m)
+}
+
+func generateGetUnknownFunction(t *defs.Type, this *defs.StructDef) {
+	m := &defs.MemberFunctionDef{
+		Name:    "GetUnknown",
+		Comment: "GetUnknown fetches an unknown property from this object with the specified key. Note that this will panic if HasUnknown would return false.",
+		P:       this,
+		Args:    []*defs.FunctionVarDef{{"k", "string"}},
+		Return:  []*defs.FunctionVarDef{{"i", "interface{}"}},
+		Body: func() string {
+			var b bytes.Buffer
+			b.WriteString("return t.unknown_[k]\n")
 			return b.String()
 		},
 	}

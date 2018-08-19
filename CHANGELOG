@@ -1,3 +1,8 @@
+master
+
+* Types in the 'vocab' package now support setting, getting, removing, and
+      testing existence for unknown properties (extended properties).
+
 v0.2.1 2018-08-19
 
 * Request body is now correctly copied when sending federation messages.

@@ -5334,7 +5334,7 @@ func (t *Create) SetUnknownSharedInbox(i interface{}) {
 
 }
 
-// AddUnknown adds a raw extension to this object with the specified key
+// AddUnknown adds an unknown property to this object with the specified key
 func (t *Create) AddUnknown(k string, i interface{}) (this *Create) {
 	if t.unknown_ == nil {
 		t.unknown_ = make(map[string]interface{})
@@ -5344,7 +5344,7 @@ func (t *Create) AddUnknown(k string, i interface{}) (this *Create) {
 
 }
 
-// HasUnknown returns true if there is an unknown object with the specified key
+// HasUnknown returns true if there is an unknown property with the specified key
 func (t *Create) HasUnknown(k string) (b bool) {
 	if t.unknown_ == nil {
 		return false
@@ -5358,6 +5358,12 @@ func (t *Create) HasUnknown(k string) (b bool) {
 func (t *Create) RemoveUnknown(k string) (this *Create) {
 	delete(t.unknown_, k)
 	return t
+
+}
+
+// GetUnknown fetches an unknown property from this object with the specified key. Note that this will panic if HasUnknown would return false.
+func (t *Create) GetUnknown(k string) (i interface{}) {
+	return t.unknown_[k]
 
 }
 
