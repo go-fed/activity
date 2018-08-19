@@ -102,7 +102,6 @@ func addResponseHeaders(h http.Header, c Clock, responseContent []byte) {
 //
 // creds is allowed to be nil.
 func dereference(c HttpClient, u *url.URL, agent string, creds *creds, clock Clock) ([]byte, error) {
-	// TODO: (section 7.1) The server MUST dereference the collection (with the user's credentials)
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		return nil, err
