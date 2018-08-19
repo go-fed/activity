@@ -19,9 +19,10 @@ Federated, or both kinds of ActivityPub applications just work.
 
 **0.2.0** ([Semantic Versioning](https://semver.org/))
 
-There is no official implementation report available... yet!
+An [official implementation report](https://activitypub.rocks/implementation-report/)
+was last submitted for version **0.2.0** [here](https://github.com/w3c/activitypub/issues/318).
 
-[Unofficial implementation reports are available in issue #46](https://github.com/go-fed/activity/issues/46).
+Previous unofficial implementation reports are available in [issue #46](https://github.com/go-fed/activity/issues/46).
 
 Please see CHANGELOG for changes between versions.
 
