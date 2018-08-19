@@ -1,3 +1,10 @@
+v0.2.1 2018-08-19
+
+* Change RWType and FollowResponse to bool and uint8, respectively.
+* Update README with applications using the go-fed/activity library.
+* Update README with links to official implementation reports for go-fed.
+* Add unit test to document behavior when maxDeliveryDepth is set to zero.
+
 v0.2.0 2018-08-04
 
 * Begin FederateAPI unofficial implementation report.

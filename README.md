@@ -20,7 +20,7 @@ documentation for every version of this library.
 
 ## Status
 
-**0.2.0** ([Semantic Versioning](https://semver.org/))
+**0.2.1** ([Semantic Versioning](https://semver.org/))
 
 An [official implementation report](https://activitypub.rocks/implementation-report/)
 was last submitted for version **0.2.0** [here](https://github.com/w3c/activitypub/issues/318).
