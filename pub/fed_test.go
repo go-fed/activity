@@ -980,7 +980,7 @@ func PreparePostInboxTest(t *testing.T, app *MockApplication, socialApp *MockSoc
 	}
 	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		oc := &vocab.OrderedCollection{}
 		oc.AppendType("OrderedCollection")
@@ -1027,7 +1027,7 @@ func PreparePostOutboxTest(t *testing.T, app *MockApplication, socialApp *MockSo
 	}
 	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		oc := &vocab.OrderedCollection{}
 		oc.AppendType("OrderedCollection")
@@ -1089,7 +1089,7 @@ func TestSocialPubber_GetInbox(t *testing.T) {
 	gotInbox := 0
 	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != Read {
-			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+			t.Fatalf("expected RWType of %v, got %v", Read, rw)
 		}
 		gotInbox++
 		return testSingleOrderedCollection, nil
@@ -1141,7 +1141,7 @@ func TestSocialPubber_PostOutbox(t *testing.T) {
 	gotOutbox := 0
 	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotOutbox++
 		oc := &vocab.OrderedCollection{}
@@ -1238,7 +1238,7 @@ func TestSocialPubber_PostOutbox_SocialAPIVerified(t *testing.T) {
 	gotOutbox := 0
 	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotOutbox++
 		oc := &vocab.OrderedCollection{}
@@ -1310,7 +1310,7 @@ func TestSocialPubber_GetOutbox(t *testing.T) {
 	gotOutbox := 0
 	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != Read {
-			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+			t.Fatalf("expected RWType of %v, got %v", Read, rw)
 		}
 		gotOutbox++
 		return testSingleOrderedCollection, nil
@@ -1347,7 +1347,7 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 	gotInbox := 0
 	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotInbox++
 		oc := &vocab.OrderedCollection{}
@@ -1383,7 +1383,7 @@ func TestFederatingPubber_PostInbox(t *testing.T) {
 	var gotIri *url.URL
 	app.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		if rw != Read {
-			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+			t.Fatalf("expected RWType of %v, got %v", Read, rw)
 		}
 		gotGet++
 		gotIri = iri
@@ -1439,7 +1439,7 @@ func TestFederatingPubber_GetInbox(t *testing.T) {
 	gotInbox := 0
 	app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != Read {
-			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+			t.Fatalf("expected RWType of %v, got %v", Read, rw)
 		}
 		gotInbox++
 		return testSingleOrderedCollection, nil
@@ -1483,7 +1483,7 @@ func TestFederatingPubber_GetOutbox(t *testing.T) {
 	gotOutbox := 0
 	app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != Read {
-			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+			t.Fatalf("expected RWType of %v, got %v", Read, rw)
 		}
 		gotOutbox++
 		return testSingleOrderedCollection, nil
@@ -1520,7 +1520,7 @@ func TestPubber_PostInbox(t *testing.T) {
 	gotInbox := 0
 	app.MockFederateApp.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotInbox++
 		oc := &vocab.OrderedCollection{}
@@ -1556,7 +1556,7 @@ func TestPubber_PostInbox(t *testing.T) {
 	var gotIri *url.URL
 	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		if rw != Read {
-			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+			t.Fatalf("expected RWType of %v, got %v", Read, rw)
 		}
 		gotGet++
 		gotIri = iri
@@ -1612,7 +1612,7 @@ func TestPubber_GetInbox(t *testing.T) {
 	gotInbox := 0
 	app.MockFederateApp.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != Read {
-			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+			t.Fatalf("expected RWType of %v, got %v", Read, rw)
 		}
 		gotInbox++
 		return testSingleOrderedCollection, nil
@@ -1681,7 +1681,7 @@ func TestPubber_PostOutbox(t *testing.T) {
 	gotOutbox := 0
 	app.MockFederateApp.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotOutbox++
 		oc := &vocab.OrderedCollection{}
@@ -1832,7 +1832,7 @@ func TestPubber_GetOutbox(t *testing.T) {
 	gotOutbox := 0
 	app.MockFederateApp.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
 		if rw != Read {
-			t.Fatalf("expected RWType of %d, got %d", Read, rw)
+			t.Fatalf("expected RWType of %v, got %v", Read, rw)
 		}
 		gotOutbox++
 		return testSingleOrderedCollection, nil
@@ -2306,7 +2306,7 @@ func TestPostInbox_Delete_FetchesObject(t *testing.T) {
 	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testDeleteNote))))
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		} else if *id != *noteIRI {
 			t.Fatalf("expected %s, got %s", noteIRI, id)
 		}
@@ -2682,7 +2682,7 @@ func TestPostInbox_Follow_AutoAccept(t *testing.T) {
 	var getIRI *url.URL
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		getIRI = id
@@ -2823,7 +2823,7 @@ func TestPostInbox_Follow_AutoAcceptDefaultFollowersOrderedCollection(t *testing
 	var getIRI *url.URL
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		getIRI = id
@@ -2939,7 +2939,7 @@ func TestPostInbox_Follow_DoesNotAddForAutoAcceptIfAlreadyPresent(t *testing.T) 
 	}
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		followers := &vocab.Collection{}
 		followers.AppendItemsIRI(sallyIRI)
@@ -3025,7 +3025,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsOrderedCollection(t *testing.T) {
 	}
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		samActor := &vocab.Person{}
 		samActor.SetInboxAnyURI(samIRIInbox)
@@ -3107,7 +3107,7 @@ func TestPostInbox_Follow_AutoAcceptFollowersIsIRI(t *testing.T) {
 	}
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		if *id == *samIRI {
 			samActor := &vocab.Person{}
@@ -3245,7 +3245,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIfOwned(t *testing.T) {
 	var getIRI *url.URL
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		getIRI = id
@@ -3309,7 +3309,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToDefaultFollowersOrderedCollection(t 
 	var getIRI *url.URL
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		getIRI = id
@@ -3413,7 +3413,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersOrderedCollection(t *testin
 	}
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		sallyActor := &vocab.Person{}
 		sallyActor.SetInboxAnyURI(sallyIRIInbox)
@@ -3459,7 +3459,7 @@ func TestPostInbox_Accept_AcceptFollowAddsToFollowersIRI(t *testing.T) {
 	}
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		if *id == *sallyIRI {
 			sallyActor := &vocab.Person{}
@@ -3627,7 +3627,7 @@ func TestPostInbox_Add_AddIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	var gotGetId *url.URL
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		gotGetId = id
@@ -3814,7 +3814,7 @@ func TestPostInbox_Remove_RemoveIfTargetOwnedAndCanRemove(t *testing.T) {
 	var gotGetId *url.URL
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		gotGetId = id
@@ -3976,7 +3976,7 @@ func TestPostInbox_Like_AddsToLikeCollection(t *testing.T) {
 	var gotGetId *url.URL
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		gotGetId = id
@@ -4042,7 +4042,7 @@ func TestPostInbox_Like_AddsToDefaultOrderedCollection(t *testing.T) {
 	var gotGetId *url.URL
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		gotGetId = id
@@ -4943,7 +4943,7 @@ func TestPostOutbox_Update_DeleteFields(t *testing.T) {
 	gotGet := 0
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		if *id != *noteIRI {
@@ -5235,7 +5235,7 @@ func TestPostOutbox_Delete_SetsTombstone(t *testing.T) {
 	gotGet := 0
 	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		if *id != *noteIRI {
@@ -5616,7 +5616,7 @@ func TestPostOutbox_Add_AddsIfTargetOwnedAndAppCanAdd(t *testing.T) {
 	var gotGetIri *url.URL
 	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		gotGetIri = iri
@@ -6032,7 +6032,7 @@ func TestPostOutbox_Like_AddsToLikedCollection(t *testing.T) {
 	var gotGetIri *url.URL
 	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		gotGetIri = iri
@@ -6096,7 +6096,7 @@ func TestPostOutbox_Like_AddsToDefaultOrderedCollection(t *testing.T) {
 	var gotGetIri *url.URL
 	app.MockFederateApp.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
 		if rw != ReadWrite {
-			t.Fatalf("expected RWType of %d, got %d", ReadWrite, rw)
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
 		}
 		gotGet++
 		gotGetIri = iri

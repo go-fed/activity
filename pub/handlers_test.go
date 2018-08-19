@@ -27,7 +27,7 @@ func TestServeActivityPubObject(t *testing.T) {
 				t: t,
 				get: func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
-						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+						t.Fatalf("expected RWType of %v, got %v", Read, rw)
 					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
@@ -69,7 +69,7 @@ func TestServeActivityPubObject(t *testing.T) {
 				},
 				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
-						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+						t.Fatalf("expected RWType of %v, got %v", Read, rw)
 					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("expected %s, got %s", noteURIString, s)
 					} else if u := user.String(); u != samIRIString {
@@ -146,7 +146,7 @@ func TestServeActivityPubObject(t *testing.T) {
 				t: t,
 				get: func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
-						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+						t.Fatalf("expected RWType of %v, got %v", Read, rw)
 					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
@@ -183,7 +183,7 @@ func TestServeActivityPubObject(t *testing.T) {
 				t: t,
 				get: func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
-						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+						t.Fatalf("expected RWType of %v, got %v", Read, rw)
 					} else if s := id.String(); s != testNewIRIString {
 						t.Fatalf("expected %s, got %s", testNewIRIString, s)
 					}
@@ -247,7 +247,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				t: t,
 				get: func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
-						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+						t.Fatalf("expected RWType of %v, got %v", Read, rw)
 					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("expected %s, got %s", noteURIString, s)
 					}
@@ -289,7 +289,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				},
 				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
-						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+						t.Fatalf("expected RWType of %v, got %v", Read, rw)
 					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("expected %s, got %s", noteURIString, s)
 					} else if u := user.String(); u != samIRIString {
@@ -366,7 +366,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				t: t,
 				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
-						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+						t.Fatalf("expected RWType of %v, got %v", Read, rw)
 					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("expected %s, got %s", noteURIString, s)
 					} else if u := user.String(); u != samIRIString {
@@ -410,7 +410,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				t: t,
 				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
-						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+						t.Fatalf("expected RWType of %v, got %v", Read, rw)
 					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("expected %s, got %s", noteURIString, s)
 					} else if u := user.String(); u != samIRIString {
@@ -525,7 +525,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				},
 				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
-						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+						t.Fatalf("expected RWType of %v, got %v", Read, rw)
 					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("expected %s, got %s", noteURIString, s)
 					} else if u := user.String(); u != samIRIString {
@@ -595,7 +595,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				},
 				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
-						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+						t.Fatalf("expected RWType of %v, got %v", Read, rw)
 					} else if s := id.String(); s != noteURIString {
 						t.Fatalf("expected %s, got %s", noteURIString, s)
 					} else if u := user.String(); u != samIRIString {
@@ -640,7 +640,7 @@ func TestServeActivityPubObjectWithVerificationMethod(t *testing.T) {
 				},
 				getAsVerifiedUser: func(c context.Context, id, user *url.URL, rw RWType) (PubObject, error) {
 					if rw != Read {
-						t.Fatalf("expected RWType of %d, got %d", Read, rw)
+						t.Fatalf("expected RWType of %v, got %v", Read, rw)
 					} else if s := id.String(); s != testNewIRIString {
 						t.Fatalf("expected %s, got %s", testNewIRIString, s)
 					} else if u := user.String(); u != samIRIString {

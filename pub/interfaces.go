@@ -116,13 +116,13 @@ type Application interface {
 }
 
 // RWType indicates the kind of reading being done.
-type RWType int
+type RWType bool
 
 const (
 	// Read indicates the object is only being read.
-	Read RWType = iota
+	Read RWType = false
 	// ReadWrite indicates the object is being mutated as well.
-	ReadWrite
+	ReadWrite = true
 )
 
 // SocialAPI is provided by users of this library and designed to handle
@@ -223,7 +223,7 @@ type SocialFederateApplication interface {
 
 // FollowResponse instructs how to proceed upon immediately receiving a request
 // to follow.
-type FollowResponse int
+type FollowResponse uint8
 
 const (
 	AutomaticAccept FollowResponse = iota
