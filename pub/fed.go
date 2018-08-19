@@ -399,7 +399,26 @@ func (f *federator) getPostOutboxResolver(c context.Context, rawJson map[string]
 		LikeCallback:   f.handleClientLike(c, deliverable),
 		UndoCallback:   f.handleClientUndo(c, deliverable),
 		BlockCallback:  f.handleClientBlock(c, deliverable),
-		// TODO: Extended activity types, such as Announce, Arrive, etc.
+		// Other activities whose behaviors are not examined by the pub
+		// package, and are passed through to extensions of the
+		// Callbacker interface.
+		AnnounceCallback:        f.handleClientAnnounce(c, deliverable),
+		ArriveCallback:          f.handleClientArrive(c, deliverable),
+		DislikeCallback:         f.handleClientDislike(c, deliverable),
+		FlagCallback:            f.handleClientFlag(c, deliverable),
+		IgnoreCallback:          f.handleClientIgnore(c, deliverable),
+		InviteCallback:          f.handleClientInvite(c, deliverable),
+		JoinCallback:            f.handleClientJoin(c, deliverable),
+		LeaveCallback:           f.handleClientLeave(c, deliverable),
+		ListenCallback:          f.handleClientListen(c, deliverable),
+		MoveCallback:            f.handleClientMove(c, deliverable),
+		OfferCallback:           f.handleClientOffer(c, deliverable),
+		QuestionCallback:        f.handleClientQuestion(c, deliverable),
+		ReadCallback:            f.handleClientRead(c, deliverable),
+		TentativeAcceptCallback: f.handleClientTentativeAccept(c, deliverable),
+		TentativeRejectCallback: f.handleClientTentativeReject(c, deliverable),
+		TravelCallback:          f.handleClientTravel(c, deliverable),
+		ViewCallback:            f.handleClientView(c, deliverable),
 	}
 }
 
@@ -839,6 +858,176 @@ func (f *federator) handleClientBlock(c context.Context, deliverable *bool) func
 	}
 }
 
+func (f *federator) handleClientAnnounce(c context.Context, deliverable *bool) func(s *streams.Announce) error {
+	return func(s *streams.Announce) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerAnnounce); ok {
+			return t.Announce(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientArrive(c context.Context, deliverable *bool) func(s *streams.Arrive) error {
+	return func(s *streams.Arrive) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerArrive); ok {
+			return t.Arrive(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientDislike(c context.Context, deliverable *bool) func(s *streams.Dislike) error {
+	return func(s *streams.Dislike) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerDislike); ok {
+			return t.Dislike(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientFlag(c context.Context, deliverable *bool) func(s *streams.Flag) error {
+	return func(s *streams.Flag) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerFlag); ok {
+			return t.Flag(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientIgnore(c context.Context, deliverable *bool) func(s *streams.Ignore) error {
+	return func(s *streams.Ignore) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerIgnore); ok {
+			return t.Ignore(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientInvite(c context.Context, deliverable *bool) func(s *streams.Invite) error {
+	return func(s *streams.Invite) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerInvite); ok {
+			return t.Invite(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientJoin(c context.Context, deliverable *bool) func(s *streams.Join) error {
+	return func(s *streams.Join) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerJoin); ok {
+			return t.Join(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientLeave(c context.Context, deliverable *bool) func(s *streams.Leave) error {
+	return func(s *streams.Leave) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerLeave); ok {
+			return t.Leave(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientListen(c context.Context, deliverable *bool) func(s *streams.Listen) error {
+	return func(s *streams.Listen) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerListen); ok {
+			return t.Listen(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientMove(c context.Context, deliverable *bool) func(s *streams.Move) error {
+	return func(s *streams.Move) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerMove); ok {
+			return t.Move(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientOffer(c context.Context, deliverable *bool) func(s *streams.Offer) error {
+	return func(s *streams.Offer) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerOffer); ok {
+			return t.Offer(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientQuestion(c context.Context, deliverable *bool) func(s *streams.Question) error {
+	return func(s *streams.Question) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerQuestion); ok {
+			return t.Question(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientRead(c context.Context, deliverable *bool) func(s *streams.Read) error {
+	return func(s *streams.Read) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerRead); ok {
+			return t.Read(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientTentativeAccept(c context.Context, deliverable *bool) func(s *streams.TentativeAccept) error {
+	return func(s *streams.TentativeAccept) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerTentativeAccept); ok {
+			return t.TentativeAccept(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientTentativeReject(c context.Context, deliverable *bool) func(s *streams.TentativeReject) error {
+	return func(s *streams.TentativeReject) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerTentativeReject); ok {
+			return t.TentativeReject(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientTravel(c context.Context, deliverable *bool) func(s *streams.Travel) error {
+	return func(s *streams.Travel) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerTravel); ok {
+			return t.Travel(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleClientView(c context.Context, deliverable *bool) func(s *streams.View) error {
+	return func(s *streams.View) error {
+		*deliverable = true
+		if t, ok := f.ClientCallbacker.(callbackerView); ok {
+			return t.View(c, s)
+		}
+		return nil
+	}
+}
+
 func (f *federator) getPostInboxResolver(c context.Context, inboxURL *url.URL) *streams.Resolver {
 	return &streams.Resolver{
 		CreateCallback: f.handleCreate(c),
@@ -852,7 +1041,26 @@ func (f *federator) getPostInboxResolver(c context.Context, inboxURL *url.URL) *
 		LikeCallback:   f.handleLike(c),
 		UndoCallback:   f.handleUndo(c),
 		BlockCallback:  f.handleBlock(c),
-		// TODO: Extended activity types, such as Announce, Arrive, etc.
+		// Other activities whose behaviors are not examined by the pub
+		// package, and are passed through to extensions of the
+		// Callbacker interface.
+		AnnounceCallback:        f.handleAnnounce(c),
+		ArriveCallback:          f.handleArrive(c),
+		DislikeCallback:         f.handleDislike(c),
+		FlagCallback:            f.handleFlag(c),
+		IgnoreCallback:          f.handleIgnore(c),
+		InviteCallback:          f.handleInvite(c),
+		JoinCallback:            f.handleJoin(c),
+		LeaveCallback:           f.handleLeave(c),
+		ListenCallback:          f.handleListen(c),
+		MoveCallback:            f.handleMove(c),
+		OfferCallback:           f.handleOffer(c),
+		QuestionCallback:        f.handleQuestion(c),
+		ReadCallback:            f.handleRead(c),
+		TentativeAcceptCallback: f.handleTentativeAccept(c),
+		TentativeRejectCallback: f.handleTentativeReject(c),
+		TravelCallback:          f.handleTravel(c),
+		ViewCallback:            f.handleView(c),
 	}
 }
 
@@ -1268,6 +1476,159 @@ func (f *federator) handleBlock(c context.Context) func(s *streams.Block) error 
 	return func(s *streams.Block) error {
 		if s.LenObject() == 0 {
 			return errObjectRequired
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleAnnounce(c context.Context) func(s *streams.Announce) error {
+	return func(s *streams.Announce) error {
+		if t, ok := f.ServerCallbacker.(callbackerAnnounce); ok {
+			return t.Announce(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleArrive(c context.Context) func(s *streams.Arrive) error {
+	return func(s *streams.Arrive) error {
+		if t, ok := f.ServerCallbacker.(callbackerArrive); ok {
+			return t.Arrive(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleDislike(c context.Context) func(s *streams.Dislike) error {
+	return func(s *streams.Dislike) error {
+		if t, ok := f.ServerCallbacker.(callbackerDislike); ok {
+			return t.Dislike(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleFlag(c context.Context) func(s *streams.Flag) error {
+	return func(s *streams.Flag) error {
+		if t, ok := f.ServerCallbacker.(callbackerFlag); ok {
+			return t.Flag(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleIgnore(c context.Context) func(s *streams.Ignore) error {
+	return func(s *streams.Ignore) error {
+		if t, ok := f.ServerCallbacker.(callbackerIgnore); ok {
+			return t.Ignore(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleInvite(c context.Context) func(s *streams.Invite) error {
+	return func(s *streams.Invite) error {
+		if t, ok := f.ServerCallbacker.(callbackerInvite); ok {
+			return t.Invite(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleJoin(c context.Context) func(s *streams.Join) error {
+	return func(s *streams.Join) error {
+		if t, ok := f.ServerCallbacker.(callbackerJoin); ok {
+			return t.Join(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleLeave(c context.Context) func(s *streams.Leave) error {
+	return func(s *streams.Leave) error {
+		if t, ok := f.ServerCallbacker.(callbackerLeave); ok {
+			return t.Leave(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleListen(c context.Context) func(s *streams.Listen) error {
+	return func(s *streams.Listen) error {
+		if t, ok := f.ServerCallbacker.(callbackerListen); ok {
+			return t.Listen(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleMove(c context.Context) func(s *streams.Move) error {
+	return func(s *streams.Move) error {
+		if t, ok := f.ServerCallbacker.(callbackerMove); ok {
+			return t.Move(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleOffer(c context.Context) func(s *streams.Offer) error {
+	return func(s *streams.Offer) error {
+		if t, ok := f.ServerCallbacker.(callbackerOffer); ok {
+			return t.Offer(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleQuestion(c context.Context) func(s *streams.Question) error {
+	return func(s *streams.Question) error {
+		if t, ok := f.ServerCallbacker.(callbackerQuestion); ok {
+			return t.Question(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleRead(c context.Context) func(s *streams.Read) error {
+	return func(s *streams.Read) error {
+		if t, ok := f.ServerCallbacker.(callbackerRead); ok {
+			return t.Read(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleTentativeAccept(c context.Context) func(s *streams.TentativeAccept) error {
+	return func(s *streams.TentativeAccept) error {
+		if t, ok := f.ServerCallbacker.(callbackerTentativeAccept); ok {
+			return t.TentativeAccept(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleTentativeReject(c context.Context) func(s *streams.TentativeReject) error {
+	return func(s *streams.TentativeReject) error {
+		if t, ok := f.ServerCallbacker.(callbackerTentativeReject); ok {
+			return t.TentativeReject(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleTravel(c context.Context) func(s *streams.Travel) error {
+	return func(s *streams.Travel) error {
+		if t, ok := f.ServerCallbacker.(callbackerTravel); ok {
+			return t.Travel(c, s)
+		}
+		return nil
+	}
+}
+
+func (f *federator) handleView(c context.Context) func(s *streams.View) error {
+	return func(s *streams.View) error {
+		if t, ok := f.ServerCallbacker.(callbackerView); ok {
+			return t.View(c, s)
 		}
 		return nil
 	}
