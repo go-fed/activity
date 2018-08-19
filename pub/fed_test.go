@@ -6531,8 +6531,20 @@ func TestGetOutbox_SetsContentTypeHeader(t *testing.T) {
 }
 
 func TestIssue75(t *testing.T) {
-	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
-	PreparePubberPostOutboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	// Root cause: Setting a maxDeliveryDepth to zero means no C2S messages
+	// will be sent to federate peers.
+	clock := &MockClock{now}
+	app := &MockApplication{t: t}
+	socialApp := &MockSocialApp{t: t}
+	fedApp := &MockFederateApp{MockApplication: app, t: t}
+	appl := &MockSocialFederateApp{MockSocialApp: socialApp, MockFederateApp: fedApp}
+	socialCb := &MockCallbacker{t: t}
+	fedCb := &MockCallbacker{t: t}
+	d := &MockDeliverer{t: t}
+	httpClient := &MockHttpClient{t: t}
+	p := NewPubber(clock, appl, socialCb, fedCb, d, httpClient, testAgent /*maxDeliveryDepth=*/, 0, 1)
+
+	PreparePubberPostOutboxTest(t, appl, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
 	resp := httptest.NewRecorder()
 
 	// Data as described in the issue
@@ -6545,10 +6557,6 @@ func TestIssue75(t *testing.T) {
 		t.Fatal(err)
 	}
 	jessIRI, err := url.Parse("http://example.com/activity/person/jess")
-	if err != nil {
-		t.Fatal(err)
-	}
-	jessIRIInbox, err := url.Parse("http://example.com/activity/person/jess/inbox")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6565,30 +6573,6 @@ func TestIssue75(t *testing.T) {
 	payload.AppendToIRI(publicIRI)
 	payload.AppendNameString("ActivityPub")
 	payload.AppendUrlAnyURI(docIRI)
-	jessActor := &vocab.Person{}
-	jessActor.SetInboxAnyURI(jessIRIInbox)
-	jessActor.SetId(jessIRI)
-	jessActor.AppendNameString("Jess")
-	m, err := jessActor.Serialize()
-	if err != nil {
-		t.Fatal(err)
-	}
-	jessActorJSON, err := json.Marshal(m)
-	if err != nil {
-		t.Fatal(err)
-	}
-	jamesActor := &vocab.Person{}
-	jamesActor.SetOutboxAnyURI(jamesIRIOutbox)
-	jamesActor.SetId(jamesIRI)
-	jamesActor.AppendNameString("James")
-	m, err = jamesActor.Serialize()
-	if err != nil {
-		t.Fatal(err)
-	}
-	jamesActorJSON, err := json.Marshal(m)
-	if err != nil {
-		t.Fatal(err)
-	}
 
 	req := Sign(ActivityPubRequest(httptest.NewRequest("POST", jamesIRIOutbox.String(), bytes.NewBuffer(MustSerialize(payload)))))
 	gotActorIRI := 0
@@ -6603,30 +6587,7 @@ func TestIssue75(t *testing.T) {
 		gotCallbackObject = s
 		return nil
 	}
-	gotHttpDo := 0
-	httpClient.do = func(req *http.Request) (*http.Response, error) {
-		gotHttpDo++
-		if gotHttpDo == 1 {
-			actorResp := &http.Response{
-				StatusCode: http.StatusOK,
-				Body:       ioutil.NopCloser(bytes.NewBuffer(jessActorJSON)),
-			}
-			return actorResp, nil
-		} else if gotHttpDo == 2 {
-			actorResp := &http.Response{
-				StatusCode: http.StatusOK,
-				Body:       ioutil.NopCloser(bytes.NewBuffer(jamesActorJSON)),
-			}
-			return actorResp, nil
-		} else if gotHttpDo == 3 {
-			okResp := &http.Response{
-				StatusCode: http.StatusOK,
-				Body:       ioutil.NopCloser(bytes.NewBuffer([]byte{})),
-			}
-			return okResp, nil
-		}
-		return nil, nil
-	}
+	httpClient.do = nil
 
 	handled, err := p.PostOutbox(context.Background(), resp, req)
 	expectedPayload := &vocab.Document{}
@@ -6651,8 +6612,6 @@ func TestIssue75(t *testing.T) {
 		t.Fatalf("expected %d, got %d", 1, gotActorIRI)
 	} else if gotCallback != 1 {
 		t.Fatalf("expected %d, got %d", 1, gotCallback)
-	} else if gotHttpDo != 3 {
-		t.Fatalf("expected %d, got %d", 3, gotHttpDo)
 	} else if err := PubObjectEquals(gotCallbackObject.Raw(), expectedCreate); err != nil {
 		t.Fatalf("unexpected callback object: %s", err)
 	}
