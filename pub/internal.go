@@ -167,8 +167,8 @@ func (f *federator) dereferenceAsUser(boxIRI, fetchIRI *url.URL) (obj vocab.Obje
 //
 // creds is able to be nil.
 func postToOutbox(c HttpClient, b []byte, to *url.URL, agent string, creds *creds, clock Clock) error {
-	byteCopy := make([]byte, 0, len(b))
-	copy(b, byteCopy)
+	byteCopy := make([]byte, len(b))
+	copy(byteCopy, b)
 	buf := bytes.NewBuffer(byteCopy)
 	req, err := http.NewRequest("POST", to.String(), buf)
 	if err != nil {

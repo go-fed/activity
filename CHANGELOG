@@ -1,5 +1,6 @@
 v0.2.1 2018-08-19
 
+* Request body is now correctly copied when sending federation messages.
 * Change RWType and FollowResponse to bool and uint8, respectively.
 * Update README with applications using the go-fed/activity library.
 * Update README with links to official implementation reports for go-fed.
