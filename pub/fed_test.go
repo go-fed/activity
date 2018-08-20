@@ -7,6 +7,7 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/vocab"
@@ -6666,5 +6667,1393 @@ func TestDelivery_Bytes(t *testing.T) {
 		t.Fatalf("empty delivery body")
 	} else if s := httpDeliveryRequest.URL.String(); s != samIRIInboxString {
 		t.Fatalf("expected %s, got %s", samIRIInboxString, s)
+	}
+}
+
+var _ callbackerAnnounce = &mockCallbackerAnnounce{}
+
+type mockCallbackerAnnounce struct {
+	t        *testing.T
+	announce func(c context.Context, s *streams.Announce) error
+}
+
+func (m *mockCallbackerAnnounce) Announce(c context.Context, s *streams.Announce) error {
+	if m.announce == nil {
+		m.t.Logf("unimplemented mockCallbackerAnnounce called: %v %v", c, s)
+		return nil
+	} else {
+		return m.announce(c, s)
+	}
+}
+
+var _ callbackerArrive = &mockCallbackerArrive{}
+
+type mockCallbackerArrive struct {
+	t      *testing.T
+	arrive func(c context.Context, s *streams.Arrive) error
+}
+
+func (m *mockCallbackerArrive) Arrive(c context.Context, s *streams.Arrive) error {
+	if m.arrive == nil {
+		m.t.Logf("unimplemented mockCallbackerArrive called: %v %v", c, s)
+		return nil
+	} else {
+		return m.arrive(c, s)
+	}
+}
+
+var _ callbackerDislike = &mockCallbackerDislike{}
+
+type mockCallbackerDislike struct {
+	t       *testing.T
+	dislike func(c context.Context, s *streams.Dislike) error
+}
+
+func (m *mockCallbackerDislike) Dislike(c context.Context, s *streams.Dislike) error {
+	if m.dislike == nil {
+		m.t.Logf("unimplemented mockCallbackerDislike called: %v %v", c, s)
+		return nil
+	} else {
+		return m.dislike(c, s)
+	}
+}
+
+var _ callbackerFlag = &mockCallbackerFlag{}
+
+type mockCallbackerFlag struct {
+	t    *testing.T
+	flag func(c context.Context, s *streams.Flag) error
+}
+
+func (m *mockCallbackerFlag) Flag(c context.Context, s *streams.Flag) error {
+	if m.flag == nil {
+		m.t.Logf("unimplemented mockCallbackerFlag called: %v %v", c, s)
+		return nil
+	} else {
+		return m.flag(c, s)
+	}
+}
+
+var _ callbackerIgnore = &mockCallbackerIgnore{}
+
+type mockCallbackerIgnore struct {
+	t      *testing.T
+	ignore func(c context.Context, s *streams.Ignore) error
+}
+
+func (m *mockCallbackerIgnore) Ignore(c context.Context, s *streams.Ignore) error {
+	if m.ignore == nil {
+		m.t.Logf("unimplemented mockCallbackerIgnore called: %v %v", c, s)
+		return nil
+	} else {
+		return m.ignore(c, s)
+	}
+}
+
+var _ callbackerInvite = &mockCallbackerInvite{}
+
+type mockCallbackerInvite struct {
+	t      *testing.T
+	invite func(c context.Context, s *streams.Invite) error
+}
+
+func (m *mockCallbackerInvite) Invite(c context.Context, s *streams.Invite) error {
+	if m.invite == nil {
+		m.t.Logf("unimplemented mockCallbackerInvite called: %v %v", c, s)
+		return nil
+	} else {
+		return m.invite(c, s)
+	}
+}
+
+var _ callbackerJoin = &mockCallbackerJoin{}
+
+type mockCallbackerJoin struct {
+	t    *testing.T
+	join func(c context.Context, s *streams.Join) error
+}
+
+func (m *mockCallbackerJoin) Join(c context.Context, s *streams.Join) error {
+	if m.join == nil {
+		m.t.Logf("unimplemented mockCallbackerJoin called: %v %v", c, s)
+		return nil
+	} else {
+		return m.join(c, s)
+	}
+}
+
+var _ callbackerLeave = &mockCallbackerLeave{}
+
+type mockCallbackerLeave struct {
+	t     *testing.T
+	leave func(c context.Context, s *streams.Leave) error
+}
+
+func (m *mockCallbackerLeave) Leave(c context.Context, s *streams.Leave) error {
+	if m.leave == nil {
+		m.t.Logf("unimplemented mockCallbackerLeave called: %v %v", c, s)
+		return nil
+	} else {
+		return m.leave(c, s)
+	}
+}
+
+var _ callbackerListen = &mockCallbackerListen{}
+
+type mockCallbackerListen struct {
+	t      *testing.T
+	listen func(c context.Context, s *streams.Listen) error
+}
+
+func (m *mockCallbackerListen) Listen(c context.Context, s *streams.Listen) error {
+	if m.listen == nil {
+		m.t.Logf("unimplemented mockCallbackerListen called: %v %v", c, s)
+		return nil
+	} else {
+		return m.listen(c, s)
+	}
+}
+
+var _ callbackerMove = &mockCallbackerMove{}
+
+type mockCallbackerMove struct {
+	t    *testing.T
+	move func(c context.Context, s *streams.Move) error
+}
+
+func (m *mockCallbackerMove) Move(c context.Context, s *streams.Move) error {
+	if m.move == nil {
+		m.t.Logf("unimplemented mockCallbackerMove called: %v %v", c, s)
+		return nil
+	} else {
+		return m.move(c, s)
+	}
+}
+
+var _ callbackerOffer = &mockCallbackerOffer{}
+
+type mockCallbackerOffer struct {
+	t     *testing.T
+	offer func(c context.Context, s *streams.Offer) error
+}
+
+func (m *mockCallbackerOffer) Offer(c context.Context, s *streams.Offer) error {
+	if m.offer == nil {
+		m.t.Logf("unimplemented mockCallbackerOffer called: %v %v", c, s)
+		return nil
+	} else {
+		return m.offer(c, s)
+	}
+}
+
+var _ callbackerQuestion = &mockCallbackerQuestion{}
+
+type mockCallbackerQuestion struct {
+	t        *testing.T
+	question func(c context.Context, s *streams.Question) error
+}
+
+func (m *mockCallbackerQuestion) Question(c context.Context, s *streams.Question) error {
+	if m.question == nil {
+		m.t.Logf("unimplemented mockCallbackerQuestion called: %v %v", c, s)
+		return nil
+	} else {
+		return m.question(c, s)
+	}
+}
+
+var _ callbackerRead = &mockCallbackerRead{}
+
+type mockCallbackerRead struct {
+	t    *testing.T
+	read func(c context.Context, s *streams.Read) error
+}
+
+func (m *mockCallbackerRead) Read(c context.Context, s *streams.Read) error {
+	if m.read == nil {
+		m.t.Logf("unimplemented mockCallbackerRead called: %v %v", c, s)
+		return nil
+	} else {
+		return m.read(c, s)
+	}
+}
+
+var _ callbackerTentativeAccept = &mockCallbackerTentativeAccept{}
+
+type mockCallbackerTentativeAccept struct {
+	t               *testing.T
+	tentativeAccept func(c context.Context, s *streams.TentativeAccept) error
+}
+
+func (m *mockCallbackerTentativeAccept) TentativeAccept(c context.Context, s *streams.TentativeAccept) error {
+	if m.tentativeAccept == nil {
+		m.t.Logf("unimplemented mockCallbackerTentativeAccept called: %v %v", c, s)
+		return nil
+	} else {
+		return m.tentativeAccept(c, s)
+	}
+}
+
+var _ callbackerTentativeReject = &mockCallbackerTentativeReject{}
+
+type mockCallbackerTentativeReject struct {
+	t               *testing.T
+	tentativeReject func(c context.Context, s *streams.TentativeReject) error
+}
+
+func (m *mockCallbackerTentativeReject) TentativeReject(c context.Context, s *streams.TentativeReject) error {
+	if m.tentativeReject == nil {
+		m.t.Logf("unimplemented mockCallbackerTentativeReject called: %v %v", c, s)
+		return nil
+	} else {
+		return m.tentativeReject(c, s)
+	}
+}
+
+var _ callbackerTravel = &mockCallbackerTravel{}
+
+type mockCallbackerTravel struct {
+	t      *testing.T
+	travel func(c context.Context, s *streams.Travel) error
+}
+
+func (m *mockCallbackerTravel) Travel(c context.Context, s *streams.Travel) error {
+	if m.travel == nil {
+		m.t.Logf("unimplemented mockCallbackerTravel called: %v %v", c, s)
+		return nil
+	} else {
+		return m.travel(c, s)
+	}
+}
+
+var _ callbackerView = &mockCallbackerView{}
+
+type mockCallbackerView struct {
+	t    *testing.T
+	view func(c context.Context, s *streams.View) error
+}
+
+func (m *mockCallbackerView) View(c context.Context, s *streams.View) error {
+	if m.view == nil {
+		m.t.Logf("unimplemented mockCallbackerView called: %v %v", c, s)
+		return nil
+	} else {
+		return m.view(c, s)
+	}
+}
+
+func TestPostOutbox_CallbackerExtensions(t *testing.T) {
+	tests := []struct {
+		name    string
+		cbFn    func(t *testing.T) (cb Callbacker, validateFn func() error)
+		inputFn func() vocab.Serializer
+	}{
+		{
+			name: "announce",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerAnnounce
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerAnnounce: &mockCallbackerAnnounce{
+						t: t,
+						announce: func(c context.Context, s *streams.Announce) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Announce{}
+			},
+		},
+		{
+			name: "arrive",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerArrive
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerArrive: &mockCallbackerArrive{
+						t: t,
+						arrive: func(c context.Context, s *streams.Arrive) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Arrive{}
+			},
+		},
+		{
+			name: "dislike",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerDislike
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerDislike: &mockCallbackerDislike{
+						t: t,
+						dislike: func(c context.Context, s *streams.Dislike) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Dislike{}
+			},
+		},
+		{
+			name: "flag",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerFlag
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerFlag: &mockCallbackerFlag{
+						t: t,
+						flag: func(c context.Context, s *streams.Flag) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Flag{}
+			},
+		},
+		{
+			name: "ignore",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerIgnore
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerIgnore: &mockCallbackerIgnore{
+						t: t,
+						ignore: func(c context.Context, s *streams.Ignore) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Ignore{}
+			},
+		},
+		{
+			name: "invite",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerInvite
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerInvite: &mockCallbackerInvite{
+						t: t,
+						invite: func(c context.Context, s *streams.Invite) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Invite{}
+			},
+		},
+		{
+			name: "join",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerJoin
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerJoin: &mockCallbackerJoin{
+						t: t,
+						join: func(c context.Context, s *streams.Join) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Join{}
+			},
+		},
+		{
+			name: "leave",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerLeave
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerLeave: &mockCallbackerLeave{
+						t: t,
+						leave: func(c context.Context, s *streams.Leave) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Leave{}
+			},
+		},
+		{
+			name: "listen",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerListen
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerListen: &mockCallbackerListen{
+						t: t,
+						listen: func(c context.Context, s *streams.Listen) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Listen{}
+			},
+		},
+		{
+			name: "move",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerMove
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerMove: &mockCallbackerMove{
+						t: t,
+						move: func(c context.Context, s *streams.Move) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Move{}
+			},
+		},
+		{
+			name: "offer",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerOffer
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerOffer: &mockCallbackerOffer{
+						t: t,
+						offer: func(c context.Context, s *streams.Offer) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Offer{}
+			},
+		},
+		{
+			name: "question",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerQuestion
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerQuestion: &mockCallbackerQuestion{
+						t: t,
+						question: func(c context.Context, s *streams.Question) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Question{}
+			},
+		},
+		{
+			name: "read",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerRead
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerRead: &mockCallbackerRead{
+						t: t,
+						read: func(c context.Context, s *streams.Read) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Read{}
+			},
+		},
+		{
+			name: "tentative accept",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerTentativeAccept
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerTentativeAccept: &mockCallbackerTentativeAccept{
+						t: t,
+						tentativeAccept: func(c context.Context, s *streams.TentativeAccept) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.TentativeAccept{}
+			},
+		},
+		{
+			name: "tentative reject",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerTentativeReject
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerTentativeReject: &mockCallbackerTentativeReject{
+						t: t,
+						tentativeReject: func(c context.Context, s *streams.TentativeReject) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.TentativeReject{}
+			},
+		},
+		{
+			name: "travel",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerTravel
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerTravel: &mockCallbackerTravel{
+						t: t,
+						travel: func(c context.Context, s *streams.Travel) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.Travel{}
+			},
+		},
+		{
+			name: "view",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerView
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerView: &mockCallbackerView{
+						t: t,
+						view: func(c context.Context, s *streams.View) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				return &vocab.View{}
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running table test case %q", test.name)
+
+		clock := &MockClock{now}
+		app := &MockApplication{t: t}
+		socialApp := &MockSocialApp{MockApplication: app, t: t}
+		cb, validateFn := test.cbFn(t)
+		p := NewSocialPubber(clock, socialApp, cb)
+		input := test.inputFn()
+
+		resp := httptest.NewRecorder()
+		req := Sign(ActivityPubRequest(httptest.NewRequest("POST", testOutboxURI, bytes.NewBuffer(MustSerialize(input)))))
+		socialApp.getSocialAPIVerifier = func(c context.Context) SocialAPIVerifier {
+			return nil
+		}
+		socialApp.getPublicKeyForOutbox = func(c context.Context, publicKeyId string, boxIRI *url.URL) (crypto.PublicKey, httpsig.Algorithm, error) {
+			return testPrivateKey.Public(), httpsig.RSA_SHA256, nil
+		}
+		app.newId = func(c context.Context, t Typer) *url.URL {
+			return testNewIRI
+		}
+		app.getOutbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+			oc := &vocab.OrderedCollection{}
+			oc.AppendType("OrderedCollection")
+			return oc, nil
+		}
+		app.set = func(c context.Context, o PubObject) error {
+			return nil
+		}
+		handled, err := p.PostOutbox(context.Background(), resp, req)
+		if err != nil {
+			t.Fatalf("(%s) %s", test.name, err)
+		} else if !handled {
+			t.Fatalf("(%s) expected handled, got !handled", test.name)
+		} else if err := validateFn(); err != nil {
+			t.Fatalf("(%s) %s", test.name, err)
+		}
+	}
+}
+
+func TestPostInbox_CallbackerExtensions(t *testing.T) {
+	tests := []struct {
+		name    string
+		cbFn    func(t *testing.T) (cb Callbacker, validateFn func() error)
+		inputFn func() vocab.Serializer
+	}{
+		{
+			name: "announce",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerAnnounce
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerAnnounce: &mockCallbackerAnnounce{
+						t: t,
+						announce: func(c context.Context, s *streams.Announce) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Announce{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "arrive",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerArrive
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerArrive: &mockCallbackerArrive{
+						t: t,
+						arrive: func(c context.Context, s *streams.Arrive) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Arrive{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "dislike",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerDislike
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerDislike: &mockCallbackerDislike{
+						t: t,
+						dislike: func(c context.Context, s *streams.Dislike) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Dislike{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "flag",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerFlag
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerFlag: &mockCallbackerFlag{
+						t: t,
+						flag: func(c context.Context, s *streams.Flag) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Flag{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "ignore",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerIgnore
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerIgnore: &mockCallbackerIgnore{
+						t: t,
+						ignore: func(c context.Context, s *streams.Ignore) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Ignore{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "invite",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerInvite
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerInvite: &mockCallbackerInvite{
+						t: t,
+						invite: func(c context.Context, s *streams.Invite) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Invite{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "join",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerJoin
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerJoin: &mockCallbackerJoin{
+						t: t,
+						join: func(c context.Context, s *streams.Join) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Join{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "leave",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerLeave
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerLeave: &mockCallbackerLeave{
+						t: t,
+						leave: func(c context.Context, s *streams.Leave) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Leave{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "listen",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerListen
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerListen: &mockCallbackerListen{
+						t: t,
+						listen: func(c context.Context, s *streams.Listen) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Listen{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "move",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerMove
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerMove: &mockCallbackerMove{
+						t: t,
+						move: func(c context.Context, s *streams.Move) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Move{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "offer",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerOffer
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerOffer: &mockCallbackerOffer{
+						t: t,
+						offer: func(c context.Context, s *streams.Offer) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Offer{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "question",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerQuestion
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerQuestion: &mockCallbackerQuestion{
+						t: t,
+						question: func(c context.Context, s *streams.Question) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Question{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "read",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerRead
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerRead: &mockCallbackerRead{
+						t: t,
+						read: func(c context.Context, s *streams.Read) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Read{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "tentative accept",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerTentativeAccept
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerTentativeAccept: &mockCallbackerTentativeAccept{
+						t: t,
+						tentativeAccept: func(c context.Context, s *streams.TentativeAccept) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.TentativeAccept{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "tentative reject",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerTentativeReject
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerTentativeReject: &mockCallbackerTentativeReject{
+						t: t,
+						tentativeReject: func(c context.Context, s *streams.TentativeReject) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.TentativeReject{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "travel",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerTravel
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerTravel: &mockCallbackerTravel{
+						t: t,
+						travel: func(c context.Context, s *streams.Travel) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.Travel{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+		{
+			name: "view",
+			cbFn: func(t *testing.T) (cb Callbacker, validateFn func() error) {
+				count := 0
+				cb = struct {
+					*MockCallbacker
+					*mockCallbackerView
+				}{
+					MockCallbacker: &MockCallbacker{t: t},
+					mockCallbackerView: &mockCallbackerView{
+						t: t,
+						view: func(c context.Context, s *streams.View) error {
+							count++
+							return nil
+						},
+					},
+				}
+				validateFn = func() error {
+					if count != 1 {
+						return errors.New("expected count == 1")
+					}
+					return nil
+				}
+				return
+			},
+			inputFn: func() vocab.Serializer {
+				s := &vocab.View{}
+				s.SetId(noteActivityIRI)
+				return s
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running table test case %q", test.name)
+
+		clock := &MockClock{now}
+		app := &MockApplication{t: t}
+		fedApp := &MockFederateApp{MockApplication: app, t: t}
+		d := &MockDeliverer{t: t}
+		h := &MockHttpClient{t: t}
+		cb, validateFn := test.cbFn(t)
+		p := NewFederatingPubber(clock, fedApp, cb, d, h, testAgent, 1, 1)
+		input := test.inputFn()
+
+		resp := httptest.NewRecorder()
+		req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(input))))
+		fedApp.unblocked = func(c context.Context, actorIRIs []*url.URL) error {
+			return nil
+		}
+		app.getInbox = func(c context.Context, r *http.Request, rw RWType) (vocab.OrderedCollectionType, error) {
+			oc := &vocab.OrderedCollection{}
+			oc.AppendType("OrderedCollection")
+			return oc, nil
+		}
+		app.set = func(c context.Context, o PubObject) error {
+			return nil
+		}
+		app.has = func(c context.Context, id *url.URL) (bool, error) {
+			return false, nil
+		}
+		app.get = func(c context.Context, iri *url.URL, rw RWType) (PubObject, error) {
+			return samActor, nil
+		}
+		handled, err := p.PostInbox(context.Background(), resp, req)
+		if err != nil {
+			t.Fatalf("(%s) %s", test.name, err)
+		} else if !handled {
+			t.Fatalf("(%s) expected handled, got !handled", test.name)
+		} else if err := validateFn(); err != nil {
+			t.Fatalf("(%s) %s", test.name, err)
+		}
 	}
 }
