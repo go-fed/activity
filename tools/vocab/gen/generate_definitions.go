@@ -302,7 +302,7 @@ func generateWithoutProperties(d *defs.Type, this *defs.StructDef, it *defs.Inte
 	for _, p := range d.GetProperties() {
 		hasNamed[p.Name] = true
 	}
-	for _, t := range d.WithoutProperties {
+	for _, t := range d.GetWithoutProperties() {
 		if hasNamed[t.Name] {
 			// No need to stub -- already has a replacement.
 			continue

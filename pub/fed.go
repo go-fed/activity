@@ -325,12 +325,21 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 			return true, err
 		}
 	}
-	activity, ok := typer.(vocab.ActivityType)
+	var activity vocab.ActivityType
+	var iActivity vocab.IntransitiveActivityType
+	var ok bool
+	activity, ok = typer.(vocab.ActivityType)
 	if !ok {
-		return true, fmt.Errorf("assigning new ids: cannot convert to vocab.ActivityType: %T", typer)
+		iActivity, ok = typer.(vocab.IntransitiveActivityType)
+		if !ok {
+			return true, fmt.Errorf("assigning new ids: cannot convert to vocab.ActivityType nor vocab.IntransitiveActivityType: %T", typer)
+		} else {
+			f.addNewIdsIntransitive(c, iActivity)
+		}
+	} else {
+		f.addNewIds(c, activity)
 	}
-	f.addNewIds(c, activity)
-	if m, err = activity.Serialize(); err != nil {
+	if m, err = typer.Serialize(); err != nil {
 		return true, err
 	}
 	deliverable := false

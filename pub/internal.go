@@ -211,6 +211,12 @@ func (f *federator) addNewIds(c context.Context, a vocab.ActivityType) {
 	}
 }
 
+// addNewIdsIntransitive will add new IDs for an intransitive activity.
+func (f *federator) addNewIdsIntransitive(c context.Context, a vocab.IntransitiveActivityType) {
+	newId := f.App.NewId(c, a)
+	a.SetId(newId)
+}
+
 // wrapInCreate will automatically wrap the provided object in a Create
 // activity. This will copy over the 'to', 'bto', 'cc', 'bcc', and 'audience'
 // properties. It will also copy over the published time if present.

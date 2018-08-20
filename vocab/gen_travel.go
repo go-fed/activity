@@ -570,6 +570,17 @@ type TravelType interface {
 	HasUnknownSharedInbox() (ok bool)
 	GetUnknownSharedInbox() (v interface{})
 	SetUnknownSharedInbox(i interface{})
+	ObjectLen() (l int)
+	IsObject(index int) (ok bool)
+	GetObject(index int) (v ObjectType)
+	AppendObject(v ObjectType)
+	PrependObject(v ObjectType)
+	RemoveObject(index int)
+	IsObjectIRI(index int) (ok bool)
+	GetObjectIRI(index int) (v *url.URL)
+	AppendObjectIRI(v *url.URL)
+	PrependObjectIRI(v *url.URL)
+	RemoveObjectIRI(index int)
 	IsPublic() (b bool)
 }
 
@@ -5225,6 +5236,83 @@ func (t *Travel) SetUnknownSharedInbox(i interface{}) {
 		t.unknown_ = make(map[string]interface{})
 	}
 	t.unknown_["sharedInbox"] = i
+
+}
+
+// ObjectLen is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) ObjectLen() (l int) {
+	return 0
+
+}
+
+// IsObject is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) IsObject(index int) (ok bool) {
+	return false
+
+}
+
+// GetObject is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) GetObject(index int) (v ObjectType) {
+	return nil
+
+}
+
+// AppendObject is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) AppendObject(v ObjectType) {
+
+}
+
+// PrependObject is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) PrependObject(v ObjectType) {
+
+}
+
+// RemoveObject is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) RemoveObject(index int) {
+
+}
+
+// IsObjectIRI is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) IsObjectIRI(index int) (ok bool) {
+	return false
+
+}
+
+// GetObjectIRI is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) GetObjectIRI(index int) (v *url.URL) {
+	return nil
+
+}
+
+// AppendObjectIRI is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) AppendObjectIRI(v *url.URL) {
+
+}
+
+// PrependObjectIRI is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) PrependObjectIRI(v *url.URL) {
+
+}
+
+// RemoveObjectIRI is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) RemoveObjectIRI(index int) {
+
+}
+
+// HasUnknownObject is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) HasUnknownObject() (ok bool) {
+	return false
+
+}
+
+// GetUnknownObject is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) GetUnknownObject() (v interface{}) {
+	return nil
+
+}
+
+// SetUnknownObject is NOT a valid property for this type; calling its associated methods will always yield an empty-equivalent value such as false, nil, or empty string. This includes instances where it should return itself. This ugliness is a symptom of the fundamental design of the ActivityStream vocabulary as instead of 'W-is-a-X' relationships it contains the notion of 'W-is-a-X-except-for-Y'.
+func (t *Travel) SetUnknownObject(i interface{}) {
 
 }
 

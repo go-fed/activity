@@ -56,6 +56,28 @@ func (t *Type) GetProperties() []*PropertyType {
 	return properties
 }
 
+func (t *Type) GetWithoutProperties() []*PropertyType {
+	var parentProps []*PropertyType
+	for _, p := range t.Extends {
+		parentProps = append(parentProps, p.GetWithoutProperties()...)
+	}
+	properties := make([]*PropertyType, 0, len(t.WithoutProperties)+len(parentProps))
+	set := make(map[string]bool)
+	for _, v := range t.Properties {
+		if !set[v.Name] {
+			properties = append(properties, v)
+			set[v.Name] = true
+		}
+	}
+	for _, v := range parentProps {
+		if !set[v.Name] {
+			properties = append(properties, v)
+			set[v.Name] = true
+		}
+	}
+	return properties
+}
+
 func (t *Type) AllExtendsNames() []string {
 	v := []string{t.Name}
 	for _, e := range t.Extends {
