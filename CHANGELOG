@@ -1,5 +1,32 @@
 master
 
+* The Callbackers for the SocialAPI and FederateAPI can have additional
+      methods of the form 'X(c context.Context, s *streams.X) error' where X is
+      a Core or Extended type not already a part of the Callbacker interface.
+      This lets client applications decide which Activity types need further
+      handling, without being burdened of implementing unused stub methods. The
+      new Activities supported have no default behavior supported by 'pub'. An
+      exhaustive list of Activities that can be X (as mentioned above) are:
+          - Announce
+          - Arrive
+          - Dislike
+          - Flag
+          - Ignore
+          - Invite
+          - Join
+          - Leave
+          - Listen
+          - Move
+          - Offer
+          - Question
+          - Read
+          - TentativeAccept
+          - TentativeReject
+          - Travel
+          - View
+* The 'vocab' package now properly generates Intransitive Activity subtype
+      structs such that they are now convertible to the
+      vocab.IntransitiveActivityType interface.
 * Types in the 'vocab' package now support setting, getting, removing, and
       testing existence for unknown properties (extended properties).
 
