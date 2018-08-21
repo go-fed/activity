@@ -2421,6 +2421,44 @@ func (t *OrderedCollectionPage) SetSharedInbox(k *url.URL) {
 
 }
 
+// ResolveShares passes the actual concrete type to the resolver for handing property shares. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) ResolveShares(r *Resolver) (s Resolution, err error) {
+	s = Unresolved
+	handled := false
+	if t.raw.IsSharesCollection() {
+		handled, err = r.dispatch(t.raw.GetSharesCollection())
+		if handled {
+			s = Resolved
+		}
+	} else if t.raw.IsSharesOrderedCollection() {
+		s = RawResolutionNeeded
+	} else if t.raw.IsSharesAnyURI() {
+		s = RawResolutionNeeded
+	}
+	return
+
+}
+
+// HasShares returns a Presence appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
+func (t *OrderedCollectionPage) HasShares() (p Presence) {
+	p = NoPresence
+	if t.raw.IsSharesCollection() {
+		p = ConvenientPresence
+	} else if t.raw.IsSharesOrderedCollection() {
+		p = RawPresence
+	} else if t.raw.IsSharesAnyURI() {
+		p = RawPresence
+	}
+	return
+
+}
+
+// SetShares sets this value to be a 'Collection' type.
+func (t *OrderedCollectionPage) SetShares(i vocab.CollectionType) {
+	t.raw.SetSharesCollection(i)
+
+}
+
 // ResolvePartOf passes the actual concrete type to the resolver for handing property partOf. It returns a Resolution appropriate for clients to determine whether it would be necessary to do raw handling, if desired.
 func (t *OrderedCollectionPage) ResolvePartOf(r *Resolver) (s Resolution, err error) {
 	s = Unresolved
