@@ -77,6 +77,7 @@ var (
 	testRemoveNote                   *vocab.Remove
 	testLikeNote                     *vocab.Like
 	testUndoLike                     *vocab.Undo
+	testAnnounceNote                 *vocab.Announce
 	testBlock                        *vocab.Block
 	testClientExpectedNote           *vocab.Note
 	testClientExpectedCreateNote     *vocab.Create
@@ -263,6 +264,11 @@ func init() {
 	testBlock.SetId(noteActivityIRI)
 	testBlock.AppendActorObject(sallyActor)
 	testBlock.AppendObject(samActor)
+	testAnnounceNote = &vocab.Announce{}
+	testAnnounceNote.SetId(noteActivityIRI)
+	testAnnounceNote.AppendActorObject(sallyActor)
+	testAnnounceNote.AppendObject(testNote)
+	testAnnounceNote.AppendToObject(samActor)
 
 	testClientExpectedNote = &vocab.Note{}
 	testClientExpectedNote.SetId(testNewIRI2)
@@ -8055,5 +8061,256 @@ func TestPostInbox_CallbackerExtensions(t *testing.T) {
 		} else if err := validateFn(); err != nil {
 			t.Fatalf("(%s) %s", test.name, err)
 		}
+	}
+}
+
+func TestPostInbox_Announce_AddsToSharesCollection(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAnnounceNote))))
+	gotOwns := 0
+	var gotOwnsId *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
+		gotOwns++
+		gotOwnsId = id
+		return true
+	}
+	gotGet := 0
+	var gotGetId *url.URL
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
+		}
+		gotGet++
+		gotGetId = id
+		v := &vocab.Note{}
+		v.SetId(noteIRI)
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
+		v.SetSharesCollection(&vocab.Collection{})
+		return v, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.MockFederateApp.set = func(c context.Context, target PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObject = target
+		}
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.Collection{}
+	expected.AppendItemsIRI(noteActivityIRI)
+	expectedNote := &vocab.Note{}
+	expectedNote.SetId(noteIRI)
+	expectedNote.AppendNameString(noteName)
+	expectedNote.AppendContentString("This is a simple note")
+	expectedNote.SetSharesCollection(expected)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if gotOwnsId.String() != noteURIString {
+		t.Fatalf("expected %s, got %s", noteURIString, gotOwnsId.String())
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotGetId.String() != noteURIString {
+		t.Fatalf("expected %s, got %s", noteURIString, gotGetId.String())
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if err := PubObjectEquals(gotSetObject, expectedNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
+}
+
+func TestPostInbox_Announce_AddsToDefaultOrderedCollection(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAnnounceNote))))
+	gotOwns := 0
+	var gotOwnsId *url.URL
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
+		gotOwns++
+		gotOwnsId = id
+		return true
+	}
+	gotGet := 0
+	var gotGetId *url.URL
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
+		if rw != ReadWrite {
+			t.Fatalf("expected RWType of %v, got %v", ReadWrite, rw)
+		}
+		gotGet++
+		gotGetId = id
+		v := &vocab.Note{}
+		v.SetId(noteIRI)
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
+		return v, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.MockFederateApp.set = func(c context.Context, target PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObject = target
+		}
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.OrderedCollection{}
+	expected.AppendOrderedItemsIRI(noteActivityIRI)
+	expectedNote := &vocab.Note{}
+	expectedNote.SetId(noteIRI)
+	expectedNote.AppendNameString(noteName)
+	expectedNote.AppendContentString("This is a simple note")
+	expectedNote.SetSharesOrderedCollection(expected)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotOwns != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotOwns)
+	} else if gotOwnsId.String() != noteURIString {
+		t.Fatalf("expected %s, got %s", noteURIString, gotOwnsId.String())
+	} else if gotGet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotGet)
+	} else if gotGetId.String() != noteURIString {
+		t.Fatalf("expected %s, got %s", noteURIString, gotGetId.String())
+	} else if gotSet != 2 {
+		t.Fatalf("expected %d, got %d", 2, gotSet)
+	} else if err := PubObjectEquals(gotSetObject, expectedNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
+}
+
+func TestPostInbox_Announce_DoesNotAddSharesToCollectionIfAlreadyPresent(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAnnounceNote))))
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
+		return true
+	}
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
+		shares := &vocab.Collection{}
+		shares.AppendItemsIRI(noteActivityIRI)
+		v := &vocab.Note{}
+		v.SetId(noteIRI)
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
+		v.SetSharesCollection(shares)
+		return v, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.MockFederateApp.set = func(c context.Context, target PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObject = target
+		}
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.OrderedCollection{}
+	expected.AppendOrderedItemsIRI(noteActivityIRI)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if gotSet != 1 {
+		t.Fatalf("expected %d, got %d", 1, gotSet)
+	} else if err := PubObjectEquals(gotSetObject, expected); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
+}
+
+func TestPostInbox_Announce_AddsToSharesOrderedCollection(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAnnounceNote))))
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
+		return true
+	}
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
+		v := &vocab.Note{}
+		v.SetId(noteIRI)
+		v.AppendNameString(noteName)
+		v.AppendContentString("This is a simple note")
+		v.SetSharesOrderedCollection(&vocab.OrderedCollection{})
+		return v, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.MockFederateApp.set = func(c context.Context, target PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObject = target
+		}
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.OrderedCollection{}
+	expected.AppendOrderedItemsIRI(noteActivityIRI)
+	expectedNote := &vocab.Note{}
+	expectedNote.SetId(noteIRI)
+	expectedNote.AppendNameString(noteName)
+	expectedNote.AppendContentString("This is a simple note")
+	expectedNote.SetSharesOrderedCollection(expected)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if err := PubObjectEquals(gotSetObject, expectedNote); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
+	}
+}
+
+func TestPostInbox_Announce_AddsToSharesIRI(t *testing.T) {
+	app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p := NewPubberTest(t)
+	PreparePubberPostInboxTest(t, app, socialApp, fedApp, socialCb, fedCb, d, httpClient, p)
+	resp := httptest.NewRecorder()
+	req := ActivityPubRequest(httptest.NewRequest("POST", testInboxURI, bytes.NewBuffer(MustSerialize(testAnnounceNote))))
+	app.MockFederateApp.owns = func(c context.Context, id *url.URL) bool {
+		return true
+	}
+	app.MockFederateApp.get = func(c context.Context, id *url.URL, rw RWType) (PubObject, error) {
+		if *id == *noteIRI {
+			v := &vocab.Note{}
+			v.SetId(noteIRI)
+			v.AppendNameString(noteName)
+			v.AppendContentString("This is a simple note")
+			v.SetSharesAnyURI(testNewIRI)
+			return v, nil
+		} else if *id == *testNewIRI {
+			return &vocab.OrderedCollection{}, nil
+		}
+		t.Fatalf("unexpected get(%s)", id)
+		return nil, nil
+	}
+	gotSet := 0
+	var gotSetObject PubObject
+	app.MockFederateApp.set = func(c context.Context, target PubObject) error {
+		gotSet++
+		if gotSet == 1 {
+			gotSetObject = target
+		}
+		return nil
+	}
+	handled, err := p.PostInbox(context.Background(), resp, req)
+	expected := &vocab.OrderedCollection{}
+	expected.AppendOrderedItemsIRI(noteActivityIRI)
+	if err != nil {
+		t.Fatal(err)
+	} else if !handled {
+		t.Fatalf("expected handled, got !handled")
+	} else if err := PubObjectEquals(gotSetObject, expected); err != nil {
+		t.Fatalf("unexpected callback object: %s", err)
 	}
 }

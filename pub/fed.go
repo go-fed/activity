@@ -1051,8 +1051,8 @@ func (f *federator) getPostInboxResolver(c context.Context, inboxURL *url.URL) *
 		UndoCallback:   f.handleUndo(c),
 		BlockCallback:  f.handleBlock(c),
 		// Other activities whose behaviors are not examined by the pub
-		// package, and are passed through to extensions of the
-		// Callbacker interface.
+		// package (except for Announce), and are passed through to
+		// extensions of the Callbacker interface.
 		AnnounceCallback:        f.handleAnnounce(c),
 		ArriveCallback:          f.handleArrive(c),
 		DislikeCallback:         f.handleDislike(c),
@@ -1492,6 +1492,33 @@ func (f *federator) handleBlock(c context.Context) func(s *streams.Block) error 
 
 func (f *federator) handleAnnounce(c context.Context) func(s *streams.Announce) error {
 	return func(s *streams.Announce) error {
+		getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
+			if object.IsSharesAnyURI() {
+				pObj, err := f.App.Get(c, object.GetSharesAnyURI(), ReadWrite)
+				if err != nil {
+					return true, err
+				}
+				ok := false
+				if *lc, ok = pObj.(vocab.CollectionType); !ok {
+					if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
+						return true, fmt.Errorf("object shares collection not CollectionType nor OrderedCollectionType")
+					}
+				}
+				return true, nil
+			} else if object.IsSharesCollection() {
+				*lc = object.GetSharesCollection()
+				return false, nil
+			} else if object.IsSharesOrderedCollection() {
+				*loc = object.GetSharesOrderedCollection()
+				return false, nil
+			}
+			*loc = &vocab.OrderedCollection{}
+			object.SetSharesOrderedCollection(*loc)
+			return false, nil
+		}
+		if _, err := f.addActivityToObjectCollection(c, getter, s.Raw(), true); err != nil {
+			return err
+		}
 		if t, ok := f.ServerCallbacker.(callbackerAnnounce); ok {
 			return t.Announce(c, s)
 		}
