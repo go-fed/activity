@@ -2,14 +2,14 @@
 
 `go get github.com/go-fed/activity`
 
-This repository supports `vgo` and is remotely verifiable.
-
 This repository contains three libraries for use in your golang applications:
 
 * `vocab`: An ActivityStreams Vocabulary library
 * `streams`: A convenience library for the ActivityStreams Vocabulary
 * `pub`: ActivityPub SocialAPI (Client-to-Server) and FederateAPI
   (Server-to-Server)
+
+This repository supports `vgo` and is remotely verifiable.
 
 This library is biased. It forgoes understanding JSON-LD in exchange for static
 typing. It provides a large amount of default behavior to let Social,
@@ -20,7 +20,7 @@ documentation for every version of this library.
 
 ## Status
 
-**0.2.1** ([Semantic Versioning](https://semver.org/))
+**0.3.0** ([Semantic Versioning](https://semver.org/))
 
 An [official implementation report](https://activitypub.rocks/implementation-report/)
 was last submitted for version **0.2.0** [here](https://github.com/w3c/activitypub/issues/318).
