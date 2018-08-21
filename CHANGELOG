@@ -1,12 +1,16 @@
 master
 
+* Add the missing 'shares' property to 'vocab.Object' and its child types as
+      well as 'streams.Object' and its child types. It is an ActivityPub
+      specific property not a part of the ActivityStreams specification.
 * The Callbackers for the SocialAPI and FederateAPI can have additional
       methods of the form 'X(c context.Context, s *streams.X) error' where X is
       a Core or Extended type not already a part of the Callbacker interface.
       This lets client applications decide which Activity types need further
       handling, without being burdened of implementing unused stub methods. The
-      new Activities supported have no default behavior supported by 'pub'. An
-      exhaustive list of Activities that can be X (as mentioned above) are:
+      new Activities supported have no default behavior supported by 'pub',
+      except for the Announce activity as desribed above. An exhaustive list of
+      Activities that can be X (as mentioned above) are:
           - Announce
           - Arrive
           - Dislike
