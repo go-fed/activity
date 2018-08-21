@@ -1100,6 +1100,14 @@ var (
 		Range:      []RangeReference{{V: xsdAnyURIValueType}},
 		Functional: true, // Missing from spec!
 	}
+	sharesPropertyType = &PropertyType{
+		Name:       "shares",
+		URI:        propertyBaseURI + "shares",
+		Notes:      "This is a list of all Announce activities with this object as the object property, added as a side effect.",
+		Domain:     []DomainReference{{T: objectType}},
+		Range:      []RangeReference{{T: collectionType}, {T: orderedCollectionType}, {V: xsdAnyURIValueType}},
+		Functional: true, // Missing from spec!
+	}
 
 	AllPropertyTypes = []*PropertyType{
 		idPropertyType,
@@ -1186,6 +1194,7 @@ var (
 		provideClientKeyPropertyType,
 		signClientKeyPropertyType,
 		sharedInboxPropertyType,
+		sharesPropertyType,
 	}
 )
 
@@ -1796,6 +1805,7 @@ func init() {
 		provideClientKeyPropertyType,
 		signClientKeyPropertyType,
 		sharedInboxPropertyType,
+		sharesPropertyType,
 	}
 	linkType.Properties = []*PropertyType{
 		attributedToPropertyType, // Missing from spec!

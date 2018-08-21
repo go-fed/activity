@@ -490,6 +490,15 @@ type GroupType interface {
 	HasUnknownSharedInbox() (ok bool)
 	GetUnknownSharedInbox() (v interface{})
 	SetUnknownSharedInbox(i interface{})
+	IsSharesCollection() (ok bool)
+	GetSharesCollection() (v CollectionType)
+	SetSharesCollection(v CollectionType)
+	IsSharesOrderedCollection() (ok bool)
+	GetSharesOrderedCollection() (v OrderedCollectionType)
+	SetSharesOrderedCollection(v OrderedCollectionType)
+	IsSharesAnyURI() (ok bool)
+	GetSharesAnyURI() (v *url.URL)
+	SetSharesAnyURI(v *url.URL)
 	IsPublic() (b bool)
 }
 
@@ -595,6 +604,8 @@ type Group struct {
 	signClientKey *url.URL
 	// The functional 'sharedInbox' value holds a single type and a single value
 	sharedInbox *url.URL
+	// The functional 'shares' value could have multiple types, but only a single value
+	shares *sharesIntermediateType
 }
 
 // IsAltitude determines whether the call to GetAltitude is safe
@@ -4513,6 +4524,83 @@ func (t *Group) SetUnknownSharedInbox(i interface{}) {
 
 }
 
+// IsSharesCollection determines whether the call to GetSharesCollection is safe
+func (t *Group) IsSharesCollection() (ok bool) {
+	return t.shares != nil && t.shares.Collection != nil
+
+}
+
+// GetSharesCollection returns the value safely if IsSharesCollection returned true
+func (t *Group) GetSharesCollection() (v CollectionType) {
+	return t.shares.Collection
+
+}
+
+// SetSharesCollection sets the value of shares to be of CollectionType type
+func (t *Group) SetSharesCollection(v CollectionType) {
+	t.shares = &sharesIntermediateType{Collection: v}
+
+}
+
+// IsSharesOrderedCollection determines whether the call to GetSharesOrderedCollection is safe
+func (t *Group) IsSharesOrderedCollection() (ok bool) {
+	return t.shares != nil && t.shares.OrderedCollection != nil
+
+}
+
+// GetSharesOrderedCollection returns the value safely if IsSharesOrderedCollection returned true
+func (t *Group) GetSharesOrderedCollection() (v OrderedCollectionType) {
+	return t.shares.OrderedCollection
+
+}
+
+// SetSharesOrderedCollection sets the value of shares to be of OrderedCollectionType type
+func (t *Group) SetSharesOrderedCollection(v OrderedCollectionType) {
+	t.shares = &sharesIntermediateType{OrderedCollection: v}
+
+}
+
+// IsSharesAnyURI determines whether the call to GetSharesAnyURI is safe
+func (t *Group) IsSharesAnyURI() (ok bool) {
+	return t.shares != nil && t.shares.anyURI != nil
+
+}
+
+// GetSharesAnyURI returns the value safely if IsSharesAnyURI returned true
+func (t *Group) GetSharesAnyURI() (v *url.URL) {
+	return t.shares.anyURI
+
+}
+
+// SetSharesAnyURI sets the value of shares to be of *url.URL type
+func (t *Group) SetSharesAnyURI(v *url.URL) {
+	t.shares = &sharesIntermediateType{anyURI: v}
+
+}
+
+// HasUnknownShares determines whether the call to GetUnknownShares is safe
+func (t *Group) HasUnknownShares() (ok bool) {
+	return t.shares != nil && t.shares.unknown_ != nil
+
+}
+
+// GetUnknownShares returns the unknown value for shares
+func (t *Group) GetUnknownShares() (v interface{}) {
+	return t.shares.unknown_
+
+}
+
+// SetUnknownShares sets the unknown value of shares
+func (t *Group) SetUnknownShares(i interface{}) {
+	if t.unknown_ == nil {
+		t.unknown_ = make(map[string]interface{})
+	}
+	tmp := &sharesIntermediateType{}
+	tmp.unknown_ = i
+	t.shares = tmp
+
+}
+
 // AddUnknown adds an unknown property to this object with the specified key
 func (t *Group) AddUnknown(k string, i interface{}) (this *Group) {
 	if t.unknown_ == nil {
@@ -5078,6 +5166,15 @@ func (t *Group) Serialize() (m map[string]interface{}, err error) {
 		}
 	}
 	// End generation by RangeReference.Serialize for Value
+	// Begin generation by generateFunctionalMultiTypeDefinition
+	if t.shares != nil {
+		if v, err := serializeSharesIntermediateType(t.shares); err == nil {
+			m["shares"] = v
+		} else {
+			return m, err
+		}
+	}
+	// End generation by generateFunctionalMultiTypeDefinition
 	return
 
 }
@@ -6000,6 +6097,17 @@ func (t *Group) Deserialize(m map[string]interface{}) (err error) {
 				}
 			}
 			// End generation by RangeReference.Deserialize for Value
+		}
+		if !handled {
+			// Begin generation by generateFunctionalMultiTypeDefinition
+			if k == "shares" {
+				t.shares, err = deserializeSharesIntermediateType(v)
+				if err != nil {
+					return err
+				}
+				handled = true
+			}
+			// End generation by generateFunctionalMultiTypeDefinition
 		}
 		if !handled && k != "@context" {
 			if t.unknown_ == nil {
