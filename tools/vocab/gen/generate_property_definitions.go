@@ -715,7 +715,7 @@ func generateFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.Stru
 	bs.WriteString("}\n")
 	bs.WriteString("// End generation by generateFunctionalMultiTypeDefinition\n")
 	s = bs.String()
-	generateUnknownFunctions(t, this, thisIntermed, intermed)
+	generateUnknownFunctions(t, this, i, thisIntermed, intermed)
 	return
 }
 
@@ -911,7 +911,7 @@ func generateNonFunctionalMultiTypeDefinition(t *defs.PropertyType, this *defs.S
 	bs.WriteString("}\n")
 	bs.WriteString("// End generation by generateNonFunctionalMultiTypeDefinition\n")
 	s = bs.String()
-	generateUnknownFunctions(t, this, thisIntermed, intermed)
+	generateUnknownFunctions(t, this, i, thisIntermed, intermed)
 	return
 }
 
@@ -1144,7 +1144,7 @@ func generateIntermediateTypeDefinition(types []*defs.PropertyType) (d *intermed
 	return
 }
 
-func generateUnknownFunctions(t *defs.PropertyType, this *defs.StructDef, thisIntermed *defs.StructMember, intermed *defs.StructDef) {
+func generateUnknownFunctions(t *defs.PropertyType, this *defs.StructDef, i *defs.InterfaceDef, thisIntermed *defs.StructMember, intermed *defs.StructDef) {
 	titleName := strings.Title(t.Name)
 	this.F = append(this.F, []*defs.MemberFunctionDef{
 		{
@@ -1195,6 +1195,23 @@ func generateUnknownFunctions(t *defs.PropertyType, this *defs.StructDef, thisIn
 				}
 				return b.String()
 			},
+		},
+	}...)
+	i.F = append(i.F, []*defs.FunctionDef{
+		{
+			Name:    fmt.Sprintf("HasUnknown%s", titleName),
+			Comment: fmt.Sprintf("HasUnknown%s determines whether the call to GetUnknown%s is safe", titleName, titleName),
+			Return:  []*defs.FunctionVarDef{{"ok", "bool"}},
+		},
+		{
+			Name:    fmt.Sprintf("GetUnknown%s", titleName),
+			Comment: fmt.Sprintf("GetUnknown%s returns the unknown value for %s", titleName, t.Name),
+			Return:  []*defs.FunctionVarDef{{"v", "interface{}"}},
+		},
+		{
+			Name:    fmt.Sprintf("SetUnknown%s", titleName),
+			Comment: fmt.Sprintf("SetUnknown%s sets the unknown value of %s", titleName, t.Name),
+			Args:    []*defs.FunctionVarDef{{"i", "interface{}"}},
 		},
 	}...)
 }

@@ -1,5 +1,10 @@
 v0.3.0 2018-08-21
 
+* Interfaces in 'vocab' now properly contain all of the unknown methods
+      available for all properties. These methods were available on the structs
+      themselves but only partially listed in the interfaces. Specifically,
+      multiply-typed properties (regardless of being functional or not) were
+      omitted.
 * 'pub' now supports Announce activities' default behavior. Upon receiving an
       Announce activity via S2S, it is added to the 'shares' property of
       object(s) owned in the application.
