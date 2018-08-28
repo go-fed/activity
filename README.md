@@ -50,6 +50,7 @@ specifications, official test repositories, and my own end-to-end tests.
 |:-----------:|:-------------------------------------------------:|:--------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------:|:------------------------------------:|
 | Anancus     | Self-hosted and federated social link aggregation | [https://gitlab.com/tuxether/anancus](https://gitlab.com/tuxether/anancus) | [@tuxether@floss.social](https://floss.social/@tuxether) or [tuxether@protonmail.ch](mailto:tuxether@protonmail.ch) | N/A                                  |
 | Write.as    | Simple, privacy-focused blogging platform         | [https://github.com/writeas/Write.as](https://github.com/writeas/Write.as) | [@write_as@writing.exchange](https://writing.exchange/@write_as) or [hello@write.as](mailto:hello@write.as)         | [https://write.as](https://write.as) |
+| Read.as     | Long-form reader built on open protocols | [https://github.com/writeas/Read.as](https://github.com/writeas/Read.as)            | [@write_as@writing.exchange](https://writing.exchange/@write_as) or [hello@write.as](mailto:hello@write.as)         | [https://read.as](https://read.as)   |
 
 ## How do I use these libraries?
 
