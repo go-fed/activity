@@ -1243,7 +1243,7 @@ func (f *federator) handleAccept(c context.Context) func(s *streams.Accept) erro
 		for i := 0; i < raw.ObjectLen(); i++ {
 			if raw.IsObject(i) {
 				obj := raw.GetObject(i)
-				follow, ok := obj.(vocab.FollowType)
+				follow, ok := obj.(vocab.FollowType) // TODO: Random audit: Make sure this is correct
 				if !ok {
 					continue
 				}
