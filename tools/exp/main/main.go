@@ -21,6 +21,8 @@ func main() {
 					ConcreteKind:          "*url.URL",
 					Nilable:               true,
 					HasNaturalLanguageMap: false,
+					SerializeFnName:       "SerializeIRI",
+					DeserializeFnName:     "DeserializeIRI",
 				},
 			},
 		},
@@ -40,6 +42,8 @@ func main() {
 					ConcreteKind:          "int",
 					Nilable:               false,
 					HasNaturalLanguageMap: false,
+					SerializeFnName:       "SerializeNumber",
+					DeserializeFnName:     "DeserializeNumber",
 				},
 			},
 		},
@@ -59,6 +63,8 @@ func main() {
 					ConcreteKind:          "*url.URL",
 					Nilable:               true,
 					HasNaturalLanguageMap: false,
+					SerializeFnName:       "SerializeIRI",
+					DeserializeFnName:     "DeserializeIRI",
 				},
 				{
 					Name: exp.Identifier{
@@ -68,6 +74,8 @@ func main() {
 					ConcreteKind:          "int",
 					Nilable:               false,
 					HasNaturalLanguageMap: false,
+					SerializeFnName:       "SerializeNumber",
+					DeserializeFnName:     "DeserializeNumber",
 				},
 			},
 		},
@@ -87,6 +95,8 @@ func main() {
 					ConcreteKind:          "*url.URL",
 					Nilable:               true,
 					HasNaturalLanguageMap: false,
+					SerializeFnName:       "SerializeIRI",
+					DeserializeFnName:     "DeserializeIRI",
 				},
 				{
 					Name: exp.Identifier{
@@ -96,6 +106,8 @@ func main() {
 					ConcreteKind:          "int",
 					Nilable:               false,
 					HasNaturalLanguageMap: false,
+					SerializeFnName:       "SerializeNumber",
+					DeserializeFnName:     "DeserializeNumber",
 				},
 			},
 		},
