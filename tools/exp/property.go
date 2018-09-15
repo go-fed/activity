@@ -7,21 +7,26 @@ import (
 
 // TODO: Auto-generate documentation and comments.
 // TODO: Break out into multiple files.
-// TODO: Generate Serialize and Deserialize functions for multi-type properties.
+// TODO: Deserialize & generated structs preserve "unknown" elements.
+// TODO: Satisfy the rest of the sort.Interface.
+// TODO: Document and comment this code.
 
 const (
-	getMethod           = "Get"
-	setMethod           = "Set"
-	hasMethod           = "Has"
-	clearMethod         = "Clear"
-	iteratorClearMethod = "clear"
-	isMethod            = "Is"
-	appendMethod        = "Append"
-	prependMethod       = "Prepend"
-	removeMethod        = "Remove"
-	lenMethod           = "Len"
-	serializeMethod     = "Serialize"
-	deserializeMethod   = "Deserialize"
+	getMethod                 = "Get"
+	setMethod                 = "Set"
+	hasMethod                 = "Has"
+	clearMethod               = "Clear"
+	iteratorClearMethod       = "clear"
+	isMethod                  = "Is"
+	appendMethod              = "Append"
+	prependMethod             = "Prepend"
+	removeMethod              = "Remove"
+	lenMethod                 = "Len"
+	serializeMethod           = "Serialize"
+	deserializeMethod         = "Deserialize"
+	nameMethod                = "Name"
+	serializeIteratorMethod   = "serialize"
+	deserializeIteratorMethod = "deserialize"
 )
 
 func join(s []*jen.Statement) *jen.Statement {
@@ -67,7 +72,24 @@ func (p *PropertyGenerator) propertyName() string {
 }
 
 func (p *PropertyGenerator) deserializeFnName() string {
-	return fmt.Sprintf("%s%s", deserializeMethod, p.Name.CamelName)
+	if p.asIterator {
+		return fmt.Sprintf("%s%s", deserializeIteratorMethod, p.Name.CamelName)
+	}
+	return fmt.Sprintf("%s%sProperty", deserializeMethod, p.Name.CamelName)
+}
+
+func (p *PropertyGenerator) getFnName(i int) string {
+	if len(p.Kinds) == 1 {
+		return getMethod
+	}
+	return fmt.Sprintf("%s%s", getMethod, p.kindCamelName(i))
+}
+
+func (p *PropertyGenerator) serializeFnName() string {
+	if p.asIterator {
+		return serializeIteratorMethod
+	}
+	return serializeMethod
 }
 
 func (p *PropertyGenerator) kindCamelName(i int) string {
@@ -92,12 +114,24 @@ func (p *PropertyGenerator) clearMethodName() string {
 	return clearMethod
 }
 
+func (p *PropertyGenerator) commonFuncs() jen.Code {
+	return jen.Func().Params(
+		jen.Id("t").Id(p.structName()),
+	).Id(nameMethod).Params().Params(
+		jen.String(),
+	).Block(
+		jen.Return(
+			jen.Lit(p.propertyName()),
+		),
+	)
+}
+
 type FunctionalPropertyGenerator struct {
 	PropertyGenerator
 }
 
 func (p *FunctionalPropertyGenerator) Generate() *jen.Statement {
-	return p.def().Line().Add(p.funcs())
+	return p.def().Line().Add(p.funcs()).Line().Add(p.commonFuncs())
 }
 
 func (p *FunctionalPropertyGenerator) def() *jen.Statement {
@@ -122,32 +156,31 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
 		if i > 0 {
 			serializeFns = serializeFns.Else()
 		}
-		serializeFns = serializeFns.If(
-			jen.Id("t").Dot(hasMethod).Call(),
-		).Block(
-			jen.List(
-				jen.Id("b"),
-				jen.Err(),
-			).Op(":=").Id(kind.SerializeFnName).Call(
-				jen.Id("t").Dot(getMethod).Call(),
-			),
+		if len(p.Kinds) == 1 {
+			serializeFns = serializeFns.If(
+				jen.Id("t").Dot(hasMethod).Call(),
+			)
+		} else {
+			serializeFns = serializeFns.If(
+				jen.Id("t").Dot(fmt.Sprintf("%s%s", isMethod, p.kindCamelName(i))).Call(),
+			)
+		}
+		serializeFns = serializeFns.Block(
 			jen.Return(
-				jen.Lit(p.propertyName()),
-				jen.Id("b"),
-				jen.Err(),
+				jen.Id(kind.SerializeFnName).Call(
+					jen.Id("t").Dot(p.getFnName(i)).Call(),
+				),
 			),
 		)
 	}
 	serialize := jen.Func().Params(
 		jen.Id("t").Id(p.structName()),
-	).Id(serializeMethod).Params().Params(
-		jen.String(),
+	).Id(p.serializeFnName()).Params().Params(
 		jen.Interface(),
 		jen.Error(),
 	).Block(
 		serializeFns,
 		jen.Return(
-			jen.Lit(""),
 			jen.Nil(),
 			jen.Nil(),
 		),
@@ -182,30 +215,48 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
 			),
 		)
 	}
-	deserialize := jen.Func().Id(
-		p.deserializeFnName(),
-	).Params(
-		jen.Id("m").Map(jen.String()).Interface(),
-	).Params(
-		jen.Op("*").Id(p.structName()),
-		jen.Error(),
-	).Block(
-		jen.If(
-			jen.List(
-				jen.Id("i"),
-				jen.Id("ok"),
-			).Op(":=").Id("m").Index(
-				jen.Lit(p.propertyName()),
-			),
-			jen.Id("ok"),
+	var deserialize jen.Code
+	if p.asIterator {
+		deserialize = jen.Func().Id(
+			p.deserializeFnName(),
+		).Params(
+			jen.Id("i").Interface(),
+		).Params(
+			jen.Op("*").Id(p.structName()),
+			jen.Error(),
 		).Block(
 			deserializeFns,
-		),
-		jen.Return(
-			jen.Nil(),
-			jen.Nil(),
-		),
-	)
+			jen.Return(
+				jen.Nil(),
+				jen.Nil(),
+			),
+		)
+	} else {
+		deserialize = jen.Func().Id(
+			p.deserializeFnName(),
+		).Params(
+			jen.Id("m").Map(jen.String()).Interface(),
+		).Params(
+			jen.Op("*").Id(p.structName()),
+			jen.Error(),
+		).Block(
+			jen.If(
+				jen.List(
+					jen.Id("i"),
+					jen.Id("ok"),
+				).Op(":=").Id("m").Index(
+					jen.Lit(p.propertyName()),
+				),
+				jen.Id("ok"),
+			).Block(
+				deserializeFns,
+			),
+			jen.Return(
+				jen.Nil(),
+				jen.Nil(),
+			),
+		)
+	}
 	return serialize.Line().Add(deserialize)
 }
 
@@ -239,7 +290,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() *jen.Statement {
 		).Block(
 			jen.Return(jen.Id("t").Dot(p.memberName(0)).Op("!=").Nil()),
 		)
-		get = memberFunc.Clone().Id(getMethod).Params().Params(
+		get = memberFunc.Clone().Id(p.getFnName(0)).Params().Params(
 			jen.Id(p.Kinds[0].ConcreteKind),
 		).Block(
 			jen.Return(jen.Id("t").Dot(p.memberName(0))),
@@ -258,7 +309,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() *jen.Statement {
 		).Block(
 			jen.Return(jen.Id("t").Dot(p.hasMemberName(0))),
 		)
-		get = memberFunc.Clone().Id(getMethod).Params().Params(
+		get = memberFunc.Clone().Id(p.getFnName(0)).Params().Params(
 			jen.Id(p.Kinds[0].ConcreteKind),
 		).Block(
 			jen.Return(jen.Id("t").Dot(p.memberName(0))),
@@ -350,7 +401,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() *jen.Statement {
 			)
 		}
 		get = memberFunc.Clone().Id(
-			fmt.Sprintf("%s%s", getMethod, p.kindCamelName(i)),
+			p.getFnName(i),
 		).Params().Params(
 			jen.Id(kind.ConcreteKind),
 		).Block(
@@ -379,11 +430,7 @@ type NonFunctionalPropertyGenerator struct {
 }
 
 func (p *NonFunctionalPropertyGenerator) Generate() *jen.Statement {
-	return p.def().Line().Add(p.funcs())
-}
-
-func (p *PropertyGenerator) typeName() string {
-	return fmt.Sprintf("%sProperty", p.Name.CamelName)
+	return p.def().Line().Add(p.funcs()).Line().Add(p.commonFuncs())
 }
 
 func (p *NonFunctionalPropertyGenerator) iteratorTypeName() Identifier {
@@ -405,7 +452,7 @@ func (p *NonFunctionalPropertyGenerator) elementTypeGenerator() *FunctionalPrope
 
 func (p *NonFunctionalPropertyGenerator) def() *jen.Statement {
 	return p.elementTypeGenerator().def().Line().Add(
-		jen.Type().Id(p.typeName()).Index().Id(p.iteratorTypeName().CamelName),
+		jen.Type().Id(p.structName()).Index().Id(p.iteratorTypeName().CamelName),
 	)
 }
 
@@ -489,5 +536,126 @@ func (p *NonFunctionalPropertyGenerator) funcs() *jen.Statement {
 			),
 		),
 	)
-	return funcs.Line().Add(join(appendFns)).Line().Add(join(prepend)).Line().Add(remove).Line().Add(lenFn)
+	return funcs.Line().Add(
+		join(appendFns),
+	).Line().Add(
+		join(prepend),
+	).Line().Add(
+		remove,
+	).Line().Add(
+		lenFn,
+	).Line().Add(
+		p.serializationFuncs(),
+	)
+}
+
+func (p *NonFunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
+	serialize := jen.Func().Params(
+		jen.Id("t").Id(p.structName()),
+	).Id(p.serializeFnName()).Params().Params(
+		jen.Interface(),
+		jen.Error(),
+	).Block(
+		jen.Id("s").Op(":=").Make(
+			jen.Index().Interface(),
+			jen.Lit(0),
+			jen.Len(jen.Id("t")),
+		),
+		jen.For(
+			jen.List(
+				jen.Id("_"),
+				jen.Id("iterator"),
+			).Op(":=").Range().Id("t"),
+		).Block(
+			jen.If(
+				jen.List(
+					jen.Id("b"),
+					jen.Err(),
+				).Op(":=").Id("iterator").Dot(serializeIteratorMethod).Call(),
+				jen.Err().Op("!=").Nil(),
+			).Block(
+				jen.Return(
+					jen.Id("s"),
+					jen.Err(),
+				),
+			).Else().Block(
+				jen.Id("s").Op("=").Append(
+					jen.Id("s"),
+					jen.Id("b"),
+				),
+			),
+		),
+		jen.Return(
+			jen.Id("s"),
+			jen.Nil(),
+		),
+	)
+	deserializeFn := func(variable string) jen.Code {
+		return jen.If(
+			jen.List(
+				jen.Id("p"),
+				jen.Err(),
+			).Op(":=").Id(p.elementTypeGenerator().deserializeFnName()).Call(
+				jen.Id(variable),
+			),
+			jen.Err().Op("!=").Nil(),
+		).Block(
+			jen.Return(
+				jen.Id("t"),
+				jen.Err(),
+			),
+		).Else().If(
+			jen.Id("p").Op("!=").Nil(),
+		).Block(
+			jen.Id("t").Op("=").Append(
+				jen.Id("t"),
+				jen.Op("*").Id("p"),
+			),
+		)
+	}
+	deserialize := jen.Func().Id(
+		p.deserializeFnName(),
+	).Params(
+		jen.Id("m").Map(jen.String()).Interface(),
+	).Params(
+		jen.Id(p.structName()),
+		jen.Error(),
+	).Block(
+		jen.Var().Id("t").Index().Id(p.iteratorTypeName().CamelName),
+		jen.If(
+			jen.List(
+				jen.Id("i"),
+				jen.Id("ok"),
+			).Op(":=").Id("m").Index(
+				jen.Lit(p.propertyName()),
+			),
+			jen.Id("ok"),
+		).Block(
+			jen.If(
+				jen.List(
+					jen.Id("list"),
+					jen.Id("ok"),
+				).Op(":=").Id("i").Assert(
+					jen.Index().Interface(),
+				),
+				jen.Id("ok"),
+			).Block(
+				jen.For(
+					jen.List(
+						jen.Id("_"),
+						jen.Id("iterator"),
+					).Op(":=").Range().Id("list"),
+				).Block(
+					deserializeFn("iterator"),
+				),
+			).Else().Block(
+				deserializeFn("i"),
+			),
+		),
+		jen.Return(
+			jen.Id("t"),
+			jen.Nil(),
+		),
+	)
+	return serialize.Line().Add(deserialize)
 }
