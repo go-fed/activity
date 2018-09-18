@@ -5,7 +5,7 @@ import (
 	"github.com/dave/jennifer/jen"
 )
 
-// TODO: Auto-generate documentation and comments.
+// TODO: Auto-generate documentation and comments for non-functional type.
 // TODO: Break out into multiple files.
 // TODO: Deserialize & generated structs preserve "unknown" elements.
 // TODO: Satisfy the rest of the sort.Interface.
@@ -30,10 +30,21 @@ const (
 )
 
 func join(s []*jen.Statement) *jen.Statement {
+	return joinLines(s, true)
+}
+
+func joinSingleSpace(s []*jen.Statement) *jen.Statement {
+	return joinLines(s, false)
+}
+
+func joinLines(s []*jen.Statement, double bool) *jen.Statement {
 	r := &jen.Statement{}
 	for i, stmt := range s {
 		if i > 0 {
 			r.Line()
+			if double {
+				r.Line()
+			}
 		}
 		r.Add(stmt.Clone())
 	}
@@ -115,7 +126,9 @@ func (p *PropertyGenerator) clearMethodName() string {
 }
 
 func (p *PropertyGenerator) commonFuncs() jen.Code {
-	return jen.Func().Params(
+	return jen.Commentf(
+		"%s returns the name of this property: %q.", nameMethod, p.propertyName(),
+	).Line().Func().Params(
 		jen.Id("t").Id(p.structName()),
 	).Id(nameMethod).Params().Params(
 		jen.String(),
@@ -131,7 +144,7 @@ type FunctionalPropertyGenerator struct {
 }
 
 func (p *FunctionalPropertyGenerator) Generate() *jen.Statement {
-	return p.def().Line().Add(p.funcs()).Line().Add(p.commonFuncs())
+	return p.def().Line().Line().Add(p.funcs()).Line().Line().Add(p.commonFuncs()).Line().Line()
 }
 
 func (p *FunctionalPropertyGenerator) def() *jen.Statement {
@@ -144,9 +157,9 @@ func (p *FunctionalPropertyGenerator) def() *jen.Statement {
 
 func (p *FunctionalPropertyGenerator) funcs() *jen.Statement {
 	if len(p.Kinds) == 1 {
-		return p.singleTypeFuncs().Line().Add(p.serializationFuncs())
+		return p.singleTypeFuncs().Line().Line().Add(p.serializationFuncs())
 	} else {
-		return p.multiTypeFuncs().Line().Add(p.serializationFuncs())
+		return p.multiTypeFuncs().Line().Line().Add(p.serializationFuncs())
 	}
 }
 
@@ -173,7 +186,9 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
 			),
 		)
 	}
-	serialize := jen.Func().Params(
+	serialize := jen.Commentf(
+		"%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName(),
+	).Line().Func().Params(
 		jen.Id("t").Id(p.structName()),
 	).Id(p.serializeFnName()).Params().Params(
 		jen.Interface(),
@@ -217,7 +232,9 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
 	}
 	var deserialize jen.Code
 	if p.asIterator {
-		deserialize = jen.Func().Id(
+		deserialize = jen.Commentf(
+			"%s creates an iterator from an element that has been unmarshalled from a text or binary format.", p.deserializeFnName(),
+		).Line().Func().Id(
 			p.deserializeFnName(),
 		).Params(
 			jen.Id("i").Interface(),
@@ -232,7 +249,9 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
 			),
 		)
 	} else {
-		deserialize = jen.Func().Id(
+		deserialize = jen.Commentf(
+			"%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.deserializeFnName(), p.propertyName(),
+		).Line().Func().Id(
 			p.deserializeFnName(),
 		).Params(
 			jen.Id("m").Map(jen.String()).Interface(),
@@ -257,16 +276,24 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
 			),
 		)
 	}
-	return serialize.Line().Add(deserialize)
+	return serialize.Line().Line().Add(deserialize)
 }
 
 func (p *FunctionalPropertyGenerator) singleTypeDef() *jen.Statement {
 	if p.Kinds[0].Nilable {
-		return jen.Type().Id(p.structName()).Struct(
+		comment := jen.Commentf("%s is the functional property %q. It is permitted to be a single nilable value type.", p.structName(), p.propertyName()).Line()
+		if p.asIterator {
+			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single nilable value type.", p.structName()).Line()
+		}
+		return comment.Type().Id(p.structName()).Struct(
 			jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind),
 		)
 	} else {
-		return jen.Type().Id(p.structName()).Struct(
+		comment := jen.Commentf("%s is the functional property %q. It is permitted to be a single default-valued value type.", p.structName(), p.propertyName()).Line()
+		if p.asIterator {
+			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single default-valued value type.", p.structName()).Line()
+		}
+		return comment.Type().Id(p.structName()).Struct(
 			jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind),
 			jen.Id(p.hasMemberName(0)).Bool(),
 		)
@@ -280,51 +307,51 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() *jen.Statement {
 	memberPtrFunc := jen.Func().Params(
 		jen.Id("t").Op("*").Id(p.structName()),
 	)
-	var has *jen.Statement
-	var get *jen.Statement
-	var set *jen.Statement
-	var clear *jen.Statement
+	has := jen.Commentf("%s returns true if this property is set.", hasMethod).Line()
+	get := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return any arbitrary value.", getMethod, hasMethod, getMethod).Line()
+	set := jen.Commentf("%s sets the value of this property. Calling %s afterwards will return true.", setMethod, hasMethod).Line()
+	clear := jen.Commentf("%s ensures no value of this property is set. Calling %s afterwards will return false.", p.clearMethodName(), hasMethod).Line()
 	if p.Kinds[0].Nilable {
-		has = memberFunc.Clone().Id(hasMethod).Params().Params(
+		has = has.Add(memberFunc.Clone().Id(hasMethod).Params().Params(
 			jen.Bool(),
 		).Block(
 			jen.Return(jen.Id("t").Dot(p.memberName(0)).Op("!=").Nil()),
-		)
-		get = memberFunc.Clone().Id(p.getFnName(0)).Params().Params(
+		))
+		get = get.Add(memberFunc.Clone().Id(p.getFnName(0)).Params().Params(
 			jen.Id(p.Kinds[0].ConcreteKind),
 		).Block(
 			jen.Return(jen.Id("t").Dot(p.memberName(0))),
-		)
-		set = memberPtrFunc.Clone().Id(setMethod).Params(
+		))
+		set = set.Add(memberPtrFunc.Clone().Id(setMethod).Params(
 			jen.Id("v").Id(p.Kinds[0].ConcreteKind),
 		).Block(
 			jen.Id("t").Dot(p.memberName(0)).Op("=").Id("v"),
-		)
-		clear = memberPtrFunc.Clone().Id(p.clearMethodName()).Params().Block(
+		))
+		clear = clear.Add(memberPtrFunc.Clone().Id(p.clearMethodName()).Params().Block(
 			jen.Id("t").Dot(p.memberName(0)).Op("=").Nil(),
-		)
+		))
 	} else {
-		has = memberFunc.Clone().Id(hasMethod).Params().Params(
+		has = has.Add(memberFunc.Clone().Id(hasMethod).Params().Params(
 			jen.Bool(),
 		).Block(
 			jen.Return(jen.Id("t").Dot(p.hasMemberName(0))),
-		)
-		get = memberFunc.Clone().Id(p.getFnName(0)).Params().Params(
+		))
+		get = get.Add(memberFunc.Clone().Id(p.getFnName(0)).Params().Params(
 			jen.Id(p.Kinds[0].ConcreteKind),
 		).Block(
 			jen.Return(jen.Id("t").Dot(p.memberName(0))),
-		)
-		set = memberPtrFunc.Clone().Id(setMethod).Params(
+		))
+		set = set.Add(memberPtrFunc.Clone().Id(setMethod).Params(
 			jen.Id("v").Id(p.Kinds[0].ConcreteKind),
 		).Block(
 			jen.Id("t").Dot(p.memberName(0)).Op("=").Id("v"),
 			jen.Id("t").Dot(p.hasMemberName(0)).Op("=").True(),
-		)
-		clear = memberPtrFunc.Clone().Id(p.clearMethodName()).Params().Block(
+		))
+		clear = clear.Add(memberPtrFunc.Clone().Id(p.clearMethodName()).Params().Block(
 			jen.Id("t").Dot(p.hasMemberName(0)).Op("=").False(),
-		)
+		))
 	}
-	return has.Line().Add(get).Line().Add(set).Line().Add(clear)
+	return has.Line().Line().Add(get).Line().Line().Add(set).Line().Line().Add(clear)
 }
 
 func (p *FunctionalPropertyGenerator) multiTypeDef() *jen.Statement {
@@ -338,7 +365,24 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *jen.Statement {
 			))
 		}
 	}
-	return jen.Type().Id(p.structName()).Struct(join(kindMembers))
+	explanation := jen.Commentf(
+		"At most, one type of value can be present, or none at all. Setting a value will",
+	).Line().Commentf(
+		"clear the other types of values so that only one of the 'Is' methods will return",
+	).Line().Commentf(
+		"true.",
+	).Line().Comment("").Line().Commentf(
+		"It is possible to clear all values, so that this property is empty.",
+	).Line()
+	comment := jen.Commentf(
+		"%s is the functional property %q. It is permitted to be one of multiple value types.", p.structName(), p.propertyName(),
+	).Line().Comment("").Line().Add(explanation)
+	if p.asIterator {
+		comment = jen.Commentf(
+			"%s is an iterator for a property. It is permitted to be one of multiple value types.", p.structName(),
+		).Line().Comment("").Line().Add(explanation)
+	}
+	return comment.Type().Id(p.structName()).Struct(joinSingleSpace(kindMembers))
 }
 
 func (p *FunctionalPropertyGenerator) multiTypeFuncs() *jen.Statement {
@@ -363,65 +407,72 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() *jen.Statement {
 		}
 	}
 	for i, kind := range p.Kinds {
-		var is *jen.Statement
-		var get *jen.Statement
-		var set *jen.Statement
+		isMethodName := fmt.Sprintf("%s%s", isMethod, p.kindCamelName(i))
+		setMethodName := fmt.Sprintf("%s%s", setMethod, p.kindCamelName(i))
+		is := jen.Commentf("%s returns true if this property has a type of value of %q.", isMethodName, kind.ConcreteKind).Line()
+		get := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return an arbitrary value.", p.getFnName(i), isMethodName, p.getFnName(i)).Line()
+		set := jen.Commentf("%s sets the value of this property. Calling %s afterwards returns true.", setMethodName, isMethodName).Line()
 		if kind.Nilable {
-			is = memberFunc.Clone().Id(
-				fmt.Sprintf("%s%s", isMethod, p.kindCamelName(i)),
+			is = is.Add(memberFunc.Clone().Id(
+				isMethodName,
 			).Params().Params(
 				jen.Bool(),
 			).Block(
 				jen.Return(jen.Id("t").Dot(p.memberName(i)).Op("!=").Nil()),
-			)
-			set = memberPtrFunc.Clone().Id(
-				fmt.Sprintf("%s%s", setMethod, p.kindCamelName(i)),
+			))
+			set = set.Add(memberPtrFunc.Clone().Id(
+				setMethodName,
 			).Params(
 				jen.Id("v").Id(kind.ConcreteKind),
 			).Block(
 				jen.Id("t").Dot(p.clearMethodName()).Call(),
 				jen.Id("t").Dot(p.memberName(i)).Op("=").Id("v"),
-			)
+			))
 		} else {
-			is = memberFunc.Clone().Id(
-				fmt.Sprintf("%s%s", isMethod, p.kindCamelName(i)),
+			is = is.Add(memberFunc.Clone().Id(
+				isMethodName,
 			).Params().Params(
 				jen.Bool(),
 			).Block(
 				jen.Return(jen.Id("t").Dot(p.hasMemberName(i))),
-			)
-			set = memberPtrFunc.Clone().Id(
-				fmt.Sprintf("%s%s", setMethod, p.kindCamelName(i)),
+			))
+			set = set.Add(memberPtrFunc.Clone().Id(
+				setMethodName,
 			).Params(
 				jen.Id("v").Id(kind.ConcreteKind),
 			).Block(
 				jen.Id("t").Dot(p.clearMethodName()).Call(),
 				jen.Id("t").Dot(p.memberName(i)).Op("=").Id("v"),
 				jen.Id("t").Dot(p.hasMemberName(i)).Op("=").True(),
-			)
+			))
 		}
-		get = memberFunc.Clone().Id(
+		get = get.Add(memberFunc.Clone().Id(
 			p.getFnName(i),
 		).Params().Params(
 			jen.Id(kind.ConcreteKind),
 		).Block(
 			jen.Return(jen.Id("t").Dot(p.memberName(i))),
-		)
-		funcs.Add(is).Line()
-		funcs.Add(get).Line()
-		funcs.Add(set).Line()
+		))
+		funcs.Add(is).Line().Line()
+		funcs.Add(get).Line().Line()
+		funcs.Add(set).Line().Line()
 	}
-	clear := memberPtrFunc.Clone().Id(p.clearMethodName()).Params().Block(
-		join(clearLine),
-	)
-	hasAny := memberFunc.Clone().Id(
-		fmt.Sprintf("%sAny", hasMethod),
+	hasAnyMethodName := fmt.Sprintf("%sAny", hasMethod)
+	clear := jen.Commentf(
+		"%s ensures no value of this property is set. Calling %s or any of the 'Is' methods afterwards will return false.", p.clearMethodName(), hasAnyMethodName,
+	).Line().Add(memberPtrFunc.Clone().Id(p.clearMethodName()).Params().Block(
+		joinSingleSpace(clearLine),
+	))
+	hasAny := jen.Commentf(
+		"%s returns true if any of the different values is set.", hasAnyMethodName,
+	).Line().Add(memberFunc.Clone().Id(
+		hasAnyMethodName,
 	).Params().Params(
 		jen.Bool(),
 	).Block(
-		jen.Return(join(isLine)),
-	)
-	funcs.Add(clear).Line().Add(hasAny).Line()
+		jen.Return(joinSingleSpace(isLine)),
+	))
+	funcs.Add(clear).Line().Line().Add(hasAny)
 	return funcs
 }
 
@@ -430,7 +481,7 @@ type NonFunctionalPropertyGenerator struct {
 }
 
 func (p *NonFunctionalPropertyGenerator) Generate() *jen.Statement {
-	return p.def().Line().Add(p.funcs()).Line().Add(p.commonFuncs())
+	return p.def().Line().Line().Add(p.funcs()).Line().Line().Add(p.commonFuncs())
 }
 
 func (p *NonFunctionalPropertyGenerator) iteratorTypeName() Identifier {
@@ -451,8 +502,9 @@ func (p *NonFunctionalPropertyGenerator) elementTypeGenerator() *FunctionalPrope
 }
 
 func (p *NonFunctionalPropertyGenerator) def() *jen.Statement {
-	return p.elementTypeGenerator().def().Line().Add(
-		jen.Type().Id(p.structName()).Index().Id(p.iteratorTypeName().CamelName),
+	comment := jen.Commentf("%s is the non-functional property %q. It is permitted to have one or more values, and of different value types.", p.structName(), p.propertyName()).Line()
+	return p.elementTypeGenerator().def().Line().Line().Add(
+		comment.Type().Id(p.structName()).Index().Id(p.iteratorTypeName().CamelName),
 	)
 }
 
@@ -536,15 +588,15 @@ func (p *NonFunctionalPropertyGenerator) funcs() *jen.Statement {
 			),
 		),
 	)
-	return funcs.Line().Add(
+	return funcs.Line().Line().Add(
 		join(appendFns),
-	).Line().Add(
+	).Line().Line().Add(
 		join(prepend),
-	).Line().Add(
+	).Line().Line().Add(
 		remove,
-	).Line().Add(
+	).Line().Line().Add(
 		lenFn,
-	).Line().Add(
+	).Line().Line().Add(
 		p.serializationFuncs(),
 	)
 }
@@ -657,5 +709,5 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
 			jen.Nil(),
 		),
 	)
-	return serialize.Line().Add(deserialize)
+	return serialize.Line().Line().Add(deserialize)
 }

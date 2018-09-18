@@ -112,8 +112,8 @@ func main() {
 			},
 		},
 	}
-	fmt.Printf("%#v\n\n", x.Generate())
-	fmt.Printf("%#v\n\n", y.Generate())
-	fmt.Printf("%#v\n\n", z.Generate())
-	fmt.Printf("%#v\n\n", zz.Generate())
+	fmt.Printf("%#v", x.Generate())
+	fmt.Printf("%#v", y.Generate())
+	fmt.Printf("%#v", z.Generate())
+	fmt.Printf("%#v", zz.Generate())
 }
