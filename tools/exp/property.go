@@ -5,7 +5,6 @@ import (
 	"github.com/dave/jennifer/jen"
 )
 
-// TODO: Auto-generate documentation and comments for non-functional type.
 // TODO: Break out into multiple files.
 // TODO: Deserialize & generated structs preserve "unknown" elements.
 // TODO: Satisfy the rest of the sort.Interface.
@@ -525,8 +524,11 @@ func (p *NonFunctionalPropertyGenerator) funcs() *jen.Statement {
 		if !kind.Nilable {
 			dict[jen.Id(p.hasMemberName(i))] = jen.True()
 		}
-		prepend = append(prepend, memberPtrFunc.Clone().Id(
-			fmt.Sprintf("%s%s", prependMethod, p.kindCamelName(i)),
+		prependMethodName := fmt.Sprintf("%s%s", prependMethod, p.kindCamelName(i))
+		prepend = append(prepend, jen.Commentf(
+			"%s prepends a %s value to the front of a list of the property %q.", prependMethodName, kind.ConcreteKind, p.propertyName(),
+		).Line().Add(memberPtrFunc.Clone().Id(
+			prependMethodName,
 		).Params(
 			jen.Id("v").Id(kind.ConcreteKind),
 		).Block(
@@ -536,9 +538,12 @@ func (p *NonFunctionalPropertyGenerator) funcs() *jen.Statement {
 				),
 				jen.Op("*").Id("t").Op("..."),
 			),
-		))
-		appendFns = append(appendFns, memberPtrFunc.Clone().Id(
-			fmt.Sprintf("%s%s", appendMethod, p.kindCamelName(i)),
+		)))
+		appendMethodName := fmt.Sprintf("%s%s", appendMethod, p.kindCamelName(i))
+		appendFns = append(appendFns, jen.Commentf(
+			"%s appends a %s value to the back of a list of the property %q", appendMethodName, kind.ConcreteKind, p.propertyName(),
+		).Line().Add(memberPtrFunc.Clone().Id(
+			appendMethodName,
 		).Params(
 			jen.Id("v").Id(kind.ConcreteKind),
 		).Block(
@@ -548,9 +553,11 @@ func (p *NonFunctionalPropertyGenerator) funcs() *jen.Statement {
 					dict,
 				),
 			),
-		))
+		)))
 	}
-	remove := memberPtrFunc.Clone().Id(removeMethod).Params(
+	remove := jen.Commentf(
+		"%s deletes an element at the specified index from a list of the property %q, regardless of its type.", removeMethod, p.propertyName(),
+	).Line().Add(memberPtrFunc.Clone().Id(removeMethod).Params(
 		jen.Id("idx").Int(),
 	).Block(
 		jen.Copy(
@@ -578,8 +585,10 @@ func (p *NonFunctionalPropertyGenerator) funcs() *jen.Statement {
 			jen.Empty(),
 			jen.Len(jen.Op("*").Id("t")).Op("-").Lit(1),
 		),
-	)
-	lenFn := memberFunc.Clone().Id(lenMethod).Params().Params(
+	))
+	lenFn := jen.Commentf(
+		"%s returns the number of values that exist for the %s property.", lenMethod, p.propertyName(),
+	).Line().Add(memberFunc.Clone().Id(lenMethod).Params().Params(
 		jen.Id("length").Int(),
 	).Block(
 		jen.Return(
@@ -587,7 +596,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() *jen.Statement {
 				jen.Id("t"),
 			),
 		),
-	)
+	))
 	return funcs.Line().Line().Add(
 		join(appendFns),
 	).Line().Line().Add(
@@ -602,7 +611,9 @@ func (p *NonFunctionalPropertyGenerator) funcs() *jen.Statement {
 }
 
 func (p *NonFunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
-	serialize := jen.Func().Params(
+	serialize := jen.Commentf(
+		"%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName(),
+	).Line().Add(jen.Func().Params(
 		jen.Id("t").Id(p.structName()),
 	).Id(p.serializeFnName()).Params().Params(
 		jen.Interface(),
@@ -641,7 +652,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
 			jen.Id("s"),
 			jen.Nil(),
 		),
-	)
+	))
 	deserializeFn := func(variable string) jen.Code {
 		return jen.If(
 			jen.List(
@@ -665,7 +676,9 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
 			),
 		)
 	}
-	deserialize := jen.Func().Id(
+	deserialize := jen.Commentf(
+		"%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.deserializeFnName(), p.propertyName(),
+	).Line().Add(jen.Func().Id(
 		p.deserializeFnName(),
 	).Params(
 		jen.Id("m").Map(jen.String()).Interface(),
@@ -708,6 +721,6 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
 			jen.Id("t"),
 			jen.Nil(),
 		),
-	)
+	))
 	return serialize.Line().Line().Add(deserialize)
 }
