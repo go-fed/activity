@@ -23,6 +23,7 @@ func main() {
 					HasNaturalLanguageMap: false,
 					SerializeFnName:       "SerializeIRI",
 					DeserializeFnName:     "DeserializeIRI",
+					LessFnName:            "LessIRI",
 				},
 			},
 		},
@@ -44,6 +45,7 @@ func main() {
 					HasNaturalLanguageMap: false,
 					SerializeFnName:       "SerializeNumber",
 					DeserializeFnName:     "DeserializeNumber",
+					LessFnName:            "LessNumber",
 				},
 			},
 		},
@@ -65,6 +67,7 @@ func main() {
 					HasNaturalLanguageMap: false,
 					SerializeFnName:       "SerializeIRI",
 					DeserializeFnName:     "DeserializeIRI",
+					LessFnName:            "LessIRI",
 				},
 				{
 					Name: exp.Identifier{
@@ -76,6 +79,7 @@ func main() {
 					HasNaturalLanguageMap: false,
 					SerializeFnName:       "SerializeNumber",
 					DeserializeFnName:     "DeserializeNumber",
+					LessFnName:            "LessNumber",
 				},
 			},
 		},
@@ -97,6 +101,7 @@ func main() {
 					HasNaturalLanguageMap: false,
 					SerializeFnName:       "SerializeIRI",
 					DeserializeFnName:     "DeserializeIRI",
+					LessFnName:            "LessIRI",
 				},
 				{
 					Name: exp.Identifier{
@@ -108,12 +113,13 @@ func main() {
 					HasNaturalLanguageMap: false,
 					SerializeFnName:       "SerializeNumber",
 					DeserializeFnName:     "DeserializeNumber",
+					LessFnName:            "LessNumber",
 				},
 			},
 		},
 	}
-	fmt.Printf("%#v", x.Generate())
-	fmt.Printf("%#v", y.Generate())
-	fmt.Printf("%#v", z.Generate())
-	fmt.Printf("%#v", zz.Generate())
+	fmt.Printf("%#v", x.Definition())
+	fmt.Printf("%#v", y.Definition())
+	fmt.Printf("%#v", z.Definition())
+	fmt.Printf("%#v", zz.Definition())
 }
