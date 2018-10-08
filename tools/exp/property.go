@@ -6,9 +6,7 @@ import (
 )
 
 // TODO: Deserialize & generated structs preserve "unknown" elements.
-// TODO: Make Serialize/Deserialize/KindIndex funcs that return jen.Code
 // TODO: Document and comment this code.
-// TODO: Split out methods as structs.
 
 const (
 	getMethod                 = "Get"
@@ -31,15 +29,15 @@ const (
 	deserializeIteratorMethod = "deserialize"
 )
 
-func join(s []*jen.Statement) *jen.Statement {
+func join(s []jen.Code) *jen.Statement {
 	return joinLines(s, true)
 }
 
-func joinSingleLine(s []*jen.Statement) *jen.Statement {
+func joinSingleLine(s []jen.Code) *jen.Statement {
 	return joinLines(s, false)
 }
 
-func joinLines(s []*jen.Statement, double bool) *jen.Statement {
+func joinLines(s []jen.Code, double bool) *jen.Statement {
 	r := &jen.Statement{}
 	for i, stmt := range s {
 		if i > 0 {
@@ -48,7 +46,7 @@ func joinLines(s []*jen.Statement, double bool) *jen.Statement {
 				r.Line()
 			}
 		}
-		r.Add(stmt.Clone())
+		r.Add(stmt)
 	}
 	return r
 }
@@ -69,9 +67,14 @@ type Kind struct {
 }
 
 type PropertyGenerator struct {
+	Package    string
 	Name       Identifier
 	Kinds      []Kind
 	asIterator bool
+}
+
+func (p *PropertyGenerator) packageName() string {
+	return p.Package
 }
 
 func (p *PropertyGenerator) structName() string {
@@ -128,19 +131,22 @@ func (p *PropertyGenerator) clearMethodName() string {
 	return clearMethod
 }
 
-func (p *PropertyGenerator) commonFuncs() jen.Code {
-	memberFunc := jen.Func().Params(
-		jen.Id("t").Id(p.structName()),
-	)
-	return jen.Commentf(
-		"%s returns the name of this property: %q.", nameMethod, p.propertyName(),
-	).Line().Add(memberFunc.Clone().Id(nameMethod).Params().Params(
-		jen.String(),
-	).Block(
-		jen.Return(
-			jen.Lit(p.propertyName()),
+func (p *PropertyGenerator) commonMethods() []*Method {
+	return []*Method{
+		NewCommentedValueMethod(
+			p.packageName(),
+			nameMethod,
+			p.structName(),
+			/*params=*/ nil,
+			[]jen.Code{jen.String()},
+			[]jen.Code{
+				jen.Return(
+					jen.Lit(p.propertyName()),
+				),
+			},
+			jen.Commentf("%s returns the name of this property: %q.", nameMethod, p.propertyName()),
 		),
-	))
+	}
 }
 
 func (p *PropertyGenerator) isMethodName(i int) string {

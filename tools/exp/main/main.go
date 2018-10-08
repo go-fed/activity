@@ -118,8 +118,9 @@ func main() {
 			},
 		},
 	}
-	fmt.Printf("%#v", x.Definition())
-	fmt.Printf("%#v", y.Definition())
-	fmt.Printf("%#v", z.Definition())
-	fmt.Printf("%#v", zz.Definition())
+	fmt.Printf("%#v\n\n", x.Definition().Definition())
+	fmt.Printf("%#v\n\n", y.Definition().Definition())
+	fmt.Printf("%#v\n\n", z.Definition().Definition())
+	s, t := zz.Definitions()
+	fmt.Printf("%#v\n\n%#v", s.Definition(), t.Definition())
 }

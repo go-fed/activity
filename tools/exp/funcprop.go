@@ -9,11 +9,7 @@ type FunctionalPropertyGenerator struct {
 	PropertyGenerator
 }
 
-func (p *FunctionalPropertyGenerator) Definition() jen.Code {
-	return p.def().Line().Line().Add(p.funcs()).Line().Line().Add(p.commonFuncs()).Line().Line()
-}
-
-func (p *FunctionalPropertyGenerator) def() *jen.Statement {
+func (p *FunctionalPropertyGenerator) Definition() *Struct {
 	if len(p.Kinds) == 1 {
 		return p.singleTypeDef()
 	} else {
@@ -21,46 +17,40 @@ func (p *FunctionalPropertyGenerator) def() *jen.Statement {
 	}
 }
 
-func (p *FunctionalPropertyGenerator) funcs() *jen.Statement {
-	memberFunc := jen.Func().Params(
-		jen.Id("t").Id(p.structName()),
-	)
-	kindIndexFns := make([]*jen.Statement, 0, len(p.Kinds))
+func (p *FunctionalPropertyGenerator) funcs() []*Method {
+	kindIndexFns := make([]jen.Code, 0, len(p.Kinds))
 	for i, _ := range p.Kinds {
 		if len(p.Kinds) > 1 {
 			kindIndexFns = append(kindIndexFns, jen.If(
-				jen.Id("t").Dot(p.isMethodName(i)).Call(),
+				jen.Id(This()).Dot(p.isMethodName(i)).Call(),
 			).Block(
 				jen.Return(jen.Lit(i)),
 			))
 		} else {
 			kindIndexFns = append(kindIndexFns, jen.If(
-				jen.Id("t").Dot(hasMethod).Call(),
+				jen.Id(This()).Dot(hasMethod).Call(),
 			).Block(
 				jen.Return(jen.Lit(i)),
 			))
 		}
 	}
-	kindIndexFn := jen.Commentf(
-		"%s computes an arbitrary value for indexing this kind of value.", kindIndexMethod,
-	).Line().Add(memberFunc.Clone().Id(kindIndexMethod).Params().Int().Block(
-		joinSingleLine(kindIndexFns),
-		jen.Return(jen.Lit(-1)),
-	))
-	funcs := jen.Empty()
-	funcs.Add(
-		p.serializationFuncs(),
-	).Line().Line().Add(
-		kindIndexFn,
-	).Line().Line()
-	if len(p.Kinds) == 1 {
-		return funcs.Add(p.singleTypeFuncs())
-	} else {
-		return funcs.Add(p.multiTypeFuncs())
+	return []*Method{
+		NewCommentedValueMethod(
+			p.packageName(),
+			kindIndexMethod,
+			p.structName(),
+			/*params=*/ nil,
+			[]jen.Code{jen.Int()},
+			[]jen.Code{
+				joinSingleLine(kindIndexFns),
+				jen.Return(jen.Lit(-1)),
+			},
+			jen.Commentf("%s computes an arbitrary value for indexing this kind of value.", kindIndexMethod),
+		),
 	}
 }
 
-func (p *FunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
+func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*Method, []*Function) {
 	serializeFns := jen.Empty()
 	for i, kind := range p.Kinds {
 		if i > 0 {
@@ -68,35 +58,35 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
 		}
 		if len(p.Kinds) == 1 {
 			serializeFns = serializeFns.If(
-				jen.Id("t").Dot(hasMethod).Call(),
+				jen.Id(This()).Dot(hasMethod).Call(),
 			)
 		} else {
 			serializeFns = serializeFns.If(
-				jen.Id("t").Dot(fmt.Sprintf("%s%s", isMethod, p.kindCamelName(i))).Call(),
+				jen.Id(This()).Dot(p.isMethodName(i)).Call(),
 			)
 		}
 		serializeFns = serializeFns.Block(
 			jen.Return(
 				jen.Id(kind.SerializeFnName).Call(
-					jen.Id("t").Dot(p.getFnName(i)).Call(),
+					jen.Id(This()).Dot(p.getFnName(i)).Call(),
 				),
 			),
 		)
 	}
-	serialize := jen.Commentf(
-		"%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName(),
-	).Line().Func().Params(
-		jen.Id("t").Id(p.structName()),
-	).Id(p.serializeFnName()).Params().Params(
-		jen.Interface(),
-		jen.Error(),
-	).Block(
-		serializeFns,
-		jen.Return(
-			jen.Nil(),
-			jen.Nil(),
+	serialize := []*Method{
+		NewCommentedValueMethod(
+			p.packageName(),
+			p.serializeFnName(),
+			p.structName(),
+			/*params=*/ nil,
+			[]jen.Code{jen.Interface(), jen.Error()},
+			[]jen.Code{serializeFns, jen.Return(
+				jen.Nil(),
+				jen.Nil(),
+			)},
+			jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName()),
 		),
-	)
+	}
 	deserializeFns := jen.Empty()
 	for i, kind := range p.Kinds {
 		if i > 0 {
@@ -118,148 +108,189 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() *jen.Statement {
 			),
 			jen.Id("handled"),
 		).Block(
-			jen.Id("t").Op(":=").Op("&").Id(p.structName()).Values(
+			jen.Id(This()).Op(":=").Op("&").Id(p.structName()).Values(
 				values,
 			),
 			jen.Return(
-				jen.Id("t"),
+				jen.Id(This()),
 				jen.Err(),
 			),
 		)
 	}
-	var deserialize jen.Code
+	var deserialize []*Function
 	if p.asIterator {
-		deserialize = jen.Commentf(
-			"%s creates an iterator from an element that has been unmarshalled from a text or binary format.", p.deserializeFnName(),
-		).Line().Func().Id(
-			p.deserializeFnName(),
-		).Params(
-			jen.Id("i").Interface(),
-		).Params(
-			jen.Op("*").Id(p.structName()),
-			jen.Error(),
-		).Block(
-			deserializeFns,
-			jen.Return(
-				jen.Nil(),
-				jen.Nil(),
-			),
-		)
+		deserialize = append(deserialize,
+			NewCommentedFunction(
+				p.packageName(),
+				p.deserializeFnName(),
+				[]jen.Code{jen.Id("i").Interface()},
+				[]jen.Code{jen.Op("*").Id(p.structName()), jen.Error()},
+				[]jen.Code{
+					deserializeFns,
+					jen.Return(
+						jen.Nil(),
+						jen.Nil(),
+					),
+				},
+				jen.Commentf("%s creates an iterator from an element that has been unmarshalled from a text or binary format.", p.deserializeFnName()),
+			))
 	} else {
-		deserialize = jen.Commentf(
-			"%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.deserializeFnName(), p.propertyName(),
-		).Line().Func().Id(
-			p.deserializeFnName(),
-		).Params(
-			jen.Id("m").Map(jen.String()).Interface(),
-		).Params(
-			jen.Op("*").Id(p.structName()),
-			jen.Error(),
-		).Block(
-			jen.If(
-				jen.List(
-					jen.Id("i"),
-					jen.Id("ok"),
-				).Op(":=").Id("m").Index(
-					jen.Lit(p.propertyName()),
-				),
-				jen.Id("ok"),
-			).Block(
-				deserializeFns,
-			),
-			jen.Return(
-				jen.Nil(),
-				jen.Nil(),
-			),
-		)
+		deserialize = append(deserialize,
+			NewCommentedFunction(
+				p.packageName(),
+				p.deserializeFnName(),
+				[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
+				[]jen.Code{jen.Op("*").Id(p.structName()), jen.Error()},
+				[]jen.Code{
+					jen.If(
+						jen.List(
+							jen.Id("i"),
+							jen.Id("ok"),
+						).Op(":=").Id("m").Index(
+							jen.Lit(p.propertyName()),
+						),
+						jen.Id("ok"),
+					).Block(
+						deserializeFns,
+					),
+					jen.Return(
+						jen.Nil(),
+						jen.Nil(),
+					),
+				},
+				jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.deserializeFnName(), p.propertyName()),
+			))
+
 	}
-	return serialize.Line().Line().Add(deserialize)
+	return serialize, deserialize
 }
 
-func (p *FunctionalPropertyGenerator) singleTypeDef() *jen.Statement {
+func (p *FunctionalPropertyGenerator) singleTypeDef() *Struct {
+	var comment jen.Code
+	var kindMembers []jen.Code
 	if p.Kinds[0].Nilable {
-		comment := jen.Commentf("%s is the functional property %q. It is permitted to be a single nilable value type.", p.structName(), p.propertyName()).Line()
+		comment = jen.Commentf("%s is the functional property %q. It is permitted to be a single nilable value type.", p.structName(), p.propertyName())
 		if p.asIterator {
-			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single nilable value type.", p.structName()).Line()
+			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single nilable value type.", p.structName())
 		}
-		return comment.Type().Id(p.structName()).Struct(
-			jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind),
-		)
+		kindMembers = []jen.Code{jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind)}
 	} else {
-		comment := jen.Commentf("%s is the functional property %q. It is permitted to be a single default-valued value type.", p.structName(), p.propertyName()).Line()
+		comment = jen.Commentf("%s is the functional property %q. It is permitted to be a single default-valued value type.", p.structName(), p.propertyName())
 		if p.asIterator {
-			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single default-valued value type.", p.structName()).Line()
+			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single default-valued value type.", p.structName())
 		}
-		return comment.Type().Id(p.structName()).Struct(
+		kindMembers = []jen.Code{
 			jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind),
 			jen.Id(p.hasMemberName(0)).Bool(),
-		)
+		}
 	}
+	methods, funcs := p.serializationFuncs()
+	methods = append(methods, p.singleTypeFuncs()...)
+	methods = append(methods, p.funcs()...)
+	methods = append(methods, p.commonMethods()...)
+	return NewStruct(comment,
+		p.structName(),
+		methods,
+		funcs,
+		kindMembers)
 }
 
-func (p *FunctionalPropertyGenerator) singleTypeFuncs() *jen.Statement {
-	memberFunc := jen.Func().Params(
-		jen.Id("t").Id(p.structName()),
-	)
-	memberPtrFunc := jen.Func().Params(
-		jen.Id("t").Op("*").Id(p.structName()),
-	)
-	has := jen.Commentf("%s returns true if this property is set.", hasMethod).Line()
-	get := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return any arbitrary value.", getMethod, hasMethod, getMethod).Line()
-	set := jen.Commentf("%s sets the value of this property. Calling %s afterwards will return true.", setMethod, hasMethod).Line()
-	clear := jen.Commentf("%s ensures no value of this property is set. Calling %s afterwards will return false.", p.clearMethodName(), hasMethod).Line()
+func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*Method {
+	var methods []*Method
+	// Has Method
+	hasComment := jen.Commentf("%s returns true if this property is set.", hasMethod)
 	if p.Kinds[0].Nilable {
-		has = has.Add(memberFunc.Clone().Id(hasMethod).Params().Params(
-			jen.Bool(),
-		).Block(
-			jen.Return(jen.Id("t").Dot(p.memberName(0)).Op("!=").Nil()),
-		))
-		get = get.Add(memberFunc.Clone().Id(p.getFnName(0)).Params().Params(
-			jen.Id(p.Kinds[0].ConcreteKind),
-		).Block(
-			jen.Return(jen.Id("t").Dot(p.memberName(0))),
-		))
-		set = set.Add(memberPtrFunc.Clone().Id(setMethod).Params(
-			jen.Id("v").Id(p.Kinds[0].ConcreteKind),
-		).Block(
-			jen.Id("t").Dot(p.memberName(0)).Op("=").Id("v"),
-		))
-		clear = clear.Add(memberPtrFunc.Clone().Id(p.clearMethodName()).Params().Block(
-			jen.Id("t").Dot(p.memberName(0)).Op("=").Nil(),
+		methods = append(methods, NewCommentedValueMethod(
+			p.packageName(),
+			hasMethod,
+			p.structName(),
+			/*params=*/ nil,
+			[]jen.Code{jen.Bool()},
+			[]jen.Code{jen.Return(jen.Id(This()).Dot(p.memberName(0)).Op("!=").Nil())},
+			hasComment,
 		))
 	} else {
-		has = has.Add(memberFunc.Clone().Id(hasMethod).Params().Params(
-			jen.Bool(),
-		).Block(
-			jen.Return(jen.Id("t").Dot(p.hasMemberName(0))),
-		))
-		get = get.Add(memberFunc.Clone().Id(p.getFnName(0)).Params().Params(
-			jen.Id(p.Kinds[0].ConcreteKind),
-		).Block(
-			jen.Return(jen.Id("t").Dot(p.memberName(0))),
-		))
-		set = set.Add(memberPtrFunc.Clone().Id(setMethod).Params(
-			jen.Id("v").Id(p.Kinds[0].ConcreteKind),
-		).Block(
-			jen.Id("t").Dot(p.memberName(0)).Op("=").Id("v"),
-			jen.Id("t").Dot(p.hasMemberName(0)).Op("=").True(),
-		))
-		clear = clear.Add(memberPtrFunc.Clone().Id(p.clearMethodName()).Params().Block(
-			jen.Id("t").Dot(p.hasMemberName(0)).Op("=").False(),
+		methods = append(methods, NewCommentedValueMethod(
+			p.packageName(),
+			hasMethod,
+			p.structName(),
+			/*params=*/ nil,
+			[]jen.Code{jen.Bool()},
+			[]jen.Code{jen.Return(jen.Id(This()).Dot(p.hasMemberName(0)))},
+			hasComment,
 		))
 	}
-	return has.Line().Line().Add(get).Line().Line().Add(set).Line().Line().Add(clear)
+	// Get Method
+	getComment := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return any arbitrary value.", getMethod, hasMethod, getMethod)
+	methods = append(methods, NewCommentedValueMethod(
+		p.packageName(),
+		p.getFnName(0),
+		p.structName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Id(p.Kinds[0].ConcreteKind)},
+		[]jen.Code{jen.Return(jen.Id(This()).Dot(p.memberName(0)))},
+		getComment,
+	))
+	// Set Method
+	setComment := jen.Commentf("%s sets the value of this property. Calling %s afterwards will return true.", setMethod, hasMethod)
+	if p.Kinds[0].Nilable {
+		methods = append(methods, NewCommentedPointerMethod(
+			p.packageName(),
+			setMethod,
+			p.structName(),
+			[]jen.Code{jen.Id("v").Id(p.Kinds[0].ConcreteKind)},
+			/*ret=*/ nil,
+			[]jen.Code{jen.Id(This()).Dot(p.memberName(0)).Op("=").Id("v")},
+			setComment,
+		))
+	} else {
+		methods = append(methods, NewCommentedPointerMethod(
+			p.packageName(),
+			setMethod,
+			p.structName(),
+			[]jen.Code{jen.Id("v").Id(p.Kinds[0].ConcreteKind)},
+			/*ret=*/ nil,
+			[]jen.Code{
+				jen.Id(This()).Dot(p.memberName(0)).Op("=").Id("v"),
+				jen.Id(This()).Dot(p.hasMemberName(0)).Op("=").True(),
+			},
+			setComment,
+		))
+	}
+	// Clear Method
+	clearComment := jen.Commentf("%s ensures no value of this property is set. Calling %s afterwards will return false.", p.clearMethodName(), hasMethod).Line()
+	if p.Kinds[0].Nilable {
+		methods = append(methods, NewCommentedPointerMethod(
+			p.packageName(),
+			p.clearMethodName(),
+			p.structName(),
+			/*params=*/ nil,
+			/*ret=*/ nil,
+			[]jen.Code{jen.Id(This()).Dot(p.memberName(0)).Op("=").Nil()},
+			clearComment,
+		))
+	} else {
+		methods = append(methods, NewCommentedPointerMethod(
+			p.packageName(),
+			p.clearMethodName(),
+			p.structName(),
+			/*params=*/ nil,
+			/*ret=*/ nil,
+			[]jen.Code{jen.Id(This()).Dot(p.hasMemberName(0)).Op("=").False()},
+			clearComment,
+		))
+	}
+	return methods
 }
 
-func (p *FunctionalPropertyGenerator) multiTypeDef() *jen.Statement {
-	kindMembers := make([]*jen.Statement, 0, len(p.Kinds))
+func (p *FunctionalPropertyGenerator) multiTypeDef() *Struct {
+	kindMembers := make([]jen.Code, 0, len(p.Kinds))
 	for i, kind := range p.Kinds {
 		if kind.Nilable {
 			kindMembers = append(kindMembers, jen.Id(p.memberName(i)).Id(p.Kinds[i].ConcreteKind))
 		} else {
-			kindMembers = append(kindMembers, jen.Id(p.memberName(i)).Id(p.Kinds[i].ConcreteKind).Line().Add(
-				jen.Id(p.hasMemberName(i)).Bool(),
-			))
+			kindMembers = append(kindMembers, jen.Id(p.memberName(i)).Id(p.Kinds[i].ConcreteKind))
+			kindMembers = append(kindMembers, jen.Id(p.hasMemberName(i)).Bool())
 		}
 	}
 	explanation := jen.Commentf(
@@ -279,95 +310,130 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *jen.Statement {
 			"%s is an iterator for a property. It is permitted to be one of multiple value types.", p.structName(),
 		).Line().Comment("").Line().Add(explanation)
 	}
-	return comment.Type().Id(p.structName()).Struct(joinSingleLine(kindMembers))
+	methods, funcs := p.serializationFuncs()
+	methods = append(methods, p.multiTypeFuncs()...)
+	methods = append(methods, p.funcs()...)
+	methods = append(methods, p.commonMethods()...)
+	return NewStruct(comment,
+		p.structName(),
+		methods,
+		funcs,
+		kindMembers)
 }
 
-func (p *FunctionalPropertyGenerator) multiTypeFuncs() *jen.Statement {
-	funcs := jen.Empty()
-	memberFunc := jen.Func().Params(
-		jen.Id("t").Id(p.structName()),
-	)
-	memberPtrFunc := jen.Func().Params(
-		jen.Id("t").Op("*").Id(p.structName()),
-	)
-	clearLine := make([]*jen.Statement, len(p.Kinds))
-	isLine := make([]*jen.Statement, len(p.Kinds))
+func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*Method {
+	var methods []*Method
+	// HasAny Method
+	hasAnyMethodName := fmt.Sprintf("%sAny", hasMethod)
+	isLine := make([]jen.Code, len(p.Kinds))
+	for i := range p.Kinds {
+		or := jen.Empty()
+		if i != len(p.Kinds)-1 {
+			or = jen.Op("||")
+		}
+		isLine[i] = jen.Id(This()).Dot(p.isMethodName(i)).Parens(nil).Add(or)
+	}
+	methods = append(methods, NewCommentedPointerMethod(
+		p.packageName(),
+		hasAnyMethodName,
+		p.structName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{jen.Return(joinSingleLine(isLine))},
+		jen.Commentf(
+			"%s returns true if any of the different values is set.", hasAnyMethodName,
+		),
+	))
+	// Clear Method
+	clearLine := make([]jen.Code, len(p.Kinds))
 	for i, kind := range p.Kinds {
 		if kind.Nilable {
-			clearLine[i] = jen.Id("t").Dot(p.memberName(i)).Op("=").Nil()
+			clearLine[i] = jen.Id(This()).Dot(p.memberName(i)).Op("=").Nil()
 		} else {
-			clearLine[i] = jen.Id("t").Dot(p.hasMemberName(i)).Op("=").False()
-		}
-		isLine[i] = jen.Id("t").Dot(fmt.Sprintf("%s%s", isMethod, p.kindCamelName(i))).Parens(nil)
-		if i != len(p.Kinds)-1 {
-			isLine[i].Op("||")
+			clearLine[i] = jen.Id(This()).Dot(p.hasMemberName(i)).Op("=").False()
 		}
 	}
+	methods = append(methods, NewCommentedPointerMethod(
+		p.packageName(),
+		p.clearMethodName(),
+		p.structName(),
+		/*params=*/ nil,
+		/*ret=*/ nil,
+		clearLine,
+		jen.Commentf(
+			"%s ensures no value of this property is set. Calling %s or any of the 'Is' methods afterwards will return false.", p.clearMethodName(), hasAnyMethodName,
+		),
+	))
+	// Is Method
+	for i, kind := range p.Kinds {
+		isComment := jen.Commentf("%s returns true if this property has a type of value of %q.", p.isMethodName(i), kind.ConcreteKind)
+		if kind.Nilable {
+			methods = append(methods, NewCommentedValueMethod(
+				p.packageName(),
+				p.isMethodName(i),
+				p.structName(),
+				/*params=*/ nil,
+				[]jen.Code{jen.Bool()},
+				[]jen.Code{jen.Return(jen.Id(This()).Dot(p.memberName(i)).Op("!=").Nil())},
+				isComment,
+			))
+		} else {
+			methods = append(methods, NewCommentedValueMethod(
+				p.packageName(),
+				p.isMethodName(i),
+				p.structName(),
+				/*params=*/ nil,
+				[]jen.Code{jen.Bool()},
+				[]jen.Code{jen.Return(jen.Id(This()).Dot(p.hasMemberName(i)))},
+				isComment,
+			))
+		}
+	}
+	// Set Method
 	for i, kind := range p.Kinds {
 		setMethodName := fmt.Sprintf("%s%s", setMethod, p.kindCamelName(i))
-		is := jen.Commentf("%s returns true if this property has a type of value of %q.", p.isMethodName(i), kind.ConcreteKind).Line()
-		get := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return an arbitrary value.", p.getFnName(i), p.isMethodName(i), p.getFnName(i)).Line()
-		set := jen.Commentf("%s sets the value of this property. Calling %s afterwards returns true.", setMethodName, p.isMethodName(i)).Line()
+		setComment := jen.Commentf("%s sets the value of this property. Calling %s afterwards returns true.", setMethodName, p.isMethodName(i))
 		if kind.Nilable {
-			is = is.Add(memberFunc.Clone().Id(
-				p.isMethodName(i),
-			).Params().Params(
-				jen.Bool(),
-			).Block(
-				jen.Return(jen.Id("t").Dot(p.memberName(i)).Op("!=").Nil()),
-			))
-			set = set.Add(memberPtrFunc.Clone().Id(
+			methods = append(methods, NewCommentedPointerMethod(
+				p.packageName(),
 				setMethodName,
-			).Params(
-				jen.Id("v").Id(kind.ConcreteKind),
-			).Block(
-				jen.Id("t").Dot(p.clearMethodName()).Call(),
-				jen.Id("t").Dot(p.memberName(i)).Op("=").Id("v"),
+				p.structName(),
+				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
+				/*ret=*/ nil,
+				[]jen.Code{
+					jen.Id(This()).Dot(p.clearMethodName()).Call(),
+					jen.Id(This()).Dot(p.memberName(i)).Op("=").Id("v"),
+				},
+				setComment,
 			))
 		} else {
-			is = is.Add(memberFunc.Clone().Id(
-				p.isMethodName(i),
-			).Params().Params(
-				jen.Bool(),
-			).Block(
-				jen.Return(jen.Id("t").Dot(p.hasMemberName(i))),
-			))
-			set = set.Add(memberPtrFunc.Clone().Id(
+			methods = append(methods, NewCommentedPointerMethod(
+				p.packageName(),
 				setMethodName,
-			).Params(
-				jen.Id("v").Id(kind.ConcreteKind),
-			).Block(
-				jen.Id("t").Dot(p.clearMethodName()).Call(),
-				jen.Id("t").Dot(p.memberName(i)).Op("=").Id("v"),
-				jen.Id("t").Dot(p.hasMemberName(i)).Op("=").True(),
+				p.structName(),
+				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
+				/*ret=*/ nil,
+				[]jen.Code{
+					jen.Id(This()).Dot(p.clearMethodName()).Call(),
+					jen.Id(This()).Dot(p.memberName(i)).Op("=").Id("v"),
+					jen.Id(This()).Dot(p.hasMemberName(i)).Op("=").True(),
+				},
+				setComment,
 			))
 		}
-		get = get.Add(memberFunc.Clone().Id(
-			p.getFnName(i),
-		).Params().Params(
-			jen.Id(kind.ConcreteKind),
-		).Block(
-			jen.Return(jen.Id("t").Dot(p.memberName(i))),
-		))
-		funcs.Add(is).Line().Line()
-		funcs.Add(get).Line().Line()
-		funcs.Add(set).Line().Line()
 	}
-	hasAnyMethodName := fmt.Sprintf("%sAny", hasMethod)
-	clear := jen.Commentf(
-		"%s ensures no value of this property is set. Calling %s or any of the 'Is' methods afterwards will return false.", p.clearMethodName(), hasAnyMethodName,
-	).Line().Add(memberPtrFunc.Clone().Id(p.clearMethodName()).Params().Block(
-		joinSingleLine(clearLine),
-	))
-	hasAny := jen.Commentf(
-		"%s returns true if any of the different values is set.", hasAnyMethodName,
-	).Line().Add(memberFunc.Clone().Id(
-		hasAnyMethodName,
-	).Params().Params(
-		jen.Bool(),
-	).Block(
-		jen.Return(joinSingleLine(isLine)),
-	))
-	funcs.Add(clear).Line().Line().Add(hasAny)
-	return funcs
+	// Get Method
+	for i, kind := range p.Kinds {
+		getComment := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return an arbitrary value.", p.getFnName(i), p.isMethodName(i), p.getFnName(i))
+		methods = append(methods, NewCommentedValueMethod(
+			p.packageName(),
+			p.getFnName(i),
+			p.structName(),
+			/*params=*/ nil,
+			[]jen.Code{jen.Id(kind.ConcreteKind)},
+			[]jen.Code{jen.Return(jen.Id(This()).Dot(p.memberName(i)))},
+			getComment,
+		))
+	}
+	return methods
 }
