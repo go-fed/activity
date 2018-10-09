@@ -5,10 +5,16 @@ import (
 	"github.com/dave/jennifer/jen"
 )
 
+// NonFunctionalPropertyGenerator produces Go code for properties that can have
+// more than one value. The resulting property is a type that is a list of
+// iterators; each iterator is a concrete struct type. The property can be
+// sorted and iterated over so individual elements can be inspected.
 type NonFunctionalPropertyGenerator struct {
 	PropertyGenerator
 }
 
+// Definitions produces the Go code definitions, which can generate their Go
+// implementations.
 func (p *NonFunctionalPropertyGenerator) Definitions() (*Struct, *Typedef) {
 	methods, funcs := p.serializationFuncs()
 	methods = append(methods, p.funcs()...)
@@ -22,6 +28,7 @@ func (p *NonFunctionalPropertyGenerator) Definitions() (*Struct, *Typedef) {
 	return iterator, property
 }
 
+// iteratorTypeName determines the identifier to use for the iterator type.
 func (p *NonFunctionalPropertyGenerator) iteratorTypeName() Identifier {
 	return Identifier{
 		LowerName: fmt.Sprintf("%sPropertyIterator", p.Name.LowerName),
@@ -29,6 +36,8 @@ func (p *NonFunctionalPropertyGenerator) iteratorTypeName() Identifier {
 	}
 }
 
+// elementTypeGenerator produces a FunctionalPropertyGenerator for the iterator
+// type.
 func (p *NonFunctionalPropertyGenerator) elementTypeGenerator() *FunctionalPropertyGenerator {
 	return &FunctionalPropertyGenerator{
 		PropertyGenerator{
@@ -39,6 +48,7 @@ func (p *NonFunctionalPropertyGenerator) elementTypeGenerator() *FunctionalPrope
 	}
 }
 
+// funcs produces the methods needed for the NonFunctional property.
 func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
 	var methods []*Method
 	less := jen.Empty()
@@ -212,6 +222,9 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
 	return methods
 }
 
+// serializationFuncs produces the Methods and Functions needed for a
+// NonFunctional property to be serialized and deserialized to and from an
+// encoding.
 func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*Method, []*Function) {
 	serialize := []*Method{
 		NewCommentedValueMethod(

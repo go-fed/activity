@@ -5,10 +5,16 @@ import (
 	"github.com/dave/jennifer/jen"
 )
 
+// FunctionalPropertyGenerator produces Go code for properties that can have
+// only one value. The resulting property is a struct type that can have one
+// value that could be from multiple Kinds of values. If there is only one
+// allowed Kind, then a smaller API is generated as a special case.
 type FunctionalPropertyGenerator struct {
 	PropertyGenerator
 }
 
+// Definition produces the Go Struct code definition, which can generate its Go
+// implementations.
 func (p *FunctionalPropertyGenerator) Definition() *Struct {
 	if len(p.Kinds) == 1 {
 		return p.singleTypeDef()
@@ -17,6 +23,7 @@ func (p *FunctionalPropertyGenerator) Definition() *Struct {
 	}
 }
 
+// funcs produces the methods needed for the functional property.
 func (p *FunctionalPropertyGenerator) funcs() []*Method {
 	kindIndexFns := make([]jen.Code, 0, len(p.Kinds))
 	for i, _ := range p.Kinds {
@@ -42,7 +49,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*Method {
 			/*params=*/ nil,
 			[]jen.Code{jen.Int()},
 			[]jen.Code{
-				joinSingleLine(kindIndexFns),
+				join(kindIndexFns),
 				jen.Return(jen.Lit(-1)),
 			},
 			jen.Commentf("%s computes an arbitrary value for indexing this kind of value.", kindIndexMethod),
@@ -50,6 +57,9 @@ func (p *FunctionalPropertyGenerator) funcs() []*Method {
 	}
 }
 
+// serializationFuncs produces the Methods and Functions needed for a
+// functional property to be serialized and deserialized to and from an
+// encoding.
 func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*Method, []*Function) {
 	serializeFns := jen.Empty()
 	for i, kind := range p.Kinds {
@@ -160,11 +170,12 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*Method, []*Functi
 				},
 				jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.deserializeFnName(), p.propertyName()),
 			))
-
 	}
 	return serialize, deserialize
 }
 
+// singleTypeDef generates a special-case simplified API for a functional
+// property that can only be a single Kind of value.
 func (p *FunctionalPropertyGenerator) singleTypeDef() *Struct {
 	var comment jen.Code
 	var kindMembers []jen.Code
@@ -195,6 +206,8 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *Struct {
 		kindMembers)
 }
 
+// singleTypeFuncs generates the special-case simplified methods for a
+// functional property with exactly one Kind of value.
 func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*Method {
 	var methods []*Method
 	// Has Method
@@ -283,6 +296,8 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*Method {
 	return methods
 }
 
+// multiTypeDef generates an API for a functional property that can be multiple
+// Kinds of value.
 func (p *FunctionalPropertyGenerator) multiTypeDef() *Struct {
 	kindMembers := make([]jen.Code, 0, len(p.Kinds))
 	for i, kind := range p.Kinds {
@@ -321,6 +336,8 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *Struct {
 		kindMembers)
 }
 
+// multiTypeFuncs generates the methods for a functional property with more than
+// one Kind of value.
 func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*Method {
 	var methods []*Method
 	// HasAny Method
@@ -339,7 +356,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*Method {
 		p.structName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.Bool()},
-		[]jen.Code{jen.Return(joinSingleLine(isLine))},
+		[]jen.Code{jen.Return(join(isLine))},
 		jen.Commentf(
 			"%s returns true if any of the different values is set.", hasAnyMethodName,
 		),

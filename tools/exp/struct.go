@@ -4,6 +4,8 @@ import (
 	"github.com/dave/jennifer/jen"
 )
 
+// Struct defines a struct-based type, its functions, and its methods for Go
+// code generation.
 type Struct struct {
 	comment      jen.Code
 	name         string
@@ -12,6 +14,7 @@ type Struct struct {
 	members      []jen.Code
 }
 
+// NewStruct creates a new commented Struct type.
 func NewStruct(comment jen.Code,
 	name string,
 	methods []*Method,
@@ -33,13 +36,15 @@ func NewStruct(comment jen.Code,
 	return s
 }
 
+// Definition generates the Go code required to define and implement this
+// struct, its methods, and its functions.
 func (s *Struct) Definition() jen.Code {
 	comment := jen.Empty()
 	if s.comment != nil {
 		comment = jen.Empty().Add(s.comment).Line()
 	}
 	def := comment.Type().Id(s.name).Struct(
-		joinSingleLine(s.members),
+		join(s.members),
 	)
 	for _, c := range s.constructors {
 		def = def.Line().Line().Add(c.Definition())
@@ -50,10 +55,14 @@ func (s *Struct) Definition() jen.Code {
 	return def
 }
 
+// Method obtains the Go code to be generated for the method with a specific
+// name. Panics if no such method exists.
 func (s *Struct) Method(name string) *Method {
 	return s.methods[name]
 }
 
+// Constructors obtains the Go code to be generated for the function with a
+// specific name. Panics if no such function exists.
 func (s *Struct) Constructors(name string) *Function {
 	return s.constructors[name]
 }

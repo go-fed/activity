@@ -15,10 +15,13 @@ const (
 	pointerMember
 )
 
+// This returns the string variable used by members to refer to themselves.
 func This() string {
 	return this
 }
 
+// Function represents a free function, not a method, for Go code to be
+// generated.
 type Function struct {
 	qual    *jen.Statement
 	name    string
@@ -28,6 +31,7 @@ type Function struct {
 	comment jen.Code
 }
 
+// NewCommentedFunction creates a new function with a comment.
 func NewCommentedFunction(pkg, name string,
 	params, ret, block []jen.Code,
 	comment jen.Code) *Function {
@@ -41,6 +45,7 @@ func NewCommentedFunction(pkg, name string,
 	}
 }
 
+// NewFunction creates a new function without any comments.
 func NewFunction(pkg, name string,
 	params, ret, block []jen.Code) *Function {
 	return &Function{
@@ -53,6 +58,8 @@ func NewFunction(pkg, name string,
 	}
 }
 
+// Definition generates the Go code required to define and implement this
+// function.
 func (m Function) Definition() jen.Code {
 	stmts := jen.Empty()
 	if m.comment != nil {
@@ -67,20 +74,26 @@ func (m Function) Definition() jen.Code {
 	))
 }
 
+// Call generates the Go code required to call this function, with qualifier if
+// required.
 func (m Function) Call(params ...jen.Code) jen.Code {
 	return m.qual.Call(params...)
 }
 
+// Name returns the identifier of this function.
 func (m Function) Name() string {
 	return m.name
 }
 
+// Method represents a method on a type, not a free function, for Go code to be
+// generated.
 type Method struct {
 	member     memberType
 	structName string
 	function   *Function
 }
 
+// NewCommentedValueMethod defines a commented method for the value of a type.
 func NewCommentedValueMethod(pkg, name, structName string,
 	params, ret, block []jen.Code,
 	comment jen.Code) *Method {
@@ -98,6 +111,7 @@ func NewCommentedValueMethod(pkg, name, structName string,
 	}
 }
 
+// NewValueMethod defines a method for the value of a type. It is not commented.
 func NewValueMethod(pkg, name, structName string,
 	params, ret, block []jen.Code) *Method {
 	return &Method{
@@ -114,6 +128,8 @@ func NewValueMethod(pkg, name, structName string,
 	}
 }
 
+// NewCommentedPointerMethod defines a commented method for the pointer to a
+// type.
 func NewCommentedPointerMethod(pkg, name, structName string,
 	params, ret, block []jen.Code,
 	comment jen.Code) *Method {
@@ -131,6 +147,8 @@ func NewCommentedPointerMethod(pkg, name, structName string,
 	}
 }
 
+// NewPointerMethod defines a method for the pointer to a type. It is not
+// commented.
 func NewPointerMethod(pkg, name, structName string,
 	params, ret, block []jen.Code) *Method {
 	return &Method{
@@ -147,6 +165,8 @@ func NewPointerMethod(pkg, name, structName string,
 	}
 }
 
+// Definition generates the Go code required to define and implement this
+// method.
 func (m Method) Definition() jen.Code {
 	comment := jen.Empty()
 	if m.function.comment != nil {
@@ -176,10 +196,13 @@ func (m Method) Definition() jen.Code {
 	))
 }
 
+// Call generates the Go code required to call this method, with qualifier if
+// required.
 func (m Method) Call(on string, params ...jen.Code) jen.Code {
 	return jen.Id(on).Call(params...)
 }
 
+// Name returns the identifier of this function.
 func (m Method) Name() string {
 	return m.function.name
 }
