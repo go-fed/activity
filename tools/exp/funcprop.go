@@ -91,7 +91,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*Method, []*Functi
 			/*params=*/ nil,
 			[]jen.Code{jen.Interface(), jen.Error()},
 			[]jen.Code{serializeFns, jen.Return(
-				jen.Nil(),
+				jen.Id(This()).Dot(unknownMemberName),
 				jen.Nil(),
 			)},
 			jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName()),
@@ -136,7 +136,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*Method, []*Functi
 				[]jen.Code{jen.Id("i").Interface()},
 				[]jen.Code{jen.Op("*").Id(p.structName()), jen.Error()},
 				[]jen.Code{
-					deserializeFns,
+					deserializeFns.Add(p.unknownDeserializeCode()),
 					jen.Return(
 						jen.Nil(),
 						jen.Nil(),
@@ -161,7 +161,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*Method, []*Functi
 						),
 						jen.Id("ok"),
 					).Block(
-						deserializeFns,
+						deserializeFns.Add(p.unknownDeserializeCode()),
 					),
 					jen.Return(
 						jen.Nil(),
@@ -184,7 +184,10 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *Struct {
 		if p.asIterator {
 			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single nilable value type.", p.structName())
 		}
-		kindMembers = []jen.Code{jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind)}
+		kindMembers = []jen.Code{
+			jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind),
+			p.unknownMemberDef(),
+		}
 	} else {
 		comment = jen.Commentf("%s is the functional property %q. It is permitted to be a single default-valued value type.", p.structName(), p.propertyName())
 		if p.asIterator {
@@ -193,6 +196,7 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *Struct {
 		kindMembers = []jen.Code{
 			jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind),
 			jen.Id(p.hasMemberName(0)).Bool(),
+			p.unknownMemberDef(),
 		}
 	}
 	methods, funcs := p.serializationFuncs()
@@ -308,6 +312,7 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *Struct {
 			kindMembers = append(kindMembers, jen.Id(p.hasMemberName(i)).Bool())
 		}
 	}
+	kindMembers = append(kindMembers, p.unknownMemberDef())
 	explanation := jen.Commentf(
 		"At most, one type of value can be present, or none at all. Setting a value will",
 	).Line().Commentf(
@@ -453,4 +458,34 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*Method {
 		))
 	}
 	return methods
+}
+
+// unknownMemberDef returns the definition of a struct member that handles
+// a property whose type is unknown.
+func (p *FunctionalPropertyGenerator) unknownMemberDef() jen.Code {
+	return jen.Id(unknownMemberName).Index().Byte()
+}
+
+// unknownDeserializeCode generates the "else if it's a []byte" code used for
+// deserializing unknown values.
+func (p *FunctionalPropertyGenerator) unknownDeserializeCode() jen.Code {
+	return jen.Else().If(
+		jen.List(
+			jen.Id("v"),
+			jen.Id("ok"),
+		).Op(":=").Id("i").Assert(
+			jen.Index().Byte(),
+		),
+		jen.Id("ok"),
+	).Block(
+		jen.Id(This()).Op(":=").Op("&").Id(p.structName()).Values(
+			jen.Dict{
+				jen.Id(unknownMemberName): jen.Id("v"),
+			},
+		),
+		jen.Return(
+			jen.Id(This()),
+			jen.Err(),
+		),
+	)
 }

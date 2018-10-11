@@ -5,7 +5,6 @@ import (
 	"github.com/dave/jennifer/jen"
 )
 
-// TODO: Deserialize & generated structs preserve "unknown" elements.
 // TODO: Natural language map.
 // TODO: Kind serialize/deserialize use Method/Function.
 
@@ -29,6 +28,8 @@ const (
 	nameMethod                = "Name"
 	serializeIteratorMethod   = "serialize"
 	deserializeIteratorMethod = "deserialize"
+	// Member names for generated code
+	unknownMemberName = "unknown"
 )
 
 // join appends a bunch of Go Code together, each on their own line.
