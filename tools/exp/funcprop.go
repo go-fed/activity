@@ -316,7 +316,7 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *Struct {
 		"true.",
 	).Line().Comment("").Line().Commentf(
 		"It is possible to clear all values, so that this property is empty.",
-	).Line()
+	)
 	comment := jen.Commentf(
 		"%s is the functional property %q. It is permitted to be one of multiple value types.", p.structName(), p.propertyName(),
 	).Line().Comment("").Line().Add(explanation)
