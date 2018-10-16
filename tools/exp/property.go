@@ -5,8 +5,8 @@ import (
 	"github.com/dave/jennifer/jen"
 )
 
-// TODO: Natural language map.
 // TODO: Kind serialize/deserialize use Method/Function.
+// TODO: Special-case uses similar function names (easy interface creation)
 
 const (
 	// Method names for generated code
@@ -28,8 +28,13 @@ const (
 	nameMethod                = "Name"
 	serializeIteratorMethod   = "serialize"
 	deserializeIteratorMethod = "deserialize"
+	isLanguageMapMethod       = "IsLanguageMap"
+	hasLanguageMethod         = "HasLanguage"
+	getLanguageMethod         = "GetLanguage"
+	setLanguageMethod         = "SetLanguage"
 	// Member names for generated code
 	unknownMemberName = "unknown"
+	langMapMember     = "langMap"
 )
 
 // join appends a bunch of Go Code together, each on their own line.
@@ -72,10 +77,11 @@ type Kind struct {
 // It also properly handles the concept of generating Go code for property
 // iterators, which are needed for NonFunctional properties.
 type PropertyGenerator struct {
-	Package    string
-	Name       Identifier
-	Kinds      []Kind
-	asIterator bool
+	Package               string
+	Name                  Identifier
+	Kinds                 []Kind
+	HasNaturalLanguageMap bool
+	asIterator            bool
 }
 
 // packageName returns the name of the package for the property to be generated.
@@ -115,6 +121,15 @@ func (p *PropertyGenerator) getFnName(i int) string {
 		return getMethod
 	}
 	return fmt.Sprintf("%s%s", getMethod, p.kindCamelName(i))
+}
+
+// setFnName returns the identifier of the function that sets concrete types
+// of the property.
+func (p *PropertyGenerator) setFnName(i int) string {
+	if len(p.Kinds) == 1 {
+		return setMethod
+	}
+	return fmt.Sprintf("%s%s", setMethod, p.kindCamelName(i))
 }
 
 // serializeFnName returns the identifier of the function that serializes the

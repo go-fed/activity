@@ -13,35 +13,82 @@ type FunctionalPropertyGenerator struct {
 	PropertyGenerator
 }
 
+// isSingleTypeDef determines whether a special-case API can be generated for
+// one allowed Kind.
+func (p *FunctionalPropertyGenerator) isSingleTypeDef() bool {
+	return len(p.Kinds) == 1
+}
+
 // Definition produces the Go Struct code definition, which can generate its Go
 // implementations.
 func (p *FunctionalPropertyGenerator) Definition() *Struct {
-	if len(p.Kinds) == 1 {
+	if p.isSingleTypeDef() {
 		return p.singleTypeDef()
 	} else {
 		return p.multiTypeDef()
 	}
 }
 
+// clearNonLanguageMapMembers generates the code required to clear all values,
+// including unknown values, from this property except for the natural language
+// map. If this property can handle a natural language map, then it is up to the
+// calling code to determine whether to set the 'langMapMember' to nil.
+func (p *FunctionalPropertyGenerator) clearNonLanguageMapMembers() []jen.Code {
+	if p.isSingleTypeDef() {
+		return p.singleTypeClearNonLanguageMapMembers()
+	} else {
+		return p.multiTypeClearNonLanguageMapMembers()
+	}
+}
+
+// singleTypeClearNonLanguageMapMembers generates code to clear all members for
+// the special case single-Kind property.
+func (p *FunctionalPropertyGenerator) singleTypeClearNonLanguageMapMembers() []jen.Code {
+	clearCode := []jen.Code{
+		jen.Id(This()).Dot(unknownMemberName).Op("=").Nil(),
+	}
+	if p.Kinds[0].Nilable {
+		clearCode = append(clearCode, jen.Id(This()).Dot(p.memberName(0)).Op("=").Nil())
+	} else {
+		clearCode = append(clearCode, jen.Id(This()).Dot(p.hasMemberName(0)).Op("=").False())
+	}
+	return clearCode
+}
+
+// multiTypeClearNonLanguageMapMembers generates code to clear all members for
+// a property with multiple Kinds.
+func (p *FunctionalPropertyGenerator) multiTypeClearNonLanguageMapMembers() []jen.Code {
+	clearLine := make([]jen.Code, len(p.Kinds)+2) // +2 for the unknown, and maybe language map
+	for i, kind := range p.Kinds {
+		if kind.Nilable {
+			clearLine[i] = jen.Id(This()).Dot(p.memberName(i)).Op("=").Nil()
+		} else {
+			clearLine[i] = jen.Id(This()).Dot(p.hasMemberName(i)).Op("=").False()
+		}
+	}
+	clearLine = append(clearLine, jen.Id(This()).Dot(unknownMemberName).Op("=").Nil())
+	return clearLine
+}
+
 // funcs produces the methods needed for the functional property.
 func (p *FunctionalPropertyGenerator) funcs() []*Method {
 	kindIndexFns := make([]jen.Code, 0, len(p.Kinds))
 	for i, _ := range p.Kinds {
-		if len(p.Kinds) > 1 {
-			kindIndexFns = append(kindIndexFns, jen.If(
-				jen.Id(This()).Dot(p.isMethodName(i)).Call(),
-			).Block(
-				jen.Return(jen.Lit(i)),
-			))
-		} else {
+		if p.isSingleTypeDef() {
 			kindIndexFns = append(kindIndexFns, jen.If(
 				jen.Id(This()).Dot(hasMethod).Call(),
 			).Block(
 				jen.Return(jen.Lit(i)),
 			))
+		} else {
+			kindIndexFns = append(kindIndexFns, jen.If(
+				jen.Id(This()).Dot(p.isMethodName(i)).Call(),
+			).Block(
+				jen.Return(jen.Lit(i)),
+			))
 		}
 	}
-	return []*Method{
+	methods := []*Method{
 		NewCommentedValueMethod(
 			p.packageName(),
 			kindIndexMethod,
@@ -55,6 +102,124 @@ func (p *FunctionalPropertyGenerator) funcs() []*Method {
 			jen.Commentf("%s computes an arbitrary value for indexing this kind of value.", kindIndexMethod),
 		),
 	}
+	if p.HasNaturalLanguageMap {
+		// IsLanguageMap Method
+		methods = append(methods,
+			NewCommentedValueMethod(
+				p.packageName(),
+				isLanguageMapMethod,
+				p.structName(),
+				/*params=*/ nil,
+				[]jen.Code{jen.Bool()},
+				[]jen.Code{
+					jen.Return(jen.Id(This()).Dot(langMapMember).Op("!=").Nil()),
+				},
+				jen.Commentf(
+					"%s determines if this property is represented by a natural language map.",
+					isLanguageMapMethod,
+				).Line().Commentf("").Line().Commentf(
+					"When true, use %s, %s, and %s methods to access and mutate the natural language map.",
+					hasLanguageMethod,
+					getLanguageMethod,
+					setLanguageMethod,
+				).Line().Commentf(
+					"The %s method can be used to clear the natural language map.",
+					p.clearMethodName(),
+				).Line().Commentf("").Line().Commentf(
+					"Note that this method is only used for natural language representations, and does not determine the presence nor absence of other values for this property.",
+				)))
+		// HasLanguage Method
+		methods = append(methods,
+			NewCommentedValueMethod(
+				p.packageName(),
+				hasLanguageMethod,
+				p.structName(),
+				[]jen.Code{jen.Id("bcp47").String()},
+				[]jen.Code{jen.Bool()},
+				[]jen.Code{
+					jen.If(
+						jen.Id(This()).Dot(langMapMember).Op("==").Nil(),
+					).Block(
+						jen.Return(jen.False()),
+					).Else().Block(
+						jen.List(
+							jen.Id("_"),
+							jen.Id("ok"),
+						).Op(":=").Id(This()).Dot(langMapMember).Index(
+							jen.Id("bcp47"),
+						),
+						jen.Return(jen.Id("ok")),
+					),
+				},
+				jen.Commentf(
+					"%s returns true if the natural language map has an entry for the specified BCP47 language code.",
+					hasLanguageMethod,
+				),
+			))
+		// GetLanguage Method
+		methods = append(methods,
+			NewCommentedValueMethod(
+				p.packageName(),
+				getLanguageMethod,
+				p.structName(),
+				[]jen.Code{jen.Id("bcp47").String()},
+				[]jen.Code{jen.String()},
+				[]jen.Code{
+					jen.If(
+						jen.Id(This()).Dot(langMapMember).Op("==").Nil(),
+					).Block(
+						jen.Return(jen.Lit("")),
+					).Else().If(
+						jen.List(
+							jen.Id("v"),
+							jen.Id("ok"),
+						).Op(":=").Id(This()).Dot(langMapMember).Index(
+							jen.Id("bcp47"),
+						),
+						jen.Id("ok"),
+					).Block(
+						jen.Return(jen.Id("v")),
+					).Else().Block(
+						jen.Return(jen.Lit("")),
+					),
+				},
+				jen.Commentf(
+					"%s returns the value for the specified BCP47 language code, or an empty string if it is either not a language map or no value is present.",
+					getLanguageMethod,
+				),
+			))
+		// SetLanguage Method
+		methods = append(methods,
+			NewCommentedPointerMethod(
+				p.packageName(),
+				setLanguageMethod,
+				p.structName(),
+				[]jen.Code{
+					jen.Id("bcp47"),
+					jen.Id("value").String(),
+				},
+				/*ret=*/ nil,
+				append(p.clearNonLanguageMapMembers(),
+					[]jen.Code{
+						jen.If(
+							jen.Id(This()).Dot(langMapMember).Op("==").Nil(),
+						).Block(
+							jen.Id(This()).Dot(langMapMember).Op("=").Make(
+								jen.Map(jen.String()).String(),
+							),
+						),
+						jen.Id(This()).Dot(langMapMember).Index(
+							jen.Id("bcp47"),
+						).Op("=").Id("value"),
+					}...,
+				),
+				jen.Commentf(
+					"%s sets the value for the specified BCP47 language code.",
+					setLanguageMethod,
+				),
+			))
+	}
+	return methods
 }
 
 // serializationFuncs produces the Methods and Functions needed for a
@@ -66,7 +231,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*Method, []*Functi
 		if i > 0 {
 			serializeFns = serializeFns.Else()
 		}
-		if len(p.Kinds) == 1 {
+		if p.isSingleTypeDef() {
 			serializeFns = serializeFns.If(
 				jen.Id(This()).Dot(hasMethod).Call(),
 			)
@@ -186,7 +351,6 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *Struct {
 		}
 		kindMembers = []jen.Code{
 			jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind),
-			p.unknownMemberDef(),
 		}
 	} else {
 		comment = jen.Commentf("%s is the functional property %q. It is permitted to be a single default-valued value type.", p.structName(), p.propertyName())
@@ -196,8 +360,11 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *Struct {
 		kindMembers = []jen.Code{
 			jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind),
 			jen.Id(p.hasMemberName(0)).Bool(),
-			p.unknownMemberDef(),
 		}
+	}
+	kindMembers = append(kindMembers, p.unknownMemberDef())
+	if p.HasNaturalLanguageMap {
+		kindMembers = append(kindMembers, jen.Id(langMapMember).Map(jen.String()).String())
 	}
 	methods, funcs := p.serializationFuncs()
 	methods = append(methods, p.singleTypeFuncs()...)
@@ -216,6 +383,19 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*Method {
 	var methods []*Method
 	// Has Method
 	hasComment := jen.Commentf("%s returns true if this property is set.", hasMethod)
+	if p.HasNaturalLanguageMap {
+		hasComment = jen.Commentf(
+			"%s returns true if this property is set and is not a natural language map.",
+			hasMethod,
+		).Line().Commentf("").Line().Commentf(
+			"When true, the %s and %s methods may be used to access and set this property.",
+			getMethod,
+			p.setFnName(0),
+		).Line().Commentf("").Line().Commentf(
+			"To determine if the property was set as a natural language map, use the %s method instead.",
+			isLanguageMapMethod,
+		)
+	}
 	if p.Kinds[0].Nilable {
 		methods = append(methods, NewCommentedValueMethod(
 			p.packageName(),
@@ -249,25 +429,39 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*Method {
 		getComment,
 	))
 	// Set Method
-	setComment := jen.Commentf("%s sets the value of this property. Calling %s afterwards will return true.", setMethod, hasMethod)
+	setComment := jen.Commentf("%s sets the value of this property. Calling %s afterwards will return true.", p.setFnName(0), hasMethod)
+	if p.HasNaturalLanguageMap {
+		setComment = jen.Commentf(
+			"%s sets the value of this property and clears the natural language map.",
+			p.setFnName(0),
+		).Line().Commentf("").Line().Commentf(
+			"Calling %s afterwards will return true. Calling %s afterwards returns false.",
+			hasMethod,
+			isLanguageMapMethod,
+		)
+	}
 	if p.Kinds[0].Nilable {
 		methods = append(methods, NewCommentedPointerMethod(
 			p.packageName(),
-			setMethod,
+			p.setFnName(0),
 			p.structName(),
 			[]jen.Code{jen.Id("v").Id(p.Kinds[0].ConcreteKind)},
 			/*ret=*/ nil,
-			[]jen.Code{jen.Id(This()).Dot(p.memberName(0)).Op("=").Id("v")},
+			[]jen.Code{
+				jen.Id(This()).Dot(p.clearMethodName()).Call(),
+				jen.Id(This()).Dot(p.memberName(0)).Op("=").Id("v"),
+			},
 			setComment,
 		))
 	} else {
 		methods = append(methods, NewCommentedPointerMethod(
 			p.packageName(),
-			setMethod,
+			p.setFnName(0),
 			p.structName(),
 			[]jen.Code{jen.Id("v").Id(p.Kinds[0].ConcreteKind)},
 			/*ret=*/ nil,
 			[]jen.Code{
+				jen.Id(This()).Dot(p.clearMethodName()).Call(),
 				jen.Id(This()).Dot(p.memberName(0)).Op("=").Id("v"),
 				jen.Id(This()).Dot(p.hasMemberName(0)).Op("=").True(),
 			},
@@ -275,7 +469,19 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*Method {
 		))
 	}
 	// Clear Method
-	clearComment := jen.Commentf("%s ensures no value of this property is set. Calling %s afterwards will return false.", p.clearMethodName(), hasMethod).Line()
+	clearComment := jen.Commentf("%s ensures no value of this property is set. Calling %s afterwards will return false.", p.clearMethodName(), hasMethod)
+	clearCode := p.singleTypeClearNonLanguageMapMembers()
+	if p.HasNaturalLanguageMap {
+		clearComment = jen.Commentf(
+			"%s ensures no value and no language map for this property is set.",
+			p.clearMethodName(),
+		).Line().Commentf("").Line().Commentf(
+			"Calling %s or %s afterwards will return false.",
+			hasMethod,
+			isLanguageMapMethod,
+		)
+		clearCode = append(clearCode, jen.Id(This()).Dot(langMapMember).Op("=").Nil())
+	}
 	if p.Kinds[0].Nilable {
 		methods = append(methods, NewCommentedPointerMethod(
 			p.packageName(),
@@ -283,7 +489,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*Method {
 			p.structName(),
 			/*params=*/ nil,
 			/*ret=*/ nil,
-			[]jen.Code{jen.Id(This()).Dot(p.memberName(0)).Op("=").Nil()},
+			clearCode,
 			clearComment,
 		))
 	} else {
@@ -293,7 +499,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*Method {
 			p.structName(),
 			/*params=*/ nil,
 			/*ret=*/ nil,
-			[]jen.Code{jen.Id(This()).Dot(p.hasMemberName(0)).Op("=").False()},
+			clearCode,
 			clearComment,
 		))
 	}
@@ -313,6 +519,9 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *Struct {
 		}
 	}
 	kindMembers = append(kindMembers, p.unknownMemberDef())
+	if p.HasNaturalLanguageMap {
+		kindMembers = append(kindMembers, jen.Id(langMapMember).Map(jen.String()).String())
+	}
 	explanation := jen.Commentf(
 		"At most, one type of value can be present, or none at all. Setting a value will",
 	).Line().Commentf(
@@ -355,6 +564,20 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*Method {
 		}
 		isLine[i] = jen.Id(This()).Dot(p.isMethodName(i)).Parens(nil).Add(or)
 	}
+	hasAnyComment := jen.Commentf(
+		"%s returns true if any of the different values is set.", hasAnyMethodName,
+	)
+	if p.HasNaturalLanguageMap {
+		hasAnyComment = jen.Commentf(
+			"%s returns true if any of the values are set, except for the natural language map",
+			hasAnyMethodName,
+		).Line().Commentf("").Line().Commentf(
+			"When true, the specific has, getter, and setter methods may be used to determine what kind of value there is to access and set this property.",
+		).Line().Commentf("").Line().Commentf(
+			"To determine if the property was set as a natural language map, use the %s method instead.",
+			isLanguageMapMethod,
+		)
+	}
 	methods = append(methods, NewCommentedPointerMethod(
 		p.packageName(),
 		hasAnyMethodName,
@@ -362,18 +585,22 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*Method {
 		/*params=*/ nil,
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{jen.Return(join(isLine))},
-		jen.Commentf(
-			"%s returns true if any of the different values is set.", hasAnyMethodName,
-		),
+		hasAnyComment,
 	))
 	// Clear Method
-	clearLine := make([]jen.Code, len(p.Kinds))
-	for i, kind := range p.Kinds {
-		if kind.Nilable {
-			clearLine[i] = jen.Id(This()).Dot(p.memberName(i)).Op("=").Nil()
-		} else {
-			clearLine[i] = jen.Id(This()).Dot(p.hasMemberName(i)).Op("=").False()
-		}
+	clearComment := jen.Commentf(
+		"%s ensures no value of this property is set. Calling %s or any of the 'Is' methods afterwards will return false.", p.clearMethodName(), hasAnyMethodName,
+	)
+	clearLine := p.multiTypeClearNonLanguageMapMembers()
+	if p.HasNaturalLanguageMap {
+		clearComment = jen.Commentf(
+			"%s ensures no value and no language map for this property is set.",
+			p.clearMethodName(),
+		).Line().Commentf("").Line().Commentf(
+			"Calling %s or any of the 'Is' methods afterwards will return false.",
+			hasAnyMethodName,
+		)
+		clearLine = append(clearLine, jen.Id(This()).Dot(langMapMember).Op("=").Nil())
 	}
 	methods = append(methods, NewCommentedPointerMethod(
 		p.packageName(),
@@ -382,13 +609,21 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*Method {
 		/*params=*/ nil,
 		/*ret=*/ nil,
 		clearLine,
-		jen.Commentf(
-			"%s ensures no value of this property is set. Calling %s or any of the 'Is' methods afterwards will return false.", p.clearMethodName(), hasAnyMethodName,
-		),
+		clearComment,
 	))
 	// Is Method
 	for i, kind := range p.Kinds {
-		isComment := jen.Commentf("%s returns true if this property has a type of value of %q.", p.isMethodName(i), kind.ConcreteKind)
+		isComment := jen.Commentf("%s returns true if this property has a type of value of %q.", p.isMethodName(i), kind.ConcreteKind).Line().Commentf("").Line().Commentf(
+			"When true, use the %s and %s methods to access and set this property.",
+			p.getFnName(i),
+			p.setFnName(i),
+		)
+		if p.HasNaturalLanguageMap {
+			isComment = isComment.Line().Commentf("").Line().Commentf(
+				"To determine if the property was set as a natural language map, use the %s method instead.",
+				isLanguageMapMethod,
+			)
+		}
 		if kind.Nilable {
 			methods = append(methods, NewCommentedValueMethod(
 				p.packageName(),
@@ -413,12 +648,21 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*Method {
 	}
 	// Set Method
 	for i, kind := range p.Kinds {
-		setMethodName := fmt.Sprintf("%s%s", setMethod, p.kindCamelName(i))
-		setComment := jen.Commentf("%s sets the value of this property. Calling %s afterwards returns true.", setMethodName, p.isMethodName(i))
+		setComment := jen.Commentf("%s sets the value of this property. Calling %s afterwards returns true.", p.setFnName(i), p.isMethodName(i))
+		if p.HasNaturalLanguageMap {
+			setComment = jen.Commentf(
+				"%s sets the value of this property and clears the natural language map.",
+				p.setFnName(i),
+			).Line().Commentf("").Line().Commentf(
+				"Calling %s afterwards will return true. Calling %s afterwards returns false.",
+				p.isMethodName(i),
+				isLanguageMapMethod,
+			)
+		}
 		if kind.Nilable {
 			methods = append(methods, NewCommentedPointerMethod(
 				p.packageName(),
-				setMethodName,
+				p.setFnName(i),
 				p.structName(),
 				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
 				/*ret=*/ nil,
@@ -431,7 +675,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*Method {
 		} else {
 			methods = append(methods, NewCommentedPointerMethod(
 				p.packageName(),
-				setMethodName,
+				p.setFnName(i),
 				p.structName(),
 				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
 				/*ret=*/ nil,

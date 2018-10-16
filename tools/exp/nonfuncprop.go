@@ -41,9 +41,11 @@ func (p *NonFunctionalPropertyGenerator) iteratorTypeName() Identifier {
 func (p *NonFunctionalPropertyGenerator) elementTypeGenerator() *FunctionalPropertyGenerator {
 	return &FunctionalPropertyGenerator{
 		PropertyGenerator{
-			Name:       p.iteratorTypeName(),
-			Kinds:      p.Kinds,
-			asIterator: true,
+			Package: p.PropertyGenerator.Package,
+			Name:    p.iteratorTypeName(),
+			Kinds:   p.Kinds,
+			HasNaturalLanguageMap: p.PropertyGenerator.HasNaturalLanguageMap,
+			asIterator:            true,
 		},
 	}
 }

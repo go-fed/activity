@@ -8,6 +8,8 @@ import (
 func main() {
 	x := &exp.FunctionalPropertyGenerator{
 		exp.PropertyGenerator{
+			Package: "test",
+			HasNaturalLanguageMap: true,
 			Name: exp.Identifier{
 				LowerName: "testFunctional",
 				CamelName: "TestFunctional",
@@ -30,6 +32,8 @@ func main() {
 	}
 	y := &exp.FunctionalPropertyGenerator{
 		exp.PropertyGenerator{
+			Package: "test",
+			HasNaturalLanguageMap: true,
 			Name: exp.Identifier{
 				LowerName: "testFunctionalNonnil",
 				CamelName: "TestFunctionalNonil",
@@ -52,6 +56,8 @@ func main() {
 	}
 	z := &exp.FunctionalPropertyGenerator{
 		exp.PropertyGenerator{
+			Package: "test",
+			HasNaturalLanguageMap: true,
 			Name: exp.Identifier{
 				LowerName: "testFunctionalMultiType",
 				CamelName: "TestFunctionalMultiType",
@@ -86,6 +92,8 @@ func main() {
 	}
 	zz := &exp.NonFunctionalPropertyGenerator{
 		exp.PropertyGenerator{
+			Package: "test",
+			HasNaturalLanguageMap: true,
 			Name: exp.Identifier{
 				LowerName: "testNonFunctionalMultiType",
 				CamelName: "TestNonFunctionalMultiType",
