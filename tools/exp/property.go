@@ -6,7 +6,6 @@ import (
 )
 
 // TODO: Kind serialize/deserialize use Method/Function.
-// TODO: Special-case uses similar function names (easy interface creation)
 
 const (
 	// Method names for generated code
