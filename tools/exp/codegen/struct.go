@@ -1,8 +1,20 @@
-package exp
+package codegen
 
 import (
 	"github.com/dave/jennifer/jen"
 )
+
+// join appends a bunch of Go Code together, each on their own line.
+func join(s []jen.Code) *jen.Statement {
+	r := jen.Empty()
+	for i, stmt := range s {
+		if i > 0 {
+			r.Line()
+		}
+		r.Add(stmt)
+	}
+	return r
+}
 
 // Struct defines a struct-based type, its functions, and its methods for Go
 // code generation.

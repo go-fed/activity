@@ -1,8 +1,9 @@
-package exp
+package props
 
 import (
 	"fmt"
 	"github.com/dave/jennifer/jen"
+	"github.com/go-fed/activity/tools/exp/codegen"
 )
 
 // NonFunctionalPropertyGenerator produces Go code for properties that can have
@@ -15,10 +16,10 @@ type NonFunctionalPropertyGenerator struct {
 
 // Definitions produces the Go code definitions, which can generate their Go
 // implementations.
-func (p *NonFunctionalPropertyGenerator) Definitions() (*Struct, *Typedef) {
+func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codegen.Typedef) {
 	methods, funcs := p.serializationFuncs()
 	methods = append(methods, p.funcs()...)
-	property := NewTypedef(
+	property := codegen.NewTypedef(
 		jen.Commentf("%s is the non-functional property %q. It is permitted to have one or more values, and of different value types.", p.structName(), p.propertyName()),
 		p.structName(),
 		jen.Index().Id(p.iteratorTypeName().CamelName),
@@ -51,8 +52,8 @@ func (p *NonFunctionalPropertyGenerator) elementTypeGenerator() *FunctionalPrope
 }
 
 // funcs produces the methods needed for the NonFunctional property.
-func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
-	var methods []*Method
+func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
+	var methods []*codegen.Method
 	less := jen.Empty()
 	for i, kind := range p.Kinds {
 		dict := jen.Dict{
@@ -64,33 +65,33 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
 		// Prepend Method
 		prependMethodName := fmt.Sprintf("%s%s", prependMethod, p.kindCamelName(i))
 		methods = append(methods,
-			NewCommentedPointerMethod(
+			codegen.NewCommentedPointerMethod(
 				p.packageName(),
 				prependMethodName,
 				p.structName(),
 				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
-					jen.Op("*").Id(This()).Op("=").Append(
+					jen.Op("*").Id(codegen.This()).Op("=").Append(
 						jen.Index().Id(p.iteratorTypeName().CamelName).Values(
 							jen.Values(dict),
 						),
-						jen.Op("*").Id(This()).Op("..."),
+						jen.Op("*").Id(codegen.This()).Op("..."),
 					),
 				},
 				jen.Commentf("%s prepends a %s value to the front of a list of the property %q.", prependMethodName, kind.ConcreteKind, p.propertyName())))
 		// Append Method
 		appendMethodName := fmt.Sprintf("%s%s", appendMethod, p.kindCamelName(i))
 		methods = append(methods,
-			NewCommentedPointerMethod(
+			codegen.NewCommentedPointerMethod(
 				p.packageName(),
 				appendMethodName,
 				p.structName(),
 				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
-					jen.Op("*").Id(This()).Op("=").Append(
-						jen.Op("*").Id(This()),
+					jen.Op("*").Id(codegen.This()).Op("=").Append(
+						jen.Op("*").Id(codegen.This()),
 						jen.Id(p.iteratorTypeName().CamelName).Values(
 							dict,
 						),
@@ -104,9 +105,9 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
 		less.If(
 			jen.Id("idx1").Op("==").Lit(i),
 		).Block(
-			jen.Id("lhs").Op(":=").Id(This()).Index(jen.Id("i")).Dot(p.getFnName(i)).Call(),
-			jen.Id("rhs").Op(":=").Id(This()).Index(jen.Id("j")).Dot(p.getFnName(i)).Call(),
-			jen.Return(jen.Id(kind.LessFnName).Call(
+			jen.Id("lhs").Op(":=").Id(codegen.This()).Index(jen.Id("i")).Dot(p.getFnName(i)).Call(),
+			jen.Id("rhs").Op(":=").Id(codegen.This()).Index(jen.Id("j")).Dot(p.getFnName(i)).Call(),
+			jen.Return(kind.LessFn.Call(
 				jen.Id("lhs"),
 				jen.Id("rhs"),
 			)),
@@ -114,7 +115,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
 	}
 	// Remove Method
 	methods = append(methods,
-		NewCommentedPointerMethod(
+		codegen.NewCommentedPointerMethod(
 			p.packageName(),
 			removeMethod,
 			p.structName(),
@@ -123,34 +124,34 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
 			[]jen.Code{
 				jen.Copy(
 					jen.Parens(
-						jen.Op("*").Id(This()),
+						jen.Op("*").Id(codegen.This()),
 					).Index(
 						jen.Id("idx"),
 						jen.Empty(),
 					),
 					jen.Parens(
-						jen.Op("*").Id(This()),
+						jen.Op("*").Id(codegen.This()),
 					).Index(
 						jen.Id("idx").Op("+").Lit(1),
 						jen.Empty(),
 					),
 				),
 				jen.Parens(
-					jen.Op("*").Id(This()),
+					jen.Op("*").Id(codegen.This()),
 				).Index(
-					jen.Len(jen.Op("*").Id(This())).Op("-").Lit(1),
+					jen.Len(jen.Op("*").Id(codegen.This())).Op("-").Lit(1),
 				).Op("=").Id(p.iteratorTypeName().CamelName).Values(),
-				jen.Op("*").Id(This()).Op("=").Parens(
-					jen.Op("*").Id(This()),
+				jen.Op("*").Id(codegen.This()).Op("=").Parens(
+					jen.Op("*").Id(codegen.This()),
 				).Index(
 					jen.Empty(),
-					jen.Len(jen.Op("*").Id(This())).Op("-").Lit(1),
+					jen.Len(jen.Op("*").Id(codegen.This())).Op("-").Lit(1),
 				),
 			},
 			jen.Commentf("%s deletes an element at the specified index from a list of the property %q, regardless of its type.", removeMethod, p.propertyName())))
 	// Len Method
 	methods = append(methods,
-		NewCommentedValueMethod(
+		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			lenMethod,
 			p.structName(),
@@ -159,14 +160,14 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
 			[]jen.Code{
 				jen.Return(
 					jen.Len(
-						jen.Id(This()),
+						jen.Id(codegen.This()),
 					),
 				),
 			},
 			jen.Commentf("%s returns the number of values that exist for the %q property.", lenMethod, p.propertyName())))
 	// Swap Method
 	methods = append(methods,
-		NewCommentedValueMethod(
+		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			swapMethod,
 			p.structName(),
@@ -177,17 +178,17 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
 			/*ret=*/ nil,
 			[]jen.Code{
 				jen.List(
-					jen.Id(This()).Index(jen.Id("i")),
-					jen.Id(This()).Index(jen.Id("j")),
+					jen.Id(codegen.This()).Index(jen.Id("i")),
+					jen.Id(codegen.This()).Index(jen.Id("j")),
 				).Op("=").List(
-					jen.Id(This()).Index(jen.Id("j")),
-					jen.Id(This()).Index(jen.Id("i")),
+					jen.Id(codegen.This()).Index(jen.Id("j")),
+					jen.Id(codegen.This()).Index(jen.Id("i")),
 				),
 			},
 			jen.Commentf("%s swaps the location of values at two indices for the %q property.", swapMethod, p.propertyName())))
 	// Less Method
 	methods = append(methods,
-		NewCommentedValueMethod(
+		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			lessMethod,
 			p.structName(),
@@ -197,8 +198,8 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
 			},
 			[]jen.Code{jen.Bool()},
 			[]jen.Code{
-				jen.Id("idx1").Op(":=").Id(This()).Dot(kindIndexMethod).Call(jen.Id("i")),
-				jen.Id("idx2").Op(":=").Id(This()).Dot(kindIndexMethod).Call(jen.Id("j")),
+				jen.Id("idx1").Op(":=").Id(codegen.This()).Dot(kindIndexMethod).Call(jen.Id("i")),
+				jen.Id("idx2").Op(":=").Id(codegen.This()).Dot(kindIndexMethod).Call(jen.Id("j")),
 				jen.If(jen.Id("idx1").Op("<").Id("idx2")).Block(
 					jen.Return(jen.True()),
 				).Else().If(jen.Id("idx1").Op("==").Id("idx2")).Block(
@@ -209,7 +210,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
 			jen.Commentf("%s computes whether another property is less than this one. Mixing types results in a consistent but arbitrary ordering", lessMethod)))
 	// Kind Method
 	methods = append(methods,
-		NewCommentedValueMethod(
+		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			kindIndexMethod,
 			p.structName(),
@@ -217,7 +218,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
 			[]jen.Code{jen.Int()},
 			[]jen.Code{
 				jen.Return(
-					jen.Id(This()).Index(jen.Id("idx")).Dot(kindIndexMethod).Call(),
+					jen.Id(codegen.This()).Index(jen.Id("idx")).Dot(kindIndexMethod).Call(),
 				),
 			},
 			jen.Commentf("%s computes an arbitrary value for indexing this kind of value.", kindIndexMethod)))
@@ -227,9 +228,9 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*Method {
 // serializationFuncs produces the Methods and Functions needed for a
 // NonFunctional property to be serialized and deserialized to and from an
 // encoding.
-func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*Method, []*Function) {
-	serialize := []*Method{
-		NewCommentedValueMethod(
+func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, []*codegen.Function) {
+	serialize := []*codegen.Method{
+		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			p.serializeFnName(),
 			p.structName(),
@@ -239,13 +240,13 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*Method, []*Fun
 				jen.Id("s").Op(":=").Make(
 					jen.Index().Interface(),
 					jen.Lit(0),
-					jen.Len(jen.Id(This())),
+					jen.Len(jen.Id(codegen.This())),
 				),
 				jen.For(
 					jen.List(
 						jen.Id("_"),
 						jen.Id("iterator"),
-					).Op(":=").Range().Id(This()),
+					).Op(":=").Range().Id(codegen.This()),
 				).Block(
 					jen.If(
 						jen.List(
@@ -284,26 +285,26 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*Method, []*Fun
 			jen.Err().Op("!=").Nil(),
 		).Block(
 			jen.Return(
-				jen.Id(This()),
+				jen.Id(codegen.This()),
 				jen.Err(),
 			),
 		).Else().If(
 			jen.Id("p").Op("!=").Nil(),
 		).Block(
-			jen.Id(This()).Op("=").Append(
-				jen.Id(This()),
+			jen.Id(codegen.This()).Op("=").Append(
+				jen.Id(codegen.This()),
 				jen.Op("*").Id("p"),
 			),
 		)
 	}
-	deserialize := []*Function{
-		NewCommentedFunction(
+	deserialize := []*codegen.Function{
+		codegen.NewCommentedFunction(
 			p.packageName(),
 			p.deserializeFnName(),
 			[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
 			[]jen.Code{jen.Id(p.structName()), jen.Error()},
 			[]jen.Code{
-				jen.Var().Id(This()).Index().Id(p.iteratorTypeName().CamelName),
+				jen.Var().Id(codegen.This()).Index().Id(p.iteratorTypeName().CamelName),
 				jen.If(
 					jen.List(
 						jen.Id("i"),
@@ -335,7 +336,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*Method, []*Fun
 					),
 				),
 				jen.Return(
-					jen.Id(This()),
+					jen.Id(codegen.This()),
 					jen.Nil(),
 				),
 			},

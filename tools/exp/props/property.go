@@ -1,11 +1,10 @@
-package exp
+package props
 
 import (
 	"fmt"
 	"github.com/dave/jennifer/jen"
+	"github.com/go-fed/activity/tools/exp/codegen"
 )
-
-// TODO: Kind serialize/deserialize use Method/Function.
 
 const (
 	// Method names for generated code
@@ -64,9 +63,9 @@ type Kind struct {
 	ConcreteKind          string
 	Nilable               bool
 	HasNaturalLanguageMap bool
-	SerializeFnName       string
-	DeserializeFnName     string
-	LessFnName            string
+	SerializeFn           codegen.Function
+	DeserializeFn         codegen.Function
+	LessFn                codegen.Function
 }
 
 // PropertyGenerator is a common base struct used in both Functional and
@@ -175,9 +174,9 @@ func (p *PropertyGenerator) clearMethodName() string {
 }
 
 // commonMethods returns methods common to every property.
-func (p *PropertyGenerator) commonMethods() []*Method {
-	return []*Method{
-		NewCommentedValueMethod(
+func (p *PropertyGenerator) commonMethods() []*codegen.Method {
+	return []*codegen.Method{
+		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			nameMethod,
 			p.structName(),

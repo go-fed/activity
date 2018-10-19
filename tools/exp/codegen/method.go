@@ -1,4 +1,4 @@
-package exp
+package codegen
 
 import (
 	"github.com/dave/jennifer/jen"
@@ -77,7 +77,7 @@ func (m Function) Definition() jen.Code {
 // Call generates the Go code required to call this function, with qualifier if
 // required.
 func (m Function) Call(params ...jen.Code) jen.Code {
-	return m.qual.Call(params...)
+	return m.qual.Clone().Call(params...)
 }
 
 // Name returns the identifier of this function.
