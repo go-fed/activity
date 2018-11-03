@@ -47,6 +47,8 @@ func join(s []jen.Code) *jen.Statement {
 	return r
 }
 
+// TODO: Cache generated property definitions.
+
 // Identifier determines how a name will appear in documentation and Go code.
 type Identifier struct {
 	// LowerName is the typical name used in documentation.
@@ -87,19 +89,19 @@ func (p *PropertyGenerator) packageName() string {
 	return p.Package
 }
 
-// structName returns the name of the type, which may or may not be a struct,
+// StructName returns the name of the type, which may or may not be a struct,
 // to generate.
-func (p *PropertyGenerator) structName() string {
+func (p *PropertyGenerator) StructName() string {
 	if p.asIterator {
 		return p.Name.CamelName
 	}
 	return fmt.Sprintf("%sProperty", p.Name.CamelName)
 }
 
-// propertyName returns the name of this property, as defined in
+// PropertyName returns the name of this property, as defined in
 // specifications. It is not suitable for use in generated code function
 // identifiers.
-func (p *PropertyGenerator) propertyName() string {
+func (p *PropertyGenerator) PropertyName() string {
 	return p.Name.LowerName
 }
 
@@ -179,15 +181,15 @@ func (p *PropertyGenerator) commonMethods() []*codegen.Method {
 		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			nameMethod,
-			p.structName(),
+			p.StructName(),
 			/*params=*/ nil,
 			[]jen.Code{jen.String()},
 			[]jen.Code{
 				jen.Return(
-					jen.Lit(p.propertyName()),
+					jen.Lit(p.PropertyName()),
 				),
 			},
-			jen.Commentf("%s returns the name of this property: %q.", nameMethod, p.propertyName()),
+			jen.Commentf("%s returns the name of this property: %q.", nameMethod, p.PropertyName()),
 		),
 	}
 }

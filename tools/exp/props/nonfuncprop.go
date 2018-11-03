@@ -15,13 +15,14 @@ type NonFunctionalPropertyGenerator struct {
 }
 
 // Definitions produces the Go code definitions, which can generate their Go
-// implementations.
+// implementations. The struct is the iterator for various values of the
+// property, which is defined by the type definition.
 func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codegen.Typedef) {
 	methods, funcs := p.serializationFuncs()
 	methods = append(methods, p.funcs()...)
 	property := codegen.NewTypedef(
-		jen.Commentf("%s is the non-functional property %q. It is permitted to have one or more values, and of different value types.", p.structName(), p.propertyName()),
-		p.structName(),
+		jen.Commentf("%s is the non-functional property %q. It is permitted to have one or more values, and of different value types.", p.StructName(), p.PropertyName()),
+		p.StructName(),
 		jen.Index().Id(p.iteratorTypeName().CamelName),
 		methods,
 		funcs)
@@ -68,7 +69,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			codegen.NewCommentedPointerMethod(
 				p.packageName(),
 				prependMethodName,
-				p.structName(),
+				p.StructName(),
 				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
@@ -79,14 +80,14 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 						jen.Op("*").Id(codegen.This()).Op("..."),
 					),
 				},
-				jen.Commentf("%s prepends a %s value to the front of a list of the property %q.", prependMethodName, kind.ConcreteKind, p.propertyName())))
+				jen.Commentf("%s prepends a %s value to the front of a list of the property %q.", prependMethodName, kind.ConcreteKind, p.PropertyName())))
 		// Append Method
 		appendMethodName := fmt.Sprintf("%s%s", appendMethod, p.kindCamelName(i))
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
 				p.packageName(),
 				appendMethodName,
-				p.structName(),
+				p.StructName(),
 				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
@@ -97,7 +98,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 						),
 					),
 				},
-				jen.Commentf("%s appends a %s value to the back of a list of the property %q", appendMethodName, kind.ConcreteKind, p.propertyName())))
+				jen.Commentf("%s appends a %s value to the back of a list of the property %q", appendMethodName, kind.ConcreteKind, p.PropertyName())))
 		// Less logic
 		if i > 0 {
 			less.Else()
@@ -118,7 +119,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		codegen.NewCommentedPointerMethod(
 			p.packageName(),
 			removeMethod,
-			p.structName(),
+			p.StructName(),
 			[]jen.Code{jen.Id("idx").Int()},
 			/*ret=*/ nil,
 			[]jen.Code{
@@ -148,13 +149,13 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Len(jen.Op("*").Id(codegen.This())).Op("-").Lit(1),
 				),
 			},
-			jen.Commentf("%s deletes an element at the specified index from a list of the property %q, regardless of its type.", removeMethod, p.propertyName())))
+			jen.Commentf("%s deletes an element at the specified index from a list of the property %q, regardless of its type.", removeMethod, p.PropertyName())))
 	// Len Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			lenMethod,
-			p.structName(),
+			p.StructName(),
 			/*params=*/ nil,
 			[]jen.Code{jen.Id("length").Int()},
 			[]jen.Code{
@@ -164,13 +165,13 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					),
 				),
 			},
-			jen.Commentf("%s returns the number of values that exist for the %q property.", lenMethod, p.propertyName())))
+			jen.Commentf("%s returns the number of values that exist for the %q property.", lenMethod, p.PropertyName())))
 	// Swap Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			swapMethod,
-			p.structName(),
+			p.StructName(),
 			[]jen.Code{
 				jen.Id("i"),
 				jen.Id("j").Int(),
@@ -185,13 +186,13 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Id(codegen.This()).Index(jen.Id("i")),
 				),
 			},
-			jen.Commentf("%s swaps the location of values at two indices for the %q property.", swapMethod, p.propertyName())))
+			jen.Commentf("%s swaps the location of values at two indices for the %q property.", swapMethod, p.PropertyName())))
 	// Less Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			lessMethod,
-			p.structName(),
+			p.StructName(),
 			[]jen.Code{
 				jen.Id("i"),
 				jen.Id("j").Int(),
@@ -213,7 +214,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			kindIndexMethod,
-			p.structName(),
+			p.StructName(),
 			[]jen.Code{jen.Id("idx").Int()},
 			[]jen.Code{jen.Int()},
 			[]jen.Code{
@@ -233,7 +234,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method
 		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			p.serializeFnName(),
-			p.structName(),
+			p.StructName(),
 			/*params=*/ nil,
 			[]jen.Code{jen.Interface(), jen.Error()},
 			[]jen.Code{
@@ -302,7 +303,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method
 			p.packageName(),
 			p.deserializeFnName(),
 			[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
-			[]jen.Code{jen.Id(p.structName()), jen.Error()},
+			[]jen.Code{jen.Id(p.StructName()), jen.Error()},
 			[]jen.Code{
 				jen.Var().Id(codegen.This()).Index().Id(p.iteratorTypeName().CamelName),
 				jen.If(
@@ -310,7 +311,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method
 						jen.Id("i"),
 						jen.Id("ok"),
 					).Op(":=").Id("m").Index(
-						jen.Lit(p.propertyName()),
+						jen.Lit(p.PropertyName()),
 					),
 					jen.Id("ok"),
 				).Block(
@@ -340,7 +341,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method
 					jen.Nil(),
 				),
 			},
-			jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.deserializeFnName(), p.propertyName()),
+			jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.deserializeFnName(), p.PropertyName()),
 		),
 	}
 	return serialize, deserialize

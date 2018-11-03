@@ -5,6 +5,7 @@ import (
 	"github.com/dave/jennifer/jen"
 	"github.com/go-fed/activity/tools/exp/codegen"
 	"github.com/go-fed/activity/tools/exp/props"
+	"github.com/go-fed/activity/tools/exp/types"
 )
 
 func main() {
@@ -164,9 +165,15 @@ func main() {
 			},
 		},
 	}
+	t1, err := types.NewTypeGenerator("test", "TestType", "TestType is a test type", []types.Property{x, y, z, zz})
+	if err != nil {
+		panic(err)
+	}
 	fmt.Printf("%#v\n\n", x.Definition().Definition())
 	fmt.Printf("%#v\n\n", y.Definition().Definition())
 	fmt.Printf("%#v\n\n", z.Definition().Definition())
 	s, t := zz.Definitions()
-	fmt.Printf("%#v\n\n%#v", s.Definition(), t.Definition())
+	fmt.Printf("%#v\n\n%#v\n\n", s.Definition(), t.Definition())
+	fmt.Printf("%#v\n\n", types.TypeInterface("test").Definition())
+	fmt.Printf("%#v\n\n", t1.Definition().Definition())
 }

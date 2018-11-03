@@ -93,7 +93,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			kindIndexMethod,
-			p.structName(),
+			p.StructName(),
 			/*params=*/ nil,
 			[]jen.Code{jen.Int()},
 			[]jen.Code{
@@ -109,7 +109,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 			codegen.NewCommentedValueMethod(
 				p.packageName(),
 				isLanguageMapMethod,
-				p.structName(),
+				p.StructName(),
 				/*params=*/ nil,
 				[]jen.Code{jen.Bool()},
 				[]jen.Code{
@@ -134,7 +134,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 			codegen.NewCommentedValueMethod(
 				p.packageName(),
 				hasLanguageMethod,
-				p.structName(),
+				p.StructName(),
 				[]jen.Code{jen.Id("bcp47").String()},
 				[]jen.Code{jen.Bool()},
 				[]jen.Code{
@@ -162,7 +162,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 			codegen.NewCommentedValueMethod(
 				p.packageName(),
 				getLanguageMethod,
-				p.structName(),
+				p.StructName(),
 				[]jen.Code{jen.Id("bcp47").String()},
 				[]jen.Code{jen.String()},
 				[]jen.Code{
@@ -194,7 +194,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 			codegen.NewCommentedPointerMethod(
 				p.packageName(),
 				setLanguageMethod,
-				p.structName(),
+				p.StructName(),
 				[]jen.Code{
 					jen.Id("bcp47"),
 					jen.Id("value").String(),
@@ -253,7 +253,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, [
 		codegen.NewCommentedValueMethod(
 			p.packageName(),
 			p.serializeFnName(),
-			p.structName(),
+			p.StructName(),
 			/*params=*/ nil,
 			[]jen.Code{jen.Interface(), jen.Error()},
 			[]jen.Code{serializeFns, jen.Return(
@@ -284,7 +284,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, [
 			)),
 			jen.Id("handled"),
 		).Block(
-			jen.Id(codegen.This()).Op(":=").Op("&").Id(p.structName()).Values(
+			jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
 				values,
 			),
 			jen.Return(
@@ -300,7 +300,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, [
 				p.packageName(),
 				p.deserializeFnName(),
 				[]jen.Code{jen.Id("i").Interface()},
-				[]jen.Code{jen.Op("*").Id(p.structName()), jen.Error()},
+				[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 				[]jen.Code{
 					deserializeFns.Add(p.unknownDeserializeCode()),
 					jen.Return(
@@ -316,14 +316,14 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, [
 				p.packageName(),
 				p.deserializeFnName(),
 				[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
-				[]jen.Code{jen.Op("*").Id(p.structName()), jen.Error()},
+				[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 				[]jen.Code{
 					jen.If(
 						jen.List(
 							jen.Id("i"),
 							jen.Id("ok"),
 						).Op(":=").Id("m").Index(
-							jen.Lit(p.propertyName()),
+							jen.Lit(p.PropertyName()),
 						),
 						jen.Id("ok"),
 					).Block(
@@ -334,7 +334,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, [
 						jen.Nil(),
 					),
 				},
-				jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.deserializeFnName(), p.propertyName()),
+				jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.deserializeFnName(), p.PropertyName()),
 			))
 	}
 	return serialize, deserialize
@@ -346,17 +346,17 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 	var comment jen.Code
 	var kindMembers []jen.Code
 	if p.Kinds[0].Nilable {
-		comment = jen.Commentf("%s is the functional property %q. It is permitted to be a single nilable value type.", p.structName(), p.propertyName())
+		comment = jen.Commentf("%s is the functional property %q. It is permitted to be a single nilable value type.", p.StructName(), p.PropertyName())
 		if p.asIterator {
-			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single nilable value type.", p.structName())
+			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single nilable value type.", p.StructName())
 		}
 		kindMembers = []jen.Code{
 			jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind),
 		}
 	} else {
-		comment = jen.Commentf("%s is the functional property %q. It is permitted to be a single default-valued value type.", p.structName(), p.propertyName())
+		comment = jen.Commentf("%s is the functional property %q. It is permitted to be a single default-valued value type.", p.StructName(), p.PropertyName())
 		if p.asIterator {
-			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single default-valued value type.", p.structName())
+			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single default-valued value type.", p.StructName())
 		}
 		kindMembers = []jen.Code{
 			jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind),
@@ -372,7 +372,7 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 	methods = append(methods, p.funcs()...)
 	methods = append(methods, p.commonMethods()...)
 	return codegen.NewStruct(comment,
-		p.structName(),
+		p.StructName(),
 		methods,
 		funcs,
 		kindMembers)
@@ -401,7 +401,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		methods = append(methods, codegen.NewCommentedValueMethod(
 			p.packageName(),
 			hasMethod,
-			p.structName(),
+			p.StructName(),
 			/*params=*/ nil,
 			[]jen.Code{jen.Bool()},
 			[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(p.memberName(0)).Op("!=").Nil())},
@@ -411,7 +411,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		methods = append(methods, codegen.NewCommentedValueMethod(
 			p.packageName(),
 			hasMethod,
-			p.structName(),
+			p.StructName(),
 			/*params=*/ nil,
 			[]jen.Code{jen.Bool()},
 			[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(p.hasMemberName(0)))},
@@ -423,7 +423,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.packageName(),
 		p.getFnName(0),
-		p.structName(),
+		p.StructName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.Id(p.Kinds[0].ConcreteKind)},
 		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(p.memberName(0)))},
@@ -445,7 +445,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		methods = append(methods, codegen.NewCommentedPointerMethod(
 			p.packageName(),
 			p.setFnName(0),
-			p.structName(),
+			p.StructName(),
 			[]jen.Code{jen.Id("v").Id(p.Kinds[0].ConcreteKind)},
 			/*ret=*/ nil,
 			[]jen.Code{
@@ -458,7 +458,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		methods = append(methods, codegen.NewCommentedPointerMethod(
 			p.packageName(),
 			p.setFnName(0),
-			p.structName(),
+			p.StructName(),
 			[]jen.Code{jen.Id("v").Id(p.Kinds[0].ConcreteKind)},
 			/*ret=*/ nil,
 			[]jen.Code{
@@ -487,7 +487,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		methods = append(methods, codegen.NewCommentedPointerMethod(
 			p.packageName(),
 			p.clearMethodName(),
-			p.structName(),
+			p.StructName(),
 			/*params=*/ nil,
 			/*ret=*/ nil,
 			clearCode,
@@ -497,7 +497,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		methods = append(methods, codegen.NewCommentedPointerMethod(
 			p.packageName(),
 			p.clearMethodName(),
-			p.structName(),
+			p.StructName(),
 			/*params=*/ nil,
 			/*ret=*/ nil,
 			clearCode,
@@ -533,11 +533,11 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
 		"It is possible to clear all values, so that this property is empty.",
 	)
 	comment := jen.Commentf(
-		"%s is the functional property %q. It is permitted to be one of multiple value types.", p.structName(), p.propertyName(),
+		"%s is the functional property %q. It is permitted to be one of multiple value types.", p.StructName(), p.PropertyName(),
 	).Line().Comment("").Line().Add(explanation)
 	if p.asIterator {
 		comment = jen.Commentf(
-			"%s is an iterator for a property. It is permitted to be one of multiple value types.", p.structName(),
+			"%s is an iterator for a property. It is permitted to be one of multiple value types.", p.StructName(),
 		).Line().Comment("").Line().Add(explanation)
 	}
 	methods, funcs := p.serializationFuncs()
@@ -545,7 +545,7 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
 	methods = append(methods, p.funcs()...)
 	methods = append(methods, p.commonMethods()...)
 	return codegen.NewStruct(comment,
-		p.structName(),
+		p.StructName(),
 		methods,
 		funcs,
 		kindMembers)
@@ -582,7 +582,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 	methods = append(methods, codegen.NewCommentedPointerMethod(
 		p.packageName(),
 		hasAnyMethodName,
-		p.structName(),
+		p.StructName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{jen.Return(join(isLine))},
@@ -606,7 +606,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 	methods = append(methods, codegen.NewCommentedPointerMethod(
 		p.packageName(),
 		p.clearMethodName(),
-		p.structName(),
+		p.StructName(),
 		/*params=*/ nil,
 		/*ret=*/ nil,
 		clearLine,
@@ -629,7 +629,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			methods = append(methods, codegen.NewCommentedValueMethod(
 				p.packageName(),
 				p.isMethodName(i),
-				p.structName(),
+				p.StructName(),
 				/*params=*/ nil,
 				[]jen.Code{jen.Bool()},
 				[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(p.memberName(i)).Op("!=").Nil())},
@@ -639,7 +639,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			methods = append(methods, codegen.NewCommentedValueMethod(
 				p.packageName(),
 				p.isMethodName(i),
-				p.structName(),
+				p.StructName(),
 				/*params=*/ nil,
 				[]jen.Code{jen.Bool()},
 				[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(p.hasMemberName(i)))},
@@ -664,7 +664,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			methods = append(methods, codegen.NewCommentedPointerMethod(
 				p.packageName(),
 				p.setFnName(i),
-				p.structName(),
+				p.StructName(),
 				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
@@ -677,7 +677,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			methods = append(methods, codegen.NewCommentedPointerMethod(
 				p.packageName(),
 				p.setFnName(i),
-				p.structName(),
+				p.StructName(),
 				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
@@ -695,7 +695,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		methods = append(methods, codegen.NewCommentedValueMethod(
 			p.packageName(),
 			p.getFnName(i),
-			p.structName(),
+			p.StructName(),
 			/*params=*/ nil,
 			[]jen.Code{jen.Id(kind.ConcreteKind)},
 			[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(p.memberName(i)))},
@@ -723,7 +723,7 @@ func (p *FunctionalPropertyGenerator) unknownDeserializeCode() jen.Code {
 		),
 		jen.Id("ok"),
 	).Block(
-		jen.Id(codegen.This()).Op(":=").Op("&").Id(p.structName()).Values(
+		jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
 			jen.Dict{
 				jen.Id(unknownMemberName): jen.Id("v"),
 			},
