@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/dave/jennifer/jen"
 	"github.com/go-fed/activity/tools/exp/codegen"
+	"sync"
 )
 
 // NonFunctionalPropertyGenerator produces Go code for properties that can have
@@ -12,22 +13,44 @@ import (
 // sorted and iterated over so individual elements can be inspected.
 type NonFunctionalPropertyGenerator struct {
 	PropertyGenerator
+	cacheOnce     sync.Once
+	cachedStruct  *codegen.Struct
+	cachedTypedef *codegen.Typedef
+}
+
+// NewNonFunctionalPropertyGenerator is a convenience constructor to create
+// NonFunctionalPropertyGenerators.
+func NewNonFunctionalPropertyGenerator(pkg string,
+	name Identifier,
+	kinds []Kind,
+	hasNaturalLanguageMap bool) *NonFunctionalPropertyGenerator {
+	return &NonFunctionalPropertyGenerator{
+		PropertyGenerator: PropertyGenerator{
+			Package:               pkg,
+			HasNaturalLanguageMap: hasNaturalLanguageMap,
+			Name:  name,
+			Kinds: kinds,
+		},
+	}
 }
 
 // Definitions produces the Go code definitions, which can generate their Go
 // implementations. The struct is the iterator for various values of the
 // property, which is defined by the type definition.
 func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codegen.Typedef) {
-	methods, funcs := p.serializationFuncs()
-	methods = append(methods, p.funcs()...)
-	property := codegen.NewTypedef(
-		jen.Commentf("%s is the non-functional property %q. It is permitted to have one or more values, and of different value types.", p.StructName(), p.PropertyName()),
-		p.StructName(),
-		jen.Index().Id(p.iteratorTypeName().CamelName),
-		methods,
-		funcs)
-	iterator := p.elementTypeGenerator().Definition()
-	return iterator, property
+	p.cacheOnce.Do(func() {
+		methods, funcs := p.serializationFuncs()
+		methods = append(methods, p.funcs()...)
+		property := codegen.NewTypedef(
+			jen.Commentf("%s is the non-functional property %q. It is permitted to have one or more values, and of different value types.", p.StructName(), p.PropertyName()),
+			p.StructName(),
+			jen.Index().Id(p.iteratorTypeName().CamelName),
+			methods,
+			funcs)
+		iterator := p.elementTypeGenerator().Definition()
+		p.cachedStruct, p.cachedTypedef = iterator, property
+	})
+	return p.cachedStruct, p.cachedTypedef
 }
 
 // iteratorTypeName determines the identifier to use for the iterator type.
@@ -42,7 +65,7 @@ func (p *NonFunctionalPropertyGenerator) iteratorTypeName() Identifier {
 // type.
 func (p *NonFunctionalPropertyGenerator) elementTypeGenerator() *FunctionalPropertyGenerator {
 	return &FunctionalPropertyGenerator{
-		PropertyGenerator{
+		PropertyGenerator: PropertyGenerator{
 			Package: p.PropertyGenerator.Package,
 			Name:    p.iteratorTypeName(),
 			Kinds:   p.Kinds,

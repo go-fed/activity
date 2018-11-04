@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/dave/jennifer/jen"
 	"github.com/go-fed/activity/tools/exp/codegen"
+	"sync"
 )
 
 // FunctionalPropertyGenerator produces Go code for properties that can have
@@ -12,6 +13,24 @@ import (
 // allowed Kind, then a smaller API is generated as a special case.
 type FunctionalPropertyGenerator struct {
 	PropertyGenerator
+	cacheOnce    sync.Once
+	cachedStruct *codegen.Struct
+}
+
+// NewFunctionalPropertyGenerator is a convenience constructor to create
+// FunctionalPropertyGenerators.
+func NewFunctionalPropertyGenerator(pkg string,
+	name Identifier,
+	kinds []Kind,
+	hasNaturalLanguageMap bool) *FunctionalPropertyGenerator {
+	return &FunctionalPropertyGenerator{
+		PropertyGenerator: PropertyGenerator{
+			Package:               pkg,
+			HasNaturalLanguageMap: hasNaturalLanguageMap,
+			Name:  name,
+			Kinds: kinds,
+		},
+	}
 }
 
 // isSingleTypeDef determines whether a special-case API can be generated for
@@ -23,11 +42,14 @@ func (p *FunctionalPropertyGenerator) isSingleTypeDef() bool {
 // Definition produces the Go Struct code definition, which can generate its Go
 // implementations.
 func (p *FunctionalPropertyGenerator) Definition() *codegen.Struct {
-	if p.isSingleTypeDef() {
-		return p.singleTypeDef()
-	} else {
-		return p.multiTypeDef()
-	}
+	p.cacheOnce.Do(func() {
+		if p.isSingleTypeDef() {
+			p.cachedStruct = p.singleTypeDef()
+		} else {
+			p.cachedStruct = p.multiTypeDef()
+		}
+	})
+	return p.cachedStruct
 }
 
 // clearNonLanguageMapMembers generates the code required to clear all values,

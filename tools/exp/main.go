@@ -45,127 +45,115 @@ func main() {
 		[]jen.Code{jen.Id("lhs").Id("rhs").Int()},
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{jen.Empty()})
-	x := &props.FunctionalPropertyGenerator{
-		props.PropertyGenerator{
-			Package:               "test",
-			HasNaturalLanguageMap: true,
-			Name: props.Identifier{
-				LowerName: "testFunctional",
-				CamelName: "TestFunctional",
-			},
-			Kinds: []props.Kind{
-				{
-					Name: props.Identifier{
-						LowerName: "iri",
-						CamelName: "IRI",
-					},
-					ConcreteKind:          "*url.URL",
-					Nilable:               true,
-					HasNaturalLanguageMap: false,
-					SerializeFn:           serializeIRIFn,
-					DeserializeFn:         deserializeIRIFn,
-					LessFn:                lessIRIFn,
+	x := props.NewFunctionalPropertyGenerator(
+		"test",
+		props.Identifier{
+			LowerName: "testFunctional",
+			CamelName: "TestFunctional",
+		},
+		[]props.Kind{
+			{
+				Name: props.Identifier{
+					LowerName: "iri",
+					CamelName: "IRI",
 				},
+				ConcreteKind:          "*url.URL",
+				Nilable:               true,
+				HasNaturalLanguageMap: false,
+				SerializeFn:           serializeIRIFn,
+				DeserializeFn:         deserializeIRIFn,
+				LessFn:                lessIRIFn,
 			},
 		},
-	}
-	y := &props.FunctionalPropertyGenerator{
-		props.PropertyGenerator{
-			Package:               "test",
-			HasNaturalLanguageMap: true,
-			Name: props.Identifier{
-				LowerName: "testFunctionalNonnil",
-				CamelName: "TestFunctionalNonil",
-			},
-			Kinds: []props.Kind{
-				{
-					Name: props.Identifier{
-						LowerName: "number",
-						CamelName: "Number",
-					},
-					ConcreteKind:          "int",
-					Nilable:               false,
-					HasNaturalLanguageMap: false,
-					SerializeFn:           serializeIntFn,
-					DeserializeFn:         deserializeIntFn,
-					LessFn:                lessIntFn,
+		true)
+	y := props.NewFunctionalPropertyGenerator(
+		"test",
+		props.Identifier{
+			LowerName: "testFunctionalNonnil",
+			CamelName: "TestFunctionalNonil",
+		},
+		[]props.Kind{
+			{
+				Name: props.Identifier{
+					LowerName: "number",
+					CamelName: "Number",
 				},
+				ConcreteKind:          "int",
+				Nilable:               false,
+				HasNaturalLanguageMap: false,
+				SerializeFn:           serializeIntFn,
+				DeserializeFn:         deserializeIntFn,
+				LessFn:                lessIntFn,
 			},
 		},
-	}
-	z := &props.FunctionalPropertyGenerator{
-		props.PropertyGenerator{
-			Package:               "test",
-			HasNaturalLanguageMap: true,
-			Name: props.Identifier{
-				LowerName: "testFunctionalMultiType",
-				CamelName: "TestFunctionalMultiType",
+		true)
+	z := props.NewFunctionalPropertyGenerator(
+		"test",
+		props.Identifier{
+			LowerName: "testFunctionalMultiType",
+			CamelName: "TestFunctionalMultiType",
+		},
+		[]props.Kind{
+			{
+				Name: props.Identifier{
+					LowerName: "iri",
+					CamelName: "IRI",
+				},
+				ConcreteKind:          "*url.URL",
+				Nilable:               true,
+				HasNaturalLanguageMap: false,
+				SerializeFn:           serializeIRIFn,
+				DeserializeFn:         deserializeIRIFn,
+				LessFn:                lessIRIFn,
 			},
-			Kinds: []props.Kind{
-				{
-					Name: props.Identifier{
-						LowerName: "iri",
-						CamelName: "IRI",
-					},
-					ConcreteKind:          "*url.URL",
-					Nilable:               true,
-					HasNaturalLanguageMap: false,
-					SerializeFn:           serializeIRIFn,
-					DeserializeFn:         deserializeIRIFn,
-					LessFn:                lessIRIFn,
+			{
+				Name: props.Identifier{
+					LowerName: "number",
+					CamelName: "Number",
 				},
-				{
-					Name: props.Identifier{
-						LowerName: "number",
-						CamelName: "Number",
-					},
-					ConcreteKind:          "int",
-					Nilable:               false,
-					HasNaturalLanguageMap: false,
-					SerializeFn:           serializeIntFn,
-					DeserializeFn:         deserializeIntFn,
-					LessFn:                lessIntFn,
-				},
+				ConcreteKind:          "int",
+				Nilable:               false,
+				HasNaturalLanguageMap: false,
+				SerializeFn:           serializeIntFn,
+				DeserializeFn:         deserializeIntFn,
+				LessFn:                lessIntFn,
 			},
 		},
-	}
-	zz := &props.NonFunctionalPropertyGenerator{
-		props.PropertyGenerator{
-			Package:               "test",
-			HasNaturalLanguageMap: true,
-			Name: props.Identifier{
-				LowerName: "testNonFunctionalMultiType",
-				CamelName: "TestNonFunctionalMultiType",
+		true)
+	zz := props.NewNonFunctionalPropertyGenerator(
+		"test",
+		props.Identifier{
+			LowerName: "testNonFunctionalMultiType",
+			CamelName: "TestNonFunctionalMultiType",
+		},
+		[]props.Kind{
+			{
+				Name: props.Identifier{
+					LowerName: "iri",
+					CamelName: "IRI",
+				},
+				ConcreteKind:          "*url.URL",
+				Nilable:               true,
+				HasNaturalLanguageMap: false,
+				SerializeFn:           serializeIRIFn,
+				DeserializeFn:         deserializeIRIFn,
+				LessFn:                lessIRIFn,
 			},
-			Kinds: []props.Kind{
-				{
-					Name: props.Identifier{
-						LowerName: "iri",
-						CamelName: "IRI",
-					},
-					ConcreteKind:          "*url.URL",
-					Nilable:               true,
-					HasNaturalLanguageMap: false,
-					SerializeFn:           serializeIRIFn,
-					DeserializeFn:         deserializeIRIFn,
-					LessFn:                lessIRIFn,
+			{
+				Name: props.Identifier{
+					LowerName: "number",
+					CamelName: "Number",
 				},
-				{
-					Name: props.Identifier{
-						LowerName: "number",
-						CamelName: "Number",
-					},
-					ConcreteKind:          "int",
-					Nilable:               false,
-					HasNaturalLanguageMap: false,
-					SerializeFn:           serializeIntFn,
-					DeserializeFn:         deserializeIntFn,
-					LessFn:                lessIntFn,
-				},
+				ConcreteKind:          "int",
+				Nilable:               false,
+				HasNaturalLanguageMap: false,
+				SerializeFn:           serializeIntFn,
+				DeserializeFn:         deserializeIntFn,
+				LessFn:                lessIntFn,
 			},
 		},
-	}
-	t1, err := types.NewTypeGenerator("test", "TestType", "TestType is a test type", []types.Property{x, y, z, zz})
+		true)
+	t1, err := types.NewTypeGenerator("test", "TestType", "TestType is a test type", []types.Property{x, y, z, zz}, nil, nil)
 	if err != nil {
 		panic(err)
 	}

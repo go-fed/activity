@@ -47,8 +47,6 @@ func join(s []jen.Code) *jen.Statement {
 	return r
 }
 
-// TODO: Cache generated property definitions.
-
 // Identifier determines how a name will appear in documentation and Go code.
 type Identifier struct {
 	// LowerName is the typical name used in documentation.
