@@ -8,14 +8,15 @@ import (
 )
 
 const (
-	typeInterfaceName = "Type"
-	extendedByMethod  = "IsExtendedBy"
-	extendsMethod     = "Extends"
-	nameMethod        = "Name"
+	typeInterfaceName  = "Type"
+	extendedByMethod   = "IsExtendedBy"
+	extendsMethod      = "Extends"
+	disjointWithMethod = "IsDisjointWith"
+	nameMethod         = "Name"
 )
 
 // TypeInterface returns the Type Interface that is needed for ActivityStream
-// types to compile for methods dealing with extending ,in the inheritance
+// types to compile for methods dealing with extending, in the inheritance
 // sense.
 func TypeInterface(pkg string) *codegen.Interface {
 	comment := fmt.Sprintf("%s represents an ActivityStreams type.", typeInterfaceName)
@@ -122,6 +123,12 @@ func (t *TypeGenerator) extendedByFnName() string {
 	return fmt.Sprintf("%s%s", t.TypeName(), extendedByMethod)
 }
 
+// disjointWithFnName determines the name of the DisjointWith function, which
+// determines if another ActivityStreams type is disjoint with this one.
+func (t *TypeGenerator) disjointWithFnName() string {
+	return fmt.Sprintf("%s%s", t.TypeName(), disjointWithMethod)
+}
+
 // Definition generates the golang code for this ActivityStreams type.
 func (t *TypeGenerator) Definition() *codegen.Struct {
 	t.cacheOnce.Do(func() {
@@ -138,6 +145,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 			},
 			[]*codegen.Function{
 				t.extendedByDefinition(),
+				t.disjointWithDefinition(),
 			},
 			members)
 	})
@@ -185,7 +193,7 @@ func (t *TypeGenerator) extendsDefinition() *codegen.Method {
 				jen.Id("ext"),
 			).Op(":=").Range().Id("extensions")).Block(
 				jen.If(
-					jen.Id("ext").Dot(nameMethod).Call().Op("==").Id("other").Dot(nameMethod).Call(),
+					jen.Id("ext").Op("==").Id("other").Dot(nameMethod).Call(),
 				).Block(
 					jen.Return(jen.True()),
 				),
@@ -199,7 +207,7 @@ func (t *TypeGenerator) extendsDefinition() *codegen.Method {
 		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		impl,
-		jen.Commentf("%s returns true if the %s type extends from the other type.", t.extendedByFnName(), t.TypeName()))
+		jen.Commentf("%s returns true if the %s type extends from the other type.", t.extendsFnName(), t.TypeName()))
 
 }
 
@@ -230,7 +238,7 @@ func (t *TypeGenerator) extendedByDefinition() *codegen.Function {
 				jen.Id("ext"),
 			).Op(":=").Range().Id("extensions")).Block(
 				jen.If(
-					jen.Id("ext").Dot(nameMethod).Call().Op("==").Id("other").Dot(nameMethod).Call(),
+					jen.Id("ext").Op("==").Id("other").Dot(nameMethod).Call(),
 				).Block(
 					jen.Return(jen.True()),
 				),
@@ -246,4 +254,46 @@ func (t *TypeGenerator) extendedByDefinition() *codegen.Function {
 		jen.Commentf("%s returns true if the other provided type extends from the %s type.", t.extendedByFnName(), t.TypeName()))
 }
 
-// TODO: Disjoint function, similar to extends function.
+// getAllChildrenDisjointWith recursivley determines all the child types that this
+// type is disjoint with.
+func (t *TypeGenerator) getAllDisjointWith(s []string) {
+	for _, e := range t.Disjoint() {
+		s = append(s, e.TypeName())
+		// Get all the disjoint type's children.
+		t.getAllChildrenExtendedBy(s, e)
+	}
+}
+
+// disjointWithDefinition generates the golang function for determining if
+// another ActivityStreams type is disjoint with this type. It requires the Type
+// interface.
+func (t *TypeGenerator) disjointWithDefinition() *codegen.Function {
+	var disjointNames []string
+	t.getAllDisjointWith(disjointNames)
+	disjointWith := make([]jen.Code, len(disjointNames))
+	for i, d := range disjointNames {
+		disjointWith[i] = jen.Lit(d)
+	}
+	impl := []jen.Code{jen.Comment("Shortcut implementation: is not disjoint with anything."), jen.Return(jen.False())}
+	if len(disjointWith) > 0 {
+		impl = []jen.Code{jen.Id("disjointWith").Op(":=").Index().String().Values(disjointWith...),
+			jen.For(jen.List(
+				jen.Id("_"),
+				jen.Id("disjoint"),
+			).Op(":=").Range().Id("disjointWith")).Block(
+				jen.If(
+					jen.Id("disjoint").Op("==").Id("other").Dot(nameMethod).Call(),
+				).Block(
+					jen.Return(jen.True()),
+				),
+			),
+			jen.Return(jen.False())}
+	}
+	return codegen.NewCommentedFunction(
+		t.packageName,
+		t.disjointWithFnName(),
+		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
+		[]jen.Code{jen.Bool()},
+		impl,
+		jen.Commentf("%s returns true if the other provided type is disjoint with the %s type.", t.disjointWithFnName(), t.TypeName()))
+}
