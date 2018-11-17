@@ -1,3 +1,15 @@
+v0.4.0 2018-11-17
+
+* The 'streams' package now has constructors for each of its generated types.
+* The README now lists WriteFreely instead of Write.as as a user of this
+      library, though Write.as does also use go-fed. WriteFreely is the open-
+      source fork of the proprietary Write.as.
+* The 'tools/exp' subdirectory contains a half-built work-in-progress tool that
+      will be used to generate the v1.X versions of this library. It does not
+      materially affect the v0.X versions' functionality nor its code
+      generation. Its presence is merely a consequence of the go-fed/activity
+      maintainer [continuing to] fail at using git branches.
+
 v0.3.0 2018-08-21
 
 * Interfaces in 'vocab' now properly contain all of the unknown methods
