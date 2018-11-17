@@ -2494,3 +2494,8 @@ func (t *Listen) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewListen returns a new instance of Listen
+func NewListen() (n *Listen) {
+	return &Listen{raw: &vocab.Listen{}}
+}

@@ -2494,3 +2494,8 @@ func (t *Ignore) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewIgnore returns a new instance of Ignore
+func NewIgnore() (n *Ignore) {
+	return &Ignore{raw: &vocab.Ignore{}}
+}

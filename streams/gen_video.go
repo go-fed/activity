@@ -2135,3 +2135,8 @@ func (t *Video) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewVideo returns a new instance of Video
+func NewVideo() (n *Video) {
+	return &Video{raw: &vocab.Video{}}
+}

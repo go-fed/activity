@@ -2494,3 +2494,8 @@ func (t *Move) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewMove returns a new instance of Move
+func NewMove() (n *Move) {
+	return &Move{raw: &vocab.Move{}}
+}

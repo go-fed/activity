@@ -2494,3 +2494,8 @@ func (t *Offer) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewOffer returns a new instance of Offer
+func NewOffer() (n *Offer) {
+	return &Offer{raw: &vocab.Offer{}}
+}

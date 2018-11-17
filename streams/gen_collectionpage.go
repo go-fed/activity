@@ -2462,3 +2462,8 @@ func (t *CollectionPage) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewCollectionPage returns a new instance of CollectionPage
+func NewCollectionPage() (n *CollectionPage) {
+	return &CollectionPage{raw: &vocab.CollectionPage{}}
+}

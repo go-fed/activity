@@ -579,3 +579,8 @@ func (t *Link) PrependPreviewLink(i vocab.LinkType) {
 	t.raw.PrependPreviewLink(i)
 
 }
+
+// NewLink returns a new instance of Link
+func NewLink() (n *Link) {
+	return &Link{raw: &vocab.Link{}}
+}

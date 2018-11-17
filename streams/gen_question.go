@@ -2636,3 +2636,8 @@ func (t *Question) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewQuestion returns a new instance of Question
+func NewQuestion() (n *Question) {
+	return &Question{raw: &vocab.Question{}}
+}

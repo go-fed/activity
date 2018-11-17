@@ -2135,3 +2135,8 @@ func (t *Article) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewArticle returns a new instance of Article
+func NewArticle() (n *Article) {
+	return &Article{raw: &vocab.Article{}}
+}

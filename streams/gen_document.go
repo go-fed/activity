@@ -2135,3 +2135,8 @@ func (t *Document) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewDocument returns a new instance of Document
+func NewDocument() (n *Document) {
+	return &Document{raw: &vocab.Document{}}
+}

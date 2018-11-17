@@ -2135,3 +2135,8 @@ func (t *Service) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewService returns a new instance of Service
+func NewService() (n *Service) {
+	return &Service{raw: &vocab.Service{}}
+}

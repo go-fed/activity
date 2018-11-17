@@ -2225,3 +2225,8 @@ func (t *Tombstone) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewTombstone returns a new instance of Tombstone
+func NewTombstone() (n *Tombstone) {
+	return &Tombstone{raw: &vocab.Tombstone{}}
+}

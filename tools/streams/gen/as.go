@@ -270,6 +270,16 @@ func generateDefinitions(t *defs.Type) (fd []*defs.FunctionDef, sd []*defs.Struc
 			},
 		},
 	}...)
+	fd = append(fd, &defs.FunctionDef{
+		Name:    fmt.Sprintf("New%s", t.Name),
+		Comment: fmt.Sprintf("New%s returns a new instance of %s", t.Name, t.Name),
+		Return:  []*defs.FunctionVarDef{{"n", "*" + t.Name}},
+		Body: func() string {
+			var b bytes.Buffer
+			b.WriteString(fmt.Sprintf("return &%s{%s: &vocab.%s{}}", t.Name, rawMemberName, t.Name))
+			return b.String()
+		},
+	})
 	if t.GetTypeMetadata().HasIsPublicMethod {
 		this.F = append(this.F, &defs.MemberFunctionDef{
 			Name:    "IsPublic",

@@ -2135,3 +2135,8 @@ func (t *Application) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewApplication returns a new instance of Application
+func NewApplication() (n *Application) {
+	return &Application{raw: &vocab.Application{}}
+}

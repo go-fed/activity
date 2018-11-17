@@ -2494,3 +2494,8 @@ func (t *Update) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewUpdate returns a new instance of Update
+func NewUpdate() (n *Update) {
+	return &Update{raw: &vocab.Update{}}
+}

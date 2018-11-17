@@ -2442,3 +2442,8 @@ func (t *IntransitiveActivity) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewIntransitiveActivity returns a new instance of IntransitiveActivity
+func NewIntransitiveActivity() (n *IntransitiveActivity) {
+	return &IntransitiveActivity{raw: &vocab.IntransitiveActivity{}}
+}

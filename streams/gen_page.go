@@ -2135,3 +2135,8 @@ func (t *Page) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewPage returns a new instance of Page
+func NewPage() (n *Page) {
+	return &Page{raw: &vocab.Page{}}
+}

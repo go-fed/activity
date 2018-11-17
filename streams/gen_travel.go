@@ -2442,3 +2442,8 @@ func (t *Travel) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewTravel returns a new instance of Travel
+func NewTravel() (n *Travel) {
+	return &Travel{raw: &vocab.Travel{}}
+}

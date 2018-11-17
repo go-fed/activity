@@ -2305,3 +2305,8 @@ func (t *Place) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewPlace returns a new instance of Place
+func NewPlace() (n *Place) {
+	return &Place{raw: &vocab.Place{}}
+}

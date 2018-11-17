@@ -2494,3 +2494,8 @@ func (t *Block) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewBlock returns a new instance of Block
+func NewBlock() (n *Block) {
+	return &Block{raw: &vocab.Block{}}
+}

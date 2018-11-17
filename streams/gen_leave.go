@@ -2494,3 +2494,8 @@ func (t *Leave) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewLeave returns a new instance of Leave
+func NewLeave() (n *Leave) {
+	return &Leave{raw: &vocab.Leave{}}
+}

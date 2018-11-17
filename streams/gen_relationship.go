@@ -2268,3 +2268,8 @@ func (t *Relationship) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewRelationship returns a new instance of Relationship
+func NewRelationship() (n *Relationship) {
+	return &Relationship{raw: &vocab.Relationship{}}
+}

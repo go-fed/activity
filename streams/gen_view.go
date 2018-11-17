@@ -2494,3 +2494,8 @@ func (t *View) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewView returns a new instance of View
+func NewView() (n *View) {
+	return &View{raw: &vocab.View{}}
+}

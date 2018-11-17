@@ -2494,3 +2494,8 @@ func (t *Like) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewLike returns a new instance of Like
+func NewLike() (n *Like) {
+	return &Like{raw: &vocab.Like{}}
+}

@@ -2494,3 +2494,8 @@ func (t *Activity) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewActivity returns a new instance of Activity
+func NewActivity() (n *Activity) {
+	return &Activity{raw: &vocab.Activity{}}
+}

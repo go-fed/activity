@@ -2348,3 +2348,8 @@ func (t *OrderedCollection) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewOrderedCollection returns a new instance of OrderedCollection
+func NewOrderedCollection() (n *OrderedCollection) {
+	return &OrderedCollection{raw: &vocab.OrderedCollection{}}
+}

@@ -2494,3 +2494,8 @@ func (t *Flag) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewFlag returns a new instance of Flag
+func NewFlag() (n *Flag) {
+	return &Flag{raw: &vocab.Flag{}}
+}

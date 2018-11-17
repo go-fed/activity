@@ -2135,3 +2135,8 @@ func (t *Group) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewGroup returns a new instance of Group
+func NewGroup() (n *Group) {
+	return &Group{raw: &vocab.Group{}}
+}

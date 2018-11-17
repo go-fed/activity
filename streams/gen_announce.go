@@ -2494,3 +2494,8 @@ func (t *Announce) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewAnnounce returns a new instance of Announce
+func NewAnnounce() (n *Announce) {
+	return &Announce{raw: &vocab.Announce{}}
+}

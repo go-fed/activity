@@ -2494,3 +2494,8 @@ func (t *Join) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewJoin returns a new instance of Join
+func NewJoin() (n *Join) {
+	return &Join{raw: &vocab.Join{}}
+}

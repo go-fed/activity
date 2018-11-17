@@ -2494,3 +2494,8 @@ func (t *Follow) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewFollow returns a new instance of Follow
+func NewFollow() (n *Follow) {
+	return &Follow{raw: &vocab.Follow{}}
+}

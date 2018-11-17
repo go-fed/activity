@@ -2135,3 +2135,8 @@ func (t *Audio) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewAudio returns a new instance of Audio
+func NewAudio() (n *Audio) {
+	return &Audio{raw: &vocab.Audio{}}
+}

@@ -2494,3 +2494,8 @@ func (t *Dislike) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewDislike returns a new instance of Dislike
+func NewDislike() (n *Dislike) {
+	return &Dislike{raw: &vocab.Dislike{}}
+}

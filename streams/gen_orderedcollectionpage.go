@@ -2496,3 +2496,8 @@ func (t *OrderedCollectionPage) SetPartOf(i vocab.LinkType) {
 	t.raw.SetPartOfLink(i)
 
 }
+
+// NewOrderedCollectionPage returns a new instance of OrderedCollectionPage
+func NewOrderedCollectionPage() (n *OrderedCollectionPage) {
+	return &OrderedCollectionPage{raw: &vocab.OrderedCollectionPage{}}
+}

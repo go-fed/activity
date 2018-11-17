@@ -2494,3 +2494,8 @@ func (t *Delete) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewDelete returns a new instance of Delete
+func NewDelete() (n *Delete) {
+	return &Delete{raw: &vocab.Delete{}}
+}

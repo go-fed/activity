@@ -2494,3 +2494,8 @@ func (t *Undo) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewUndo returns a new instance of Undo
+func NewUndo() (n *Undo) {
+	return &Undo{raw: &vocab.Undo{}}
+}

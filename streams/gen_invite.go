@@ -2494,3 +2494,8 @@ func (t *Invite) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewInvite returns a new instance of Invite
+func NewInvite() (n *Invite) {
+	return &Invite{raw: &vocab.Invite{}}
+}

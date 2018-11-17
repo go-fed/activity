@@ -579,3 +579,8 @@ func (t *Mention) PrependPreviewLink(i vocab.LinkType) {
 	t.raw.PrependPreviewLink(i)
 
 }
+
+// NewMention returns a new instance of Mention
+func NewMention() (n *Mention) {
+	return &Mention{raw: &vocab.Mention{}}
+}

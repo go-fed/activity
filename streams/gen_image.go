@@ -2203,3 +2203,8 @@ func (t *Image) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewImage returns a new instance of Image
+func NewImage() (n *Image) {
+	return &Image{raw: &vocab.Image{}}
+}

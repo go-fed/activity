@@ -2442,3 +2442,8 @@ func (t *Arrive) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewArrive returns a new instance of Arrive
+func NewArrive() (n *Arrive) {
+	return &Arrive{raw: &vocab.Arrive{}}
+}

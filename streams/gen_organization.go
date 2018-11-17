@@ -2135,3 +2135,8 @@ func (t *Organization) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewOrganization returns a new instance of Organization
+func NewOrganization() (n *Organization) {
+	return &Organization{raw: &vocab.Organization{}}
+}

@@ -2494,3 +2494,8 @@ func (t *Accept) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewAccept returns a new instance of Accept
+func NewAccept() (n *Accept) {
+	return &Accept{raw: &vocab.Accept{}}
+}

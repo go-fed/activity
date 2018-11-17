@@ -2169,3 +2169,8 @@ func (t *Profile) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewProfile returns a new instance of Profile
+func NewProfile() (n *Profile) {
+	return &Profile{raw: &vocab.Profile{}}
+}

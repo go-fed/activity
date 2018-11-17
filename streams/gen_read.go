@@ -2494,3 +2494,8 @@ func (t *Read) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewRead returns a new instance of Read
+func NewRead() (n *Read) {
+	return &Read{raw: &vocab.Read{}}
+}

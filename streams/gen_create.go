@@ -2494,3 +2494,8 @@ func (t *Create) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewCreate returns a new instance of Create
+func NewCreate() (n *Create) {
+	return &Create{raw: &vocab.Create{}}
+}

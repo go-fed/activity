@@ -2494,3 +2494,8 @@ func (t *Remove) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewRemove returns a new instance of Remove
+func NewRemove() (n *Remove) {
+	return &Remove{raw: &vocab.Remove{}}
+}

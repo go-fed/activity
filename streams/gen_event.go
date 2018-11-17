@@ -2135,3 +2135,8 @@ func (t *Event) SetShares(i vocab.CollectionType) {
 	t.raw.SetSharesCollection(i)
 
 }
+
+// NewEvent returns a new instance of Event
+func NewEvent() (n *Event) {
+	return &Event{raw: &vocab.Event{}}
+}
