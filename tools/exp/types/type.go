@@ -208,7 +208,6 @@ func (t *TypeGenerator) extendsDefinition() *codegen.Method {
 		[]jen.Code{jen.Bool()},
 		impl,
 		jen.Commentf("%s returns true if the %s type extends from the other type.", t.extendsFnName(), t.TypeName()))
-
 }
 
 // getAllChildrenExtendBy recursivley determines all the child types that this
