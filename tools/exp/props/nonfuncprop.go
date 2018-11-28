@@ -28,8 +28,8 @@ func NewNonFunctionalPropertyGenerator(pkg string,
 		PropertyGenerator: PropertyGenerator{
 			Package:               pkg,
 			HasNaturalLanguageMap: hasNaturalLanguageMap,
-			Name:  name,
-			Kinds: kinds,
+			Name:                  name,
+			Kinds:                 kinds,
 		},
 	}
 }
@@ -66,9 +66,9 @@ func (p *NonFunctionalPropertyGenerator) iteratorTypeName() Identifier {
 func (p *NonFunctionalPropertyGenerator) elementTypeGenerator() *FunctionalPropertyGenerator {
 	return &FunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
-			Package: p.PropertyGenerator.Package,
-			Name:    p.iteratorTypeName(),
-			Kinds:   p.Kinds,
+			Package:               p.PropertyGenerator.Package,
+			Name:                  p.iteratorTypeName(),
+			Kinds:                 p.Kinds,
 			HasNaturalLanguageMap: p.PropertyGenerator.HasNaturalLanguageMap,
 			asIterator:            true,
 		},
