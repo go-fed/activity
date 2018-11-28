@@ -8,10 +8,13 @@ const (
 	JSON_LD_CONTEXT = "@context"
 )
 
+// JSONLD is an alias for the generic map of keys to interfaces, presumably
+// parsed from a JSON-encoded context definition file.
 type JSONLD map[string]interface{}
 
-type ParseContext interface{}
-
+// RDFNode is able to operate on a specific key if it applies towards its
+// ontology (determined at creation time). It applies the value in its own
+// specific implementation on the context.
 type RDFNode interface {
 	Apply(key string, value interface{}, ctx ParseContext) (bool, error)
 }
