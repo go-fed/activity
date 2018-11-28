@@ -3,20 +3,34 @@ package rdf
 import (
 	"fmt"
 	"strings"
-	"sync"
 )
 
 const (
 	ALIAS_DELIMITER = ":"
+	HTTP            = "http"
+	HTTPS           = "https"
 	ID              = "@id"
 )
+
+// splitAlias splits a possibly-aliased string, without splitting on the colon
+// if it is part of the http or https spec.
+func splitAlias(s string) []string {
+	strs := strings.Split(s, ALIAS_DELIMITER)
+	if len(strs) == 1 {
+		return strs
+	} else if strs[0] == HTTP || strs[0] == HTTPS {
+		return []string{s}
+	} else {
+		return strs
+	}
+}
 
 // Ontology returns different RDF "actions" or "handlers" that are able to
 // interpret the schema definitions as actions upon a set of data, specific
 // for this ontology.
 type Ontology interface {
-	// String representation of this ontology.
-	String() string
+	// SpecURI refers to the URI location of this ontology.
+	SpecURI() string
 	// Load loads the entire ontology.
 	Load() ([]RDFNode, error)
 	// Load loads the entire ontology with a specific alias.
@@ -32,13 +46,21 @@ type aliasedNode struct {
 	Nodes []RDFNode
 }
 
-// RDFRegistry implements RDFGetter and manages the different ontologies needed
-// to determine the generated Go code.
+// RDFRegistry manages the different ontologies needed to determine the
+// generated Go code.
 type RDFRegistry struct {
 	ontologies   map[string]Ontology
 	aliases      map[string]string
 	aliasedNodes map[string]aliasedNode
-	mu           sync.Mutex
+}
+
+// NewRDFRegistry returns a new RDFRegistry.
+func NewRDFRegistry() *RDFRegistry {
+	return &RDFRegistry{
+		ontologies:   make(map[string]Ontology),
+		aliases:      make(map[string]string),
+		aliasedNodes: make(map[string]aliasedNode),
+	}
 }
 
 // setAlias sets an alias for a string.
@@ -89,12 +111,11 @@ func (r *RDFRegistry) loadElement(alias, element string, payload map[string]inte
 }
 
 // AddOntology adds an RDF ontology to the registry.
-func (r *RDFRegistry) AddOntology(s string, o Ontology) error {
-	r.mu.Lock()
-	defer r.mu.Unlock()
+func (r *RDFRegistry) AddOntology(o Ontology) error {
 	if r.ontologies == nil {
 		r.ontologies = make(map[string]Ontology, 1)
 	}
+	s := o.SpecURI()
 	if _, ok := r.ontologies[s]; ok {
 		return fmt.Errorf("ontology already registered for %q", s)
 	}
@@ -102,12 +123,8 @@ func (r *RDFRegistry) AddOntology(s string, o Ontology) error {
 	return nil
 }
 
-// GetFor gets RDFKeyers and RDFValuers based on a context's string.
-//
-// Implements RDFGetter.
-func (r *RDFRegistry) GetFor(s string) (n []RDFNode, e error) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
+// getFor gets RDFKeyers and RDFValuers based on a context's string.
+func (r *RDFRegistry) getFor(s string) (n []RDFNode, e error) {
 	ontology, ok := r.ontologies[s]
 	if !ok {
 		e = fmt.Errorf("no ontology for %s", s)
@@ -116,19 +133,15 @@ func (r *RDFRegistry) GetFor(s string) (n []RDFNode, e error) {
 	return ontology.Load()
 }
 
-// GetAliased gets RDFKeyers and RDFValuers based on a context string and its
+// getAliased gets RDFKeyers and RDFValuers based on a context string and its
 // alias.
-//
-// Implements RDFGetter.
-func (r *RDFRegistry) GetAliased(alias, s string) (n []RDFNode, e error) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	strs := strings.Split(s, ALIAS_DELIMITER)
+func (r *RDFRegistry) getAliased(alias, s string) (n []RDFNode, e error) {
+	strs := splitAlias(s)
 	if len(strs) == 1 {
 		if e = r.setAlias(alias, s); e != nil {
 			return
 		}
-		return r.GetFor(s)
+		return r.getFor(s)
 	} else if len(strs) == 2 {
 		var o Ontology
 		o, e = r.getOntology(strs[0])
@@ -143,27 +156,22 @@ func (r *RDFRegistry) GetAliased(alias, s string) (n []RDFNode, e error) {
 	}
 }
 
-// GetAliasedObject gets RDFKeyers and RDFValuers based on a context object and
+// getAliasedObject gets RDFKeyers and RDFValuers based on a context object and
 // its alias and definition.
-//
-// Implements RDFGetter.
-func (r *RDFRegistry) GetAliasedObject(alias string, object map[string]interface{}) (n []RDFNode, e error) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	var iObj interface{} = object
-	if obj, ok := iObj.(map[string]string); !ok {
-		e = fmt.Errorf("object in GetAliasedObject must be a map[string]string")
+func (r *RDFRegistry) getAliasedObject(alias string, object map[string]interface{}) (n []RDFNode, e error) {
+	raw, ok := object[ID]
+	if !ok {
+		e = fmt.Errorf("aliased object does not have %s value", ID)
+		return
+	}
+	if element, ok := raw.(string); !ok {
+		e = fmt.Errorf("element in getAliasedObject must be a string")
 		return
 	} else {
-		element, ok := obj[ID]
-		if !ok {
-			e = fmt.Errorf("aliased object does not have %s value", ID)
-			return
-		}
 		var nodes []RDFNode
-		strs := strings.Split(element, ALIAS_DELIMITER)
+		strs := splitAlias(element)
 		if len(strs) == 1 {
-			n, e = r.GetFor(strs[0])
+			n, e = r.getFor(strs[0])
 		} else if len(strs) == 2 {
 			var o Ontology
 			o, e = r.getOntology(strs[0])

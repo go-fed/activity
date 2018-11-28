@@ -10,16 +10,6 @@ const (
 
 type JSONLD map[string]interface{}
 
-type RDFGetter interface {
-	// GetFor gets RDFNodes based on a context's string.
-	GetFor(s string) ([]RDFNode, error)
-	// GetAliased gets based on a context string and its alias.
-	GetAliased(alias, s string) ([]RDFNode, error)
-	// GetAliasedObject gets based on a context object and its alias and
-	// definition.
-	GetAliasedObject(alias string, object map[string]interface{}) ([]RDFNode, error)
-}
-
 type ParseContext interface{}
 
 type RDFNode interface {
@@ -28,7 +18,7 @@ type RDFNode interface {
 
 // ParseJSONLDContext implements a super basic JSON-LD @context parsing
 // algorithm in order to build a tree that can parse the rest of the document.
-func ParseJSONLDContext(rdfGetter RDFGetter, input JSONLD) (nodes []RDFNode, err error) {
+func ParseJSONLDContext(registry *RDFRegistry, input JSONLD) (nodes []RDFNode, err error) {
 	i, ok := input[JSON_LD_CONTEXT]
 	if !ok {
 		err = fmt.Errorf("no @context in input")
@@ -42,14 +32,14 @@ func ParseJSONLDContext(rdfGetter RDFGetter, input JSONLD) (nodes []RDFNode, err
 				for alias, val := range valMap {
 					if s, ok := val.(string); ok {
 						var n []RDFNode
-						n, err = rdfGetter.GetAliased(alias, s)
+						n, err = registry.getAliased(alias, s)
 						if err != nil {
 							return
 						}
 						nodes = append(nodes, n...)
 					} else if aliasedMap, ok := val.(map[string]interface{}); ok {
 						var n []RDFNode
-						n, err = rdfGetter.GetAliasedObject(alias, aliasedMap)
+						n, err = registry.getAliasedObject(alias, aliasedMap)
 						if err != nil {
 							return
 						}
@@ -62,7 +52,7 @@ func ParseJSONLDContext(rdfGetter RDFGetter, input JSONLD) (nodes []RDFNode, err
 			} else if s, ok := iVal.(string); ok {
 				// Element is a single value
 				var n []RDFNode
-				n, err = rdfGetter.GetFor(s)
+				n, err = registry.getFor(s)
 				if err != nil {
 					return
 				}
@@ -77,14 +67,14 @@ func ParseJSONLDContext(rdfGetter RDFGetter, input JSONLD) (nodes []RDFNode, err
 		for alias, iVal := range inMap {
 			if s, ok := iVal.(string); ok {
 				var n []RDFNode
-				n, err = rdfGetter.GetAliased(alias, s)
+				n, err = registry.getAliased(alias, s)
 				if err != nil {
 					return
 				}
 				nodes = append(nodes, n...)
 			} else if aliasedMap, ok := iVal.(map[string]interface{}); ok {
 				var n []RDFNode
-				n, err = rdfGetter.GetAliasedObject(alias, aliasedMap)
+				n, err = registry.getAliasedObject(alias, aliasedMap)
 				if err != nil {
 					return
 				}
@@ -100,7 +90,7 @@ func ParseJSONLDContext(rdfGetter RDFGetter, input JSONLD) (nodes []RDFNode, err
 		if !ok {
 			err = fmt.Errorf("single @context value is not a string")
 		}
-		return rdfGetter.GetFor(s)
+		return registry.getFor(s)
 	}
 	return
 }
