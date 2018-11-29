@@ -1,7 +1,7 @@
 package schema
 
 import (
-	"github.com/go-fed/activity/tools/exp/rdf"
+	"github.com/cjslep/activity/tools/exp/rdf"
 )
 
 type SchemaOntology struct{}

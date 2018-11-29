@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/go-fed/activity/tools/exp/rdf"
-	"github.com/go-fed/activity/tools/exp/rdf/as"
-	"github.com/go-fed/activity/tools/exp/rdf/owl"
-	"github.com/go-fed/activity/tools/exp/rdf/rdfs"
-	"github.com/go-fed/activity/tools/exp/rdf/schema"
-	"github.com/go-fed/activity/tools/exp/rdf/xsd"
+	"github.com/cjslep/activity/tools/exp/rdf"
+	"github.com/cjslep/activity/tools/exp/rdf/as"
+	"github.com/cjslep/activity/tools/exp/rdf/owl"
+	"github.com/cjslep/activity/tools/exp/rdf/rdfs"
+	"github.com/cjslep/activity/tools/exp/rdf/schema"
+	"github.com/cjslep/activity/tools/exp/rdf/xsd"
 	"io/ioutil"
 )
 
@@ -49,9 +49,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	nodes, err := rdf.ParseJSONLDContext(registry, inputJSON)
+	_, err = rdf.ParseVocabulary(registry, inputJSON)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("len(nodes) = %d\n", len(nodes))
+	fmt.Printf("done\n")
 }

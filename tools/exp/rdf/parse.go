@@ -12,16 +12,30 @@ const (
 // parsed from a JSON-encoded context definition file.
 type JSONLD map[string]interface{}
 
+// ParsingContext contains the results of the parsing as well as scratch space
+// required for RDFNodes to be able to statefully apply changes.
+type ParsingContext struct {
+	Result ParsedVocabulary
+}
+
 // RDFNode is able to operate on a specific key if it applies towards its
 // ontology (determined at creation time). It applies the value in its own
 // specific implementation on the context.
 type RDFNode interface {
-	Apply(key string, value interface{}, ctx ParseContext) (bool, error)
+	Apply(key string, value interface{}, ctx ParsedVocabulary) (bool, error)
 }
 
-// ParseJSONLDContext implements a super basic JSON-LD @context parsing
-// algorithm in order to build a tree that can parse the rest of the document.
-func ParseJSONLDContext(registry *RDFRegistry, input JSONLD) (nodes []RDFNode, err error) {
+// ParseVocabulary parses the specified input as an ActivityStreams context that
+// specifies a Core, Extended, or Extension vocabulary.
+func ParseVocabulary(registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVocabulary, err error) {
+	_, err = parseJSONLDContext(registry, input)
+	return
+}
+
+// parseJSONLDContext implements a super basic JSON-LD @context parsing
+// algorithm in order to build a set of nodes which will be able to parse the
+// rest of the document.
+func parseJSONLDContext(registry *RDFRegistry, input JSONLD) (nodes []RDFNode, err error) {
 	i, ok := input[JSON_LD_CONTEXT]
 	if !ok {
 		err = fmt.Errorf("no @context in input")

@@ -4,15 +4,16 @@ import (
 	"net/url"
 )
 
-// ParseContext is the internal data structure produced after parsing the
+// ParsedVocabulary is the internal data structure produced after parsing the
 // definition of an ActivityStream vocabulary. It is the intermediate
 // understanding of the specification in the context of certain ontologies. It
 // also contains additional scratch space for use by the parser.
 //
-// At the end of parsing, the ParseContext is not guaranteed to be semantically
-// valid, just that the parser resolved all important ontological details.
-type ParseContext struct {
-	Ontology   Vocabulary
+// At the end of parsing, the ParsedVocabulary is not guaranteed to be
+// semantically valid, just that the parser resolved all important ontological
+// details.
+type ParsedVocabulary struct {
+	Vocab      Vocabulary
 	References map[string]Vocabulary
 }
 
@@ -52,7 +53,7 @@ type VocabularyProperty struct {
 	Notes  string
 	Domain []VocabularyReference
 	Range  []VocabularyReference
-	// SubpropertyOf is ignorable as long as data is set up correctly
+	// SubpropertyOf is ignorable as long as data is set up correctly TODO: Is this still correct?
 	SubpropertyOf      VocabularyReference // Must be a VocabularyProperty
 	Functional         bool
 	NaturalLanguageMap bool
@@ -70,7 +71,7 @@ type VocabularyExample struct {
 // VocabularyType, VocabularyValue, or a VocabularyProperty. It may refer to
 // another Vocabulary's type or property entirely.
 type VocabularyReference struct {
-	Name     string
-	URI      *url.URL
-	Ontology string // If present, must match key in ParseContext.References
+	Name  string
+	URI   *url.URL
+	Vocab string // If present, must match key in ParsedVocabulary.References
 }
