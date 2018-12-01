@@ -1,6 +1,7 @@
 package rdf
 
 import (
+	"fmt"
 	"net/url"
 )
 
@@ -23,6 +24,39 @@ type Vocabulary struct {
 	Types      map[string]VocabularyType
 	Properties map[string]VocabularyProperty
 	Values     map[string]VocabularyValue
+}
+
+func (v *Vocabulary) SetType(name string, a *VocabularyType) error {
+	if v.Types == nil {
+		v.Types = make(map[string]VocabularyType, 1)
+	}
+	if _, has := v.Types[name]; has {
+		return fmt.Errorf("name already exists for vocabulary Types")
+	}
+	v.Types[name] = *a
+	return nil
+}
+
+func (v *Vocabulary) SetProperty(name string, a *VocabularyProperty) error {
+	if v.Properties == nil {
+		v.Properties = make(map[string]VocabularyProperty, 1)
+	}
+	if _, has := v.Properties[name]; has {
+		return fmt.Errorf("name already exists for vocabulary Properties")
+	}
+	v.Properties[name] = *a
+	return nil
+}
+
+func (v *Vocabulary) SetValue(name string, a *VocabularyValue) error {
+	if v.Values == nil {
+		v.Values = make(map[string]VocabularyValue, 1)
+	}
+	if _, has := v.Values[name]; has {
+		return fmt.Errorf("name already exists for vocabulary Values")
+	}
+	v.Values[name] = *a
+	return nil
 }
 
 // VocabularyValue represents a value type that properties can take on.

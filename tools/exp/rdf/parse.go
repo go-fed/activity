@@ -17,6 +17,27 @@ type JSONLD map[string]interface{}
 type ParsingContext struct {
 	Result  *ParsedVocabulary
 	Current interface{}
+	Name    string
+	Stack   []interface{}
+}
+
+func (p *ParsingContext) Push() {
+	p.Stack = append([]interface{}{p.Current}, p.Stack...)
+}
+
+func (p *ParsingContext) Pop() {
+	p.Current = p.Stack[0]
+	p.Stack = p.Stack[1:]
+}
+
+func (p *ParsingContext) IsReset() bool {
+	return p.Current == nil &&
+		p.Name == ""
+}
+
+func (p *ParsingContext) Reset() {
+	p.Current = nil
+	p.Name = ""
 }
 
 type NameSetter interface {
