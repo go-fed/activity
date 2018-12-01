@@ -12,6 +12,22 @@ const (
 	ID              = "@id"
 )
 
+// IsKeyApplicable returns true if the key has a spec or alias prefix and the
+// property is equal to the desired name.
+//
+// If 'alias' is an empty string, it is ignored.
+func IsKeyApplicable(key, spec, alias, name string) bool {
+	if key == spec+name {
+		return true
+	} else if len(alias) > 0 {
+		strs := strings.Split(key, ALIAS_DELIMITER)
+		if len(strs) > 1 && strs[0] != HTTP && strs[0] != HTTPS {
+			return strs[0] == alias && strs[1] == name
+		}
+	}
+	return false
+}
+
 // splitAlias splits a possibly-aliased string, without splitting on the colon
 // if it is part of the http or https spec.
 func splitAlias(s string) []string {

@@ -108,7 +108,7 @@ func enterFirstNode(nodes []RDFNode, key string, ctx *ParsingContext) error {
 			return err
 		}
 	}
-	return nil
+	return fmt.Errorf("no RDFNode applicable for entering %q", key)
 }
 
 // exitFirstNode will Exit the first RDFNode that returns true or an error.
@@ -120,7 +120,7 @@ func exitFirstNode(nodes []RDFNode, key string, ctx *ParsingContext) error {
 			return err
 		}
 	}
-	return nil
+	return fmt.Errorf("no RDFNode applicable for exiting %q", key)
 }
 
 // applyFirstNode will Apply the first RDFNode that returns true or an error.
@@ -132,7 +132,7 @@ func applyFirstNode(nodes []RDFNode, key string, value interface{}, ctx *Parsing
 			return err
 		}
 	}
-	return nil
+	return fmt.Errorf("no RDFNode applicable for applying %q with value %v", key, value)
 }
 
 // parseJSONLDContext implements a super basic JSON-LD @context parsing
