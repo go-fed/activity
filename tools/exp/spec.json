@@ -14,6 +14,7 @@
       "isDefinedBy": "rdfs:isDefinedBy",
       "mainEntity": "schema:mainEntity",
       "members": "owl:members",
+      "name": "schema:name",
       "notes": "rdfs:comment",
       "range": "rdfs:range",
       "subClassOf": "rdfs:subClassOf",
