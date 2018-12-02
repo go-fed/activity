@@ -73,6 +73,10 @@ func ParseVocabulary(registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVoc
 	ctx := &ParsingContext{
 		Result: vocabulary,
 	}
+	// Prepend well-known JSON LD parsing nodes. Order matters, so that the
+	// parser can understand things like types first, and populate it with
+	// data afterwards.
+	nodes = append(jsonLDNodes, nodes...)
 	err = apply(nodes, input, ctx)
 	return
 }

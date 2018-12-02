@@ -61,6 +61,7 @@ func (l *langstring) Exit(key string, ctx *ParsingContext) (bool, error) {
 }
 
 func (l *langstring) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
+	// TODO: Act as value
 	return true, fmt.Errorf("rdf langstring cannot be applied")
 }
 
@@ -77,6 +78,7 @@ func (p *property) Exit(key string, ctx *ParsingContext) (bool, error) {
 }
 
 func (p *property) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
+	// TODO: Act as value
 	return true, fmt.Errorf("rdf property cannot be applied")
 }
 
@@ -93,5 +95,6 @@ func (v *value) Exit(key string, ctx *ParsingContext) (bool, error) {
 }
 
 func (v *value) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
+	// TODO: Act as value
 	return true, fmt.Errorf("rdf value cannot be applied")
 }

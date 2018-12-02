@@ -17,7 +17,9 @@ const (
 	functionalPropertySpec = "FunctionalProperty"
 )
 
-type OWLOntology struct{}
+type OWLOntology struct {
+	alias string
+}
 
 func (o *OWLOntology) SpecURI() string {
 	return owlSpec
@@ -28,6 +30,7 @@ func (o *OWLOntology) Load() ([]rdf.RDFNode, error) {
 }
 
 func (o *OWLOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
+	o.alias = s
 	return []rdf.RDFNode{
 		&rdf.AliasedDelegate{
 			Spec:     owlSpec,
@@ -81,8 +84,54 @@ func (o *OWLOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 }
 
 func (o *OWLOntology) LoadElement(name string, payload map[string]interface{}) ([]rdf.RDFNode, error) {
-	// TODO: Imports
-	return nil, nil
+	// First, detect if an idValue exists
+	var idValue interface{}
+	var ok bool
+	idValue, ok = payload[rdf.IdSpec]
+	if !ok {
+		idValue, ok = payload[rdf.IdActivityStreamsSpec]
+	}
+	if !ok {
+		return nil, nil
+	}
+	vStr, ok := idValue.(string)
+	if !ok {
+		return nil, nil
+	}
+	// Now that we have a string idValue, handle the import use case
+	if !rdf.IsKeyApplicable(vStr, owlSpec, o.alias, importsSpec) {
+		return nil, nil
+	}
+	node := &rdf.AliasedDelegate{
+		Spec:  "",
+		Alias: "",
+		Name:  name,
+		// Need to set Delegate, based on below logic
+	}
+	for k, v := range payload {
+		if k == rdf.IdSpec || k == rdf.IdActivityStreamsSpec {
+			continue
+		}
+		switch k {
+		case rdf.ContainerSpec:
+			container := &rdf.ContainerLD{}
+			node.Delegate = container
+			// Ugly, maybe move out to its own function when needed
+			if cValStr, ok := v.(string); !ok {
+				return nil, fmt.Errorf("unhandled owl import @container to non-string type: %T", v)
+			} else {
+				switch cValStr {
+				case rdf.IndexSpec:
+					container.ContainsNode = &rdf.IndexLD{}
+				default:
+					return nil, fmt.Errorf("unhandled owl import @container to string type %s", cValStr)
+				}
+			}
+		default:
+			return nil, fmt.Errorf("unhandled owl import use case: %s", k)
+		}
+	}
+	return []rdf.RDFNode{node}, nil
 }
 
 var _ rdf.RDFNode = &members{}

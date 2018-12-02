@@ -139,7 +139,7 @@ func (r *RDFRegistry) AddOntology(o Ontology) error {
 	return nil
 }
 
-// getFor gets RDFKeyers and RDFValuers based on a context's string.
+// getFor gets RDFKeyers based on a context's string.
 func (r *RDFRegistry) getFor(s string) (n []RDFNode, e error) {
 	ontology, ok := r.ontologies[s]
 	if !ok {
@@ -149,7 +149,17 @@ func (r *RDFRegistry) getFor(s string) (n []RDFNode, e error) {
 	return ontology.Load()
 }
 
-// getAliased gets RDFKeyers and RDFValuers based on a context string and its
+// getForAliased gets RDFKeyers based on a context's string.
+func (r *RDFRegistry) getForAliased(alias, s string) (n []RDFNode, e error) {
+	ontology, ok := r.ontologies[s]
+	if !ok {
+		e = fmt.Errorf("no ontology for %s", s)
+		return
+	}
+	return ontology.LoadAsAlias(alias)
+}
+
+// getAliased gets RDFKeyers based on a context string and its
 // alias.
 func (r *RDFRegistry) getAliased(alias, s string) (n []RDFNode, e error) {
 	strs := splitAlias(s)
@@ -157,7 +167,7 @@ func (r *RDFRegistry) getAliased(alias, s string) (n []RDFNode, e error) {
 		if e = r.setAlias(alias, s); e != nil {
 			return
 		}
-		return r.getFor(s)
+		return r.getForAliased(alias, s)
 	} else if len(strs) == 2 {
 		var o Ontology
 		o, e = r.getOntology(strs[0])
@@ -172,7 +182,7 @@ func (r *RDFRegistry) getAliased(alias, s string) (n []RDFNode, e error) {
 	}
 }
 
-// getAliasedObject gets RDFKeyers and RDFValuers based on a context object and
+// getAliasedObject gets RDFKeyers based on a context object and
 // its alias and definition.
 func (r *RDFRegistry) getAliasedObject(alias string, object map[string]interface{}) (n []RDFNode, e error) {
 	raw, ok := object[ID]
@@ -184,7 +194,6 @@ func (r *RDFRegistry) getAliasedObject(alias string, object map[string]interface
 		e = fmt.Errorf("element in getAliasedObject must be a string")
 		return
 	} else {
-		var nodes []RDFNode
 		strs := splitAlias(element)
 		if len(strs) == 1 {
 			n, e = r.getFor(strs[0])
@@ -194,15 +203,12 @@ func (r *RDFRegistry) getAliasedObject(alias string, object map[string]interface
 			if e != nil {
 				return
 			}
-			n, e = o.LoadElement(strs[1], object)
-			return
+			n, e = o.LoadElement(alias, object)
 		}
 		if e != nil {
 			return
 		}
-		if e = r.setAliasedNode(alias, nodes); e != nil {
-			return
-		}
+		e = r.setAliasedNode(alias, n)
 		return
 	}
 }
