@@ -111,17 +111,22 @@ type ContainerLD struct {
 }
 
 func (c *ContainerLD) Enter(key string, ctx *ParsingContext) (bool, error) {
-	// TODO
+	if ctx.OnlyApplyThisNodeNextLevel != nil {
+		return true, fmt.Errorf("@container parsing context exit already has non-nil node")
+	}
+	ctx.SetOnlyApplyThisNodeNextLevel(c.ContainsNode)
 	return true, nil
 }
 
 func (c *ContainerLD) Exit(key string, ctx *ParsingContext) (bool, error) {
-	// TODO
+	if ctx.OnlyApplyThisNodeNextLevel == nil {
+		return true, fmt.Errorf("@container parsing context exit already has nil node")
+	}
+	ctx.ResetOnlyAppliedThisNodeNextLevel()
 	return true, nil
 }
 
 func (c *ContainerLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
-	// TODO
 	return true, nil
 }
 
@@ -130,16 +135,13 @@ var _ RDFNode = &IndexLD{}
 type IndexLD struct{}
 
 func (i *IndexLD) Enter(key string, ctx *ParsingContext) (bool, error) {
-	// TODO
 	return true, nil
 }
 
 func (i *IndexLD) Exit(key string, ctx *ParsingContext) (bool, error) {
-	// TODO
 	return true, nil
 }
 
 func (i *IndexLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
-	// TODO
 	return true, nil
 }

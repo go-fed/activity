@@ -83,6 +83,84 @@ func (o *OWLOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	}, nil
 }
 
+func (o *OWLOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, error) {
+	switch name {
+	case membersSpec:
+		return []rdf.RDFNode{
+			&rdf.AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &members{},
+			},
+		}, nil
+	case disjointWithSpec:
+		return []rdf.RDFNode{
+			&rdf.AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &disjointWith{},
+			},
+		}, nil
+	case unionOfSpec:
+		return []rdf.RDFNode{
+			&rdf.AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &unionOf{},
+			},
+		}, nil
+	case importsSpec:
+		return []rdf.RDFNode{
+			&rdf.AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &imports{},
+			},
+		}, nil
+	case ontologySpec:
+		return []rdf.RDFNode{
+			&rdf.AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &ontology{},
+			},
+		}, nil
+	case classSpec:
+		return []rdf.RDFNode{
+			&rdf.AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &class{},
+			},
+		}, nil
+	case objectPropertySpec:
+		return []rdf.RDFNode{
+			&rdf.AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &objectProperty{},
+			},
+		}, nil
+	case functionalPropertySpec:
+		return []rdf.RDFNode{
+			&rdf.AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &functionalProperty{},
+			},
+		}, nil
+	}
+	return nil, fmt.Errorf("owl ontology cannot find %q to alias to %q", name, alias)
+}
+
 func (o *OWLOntology) LoadElement(name string, payload map[string]interface{}) ([]rdf.RDFNode, error) {
 	// First, detect if an idValue exists
 	var idValue interface{}

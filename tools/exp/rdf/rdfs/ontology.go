@@ -18,6 +18,10 @@ func (o *RDFSchemaOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	return nil, nil
 }
 
+func (o *RDFSchemaOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, error) {
+	return nil, nil
+}
+
 func (o *RDFSchemaOntology) LoadElement(name string, payload map[string]interface{}) ([]rdf.RDFNode, error) {
 	return nil, nil
 }

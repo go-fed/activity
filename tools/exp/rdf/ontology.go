@@ -44,6 +44,39 @@ func (o *RDFOntology) LoadAsAlias(s string) ([]RDFNode, error) {
 	}, nil
 }
 
+func (o *RDFOntology) LoadSpecificAsAlias(alias, name string) ([]RDFNode, error) {
+	switch name {
+	case langstringSpec:
+		return []RDFNode{
+			&AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &langstring{},
+			},
+		}, nil
+	case propertySpec:
+		return []RDFNode{
+			&AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &property{},
+			},
+		}, nil
+	case valueSpec:
+		return []RDFNode{
+			&AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &value{},
+			},
+		}, nil
+	}
+	return nil, fmt.Errorf("rdf ontology cannot find %q to make alias %q", name, alias)
+}
+
 func (o *RDFOntology) LoadElement(name string, payload map[string]interface{}) ([]RDFNode, error) {
 	return nil, nil
 }

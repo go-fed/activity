@@ -49,10 +49,13 @@ type Ontology interface {
 	SpecURI() string
 	// Load loads the entire ontology.
 	Load() ([]RDFNode, error)
-	// Load loads the entire ontology with a specific alias.
+	// LoadAsAlias loads the entire ontology with a specific alias.
 	LoadAsAlias(s string) ([]RDFNode, error)
-	// LoadElement loads a specific element of the ontology by name. The
-	// payload may be nil.
+	// LoadSpecificAsAlias loads a specific element of the ontology by
+	// being able to handle the specific alias as its name instead.
+	LoadSpecificAsAlias(alias, name string) ([]RDFNode, error)
+	// LoadElement loads a specific element of the ontology based on the
+	// object definition.
 	LoadElement(name string, payload map[string]interface{}) ([]RDFNode, error)
 }
 
@@ -111,21 +114,6 @@ func (r *RDFRegistry) getOntology(alias string) (Ontology, error) {
 	}
 }
 
-// loadElement will handle the aliasing of an ontology and retrieve the nodes
-// required for a specific element within that ontology.
-func (r *RDFRegistry) loadElement(alias, element string, payload map[string]interface{}) (n []RDFNode, e error) {
-	if ontName, ok := r.aliases[alias]; !ok {
-		e = fmt.Errorf("no alias to ontology for %s", alias)
-		return
-	} else if ontology, ok := r.ontologies[ontName]; !ok {
-		e = fmt.Errorf("no ontology named %s for alias %s", ontName, alias)
-		return
-	} else {
-		n, e = ontology.LoadElement(element, payload)
-		return
-	}
-}
-
 // AddOntology adds an RDF ontology to the registry.
 func (r *RDFRegistry) AddOntology(o Ontology) error {
 	if r.ontologies == nil {
@@ -174,7 +162,8 @@ func (r *RDFRegistry) getAliased(alias, s string) (n []RDFNode, e error) {
 		if e != nil {
 			return
 		}
-		n, e = o.LoadElement(strs[1], nil)
+		fmt.Println(strs)
+		n, e = o.LoadSpecificAsAlias(alias, strs[1])
 		return
 	} else {
 		e = fmt.Errorf("too many delimiters in %s", s)

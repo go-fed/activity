@@ -19,6 +19,30 @@ type ParsingContext struct {
 	Current interface{}
 	Name    string
 	Stack   []interface{}
+	// For processing manipulation
+	OnlyApplyThisNodeNextLevel RDFNode
+	OnlyApplied                bool
+}
+
+func (p *ParsingContext) SetOnlyApplyThisNodeNextLevel(n RDFNode) {
+	p.OnlyApplyThisNodeNextLevel = n
+	p.OnlyApplied = false
+}
+
+func (p *ParsingContext) GetNextNodes(n []RDFNode) []RDFNode {
+	if p.OnlyApplyThisNodeNextLevel == nil {
+		return n
+	} else if p.OnlyApplied {
+		return n
+	} else {
+		p.OnlyApplied = true
+		return []RDFNode{p.OnlyApplyThisNodeNextLevel}
+	}
+}
+
+func (p *ParsingContext) ResetOnlyAppliedThisNodeNextLevel() {
+	p.OnlyApplyThisNodeNextLevel = nil
+	p.OnlyApplied = false
 }
 
 func (p *ParsingContext) Push() {
@@ -90,34 +114,39 @@ func apply(nodes []RDFNode, input JSONLD, ctx *ParsingContext) error {
 		if k == JSON_LD_CONTEXT {
 			continue
 		}
+		// Hijacked processing: Only use the ParsingContext's node to
+		// handle all elements.
+		recurNodes := nodes
+		enterApplyExitNodes := ctx.GetNextNodes(nodes)
+		// Normal recursive processing
 		if mapValue, ok := v.(map[string]interface{}); ok {
-			if err := enterFirstNode(nodes, k, ctx); err != nil {
+			if err := enterFirstNode(enterApplyExitNodes, k, ctx); err != nil {
 				return err
-			} else if err = apply(nodes, mapValue, ctx); err != nil {
+			} else if err = apply(recurNodes, mapValue, ctx); err != nil {
 				return err
-			} else if err = exitFirstNode(nodes, k, ctx); err != nil {
+			} else if err = exitFirstNode(enterApplyExitNodes, k, ctx); err != nil {
 				return err
 			}
 		} else if arrValue, ok := v.([]interface{}); ok {
 			for _, val := range arrValue {
 				// First, enter for this key
-				if err := enterFirstNode(nodes, k, ctx); err != nil {
+				if err := enterFirstNode(enterApplyExitNodes, k, ctx); err != nil {
 					return err
 				}
 				// Recur or handle the value as necessary.
 				if mapValue, ok := val.(map[string]interface{}); ok {
-					if err := apply(nodes, mapValue, ctx); err != nil {
+					if err := apply(recurNodes, mapValue, ctx); err != nil {
 						return err
 					}
-				} else if err := applyFirstNode(nodes, k, val, ctx); err != nil {
+				} else if err := applyFirstNode(enterApplyExitNodes, k, val, ctx); err != nil {
 					return err
 				}
 				// Finally, exit for this key
-				if err := exitFirstNode(nodes, k, ctx); err != nil {
+				if err := exitFirstNode(enterApplyExitNodes, k, ctx); err != nil {
 					return err
 				}
 			}
-		} else if err := applyFirstNode(nodes, k, v, ctx); err != nil {
+		} else if err := applyFirstNode(enterApplyExitNodes, k, v, ctx); err != nil {
 			return err
 		}
 	}

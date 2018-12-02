@@ -18,6 +18,10 @@ func (o *ActivityStreamsOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	return nil, nil
 }
 
+func (o *ActivityStreamsOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, error) {
+	return nil, nil
+}
+
 func (o *ActivityStreamsOntology) LoadElement(name string, payload map[string]interface{}) ([]rdf.RDFNode, error) {
 	return nil, nil
 }

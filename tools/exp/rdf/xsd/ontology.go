@@ -18,6 +18,10 @@ func (o *XMLOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	return nil, nil
 }
 
+func (o *XMLOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, error) {
+	return nil, nil
+}
+
 func (o *XMLOntology) LoadElement(name string, payload map[string]interface{}) ([]rdf.RDFNode, error) {
 	return nil, nil
 }
