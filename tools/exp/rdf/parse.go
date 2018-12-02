@@ -19,9 +19,25 @@ type ParsingContext struct {
 	Current interface{}
 	Name    string
 	Stack   []interface{}
-	// For processing manipulation
+	// Applies the node only for the next level of processing.
+	//
+	// Do not touch, instead use the accessor methods.
 	OnlyApplyThisNodeNextLevel RDFNode
 	OnlyApplied                bool
+	// Applies the node once, for the rest of the data. This skips the
+	// recursive parsing, and the node's Apply is given an empty string
+	// for a key.
+	//
+	// Do not touch, instead use the accessor methods.
+	OnlyApplyThisNode RDFNode
+}
+
+func (p *ParsingContext) SetOnlyApplyThisNode(n RDFNode) {
+	p.OnlyApplyThisNode = n
+}
+
+func (p *ParsingContext) ResetOnlyApplyThisNode() {
+	p.OnlyApplyThisNode = nil
 }
 
 func (p *ParsingContext) SetOnlyApplyThisNodeNextLevel(n RDFNode) {
@@ -76,6 +92,10 @@ type NotesSetter interface {
 	SetNotes(string)
 }
 
+type ExampleAdder interface {
+	AddExample(*VocabularyExample)
+}
+
 // RDFNode is able to operate on a specific key if it applies towards its
 // ontology (determined at creation time). It applies the value in its own
 // specific implementation on the context.
@@ -108,6 +128,16 @@ func ParseVocabulary(registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVoc
 // apply takes a specification input to populate the ParsingContext, based on
 // the capabilities of the RDFNodes created from ontologies.
 func apply(nodes []RDFNode, input JSONLD, ctx *ParsingContext) error {
+	// Hijacked processing: Process the rest of the data in this single
+	// node.
+	if ctx.OnlyApplyThisNode != nil {
+		if applied, err := ctx.OnlyApplyThisNode.Apply("", input, ctx); !applied {
+			return fmt.Errorf("applying requested node failed")
+		} else {
+			return err
+		}
+	}
+	// Normal recursive processing
 	for k, v := range input {
 		// Skip the context as it has already been parsed to create the
 		// nodes.
@@ -157,7 +187,7 @@ func apply(nodes []RDFNode, input JSONLD, ctx *ParsingContext) error {
 func enterFirstNode(nodes []RDFNode, key string, ctx *ParsingContext) error {
 	for _, node := range nodes {
 		if applied, err := node.Enter(key, ctx); applied {
-			return nil
+			return err
 		} else if err != nil {
 			return err
 		}
@@ -169,7 +199,7 @@ func enterFirstNode(nodes []RDFNode, key string, ctx *ParsingContext) error {
 func exitFirstNode(nodes []RDFNode, key string, ctx *ParsingContext) error {
 	for _, node := range nodes {
 		if applied, err := node.Exit(key, ctx); applied {
-			return nil
+			return err
 		} else if err != nil {
 			return err
 		}
@@ -181,7 +211,7 @@ func exitFirstNode(nodes []RDFNode, key string, ctx *ParsingContext) error {
 func applyFirstNode(nodes []RDFNode, key string, value interface{}, ctx *ParsingContext) error {
 	for _, node := range nodes {
 		if applied, err := node.Apply(key, value, ctx); applied {
-			return nil
+			return err
 		} else if err != nil {
 			return err
 		}
