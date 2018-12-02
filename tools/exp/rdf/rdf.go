@@ -162,7 +162,6 @@ func (r *RDFRegistry) getAliased(alias, s string) (n []RDFNode, e error) {
 		if e != nil {
 			return
 		}
-		fmt.Println(strs)
 		n, e = o.LoadSpecificAsAlias(alias, strs[1])
 		return
 	} else {
