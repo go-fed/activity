@@ -36,7 +36,7 @@
       "type": "owl:Ontology",
       "members": [
         {
-          "id": "as:Accept",
+          "id": "https://www.w3.org/ns/activitystreams#Accept",
           "type": "owl:Class",
           "example": [
             {
@@ -93,7 +93,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-accept"
         },
         {
-          "id": "as:TentativeAccept",
+          "id": "https://www.w3.org/ns/activitystreams#TentativeAccept",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex8-jsonld",
@@ -127,7 +127,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-tentativeaccept"
         },
         {
-          "id": "as:Add",
+          "id": "https://www.w3.org/ns/activitystreams#Add",
           "type": "owl:Class",
           "example": [
             {
@@ -182,7 +182,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-add"
         },
         {
-          "id": "as:Arrive",
+          "id": "https://www.w3.org/ns/activitystreams#Arrive",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex11-jsonld",
@@ -216,7 +216,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-arrive"
         },
         {
-          "id": "as:Create",
+          "id": "https://www.w3.org/ns/activitystreams#Create",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex12-jsonld",
@@ -247,7 +247,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-create"
         },
         {
-          "id": "as:Delete",
+          "id": "https://www.w3.org/ns/activitystreams#Delete",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex13-jsonld",
@@ -278,7 +278,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-delete"
         },
         {
-          "id": "as:Follow",
+          "id": "https://www.w3.org/ns/activitystreams#Follow",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex15-jsonld",
@@ -308,7 +308,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-follow"
         },
         {
-          "id": "as:Ignore",
+          "id": "https://www.w3.org/ns/activitystreams#Ignore",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex16-jsonld",
@@ -335,7 +335,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-ignore"
         },
         {
-          "id": "as:Join",
+          "id": "https://www.w3.org/ns/activitystreams#Join",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex17-jsonld",
@@ -365,7 +365,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-join"
         },
         {
-          "id": "as:Leave",
+          "id": "https://www.w3.org/ns/activitystreams#Leave",
           "type": "owl:Class",
           "example": [
             {
@@ -414,7 +414,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-leave"
         },
         {
-          "id": "as:Like",
+          "id": "https://www.w3.org/ns/activitystreams#Like",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex20-jsonld",
@@ -441,7 +441,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-like"
         },
         {
-          "id": "as:Offer",
+          "id": "https://www.w3.org/ns/activitystreams#Offer",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex21-jsonld",
@@ -475,7 +475,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-offer"
         },
         {
-          "id": "as:Invite",
+          "id": "https://www.w3.org/ns/activitystreams#Invite",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex24-jsonld",
@@ -515,7 +515,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-invite"
         },
         {
-          "id": "as:Reject",
+          "id": "https://www.w3.org/ns/activitystreams#Reject",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex26-jsonld",
@@ -549,7 +549,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-reject"
         },
         {
-          "id": "as:TentativeReject",
+          "id": "https://www.w3.org/ns/activitystreams#TentativeReject",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex27-jsonld",
@@ -583,7 +583,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-tentativereject"
         },
         {
-          "id": "as:Remove",
+          "id": "https://www.w3.org/ns/activitystreams#Remove",
           "type": "owl:Class",
           "example": [
             {
@@ -637,7 +637,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-remove"
         },
         {
-          "id": "as:Undo",
+          "id": "https://www.w3.org/ns/activitystreams#Undo",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex32-jsonld",
@@ -666,7 +666,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-undo"
         },
         {
-          "id": "as:Update",
+          "id": "https://www.w3.org/ns/activitystreams#Update",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex33-jsonld",
@@ -693,7 +693,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-update"
         },
         {
-          "id": "as:View",
+          "id": "https://www.w3.org/ns/activitystreams#View",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex161-jsonld",
@@ -723,7 +723,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-view"
         },
         {
-          "id": "as:Listen",
+          "id": "https://www.w3.org/ns/activitystreams#Listen",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex163-jsonld",
@@ -750,7 +750,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-listen"
         },
         {
-          "id": "as:Read",
+          "id": "https://www.w3.org/ns/activitystreams#Read",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex164-jsonld",
@@ -777,7 +777,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-read"
         },
         {
-          "id": "as:Move",
+          "id": "https://www.w3.org/ns/activitystreams#Move",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex168-jsonld",
@@ -812,7 +812,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-move"
         },
         {
-          "id": "as:Travel",
+          "id": "https://www.w3.org/ns/activitystreams#Travel",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex169-jsonld",
@@ -846,7 +846,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-travel"
         },
         {
-          "id": "as:Announce",
+          "id": "https://www.w3.org/ns/activitystreams#Announce",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex170-jsonld",
@@ -881,7 +881,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-announce"
         },
         {
-          "id": "as:Block",
+          "id": "https://www.w3.org/ns/activitystreams#Block",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex173-jsonld",
@@ -905,7 +905,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-block"
         },
         {
-          "id": "as:Flag",
+          "id": "https://www.w3.org/ns/activitystreams#Flag",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex174-jsonld",
@@ -932,7 +932,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-flag"
         },
         {
-          "id": "as:Dislike",
+          "id": "https://www.w3.org/ns/activitystreams#Dislike",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex175-jsonld",
@@ -956,7 +956,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-dislike"
         },
         {
-          "id": "as:Question",
+          "id": "https://www.w3.org/ns/activitystreams#Question",
           "type": "owl:Class",
           "example": [
             {
@@ -1005,7 +1005,7 @@
       "type": "owl:Ontology",
       "members": [
         {
-          "id": "as:Application",
+          "id": "https://www.w3.org/ns/activitystreams#Application",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex34-jsonld",
@@ -1027,7 +1027,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-application"
         },
         {
-          "id": "as:Group",
+          "id": "https://www.w3.org/ns/activitystreams#Group",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex37-jsonld",
@@ -1049,7 +1049,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-group"
         },
         {
-          "id": "as:Organization",
+          "id": "https://www.w3.org/ns/activitystreams#Organization",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex186-jsonld",
@@ -1071,7 +1071,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-organization"
         },
         {
-          "id": "as:Person",
+          "id": "https://www.w3.org/ns/activitystreams#Person",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex39-jsonld",
@@ -1093,7 +1093,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-person"
         },
         {
-          "id": "as:Service",
+          "id": "https://www.w3.org/ns/activitystreams#Service",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex42-jsonld",
@@ -1120,7 +1120,7 @@
       "type": "owl:Ontology",
       "members": [
         {
-          "id": "as:Object",
+          "id": "https://www.w3.org/ns/activitystreams#Object",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex1-jsonld",
@@ -1147,7 +1147,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object"
         },
         {
-          "id": "as:Link",
+          "id": "https://www.w3.org/ns/activitystreams#Link",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex2-jsonld",
@@ -1176,7 +1176,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link"
         },
         {
-          "id": "as:Activity",
+          "id": "https://www.w3.org/ns/activitystreams#Activity",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex3-jsonld",
@@ -1206,7 +1206,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity"
         },
         {
-          "id": "as:IntransitiveActivity",
+          "id": "https://www.w3.org/ns/activitystreams#IntransitiveActivity",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex182-jsonld",
@@ -1236,7 +1236,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-intransitiveactivity"
         },
         {
-          "id": "as:Collection",
+          "id": "https://www.w3.org/ns/activitystreams#Collection",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex5-jsonld",
@@ -1269,7 +1269,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection"
         },
         {
-          "id": "as:OrderedCollection",
+          "id": "https://www.w3.org/ns/activitystreams#OrderedCollection",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex6-jsonld",
@@ -1302,7 +1302,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollection"
         },
         {
-          "id": "as:CollectionPage",
+          "id": "https://www.w3.org/ns/activitystreams#CollectionPage",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex6b-jsonld",
@@ -1336,7 +1336,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage"
         },
         {
-          "id": "as:OrderedCollectionPage",
+          "id": "https://www.w3.org/ns/activitystreams#OrderedCollectionPage",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex6c-jsonld",
@@ -1375,7 +1375,7 @@
       "type": "owl:Ontology",
       "members": [
         {
-          "id": "as:Relationship",
+          "id": "https://www.w3.org/ns/activitystreams#Relationship",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex22-jsonld",
@@ -1406,7 +1406,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-relationship"
         },
         {
-          "id": "as:Article",
+          "id": "https://www.w3.org/ns/activitystreams#Article",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex43-jsonld",
@@ -1430,7 +1430,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-article"
         },
         {
-          "id": "as:Document",
+          "id": "https://www.w3.org/ns/activitystreams#Document",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex48-jsonld",
@@ -1453,7 +1453,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-document"
         },
         {
-          "id": "as:Audio",
+          "id": "https://www.w3.org/ns/activitystreams#Audio",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex49-jsonld",
@@ -1480,7 +1480,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-audio"
         },
         {
-          "id": "as:Image",
+          "id": "https://www.w3.org/ns/activitystreams#Image",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex50-jsonld",
@@ -1514,7 +1514,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-image"
         },
         {
-          "id": "as:Video",
+          "id": "https://www.w3.org/ns/activitystreams#Video",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex51-jsonld",
@@ -1538,7 +1538,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-video"
         },
         {
-          "id": "as:Note",
+          "id": "https://www.w3.org/ns/activitystreams#Note",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex52-jsonld",
@@ -1561,7 +1561,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note"
         },
         {
-          "id": "as:Page",
+          "id": "https://www.w3.org/ns/activitystreams#Page",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex53-jsonld",
@@ -1584,7 +1584,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-page"
         },
         {
-          "id": "as:Event",
+          "id": "https://www.w3.org/ns/activitystreams#Event",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex56-jsonld",
@@ -1608,7 +1608,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-event"
         },
         {
-          "id": "as:Place",
+          "id": "https://www.w3.org/ns/activitystreams#Place",
           "type": "owl:Class",
           "example": [
             {
@@ -1645,7 +1645,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-place"
         },
         {
-          "id": "as:Mention",
+          "id": "https://www.w3.org/ns/activitystreams#Mention",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex181-jsonld",
@@ -1669,7 +1669,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-mention"
         },
         {
-          "id": "as:Profile",
+          "id": "https://www.w3.org/ns/activitystreams#Profile",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex184a-jsonld",
@@ -1695,7 +1695,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-profile"
         },
         {
-          "id": "as:Tombstone",
+          "id": "https://www.w3.org/ns/activitystreams#Tombstone",
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex184b-jsonld",
@@ -1818,7 +1818,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-type"
         },
         {
-          "id": "as:actor",
+          "id": "https://www.w3.org/ns/activitystreams#actor",
           "type": "rdf:Property",
           "example": [
             {
@@ -1900,7 +1900,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-actor"
         },
         {
-          "id": "as:attachment",
+          "id": "https://www.w3.org/ns/activitystreams#attachment",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -1948,7 +1948,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-attachment"
         },
         {
-          "id": "as:attributedTo",
+          "id": "https://www.w3.org/ns/activitystreams#attributedTo",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -2022,7 +2022,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-attributedto"
         },
         {
-          "id": "as:audience",
+          "id": "https://www.w3.org/ns/activitystreams#audience",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -2070,7 +2070,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-audience"
         },
         {
-          "id": "as:bcc",
+          "id": "https://www.w3.org/ns/activitystreams#bcc",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -2117,7 +2117,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-bcc"
         },
         {
-          "id": "as:bto",
+          "id": "https://www.w3.org/ns/activitystreams#bto",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -2164,7 +2164,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-bto"
         },
         {
-          "id": "as:cc",
+          "id": "https://www.w3.org/ns/activitystreams#cc",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -2211,7 +2211,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-cc"
         },
         {
-          "id": "as:context",
+          "id": "https://www.w3.org/ns/activitystreams#context",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -2269,7 +2269,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-context"
         },
         {
-          "id": "as:current",
+          "id": "https://www.w3.org/ns/activitystreams#current",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -2341,7 +2341,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-current"
         },
         {
-          "id": "as:first",
+          "id": "https://www.w3.org/ns/activitystreams#first",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -2403,7 +2403,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-first"
         },
         {
-          "id": "as:generator",
+          "id": "https://www.w3.org/ns/activitystreams#generator",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -2451,7 +2451,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-generator"
         },
         {
-          "id": "as:icon",
+          "id": "https://www.w3.org/ns/activitystreams#icon",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -2530,7 +2530,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-icon"
         },
         {
-          "id": "as:image",
+          "id": "https://www.w3.org/ns/activitystreams#image",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -2603,7 +2603,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-image-term"
         },
         {
-          "id": "as:inReplyTo",
+          "id": "https://www.w3.org/ns/activitystreams#inReplyTo",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -2665,7 +2665,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-inreplyto"
         },
         {
-          "id": "as:instrument",
+          "id": "https://www.w3.org/ns/activitystreams#instrument",
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex101-jsonld",
@@ -2707,7 +2707,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-instrument"
         },
         {
-          "id": "as:last",
+          "id": "https://www.w3.org/ns/activitystreams#last",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -2769,7 +2769,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-last"
         },
         {
-          "id": "as:location",
+          "id": "https://www.w3.org/ns/activitystreams#location",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -2813,7 +2813,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-location"
         },
         {
-          "id": "as:items",
+          "id": "https://www.w3.org/ns/activitystreams#items",
           "type": "rdf:Property",
           "example": [
             {
@@ -2896,7 +2896,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-items"
         },
         {
-          "id": "as:oneOf",
+          "id": "https://www.w3.org/ns/activitystreams#oneOf",
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex93-jsonld",
@@ -2946,7 +2946,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-oneof"
         },
         {
-          "id": "as:anyOf",
+          "id": "https://www.w3.org/ns/activitystreams#anyOf",
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex94-jsonld",
@@ -2996,7 +2996,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-anyof"
         },
         {
-          "id": "as:closed",
+          "id": "https://www.w3.org/ns/activitystreams#closed",
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex94b-jsonld",
@@ -3039,7 +3039,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-closed"
         },
         {
-          "id": "as:origin",
+          "id": "https://www.w3.org/ns/activitystreams#origin",
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex166-jsonld",
@@ -3089,7 +3089,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-origin"
         },
         {
-          "id": "as:next",
+          "id": "https://www.w3.org/ns/activitystreams#next",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -3159,7 +3159,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-next"
         },
         {
-          "id": "as:object",
+          "id": "https://www.w3.org/ns/activitystreams#object",
           "type": "rdf:Property",
           "example": [
             {
@@ -3241,7 +3241,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object-term"
         },
         {
-          "id": "as:prev",
+          "id": "https://www.w3.org/ns/activitystreams#prev",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -3311,7 +3311,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-prev"
         },
         {
-          "id": "as:preview",
+          "id": "https://www.w3.org/ns/activitystreams#preview",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -3371,7 +3371,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-preview"
         },
         {
-          "id": "as:result",
+          "id": "https://www.w3.org/ns/activitystreams#result",
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex108-jsonld",
@@ -3420,7 +3420,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-result"
         },
         {
-          "id": "as:replies",
+          "id": "https://www.w3.org/ns/activitystreams#replies",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty",
@@ -3469,7 +3469,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-replies"
         },
         {
-          "id": "as:tag",
+          "id": "https://www.w3.org/ns/activitystreams#tag",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -3518,7 +3518,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-tag"
         },
         {
-          "id": "as:target",
+          "id": "https://www.w3.org/ns/activitystreams#target",
           "type": "rdf:Property",
           "example": [
             {
@@ -3578,7 +3578,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-target"
         },
         {
-          "id": "as:to",
+          "id": "https://www.w3.org/ns/activitystreams#to",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -3625,7 +3625,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-to"
         },
         {
-          "id": "as:url",
+          "id": "https://www.w3.org/ns/activitystreams#url",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -3701,7 +3701,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-url"
         },
         {
-          "id": "as:accuracy",
+          "id": "https://www.w3.org/ns/activitystreams#accuracy",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -3736,7 +3736,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-accuracy"
         },
         {
-          "id": "as:altitude",
+          "id": "https://www.w3.org/ns/activitystreams#altitude",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty",
@@ -3773,7 +3773,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-altitude"
         },
         {
-          "id": "as:content",
+          "id": "https://www.w3.org/ns/activitystreams#content",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -3836,7 +3836,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-content"
         },
         {
-          "id": "as:name",
+          "id": "https://www.w3.org/ns/activitystreams#name",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -3893,7 +3893,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-name"
         },
         {
-          "id": "as:duration",
+          "id": "https://www.w3.org/ns/activitystreams#duration",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty",
@@ -3928,7 +3928,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-duration"
         },
         {
-          "id": "as:height",
+          "id": "https://www.w3.org/ns/activitystreams#height",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -3962,7 +3962,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-height"
         },
         {
-          "id": "as:href",
+          "id": "https://www.w3.org/ns/activitystreams#href",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -3996,7 +3996,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-href"
         },
         {
-          "id": "as:hreflang",
+          "id": "https://www.w3.org/ns/activitystreams#hreflang",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -4031,7 +4031,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-hreflang"
         },
         {
-          "id": "as:partOf",
+          "id": "https://www.w3.org/ns/activitystreams#partOf",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -4086,7 +4086,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-partof"
         },
         {
-          "id": "as:latitude",
+          "id": "https://www.w3.org/ns/activitystreams#latitude",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -4122,7 +4122,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-latitude"
         },
         {
-          "id": "as:longitude",
+          "id": "https://www.w3.org/ns/activitystreams#longitude",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -4158,7 +4158,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-longitude"
         },
         {
-          "id": "as:mediaType",
+          "id": "https://www.w3.org/ns/activitystreams#mediaType",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty",
@@ -4201,7 +4201,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-mediatype"
         },
         {
-          "id": "as:endTime",
+          "id": "https://www.w3.org/ns/activitystreams#endTime",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty",
@@ -4236,7 +4236,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-endtime"
         },
         {
-          "id": "as:published",
+          "id": "https://www.w3.org/ns/activitystreams#published",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty",
@@ -4271,7 +4271,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-published"
         },
         {
-          "id": "as:startTime",
+          "id": "https://www.w3.org/ns/activitystreams#startTime",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty",
@@ -4306,7 +4306,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-starttime"
         },
         {
-          "id": "as:radius",
+          "id": "https://www.w3.org/ns/activitystreams#radius",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -4342,7 +4342,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-radius"
         },
         {
-          "id": "as:rel",
+          "id": "https://www.w3.org/ns/activitystreams#rel",
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex149-jsonld",
@@ -4378,7 +4378,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-rel"
         },
         {
-          "id": "as:startIndex",
+          "id": "https://www.w3.org/ns/activitystreams#startIndex",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -4421,7 +4421,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-startindex"
         },
         {
-          "id": "as:summary",
+          "id": "https://www.w3.org/ns/activitystreams#summary",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty"
@@ -4473,7 +4473,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-summary"
         },
         {
-          "id": "as:totalItems",
+          "id": "https://www.w3.org/ns/activitystreams#totalItems",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -4516,7 +4516,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-totalitems"
         },
         {
-          "id": "as:units",
+          "id": "https://www.w3.org/ns/activitystreams#units",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -4560,7 +4560,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-units"
         },
         {
-          "id": "as:updated",
+          "id": "https://www.w3.org/ns/activitystreams#updated",
           "type": [
             "rdf:Property",
             "owl:ObjectProperty",
@@ -4595,7 +4595,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-updated"
         },
         {
-          "id": "as:width",
+          "id": "https://www.w3.org/ns/activitystreams#width",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -4629,7 +4629,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-width"
         },
         {
-          "id": "as:subject",
+          "id": "https://www.w3.org/ns/activitystreams#subject",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -4681,7 +4681,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-subject"
         },
         {
-          "id": "as:relationship",
+          "id": "https://www.w3.org/ns/activitystreams#relationship",
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex22c-jsonld",
@@ -4723,7 +4723,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-relationship-term"
         },
         {
-          "id": "as:describes",
+          "id": "https://www.w3.org/ns/activitystreams#describes",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
@@ -4764,7 +4764,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-describes"
         },
         {
-          "id": "as:formerType",
+          "id": "https://www.w3.org/ns/activitystreams#formerType",
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex185b-jsonld",
@@ -4799,7 +4799,7 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-formertype"
         },
         {
-          "id": "as:deleted",
+          "id": "https://www.w3.org/ns/activitystreams#deleted",
           "type": [
             "rdf:Property",
             "owl:FunctionalProperty"
