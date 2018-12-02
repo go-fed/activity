@@ -20,6 +20,7 @@
       "disjointWith": "owl:disjointWith",
       "subPropertyOf": "rdfs:subPropertyOf",
       "unionOf": "owl:unionOf",
+      "url": "schema:URL",
       "value": "rdf:value"
     },
     {
