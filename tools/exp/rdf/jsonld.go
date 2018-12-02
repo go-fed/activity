@@ -75,7 +75,7 @@ func (i *idLD) Exit(key string, ctx *ParsingContext) (bool, error) {
 
 func (i *idLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
 	if ctx.Current == nil {
-		return true, fmt.Errorf("id apply called with nil Current")
+		return true, nil
 	} else if ider, ok := ctx.Current.(URISetter); !ok {
 		return true, fmt.Errorf("id apply called with non-URISetter")
 	} else if str, ok := value.(string); !ok {

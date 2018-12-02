@@ -108,20 +108,26 @@ func (v *VocabularyType) SetNotes(s string) {
 	v.Notes = s
 }
 
+func (v *VocabularyType) AddExample(e *VocabularyExample) {
+	v.Examples = append(v.Examples, *e)
+}
+
 var (
-	_ NameSetter  = &VocabularyType{}
-	_ URISetter   = &VocabularyType{}
-	_ NotesSetter = &VocabularyType{}
+	_ NameSetter   = &VocabularyType{}
+	_ URISetter    = &VocabularyType{}
+	_ NotesSetter  = &VocabularyType{}
+	_ ExampleAdder = &VocabularyType{}
 )
 
 // VocabularyProperty represents a single ActivityStream property type in a
 // vocabulary.
 type VocabularyProperty struct {
-	Name   string
-	URI    *url.URL
-	Notes  string
-	Domain []VocabularyReference
-	Range  []VocabularyReference
+	Name     string
+	URI      *url.URL
+	Notes    string
+	Domain   []VocabularyReference
+	Range    []VocabularyReference
+	Examples []VocabularyExample
 	// SubpropertyOf is ignorable as long as data is set up correctly TODO: Is this still correct?
 	SubpropertyOf      VocabularyReference // Must be a VocabularyProperty
 	Functional         bool
@@ -142,10 +148,15 @@ func (v *VocabularyProperty) SetNotes(s string) {
 	v.Notes = s
 }
 
+func (v *VocabularyProperty) AddExample(e *VocabularyExample) {
+	v.Examples = append(v.Examples, *e)
+}
+
 var (
-	_ NameSetter  = &VocabularyProperty{}
-	_ URISetter   = &VocabularyProperty{}
-	_ NotesSetter = &VocabularyProperty{}
+	_ NameSetter   = &VocabularyProperty{}
+	_ URISetter    = &VocabularyProperty{}
+	_ NotesSetter  = &VocabularyProperty{}
+	_ ExampleAdder = &VocabularyProperty{}
 )
 
 // VocabularyExample documents an Example for an ActivityStream type or property
@@ -153,7 +164,7 @@ var (
 type VocabularyExample struct {
 	Name    string
 	URI     *url.URL
-	Example map[string]interface{}
+	Example interface{}
 }
 
 func (v *VocabularyExample) SetName(s string) {
