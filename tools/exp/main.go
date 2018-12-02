@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/rdf"
-	"github.com/cjslep/activity/tools/exp/rdf/as"
 	"github.com/cjslep/activity/tools/exp/rdf/owl"
 	"github.com/cjslep/activity/tools/exp/rdf/rdfs"
 	"github.com/cjslep/activity/tools/exp/rdf/schema"
@@ -25,7 +24,6 @@ func mustAddOntology(o rdf.Ontology) {
 }
 
 func init() {
-	mustAddOntology(&as.ActivityStreamsOntology{})
 	mustAddOntology(&xsd.XMLOntology{})
 	mustAddOntology(&owl.OWLOntology{})
 	mustAddOntology(&rdf.RDFOntology{})

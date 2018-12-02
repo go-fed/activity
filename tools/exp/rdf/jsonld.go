@@ -15,24 +15,22 @@ const (
 
 // jsonLDNodes contains the well-known set of nodes as defined by the JSON-LD
 // specification.
-var jsonLDNodes []RDFNode
-
-func init() {
+func jsonLDNodes(r *RDFRegistry) []RDFNode {
 	// Order matters -- we want to be able to distinguish the types of
 	// things first, for example, to be able to have the parsing context
 	// applied correctly.
-	jsonLDNodes = []RDFNode{
+	return []RDFNode{
 		&AliasedDelegate{
 			Spec:     "",
 			Alias:    "",
 			Name:     typeSpec,
-			Delegate: &typeLD{},
+			Delegate: &typeLD{r: r},
 		},
 		&AliasedDelegate{
 			Spec:     "",
 			Alias:    "",
 			Name:     typeActivityStreamsSpec,
-			Delegate: &typeLD{},
+			Delegate: &typeLD{r: r},
 		},
 		&AliasedDelegate{
 			Spec:     "",
@@ -87,21 +85,29 @@ func (i *idLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool, 
 
 var _ RDFNode = &typeLD{}
 
-type typeLD struct{}
+type typeLD struct {
+	r *RDFRegistry
+}
 
 func (t *typeLD) Enter(key string, ctx *ParsingContext) (bool, error) {
-	// TODO
 	return true, nil
 }
 
 func (t *typeLD) Exit(key string, ctx *ParsingContext) (bool, error) {
-	// TODO
 	return true, nil
 }
 
 func (t *typeLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
-	// TODO
-	return true, nil
+	fmt.Printf("@type key=%s, value=%v\n", key, value)
+	vs, ok := value.(string)
+	if !ok {
+		return true, fmt.Errorf("@type is not string")
+	}
+	n, e := t.r.getNode(vs)
+	if e != nil {
+		return true, e
+	}
+	return n.Apply(vs, nil, ctx)
 }
 
 var _ RDFNode = &ContainerLD{}

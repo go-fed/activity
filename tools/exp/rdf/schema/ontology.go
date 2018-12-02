@@ -3,6 +3,7 @@ package schema
 import (
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/rdf"
+	"strings"
 )
 
 const (
@@ -96,6 +97,14 @@ func (o *SchemaOntology) LoadSpecificAsAlias(alias, n string) ([]rdf.RDFNode, er
 
 func (o *SchemaOntology) LoadElement(name string, payload map[string]interface{}) ([]rdf.RDFNode, error) {
 	return nil, nil
+}
+
+func (o *SchemaOntology) GetByName(name string) (rdf.RDFNode, error) {
+	name = strings.TrimPrefix(name, o.SpecURI())
+	switch name {
+	// TODO
+	}
+	return nil, fmt.Errorf("schema ontology could not find node for name %s", name)
 }
 
 var _ rdf.RDFNode = &example{}

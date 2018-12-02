@@ -3,6 +3,7 @@ package owl
 import (
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/rdf"
+	"strings"
 )
 
 const (
@@ -210,6 +211,14 @@ func (o *OWLOntology) LoadElement(name string, payload map[string]interface{}) (
 		}
 	}
 	return []rdf.RDFNode{node}, nil
+}
+
+func (o *OWLOntology) GetByName(name string) (rdf.RDFNode, error) {
+	name = strings.TrimPrefix(name, o.SpecURI())
+	switch name {
+	// TODO
+	}
+	return nil, fmt.Errorf("owl ontology could not find node for name %s", name)
 }
 
 var _ rdf.RDFNode = &members{}

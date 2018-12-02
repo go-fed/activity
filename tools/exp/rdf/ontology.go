@@ -2,6 +2,7 @@ package rdf
 
 import (
 	"fmt"
+	"strings"
 )
 
 const (
@@ -79,6 +80,13 @@ func (o *RDFOntology) LoadSpecificAsAlias(alias, name string) ([]RDFNode, error)
 
 func (o *RDFOntology) LoadElement(name string, payload map[string]interface{}) ([]RDFNode, error) {
 	return nil, nil
+}
+
+func (o *RDFOntology) GetByName(name string) (RDFNode, error) {
+	name = strings.TrimPrefix(name, o.SpecURI())
+	switch name {
+	}
+	return nil, fmt.Errorf("rdf ontology could not find node for name %s", name)
 }
 
 var _ RDFNode = &langstring{}

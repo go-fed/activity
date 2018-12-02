@@ -1,7 +1,9 @@
 package xsd
 
 import (
+	"fmt"
 	"github.com/cjslep/activity/tools/exp/rdf"
+	"strings"
 )
 
 type XMLOntology struct{}
@@ -24,4 +26,12 @@ func (o *XMLOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, er
 
 func (o *XMLOntology) LoadElement(name string, payload map[string]interface{}) ([]rdf.RDFNode, error) {
 	return nil, nil
+}
+
+func (o *XMLOntology) GetByName(name string) (rdf.RDFNode, error) {
+	name = strings.TrimPrefix(name, o.SpecURI())
+	switch name {
+	// TODO
+	}
+	return nil, fmt.Errorf("xsd ontology could not find node for name %s", name)
 }
