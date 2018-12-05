@@ -2880,16 +2880,6 @@
                 "type": "owl:Class",
                 "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
-              },
-              {
-                "type": "owl:Class",
-                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
-                "name": "Object"
-              },
-              {
-                "type": "owl:Class",
-                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
-                "name": "Link"
               }
             ]
           },
