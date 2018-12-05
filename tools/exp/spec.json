@@ -1,6 +1,5 @@
 {
   "@context": [
-    "https://www.w3.org/ns/activitystreams",
     {
       "owl": "http://www.w3.org/2002/07/owl#",
       "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -43,7 +42,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex7a-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Accept",
                 "actor": {
@@ -64,7 +63,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex7b-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Accept",
                 "actor": {
@@ -86,8 +85,8 @@
           ],
           "notes": "Indicates that the actor accepts the object. The target property can be used in certain circumstances to indicate the context into which the object has been accepted.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -99,7 +98,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex8-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "TentativeAccept",
               "actor": {
@@ -120,8 +119,8 @@
           },
           "notes": "A specialization of Accept indicating that the acceptance is tentative.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-accept",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-accept",
             "name": "Accept"
           },
           "disjointWith": [],
@@ -134,7 +133,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex9-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Add",
                 "actor": {
@@ -148,7 +147,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex10-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Add",
                 "actor": {
@@ -175,8 +174,8 @@
           ],
           "notes": "Indicates that the actor has added the object to the target. If the target property is not explicitly specified, the target would need to be determined implicitly by context. The origin can be used to identify the context from which the object originated.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -188,7 +187,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex11-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Arrive",
               "actor": {
@@ -209,8 +208,8 @@
           },
           "notes": "An IntransitiveActivity that indicates that the actor has arrived at the location. The origin can be used to identify the context from which the actor originated. The target typically has no defined meaning.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-intransitiveactivity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-intransitiveactivity",
             "name": "IntransitiveActivity"
           },
           "disjointWith": [],
@@ -222,7 +221,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex12-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Create",
               "actor": {
@@ -240,8 +239,8 @@
           },
           "notes": "Indicates that the actor has created the object.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -253,7 +252,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex13-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Delete",
               "actor": {
@@ -271,8 +270,8 @@
           },
           "notes": "Indicates that the actor has deleted the object. If specified, the origin indicates the context from which the object was deleted.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -284,7 +283,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex15-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Follow",
               "actor": {
@@ -301,8 +300,8 @@
           },
           "notes": "Indicates that the actor is \"following\" the object. Following is defined in the sense typically used within Social systems in which the actor is interested in any activity performed by or on the object. The target and origin typically have no defined meaning.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -314,7 +313,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex16-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Ignore",
               "actor": {
@@ -328,8 +327,8 @@
           },
           "notes": "Indicates that the actor is ignoring the object. The target and origin typically have no defined meaning.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -341,7 +340,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex17-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Join",
               "actor": {
@@ -358,8 +357,8 @@
           },
           "notes": "Indicates that the actor has joined the object. The target and origin typically have no defined meaning.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -372,7 +371,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex18-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Leave",
                 "actor": {
@@ -389,7 +388,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex19-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Leave",
                 "actor": {
@@ -407,8 +406,8 @@
           ],
           "notes": "Indicates that the actor has left the object. The target and origin typically have no meaning.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -420,7 +419,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex20-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Like",
               "actor": {
@@ -434,8 +433,8 @@
           },
           "notes": "Indicates that the actor likes, recommends or endorses the object. The target and origin typically have no defined meaning.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -447,7 +446,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex21-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Offer",
               "actor": {
@@ -468,8 +467,8 @@
           },
           "notes": "Indicates that the actor is offering the object. If specified, the target indicates the entity to which the object is being offered.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -481,7 +480,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex24-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Invite",
               "actor": {
@@ -508,8 +507,8 @@
           },
           "notes": "A specialization of Offer in which the actor is extending an invitation for the object to the target.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-offer",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-offer",
             "name": "Offer"
           },
           "disjointWith": [],
@@ -521,7 +520,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex26-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Reject",
               "actor": {
@@ -542,8 +541,8 @@
           },
           "notes": "Indicates that the actor is rejecting the object. The target and origin typically have no defined meaning.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -555,7 +554,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex27-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "TentativeReject",
               "actor": {
@@ -576,8 +575,8 @@
           },
           "notes": "A specialization of Reject in which the rejection is considered tentative.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-reject",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-reject",
             "name": "Reject"
           },
           "disjointWith": [],
@@ -590,7 +589,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex28-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Remove",
                 "actor": {
@@ -608,7 +607,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex29-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Remove",
                 "actor": {
@@ -630,8 +629,8 @@
           ],
           "notes": "Indicates that the actor is removing the object. If specified, the origin indicates the context from which the object is being removed.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -643,7 +642,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex32-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Undo",
               "actor": "http://sally.example.org",
@@ -659,8 +658,8 @@
           },
           "notes": "Indicates that the actor is undoing the object. In most cases, the object will be an Activity describing some previously performed action (for instance, a person may have previously \"liked\" an article but, for whatever reason, might choose to undo that like at some later point in time). The target and origin typically have no defined meaning.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -672,7 +671,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex33-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Update",
               "actor": {
@@ -686,8 +685,8 @@
           },
           "notes": "Indicates that the actor has updated the object. Note, however, that this vocabulary does not define a mechanism for describing the actual set of modifications made to object. The target and origin typically have no defined meaning.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -699,7 +698,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex161-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "View",
               "actor": {
@@ -716,8 +715,8 @@
           },
           "notes": "Indicates that the actor has viewed the object.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -729,7 +728,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex163-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Listen",
               "actor": {
@@ -743,8 +742,8 @@
           },
           "notes": "Indicates that the actor has listened to the object.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -756,7 +755,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex164-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Read",
               "actor": {
@@ -770,8 +769,8 @@
           },
           "notes": "Indicates that the actor has read the object.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -783,7 +782,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex168-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Move",
               "actor": {
@@ -805,8 +804,8 @@
           },
           "notes": "Indicates that the actor has moved object from origin to target. If the origin or target are not specified, either can be determined by context.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -818,7 +817,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex169-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Travel",
               "actor": {
@@ -839,8 +838,8 @@
           },
           "notes": "Indicates that the actor is traveling to target from origin. Travel is an IntransitiveObject whose actor specifies the direct object. If the target or origin are not specified, either can be determined by context.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-intransitiveactivity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-intransitiveactivity",
             "name": "IntransitiveActivity"
           },
           "disjointWith": [],
@@ -852,7 +851,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex170-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Announce",
               "actor": {
@@ -874,8 +873,8 @@
           },
           "notes": "Indicates that the actor is calling the target's attention the object. The origin typically has no defined meaning.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -887,7 +886,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex173-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Block",
               "actor": "http://sally.example.org",
@@ -898,8 +897,8 @@
           },
           "notes": "Indicates that the actor is blocking the object. Blocking is a stronger form of Ignore. The typical use is to support social systems that allow one user to block activities or content of other users. The target and origin typically have no defined meaning.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-ignore",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-ignore",
             "name": "Ignore"
           },
           "disjointWith": [],
@@ -911,7 +910,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex174-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Flag",
               "actor": "http://sally.example.org",
@@ -925,8 +924,8 @@
           },
           "notes": "Indicates that the actor is \"flagging\" the object. Flagging is defined in the sense common to many social platforms as reporting content as being inappropriate for any number of reasons.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -938,7 +937,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex175-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Dislike",
               "actor": "http://sally.example.org",
@@ -949,8 +948,8 @@
           },
           "notes": "Indicates that the actor dislikes the object.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -963,7 +962,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex55a-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Question",
                 "name": "What is the answer?",
@@ -982,7 +981,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex55b-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Question",
                 "closed": "2016-05-10T00:00:00Z",
@@ -993,8 +992,8 @@
           ],
           "notes": "Represents a question being asked. Question objects are an extension of IntransitiveActivity. That is, the Question object is an Activity, but the direct object is the question itself and therefore it would not contain an object property. Either of the anyOf and oneOf properties MAY be used to express possible answers, but a Question object MUST NOT have both properties.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-intransitiveactivity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-intransitiveactivity",
             "name": "IntransitiveActivity"
           },
           "disjointWith": [],
@@ -1011,7 +1010,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex34-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Application",
               "name": "Exampletron 3000"
@@ -1020,8 +1019,8 @@
           },
           "notes": "Describes a software application.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1033,7 +1032,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex37-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Group",
               "name": "Big Beards of Austin"
@@ -1042,8 +1041,8 @@
           },
           "notes": "Represents a formal or informal collective of Actors.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1055,7 +1054,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex186-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Organization",
               "name": "Example Co."
@@ -1064,8 +1063,8 @@
           },
           "notes": "Represents an organization.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1077,7 +1076,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex39-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Person",
               "name": "Sally Smith"
@@ -1086,8 +1085,8 @@
           },
           "notes": "Represents an individual person.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1099,7 +1098,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex42-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Service",
               "name": "Acme Web Service"
@@ -1108,8 +1107,8 @@
           },
           "notes": "Represents a service of any kind.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1126,7 +1125,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex1-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "id": "http://www.test.example/object/1",
               "type": "Object",
@@ -1136,13 +1135,13 @@
           },
           "notes": "Describes an object of any kind. The Object type serves as the base type for most of the other kinds of objects defined in the Activity Vocabulary, including other Core types such as Activity, IntransitiveActivity, Collection and OrderedCollection.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
             "name": "Link"
           },
           "disjointWith": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
             "name": "Link"
           },
           "name": "Object",
@@ -1153,10 +1152,10 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex2-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "Link",
-              "href": "http://example.org/abc",
+              "type": "owl:Class",
+              "url": "http://example.org/abc",
               "hreflang": "en",
               "mediaType": "text/html",
               "name": "An example link"
@@ -1165,13 +1164,13 @@
           },
           "notes": "A Link is an indirect, qualified reference to a resource identified by a URL. The fundamental model for links is established by [ RFC5988]. Many of the properties defined by the Activity Vocabulary allow values that are either instances of Object or Link. When a Link is used, it establishes a qualified relation connecting the subject (the containing object) to the resource identified by the href. Properties of the Link are properties of the reference as opposed to properties of the resource.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "name": "Link",
@@ -1182,7 +1181,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex3-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Activity",
               "actor": {
@@ -1199,8 +1198,8 @@
           },
           "notes": "An Activity is a subtype of Object that describes some form of action that may happen, is currently happening, or has already happened. The Activity type itself serves as an abstract base type for all types of activities. It is important to note that the Activity type itself does not carry any specific semantics about the kind of action being taken.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1212,7 +1211,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex182-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Travel",
               "actor": {
@@ -1229,8 +1228,8 @@
           },
           "notes": "Instances of IntransitiveActivity are a subtype of Activity representing intransitive actions. The object property is therefore inappropriate for these activities.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
             "name": "Activity"
           },
           "disjointWith": [],
@@ -1242,7 +1241,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex5-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Collection",
               "items": [
@@ -1262,8 +1261,8 @@
           },
           "notes": "A Collection is a subtype of Object that represents ordered or unordered sets of Object or Link instances. Refer to the Activity Streams 2.0 Core specification for a complete description of the Collection type.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1275,7 +1274,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex6-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "OrderedCollection",
               "orderedItems": [
@@ -1295,8 +1294,8 @@
           },
           "notes": "A subtype of Collection in which members of the logical collection are assumed to always be strictly ordered.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
             "name": "Collection"
           },
           "disjointWith": [],
@@ -1308,7 +1307,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex6b-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "id": "http://example.org/foo?page=1",
               "type": "CollectionPage",
@@ -1329,8 +1328,8 @@
           },
           "notes": "Used to represent distinct subsets of items from a Collection. Refer to the Activity Streams 2.0 Core for a complete description of the CollectionPage object.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
             "name": "Collection"
           },
           "disjointWith": [],
@@ -1342,7 +1341,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex6c-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "id": "http://example.org/foo?page=1",
               "type": "OrderedCollectionPage",
@@ -1363,8 +1362,8 @@
           },
           "notes": "Used to represent ordered subsets of items from an OrderedCollection. Refer to the Activity Streams 2.0 Core for a complete description of the OrderedCollectionPage object.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollection",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollection",
             "name": "OrderedCollectionCollectionPage"
           },
           "disjointWith": [],
@@ -1381,7 +1380,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex22-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Relationship",
               "object": {
@@ -1399,8 +1398,8 @@
           },
           "notes": "Describes a relationship between two individuals. The subject and object properties are used to identify the connected individuals. See 5.2 Representing Relationships Between Entities for additional information.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1412,7 +1411,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex43-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Article",
               "attributedTo": "http://sally.example.org",
@@ -1423,8 +1422,8 @@
           },
           "notes": "Represents any kind of multi-paragraph written work.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1436,7 +1435,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex48-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Document",
               "name": "4Q Sales Forecast",
@@ -1446,8 +1445,8 @@
           },
           "notes": "Represents a document of any kind.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1459,13 +1458,13 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex49-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Audio",
               "name": "Interview With A Famous Technologist",
               "url": {
-                "type": "Link",
-                "href": "http://example.org/podcast.mp3",
+                "type": "owl:Class",
+                "url": "http://example.org/podcast.mp3",
                 "mediaType": "audio/mp3"
               }
             },
@@ -1473,8 +1472,8 @@
           },
           "notes": "Represents an audio document of any kind.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-document",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-document",
             "name": "Document"
           },
           "disjointWith": [],
@@ -1486,19 +1485,19 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex50-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Image",
               "name": "Cat Jumping on Wagon",
               "url": [
                 {
-                  "type": "Link",
-                  "href": "http://example.org/image.jpeg",
+                  "type": "owl:Class",
+                  "url": "http://example.org/image.jpeg",
                   "mediaType": "image/jpeg"
                 },
                 {
-                  "type": "Link",
-                  "href": "http://example.org/image.png",
+                  "type": "owl:Class",
+                  "url": "http://example.org/image.png",
                   "mediaType": "image/png"
                 }
               ]
@@ -1507,8 +1506,8 @@
           },
           "notes": "An image document of any kind",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-document",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-document",
             "name": "Document"
           },
           "disjointWith": [],
@@ -1520,7 +1519,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex51-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Video",
               "duration": "PT2H",
@@ -1531,8 +1530,8 @@
           },
           "notes": "Represents a video document of any kind.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-document",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-document",
             "name": "Document"
           },
           "disjointWith": [],
@@ -1544,7 +1543,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex52-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Note",
               "content": "Looks like it is going to rain today. Bring an umbrella!",
@@ -1554,8 +1553,8 @@
           },
           "notes": "Represents a short written work typically less than a single paragraph in length.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1567,7 +1566,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex53-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Page",
               "name": "Omaha Weather Report",
@@ -1577,8 +1576,8 @@
           },
           "notes": "Represents a Web Page.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-document",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-document",
             "name": "Document"
           },
           "disjointWith": [],
@@ -1590,7 +1589,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex56-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Event",
               "endTime": "2015-01-01T06:00:00-08:00",
@@ -1601,8 +1600,8 @@
           },
           "notes": "Represents any kind of event.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1615,7 +1614,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex57-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Place",
                 "name": "Work"
@@ -1624,7 +1623,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex58-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Place",
                 "latitude": 36.75,
@@ -1638,8 +1637,8 @@
           ],
           "notes": "Represents a logical or physical location. See 5.3 Representing Places for additional information.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1651,10 +1650,10 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex181-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Mention",
-              "href": "http://example.org/joe",
+              "url": "http://example.org/joe",
               "name": "Joe",
               "summary": "Mention of Joe by Carrie in her note"
             },
@@ -1662,8 +1661,8 @@
           },
           "notes": "A specialized Link that represents an @mention.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
             "name": "Link"
           },
           "disjointWith": [],
@@ -1675,7 +1674,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex184a-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Profile",
               "describes": {
@@ -1688,8 +1687,8 @@
           },
           "notes": "A Profile is a content object that describes another Object, typically used to describe Actor Type objects. The describes property is used to reference the object being described by the profile.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1701,7 +1700,7 @@
           "type": "owl:Class",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex184b-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "OrderedCollection",
               "orderedItems": [
@@ -1727,8 +1726,8 @@
           },
           "notes": "A Tombstone represents a content object that has been deleted. It can be used in Collections to signify that there used to be an object at this position, but it has been deleted.",
           "subClassOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
             "name": "Object"
           },
           "disjointWith": [],
@@ -1749,7 +1748,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#exid-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "id": "http://example.org/foo",
               "name": "Foo"
@@ -1761,13 +1760,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -1788,7 +1787,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#extype-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "http://example.org/Foo",
               "summary": "A foo"
@@ -1800,13 +1799,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -1825,7 +1824,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex59-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Offer",
                 "actor": "http://sally.example.org",
@@ -1836,7 +1835,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex60-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Offer",
                 "actor": {
@@ -1851,7 +1850,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex61-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Offer",
                 "actor": [
@@ -1872,8 +1871,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
               "name": "Activity"
             }
           },
@@ -1882,20 +1881,20 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
           },
           "subPropertyOf": {
-            "type": "Link",
-            "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-attributedto",
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-attributedto",
             "name": "attributedTo"
           },
           "name": "actor",
@@ -1909,7 +1908,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex64-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Note",
               "attachment": {
@@ -1925,8 +1924,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -1935,13 +1934,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -1958,7 +1957,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex65-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Image",
                 "attributedTo": {
@@ -1972,7 +1971,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex66-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Image",
                 "attributedTo": [
@@ -1993,13 +1992,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               }
             ]
@@ -2009,13 +2008,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               }
             ]
@@ -2031,7 +2030,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex113-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Note",
               "audience": {
@@ -2047,8 +2046,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -2057,13 +2056,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2079,7 +2078,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex68-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Offer",
               "actor": "http://sally.example.org",
@@ -2094,8 +2093,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -2104,13 +2103,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2126,7 +2125,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex69-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Offer",
               "actor": "http://sally.example.org",
@@ -2141,8 +2140,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -2151,13 +2150,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2173,7 +2172,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex70-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Offer",
               "actor": "http://sally.example.org",
@@ -2188,8 +2187,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -2198,13 +2197,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2220,7 +2219,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex171-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Collection",
               "items": [
@@ -2246,8 +2245,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -2256,13 +2255,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2279,7 +2278,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex71-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Collection",
                 "current": "http://example.org/collection",
@@ -2295,12 +2294,12 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex72-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Collection",
                 "current": {
-                  "type": "Link",
-                  "href": "http://example.org/collection",
+                  "type": "owl:Class",
+                  "url": "http://example.org/collection",
                   "summary": "Most Recent Items"
                 },
                 "items": [
@@ -2318,8 +2317,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
               "name": "Collection"
             }
           },
@@ -2328,13 +2327,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
                 "name": "CollectionPage"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2351,7 +2350,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex73-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Collection",
                 "first": "http://example.org/collection?page=0",
@@ -2362,12 +2361,12 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex74-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Collection",
                 "first": {
-                  "type": "Link",
-                  "href": "http://example.org/collection?page=0",
+                  "type": "owl:Class",
+                  "url": "http://example.org/collection?page=0",
                   "summary": "First Page"
                 },
                 "summary": "Sally's blog posts",
@@ -2380,8 +2379,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
               "name": "Collection"
             }
           },
@@ -2390,13 +2389,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
                 "name": "CollectionPage"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2412,7 +2411,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex75-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Note",
               "content": "This is all there is.",
@@ -2428,8 +2427,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -2438,13 +2437,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2461,7 +2460,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex77-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "content": "This is all there is.",
@@ -2478,7 +2477,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex78-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "content": "A simple note",
@@ -2507,8 +2506,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -2517,13 +2516,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-image",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-image",
                 "name": "Image"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2540,7 +2539,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex80-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "content": "This is all there is.",
@@ -2555,7 +2554,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex81-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "content": "This is all there is.",
@@ -2580,8 +2579,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -2590,13 +2589,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-image",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-image",
                 "name": "Image"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2613,7 +2612,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex83-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "content": "This is all there is.",
@@ -2628,7 +2627,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex84-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "content": "This is all there is.",
@@ -2642,8 +2641,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -2652,13 +2651,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2671,7 +2670,7 @@
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex101-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Listen",
               "actor": {
@@ -2691,8 +2690,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
               "name": "Activity"
             }
           },
@@ -2700,8 +2699,8 @@
           "range": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object | Link"
             }
           },
@@ -2717,7 +2716,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex87-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Collection",
                 "last": "http://example.org/collection?page=1",
@@ -2728,12 +2727,12 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex88-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Collection",
                 "last": {
-                  "type": "Link",
-                  "href": "http://example.org/collection?page=1",
+                  "type": "owl:Class",
+                  "url": "http://example.org/collection?page=1",
                   "summary": "Last Page"
                 },
                 "summary": "A collection",
@@ -2746,8 +2745,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
               "name": "Collection"
             }
           },
@@ -2756,13 +2755,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
                 "name": "CollectionPage"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2778,7 +2777,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex89-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Person",
               "location": {
@@ -2797,8 +2796,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -2806,8 +2805,8 @@
           "range": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object | Link"
             }
           },
@@ -2820,7 +2819,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex91-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Collection",
                 "items": [
@@ -2840,7 +2839,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex92-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "OrderedCollection",
                 "orderedItems": [
@@ -2863,8 +2862,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
               "name": "Collection"
             }
           },
@@ -2873,23 +2872,23 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2902,7 +2901,7 @@
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex93-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Question",
               "name": "What is the answer?",
@@ -2923,8 +2922,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-question",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-question",
               "name": "Question"
             }
           },
@@ -2933,13 +2932,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -2952,7 +2951,7 @@
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex94-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Question",
               "anyOf": [
@@ -2973,8 +2972,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-question",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-question",
               "name": "Question"
             }
           },
@@ -2983,13 +2982,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -3002,7 +3001,7 @@
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex94b-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Question",
               "closed": "2016-05-10T00:00:00Z",
@@ -3014,8 +3013,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-question",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-question",
               "name": "Question"
             }
           },
@@ -3024,13 +3023,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               },
               "xsd:datetime",
@@ -3045,7 +3044,7 @@
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex166-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Move",
               "actor": "http://sally.example.org",
@@ -3066,8 +3065,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
               "name": "Activity"
             }
           },
@@ -3076,13 +3075,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -3099,7 +3098,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex96-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "CollectionPage",
                 "items": [
@@ -3114,7 +3113,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex97-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "CollectionPage",
                 "items": [
@@ -3123,8 +3122,8 @@
                   "http://example.org/posts/3"
                 ],
                 "next": {
-                  "type": "Link",
-                  "href": "http://example.org/collection?page=2",
+                  "type": "owl:Class",
+                  "url": "http://example.org/collection?page=2",
                   "name": "Next Page"
                 },
                 "summary": "Page 2 of Sally's blog posts"
@@ -3136,8 +3135,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
               "name": "CollectionPage"
             }
           },
@@ -3146,13 +3145,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
                 "name": "CollectionPage"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -3166,7 +3165,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex98-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Like",
                 "actor": "http://sally.example.org",
@@ -3177,7 +3176,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex99-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Like",
                 "actor": "http://sally.example.org",
@@ -3190,7 +3189,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex100-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Like",
                 "actor": "http://sally.example.org",
@@ -3212,13 +3211,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
                 "name": "Activity"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-relationship",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-relationship",
                 "name": "Relationship"
               }
             ]
@@ -3228,13 +3227,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -3251,7 +3250,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex104-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "CollectionPage",
                 "items": [
@@ -3266,7 +3265,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex105-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "CollectionPage",
                 "items": [
@@ -3275,8 +3274,8 @@
                   "http://example.org/posts/3"
                 ],
                 "prev": {
-                  "type": "Link",
-                  "href": "http://example.org/collection?page=1",
+                  "type": "owl:Class",
+                  "url": "http://example.org/collection?page=1",
                   "name": "Previous Page"
                 },
                 "summary": "Page 1 of Sally's blog posts"
@@ -3288,8 +3287,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
               "name": "CollectionPage"
             }
           },
@@ -3298,13 +3297,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
                 "name": "CollectionPage"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -3320,7 +3319,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex106-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Video",
               "duration": "PT2H30M",
@@ -3330,7 +3329,7 @@
                 "duration": "PT1M",
                 "name": "Trailer",
                 "url": {
-                  "href": "http://example.org/trailer.mkv",
+                  "url": "http://example.org/trailer.mkv",
                   "mediaType": "video/mkv"
                 }
               }
@@ -3342,13 +3341,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               }
             ]
@@ -3358,13 +3357,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               }
             ]
@@ -3377,7 +3376,7 @@
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex108-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": [
                 "Activity",
@@ -3397,8 +3396,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
               "name": "Activity"
             }
           },
@@ -3407,13 +3406,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -3430,7 +3429,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex112-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "id": "http://www.test.example/notes/1",
               "type": "Note",
@@ -3453,8 +3452,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -3462,8 +3461,8 @@
           "range": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
               "name": "Collection"
             }
           },
@@ -3478,7 +3477,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex118-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Image",
               "summary": "Picture of Sally",
@@ -3495,8 +3494,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -3505,13 +3504,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -3525,7 +3524,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex120-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Offer",
                 "actor": "http://sally.example.org",
@@ -3537,7 +3536,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex121-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Offer",
                 "actor": "http://sally.example.org",
@@ -3555,8 +3554,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
               "name": "Activity"
             }
           },
@@ -3565,13 +3564,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -3587,7 +3586,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex123-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Offer",
               "actor": "http://sally.example.org",
@@ -3602,8 +3601,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -3612,13 +3611,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -3635,7 +3634,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex124-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Document",
                 "name": "4Q Sales Forecast",
@@ -3645,32 +3644,32 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex125-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Document",
                 "name": "4Q Sales Forecast",
                 "url": {
-                  "type": "Link",
-                  "href": "http://example.org/4q-sales-forecast.pdf"
+                  "type": "owl:Class",
+                  "url": "http://example.org/4q-sales-forecast.pdf"
                 }
               },
               "name": "Example 110"
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex126-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Document",
                 "name": "4Q Sales Forecast",
                 "url": [
                   {
-                    "type": "Link",
-                    "href": "http://example.org/4q-sales-forecast.pdf",
+                    "type": "owl:Class",
+                    "url": "http://example.org/4q-sales-forecast.pdf",
                     "mediaType": "application/pdf"
                   },
                   {
-                    "type": "Link",
-                    "href": "http://example.org/4q-sales-forecast.html",
+                    "type": "owl:Class",
+                    "url": "http://example.org/4q-sales-forecast.html",
                     "mediaType": "text/html"
                   }
                 ]
@@ -3682,8 +3681,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -3693,8 +3692,8 @@
             "unionOf": [
               "xsd:anyuri",
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -3710,7 +3709,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex127-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Place",
               "accuracy": 94.5,
@@ -3724,8 +3723,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-place",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-place",
               "name": "Place"
             }
           },
@@ -3746,7 +3745,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex129-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Place",
               "altitude": 15,
@@ -3761,8 +3760,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -3783,7 +3782,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex130-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "content": "A <em>simple</em> note",
@@ -3793,7 +3792,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex131-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "contentMap": {
@@ -3807,7 +3806,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex130b-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "content": "## A simple note\nA simple markdown `note`",
@@ -3821,8 +3820,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -3846,7 +3845,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex132-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "name": "A simple note"
@@ -3855,7 +3854,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex133-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "nameMap": {
@@ -3872,13 +3871,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               }
             ]
@@ -3903,7 +3902,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex134-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Video",
               "duration": "PT2H",
@@ -3916,8 +3915,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -3937,11 +3936,11 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex136-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "Link",
+              "type": "owl:Class",
               "height": 100,
-              "href": "http://example.org/image.png",
+              "url": "http://example.org/image.png",
               "width": 100
             },
             "name": "Example 120"
@@ -3950,8 +3949,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
               "name": "Link"
             }
           },
@@ -3971,10 +3970,10 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex137-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "Link",
-              "href": "http://example.org/abc",
+              "type": "owl:Class",
+              "url": "http://example.org/abc",
               "mediaType": "text/html",
               "name": "Previous"
             },
@@ -3984,8 +3983,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
               "name": "Link"
             }
           },
@@ -4005,10 +4004,10 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex138-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "Link",
-              "href": "http://example.org/abc",
+              "type": "owl:Class",
+              "url": "http://example.org/abc",
               "hreflang": "en",
               "mediaType": "text/html",
               "name": "Previous"
@@ -4019,8 +4018,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
               "name": "Link"
             }
           },
@@ -4040,7 +4039,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex139-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "id": "http://example.org/collection?page=1",
               "type": "CollectionPage",
@@ -4063,8 +4062,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
               "name": "CollectionPage"
             }
           },
@@ -4073,13 +4072,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
                 "name": "Collection"
               }
             ]
@@ -4095,7 +4094,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex140-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Place",
               "latitude": 36.75,
@@ -4110,8 +4109,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-place",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-place",
               "name": "Place"
             }
           },
@@ -4131,7 +4130,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex141-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Place",
               "latitude": 36.75,
@@ -4146,8 +4145,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-place",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-place",
               "name": "Place"
             }
           },
@@ -4168,10 +4167,10 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex142-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "Link",
-              "href": "http://example.org/abc",
+              "type": "owl:Class",
+              "url": "http://example.org/abc",
               "hreflang": "en",
               "mediaType": "text/html",
               "name": "Next"
@@ -4183,13 +4182,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               }
             ]
@@ -4211,7 +4210,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex144-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Event",
               "endTime": "2015-01-01T06:00:00-08:00",
@@ -4224,8 +4223,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -4246,7 +4245,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex145-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Note",
               "content": "Fish swim.",
@@ -4259,8 +4258,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -4281,7 +4280,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex146-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Event",
               "endTime": "2015-01-01T06:00:00-08:00",
@@ -4294,8 +4293,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -4315,7 +4314,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex147-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Place",
               "latitude": 36.75,
@@ -4330,8 +4329,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-place",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-place",
               "name": "Place"
             }
           },
@@ -4348,10 +4347,10 @@
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex149-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "Link",
-              "href": "http://example.org/abc",
+              "type": "owl:Class",
+              "url": "http://example.org/abc",
               "hreflang": "en",
               "mediaType": "text/html",
               "name": "Preview",
@@ -4366,8 +4365,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
               "name": "Link"
             }
           },
@@ -4387,7 +4386,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex150-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "OrderedCollectionPage",
               "orderedItems": [
@@ -4409,8 +4408,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollectionpage",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollectionpage",
               "name": "OrderedCollectionPage"
             }
           },
@@ -4431,7 +4430,7 @@
           "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex152-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "name": "Cane Sugar Processing",
@@ -4441,7 +4440,7 @@
             },
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex153-jsonld",
-              "type": "https://schema.org/CreativeWork",
+              "type": "http://schema.org/CreativeWork",
               "mainEntity": {
                 "type": "Note",
                 "name": "Cane Sugar Processing",
@@ -4458,8 +4457,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -4482,7 +4481,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex156-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Collection",
               "items": [
@@ -4504,8 +4503,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
               "name": "Collection"
             }
           },
@@ -4525,7 +4524,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex157-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Place",
               "latitude": 36.75,
@@ -4540,8 +4539,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-place",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-place",
               "name": "Place"
             }
           },
@@ -4570,7 +4569,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex158-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Note",
               "content": "Mush it up so it does not have the same shape as the can.",
@@ -4583,8 +4582,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -4604,11 +4603,11 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex159-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "Link",
+              "type": "owl:Class",
               "height": 100,
-              "href": "http://example.org/image.png",
+              "url": "http://example.org/image.png",
               "width": 100
             },
             "name": "Example 138"
@@ -4617,8 +4616,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
               "name": "Link"
             }
           },
@@ -4638,7 +4637,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex22a-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Relationship",
               "object": {
@@ -4658,8 +4657,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-relationship",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-relationship",
               "name": "Relationship"
             }
           },
@@ -4668,13 +4667,13 @@
             "type": "owl:Class",
             "unionOf": [
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               },
               {
-                "type": "Link",
-                "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
                 "name": "Object"
               }
             ]
@@ -4687,7 +4686,7 @@
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex22c-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Relationship",
               "object": {
@@ -4707,8 +4706,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-relationship",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-relationship",
               "name": "Relationship"
             }
           },
@@ -4716,8 +4715,8 @@
           "range": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -4732,7 +4731,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex185-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Profile",
               "describes": {
@@ -4748,8 +4747,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-profile",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-profile",
               "name": "Profile"
             }
           },
@@ -4757,8 +4756,8 @@
           "range": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -4770,7 +4769,7 @@
           "type": "rdf:Property",
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex185b-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Tombstone",
               "formerType": "/Image",
@@ -4783,8 +4782,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-tombstone",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-tombstone",
               "name": "Tombstone"
             }
           },
@@ -4792,8 +4791,8 @@
           "range": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
               "name": "Object"
             }
           },
@@ -4808,7 +4807,7 @@
           ],
           "example": {
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex185c-jsonld",
-            "type": "https://schema.org/CreativeWork",
+            "type": "http://schema.org/CreativeWork",
             "mainEntity": {
               "type": "Tombstone",
               "deleted": "2016-05-03T00:00:00Z",
@@ -4820,8 +4819,8 @@
           "domain": {
             "type": "owl:Class",
             "unionOf": {
-              "type": "Link",
-              "href": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-tombstone",
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-tombstone",
               "name": "Tombstone"
             }
           },
