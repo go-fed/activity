@@ -27,8 +27,8 @@ func NewFunctionalPropertyGenerator(pkg string,
 		PropertyGenerator: PropertyGenerator{
 			Package:               pkg,
 			HasNaturalLanguageMap: hasNaturalLanguageMap,
-			Name:  name,
-			Kinds: kinds,
+			Name:                  name,
+			Kinds:                 kinds,
 		},
 	}
 }
