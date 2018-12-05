@@ -1,6 +1,7 @@
 package rdf
 
 import (
+	"bytes"
 	"fmt"
 	"net/url"
 )
@@ -18,12 +19,35 @@ type ParsedVocabulary struct {
 	References map[string]Vocabulary
 }
 
+func (p ParsedVocabulary) String() string {
+	var b bytes.Buffer
+	b.WriteString(fmt.Sprintf("Vocab:\n%s", p.Vocab))
+	for k, v := range p.References {
+		b.WriteString(fmt.Sprintf("Reference %s:\n\t%s\n", k, v))
+	}
+	return b.String()
+}
+
 // Vocabulary contains the type, property, and value definitions for a single
 // ActivityStreams or extension vocabulary.
 type Vocabulary struct {
 	Types      map[string]VocabularyType
 	Properties map[string]VocabularyProperty
 	Values     map[string]VocabularyValue
+}
+
+func (v Vocabulary) String() string {
+	var b bytes.Buffer
+	for k, v := range v.Types {
+		b.WriteString(fmt.Sprintf("Type %s:\n\t%s\n", k, v))
+	}
+	for k, v := range v.Properties {
+		b.WriteString(fmt.Sprintf("Property %s:\n\t%s\n", k, v))
+	}
+	for k, v := range v.Values {
+		b.WriteString(fmt.Sprintf("Value %s:\n\t%s\n", k, v))
+	}
+	return b.String()
 }
 
 func (v *Vocabulary) SetType(name string, a *VocabularyType) error {
@@ -67,6 +91,10 @@ type VocabularyValue struct {
 	Zero           string
 }
 
+func (v VocabularyValue) String() string {
+	return fmt.Sprintf("Value=%s,%s,%s,%s", v.Name, v.URI, v.DefinitionType, v.Zero)
+}
+
 func (v *VocabularyValue) SetName(s string) {
 	v.Name = s
 }
@@ -97,6 +125,10 @@ type VocabularyType struct {
 	Properties        []VocabularyReference // TODO: Check for duplication
 	WithoutProperties []VocabularyReference // TODO: Missing for IntransitiveActivity
 	Examples          []VocabularyExample
+}
+
+func (v VocabularyType) String() string {
+	return fmt.Sprintf("Type=%s,%s,%s", v.Name, v.URI, v.Notes)
 }
 
 func (v *VocabularyType) SetName(s string) {
@@ -142,6 +174,10 @@ type VocabularyProperty struct {
 	SubpropertyOf      VocabularyReference // Must be a VocabularyProperty
 	Functional         bool
 	NaturalLanguageMap bool
+}
+
+func (v VocabularyProperty) String() string {
+	return fmt.Sprintf("Property=%s,%s,%s,%s,%s", v.Name, v.URI, v.Notes, v.Functional, v.NaturalLanguageMap)
 }
 
 func (v *VocabularyProperty) SetName(s string) {

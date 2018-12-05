@@ -47,9 +47,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	_, err = rdf.ParseVocabulary(registry, inputJSON)
+	p, err := rdf.ParseVocabulary(registry, inputJSON)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("done\n")
+	fmt.Printf("done\n%s\n", p)
 }
