@@ -97,7 +97,6 @@ func (t *typeLD) Exit(key string, ctx *ParsingContext) (bool, error) {
 }
 
 func (t *typeLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
-	fmt.Printf("@type key=%s, value=%v\n", key, value)
 	vs, ok := value.(string)
 	if !ok {
 		return true, fmt.Errorf("@type is not string")
@@ -116,7 +115,6 @@ type ContainerLD struct {
 }
 
 func (c *ContainerLD) Enter(key string, ctx *ParsingContext) (bool, error) {
-	fmt.Println("===container enter")
 	if ctx.OnlyApplyThisNodeNextLevel != nil {
 		return true, fmt.Errorf("@container parsing context exit already has non-nil node")
 	}
@@ -125,7 +123,6 @@ func (c *ContainerLD) Enter(key string, ctx *ParsingContext) (bool, error) {
 }
 
 func (c *ContainerLD) Exit(key string, ctx *ParsingContext) (bool, error) {
-	fmt.Println("===container exit")
 	if ctx.OnlyApplyThisNodeNextLevel == nil {
 		return true, fmt.Errorf("@container parsing context exit already has nil node")
 	}
@@ -142,12 +139,10 @@ var _ RDFNode = &IndexLD{}
 type IndexLD struct{}
 
 func (i *IndexLD) Enter(key string, ctx *ParsingContext) (bool, error) {
-	fmt.Println(">>> enter index")
 	return true, nil
 }
 
 func (i *IndexLD) Exit(key string, ctx *ParsingContext) (bool, error) {
-	fmt.Println(">>> exit index")
 	return true, nil
 }
 

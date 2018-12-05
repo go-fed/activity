@@ -49,12 +49,12 @@ func (p *ParsingContext) SetOnlyApplyThisNodeNextLevel(n RDFNode) {
 
 func (p *ParsingContext) GetNextNodes(n []RDFNode) (r []RDFNode, clearFn func()) {
 	if p.OnlyApplyThisNodeNextLevel == nil {
-		return n, func () {}
+		return n, func() {}
 	} else if p.OnlyApplied {
-		return n, func () {}
+		return n, func() {}
 	} else {
 		p.OnlyApplied = true
-		return []RDFNode{p.OnlyApplyThisNodeNextLevel}, func () {
+		return []RDFNode{p.OnlyApplyThisNodeNextLevel}, func() {
 			p.OnlyApplied = false
 		}
 	}
@@ -162,7 +162,6 @@ func apply(nodes []RDFNode, input JSONLD, ctx *ParsingContext) error {
 	}
 	// Normal recursive processing
 	for k, v := range input {
-		fmt.Println(k)
 		// Skip things we have already processed: context and type
 		if k == JSON_LD_CONTEXT {
 			continue

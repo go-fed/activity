@@ -313,15 +313,19 @@ func (d *disjointWith) Apply(key string, value interface{}, ctx *rdf.ParsingCont
 
 var _ rdf.RDFNode = &unionOf{}
 
-type unionOf struct{}
+type unionOf struct {
+	entered bool
+}
 
 func (u *unionOf) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
+	u.entered = true
 	ctx.Push()
 	ctx.Current = &rdf.VocabularyReference{}
 	return true, nil
 }
 
 func (u *unionOf) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
+	u.entered = false
 	if ctx.Current == nil {
 		return true, fmt.Errorf("owl unionOf exit given nil Current")
 	}
@@ -354,11 +358,20 @@ func (u *unionOf) Apply(key string, value interface{}, ctx *rdf.ParsingContext) 
 	} else {
 		return true, fmt.Errorf("owl unionOf apply bad SplitAlias")
 	}
-	arr, ok := ctx.Current.([]rdf.VocabularyReference)
-	if !ok {
-		return true, fmt.Errorf("owl unionOf apply's Current not given []rdf.VocabularyReference")
+	if u.entered {
+		in, ok := ctx.Current.(*rdf.VocabularyReference)
+		if !ok {
+			return true, fmt.Errorf("owl unionOf apply's Current not given *rdf.VocabularyReference: %T", ctx.Current)
+		}
+		in.Name = ref.Name
+		in.Vocab = ref.Vocab
+	} else {
+		arr, ok := ctx.Current.([]rdf.VocabularyReference)
+		if !ok {
+			return true, fmt.Errorf("owl unionOf apply's Current not given []rdf.VocabularyReference: %T", ctx.Current)
+		}
+		ctx.Current = append(arr, *ref)
 	}
-	ctx.Current = append(arr, *ref)
 	return true, nil
 }
 
@@ -413,6 +426,8 @@ func (c *class) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (b
 	if ctx.IsReset() {
 		ctx.Current = &rdf.VocabularyType{}
 	} else if _, ok := ctx.Current.(*rdf.VocabularyReference); ok {
+		return true, nil
+	} else if _, ok := ctx.Current.([]rdf.VocabularyReference); ok {
 		return true, nil
 	} else {
 		return true, fmt.Errorf("owl class applied with non-reset ctx and not a vocab reference: %T", ctx.Current)

@@ -34,6 +34,36 @@ func (o *RDFSchemaOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 			Name:     commentSpec,
 			Delegate: &comment{},
 		},
+		&rdf.AliasedDelegate{
+			Spec:     rdfsSpecURI,
+			Alias:    s,
+			Name:     domainSpec,
+			Delegate: &domain{},
+		},
+		&rdf.AliasedDelegate{
+			Spec:     rdfsSpecURI,
+			Alias:    s,
+			Name:     isDefinedBySpec,
+			Delegate: &isDefinedBy{},
+		},
+		&rdf.AliasedDelegate{
+			Spec:     rdfsSpecURI,
+			Alias:    s,
+			Name:     rangeSpec,
+			Delegate: &ranges{},
+		},
+		&rdf.AliasedDelegate{
+			Spec:     rdfsSpecURI,
+			Alias:    s,
+			Name:     subClassOfSpec,
+			Delegate: &subClassOf{},
+		},
+		&rdf.AliasedDelegate{
+			Spec:     rdfsSpecURI,
+			Alias:    s,
+			Name:     subPropertyOfSpec,
+			Delegate: &subPropertyOf{},
+		},
 	}, nil
 }
 
@@ -90,7 +120,7 @@ func (o *RDFSchemaOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNo
 				Spec:     "",
 				Alias:    "",
 				Name:     alias,
-				Delegate: &comment{},
+				Delegate: &subPropertyOf{},
 			},
 		}, nil
 	}
@@ -153,18 +183,28 @@ var _ rdf.RDFNode = &domain{}
 type domain struct{}
 
 func (d *domain) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
+	ctx.Push()
+	ctx.Current = make([]rdf.VocabularyReference, 0)
 	return true, nil
 }
 
 func (d *domain) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
+	i := ctx.Current
+	ctx.Pop()
+	vr, ok := i.([]rdf.VocabularyReference)
+	if !ok {
+		return true, fmt.Errorf("rdfs domain exit did not get []rdf.VocabularyReference")
+	}
+	vp, ok := ctx.Current.(*rdf.VocabularyProperty)
+	if !ok {
+		return true, fmt.Errorf("rdf domain exit Current is not *rdf.VocabularyProperty")
+	}
+	vp.Domain = append(vp.Domain, vr...)
 	return true, nil
 }
 
 func (d *domain) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return true, nil
+	return true, fmt.Errorf("rdfs domain cannot be applied")
 }
 
 var _ rdf.RDFNode = &isDefinedBy{}
@@ -172,18 +212,23 @@ var _ rdf.RDFNode = &isDefinedBy{}
 type isDefinedBy struct{}
 
 func (i *isDefinedBy) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return true, nil
+	return true, fmt.Errorf("rdfs isDefinedBy cannot be entered")
 }
 
 func (i *isDefinedBy) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return true, nil
+	return true, fmt.Errorf("rdfs isDefinedBy cannot be exited")
 }
 
 func (i *isDefinedBy) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return true, nil
+	s, ok := value.(string)
+	if !ok {
+		return true, fmt.Errorf("rdfs isDefinedBy given non-string: %T", value)
+	}
+	u, ok := ctx.Current.(rdf.URISetter)
+	if !ok {
+		return true, fmt.Errorf("rdfs isDefinedBy Current is not rdf.URISetter: %T", ctx.Current)
+	}
+	return true, u.SetURI(s)
 }
 
 var _ rdf.RDFNode = &ranges{}
@@ -191,18 +236,28 @@ var _ rdf.RDFNode = &ranges{}
 type ranges struct{}
 
 func (r *ranges) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
+	ctx.Push()
+	ctx.Current = make([]rdf.VocabularyReference, 0)
 	return true, nil
 }
 
 func (r *ranges) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
+	i := ctx.Current
+	ctx.Pop()
+	vr, ok := i.([]rdf.VocabularyReference)
+	if !ok {
+		return true, fmt.Errorf("rdfs ranges exit did not get []rdf.VocabularyReference")
+	}
+	vp, ok := ctx.Current.(*rdf.VocabularyProperty)
+	if !ok {
+		return true, fmt.Errorf("rdf ranges exit Current is not *rdf.VocabularyProperty")
+	}
+	vp.Range = append(vp.Range, vr...)
 	return true, nil
 }
 
 func (r *ranges) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return true, nil
+	return true, fmt.Errorf("rdfs ranges cannot be applied")
 }
 
 var _ rdf.RDFNode = &subClassOf{}
@@ -239,16 +294,26 @@ var _ rdf.RDFNode = &subPropertyOf{}
 type subPropertyOf struct{}
 
 func (s *subPropertyOf) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
+	ctx.Push()
+	ctx.Current = &rdf.VocabularyReference{}
 	return true, nil
 }
 
 func (s *subPropertyOf) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
+	i := ctx.Current
+	ctx.Pop()
+	vr, ok := i.(*rdf.VocabularyReference)
+	if !ok {
+		return true, fmt.Errorf("rdfs subpropertyof exit did not get *rdf.VocabularyReference")
+	}
+	vp, ok := ctx.Current.(*rdf.VocabularyProperty)
+	if !ok {
+		return true, fmt.Errorf("rdf subpropertyof exit Current is not *rdf.VocabularyProperty")
+	}
+	vp.SubpropertyOf = *vr
 	return true, nil
 }
 
 func (s *subPropertyOf) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return true, nil
+	return true, fmt.Errorf("rdfs subpropertyof cannot be applied")
 }
