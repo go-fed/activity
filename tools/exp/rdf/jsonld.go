@@ -17,8 +17,7 @@ const (
 // specification.
 func jsonLDNodes(r *RDFRegistry) []RDFNode {
 	// Order matters -- we want to be able to distinguish the types of
-	// things first, for example, to be able to have the parsing context
-	// applied correctly.
+	// things without other nodes hijacking the flow.
 	return []RDFNode{
 		&AliasedDelegate{
 			Spec:     "",
@@ -117,6 +116,7 @@ type ContainerLD struct {
 }
 
 func (c *ContainerLD) Enter(key string, ctx *ParsingContext) (bool, error) {
+	fmt.Println("===container enter")
 	if ctx.OnlyApplyThisNodeNextLevel != nil {
 		return true, fmt.Errorf("@container parsing context exit already has non-nil node")
 	}
@@ -125,6 +125,7 @@ func (c *ContainerLD) Enter(key string, ctx *ParsingContext) (bool, error) {
 }
 
 func (c *ContainerLD) Exit(key string, ctx *ParsingContext) (bool, error) {
+	fmt.Println("===container exit")
 	if ctx.OnlyApplyThisNodeNextLevel == nil {
 		return true, fmt.Errorf("@container parsing context exit already has nil node")
 	}
@@ -141,10 +142,12 @@ var _ RDFNode = &IndexLD{}
 type IndexLD struct{}
 
 func (i *IndexLD) Enter(key string, ctx *ParsingContext) (bool, error) {
+	fmt.Println(">>> enter index")
 	return true, nil
 }
 
 func (i *IndexLD) Exit(key string, ctx *ParsingContext) (bool, error) {
+	fmt.Println(">>> exit index")
 	return true, nil
 }
 

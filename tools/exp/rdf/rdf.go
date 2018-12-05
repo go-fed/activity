@@ -28,9 +28,9 @@ func IsKeyApplicable(key, spec, alias, name string) bool {
 	return false
 }
 
-// splitAlias splits a possibly-aliased string, without splitting on the colon
+// SplitAlias splits a possibly-aliased string, without splitting on the colon
 // if it is part of the http or https spec.
-func splitAlias(s string) []string {
+func SplitAlias(s string) []string {
 	strs := strings.Split(s, ALIAS_DELIMITER)
 	if len(strs) == 1 {
 		return strs
@@ -46,6 +46,7 @@ func splitAlias(s string) []string {
 // for this ontology.
 type Ontology interface {
 	// SpecURI refers to the URI location of this ontology.
+	// TODO: Handle both http and https.
 	SpecURI() string
 
 	// The Load methods deal with determining how best to apply an ontology
@@ -171,7 +172,7 @@ func (r *RDFRegistry) getForAliased(alias, s string) (n []RDFNode, e error) {
 //
 // Package public.
 func (r *RDFRegistry) getAliased(alias, s string) (n []RDFNode, e error) {
-	strs := splitAlias(s)
+	strs := SplitAlias(s)
 	if len(strs) == 1 {
 		if e = r.setAlias(alias, s); e != nil {
 			return
@@ -205,7 +206,7 @@ func (r *RDFRegistry) getAliasedObject(alias string, object map[string]interface
 		e = fmt.Errorf("element in getAliasedObject must be a string")
 		return
 	} else {
-		strs := splitAlias(element)
+		strs := SplitAlias(element)
 		if len(strs) == 1 {
 			n, e = r.getFor(strs[0])
 		} else if len(strs) == 2 {
@@ -228,7 +229,7 @@ func (r *RDFRegistry) getAliasedObject(alias string, object map[string]interface
 //
 // Package public.
 func (r *RDFRegistry) getNode(s string) (n RDFNode, e error) {
-	strs := splitAlias(s)
+	strs := SplitAlias(s)
 	if len(strs) == 2 {
 		if ontName, ok := r.aliases[strs[0]]; !ok {
 			e = fmt.Errorf("no alias to ontology for %s", strs[0])

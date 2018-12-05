@@ -6,6 +6,8 @@ import (
 
 const (
 	JSON_LD_CONTEXT = "@context"
+	JSON_LD_TYPE    = "@type"
+	JSON_LD_TYPE_AS = "type"
 )
 
 // JSONLD is an alias for the generic map of keys to interfaces, presumably
@@ -45,14 +47,16 @@ func (p *ParsingContext) SetOnlyApplyThisNodeNextLevel(n RDFNode) {
 	p.OnlyApplied = false
 }
 
-func (p *ParsingContext) GetNextNodes(n []RDFNode) []RDFNode {
+func (p *ParsingContext) GetNextNodes(n []RDFNode) (r []RDFNode, clearFn func()) {
 	if p.OnlyApplyThisNodeNextLevel == nil {
-		return n
+		return n, func () {}
 	} else if p.OnlyApplied {
-		return n
+		return n, func () {}
 	} else {
 		p.OnlyApplied = true
-		return []RDFNode{p.OnlyApplyThisNodeNextLevel}
+		return []RDFNode{p.OnlyApplyThisNodeNextLevel}, func () {
+			p.OnlyApplied = false
+		}
 	}
 }
 
@@ -63,11 +67,15 @@ func (p *ParsingContext) ResetOnlyAppliedThisNodeNextLevel() {
 
 func (p *ParsingContext) Push() {
 	p.Stack = append([]interface{}{p.Current}, p.Stack...)
+	p.Current = nil
 }
 
 func (p *ParsingContext) Pop() {
 	p.Current = p.Stack[0]
 	p.Stack = p.Stack[1:]
+	if ng, ok := p.Current.(nameGetter); ok {
+		p.Name = ng.GetName()
+	}
 }
 
 func (p *ParsingContext) IsReset() bool {
@@ -82,6 +90,10 @@ func (p *ParsingContext) Reset() {
 
 type NameSetter interface {
 	SetName(string)
+}
+
+type nameGetter interface {
+	GetName() string
 }
 
 type URISetter interface {
@@ -118,8 +130,8 @@ func ParseVocabulary(registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVoc
 		Result: vocabulary,
 	}
 	// Prepend well-known JSON LD parsing nodes. Order matters, so that the
-	// parser can understand things like types first, and populate it with
-	// data afterwards.
+	// parser can understand things like types so that other nodes do not
+	// hijack processing.
 	nodes = append(jsonLDNodes(registry), nodes...)
 	err = apply(nodes, input, ctx)
 	return
@@ -136,49 +148,75 @@ func apply(nodes []RDFNode, input JSONLD, ctx *ParsingContext) error {
 		} else {
 			return err
 		}
+		return nil
+	}
+	// Special processing: '@type' or 'type' if they are present
+	if v, ok := input[JSON_LD_TYPE]; ok {
+		if err := doApply(nodes, JSON_LD_TYPE, v, ctx); err != nil {
+			return err
+		}
+	} else if v, ok := input[JSON_LD_TYPE_AS]; ok {
+		if err := doApply(nodes, JSON_LD_TYPE_AS, v, ctx); err != nil {
+			return err
+		}
 	}
 	// Normal recursive processing
 	for k, v := range input {
-		// Skip the context as it has already been parsed to create the
-		// nodes.
+		fmt.Println(k)
+		// Skip things we have already processed: context and type
 		if k == JSON_LD_CONTEXT {
 			continue
+		} else if k == JSON_LD_TYPE {
+			continue
+		} else if k == JSON_LD_TYPE_AS {
+			continue
 		}
-		// Hijacked processing: Only use the ParsingContext's node to
-		// handle all elements.
-		recurNodes := nodes
-		enterApplyExitNodes := ctx.GetNextNodes(nodes)
-		// Normal recursive processing
-		if mapValue, ok := v.(map[string]interface{}); ok {
-			if err := enterFirstNode(enterApplyExitNodes, k, ctx); err != nil {
-				return err
-			} else if err = apply(recurNodes, mapValue, ctx); err != nil {
-				return err
-			} else if err = exitFirstNode(enterApplyExitNodes, k, ctx); err != nil {
-				return err
-			}
-		} else if arrValue, ok := v.([]interface{}); ok {
-			for _, val := range arrValue {
-				// First, enter for this key
-				if err := enterFirstNode(enterApplyExitNodes, k, ctx); err != nil {
-					return err
-				}
-				// Recur or handle the value as necessary.
-				if mapValue, ok := val.(map[string]interface{}); ok {
-					if err := apply(recurNodes, mapValue, ctx); err != nil {
-						return err
-					}
-				} else if err := applyFirstNode(enterApplyExitNodes, k, val, ctx); err != nil {
-					return err
-				}
-				// Finally, exit for this key
-				if err := exitFirstNode(enterApplyExitNodes, k, ctx); err != nil {
-					return err
-				}
-			}
-		} else if err := applyFirstNode(enterApplyExitNodes, k, v, ctx); err != nil {
+		if err := doApply(nodes, k, v, ctx); err != nil {
 			return err
 		}
+	}
+	return nil
+}
+
+// doApply actually does the application logic for the apply function.
+func doApply(nodes []RDFNode,
+	k string, v interface{},
+	ctx *ParsingContext) error {
+	// Hijacked processing: Only use the ParsingContext's node to
+	// handle all elements.
+	recurNodes := nodes
+	enterApplyExitNodes, clearFn := ctx.GetNextNodes(nodes)
+	defer clearFn()
+	// Normal recursive processing
+	if mapValue, ok := v.(map[string]interface{}); ok {
+		if err := enterFirstNode(enterApplyExitNodes, k, ctx); err != nil {
+			return err
+		} else if err = apply(recurNodes, mapValue, ctx); err != nil {
+			return err
+		} else if err = exitFirstNode(enterApplyExitNodes, k, ctx); err != nil {
+			return err
+		}
+	} else if arrValue, ok := v.([]interface{}); ok {
+		for _, val := range arrValue {
+			// First, enter for this key
+			if err := enterFirstNode(enterApplyExitNodes, k, ctx); err != nil {
+				return err
+			}
+			// Recur or handle the value as necessary.
+			if mapValue, ok := val.(map[string]interface{}); ok {
+				if err := apply(recurNodes, mapValue, ctx); err != nil {
+					return err
+				}
+			} else if err := applyFirstNode(enterApplyExitNodes, k, val, ctx); err != nil {
+				return err
+			}
+			// Finally, exit for this key
+			if err := exitFirstNode(enterApplyExitNodes, k, ctx); err != nil {
+				return err
+			}
+		}
+	} else if err := applyFirstNode(enterApplyExitNodes, k, v, ctx); err != nil {
+		return err
 	}
 	return nil
 }

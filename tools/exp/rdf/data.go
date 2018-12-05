@@ -31,7 +31,7 @@ func (v *Vocabulary) SetType(name string, a *VocabularyType) error {
 		v.Types = make(map[string]VocabularyType, 1)
 	}
 	if _, has := v.Types[name]; has {
-		return fmt.Errorf("name already exists for vocabulary Types")
+		return fmt.Errorf("name %q already exists for vocabulary Types", name)
 	}
 	v.Types[name] = *a
 	return nil
@@ -71,6 +71,10 @@ func (v *VocabularyValue) SetName(s string) {
 	v.Name = s
 }
 
+func (v *VocabularyValue) GetName() string {
+	return v.Name
+}
+
 func (v *VocabularyValue) SetURI(s string) error {
 	var e error
 	v.URI, e = url.Parse(s)
@@ -79,6 +83,7 @@ func (v *VocabularyValue) SetURI(s string) error {
 
 var (
 	_ NameSetter = &VocabularyValue{}
+	_ nameGetter = &VocabularyValue{}
 	_ URISetter  = &VocabularyValue{}
 )
 
@@ -98,6 +103,10 @@ func (v *VocabularyType) SetName(s string) {
 	v.Name = s
 }
 
+func (v *VocabularyType) GetName() string {
+	return v.Name
+}
+
 func (v *VocabularyType) SetURI(s string) error {
 	var e error
 	v.URI, e = url.Parse(s)
@@ -114,6 +123,7 @@ func (v *VocabularyType) AddExample(e *VocabularyExample) {
 
 var (
 	_ NameSetter   = &VocabularyType{}
+	_ nameGetter   = &VocabularyType{}
 	_ URISetter    = &VocabularyType{}
 	_ NotesSetter  = &VocabularyType{}
 	_ ExampleAdder = &VocabularyType{}
@@ -138,6 +148,10 @@ func (v *VocabularyProperty) SetName(s string) {
 	v.Name = s
 }
 
+func (v *VocabularyProperty) GetName() string {
+	return v.Name
+}
+
 func (v *VocabularyProperty) SetURI(s string) error {
 	var e error
 	v.URI, e = url.Parse(s)
@@ -154,6 +168,7 @@ func (v *VocabularyProperty) AddExample(e *VocabularyExample) {
 
 var (
 	_ NameSetter   = &VocabularyProperty{}
+	_ nameGetter   = &VocabularyProperty{}
 	_ URISetter    = &VocabularyProperty{}
 	_ NotesSetter  = &VocabularyProperty{}
 	_ ExampleAdder = &VocabularyProperty{}
@@ -171,6 +186,10 @@ func (v *VocabularyExample) SetName(s string) {
 	v.Name = s
 }
 
+func (v *VocabularyExample) GetName() string {
+	return v.Name
+}
+
 func (v *VocabularyExample) SetURI(s string) error {
 	var e error
 	v.URI, e = url.Parse(s)
@@ -179,6 +198,7 @@ func (v *VocabularyExample) SetURI(s string) error {
 
 var (
 	_ NameSetter = &VocabularyExample{}
+	_ nameGetter = &VocabularyExample{}
 	_ URISetter  = &VocabularyExample{}
 )
 
@@ -195,6 +215,10 @@ func (v *VocabularyReference) SetName(s string) {
 	v.Name = s
 }
 
+func (v *VocabularyReference) GetName() string {
+	return v.Name
+}
+
 func (v *VocabularyReference) SetURI(s string) error {
 	var e error
 	v.URI, e = url.Parse(s)
@@ -203,5 +227,6 @@ func (v *VocabularyReference) SetURI(s string) error {
 
 var (
 	_ NameSetter = &VocabularyReference{}
+	_ nameGetter = &VocabularyReference{}
 	_ URISetter  = &VocabularyReference{}
 )

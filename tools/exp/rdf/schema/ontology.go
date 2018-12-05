@@ -7,11 +7,12 @@ import (
 )
 
 const (
-	schemaSpec     = "http://schema.org/"
-	exampleSpec    = "workExample"
-	mainEntitySpec = "mainEntity"
-	urlSpec        = "URL"
-	nameSpec       = "name"
+	schemaSpec       = "http://schema.org/"
+	exampleSpec      = "workExample"
+	mainEntitySpec   = "mainEntity"
+	urlSpec          = "URL"
+	nameSpec         = "name"
+	creativeWorkSpec = "CreativeWork"
 )
 
 type SchemaOntology struct{}
@@ -49,6 +50,12 @@ func (o *SchemaOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 			Alias:    s,
 			Name:     nameSpec,
 			Delegate: &name{},
+		},
+		&rdf.AliasedDelegate{
+			Spec:     schemaSpec,
+			Alias:    s,
+			Name:     creativeWorkSpec,
+			Delegate: &creativeWork{},
 		},
 	}, nil
 }
@@ -91,6 +98,15 @@ func (o *SchemaOntology) LoadSpecificAsAlias(alias, n string) ([]rdf.RDFNode, er
 				Delegate: &name{},
 			},
 		}, nil
+	case creativeWorkSpec:
+		return []rdf.RDFNode{
+			&rdf.AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &creativeWork{},
+			},
+		}, nil
 	}
 	return nil, fmt.Errorf("schema ontology cannot find %q to alias to %q", n, alias)
 }
@@ -99,12 +115,21 @@ func (o *SchemaOntology) LoadElement(name string, payload map[string]interface{}
 	return nil, nil
 }
 
-func (o *SchemaOntology) GetByName(name string) (rdf.RDFNode, error) {
-	name = strings.TrimPrefix(name, o.SpecURI())
-	switch name {
-	// TODO
+func (o *SchemaOntology) GetByName(n string) (rdf.RDFNode, error) {
+	n = strings.TrimPrefix(n, o.SpecURI())
+	switch n {
+	case exampleSpec:
+		return &example{}, nil
+	case mainEntitySpec:
+		return &mainEntity{}, nil
+	case urlSpec:
+		return &url{}, nil
+	case nameSpec:
+		return &name{}, nil
+	case creativeWorkSpec:
+		return &creativeWork{}, nil
 	}
-	return nil, fmt.Errorf("schema ontology could not find node for name %s", name)
+	return nil, fmt.Errorf("schema ontology could not find node for name %s", n)
 }
 
 var _ rdf.RDFNode = &example{}
@@ -205,6 +230,24 @@ func (n *name) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bo
 		return true, fmt.Errorf("schema name not given NameSetter in context")
 	} else {
 		ns.SetName(s)
+		ctx.Name = s
 		return true, nil
 	}
+}
+
+var _ rdf.RDFNode = &creativeWork{}
+
+type creativeWork struct{}
+
+func (c *creativeWork) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
+	return true, fmt.Errorf("schema creative work cannot be entered")
+}
+
+func (c *creativeWork) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
+	return true, fmt.Errorf("schema creative work cannot be exited")
+}
+
+func (c *creativeWork) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
+	// Do nothing -- should already be an example.
+	return true, nil
 }

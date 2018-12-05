@@ -85,6 +85,12 @@ func (o *RDFOntology) LoadElement(name string, payload map[string]interface{}) (
 func (o *RDFOntology) GetByName(name string) (RDFNode, error) {
 	name = strings.TrimPrefix(name, o.SpecURI())
 	switch name {
+	case langstringSpec:
+		return &langstring{}, nil
+	case propertySpec:
+		return &property{}, nil
+	case valueSpec:
+		return &value{}, nil
 	}
 	return nil, fmt.Errorf("rdf ontology could not find node for name %s", name)
 }
@@ -119,8 +125,15 @@ func (p *property) Exit(key string, ctx *ParsingContext) (bool, error) {
 }
 
 func (p *property) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
-	// TODO: Act as value
-	return true, fmt.Errorf("rdf property cannot be applied")
+	// Prepare a new VocabularyProperty in the context. If one already
+	// exists, skip.
+	if _, ok := ctx.Current.(*VocabularyProperty); ok {
+		return true, nil
+	} else if !ctx.IsReset() {
+		return true, fmt.Errorf("rdf property applied with non-reset ParsingContext")
+	}
+	ctx.Current = &VocabularyProperty{}
+	return true, nil
 }
 
 var _ RDFNode = &value{}

@@ -216,7 +216,22 @@ func (o *OWLOntology) LoadElement(name string, payload map[string]interface{}) (
 func (o *OWLOntology) GetByName(name string) (rdf.RDFNode, error) {
 	name = strings.TrimPrefix(name, o.SpecURI())
 	switch name {
-	// TODO
+	case membersSpec:
+		return &members{}, nil
+	case disjointWithSpec:
+		return &disjointWith{}, nil
+	case unionOfSpec:
+		return &unionOf{}, nil
+	case importsSpec:
+		return &imports{}, nil
+	case ontologySpec:
+		return &ontology{}, nil
+	case classSpec:
+		return &class{}, nil
+	case objectPropertySpec:
+		return &objectProperty{}, nil
+	case functionalPropertySpec:
+		return &functionalProperty{}, nil
 	}
 	return nil, fmt.Errorf("owl ontology could not find node for name %s", name)
 }
@@ -301,18 +316,50 @@ var _ rdf.RDFNode = &unionOf{}
 type unionOf struct{}
 
 func (u *unionOf) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return false, nil
+	ctx.Push()
+	ctx.Current = &rdf.VocabularyReference{}
+	return true, nil
 }
 
 func (u *unionOf) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return false, nil
+	if ctx.Current == nil {
+		return true, fmt.Errorf("owl unionOf exit given nil Current")
+	}
+	i := ctx.Current
+	ctx.Pop()
+	ref, ok := i.(*rdf.VocabularyReference)
+	if !ok {
+		return true, fmt.Errorf("owl unionOf exit not given *rdf.VocabularyReference")
+	}
+	arr, ok := ctx.Current.([]rdf.VocabularyReference)
+	if !ok {
+		return true, fmt.Errorf("owl unionOf exit's previous Current not given []rdf.VocabularyReference")
+	}
+	ctx.Current = append(arr, *ref)
+	return true, nil
 }
 
 func (u *unionOf) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return false, nil
+	s, ok := value.(string)
+	if !ok {
+		return true, fmt.Errorf("owl unionOf apply given non-string value")
+	}
+	strs := rdf.SplitAlias(s)
+	ref := &rdf.VocabularyReference{}
+	if len(strs) == 1 {
+		ref.Name = strs[0]
+	} else if len(strs) == 2 {
+		ref.Name = strs[1]
+		ref.Vocab = strs[0]
+	} else {
+		return true, fmt.Errorf("owl unionOf apply bad SplitAlias")
+	}
+	arr, ok := ctx.Current.([]rdf.VocabularyReference)
+	if !ok {
+		return true, fmt.Errorf("owl unionOf apply's Current not given []rdf.VocabularyReference")
+	}
+	ctx.Current = append(arr, *ref)
+	return true, nil
 }
 
 var _ rdf.RDFNode = &imports{}
@@ -320,18 +367,15 @@ var _ rdf.RDFNode = &imports{}
 type imports struct{}
 
 func (i *imports) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return false, nil
+	return true, fmt.Errorf("owl imports cannot be entered")
 }
 
 func (i *imports) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return false, nil
+	return true, fmt.Errorf("owl imports cannot be entered")
 }
 
 func (i *imports) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return false, nil
+	return true, fmt.Errorf("owl imports cannot be entered")
 }
 
 var _ rdf.RDFNode = &ontology{}
@@ -339,18 +383,16 @@ var _ rdf.RDFNode = &ontology{}
 type ontology struct{}
 
 func (o *ontology) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return false, nil
+	return true, fmt.Errorf("owl ontology cannot be entered")
 }
 
 func (o *ontology) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return true, nil
+	return true, fmt.Errorf("owl ontology cannot be exited")
 }
 
 func (o *ontology) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	// TODO
-	return false, nil
+	// Do nothing
+	return true, nil
 }
 
 var _ rdf.RDFNode = &class{}
@@ -366,11 +408,15 @@ func (c *class) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 }
 
 func (c *class) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	// Prepare a new VocabularyType in the context
-	if !ctx.IsReset() {
-		return true, fmt.Errorf("owl class applied with non-reset ParsingContext")
+	// Prepare a new VocabularyType in the context, unless it is a
+	// reference already prepared.
+	if ctx.IsReset() {
+		ctx.Current = &rdf.VocabularyType{}
+	} else if _, ok := ctx.Current.(*rdf.VocabularyReference); ok {
+		return true, nil
+	} else {
+		return true, fmt.Errorf("owl class applied with non-reset ctx and not a vocab reference: %T", ctx.Current)
 	}
-	ctx.Current = &rdf.VocabularyType{}
 	return true, nil
 }
 
@@ -387,8 +433,11 @@ func (o *objectProperty) Exit(key string, ctx *rdf.ParsingContext) (bool, error)
 }
 
 func (o *objectProperty) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	// Prepare a new VocabularyProperty in the context
-	if !ctx.IsReset() {
+	// Prepare a new VocabularyProperty in the context. If one already
+	// exists, skip.
+	if _, ok := ctx.Current.(*rdf.VocabularyProperty); ok {
+		return true, nil
+	} else if !ctx.IsReset() {
 		return true, fmt.Errorf("owl objectProperty applied with non-reset ParsingContext")
 	}
 	ctx.Current = &rdf.VocabularyProperty{}
