@@ -7,12 +7,14 @@ import (
 
 const (
 	rdfSpec        = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-	langstringSpec = "langstring"
+	langstringSpec = "langString"
 	propertySpec   = "Property"
 	valueSpec      = "value"
 )
 
-type RDFOntology struct{}
+type RDFOntology struct {
+	alias string
+}
 
 func (o *RDFOntology) SpecURI() string {
 	return rdfSpec
@@ -23,12 +25,13 @@ func (o *RDFOntology) Load() ([]RDFNode, error) {
 }
 
 func (o *RDFOntology) LoadAsAlias(s string) ([]RDFNode, error) {
+	o.alias = s
 	return []RDFNode{
 		&AliasedDelegate{
 			Spec:     rdfSpec,
 			Alias:    s,
 			Name:     langstringSpec,
-			Delegate: &langstring{},
+			Delegate: &langstring{alias: o.alias},
 		},
 		&AliasedDelegate{
 			Spec:     rdfSpec,
@@ -53,7 +56,7 @@ func (o *RDFOntology) LoadSpecificAsAlias(alias, name string) ([]RDFNode, error)
 				Spec:     "",
 				Alias:    "",
 				Name:     alias,
-				Delegate: &langstring{},
+				Delegate: &langstring{alias: o.alias},
 			},
 		}, nil
 	case propertySpec:
@@ -86,7 +89,7 @@ func (o *RDFOntology) GetByName(name string) (RDFNode, error) {
 	name = strings.TrimPrefix(name, o.SpecURI())
 	switch name {
 	case langstringSpec:
-		return &langstring{}, nil
+		return &langstring{alias: o.alias}, nil
 	case propertySpec:
 		return &property{}, nil
 	case valueSpec:
@@ -97,7 +100,9 @@ func (o *RDFOntology) GetByName(name string) (RDFNode, error) {
 
 var _ RDFNode = &langstring{}
 
-type langstring struct{}
+type langstring struct {
+	alias string
+}
 
 func (l *langstring) Enter(key string, ctx *ParsingContext) (bool, error) {
 	return true, fmt.Errorf("rdf langstring cannot be entered")
@@ -108,8 +113,16 @@ func (l *langstring) Exit(key string, ctx *ParsingContext) (bool, error) {
 }
 
 func (l *langstring) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
-	// TODO: Act as value
-	return true, fmt.Errorf("rdf langstring cannot be applied")
+	for k, p := range ctx.Result.Vocab.Properties {
+		for _, ref := range p.Range {
+			if ref.Name == langstringSpec && ref.Vocab == l.alias {
+				p.NaturalLanguageMap = true
+				ctx.Result.Vocab.Properties[k] = p
+				break
+			}
+		}
+	}
+	return true, nil
 }
 
 var _ RDFNode = &property{}

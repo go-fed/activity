@@ -190,7 +190,6 @@ func resolveReferences(registry *RDFRegistry, ctx *ParsingContext) error {
 // in the known References of the vocabulary, or load it from the registry. Will
 // fail if a reference is not found.
 func resolveReference(reference VocabularyReference, registry *RDFRegistry, ctx *ParsingContext) error {
-	fmt.Println(reference)
 	name := reference.Name
 	vocab := &ctx.Result.Vocab
 	if len(reference.Vocab) > 0 {
