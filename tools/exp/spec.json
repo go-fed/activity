@@ -2688,11 +2688,18 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-instrument",
           "range": {
             "type": "owl:Class",
-            "unionOf": {
-              "type": "owl:Class",
-              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
-              "name": "Object | Link"
-            }
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "name": "Object"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "name": "Link"
+              }
+            ]
           },
           "name": "instrument",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-instrument"
@@ -2794,11 +2801,18 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-location",
           "range": {
             "type": "owl:Class",
-            "unionOf": {
-              "type": "owl:Class",
-              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
-              "name": "Object | Link"
-            }
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "name": "Object"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "name": "Link"
+              }
+            ]
           },
           "name": "location",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-location"
@@ -3012,7 +3026,7 @@
                 "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
               },
-              "xsd:datetime",
+              "xsd:dateTime",
               "xsd:boolean"
             ]
           },
@@ -3812,7 +3826,7 @@
             "type": "owl:Class",
             "unionOf": [
               "xsd:string",
-              "rdf:langstring"
+              "rdf:langString"
             ]
           },
           "name": "content",
@@ -3869,7 +3883,7 @@
             "type": "owl:Class",
             "unionOf": [
               "xsd:string",
-              "rdf:langstring"
+              "rdf:langString"
             ]
           },
           "name": "name",
@@ -3939,7 +3953,7 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-height",
           "range": {
             "type": "owl:Class",
-            "unionOf": "xsd:nonnegativeinteger"
+            "unionOf": "xsd:nonNegativeInteger"
           },
           "name": "height",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-height"
@@ -4213,7 +4227,7 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-endtime",
           "range": {
             "type": "owl:Class",
-            "unionOf": "xsd:datetime"
+            "unionOf": "xsd:dateTime"
           },
           "name": "endTime",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-endtime"
@@ -4248,7 +4262,7 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-published",
           "range": {
             "type": "owl:Class",
-            "unionOf": "xsd:datetime"
+            "unionOf": "xsd:dateTime"
           },
           "name": "published",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-published"
@@ -4283,7 +4297,7 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-starttime",
           "range": {
             "type": "owl:Class",
-            "unionOf": "xsd:datetime"
+            "unionOf": "xsd:dateTime"
           },
           "name": "startTime",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-starttime"
@@ -4398,7 +4412,7 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-startindex",
           "range": {
             "type": "owl:Class",
-            "unionOf": "xsd:nonnegativeinteger"
+            "unionOf": "xsd:nonNegativeInteger"
           },
           "name": "startIndex",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-startindex"
@@ -4449,7 +4463,7 @@
             "type": "owl:Class",
             "unionOf": [
               "xsd:string",
-              "rdf:langstring"
+              "rdf:langString"
             ]
           },
           "name": "summary",
@@ -4493,7 +4507,7 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-totalitems",
           "range": {
             "type": "owl:Class",
-            "unionOf": "xsd:nonnegativeinteger"
+            "unionOf": "xsd:nonNegativeInteger"
           },
           "name": "totalItems",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-totalitems"
@@ -4530,12 +4544,7 @@
           "range": {
             "type": "owl:Class",
             "unionOf": [
-              "https://www.w3.org/TR/activitystreams-vocabulary/cm",
-              "https://www.w3.org/TR/activitystreams-vocabulary/feet",
-              "https://www.w3.org/TR/activitystreams-vocabulary/inches",
-              "https://www.w3.org/TR/activitystreams-vocabulary/km",
-              "https://www.w3.org/TR/activitystreams-vocabulary/m",
-              "https://www.w3.org/TR/activitystreams-vocabulary/miles",
+              "xsd:string",
               "xsd:anyURI"
             ]
           },
@@ -4572,7 +4581,7 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-updated",
           "range": {
             "type": "owl:Class",
-            "unionOf": "xsd:datetime"
+            "unionOf": "xsd:dateTime"
           },
           "name": "updated",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-updated"
@@ -4606,7 +4615,7 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-width",
           "range": {
             "type": "owl:Class",
-            "unionOf": "xsd:nonnegativeinteger"
+            "unionOf": "xsd:nonNegativeInteger"
           },
           "name": "width",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-width"
@@ -4809,7 +4818,7 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-deleted",
           "range": {
             "type": "owl:Class",
-            "unionOf": "xsd:datetime"
+            "unionOf": "xsd:dateTime"
           },
           "name": "deleted",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-deleted"
