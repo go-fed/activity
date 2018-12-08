@@ -41,6 +41,11 @@ func SplitAlias(s string) []string {
 	}
 }
 
+// joinAlias combines a string and prepends an RDF alias to it.
+func joinAlias(alias, s string) string {
+	return fmt.Sprintf("%s%s%s", alias, ALIAS_DELIMITER, s)
+}
+
 // Ontology returns different RDF "actions" or "handlers" that are able to
 // interpret the schema definitions as actions upon a set of data, specific
 // for this ontology.
@@ -254,4 +259,15 @@ func (r *RDFRegistry) getNode(s string) (n RDFNode, e error) {
 		e = fmt.Errorf("getNode given unhandled node name: %s", s)
 		return
 	}
+}
+
+// resolveAlias turns an alias into its full qualifier for the ontology.
+//
+// Package public.
+func (r *RDFRegistry) resolveAlias(alias string) (url string, e error) {
+	var ok bool
+	if url, ok = r.aliases[alias]; !ok {
+		e = fmt.Errorf("registry cannot resolve alias %q", alias)
+	}
+	return
 }

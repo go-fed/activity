@@ -16,7 +16,17 @@ import (
 // details.
 type ParsedVocabulary struct {
 	Vocab      Vocabulary
-	References map[string]Vocabulary
+	References map[string]*Vocabulary
+}
+
+func (p *ParsedVocabulary) GetReference(uri string) *Vocabulary {
+	if p.References == nil {
+		p.References = make(map[string]*Vocabulary, 0)
+	}
+	if _, ok := p.References[uri]; !ok {
+		p.References[uri] = &Vocabulary{}
+	}
+	return p.References[uri]
 }
 
 func (p ParsedVocabulary) String() string {
@@ -117,18 +127,16 @@ var (
 
 // VocabularyType represents a single ActivityStream type in a vocabulary.
 type VocabularyType struct {
-	Name              string
-	URI               *url.URL
-	Notes             string
-	DisjointWith      []VocabularyReference
-	Extends           []VocabularyReference // TODO: Object improperly extends Link
-	Properties        []VocabularyReference // TODO: Check for duplication
-	WithoutProperties []VocabularyReference // TODO: Missing for IntransitiveActivity
-	Examples          []VocabularyExample
+	Name         string
+	URI          *url.URL
+	Notes        string
+	DisjointWith []VocabularyReference
+	Extends      []VocabularyReference
+	Examples     []VocabularyExample
 }
 
 func (v VocabularyType) String() string {
-	return fmt.Sprintf("Type=%s,%s,%s", v.Name, v.URI, v.Notes)
+	return fmt.Sprintf("Type=%s,%s,%s\n\tDJW=%s\n\tExt=%s\n\tEx=%s", v.Name, v.URI, v.Notes, v.DisjointWith, v.Extends, v.Examples)
 }
 
 func (v *VocabularyType) SetName(s string) {
@@ -164,12 +172,13 @@ var (
 // VocabularyProperty represents a single ActivityStream property type in a
 // vocabulary.
 type VocabularyProperty struct {
-	Name     string
-	URI      *url.URL
-	Notes    string
-	Domain   []VocabularyReference
-	Range    []VocabularyReference
-	Examples []VocabularyExample
+	Name           string
+	URI            *url.URL
+	Notes          string
+	Domain         []VocabularyReference
+	Range          []VocabularyReference
+	DoesNotApplyTo []VocabularyReference
+	Examples       []VocabularyExample
 	// SubpropertyOf is ignorable as long as data is set up correctly TODO: Is this still correct?
 	SubpropertyOf      VocabularyReference // Must be a VocabularyProperty
 	Functional         bool
@@ -177,7 +186,7 @@ type VocabularyProperty struct {
 }
 
 func (v VocabularyProperty) String() string {
-	return fmt.Sprintf("Property=%s,%s,%s,%s,%s", v.Name, v.URI, v.Notes, v.Functional, v.NaturalLanguageMap)
+	return fmt.Sprintf("Property=%s,%s,%s\n\tD=%s\n\tR=%s\n\tEx=%s\n\tSub=%s\n\tDNApply=%s\n\tfunc=%t,natLangMap=%t", v.Name, v.URI, v.Notes, v.Domain, v.Range, v.Examples, v.SubpropertyOf, v.DoesNotApplyTo, v.Functional, v.NaturalLanguageMap)
 }
 
 func (v *VocabularyProperty) SetName(s string) {
@@ -218,6 +227,10 @@ type VocabularyExample struct {
 	Example interface{}
 }
 
+func (v VocabularyExample) String() string {
+	return fmt.Sprintf("VocabularyExample: %s,%s,%s", v.Name, v.URI, v.Example)
+}
+
 func (v *VocabularyExample) SetName(s string) {
 	v.Name = s
 }
@@ -245,6 +258,10 @@ type VocabularyReference struct {
 	Name  string
 	URI   *url.URL
 	Vocab string // If present, must match key in ParsedVocabulary.References
+}
+
+func (v VocabularyReference) String() string {
+	return fmt.Sprintf("VocabularyReference: %s,%s,%s", v.Name, v.URI, v.Vocab)
 }
 
 func (v *VocabularyReference) SetName(s string) {

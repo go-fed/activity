@@ -134,7 +134,90 @@ func ParseVocabulary(registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVoc
 	// hijack processing.
 	nodes = append(jsonLDNodes(registry), nodes...)
 	err = apply(nodes, input, ctx)
+	if err != nil {
+		return
+	}
+	err = resolveReferences(registry, ctx)
 	return
+}
+
+// resolveReferences ensures that all references mentioned have been
+// successfully parsed, and if not attempts to search the ontologies for any
+// values, types, and properties that need to be referenced.
+//
+// Currently, this is the only way that values are added to the
+// ParsedVocabulary.
+func resolveReferences(registry *RDFRegistry, ctx *ParsingContext) error {
+	vocabulary := ctx.Result
+	for _, t := range vocabulary.Vocab.Types {
+		for _, ref := range t.DisjointWith {
+			if err := resolveReference(ref, registry, ctx); err != nil {
+				return err
+			}
+		}
+		for _, ref := range t.Extends {
+			if err := resolveReference(ref, registry, ctx); err != nil {
+				return err
+			}
+		}
+	}
+	for _, p := range vocabulary.Vocab.Properties {
+		for _, ref := range p.Domain {
+			if err := resolveReference(ref, registry, ctx); err != nil {
+				return err
+			}
+		}
+		for _, ref := range p.Range {
+			if err := resolveReference(ref, registry, ctx); err != nil {
+				return err
+			}
+		}
+		for _, ref := range p.DoesNotApplyTo {
+			if err := resolveReference(ref, registry, ctx); err != nil {
+				return err
+			}
+		}
+		if len(p.SubpropertyOf.Name) > 0 {
+			if err := resolveReference(p.SubpropertyOf, registry, ctx); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+// resolveReference will attempt to resolve the reference by either finding it
+// in the known References of the vocabulary, or load it from the registry. Will
+// fail if a reference is not found.
+func resolveReference(reference VocabularyReference, registry *RDFRegistry, ctx *ParsingContext) error {
+	fmt.Println(reference)
+	name := reference.Name
+	vocab := &ctx.Result.Vocab
+	if len(reference.Vocab) > 0 {
+		name = joinAlias(reference.Vocab, reference.Name)
+		url, e := registry.resolveAlias(reference.Vocab)
+		if e != nil {
+			return e
+		}
+		vocab = ctx.Result.GetReference(url)
+	}
+	if _, ok := vocab.Types[reference.Name]; ok {
+		return nil
+	} else if _, ok := vocab.Properties[reference.Name]; ok {
+		return nil
+	} else if _, ok := vocab.Values[reference.Name]; ok {
+		return nil
+	} else if n, e := registry.getNode(name); e != nil {
+		return e
+	} else {
+		applicable, e := n.Apply("", nil, ctx)
+		if !applicable {
+			return fmt.Errorf("cannot resolve reference with unapplicable node for %s", reference)
+		} else if e != nil {
+			return e
+		}
+		return nil
+	}
 }
 
 // apply takes a specification input to populate the ParsingContext, based on
@@ -148,7 +231,6 @@ func apply(nodes []RDFNode, input JSONLD, ctx *ParsingContext) error {
 		} else {
 			return err
 		}
-		return nil
 	}
 	// Special processing: '@type' or 'type' if they are present
 	if v, ok := input[JSON_LD_TYPE]; ok {
