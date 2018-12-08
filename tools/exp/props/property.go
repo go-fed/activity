@@ -2,8 +2,8 @@ package props
 
 import (
 	"fmt"
+	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
-	"github.com/go-fed/activity/tools/exp/codegen"
 )
 
 const (
@@ -59,13 +59,12 @@ type Identifier struct {
 // deserialize such types, compare the types, and other meta-information to use
 // during Go code generation.
 type Kind struct {
-	Name                  Identifier
-	ConcreteKind          string
-	Nilable               bool
-	HasNaturalLanguageMap bool
-	SerializeFn           codegen.Function
-	DeserializeFn         codegen.Function
-	LessFn                codegen.Function
+	Name          Identifier
+	ConcreteKind  string
+	Nilable       bool
+	SerializeFn   codegen.Function
+	DeserializeFn codegen.Function
+	LessFn        codegen.Function
 }
 
 // PropertyGenerator is a common base struct used in both Functional and

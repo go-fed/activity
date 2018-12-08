@@ -3,6 +3,7 @@ package rdf
 import (
 	"bytes"
 	"fmt"
+	"github.com/cjslep/activity/tools/exp/codegen"
 	"net/url"
 )
 
@@ -99,6 +100,9 @@ type VocabularyValue struct {
 	URI            *url.URL
 	DefinitionType string
 	Zero           string
+	SerializeFn    codegen.Function
+	DeserializeFn  codegen.Function
+	LessFn         codegen.Function
 }
 
 func (v VocabularyValue) String() string {
@@ -109,7 +113,7 @@ func (v *VocabularyValue) SetName(s string) {
 	v.Name = s
 }
 
-func (v *VocabularyValue) GetName() string {
+func (v VocabularyValue) GetName() string {
 	return v.Name
 }
 
@@ -121,7 +125,7 @@ func (v *VocabularyValue) SetURI(s string) error {
 
 var (
 	_ NameSetter = &VocabularyValue{}
-	_ nameGetter = &VocabularyValue{}
+	_ NameGetter = &VocabularyValue{}
 	_ URISetter  = &VocabularyValue{}
 )
 
@@ -143,7 +147,7 @@ func (v *VocabularyType) SetName(s string) {
 	v.Name = s
 }
 
-func (v *VocabularyType) GetName() string {
+func (v VocabularyType) GetName() string {
 	return v.Name
 }
 
@@ -163,7 +167,7 @@ func (v *VocabularyType) AddExample(e *VocabularyExample) {
 
 var (
 	_ NameSetter   = &VocabularyType{}
-	_ nameGetter   = &VocabularyType{}
+	_ NameGetter   = &VocabularyType{}
 	_ URISetter    = &VocabularyType{}
 	_ NotesSetter  = &VocabularyType{}
 	_ ExampleAdder = &VocabularyType{}
@@ -193,7 +197,7 @@ func (v *VocabularyProperty) SetName(s string) {
 	v.Name = s
 }
 
-func (v *VocabularyProperty) GetName() string {
+func (v VocabularyProperty) GetName() string {
 	return v.Name
 }
 
@@ -213,7 +217,7 @@ func (v *VocabularyProperty) AddExample(e *VocabularyExample) {
 
 var (
 	_ NameSetter   = &VocabularyProperty{}
-	_ nameGetter   = &VocabularyProperty{}
+	_ NameGetter   = &VocabularyProperty{}
 	_ URISetter    = &VocabularyProperty{}
 	_ NotesSetter  = &VocabularyProperty{}
 	_ ExampleAdder = &VocabularyProperty{}
@@ -235,7 +239,7 @@ func (v *VocabularyExample) SetName(s string) {
 	v.Name = s
 }
 
-func (v *VocabularyExample) GetName() string {
+func (v VocabularyExample) GetName() string {
 	return v.Name
 }
 
@@ -247,7 +251,7 @@ func (v *VocabularyExample) SetURI(s string) error {
 
 var (
 	_ NameSetter = &VocabularyExample{}
-	_ nameGetter = &VocabularyExample{}
+	_ NameGetter = &VocabularyExample{}
 	_ URISetter  = &VocabularyExample{}
 )
 
@@ -268,7 +272,7 @@ func (v *VocabularyReference) SetName(s string) {
 	v.Name = s
 }
 
-func (v *VocabularyReference) GetName() string {
+func (v VocabularyReference) GetName() string {
 	return v.Name
 }
 
@@ -280,6 +284,6 @@ func (v *VocabularyReference) SetURI(s string) error {
 
 var (
 	_ NameSetter = &VocabularyReference{}
-	_ nameGetter = &VocabularyReference{}
+	_ NameGetter = &VocabularyReference{}
 	_ URISetter  = &VocabularyReference{}
 )

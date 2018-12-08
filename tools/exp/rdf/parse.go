@@ -73,7 +73,7 @@ func (p *ParsingContext) Push() {
 func (p *ParsingContext) Pop() {
 	p.Current = p.Stack[0]
 	p.Stack = p.Stack[1:]
-	if ng, ok := p.Current.(nameGetter); ok {
+	if ng, ok := p.Current.(NameGetter); ok {
 		p.Name = ng.GetName()
 	}
 }
@@ -92,7 +92,7 @@ type NameSetter interface {
 	SetName(string)
 }
 
-type nameGetter interface {
+type NameGetter interface {
 	GetName() string
 }
 
@@ -194,7 +194,7 @@ func resolveReference(reference VocabularyReference, registry *RDFRegistry, ctx 
 	vocab := &ctx.Result.Vocab
 	if len(reference.Vocab) > 0 {
 		name = joinAlias(reference.Vocab, reference.Name)
-		url, e := registry.resolveAlias(reference.Vocab)
+		url, e := registry.ResolveAlias(reference.Vocab)
 		if e != nil {
 			return e
 		}

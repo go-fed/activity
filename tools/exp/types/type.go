@@ -2,8 +2,8 @@ package types
 
 import (
 	"fmt"
+	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
-	"github.com/go-fed/activity/tools/exp/codegen"
 	"sync"
 )
 

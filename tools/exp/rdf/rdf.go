@@ -262,9 +262,7 @@ func (r *RDFRegistry) getNode(s string) (n RDFNode, e error) {
 }
 
 // resolveAlias turns an alias into its full qualifier for the ontology.
-//
-// Package public.
-func (r *RDFRegistry) resolveAlias(alias string) (url string, e error) {
+func (r *RDFRegistry) ResolveAlias(alias string) (url string, e error) {
 	var ok bool
 	if url, ok = r.aliases[alias]; !ok {
 		e = fmt.Errorf("registry cannot resolve alias %q", alias)
