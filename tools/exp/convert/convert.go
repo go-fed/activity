@@ -9,6 +9,12 @@ import (
 	"strings"
 )
 
+type File struct {
+	F         *jen.File
+	FileName  string
+	Directory string
+}
+
 type vocabulary struct {
 	Kinds   map[string]*props.Kind
 	FProps  map[string]*props.FunctionalPropertyGenerator
@@ -46,17 +52,82 @@ type Converter struct {
 	VocabularyRoot        string
 	PropertyPackagePolicy PropertyPackagePolicy
 	PropertyPackageRoot   string
-	TypePackageRoot       string
 	TypePackagePolicy     TypePackagePolicy
+	TypePackageRoot       string
 }
 
-func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*jen.File, e error) {
-	// var v vocabulary
-	_, e = c.convertVocabulary(p)
+func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
+	var v vocabulary
+	v, e = c.convertVocabulary(p)
 	if e != nil {
 		return
 	}
-	// TODO
+	f, e = c.convertToFiles(v)
+	return
+}
+
+func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
+	for _, _ = range v.Kinds {
+		// TODO
+	}
+	for _, i := range v.FProps {
+		var pkg string
+		pkg, e = c.propertyPackageFile(i)
+		if e != nil {
+			return
+		}
+		var dir string
+		dir, e = c.propertyPackageDirectory(i)
+		if e != nil {
+			return
+		}
+		file := jen.NewFilePath(pkg)
+		file.Add(i.Definition().Definition())
+		f = append(f, &File{
+			F:         file,
+			FileName:  fmt.Sprintf("gen_%s.go", i.PropertyName()),
+			Directory: dir,
+		})
+	}
+	for _, i := range v.NFProps {
+		var pkg string
+		pkg, e = c.propertyPackageFile(i)
+		if e != nil {
+			return
+		}
+		var dir string
+		dir, e = c.propertyPackageDirectory(i)
+		if e != nil {
+			return
+		}
+		file := jen.NewFilePath(pkg)
+		s, t := i.Definitions()
+		file.Add(s.Definition()).Add(t.Definition())
+		f = append(f, &File{
+			F:         file,
+			FileName:  fmt.Sprintf("gen_%s.go", i.PropertyName()),
+			Directory: dir,
+		})
+	}
+	for _, i := range v.Types {
+		var pkg string
+		pkg, e = c.typePackageFile(i)
+		if e != nil {
+			return
+		}
+		var dir string
+		dir, e = c.typePackageDirectory(i)
+		if e != nil {
+			return
+		}
+		file := jen.NewFilePath(pkg)
+		file.Add(i.Definition().Definition())
+		f = append(f, &File{
+			F:         file,
+			FileName:  fmt.Sprintf("gen_%s.go", i.TypeName()),
+			Directory: dir,
+		})
+	}
 	return
 }
 
@@ -86,13 +157,20 @@ func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e e
 			break
 		}
 		stuck := true
-		for _, t := range allTypes {
-			var tg *types.TypeGenerator
-			tg, e = c.convertType(t, p.Vocab, v.FProps, v.NFProps, v.Types)
-			if e != nil {
-				return
+		for i, t := range allTypes {
+			if allExtendsAreIn(t, v.Types) {
+				var tg *types.TypeGenerator
+				tg, e = c.convertType(t, p.Vocab, v.FProps, v.NFProps, v.Types)
+				if e != nil {
+					return
+				}
+				v.Types[t.Name] = tg
+				stuck = false
+				// Delete the one we just did.
+				allTypes[i] = allTypes[len(allTypes)-1]
+				allTypes = allTypes[:len(allTypes)-1]
+				break
 			}
-			v.Types[t.Name] = tg
 		}
 		if stuck {
 			e = fmt.Errorf("converting types got stuck in dependency cycle")
@@ -331,13 +409,26 @@ func (c Converter) propertyPackageName(v rdf.VocabularyProperty) (pkg string, e 
 	return
 }
 
-// TODO: Use this?
-func (c Converter) typePackageFile(v rdf.VocabularyType) (pkg string, e error) {
+func (c Converter) typePackageDirectory(v *types.TypeGenerator) (dir string, e error) {
+	switch c.TypePackagePolicy {
+	case TypeFlatUnderRoot:
+		dir = fmt.Sprintf("%s/%s/", c.VocabularyRoot, c.TypePackageRoot)
+	case TypeIndividualUnderRoot:
+		dir = fmt.Sprintf("%s/%s/%s/", c.VocabularyRoot, c.TypePackageRoot, v.TypeName())
+	case TypeFlatUnderVocabularyRoot:
+		dir = c.VocabularyRoot + "/"
+	default:
+		e = fmt.Errorf("unrecognized TypePackagePolicy: %v", c.TypePackagePolicy)
+	}
+	return
+}
+
+func (c Converter) typePackageFile(v *types.TypeGenerator) (pkg string, e error) {
 	switch c.TypePackagePolicy {
 	case TypeFlatUnderRoot:
 		pkg = fmt.Sprintf("%s/%s", c.VocabularyRoot, c.TypePackageRoot)
 	case TypeIndividualUnderRoot:
-		pkg = fmt.Sprintf("%s/%s/%s", c.VocabularyRoot, c.TypePackageRoot, v.Name)
+		pkg = fmt.Sprintf("%s/%s/%s", c.VocabularyRoot, c.TypePackageRoot, v.TypeName())
 	case TypeFlatUnderVocabularyRoot:
 		pkg = c.VocabularyRoot
 	default:
@@ -346,13 +437,35 @@ func (c Converter) typePackageFile(v rdf.VocabularyType) (pkg string, e error) {
 	return
 }
 
-// TODO: Use this?
-func (c Converter) propertyPackageFile(v rdf.VocabularyProperty) (pkg string, e error) {
+type propertyNamer interface {
+	PropertyName() string
+}
+
+var (
+	_ propertyNamer = &props.FunctionalPropertyGenerator{}
+	_ propertyNamer = &props.NonFunctionalPropertyGenerator{}
+)
+
+func (c Converter) propertyPackageDirectory(v propertyNamer) (dir string, e error) {
+	switch c.PropertyPackagePolicy {
+	case PropertyFlatUnderRoot:
+		dir = fmt.Sprintf("%s/%s/", c.VocabularyRoot, c.PropertyPackageRoot)
+	case PropertyIndividualUnderRoot:
+		dir = fmt.Sprintf("%s/%s/%s/", c.VocabularyRoot, c.PropertyPackageRoot, v.PropertyName())
+	case PropertyFlatUnderVocabularyRoot:
+		dir = c.VocabularyRoot + "/"
+	default:
+		e = fmt.Errorf("unrecognized PropertyPackagePolicy: %v", c.PropertyPackagePolicy)
+	}
+	return
+}
+
+func (c Converter) propertyPackageFile(v propertyNamer) (pkg string, e error) {
 	switch c.PropertyPackagePolicy {
 	case PropertyFlatUnderRoot:
 		pkg = fmt.Sprintf("%s/%s", c.VocabularyRoot, c.PropertyPackageRoot)
 	case PropertyIndividualUnderRoot:
-		pkg = fmt.Sprintf("%s/%s/%s", c.VocabularyRoot, c.PropertyPackageRoot, v.Name)
+		pkg = fmt.Sprintf("%s/%s/%s", c.VocabularyRoot, c.PropertyPackageRoot, v.PropertyName())
 	case PropertyFlatUnderVocabularyRoot:
 		pkg = c.VocabularyRoot
 	default:
@@ -370,4 +483,16 @@ func (c Converter) toIdentifier(n rdf.NameGetter) props.Identifier {
 
 func (c Converter) isNilable(goType string) bool {
 	return goType[0] == '*'
+}
+
+func allExtendsAreIn(t rdf.VocabularyType, v map[string]*types.TypeGenerator) bool {
+	for _, e := range t.Extends {
+		if len(e.Vocab) != 0 {
+			// TODO: Handle references
+			return false
+		} else if _, ok := v[e.Name]; !ok {
+			return false
+		}
+	}
+	return true
 }

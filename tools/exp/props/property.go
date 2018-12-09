@@ -62,9 +62,9 @@ type Kind struct {
 	Name          Identifier
 	ConcreteKind  string
 	Nilable       bool
-	SerializeFn   codegen.Function
-	DeserializeFn codegen.Function
-	LessFn        codegen.Function
+	SerializeFn   *codegen.Function
+	DeserializeFn *codegen.Function
+	LessFn        *codegen.Function
 }
 
 // PropertyGenerator is a common base struct used in both Functional and

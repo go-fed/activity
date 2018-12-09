@@ -324,7 +324,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, [
 				[]jen.Code{jen.Id("i").Interface()},
 				[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 				[]jen.Code{
-					deserializeFns.Add(p.unknownDeserializeCode()),
+					p.addUnknownDeserializeCode(deserializeFns),
 					jen.Return(
 						jen.Nil(),
 						jen.Nil(),
@@ -349,7 +349,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, [
 						),
 						jen.Id("ok"),
 					).Block(
-						deserializeFns.Add(p.unknownDeserializeCode()),
+						p.addUnknownDeserializeCode(deserializeFns),
 					),
 					jen.Return(
 						jen.Nil(),
@@ -733,26 +733,31 @@ func (p *FunctionalPropertyGenerator) unknownMemberDef() jen.Code {
 	return jen.Id(unknownMemberName).Index().Byte()
 }
 
-// unknownDeserializeCode generates the "else if it's a []byte" code used for
+// addUnknownDeserializeCode generates the "else if it's a []byte" code used for
 // deserializing unknown values.
-func (p *FunctionalPropertyGenerator) unknownDeserializeCode() jen.Code {
-	return jen.Else().If(
-		jen.List(
-			jen.Id("v"),
+func (p *FunctionalPropertyGenerator) addUnknownDeserializeCode(existing jen.Code) jen.Code {
+	if len(p.Kinds) > 0 {
+		existing = jen.Add(existing, jen.Else())
+	}
+	return jen.Add(existing,
+		jen.If(
+			jen.List(
+				jen.Id("v"),
+				jen.Id("ok"),
+			).Op(":=").Id("i").Assert(
+				jen.Index().Byte(),
+			),
 			jen.Id("ok"),
-		).Op(":=").Id("i").Assert(
-			jen.Index().Byte(),
-		),
-		jen.Id("ok"),
-	).Block(
-		jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
-			jen.Dict{
-				jen.Id(unknownMemberName): jen.Id("v"),
-			},
-		),
-		jen.Return(
-			jen.Id(codegen.This()),
-			jen.Err(),
+		).Block(
+			jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
+				jen.Dict{
+					jen.Id(unknownMemberName): jen.Id("v"),
+				},
+			),
+			jen.Return(
+				jen.Id(codegen.This()),
+				jen.Err(),
+			),
 		),
 	)
 }

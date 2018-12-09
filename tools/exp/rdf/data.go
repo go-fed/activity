@@ -100,9 +100,9 @@ type VocabularyValue struct {
 	URI            *url.URL
 	DefinitionType string
 	Zero           string
-	SerializeFn    codegen.Function
-	DeserializeFn  codegen.Function
-	LessFn         codegen.Function
+	SerializeFn    *codegen.Function
+	DeserializeFn  *codegen.Function
+	LessFn         *codegen.Function
 }
 
 func (v VocabularyValue) String() string {

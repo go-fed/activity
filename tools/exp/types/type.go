@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
+	"strings"
 	"sync"
 )
 
@@ -36,11 +37,42 @@ func TypeInterface(pkg string) *codegen.Interface {
 
 // KindSerializationFuncs returns free function references that can be used to
 // treat a TypeGenerator as another property's Kind.
-func KindSerializationFuncs(pkg, typeName string) (ser, deser, less codegen.Function) {
-	s, d, l := kindSerializationFuncs(pkg, typeName)
-	ser = *s
-	deser = *d
-	less = *l
+func KindSerializationFuncs(pkg, typeName string) (ser, deser, less *codegen.Function) {
+	serName := fmt.Sprintf("%s%s", serializeMethodName, typeName)
+	ser = codegen.NewCommentedFunction(
+		pkg,
+		serName,
+		[]jen.Code{jen.Id("s").Id(typeName)},
+		[]jen.Code{jen.Interface(), jen.Error()},
+		[]jen.Code{
+			jen.Return(
+				jen.Id("s").Dot(serializeMethodName).Call(),
+			),
+		},
+		jen.Commentf("%s calls %s on the %s type.", serName, serializeMethodName, typeName))
+	deserName := fmt.Sprintf("%s%s", deserializeFnName, typeName)
+	deser = codegen.NewCommentedFunction(
+		pkg,
+		deserName,
+		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
+		[]jen.Code{jen.Op("*").Id(typeName), jen.Error()},
+		[]jen.Code{
+			// TODO
+		},
+		jen.Commentf("%s creates a %s from a map representation that has been unmarshalled from a text or binary format.", deserName, typeName))
+	lessName := fmt.Sprintf("%s%s", lessFnName, typeName)
+	less = codegen.NewCommentedFunction(
+		pkg,
+		lessName,
+		[]jen.Code{
+			jen.Id("i"),
+			jen.Id("j").Op("*").Id(typeName),
+		},
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{
+			// TODO
+		},
+		jen.Commentf("%s computes which %s is lesser, with an arbitrary but stable determination", lessName, typeName))
 	return
 }
 
@@ -158,7 +190,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 	t.cacheOnce.Do(func() {
 		members := t.members()
 		m := t.serializationMethod()
-		ser, deser, less := kindSerializationFuncs(t.packageName, t.TypeName())
+		ser, deser, less := KindSerializationFuncs(t.packageName, t.TypeName())
 		t.cachedStruct = codegen.NewStruct(
 			jen.Commentf(t.Comment()),
 			t.TypeName(),
@@ -192,7 +224,7 @@ func (t *TypeGenerator) members() (members []jen.Code) {
 	}
 	members = make([]jen.Code, 0, len(p))
 	for name, property := range p {
-		members = append(members, jen.Id(name).Id(property.StructName()))
+		members = append(members, jen.Id(strings.Title(name)).Id(property.StructName()))
 	}
 	return
 }
@@ -358,44 +390,5 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 			// TODO
 		},
 		jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", serializeMethodName))
-	return
-}
-
-func kindSerializationFuncs(pkg, typeName string) (ser, deser, less *codegen.Function) {
-	serName := fmt.Sprintf("%s%s", serializeMethodName, typeName)
-	ser = codegen.NewCommentedFunction(
-		pkg,
-		serName,
-		[]jen.Code{jen.Id("s").Id(typeName)},
-		[]jen.Code{jen.Interface(), jen.Error()},
-		[]jen.Code{
-			jen.Return(
-				jen.Id("s").Dot(serializeMethodName).Call(),
-			),
-		},
-		jen.Commentf("%s calls %s on the %s type.", serName, serializeMethodName, typeName))
-	deserName := fmt.Sprintf("%s%s", deserializeFnName, typeName)
-	deser = codegen.NewCommentedFunction(
-		pkg,
-		deserName,
-		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
-		[]jen.Code{jen.Op("*").Id(typeName), jen.Error()},
-		[]jen.Code{
-			// TODO
-		},
-		jen.Commentf("%s creates a %s from a map representation that has been unmarshalled from a text or binary format.", deserName, typeName))
-	lessName := fmt.Sprintf("%s%s", lessFnName, typeName)
-	less = codegen.NewCommentedFunction(
-		pkg,
-		lessName,
-		[]jen.Code{
-			jen.Id("i"),
-			jen.Id("j").Op("*").Id(typeName),
-		},
-		[]jen.Code{jen.Bool()},
-		[]jen.Code{
-			// TODO
-		},
-		jen.Commentf("%s computes which %s is lesser, with an arbitrary but stable determination", lessName, typeName))
 	return
 }

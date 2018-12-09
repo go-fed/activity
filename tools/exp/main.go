@@ -4,12 +4,15 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/cjslep/activity/tools/exp/convert"
 	"github.com/cjslep/activity/tools/exp/rdf"
 	"github.com/cjslep/activity/tools/exp/rdf/owl"
 	"github.com/cjslep/activity/tools/exp/rdf/rdfs"
 	"github.com/cjslep/activity/tools/exp/rdf/schema"
 	"github.com/cjslep/activity/tools/exp/rdf/xsd"
 	"io/ioutil"
+	"os"
+	"strings"
 )
 
 var registry *rdf.RDFRegistry
@@ -24,19 +27,44 @@ func mustAddOntology(o rdf.Ontology) {
 }
 
 func init() {
-	mustAddOntology(&xsd.XMLOntology{})
+	mustAddOntology(&xsd.XMLOntology{Package: "xml"})
 	mustAddOntology(&owl.OWLOntology{})
-	mustAddOntology(&rdf.RDFOntology{})
+	mustAddOntology(&rdf.RDFOntology{Package: "rdf"})
 	mustAddOntology(&rdfs.RDFSchemaOntology{})
 	mustAddOntology(&schema.SchemaOntology{})
 }
 
 var (
 	input = flag.String("input", "spec.json", "Input JSON-LD specification used to generate Go code.")
+	// TODO: Use this flag
+	root   = flag.String("root", "github.com/go-fed/activity/", "Go import path prefix for generated packages")
+	xmlpkg = flag.String("xmlpkg", "github.com/go-fed/activity/tools/exp/ref/xml", "Go package location for known XML references")
+	rdfpkg = flag.String("rdfpkg", "github.com/go-fed/activity/tools/exp/ref/rdf", "Go package location for known RDF references")
+	// TODO: Use this flag
+	writeWellKnown = flag.Bool("write-well-known", false, "When true, also outputs well-known specifications to './ref' subdirectories (ex: XML, RDF)")
 )
 
+type list []string
+
+func (l *list) String() string {
+	return strings.Join(*l, ",")
+}
+
+func (l *list) Set(v string) error {
+	vals := strings.Split(v, ",")
+	*l = append(*l, vals...)
+	return nil
+}
+
 func main() {
+	var ref list
+	var refspec list
+	var refpkg list
+	flag.Var(&ref, "ref", "Input JSON-LD specification of other referenced specifications. Must be the same size and in the same order as the 'refspec' and 'refpkg' flags")
+	flag.Var(&refspec, "refspec", "Base URL for other referenced specifications. Must be the same size and in the same order as the 'ref' and 'refpkg' flags")
+	flag.Var(&refpkg, "refpkg", "Golang package location for other referenced specifications. Must be the same size and in the same order as the 'ref' and 'refspec' flags")
 	flag.Parse()
+	// TODO: Flag validation
 
 	b, err := ioutil.ReadFile(*input)
 	if err != nil {
@@ -51,5 +79,28 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("done\n%s\n", p)
+	c := &convert.Converter{
+		Registry:              registry,
+		VocabularyRoot:        "as",
+		PropertyPackagePolicy: convert.PropertyFlatUnderRoot,
+		PropertyPackageRoot:   "props",
+		TypePackagePolicy:     convert.TypeFlatUnderRoot,
+		TypePackageRoot:       "types",
+	}
+	f, err := c.Convert(p)
+	if err != nil {
+		panic(err)
+	}
+	for _, file := range f {
+		file.F.ImportName(*xmlpkg, "xml")
+		file.F.ImportName(*rdfpkg, "rdf")
+		if e := os.MkdirAll("./"+file.Directory, 0777); e != nil {
+			panic(e)
+		}
+		if e := file.F.Save("./" + file.Directory + file.FileName); e != nil {
+			panic(e)
+		}
+	}
+	fmt.Printf("done")
+	// fmt.Printf("done\n%s\n", p)
 }
