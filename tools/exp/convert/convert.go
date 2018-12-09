@@ -5,6 +5,7 @@ import (
 	"github.com/cjslep/activity/tools/exp/props"
 	"github.com/cjslep/activity/tools/exp/rdf"
 	"github.com/cjslep/activity/tools/exp/types"
+	"github.com/dave/jennifer/jen"
 	"strings"
 )
 
@@ -27,8 +28,17 @@ func newVocabulary() vocabulary {
 type PropertyPackagePolicy int
 
 const (
-	FlatUnderRoot PropertyPackagePolicy = iota
-	IndividualUnderRoot
+	PropertyFlatUnderRoot PropertyPackagePolicy = iota
+	PropertyIndividualUnderRoot
+	PropertyFlatUnderVocabularyRoot
+)
+
+type TypePackagePolicy int
+
+const (
+	TypeFlatUnderRoot TypePackagePolicy = iota
+	TypeIndividualUnderRoot
+	TypeFlatUnderVocabularyRoot
 )
 
 type Converter struct {
@@ -36,9 +46,21 @@ type Converter struct {
 	VocabularyRoot        string
 	PropertyPackagePolicy PropertyPackagePolicy
 	PropertyPackageRoot   string
+	TypePackageRoot       string
+	TypePackagePolicy     TypePackagePolicy
 }
 
-func (c Converter) convert(p *rdf.ParsedVocabulary) (v vocabulary, e error) {
+func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*jen.File, e error) {
+	var v vocabulary
+	v, e = c.convertVocabulary(p)
+	if e != nil {
+		return
+	}
+	// TODO
+	return
+}
+
+func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e error) {
 	v = newVocabulary()
 	for k, val := range p.Vocab.Values {
 		v.Kinds[k] = c.convertValue(val)
@@ -53,7 +75,93 @@ func (c Converter) convert(p *rdf.ParsedVocabulary) (v vocabulary, e error) {
 			return
 		}
 	}
-	// TODO: Types in dependency order.
+	// Instead of building a dependency tree, naively keep iterating through
+	// 'allTypes' until it is empty (good) or we get stuck (return error).
+	allTypes := make([]rdf.VocabularyType, 0, len(p.Vocab.Types))
+	for _, t := range p.Vocab.Types {
+		allTypes = append(allTypes, t)
+	}
+	for {
+		if len(allTypes) == 0 {
+			break
+		}
+		stuck := true
+		for _, t := range allTypes {
+			var tg *types.TypeGenerator
+			tg, e = c.convertType(t, p.Vocab, v.FProps, v.NFProps, v.Types)
+			if e != nil {
+				return
+			}
+			v.Types[t.Name] = tg
+		}
+		if stuck {
+			e = fmt.Errorf("converting types got stuck in dependency cycle")
+			return
+		}
+	}
+	return
+}
+
+func (c Converter) convertType(t rdf.VocabularyType,
+	v rdf.Vocabulary,
+	existingFProps map[string]*props.FunctionalPropertyGenerator,
+	existingNFProps map[string]*props.NonFunctionalPropertyGenerator,
+	existingTypes map[string]*types.TypeGenerator) (tg *types.TypeGenerator, e error) {
+	// Determine the types package name
+	var pkg string
+	pkg, e = c.typePackageName(t)
+	if e != nil {
+		return
+	}
+	// Determine the properties for this type
+	var p []types.Property
+	for k, prop := range v.Properties {
+		for _, ref := range prop.Domain {
+			if len(ref.Vocab) != 0 {
+				e = fmt.Errorf("unhandled use case: property domain outside its vocabulary")
+				return
+			} else if ref.Name == t.Name {
+				if prop.Functional {
+					p = append(p, existingFProps[prop.Name])
+				} else {
+					p = append(p, existingNFProps[prop.Name])
+				}
+				break
+			}
+		}
+	}
+	// Determine what this type extends
+	var ext []*types.TypeGenerator
+	for _, ex := range t.Extends {
+		if len(ex.Vocab) != 0 {
+			// TODO: This should be fixed
+			e = fmt.Errorf("unhandled use case: type extends another type outside its vocabulary")
+			return
+		} else {
+			ext = append(ext, existingTypes[ex.Name])
+		}
+	}
+	tg, e = types.NewTypeGenerator(
+		pkg,
+		strings.Title(t.Name), // Must be same in convertTypeToKind
+		t.Notes,
+		p,
+		ext,
+		nil)
+	if e != nil {
+		return
+	}
+	// Apply disjoint if both sides are available.
+	for _, disj := range t.DisjointWith {
+		if len(disj.Vocab) != 0 {
+			// TODO: This should be fixed
+			e = fmt.Errorf("unhandled use case: type is disjoint with another type outside its vocabulary")
+			return
+		} else if disjointType, ok := existingTypes[disj.Name]; ok {
+			disjointType.AddDisjoint(tg)
+			tg.AddDisjoint(disjointType)
+		}
+	}
 	return
 }
 
@@ -116,7 +224,7 @@ func (c Converter) convertValue(v rdf.VocabularyValue) (k *props.Kind) {
 func (c Converter) convertTypeToKind(v rdf.VocabularyType) (k *props.Kind) {
 	k = &props.Kind{
 		Name:         c.toIdentifier(v),
-		ConcreteKind: strings.Title(v.Name),
+		ConcreteKind: strings.Title(v.Name), // Must be same in convertType
 		Nilable:      true,
 		// TODO
 		SerializeFn:   types.SerializeFn,
@@ -172,12 +280,28 @@ func (c Converter) propertyKinds(v rdf.VocabularyProperty,
 	return
 }
 
+func (c Converter) typePackageName(v rdf.VocabularyType) (pkg string, e error) {
+	switch c.TypePackagePolicy {
+	case TypeFlatUnderRoot:
+		pkg = c.TypePackageRoot
+	case TypeIndividualUnderRoot:
+		pkg = v.Name
+	case TypeFlatUnderVocabularyRoot:
+		pkg = c.VocabularyRoot
+	default:
+		e = fmt.Errorf("unrecognized TypePackagePolicy: %v", c.TypePackagePolicy)
+	}
+	return
+}
+
 func (c Converter) propertyPackageName(v rdf.VocabularyProperty) (pkg string, e error) {
 	switch c.PropertyPackagePolicy {
-	case FlatUnderRoot:
+	case PropertyFlatUnderRoot:
 		pkg = c.PropertyPackageRoot
-	case IndividualUnderRoot:
+	case PropertyIndividualUnderRoot:
 		pkg = v.Name
+	case PropertyFlatUnderVocabularyRoot:
+		pkg = c.VocabularyRoot
 	default:
 		e = fmt.Errorf("unrecognized PropertyPackagePolicy: %v", c.PropertyPackagePolicy)
 	}
@@ -185,12 +309,29 @@ func (c Converter) propertyPackageName(v rdf.VocabularyProperty) (pkg string, e 
 }
 
 // TODO: Use this?
+func (c Converter) typePackageFile(v rdf.VocabularyType) (pkg string, e error) {
+	switch c.TypePackagePolicy {
+	case TypeFlatUnderRoot:
+		pkg = fmt.Sprintf("%s/%s", c.VocabularyRoot, c.TypePackageRoot)
+	case TypeIndividualUnderRoot:
+		pkg = fmt.Sprintf("%s/%s/%s", c.VocabularyRoot, c.TypePackageRoot, v.Name)
+	case TypeFlatUnderVocabularyRoot:
+		pkg = c.VocabularyRoot
+	default:
+		e = fmt.Errorf("unrecognized TypePackagePolicy: %v", c.TypePackagePolicy)
+	}
+	return
+}
+
+// TODO: Use this?
 func (c Converter) propertyPackageFile(v rdf.VocabularyProperty) (pkg string, e error) {
 	switch c.PropertyPackagePolicy {
-	case FlatUnderRoot:
+	case PropertyFlatUnderRoot:
 		pkg = fmt.Sprintf("%s/%s", c.VocabularyRoot, c.PropertyPackageRoot)
-	case IndividualUnderRoot:
+	case PropertyIndividualUnderRoot:
 		pkg = fmt.Sprintf("%s/%s/%s", c.VocabularyRoot, c.PropertyPackageRoot, v.Name)
+	case PropertyFlatUnderVocabularyRoot:
+		pkg = c.VocabularyRoot
 	default:
 		e = fmt.Errorf("unrecognized PropertyPackagePolicy: %v", c.PropertyPackagePolicy)
 	}

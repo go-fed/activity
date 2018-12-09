@@ -83,6 +83,11 @@ func NewTypeGenerator(packageName, typeName, comment string,
 	return t, nil
 }
 
+// AddDisjoint adds another TypeGenerator that is disjoint to this one.
+func (t *TypeGenerator) AddDisjoint(o *TypeGenerator) {
+	t.disjoint = append(t.disjoint, o)
+}
+
 // Comment returns the comment for this type.
 func (t *TypeGenerator) Comment() string {
 	return t.comment
@@ -134,6 +139,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 	t.cacheOnce.Do(func() {
 		members := make([]jen.Code, 0, len(t.properties))
 		for name, property := range t.properties {
+			// TODO: Properties of parents that are extended, minus DoesNotApplyTo
 			members = append(members, jen.Id(name).Id(property.StructName()))
 		}
 		t.cachedStruct = codegen.NewStruct(
