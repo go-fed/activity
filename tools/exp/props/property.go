@@ -73,7 +73,10 @@ type Kind struct {
 //
 // It also properly handles the concept of generating Go code for property
 // iterators, which are needed for NonFunctional properties.
+//
+// TODO: Make this type private
 type PropertyGenerator struct {
+	// TODO: Make these private
 	Package               string
 	Name                  Identifier
 	Kinds                 []Kind

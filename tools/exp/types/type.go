@@ -8,11 +8,14 @@ import (
 )
 
 const (
-	typeInterfaceName  = "Type"
-	extendedByMethod   = "IsExtendedBy"
-	extendsMethod      = "Extends"
-	disjointWithMethod = "IsDisjointWith"
-	nameMethod         = "Name"
+	typeInterfaceName   = "Type"
+	extendedByMethod    = "IsExtendedBy"
+	extendsMethod       = "Extends"
+	disjointWithMethod  = "IsDisjointWith"
+	nameMethod          = "Name"
+	serializeMethodName = "Serialize"
+	deserializeFnName   = "Deserialize"
+	lessFnName          = "Less"
 )
 
 // TypeInterface returns the Type Interface that is needed for ActivityStream
@@ -29,6 +32,16 @@ func TypeInterface(pkg string) *codegen.Interface {
 		},
 	}
 	return codegen.NewInterface(pkg, typeInterfaceName, funcs, comment)
+}
+
+// KindSerializationFuncs returns free function references that can be used to
+// treat a TypeGenerator as another property's Kind.
+func KindSerializationFuncs(pkg, typeName string) (ser, deser, less codegen.Function) {
+	s, d, l := kindSerializationFuncs(pkg, typeName)
+	ser = *s
+	deser = *d
+	less = *l
+	return
 }
 
 // Property represents a property of an ActivityStreams type.
@@ -116,6 +129,12 @@ func (t *TypeGenerator) Disjoint() []*TypeGenerator {
 	return t.disjoint
 }
 
+// Properties returns the Properties of this type, mapped by their property
+// name.
+func (t *TypeGenerator) Properties() map[string]Property {
+	return t.properties
+}
+
 // extendsFnName determines the name of the Extends function, which
 // determines if this ActivityStreams type extends another one.
 func (t *TypeGenerator) extendsFnName() string {
@@ -137,25 +156,45 @@ func (t *TypeGenerator) disjointWithFnName() string {
 // Definition generates the golang code for this ActivityStreams type.
 func (t *TypeGenerator) Definition() *codegen.Struct {
 	t.cacheOnce.Do(func() {
-		members := make([]jen.Code, 0, len(t.properties))
-		for name, property := range t.properties {
-			// TODO: Properties of parents that are extended, minus DoesNotApplyTo
-			members = append(members, jen.Id(name).Id(property.StructName()))
-		}
+		members := t.members()
+		m := t.serializationMethod()
+		ser, deser, less := kindSerializationFuncs(t.packageName, t.TypeName())
 		t.cachedStruct = codegen.NewStruct(
 			jen.Commentf(t.Comment()),
 			t.TypeName(),
 			[]*codegen.Method{
 				t.nameDefinition(),
 				t.extendsDefinition(),
+				m,
 			},
 			[]*codegen.Function{
 				t.extendedByDefinition(),
 				t.disjointWithDefinition(),
+				ser,
+				deser,
+				less,
 			},
 			members)
 	})
 	return t.cachedStruct
+}
+
+func (t *TypeGenerator) members() (members []jen.Code) {
+	p := t.properties
+	// Properties of parents that are extended, minus DoesNotApplyTo
+	var extends []*TypeGenerator
+	extends = t.getAllParentExtends(extends, t)
+	for _, ext := range t.extends {
+		for k, v := range ext.Properties() {
+			p[k] = v
+		}
+		// TODO: DoesNotApplyTo
+	}
+	members = make([]jen.Code, 0, len(p))
+	for name, property := range p {
+		members = append(members, jen.Id(name).Id(property.StructName()))
+	}
+	return
 }
 
 // nameDefinition generates the golang method for returning the ActivityStreams
@@ -173,20 +212,25 @@ func (t *TypeGenerator) nameDefinition() *codegen.Method {
 		jen.Commentf("%s returns the name of this type.", nameMethod))
 }
 
-// getAllParentExtends recursivley determines all the parent types that this
+// getAllParentExtends recursively determines all the parent types that this
 // type extends from.
-func (t *TypeGenerator) getAllParentExtends(s []string, tg *TypeGenerator) {
+func (t *TypeGenerator) getAllParentExtends(s []*TypeGenerator, tg *TypeGenerator) []*TypeGenerator {
 	for _, e := range tg.Extends() {
-		s = append(s, e.TypeName())
-		t.getAllParentExtends(s, e)
+		s = append(s, e)
+		s = append(s, t.getAllParentExtends(s, e)...)
 	}
+	return s
 }
 
 // extendsDefinition generates the golang method for determining if this
 // ActivityStreams type extends another type. It requires the Type interface.
 func (t *TypeGenerator) extendsDefinition() *codegen.Method {
-	var extendNames []string
-	t.getAllParentExtends(extendNames, t)
+	var extends []*TypeGenerator
+	extends = t.getAllParentExtends(extends, t)
+	extendNames := make([]string, 0, len(extends))
+	for _, ext := range extends {
+		extendNames = append(extendNames, ext.TypeName())
+	}
 	extensions := make([]jen.Code, len(extendNames))
 	for i, e := range extendNames {
 		extensions[i] = jen.Lit(e)
@@ -301,4 +345,57 @@ func (t *TypeGenerator) disjointWithDefinition() *codegen.Function {
 		[]jen.Code{jen.Bool()},
 		impl,
 		jen.Commentf("%s returns true if the other provided type is disjoint with the %s type.", t.disjointWithFnName(), t.TypeName()))
+}
+
+func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
+	ser = codegen.NewCommentedValueMethod(
+		t.packageName,
+		serializeMethodName,
+		t.TypeName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Interface(), jen.Error()},
+		[]jen.Code{
+			// TODO
+		},
+		jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", serializeMethodName))
+	return
+}
+
+func kindSerializationFuncs(pkg, typeName string) (ser, deser, less *codegen.Function) {
+	serName := fmt.Sprintf("%s%s", serializeMethodName, typeName)
+	ser = codegen.NewCommentedFunction(
+		pkg,
+		serName,
+		[]jen.Code{jen.Id("s").Id(typeName)},
+		[]jen.Code{jen.Interface(), jen.Error()},
+		[]jen.Code{
+			jen.Return(
+				jen.Id("s").Dot(serializeMethodName).Call(),
+			),
+		},
+		jen.Commentf("%s calls %s on the %s type.", serName, serializeMethodName, typeName))
+	deserName := fmt.Sprintf("%s%s", deserializeFnName, typeName)
+	deser = codegen.NewCommentedFunction(
+		pkg,
+		deserName,
+		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
+		[]jen.Code{jen.Op("*").Id(typeName), jen.Error()},
+		[]jen.Code{
+			// TODO
+		},
+		jen.Commentf("%s creates a %s from a map representation that has been unmarshalled from a text or binary format.", deserName, typeName))
+	lessName := fmt.Sprintf("%s%s", lessFnName, typeName)
+	less = codegen.NewCommentedFunction(
+		pkg,
+		lessName,
+		[]jen.Code{
+			jen.Id("i"),
+			jen.Id("j").Op("*").Id(typeName),
+		},
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{
+			// TODO
+		},
+		jen.Commentf("%s computes which %s is lesser, with an arbitrary but stable determination", lessName, typeName))
+	return
 }

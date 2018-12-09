@@ -51,8 +51,8 @@ type Converter struct {
 }
 
 func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*jen.File, e error) {
-	var v vocabulary
-	v, e = c.convertVocabulary(p)
+	// var v vocabulary
+	_, e = c.convertVocabulary(p)
 	if e != nil {
 		return
 	}
@@ -115,7 +115,7 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	}
 	// Determine the properties for this type
 	var p []types.Property
-	for k, prop := range v.Properties {
+	for _, prop := range v.Properties {
 		for _, ref := range prop.Domain {
 			if len(ref.Vocab) != 0 {
 				e = fmt.Errorf("unhandled use case: property domain outside its vocabulary")
@@ -143,7 +143,7 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	}
 	tg, e = types.NewTypeGenerator(
 		pkg,
-		strings.Title(t.Name), // Must be same in convertTypeToKind
+		c.convertTypeToName(t),
 		t.Notes,
 		p,
 		ext,
@@ -221,17 +221,30 @@ func (c Converter) convertValue(v rdf.VocabularyValue) (k *props.Kind) {
 	return
 }
 
-func (c Converter) convertTypeToKind(v rdf.VocabularyType) (k *props.Kind) {
+func (c Converter) convertTypeToKind(v rdf.VocabularyType) (k *props.Kind, e error) {
+	var pkg string
+	pkg, e = c.typePackageName(v)
+	if e != nil {
+		return
+	}
+	s, d, l := types.KindSerializationFuncs(pkg, c.convertTypeToName(v))
 	k = &props.Kind{
-		Name:         c.toIdentifier(v),
-		ConcreteKind: strings.Title(v.Name), // Must be same in convertType
-		Nilable:      true,
-		// TODO
-		SerializeFn:   types.SerializeFn,
-		DeserializeFn: types.DeserializeFn,
-		LessFn:        types.LessFn,
+		Name:          c.toIdentifier(v),
+		ConcreteKind:  c.convertTypeToConcreteKind(v),
+		Nilable:       true,
+		SerializeFn:   s,
+		DeserializeFn: d,
+		LessFn:        l,
 	}
 	return
+}
+
+func (c Converter) convertTypeToName(v rdf.VocabularyType) string {
+	return strings.Title(v.Name)
+}
+
+func (c Converter) convertTypeToConcreteKind(v rdf.VocabularyType) string {
+	return "*" + c.convertTypeToName(v)
 }
 
 func (c Converter) propertyKinds(v rdf.VocabularyProperty,
@@ -246,7 +259,12 @@ func (c Converter) propertyKinds(v rdf.VocabularyProperty,
 					e = fmt.Errorf("cannot find own kind with name %q", r.Name)
 					return
 				} else {
-					k = append(k, *c.convertTypeToKind(t))
+					var kt *props.Kind
+					kt, e = c.convertTypeToKind(t)
+					if e != nil {
+						return
+					}
+					k = append(k, *kt)
 				}
 			} else {
 				// It is a Value of the vocabulary
@@ -269,7 +287,12 @@ func (c Converter) propertyKinds(v rdf.VocabularyProperty,
 					e = fmt.Errorf("cannot find kind with name %q in %s", r.Name, url)
 					return
 				} else {
-					k = append(k, *c.convertTypeToKind(t))
+					var kt *props.Kind
+					kt, e = c.convertTypeToKind(t)
+					if e != nil {
+						return
+					}
+					k = append(k, *kt)
 				}
 			} else {
 				// It is a Value of the vocabulary
