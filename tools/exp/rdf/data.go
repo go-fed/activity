@@ -131,12 +131,14 @@ var (
 
 // VocabularyType represents a single ActivityStream type in a vocabulary.
 type VocabularyType struct {
-	Name         string
-	URI          *url.URL
-	Notes        string
-	DisjointWith []VocabularyReference
-	Extends      []VocabularyReference
-	Examples     []VocabularyExample
+	Name              string
+	URI               *url.URL
+	Notes             string
+	DisjointWith      []VocabularyReference
+	Extends           []VocabularyReference
+	Examples          []VocabularyExample
+	Properties        []VocabularyReference
+	WithoutProperties []VocabularyReference
 }
 
 func (v VocabularyType) String() string {
