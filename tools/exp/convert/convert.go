@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/props"
 	"github.com/cjslep/activity/tools/exp/rdf"
-	"github.com/cjslep/activity/tools/exp/types"
 	"github.com/dave/jennifer/jen"
 	"strings"
 )
@@ -19,7 +18,7 @@ type vocabulary struct {
 	Kinds   map[string]*props.Kind
 	FProps  map[string]*props.FunctionalPropertyGenerator
 	NFProps map[string]*props.NonFunctionalPropertyGenerator
-	Types   map[string]*types.TypeGenerator
+	Types   map[string]*props.TypeGenerator
 }
 
 func newVocabulary() vocabulary {
@@ -27,7 +26,7 @@ func newVocabulary() vocabulary {
 		Kinds:   make(map[string]*props.Kind, 0),
 		FProps:  make(map[string]*props.FunctionalPropertyGenerator, 0),
 		NFProps: make(map[string]*props.NonFunctionalPropertyGenerator, 0),
-		Types:   make(map[string]*types.TypeGenerator, 0),
+		Types:   make(map[string]*props.TypeGenerator, 0),
 	}
 }
 
@@ -68,7 +67,7 @@ func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 
 func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 	for _, _ = range v.Kinds {
-		// TODO
+		// TODO: Implement
 	}
 	for _, i := range v.FProps {
 		var pkg string
@@ -131,6 +130,16 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 	return
 }
 
+// convertVocabulary works in a two-pass system: first converting all known
+// properties, and then the types.
+//
+// Due to the fact that properties rely on the Kind abstraction, and both
+// properties and types can be Kinds, this introduces tight coupling between
+// the two so that callbacks can fill in missing links in data that isn't known
+// beforehand (ex: how to serialize, deserialize, and compare types).
+//
+// This feels very hacky and could be decoupled using standard design patterns,
+// but since there is no need, it isn't addressed now.
 func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e error) {
 	v = newVocabulary()
 	for k, val := range p.Vocab.Values {
@@ -159,7 +168,7 @@ func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e e
 		stuck := true
 		for i, t := range allTypes {
 			if allExtendsAreIn(t, v.Types) {
-				var tg *types.TypeGenerator
+				var tg *props.TypeGenerator
 				tg, e = c.convertType(t, p.Vocab, v.FProps, v.NFProps, v.Types)
 				if e != nil {
 					return
@@ -173,7 +182,7 @@ func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e e
 			}
 		}
 		if stuck {
-			e = fmt.Errorf("converting types got stuck in dependency cycle")
+			e = fmt.Errorf("converting props got stuck in dependency cycle")
 			return
 		}
 	}
@@ -184,46 +193,70 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	v rdf.Vocabulary,
 	existingFProps map[string]*props.FunctionalPropertyGenerator,
 	existingNFProps map[string]*props.NonFunctionalPropertyGenerator,
-	existingTypes map[string]*types.TypeGenerator) (tg *types.TypeGenerator, e error) {
-	// Determine the types package name
+	existingTypes map[string]*props.TypeGenerator) (tg *props.TypeGenerator, e error) {
+	// Determine the props package name
 	var pkg string
 	pkg, e = c.typePackageName(t)
 	if e != nil {
 		return
 	}
 	// Determine the properties for this type
-	var p []types.Property
-	for _, prop := range v.Properties {
-		for _, ref := range prop.Domain {
-			if len(ref.Vocab) != 0 {
-				e = fmt.Errorf("unhandled use case: property domain outside its vocabulary")
-				return
-			} else if ref.Name == t.Name {
-				if prop.Functional {
-					p = append(p, existingFProps[prop.Name])
-				} else {
-					p = append(p, existingNFProps[prop.Name])
+	var p []props.Property
+	for _, prop := range t.Properties {
+		if len(prop.Vocab) != 0 {
+			e = fmt.Errorf("unhandled use case: property domain outside its vocabulary")
+			return
+		} else {
+			var property props.Property
+			var ok bool
+			property, ok = existingFProps[prop.Name]
+			if !ok {
+				property, ok = existingNFProps[prop.Name]
+				if !ok {
+					e = fmt.Errorf("cannot find property with name: %s", prop.Name)
+					return
 				}
-				break
 			}
+			p = append(p, property)
+		}
+	}
+	// Determine WithoutProperties for this type
+	var wop []props.Property
+	for _, prop := range t.WithoutProperties {
+		if len(prop.Vocab) != 0 {
+			e = fmt.Errorf("unhandled use case: withoutproperty domain outside its vocabulary")
+			return
+		} else {
+			var property props.Property
+			var ok bool
+			property, ok = existingFProps[prop.Name]
+			if !ok {
+				property, ok = existingNFProps[prop.Name]
+				if !ok {
+					e = fmt.Errorf("cannot find property with name: %s", prop.Name)
+					return
+				}
+			}
+			wop = append(wop, property)
 		}
 	}
 	// Determine what this type extends
-	var ext []*types.TypeGenerator
+	var ext []*props.TypeGenerator
 	for _, ex := range t.Extends {
 		if len(ex.Vocab) != 0 {
-			// TODO: This should be fixed
+			// TODO: This should be fixed to handle references
 			e = fmt.Errorf("unhandled use case: type extends another type outside its vocabulary")
 			return
 		} else {
 			ext = append(ext, existingTypes[ex.Name])
 		}
 	}
-	tg, e = types.NewTypeGenerator(
+	tg, e = props.NewTypeGenerator(
 		pkg,
 		c.convertTypeToName(t),
 		t.Notes,
 		p,
+		wop,
 		ext,
 		nil)
 	if e != nil {
@@ -232,7 +265,7 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	// Apply disjoint if both sides are available.
 	for _, disj := range t.DisjointWith {
 		if len(disj.Vocab) != 0 {
-			// TODO: This should be fixed
+			// TODO: This should be fixed to handle references
 			e = fmt.Errorf("unhandled use case: type is disjoint with another type outside its vocabulary")
 			return
 		} else if disjointType, ok := existingTypes[disj.Name]; ok {
@@ -300,19 +333,18 @@ func (c Converter) convertValue(v rdf.VocabularyValue) (k *props.Kind) {
 }
 
 func (c Converter) convertTypeToKind(v rdf.VocabularyType) (k *props.Kind, e error) {
-	var pkg string
-	pkg, e = c.typePackageName(v)
-	if e != nil {
-		return
-	}
-	s, d, l := types.KindSerializationFuncs(pkg, c.convertTypeToName(v))
 	k = &props.Kind{
-		Name:          c.toIdentifier(v),
-		ConcreteKind:  c.convertTypeToConcreteKind(v),
-		Nilable:       true,
-		SerializeFn:   s,
-		DeserializeFn: d,
-		LessFn:        l,
+		Name:         c.toIdentifier(v),
+		ConcreteKind: c.convertTypeToConcreteKind(v),
+		Nilable:      true,
+		// Instead of populating:
+		//   - SerializeFn
+		//   - DeserializeFn
+		//   - LessFn
+		//
+		// The TypeGenerator is responsible for calling setKindFns on
+		// the properties, to property wire a Property's Kind back to
+		// the Type's implementation.
 	}
 	return
 }
@@ -409,7 +441,7 @@ func (c Converter) propertyPackageName(v rdf.VocabularyProperty) (pkg string, e 
 	return
 }
 
-func (c Converter) typePackageDirectory(v *types.TypeGenerator) (dir string, e error) {
+func (c Converter) typePackageDirectory(v *props.TypeGenerator) (dir string, e error) {
 	switch c.TypePackagePolicy {
 	case TypeFlatUnderRoot:
 		dir = fmt.Sprintf("%s/%s/", c.VocabularyRoot, c.TypePackageRoot)
@@ -423,7 +455,7 @@ func (c Converter) typePackageDirectory(v *types.TypeGenerator) (dir string, e e
 	return
 }
 
-func (c Converter) typePackageFile(v *types.TypeGenerator) (pkg string, e error) {
+func (c Converter) typePackageFile(v *props.TypeGenerator) (pkg string, e error) {
 	switch c.TypePackagePolicy {
 	case TypeFlatUnderRoot:
 		pkg = fmt.Sprintf("%s/%s", c.VocabularyRoot, c.TypePackageRoot)
@@ -485,10 +517,10 @@ func (c Converter) isNilable(goType string) bool {
 	return goType[0] == '*'
 }
 
-func allExtendsAreIn(t rdf.VocabularyType, v map[string]*types.TypeGenerator) bool {
+func allExtendsAreIn(t rdf.VocabularyType, v map[string]*props.TypeGenerator) bool {
 	for _, e := range t.Extends {
 		if len(e.Vocab) != 0 {
-			// TODO: Handle references
+			// TODO: This should be fixed to handle references
 			return false
 		} else if _, ok := v[e.Name]; !ok {
 			return false

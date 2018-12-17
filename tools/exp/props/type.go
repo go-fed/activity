@@ -1,4 +1,4 @@
-package types
+package props
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ const (
 	extendedByMethod    = "IsExtendedBy"
 	extendsMethod       = "Extends"
 	disjointWithMethod  = "IsDisjointWith"
-	nameMethod          = "Name"
+	typeNameMethod      = "Name"
 	serializeMethodName = "Serialize"
 	deserializeFnName   = "Deserialize"
 	lessFnName          = "Less"
@@ -26,73 +26,34 @@ func TypeInterface(pkg string) *codegen.Interface {
 	comment := fmt.Sprintf("%s represents an ActivityStreams type.", typeInterfaceName)
 	funcs := []codegen.FunctionSignature{
 		{
-			Name:    nameMethod,
+			Name:    typeNameMethod,
 			Params:  nil,
 			Ret:     []jen.Code{jen.String()},
-			Comment: fmt.Sprintf("%s returns the ActivityStreams type name.", nameMethod),
+			Comment: fmt.Sprintf("%s returns the ActivityStreams type name.", typeNameMethod),
 		},
 	}
 	return codegen.NewInterface(pkg, typeInterfaceName, funcs, comment)
-}
-
-// KindSerializationFuncs returns free function references that can be used to
-// treat a TypeGenerator as another property's Kind.
-func KindSerializationFuncs(pkg, typeName string) (ser, deser, less *codegen.Function) {
-	serName := fmt.Sprintf("%s%s", serializeMethodName, typeName)
-	ser = codegen.NewCommentedFunction(
-		pkg,
-		serName,
-		[]jen.Code{jen.Id("s").Id(typeName)},
-		[]jen.Code{jen.Interface(), jen.Error()},
-		[]jen.Code{
-			jen.Return(
-				jen.Id("s").Dot(serializeMethodName).Call(),
-			),
-		},
-		jen.Commentf("%s calls %s on the %s type.", serName, serializeMethodName, typeName))
-	deserName := fmt.Sprintf("%s%s", deserializeFnName, typeName)
-	deser = codegen.NewCommentedFunction(
-		pkg,
-		deserName,
-		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
-		[]jen.Code{jen.Op("*").Id(typeName), jen.Error()},
-		[]jen.Code{
-			// TODO
-		},
-		jen.Commentf("%s creates a %s from a map representation that has been unmarshalled from a text or binary format.", deserName, typeName))
-	lessName := fmt.Sprintf("%s%s", lessFnName, typeName)
-	less = codegen.NewCommentedFunction(
-		pkg,
-		lessName,
-		[]jen.Code{
-			jen.Id("i"),
-			jen.Id("j").Op("*").Id(typeName),
-		},
-		[]jen.Code{jen.Bool()},
-		[]jen.Code{
-			// TODO
-		},
-		jen.Commentf("%s computes which %s is lesser, with an arbitrary but stable determination", lessName, typeName))
-	return
 }
 
 // Property represents a property of an ActivityStreams type.
 type Property interface {
 	PropertyName() string
 	StructName() string
+	SetKindFns(name string, ser, deser, less *codegen.Function) error
 }
 
 // TypeGenerator represents an ActivityStream type definition to generate in Go.
 type TypeGenerator struct {
-	packageName  string
-	typeName     string
-	comment      string
-	properties   map[string]Property
-	extends      []*TypeGenerator
-	disjoint     []*TypeGenerator
-	extendedBy   []*TypeGenerator
-	cacheOnce    sync.Once
-	cachedStruct *codegen.Struct
+	packageName       string
+	typeName          string
+	comment           string
+	properties        map[string]Property
+	withoutProperties map[string]Property
+	extends           []*TypeGenerator
+	disjoint          []*TypeGenerator
+	extendedBy        []*TypeGenerator
+	cacheOnce         sync.Once
+	cachedStruct      *codegen.Struct
 }
 
 // NewTypeGenerator creates a new generator for a specific ActivityStreams Core
@@ -105,15 +66,16 @@ type TypeGenerator struct {
 // All TypeGenerators must be created before the Definition method is called, to
 // ensure that type extension, in the inheritence sense, is properly set up.
 func NewTypeGenerator(packageName, typeName, comment string,
-	properties []Property,
+	properties, withoutProperties []Property,
 	extends, disjoint []*TypeGenerator) (*TypeGenerator, error) {
 	t := &TypeGenerator{
-		packageName: packageName,
-		typeName:    typeName,
-		comment:     comment,
-		properties:  make(map[string]Property, len(properties)),
-		extends:     extends,
-		disjoint:    disjoint,
+		packageName:       packageName,
+		typeName:          typeName,
+		comment:           comment,
+		properties:        make(map[string]Property, len(properties)),
+		withoutProperties: make(map[string]Property, len(withoutProperties)),
+		extends:           extends,
+		disjoint:          disjoint,
 	}
 	for _, property := range properties {
 		if _, has := t.properties[property.PropertyName()]; has {
@@ -121,9 +83,23 @@ func NewTypeGenerator(packageName, typeName, comment string,
 		}
 		t.properties[property.PropertyName()] = property
 	}
+	for _, wop := range withoutProperties {
+		if _, has := t.withoutProperties[wop.PropertyName()]; has {
+			return nil, fmt.Errorf("type already has withoutproperty with name %q", wop.PropertyName())
+		}
+		t.withoutProperties[wop.PropertyName()] = wop
+	}
 	// Complete doubly-linked extends/extendedBy lists.
 	for _, ext := range extends {
 		ext.extendedBy = append(ext.extendedBy, t)
+	}
+	// TODO: Fix: Only notify properties whose Range is this type, not the
+	// properties this type has (which is wrong and currently borken)
+	for _, property := range t.properties {
+		ser, deser, less := t.kindSerializationFuncs()
+		if err := property.SetKindFns(t.TypeName(), ser, deser, less); err != nil {
+			return nil, err
+		}
 	}
 	return t, nil
 }
@@ -167,6 +143,12 @@ func (t *TypeGenerator) Properties() map[string]Property {
 	return t.properties
 }
 
+// WithoutProperties returns the properties that do not apply to this type,
+// mapped by their property name.
+func (t *TypeGenerator) WithoutProperties() map[string]Property {
+	return t.withoutProperties
+}
+
 // extendsFnName determines the name of the Extends function, which
 // determines if this ActivityStreams type extends another one.
 func (t *TypeGenerator) extendsFnName() string {
@@ -190,7 +172,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 	t.cacheOnce.Do(func() {
 		members := t.members()
 		m := t.serializationMethod()
-		ser, deser, less := KindSerializationFuncs(t.packageName, t.TypeName())
+		ser, deser, less := t.kindSerializationFuncs()
 		t.cachedStruct = codegen.NewStruct(
 			jen.Commentf(t.Comment()),
 			t.TypeName(),
@@ -211,7 +193,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 	return t.cachedStruct
 }
 
-func (t *TypeGenerator) members() (members []jen.Code) {
+func (t *TypeGenerator) allProperties() map[string]Property {
 	p := t.properties
 	// Properties of parents that are extended, minus DoesNotApplyTo
 	var extends []*TypeGenerator
@@ -220,8 +202,17 @@ func (t *TypeGenerator) members() (members []jen.Code) {
 		for k, v := range ext.Properties() {
 			p[k] = v
 		}
-		// TODO: DoesNotApplyTo
 	}
+	for _, ext := range t.extends {
+		for k, _ := range ext.WithoutProperties() {
+			delete(p, k)
+		}
+	}
+	return p
+}
+
+func (t *TypeGenerator) members() (members []jen.Code) {
+	p := t.allProperties()
 	members = make([]jen.Code, 0, len(p))
 	for name, property := range p {
 		members = append(members, jen.Id(strings.Title(name)).Id(property.StructName()))
@@ -234,14 +225,14 @@ func (t *TypeGenerator) members() (members []jen.Code) {
 func (t *TypeGenerator) nameDefinition() *codegen.Method {
 	return codegen.NewCommentedValueMethod(
 		t.packageName,
-		nameMethod,
+		typeNameMethod,
 		t.TypeName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.String()},
 		[]jen.Code{
 			jen.Return(jen.Lit(t.TypeName())),
 		},
-		jen.Commentf("%s returns the name of this type.", nameMethod))
+		jen.Commentf("%s returns the name of this type.", typeNameMethod))
 }
 
 // getAllParentExtends recursively determines all the parent types that this
@@ -275,7 +266,7 @@ func (t *TypeGenerator) extendsDefinition() *codegen.Method {
 				jen.Id("ext"),
 			).Op(":=").Range().Id("extensions")).Block(
 				jen.If(
-					jen.Id("ext").Op("==").Id("other").Dot(nameMethod).Call(),
+					jen.Id("ext").Op("==").Id("other").Dot(typeNameMethod).Call(),
 				).Block(
 					jen.Return(jen.True()),
 				),
@@ -319,7 +310,7 @@ func (t *TypeGenerator) extendedByDefinition() *codegen.Function {
 				jen.Id("ext"),
 			).Op(":=").Range().Id("extensions")).Block(
 				jen.If(
-					jen.Id("ext").Op("==").Id("other").Dot(nameMethod).Call(),
+					jen.Id("ext").Op("==").Id("other").Dot(typeNameMethod).Call(),
 				).Block(
 					jen.Return(jen.True()),
 				),
@@ -363,7 +354,7 @@ func (t *TypeGenerator) disjointWithDefinition() *codegen.Function {
 				jen.Id("disjoint"),
 			).Op(":=").Range().Id("disjointWith")).Block(
 				jen.If(
-					jen.Id("disjoint").Op("==").Id("other").Dot(nameMethod).Call(),
+					jen.Id("disjoint").Op("==").Id("other").Dot(typeNameMethod).Call(),
 				).Block(
 					jen.Return(jen.True()),
 				),
@@ -379,6 +370,8 @@ func (t *TypeGenerator) disjointWithDefinition() *codegen.Function {
 		jen.Commentf("%s returns true if the other provided type is disjoint with the %s type.", t.disjointWithFnName(), t.TypeName()))
 }
 
+// serializationMethod returns the method needed to serialize a TypeGenerator as
+// a property.
 func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 	ser = codegen.NewCommentedValueMethod(
 		t.packageName,
@@ -388,7 +381,68 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 		[]jen.Code{jen.Interface(), jen.Error()},
 		[]jen.Code{
 			// TODO
+			jen.Commentf("TODO: Serialization code for %s", t.TypeName()),
 		},
 		jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", serializeMethodName))
+	return
+}
+
+// kindSerializationFuncs returns free function references that can be used to
+// treat a TypeGenerator as another property's Kind.
+func (t *TypeGenerator) kindSerializationFuncs() (ser, deser, less *codegen.Function) {
+	serName := fmt.Sprintf("%s%s", serializeMethodName, t.TypeName())
+	ser = codegen.NewCommentedFunction(
+		t.packageName,
+		serName,
+		[]jen.Code{jen.Id("s").Id(t.TypeName())},
+		[]jen.Code{jen.Interface(), jen.Error()},
+		[]jen.Code{
+			jen.Return(
+				jen.Id("s").Dot(serializeMethodName).Call(),
+			),
+		},
+		jen.Commentf("%s calls %s on the %s type.", serName, serializeMethodName, t.TypeName()))
+	deserName := fmt.Sprintf("%s%s", deserializeFnName, t.TypeName())
+	deserCode := jen.Empty()
+	for name := range t.allProperties() {
+		deserCode = deserCode.Add(
+			jen.If(
+				jen.List(
+					jen.Id("p"),
+					jen.Err(),
+					// TODO: Qual
+				).Op(":=").Qual("", deserializeFnName).Call(jen.Id("m")),
+				jen.Err().Op("!=").Nil(),
+			).Block(
+				jen.Return(jen.Nil(), jen.Err()),
+			).Else().Block(
+				jen.Id(codegen.This()).Dot(strings.Title(name)).Op(":=").Op("*").Id("p"),
+			))
+	}
+	deser = codegen.NewCommentedFunction(
+		t.packageName,
+		deserName,
+		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
+		[]jen.Code{jen.Op("*").Id(t.TypeName()), jen.Error()},
+		[]jen.Code{
+			jen.Id(codegen.This()).Op(":=").Op("&").Id(t.TypeName()).Values(),
+			deserCode,
+			jen.Return(jen.Id(codegen.This()), jen.Nil()),
+		},
+		jen.Commentf("%s creates a %s from a map representation that has been unmarshalled from a text or binary format.", deserName, t.TypeName()))
+	lessName := fmt.Sprintf("%s%s", lessFnName, t.TypeName())
+	less = codegen.NewCommentedFunction(
+		t.packageName,
+		lessName,
+		[]jen.Code{
+			jen.Id("i"),
+			jen.Id("j").Op("*").Id(t.TypeName()),
+		},
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{
+			// TODO
+			jen.Commentf("TODO: Less code for %s", t.TypeName()),
+		},
+		jen.Commentf("%s computes which %s is lesser, with an arbitrary but stable determination", lessName, t.TypeName()))
 	return
 }

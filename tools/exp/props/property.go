@@ -89,6 +89,27 @@ func (p *PropertyGenerator) packageName() string {
 	return p.Package
 }
 
+// SetKindFns allows TypeGenerators to later notify this Property what functions
+// to use when generating the serialization code.
+//
+// The name parameter must match the LowerName of an Identifier.
+//
+// This feels very hacky.
+func (p *PropertyGenerator) SetKindFns(name string, ser, deser, less *codegen.Function) error {
+	for _, kind := range p.Kinds {
+		if kind.Name.LowerName == name {
+			if kind.SerializeFn != nil || kind.DeserializeFn != nil || kind.LessFn != nil {
+				return fmt.Errorf("property kind already has serialization functions set for %q", name)
+			}
+			kind.SerializeFn = ser
+			kind.DeserializeFn = deser
+			kind.LessFn = less
+			return nil
+		}
+	}
+	return fmt.Errorf("cannot find property kind %q", name)
+}
+
 // StructName returns the name of the type, which may or may not be a struct,
 // to generate.
 func (p *PropertyGenerator) StructName() string {
@@ -105,9 +126,9 @@ func (p *PropertyGenerator) PropertyName() string {
 	return p.Name.LowerName
 }
 
-// deserializeFnName returns the identifier of the function that deserializes
+// DeserializeFnName returns the identifier of the function that deserializes
 // raw JSON into the generated Go type.
-func (p *PropertyGenerator) deserializeFnName() string {
+func (p *PropertyGenerator) DeserializeFnName() string {
 	if p.asIterator {
 		return fmt.Sprintf("%s%s", deserializeIteratorMethod, p.Name.CamelName)
 	}

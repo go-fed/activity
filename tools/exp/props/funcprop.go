@@ -320,7 +320,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, [
 		deserialize = append(deserialize,
 			codegen.NewCommentedFunction(
 				p.packageName(),
-				p.deserializeFnName(),
+				p.DeserializeFnName(),
 				[]jen.Code{jen.Id("i").Interface()},
 				[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 				[]jen.Code{
@@ -330,13 +330,13 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, [
 						jen.Nil(),
 					),
 				},
-				jen.Commentf("%s creates an iterator from an element that has been unmarshalled from a text or binary format.", p.deserializeFnName()),
+				jen.Commentf("%s creates an iterator from an element that has been unmarshalled from a text or binary format.", p.DeserializeFnName()),
 			))
 	} else {
 		deserialize = append(deserialize,
 			codegen.NewCommentedFunction(
 				p.packageName(),
-				p.deserializeFnName(),
+				p.DeserializeFnName(),
 				[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
 				[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 				[]jen.Code{
@@ -356,7 +356,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, [
 						jen.Nil(),
 					),
 				},
-				jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.deserializeFnName(), p.PropertyName()),
+				jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.DeserializeFnName(), p.PropertyName()),
 			))
 	}
 	return serialize, deserialize

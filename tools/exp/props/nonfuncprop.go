@@ -303,7 +303,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method
 			jen.List(
 				jen.Id("p"),
 				jen.Err(),
-			).Op(":=").Id(p.elementTypeGenerator().deserializeFnName()).Call(
+			).Op(":=").Id(p.elementTypeGenerator().DeserializeFnName()).Call(
 				jen.Id(variable),
 			),
 			jen.Err().Op("!=").Nil(),
@@ -324,7 +324,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method
 	deserialize := []*codegen.Function{
 		codegen.NewCommentedFunction(
 			p.packageName(),
-			p.deserializeFnName(),
+			p.DeserializeFnName(),
 			[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
 			[]jen.Code{jen.Id(p.StructName()), jen.Error()},
 			[]jen.Code{
@@ -364,7 +364,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method
 					jen.Nil(),
 				),
 			},
-			jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.deserializeFnName(), p.PropertyName()),
+			jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.DeserializeFnName(), p.PropertyName()),
 		),
 	}
 	return serialize, deserialize
