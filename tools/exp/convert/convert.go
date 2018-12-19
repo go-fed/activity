@@ -262,7 +262,12 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	if e != nil {
 		return
 	}
-	// Apply disjoint if both sides are available.
+	// Apply disjoint if both sides are available because the TypeGenerator
+	// does not know the entire vocabulary, so cannot do this lookup and
+	// create this connection for us.
+	//
+	// TODO: Pass in the disjoint and have the TypeGenerator complete the
+	// doubly-linked connection for us.
 	for _, disj := range t.DisjointWith {
 		if len(disj.Vocab) != 0 {
 			// TODO: This should be fixed to handle references
@@ -271,6 +276,33 @@ func (c Converter) convertType(t rdf.VocabularyType,
 		} else if disjointType, ok := existingTypes[disj.Name]; ok {
 			disjointType.AddDisjoint(tg)
 			tg.AddDisjoint(disjointType)
+		}
+	}
+	// Apply the type's KindSerializationFuncs to the property because there
+	// is no way for the TypeGenerator to know all properties who have a
+	// range of this type.
+	//
+	// TODO: Pass in these properties to the TypeGenerator constructor so it
+	// can build these double-links properly. Note this would also need to
+	// apply to referenced properties, possibly.
+	for _, prop := range existingFProps {
+		for _, kind := range prop.Kinds {
+			if kind.Name.LowerName == tg.TypeName() {
+				ser, deser, less := tg.KindSerializationFuncs()
+				if e = prop.SetKindFns(tg.TypeName(), ser, deser, less); e != nil {
+					return
+				}
+			}
+		}
+	}
+	for _, prop := range existingNFProps {
+		for _, kind := range prop.Kinds {
+			if kind.Name.LowerName == tg.TypeName() {
+				ser, deser, less := tg.KindSerializationFuncs()
+				if e = prop.SetKindFns(tg.TypeName(), ser, deser, less); e != nil {
+					return
+				}
+			}
 		}
 	}
 	return

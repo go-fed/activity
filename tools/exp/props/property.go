@@ -84,8 +84,8 @@ type PropertyGenerator struct {
 	asIterator            bool
 }
 
-// packageName returns the name of the package for the property to be generated.
-func (p *PropertyGenerator) packageName() string {
+// PackageName returns the name of the package for the property to be generated.
+func (p *PropertyGenerator) PackageName() string {
 	return p.Package
 }
 
@@ -96,7 +96,7 @@ func (p *PropertyGenerator) packageName() string {
 //
 // This feels very hacky.
 func (p *PropertyGenerator) SetKindFns(name string, ser, deser, less *codegen.Function) error {
-	for _, kind := range p.Kinds {
+	for i, kind := range p.Kinds {
 		if kind.Name.LowerName == name {
 			if kind.SerializeFn != nil || kind.DeserializeFn != nil || kind.LessFn != nil {
 				return fmt.Errorf("property kind already has serialization functions set for %q", name)
@@ -104,6 +104,7 @@ func (p *PropertyGenerator) SetKindFns(name string, ser, deser, less *codegen.Fu
 			kind.SerializeFn = ser
 			kind.DeserializeFn = deser
 			kind.LessFn = less
+			p.Kinds[i] = kind
 			return nil
 		}
 	}
@@ -200,7 +201,7 @@ func (p *PropertyGenerator) clearMethodName() string {
 func (p *PropertyGenerator) commonMethods() []*codegen.Method {
 	return []*codegen.Method{
 		codegen.NewCommentedValueMethod(
-			p.packageName(),
+			p.PackageName(),
 			nameMethod,
 			p.StructName(),
 			/*params=*/ nil,

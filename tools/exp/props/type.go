@@ -37,6 +37,7 @@ func TypeInterface(pkg string) *codegen.Interface {
 
 // Property represents a property of an ActivityStreams type.
 type Property interface {
+	PackageName() string
 	PropertyName() string
 	StructName() string
 	SetKindFns(name string, ser, deser, less *codegen.Function) error
@@ -65,6 +66,9 @@ type TypeGenerator struct {
 //
 // All TypeGenerators must be created before the Definition method is called, to
 // ensure that type extension, in the inheritence sense, is properly set up.
+// Additionally, all properties whose range is this type should have their
+// SetKindFns method called with this TypeGenerator's KindSerializationFuncs for
+// all code generation to correctly reference each other.
 func NewTypeGenerator(packageName, typeName, comment string,
 	properties, withoutProperties []Property,
 	extends, disjoint []*TypeGenerator) (*TypeGenerator, error) {
@@ -92,14 +96,6 @@ func NewTypeGenerator(packageName, typeName, comment string,
 	// Complete doubly-linked extends/extendedBy lists.
 	for _, ext := range extends {
 		ext.extendedBy = append(ext.extendedBy, t)
-	}
-	// TODO: Fix: Only notify properties whose Range is this type, not the
-	// properties this type has (which is wrong and currently borken)
-	for _, property := range t.properties {
-		ser, deser, less := t.kindSerializationFuncs()
-		if err := property.SetKindFns(t.TypeName(), ser, deser, less); err != nil {
-			return nil, err
-		}
 	}
 	return t, nil
 }
@@ -172,7 +168,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 	t.cacheOnce.Do(func() {
 		members := t.members()
 		m := t.serializationMethod()
-		ser, deser, less := t.kindSerializationFuncs()
+		ser, deser, less := t.KindSerializationFuncs()
 		t.cachedStruct = codegen.NewStruct(
 			jen.Commentf(t.Comment()),
 			t.TypeName(),
@@ -387,9 +383,9 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 	return
 }
 
-// kindSerializationFuncs returns free function references that can be used to
+// KindSerializationFuncs returns free function references that can be used to
 // treat a TypeGenerator as another property's Kind.
-func (t *TypeGenerator) kindSerializationFuncs() (ser, deser, less *codegen.Function) {
+func (t *TypeGenerator) KindSerializationFuncs() (ser, deser, less *codegen.Function) {
 	serName := fmt.Sprintf("%s%s", serializeMethodName, t.TypeName())
 	ser = codegen.NewCommentedFunction(
 		t.packageName,
@@ -404,20 +400,19 @@ func (t *TypeGenerator) kindSerializationFuncs() (ser, deser, less *codegen.Func
 		jen.Commentf("%s calls %s on the %s type.", serName, serializeMethodName, t.TypeName()))
 	deserName := fmt.Sprintf("%s%s", deserializeFnName, t.TypeName())
 	deserCode := jen.Empty()
-	for name := range t.allProperties() {
+	for name, prop := range t.allProperties() {
 		deserCode = deserCode.Add(
 			jen.If(
 				jen.List(
 					jen.Id("p"),
 					jen.Err(),
-					// TODO: Qual
-				).Op(":=").Qual("", deserializeFnName).Call(jen.Id("m")),
+				).Op(":=").Qual(prop.PackageName(), deserializeMethod).Call(jen.Id("m")),
 				jen.Err().Op("!=").Nil(),
 			).Block(
 				jen.Return(jen.Nil(), jen.Err()),
 			).Else().Block(
-				jen.Id(codegen.This()).Dot(strings.Title(name)).Op(":=").Op("*").Id("p"),
-			))
+				jen.Id(codegen.This()).Dot(strings.Title(name)).Op("=").Op("*").Id("p"),
+			).Line())
 	}
 	deser = codegen.NewCommentedFunction(
 		t.packageName,
