@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
+	"sort"
 	"strings"
 	"sync"
 )
@@ -41,6 +42,7 @@ type Property interface {
 	PropertyName() string
 	StructName() string
 	SetKindFns(name string, ser, deser, less *codegen.Function) error
+	DeserializeFnName() string
 }
 
 // TypeGenerator represents an ActivityStream type definition to generate in Go.
@@ -174,10 +176,10 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 			t.TypeName(),
 			[]*codegen.Method{
 				t.nameDefinition(),
-				t.extendsDefinition(),
 				m,
 			},
 			[]*codegen.Function{
+				t.extendsDefinition(),
 				t.extendedByDefinition(),
 				t.disjointWithDefinition(),
 				ser,
@@ -207,11 +209,33 @@ func (t *TypeGenerator) allProperties() map[string]Property {
 	return p
 }
 
+// sortedProperty is a slice of Properties that implements the Sort interface.
+type sortedProperty []Property
+
+func (s sortedProperty) Less(i, j int) bool {
+	return s[i].PropertyName() < s[j].PropertyName()
+}
+
+func (s sortedProperty) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s sortedProperty) Len() int {
+	return len(s)
+}
+
 func (t *TypeGenerator) members() (members []jen.Code) {
 	p := t.allProperties()
+	// Sort the properties for readability
+	sortedMembers := make(sortedProperty, 0, len(p))
+	for _, property := range p {
+		sortedMembers = append(sortedMembers, property)
+	}
+	sort.Sort(sortedMembers)
+	// Convert to jen.Code
 	members = make([]jen.Code, 0, len(p))
-	for name, property := range p {
-		members = append(members, jen.Id(strings.Title(name)).Id(property.StructName()))
+	for _, property := range sortedMembers {
+		members = append(members, jen.Id(strings.Title(property.PropertyName())).Qual(property.PackageName(), property.StructName()))
 	}
 	return
 }
@@ -241,18 +265,18 @@ func (t *TypeGenerator) getAllParentExtends(s []*TypeGenerator, tg *TypeGenerato
 	return s
 }
 
-// extendsDefinition generates the golang method for determining if this
+// extendsDefinition generates the golang function for determining if this
 // ActivityStreams type extends another type. It requires the Type interface.
-func (t *TypeGenerator) extendsDefinition() *codegen.Method {
+func (t *TypeGenerator) extendsDefinition() *codegen.Function {
 	var extends []*TypeGenerator
 	extends = t.getAllParentExtends(extends, t)
-	extendNames := make([]string, 0, len(extends))
+	extendNames := make(map[string]struct{}, len(extends))
 	for _, ext := range extends {
-		extendNames = append(extendNames, ext.TypeName())
+		extendNames[ext.TypeName()] = struct{}{}
 	}
 	extensions := make([]jen.Code, len(extendNames))
-	for i, e := range extendNames {
-		extensions[i] = jen.Lit(e)
+	for e := range extendNames {
+		extensions = append(extensions, jen.Lit(e))
 	}
 	impl := []jen.Code{jen.Comment("Shortcut implementation: this does not extend anything."), jen.Return(jen.False())}
 	if len(extensions) > 0 {
@@ -269,10 +293,9 @@ func (t *TypeGenerator) extendsDefinition() *codegen.Method {
 			),
 			jen.Return(jen.False())}
 	}
-	return codegen.NewCommentedValueMethod(
+	return codegen.NewCommentedFunction(
 		t.packageName,
 		t.extendsFnName(),
-		t.TypeName(),
 		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		impl,
@@ -406,7 +429,7 @@ func (t *TypeGenerator) KindSerializationFuncs() (ser, deser, less *codegen.Func
 				jen.List(
 					jen.Id("p"),
 					jen.Err(),
-				).Op(":=").Qual(prop.PackageName(), deserializeMethod).Call(jen.Id("m")),
+				).Op(":=").Qual(prop.PackageName(), prop.DeserializeFnName()).Call(jen.Id("m")),
 				jen.Err().Op("!=").Nil(),
 			).Block(
 				jen.Return(jen.Nil(), jen.Err()),
