@@ -9,9 +9,13 @@ import (
 	"sync"
 )
 
+// TODO: Prevent circular dependency by somehow abstracting the requisite
+// functions between props and types.
+
 const (
 	typeInterfaceName   = "Type"
 	extendedByMethod    = "IsExtendedBy"
+	extendingMethod     = "IsExtending"
 	extendsMethod       = "Extends"
 	disjointWithMethod  = "IsDisjointWith"
 	typeNameMethod      = "Name"
@@ -171,16 +175,18 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 		members := t.members()
 		m := t.serializationMethod()
 		ser, deser, less := t.KindSerializationFuncs()
+		extendsFn, extendsMethod := t.extendsDefinition()
 		t.cachedStruct = codegen.NewStruct(
 			jen.Commentf(t.Comment()),
 			t.TypeName(),
 			[]*codegen.Method{
 				t.nameDefinition(),
+				extendsMethod,
 				m,
 			},
 			[]*codegen.Function{
-				t.extendsDefinition(),
 				t.extendedByDefinition(),
+				extendsFn,
 				t.disjointWithDefinition(),
 				ser,
 				deser,
@@ -267,7 +273,7 @@ func (t *TypeGenerator) getAllParentExtends(s []*TypeGenerator, tg *TypeGenerato
 
 // extendsDefinition generates the golang function for determining if this
 // ActivityStreams type extends another type. It requires the Type interface.
-func (t *TypeGenerator) extendsDefinition() *codegen.Function {
+func (t *TypeGenerator) extendsDefinition() (*codegen.Function, *codegen.Method) {
 	var extends []*TypeGenerator
 	extends = t.getAllParentExtends(extends, t)
 	extendNames := make(map[string]struct{}, len(extends))
@@ -293,13 +299,26 @@ func (t *TypeGenerator) extendsDefinition() *codegen.Function {
 			),
 			jen.Return(jen.False())}
 	}
-	return codegen.NewCommentedFunction(
+	f := codegen.NewCommentedFunction(
 		t.packageName,
 		t.extendsFnName(),
 		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		impl,
 		jen.Commentf("%s returns true if the %s type extends from the other type.", t.extendsFnName(), t.TypeName()))
+	m := codegen.NewCommentedValueMethod(
+		t.packageName,
+		extendingMethod,
+		t.TypeName(),
+		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{
+			jen.Return(
+				jen.Id(t.extendsFnName()).Call(jen.Id("other")),
+			),
+		},
+		jen.Commentf("%s returns true if the %s type extends from the other type.", extendingMethod, t.TypeName()))
+	return f, m
 }
 
 // getAllChildrenExtendBy recursivley determines all the child types that this
@@ -359,6 +378,8 @@ func (t *TypeGenerator) getAllDisjointWith(s []string) {
 // another ActivityStreams type is disjoint with this type. It requires the Type
 // interface.
 func (t *TypeGenerator) disjointWithDefinition() *codegen.Function {
+	// TODO: Inherit disjoint from parent and the other extended types of
+	// the other.
 	var disjointNames []string
 	t.getAllDisjointWith(disjointNames)
 	disjointWith := make([]jen.Code, len(disjointNames))

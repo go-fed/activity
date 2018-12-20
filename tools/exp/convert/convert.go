@@ -101,7 +101,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		}
 		file := jen.NewFilePath(pkg)
 		s, t := i.Definitions()
-		file.Add(s.Definition()).Add(t.Definition())
+		file.Add(s.Definition()).Line().Add(t.Definition())
 		f = append(f, &File{
 			F:         file,
 			FileName:  fmt.Sprintf("gen_%s.go", i.PropertyName()),
