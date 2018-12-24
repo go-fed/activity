@@ -2,8 +2,8 @@ package props
 
 import (
 	"fmt"
+	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
-	"github.com/go-fed/activity/tools/exp/codegen"
 )
 
 const (
@@ -59,13 +59,12 @@ type Identifier struct {
 // deserialize such types, compare the types, and other meta-information to use
 // during Go code generation.
 type Kind struct {
-	Name                  Identifier
-	ConcreteKind          string
-	Nilable               bool
-	HasNaturalLanguageMap bool
-	SerializeFn           codegen.Function
-	DeserializeFn         codegen.Function
-	LessFn                codegen.Function
+	Name          Identifier
+	ConcreteKind  string
+	Nilable       bool
+	SerializeFn   *codegen.Function
+	DeserializeFn *codegen.Function
+	LessFn        *codegen.Function
 }
 
 // PropertyGenerator is a common base struct used in both Functional and
@@ -74,7 +73,10 @@ type Kind struct {
 //
 // It also properly handles the concept of generating Go code for property
 // iterators, which are needed for NonFunctional properties.
+//
+// TODO: Make this type private
 type PropertyGenerator struct {
+	// TODO: Make these private
 	Package               string
 	Name                  Identifier
 	Kinds                 []Kind
@@ -82,9 +84,31 @@ type PropertyGenerator struct {
 	asIterator            bool
 }
 
-// packageName returns the name of the package for the property to be generated.
-func (p *PropertyGenerator) packageName() string {
+// PackageName returns the name of the package for the property to be generated.
+func (p *PropertyGenerator) PackageName() string {
 	return p.Package
+}
+
+// SetKindFns allows TypeGenerators to later notify this Property what functions
+// to use when generating the serialization code.
+//
+// The name parameter must match the LowerName of an Identifier.
+//
+// This feels very hacky.
+func (p *PropertyGenerator) SetKindFns(name string, ser, deser, less *codegen.Function) error {
+	for i, kind := range p.Kinds {
+		if kind.Name.LowerName == name {
+			if kind.SerializeFn != nil || kind.DeserializeFn != nil || kind.LessFn != nil {
+				return fmt.Errorf("property kind already has serialization functions set for %q", name)
+			}
+			kind.SerializeFn = ser
+			kind.DeserializeFn = deser
+			kind.LessFn = less
+			p.Kinds[i] = kind
+			return nil
+		}
+	}
+	return fmt.Errorf("cannot find property kind %q", name)
 }
 
 // StructName returns the name of the type, which may or may not be a struct,
@@ -103,9 +127,9 @@ func (p *PropertyGenerator) PropertyName() string {
 	return p.Name.LowerName
 }
 
-// deserializeFnName returns the identifier of the function that deserializes
+// DeserializeFnName returns the identifier of the function that deserializes
 // raw JSON into the generated Go type.
-func (p *PropertyGenerator) deserializeFnName() string {
+func (p *PropertyGenerator) DeserializeFnName() string {
 	if p.asIterator {
 		return fmt.Sprintf("%s%s", deserializeIteratorMethod, p.Name.CamelName)
 	}
@@ -177,7 +201,7 @@ func (p *PropertyGenerator) clearMethodName() string {
 func (p *PropertyGenerator) commonMethods() []*codegen.Method {
 	return []*codegen.Method{
 		codegen.NewCommentedValueMethod(
-			p.packageName(),
+			p.PackageName(),
 			nameMethod,
 			p.StructName(),
 			/*params=*/ nil,

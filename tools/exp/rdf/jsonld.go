@@ -11,6 +11,13 @@ const (
 	IdActivityStreamsSpec   = "id"
 	ContainerSpec           = "@container"
 	IndexSpec               = "@index"
+	// ActivityStreams specifically disallows the 'object' property on
+	// certain IntransitiveActivity and subtypes. There is no RDF mechanism
+	// to describe this. So this is a stupid hack, based on the assumption
+	// that no one -- W3C or otherwise -- will name a reserved word with a
+	// "@wtf_" prefix due to the reserved '@', the use of the unprofessional
+	// 'wtf', and a style-breaking underscore.
+	withoutPropertySpec = "@wtf_without_property"
 )
 
 // jsonLDNodes contains the well-known set of nodes as defined by the JSON-LD
@@ -54,6 +61,12 @@ func jsonLDNodes(r *RDFRegistry) []RDFNode {
 			Alias:    "",
 			Name:     IndexSpec,
 			Delegate: &IndexLD{},
+		},
+		&AliasedDelegate{
+			Spec:     "",
+			Alias:    "",
+			Name:     withoutPropertySpec,
+			Delegate: &withoutProperty{},
 		},
 	}
 }
@@ -148,4 +161,33 @@ func (i *IndexLD) Exit(key string, ctx *ParsingContext) (bool, error) {
 
 func (i *IndexLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
 	return true, nil
+}
+
+var _ RDFNode = &withoutProperty{}
+
+type withoutProperty struct{}
+
+func (w *withoutProperty) Enter(key string, ctx *ParsingContext) (bool, error) {
+	ctx.Push()
+	ctx.Current = &VocabularyReference{}
+	return true, nil
+}
+
+func (w *withoutProperty) Exit(key string, ctx *ParsingContext) (bool, error) {
+	i := ctx.Current
+	ctx.Pop()
+	vr, ok := i.(*VocabularyReference)
+	if !ok {
+		return true, fmt.Errorf("hacky withoutProperty exit did not get *rdf.VocabularyReference")
+	}
+	vp, ok := ctx.Current.(*VocabularyProperty)
+	if !ok {
+		return true, fmt.Errorf("hacky withoutProperty exit Current is not *rdf.VocabularyProperty")
+	}
+	vp.DoesNotApplyTo = append(vp.DoesNotApplyTo, *vr)
+	return true, nil
+}
+
+func (w *withoutProperty) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
+	return true, fmt.Errorf("hacky withoutProperty cannot be applied")
 }

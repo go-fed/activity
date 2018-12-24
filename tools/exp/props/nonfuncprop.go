@@ -2,8 +2,8 @@ package props
 
 import (
 	"fmt"
+	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
-	"github.com/go-fed/activity/tools/exp/codegen"
 	"sync"
 )
 
@@ -90,7 +90,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		prependMethodName := fmt.Sprintf("%s%s", prependMethod, p.kindCamelName(i))
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
-				p.packageName(),
+				p.PackageName(),
 				prependMethodName,
 				p.StructName(),
 				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
@@ -108,7 +108,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		appendMethodName := fmt.Sprintf("%s%s", appendMethod, p.kindCamelName(i))
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
-				p.packageName(),
+				p.PackageName(),
 				appendMethodName,
 				p.StructName(),
 				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
@@ -140,7 +140,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Remove Method
 	methods = append(methods,
 		codegen.NewCommentedPointerMethod(
-			p.packageName(),
+			p.PackageName(),
 			removeMethod,
 			p.StructName(),
 			[]jen.Code{jen.Id("idx").Int()},
@@ -176,7 +176,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Len Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
-			p.packageName(),
+			p.PackageName(),
 			lenMethod,
 			p.StructName(),
 			/*params=*/ nil,
@@ -192,7 +192,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Swap Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
-			p.packageName(),
+			p.PackageName(),
 			swapMethod,
 			p.StructName(),
 			[]jen.Code{
@@ -213,7 +213,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Less Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
-			p.packageName(),
+			p.PackageName(),
 			lessMethod,
 			p.StructName(),
 			[]jen.Code{
@@ -235,7 +235,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Kind Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
-			p.packageName(),
+			p.PackageName(),
 			kindIndexMethod,
 			p.StructName(),
 			[]jen.Code{jen.Id("idx").Int()},
@@ -255,7 +255,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, []*codegen.Function) {
 	serialize := []*codegen.Method{
 		codegen.NewCommentedValueMethod(
-			p.packageName(),
+			p.PackageName(),
 			p.serializeFnName(),
 			p.StructName(),
 			/*params=*/ nil,
@@ -303,7 +303,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method
 			jen.List(
 				jen.Id("p"),
 				jen.Err(),
-			).Op(":=").Id(p.elementTypeGenerator().deserializeFnName()).Call(
+			).Op(":=").Id(p.elementTypeGenerator().DeserializeFnName()).Call(
 				jen.Id(variable),
 			),
 			jen.Err().Op("!=").Nil(),
@@ -323,8 +323,8 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method
 	}
 	deserialize := []*codegen.Function{
 		codegen.NewCommentedFunction(
-			p.packageName(),
-			p.deserializeFnName(),
+			p.PackageName(),
+			p.DeserializeFnName(),
 			[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
 			[]jen.Code{jen.Id(p.StructName()), jen.Error()},
 			[]jen.Code{
@@ -364,7 +364,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method
 					jen.Nil(),
 				),
 			},
-			jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.deserializeFnName(), p.PropertyName()),
+			jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.DeserializeFnName(), p.PropertyName()),
 		),
 	}
 	return serialize, deserialize

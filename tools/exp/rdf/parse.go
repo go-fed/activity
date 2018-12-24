@@ -73,7 +73,7 @@ func (p *ParsingContext) Push() {
 func (p *ParsingContext) Pop() {
 	p.Current = p.Stack[0]
 	p.Stack = p.Stack[1:]
-	if ng, ok := p.Current.(nameGetter); ok {
+	if ng, ok := p.Current.(NameGetter); ok {
 		p.Name = ng.GetName()
 	}
 }
@@ -92,7 +92,7 @@ type NameSetter interface {
 	SetName(string)
 }
 
-type nameGetter interface {
+type NameGetter interface {
 	GetName() string
 }
 
@@ -133,12 +133,182 @@ func ParseVocabulary(registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVoc
 	// parser can understand things like types so that other nodes do not
 	// hijack processing.
 	nodes = append(jsonLDNodes(registry), nodes...)
+	// Step 1: Parse all core data, excluding:
+	//   - Value types
+	//   - Referenced types
+	//   - VocabularyType's 'Properties' and 'WithoutProperties' fields
+	//
+	// This is all horrible code but it works, so....
 	err = apply(nodes, input, ctx)
+	if err != nil {
+		return
+	}
+	// Step 2: Populate value and referenced types.
+	err = resolveReferences(registry, ctx)
+	if err != nil {
+		return
+	}
+	// Step 3: Populate VocabularyType's 'Properties' and
+	// 'WithoutProperties' fields
+	err = populatePropertiesOnTypes(ctx)
 	return
+}
+
+// populatePropertiesOnTypes populates the 'Properties' and 'WithoutProperties'
+// entries on a VocabularyType.
+func populatePropertiesOnTypes(ctx *ParsingContext) error {
+	for _, p := range ctx.Result.Vocab.Properties {
+		if err := populatePropertyOnTypes(p, "", ctx); err != nil {
+			return err
+		}
+	}
+	for vName, ref := range ctx.Result.References {
+		for _, p := range ref.Properties {
+			if err := populatePropertyOnTypes(p, vName, ctx); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+// populatePropertyOnTypes populates the VocabularyType's 'Properties' and
+// 'WithoutProperties' fields based on the 'Domain' and 'DoesNotApplyTo'.
+func populatePropertyOnTypes(p VocabularyProperty, vocabName string, ctx *ParsingContext) error {
+	ref := VocabularyReference{
+		Name:  p.Name,
+		URI:   p.URI,
+		Vocab: vocabName,
+	}
+	for _, d := range p.Domain {
+		if len(d.Vocab) == 0 {
+			t, ok := ctx.Result.Vocab.Types[d.Name]
+			if !ok {
+				return fmt.Errorf("cannot populate property on type %q for desired vocab", d.Name)
+			}
+			t.Properties = append(t.Properties, ref)
+			ctx.Result.Vocab.Types[d.Name] = t
+		} else {
+			v, ok := ctx.Result.References[d.Vocab]
+			if !ok {
+				return fmt.Errorf("cannot populate property on type for vocab %q", d.Vocab)
+			}
+			t, ok := v.Types[d.Name]
+			if !ok {
+				return fmt.Errorf("cannot populate property on type %q for vocab %q", d.Name, d.Vocab)
+			}
+			t.Properties = append(t.Properties, ref)
+			v.Types[d.Name] = t
+		}
+	}
+	for _, dna := range p.DoesNotApplyTo {
+		if len(dna.Vocab) == 0 {
+			t, ok := ctx.Result.Vocab.Types[dna.Name]
+			if !ok {
+				return fmt.Errorf("cannot populate withoutproperty on type %q for desired vocab", dna.Name)
+			}
+			t.WithoutProperties = append(t.WithoutProperties, ref)
+			ctx.Result.Vocab.Types[dna.Name] = t
+		} else {
+			v, ok := ctx.Result.References[dna.Vocab]
+			if !ok {
+				return fmt.Errorf("cannot populate withoutproperty on type for vocab %q", dna.Vocab)
+			}
+			t, ok := v.Types[dna.Name]
+			if !ok {
+				return fmt.Errorf("cannot populate withoutproperty on type %q for vocab %q", dna.Name, dna.Vocab)
+			}
+			t.WithoutProperties = append(t.WithoutProperties, ref)
+			v.Types[dna.Name] = t
+		}
+	}
+	return nil
+}
+
+// resolveReferences ensures that all references mentioned have been
+// successfully parsed, and if not attempts to search the ontologies for any
+// values, types, and properties that need to be referenced.
+//
+// Currently, this is the only way that values are added to the
+// ParsedVocabulary.
+func resolveReferences(registry *RDFRegistry, ctx *ParsingContext) error {
+	vocabulary := ctx.Result
+	for _, t := range vocabulary.Vocab.Types {
+		for _, ref := range t.DisjointWith {
+			if err := resolveReference(ref, registry, ctx); err != nil {
+				return err
+			}
+		}
+		for _, ref := range t.Extends {
+			if err := resolveReference(ref, registry, ctx); err != nil {
+				return err
+			}
+		}
+	}
+	for _, p := range vocabulary.Vocab.Properties {
+		for _, ref := range p.Domain {
+			if err := resolveReference(ref, registry, ctx); err != nil {
+				return err
+			}
+		}
+		for _, ref := range p.Range {
+			if err := resolveReference(ref, registry, ctx); err != nil {
+				return err
+			}
+		}
+		for _, ref := range p.DoesNotApplyTo {
+			if err := resolveReference(ref, registry, ctx); err != nil {
+				return err
+			}
+		}
+		if len(p.SubpropertyOf.Name) > 0 {
+			if err := resolveReference(p.SubpropertyOf, registry, ctx); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+// resolveReference will attempt to resolve the reference by either finding it
+// in the known References of the vocabulary, or load it from the registry. Will
+// fail if a reference is not found.
+func resolveReference(reference VocabularyReference, registry *RDFRegistry, ctx *ParsingContext) error {
+	name := reference.Name
+	vocab := &ctx.Result.Vocab
+	if len(reference.Vocab) > 0 {
+		name = joinAlias(reference.Vocab, reference.Name)
+		url, e := registry.ResolveAlias(reference.Vocab)
+		if e != nil {
+			return e
+		}
+		vocab = ctx.Result.GetReference(url)
+	}
+	if _, ok := vocab.Types[reference.Name]; ok {
+		return nil
+	} else if _, ok := vocab.Properties[reference.Name]; ok {
+		return nil
+	} else if _, ok := vocab.Values[reference.Name]; ok {
+		return nil
+	} else if n, e := registry.getNode(name); e != nil {
+		return e
+	} else {
+		applicable, e := n.Apply("", nil, ctx)
+		if !applicable {
+			return fmt.Errorf("cannot resolve reference with unapplicable node for %s", reference)
+		} else if e != nil {
+			return e
+		}
+		return nil
+	}
 }
 
 // apply takes a specification input to populate the ParsingContext, based on
 // the capabilities of the RDFNodes created from ontologies.
+//
+// This function will populate all non-value data in the Vocabulary. It does not
+// populate the 'Properties' nor the 'WithoutProperties' fields on any
+// VocabularyType.
 func apply(nodes []RDFNode, input JSONLD, ctx *ParsingContext) error {
 	// Hijacked processing: Process the rest of the data in this single
 	// node.
@@ -148,7 +318,6 @@ func apply(nodes []RDFNode, input JSONLD, ctx *ParsingContext) error {
 		} else {
 			return err
 		}
-		return nil
 	}
 	// Special processing: '@type' or 'type' if they are present
 	if v, ok := input[JSON_LD_TYPE]; ok {

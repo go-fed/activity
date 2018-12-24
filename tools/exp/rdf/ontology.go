@@ -2,17 +2,61 @@ package rdf
 
 import (
 	"fmt"
+	"github.com/cjslep/activity/tools/exp/codegen"
+	"github.com/dave/jennifer/jen"
+	"net/url"
 	"strings"
 )
 
 const (
 	rdfSpec        = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-	langstringSpec = "langstring"
+	langstringSpec = "langString"
 	propertySpec   = "Property"
-	valueSpec      = "value"
 )
 
-type RDFOntology struct{}
+func SerializeValueFunction(pkg, valueName string,
+	concreteType jen.Code,
+	impl []jen.Code) *codegen.Function {
+	name := fmt.Sprintf("Serialize%s", strings.Title(valueName))
+	return codegen.NewCommentedFunction(
+		pkg,
+		name,
+		[]jen.Code{jen.Id(codegen.This()).Add(concreteType)},
+		[]jen.Code{jen.Interface(), jen.Error()},
+		impl,
+		jen.Commentf("%s converts a %s value to an interface representation suitable for marshalling into a text or binary format.", name, valueName))
+}
+
+func DeserializeValueFunction(pkg, valueName string,
+	concreteType jen.Code,
+	impl []jen.Code) *codegen.Function {
+	name := fmt.Sprintf("Deserialize%s", strings.Title(valueName))
+	return codegen.NewCommentedFunction(
+		pkg,
+		name,
+		[]jen.Code{jen.Id(codegen.This()).Interface()},
+		[]jen.Code{concreteType, jen.Error()},
+		impl,
+		jen.Commentf("%s creates %s value from an interface representation that has been unmarshalled from a text or binary format.", name, valueName))
+}
+
+func LessFunction(pkg, valueName string,
+	concreteType jen.Code,
+	impl []jen.Code) *codegen.Function {
+	name := fmt.Sprintf("Less%s", strings.Title(valueName))
+	return codegen.NewCommentedFunction(
+		pkg,
+		name,
+		[]jen.Code{jen.List(jen.Id("lhs"), jen.Id("rhs")).Add(concreteType)},
+		[]jen.Code{jen.Bool()},
+		impl,
+		jen.Commentf("%s returns true if the left %s value is less than the right value.", name, valueName))
+}
+
+type RDFOntology struct {
+	Package string
+	alias   string
+}
 
 func (o *RDFOntology) SpecURI() string {
 	return rdfSpec
@@ -23,24 +67,19 @@ func (o *RDFOntology) Load() ([]RDFNode, error) {
 }
 
 func (o *RDFOntology) LoadAsAlias(s string) ([]RDFNode, error) {
+	o.alias = s
 	return []RDFNode{
 		&AliasedDelegate{
 			Spec:     rdfSpec,
 			Alias:    s,
 			Name:     langstringSpec,
-			Delegate: &langstring{},
+			Delegate: &langstring{pkg: o.Package, alias: o.alias},
 		},
 		&AliasedDelegate{
 			Spec:     rdfSpec,
 			Alias:    s,
 			Name:     propertySpec,
 			Delegate: &property{},
-		},
-		&AliasedDelegate{
-			Spec:     rdfSpec,
-			Alias:    s,
-			Name:     valueSpec,
-			Delegate: &value{},
 		},
 	}, nil
 }
@@ -53,7 +92,7 @@ func (o *RDFOntology) LoadSpecificAsAlias(alias, name string) ([]RDFNode, error)
 				Spec:     "",
 				Alias:    "",
 				Name:     alias,
-				Delegate: &langstring{},
+				Delegate: &langstring{pkg: o.Package, alias: o.alias},
 			},
 		}, nil
 	case propertySpec:
@@ -63,15 +102,6 @@ func (o *RDFOntology) LoadSpecificAsAlias(alias, name string) ([]RDFNode, error)
 				Alias:    "",
 				Name:     alias,
 				Delegate: &property{},
-			},
-		}, nil
-	case valueSpec:
-		return []RDFNode{
-			&AliasedDelegate{
-				Spec:     "",
-				Alias:    "",
-				Name:     alias,
-				Delegate: &value{},
 			},
 		}, nil
 	}
@@ -86,18 +116,19 @@ func (o *RDFOntology) GetByName(name string) (RDFNode, error) {
 	name = strings.TrimPrefix(name, o.SpecURI())
 	switch name {
 	case langstringSpec:
-		return &langstring{}, nil
+		return &langstring{pkg: o.Package, alias: o.alias}, nil
 	case propertySpec:
 		return &property{}, nil
-	case valueSpec:
-		return &value{}, nil
 	}
 	return nil, fmt.Errorf("rdf ontology could not find node for name %s", name)
 }
 
 var _ RDFNode = &langstring{}
 
-type langstring struct{}
+type langstring struct {
+	alias string
+	pkg   string
+}
 
 func (l *langstring) Enter(key string, ctx *ParsingContext) (bool, error) {
 	return true, fmt.Errorf("rdf langstring cannot be entered")
@@ -108,8 +139,47 @@ func (l *langstring) Exit(key string, ctx *ParsingContext) (bool, error) {
 }
 
 func (l *langstring) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
-	// TODO: Act as value
-	return true, fmt.Errorf("rdf langstring cannot be applied")
+	for k, p := range ctx.Result.Vocab.Properties {
+		for _, ref := range p.Range {
+			if ref.Name == langstringSpec && ref.Vocab == l.alias {
+				p.NaturalLanguageMap = true
+				ctx.Result.Vocab.Properties[k] = p
+				break
+			}
+		}
+	}
+	u, e := url.Parse(rdfSpec + langstringSpec)
+	if e != nil {
+		return true, e
+	}
+	e = ctx.Result.GetReference(rdfSpec).SetValue(langstringSpec, &VocabularyValue{
+		Name:           langstringSpec,
+		URI:            u,
+		DefinitionType: "map[string]string",
+		Zero:           "nil",
+		SerializeFn: SerializeValueFunction(
+			l.pkg,
+			langstringSpec,
+			jen.Map(jen.String()).String(),
+			[]jen.Code{
+				// TODO
+			}),
+		DeserializeFn: DeserializeValueFunction(
+			l.pkg,
+			langstringSpec,
+			jen.Map(jen.String()).String(),
+			[]jen.Code{
+				// TODO
+			}),
+		LessFn: LessFunction(
+			l.pkg,
+			langstringSpec,
+			jen.Map(jen.String()).String(),
+			[]jen.Code{
+				// TODO
+			}),
+	})
+	return true, e
 }
 
 var _ RDFNode = &property{}
@@ -134,21 +204,4 @@ func (p *property) Apply(key string, value interface{}, ctx *ParsingContext) (bo
 	}
 	ctx.Current = &VocabularyProperty{}
 	return true, nil
-}
-
-var _ RDFNode = &value{}
-
-type value struct{}
-
-func (v *value) Enter(key string, ctx *ParsingContext) (bool, error) {
-	return true, fmt.Errorf("rdf value cannot be entered")
-}
-
-func (v *value) Exit(key string, ctx *ParsingContext) (bool, error) {
-	return true, fmt.Errorf("rdf value cannot be exited")
-}
-
-func (v *value) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
-	// TODO: Act as value
-	return true, fmt.Errorf("rdf value cannot be applied")
 }
