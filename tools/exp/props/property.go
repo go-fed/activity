@@ -80,6 +80,7 @@ type PropertyGenerator struct {
 	// TODO: Make these private
 	Package               Package
 	Name                  Identifier
+	Comment               string
 	Kinds                 []Kind
 	HasNaturalLanguageMap bool
 	asIterator            bool
@@ -131,6 +132,11 @@ func (p *PropertyGenerator) InterfaceName() string {
 // identifiers.
 func (p *PropertyGenerator) PropertyName() string {
 	return p.Name.LowerName
+}
+
+// Comments returns the comment for this property.
+func (p *PropertyGenerator) Comments() string {
+	return p.Comment
 }
 
 // DeserializeFnName returns the identifier of the function that deserializes

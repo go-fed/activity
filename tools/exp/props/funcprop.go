@@ -24,6 +24,7 @@ type FunctionalPropertyGenerator struct {
 // other generators are constructed.
 func NewFunctionalPropertyGenerator(pkg Package,
 	name Identifier,
+	comment string,
 	kinds []Kind,
 	hasNaturalLanguageMap bool) *FunctionalPropertyGenerator {
 	return &FunctionalPropertyGenerator{
@@ -31,15 +32,24 @@ func NewFunctionalPropertyGenerator(pkg Package,
 			Package:               pkg,
 			HasNaturalLanguageMap: hasNaturalLanguageMap,
 			Name:                  name,
+			Comment:               comment,
 			Kinds:                 kinds,
 		},
 	}
 }
 
 // toInterface creates the interface version of the definition generated.
+//
+// TODO: Remove -- redundant?
 func (p *FunctionalPropertyGenerator) toInterface(pkg Package) *codegen.Interface {
 	s := p.Definition()
 	return s.ToInterface(pkg.Path(), p.InterfaceName(), "")
+}
+
+// InterfaceDefinition creates an interface definition in the provided package.
+func (p *FunctionalPropertyGenerator) InterfaceDefinition(pkg Package) *codegen.Interface {
+	s := p.Definition()
+	return s.ToInterface(pkg.Path(), p.InterfaceName(), p.Comments())
 }
 
 // isSingleTypeDef determines whether a special-case API can be generated for

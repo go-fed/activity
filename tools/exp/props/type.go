@@ -145,7 +145,7 @@ func (t *TypeGenerator) Package() Package {
 }
 
 // Comment returns the comment for this type.
-func (t *TypeGenerator) Comment() string {
+func (t *TypeGenerator) Comments() string {
 	return t.comment
 }
 
@@ -227,9 +227,20 @@ func (t *TypeGenerator) lessFnName() string {
 // toInterface creates the interface version of the definition generated.
 //
 // Requires apply to have already been called.
+//
+// TODO: Delete -- redundant?
 func (t *TypeGenerator) toInterface(pkg Package) *codegen.Interface {
 	s := t.Definition()
 	return s.ToInterface(pkg.Path(), t.InterfaceName(), "")
+}
+
+// InterfaceDefinition creates the interface of this type in the specified
+// package.
+//
+// Requires ManagerGenerator to have been created.
+func (t *TypeGenerator) InterfaceDefinition(pkg Package) *codegen.Interface {
+	s := t.Definition()
+	return s.ToInterface(pkg.Path(), t.InterfaceName(), t.Comments())
 }
 
 // Definition generates the golang code for this ActivityStreams type.
@@ -240,7 +251,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 		ser, deser, less := t.kindSerializationFuncs()
 		extendsFn, extendsMethod := t.extendsDefinition()
 		t.cachedStruct = codegen.NewStruct(
-			jen.Commentf(t.Comment()),
+			jen.Commentf(t.Comments()),
 			t.TypeName(),
 			[]*codegen.Method{
 				t.nameDefinition(),

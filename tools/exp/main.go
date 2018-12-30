@@ -5,8 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/convert"
-	"github.com/cjslep/activity/tools/exp/rdf"
 	"github.com/cjslep/activity/tools/exp/props"
+	"github.com/cjslep/activity/tools/exp/rdf"
 	"github.com/cjslep/activity/tools/exp/rdf/owl"
 	"github.com/cjslep/activity/tools/exp/rdf/rdfs"
 	"github.com/cjslep/activity/tools/exp/rdf/schema"
@@ -82,11 +82,11 @@ func main() {
 	}
 	c := &convert.Converter{
 		Registry:              registry,
-		VocabularyRoot:        props.NewPackageManager("as"),
+		VocabularyRoot:        props.NewPackageManager("gen/as"),
 		PropertyPackagePolicy: convert.PropertyFlatUnderRoot,
-		PropertyPackageRoot:   props.NewPackageManager("props"),
+		PropertyPackageRoot:   props.NewPackageManager("gen/as/props"),
 		TypePackagePolicy:     convert.TypeFlatUnderRoot,
-		TypePackageRoot:       props.NewPackageManager("types"),
+		TypePackageRoot:       props.NewPackageManager("gen/as/types"),
 	}
 	f, err := c.Convert(p)
 	if err != nil {
@@ -98,7 +98,7 @@ func main() {
 		if e := os.MkdirAll("./"+file.Directory, 0777); e != nil {
 			panic(e)
 		}
-		if e := file.F.Save("./" + file.Directory + file.FileName); e != nil {
+		if e := file.F.Save("./" + file.Directory + "/" + file.FileName); e != nil {
 			panic(e)
 		}
 	}

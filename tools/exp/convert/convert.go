@@ -100,12 +100,22 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		if e != nil {
 			return
 		}
+		// Implementation
 		dir := pm.PrivatePackage().Path()
 		file := jen.NewFilePath(dir)
 		file.Add(i.Definition().Definition())
 		f = append(f, &File{
 			F:         file,
 			FileName:  fmt.Sprintf("gen_%s.go", i.PropertyName()),
+			Directory: dir,
+		})
+		// Interface
+		dir = pm.PublicPackage().Path()
+		file = jen.NewFilePath(dir)
+		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
+		f = append(f, &File{
+			F:         file,
+			FileName:  fmt.Sprintf("gen_%s_interface.go", i.PropertyName()),
 			Directory: dir,
 		})
 	}
@@ -115,6 +125,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		if e != nil {
 			return
 		}
+		// Implementation
 		dir := pm.PrivatePackage().Path()
 		file := jen.NewFilePath(dir)
 		s, t := i.Definitions()
@@ -124,6 +135,17 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			FileName:  fmt.Sprintf("gen_%s.go", i.PropertyName()),
 			Directory: dir,
 		})
+		// TODO: Interface
+		dir = pm.PublicPackage().Path()
+		file = jen.NewFilePath(dir)
+		for _, intf := range i.InterfaceDefinitions(pm.PublicPackage()) {
+			file.Add(intf.Definition())
+		}
+		f = append(f, &File{
+			F:         file,
+			FileName:  fmt.Sprintf("gen_%s_interface.go", i.PropertyName()),
+			Directory: dir,
+		})
 	}
 	for _, i := range v.Types {
 		var pm *props.PackageManager
@@ -131,6 +153,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		if e != nil {
 			return
 		}
+		// Implementation
 		dir := pm.PrivatePackage().Path()
 		file := jen.NewFilePath(dir)
 		file.Add(i.Definition().Definition())
@@ -139,14 +162,23 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			FileName:  fmt.Sprintf("gen_%s.go", i.TypeName()),
 			Directory: dir,
 		})
+		// TODO: Interface
+		dir = pm.PublicPackage().Path()
+		file = jen.NewFilePath(dir)
+		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
+		f = append(f, &File{
+			F:         file,
+			FileName:  fmt.Sprintf("gen_%s_interface.go", i.TypeName()),
+			Directory: dir,
+		})
 	}
 	// TODO: For Manager
 	dir := c.VocabularyRoot.PrivatePackage().Path()
 	file := jen.NewFilePath(dir)
 	file.Add(v.Manager.PrivateManager().Definition())
 	f = append(f, &File{
-		F: file,
-		FileName: "gen_manager.go",
+		F:         file,
+		FileName:  "gen_manager.go",
 		Directory: dir,
 	})
 	return
@@ -342,6 +374,7 @@ func (c Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 	fp = props.NewFunctionalPropertyGenerator(
 		pkg,
 		c.toIdentifier(p),
+		p.Notes,
 		k,
 		p.NaturalLanguageMap)
 	return
@@ -372,9 +405,9 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 
 func (c Converter) convertValue(v rdf.VocabularyValue) (k *props.Kind) {
 	k = &props.Kind{
-		Name:          c.toIdentifier(v),
-		ConcreteKind:  v.DefinitionType,
-		Nilable:       c.isNilable(v.DefinitionType),
+		Name:         c.toIdentifier(v),
+		ConcreteKind: v.DefinitionType,
+		Nilable:      c.isNilable(v.DefinitionType),
 		// TODO
 		SerializeFn:   jen.Empty().Add(v.SerializeFn.Call()),
 		DeserializeFn: jen.Empty().Add(v.DeserializeFn.Call()),
