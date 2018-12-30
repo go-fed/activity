@@ -2,6 +2,7 @@ package codegen
 
 import (
 	"github.com/dave/jennifer/jen"
+	"unicode"
 )
 
 // join appends a bunch of Go Code together, each on their own line.
@@ -83,7 +84,9 @@ func (s *Struct) Constructors(name string) *Function {
 func (s *Struct) ToInterface(pkg, name, comment string) *Interface {
 	fns := make([]FunctionSignature, 0, len(s.methods))
 	for _, m := range s.methods {
-		fns = append(fns, m.ToFunctionSignature())
+		if unicode.IsUpper([]rune(m.Name())[0]) {
+			fns = append(fns, m.ToFunctionSignature())
+		}
 	}
 	return NewInterface(pkg, name, fns, comment)
 }

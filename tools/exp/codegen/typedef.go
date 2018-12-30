@@ -2,6 +2,7 @@ package codegen
 
 import (
 	"github.com/dave/jennifer/jen"
+	"unicode"
 )
 
 // Typedef defines a non-struct-based type, its functions, and its methods for
@@ -71,7 +72,9 @@ func (t *Typedef) Constructors(name string) *Function {
 func (t *Typedef) ToInterface(pkg, name, comment string) *Interface {
 	fns := make([]FunctionSignature, 0, len(t.methods))
 	for _, m := range t.methods {
-		fns = append(fns, m.ToFunctionSignature())
+		if unicode.IsUpper([]rune(m.Name())[0]) {
+			fns = append(fns, m.ToFunctionSignature())
+		}
 	}
 	return NewInterface(pkg, name, fns, comment)
 }
