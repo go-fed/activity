@@ -206,3 +206,12 @@ func (m Method) Call(on string, params ...jen.Code) jen.Code {
 func (m Method) Name() string {
 	return m.function.name
 }
+
+// ToFunctionSignature obtains this method's FunctionSignature.
+func (m Method) ToFunctionSignature() FunctionSignature {
+	return FunctionSignature{
+		Name:   m.Name(),
+		Params: m.function.params,
+		Ret:    m.function.ret,
+	}
+}

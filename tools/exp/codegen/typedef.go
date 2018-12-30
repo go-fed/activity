@@ -66,3 +66,12 @@ func (t *Typedef) Method(name string) *Method {
 func (t *Typedef) Constructors(name string) *Function {
 	return t.constructors[name]
 }
+
+// ToInterface creates an interface version of this typedef.
+func (t *Typedef) ToInterface(pkg, name, comment string) *Interface {
+	fns := make([]FunctionSignature, 0, len(t.methods))
+	for _, m := range t.methods {
+		fns = append(fns, m.ToFunctionSignature())
+	}
+	return NewInterface(pkg, name, fns, comment)
+}

@@ -59,12 +59,13 @@ type Identifier struct {
 // deserialize such types, compare the types, and other meta-information to use
 // during Go code generation.
 type Kind struct {
-	Name          Identifier
-	ConcreteKind  string
-	Nilable       bool
-	SerializeFn   *codegen.Function
-	DeserializeFn *codegen.Function
-	LessFn        *codegen.Function
+	Name         Identifier
+	ConcreteKind string
+	Nilable      bool
+	// Expected to be a jen.Qual
+	SerializeFn   *jen.Statement
+	DeserializeFn *jen.Statement
+	LessFn        *jen.Statement
 }
 
 // PropertyGenerator is a common base struct used in both Functional and
@@ -77,15 +78,15 @@ type Kind struct {
 // TODO: Make this type private
 type PropertyGenerator struct {
 	// TODO: Make these private
-	Package               string
+	Package               Package
 	Name                  Identifier
 	Kinds                 []Kind
 	HasNaturalLanguageMap bool
 	asIterator            bool
 }
 
-// PackageName returns the name of the package for the property to be generated.
-func (p *PropertyGenerator) PackageName() string {
+// GetPackage gets this property's Package.
+func (p *PropertyGenerator) GetPackage() Package {
 	return p.Package
 }
 
@@ -95,7 +96,7 @@ func (p *PropertyGenerator) PackageName() string {
 // The name parameter must match the LowerName of an Identifier.
 //
 // This feels very hacky.
-func (p *PropertyGenerator) SetKindFns(name string, ser, deser, less *codegen.Function) error {
+func (p *PropertyGenerator) SetKindFns(name string, ser, deser, less *jen.Statement) error {
 	for i, kind := range p.Kinds {
 		if kind.Name.LowerName == name {
 			if kind.SerializeFn != nil || kind.DeserializeFn != nil || kind.LessFn != nil {
@@ -118,6 +119,11 @@ func (p *PropertyGenerator) StructName() string {
 		return p.Name.CamelName
 	}
 	return fmt.Sprintf("%sProperty", p.Name.CamelName)
+}
+
+// InterfaceNAme returns the interface name of the property type.
+func (p *PropertyGenerator) InterfaceName() string {
+	return fmt.Sprintf("%sInterface", p.StructName())
 }
 
 // PropertyName returns the name of this property, as defined in
@@ -201,7 +207,7 @@ func (p *PropertyGenerator) clearMethodName() string {
 func (p *PropertyGenerator) commonMethods() []*codegen.Method {
 	return []*codegen.Method{
 		codegen.NewCommentedValueMethod(
-			p.PackageName(),
+			p.Package.Path(),
 			nameMethod,
 			p.StructName(),
 			/*params=*/ nil,

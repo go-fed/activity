@@ -19,6 +19,7 @@ type vocabulary struct {
 	FProps  map[string]*props.FunctionalPropertyGenerator
 	NFProps map[string]*props.NonFunctionalPropertyGenerator
 	Types   map[string]*props.TypeGenerator
+	Manager *props.ManagerGenerator
 }
 
 func newVocabulary() vocabulary {
@@ -28,6 +29,30 @@ func newVocabulary() vocabulary {
 		NFProps: make(map[string]*props.NonFunctionalPropertyGenerator, 0),
 		Types:   make(map[string]*props.TypeGenerator, 0),
 	}
+}
+
+func (v vocabulary) typeArray() []*props.TypeGenerator {
+	tg := make([]*props.TypeGenerator, 0, len(v.Types))
+	for _, t := range v.Types {
+		tg = append(tg, t)
+	}
+	return tg
+}
+
+func (v vocabulary) funcPropArray() []*props.FunctionalPropertyGenerator {
+	fp := make([]*props.FunctionalPropertyGenerator, 0, len(v.FProps))
+	for _, f := range v.FProps {
+		fp = append(fp, f)
+	}
+	return fp
+}
+
+func (v vocabulary) nonFuncPropArray() []*props.NonFunctionalPropertyGenerator {
+	nfp := make([]*props.NonFunctionalPropertyGenerator, 0, len(v.NFProps))
+	for _, nf := range v.NFProps {
+		nfp = append(nfp, nf)
+	}
+	return nfp
 }
 
 type PropertyPackagePolicy int
@@ -48,11 +73,11 @@ const (
 
 type Converter struct {
 	Registry              *rdf.RDFRegistry
-	VocabularyRoot        string
+	VocabularyRoot        *props.PackageManager
 	PropertyPackagePolicy PropertyPackagePolicy
-	PropertyPackageRoot   string
+	PropertyPackageRoot   *props.PackageManager
 	TypePackagePolicy     TypePackagePolicy
-	TypePackageRoot       string
+	TypePackageRoot       *props.PackageManager
 }
 
 func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
@@ -70,17 +95,13 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		// TODO: Implement
 	}
 	for _, i := range v.FProps {
-		var pkg string
-		pkg, e = c.propertyPackageFile(i)
+		var pm *props.PackageManager
+		pm, e = c.propertyPackageManager(i)
 		if e != nil {
 			return
 		}
-		var dir string
-		dir, e = c.propertyPackageDirectory(i)
-		if e != nil {
-			return
-		}
-		file := jen.NewFilePath(pkg)
+		dir := pm.PrivatePackage().Path()
+		file := jen.NewFilePath(dir)
 		file.Add(i.Definition().Definition())
 		f = append(f, &File{
 			F:         file,
@@ -89,17 +110,13 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		})
 	}
 	for _, i := range v.NFProps {
-		var pkg string
-		pkg, e = c.propertyPackageFile(i)
+		var pm *props.PackageManager
+		pm, e = c.propertyPackageManager(i)
 		if e != nil {
 			return
 		}
-		var dir string
-		dir, e = c.propertyPackageDirectory(i)
-		if e != nil {
-			return
-		}
-		file := jen.NewFilePath(pkg)
+		dir := pm.PrivatePackage().Path()
+		file := jen.NewFilePath(dir)
 		s, t := i.Definitions()
 		file.Add(s.Definition()).Line().Add(t.Definition())
 		f = append(f, &File{
@@ -109,17 +126,13 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		})
 	}
 	for _, i := range v.Types {
-		var pkg string
-		pkg, e = c.typePackageFile(i)
+		var pm *props.PackageManager
+		pm, e = c.typePackageManager(i)
 		if e != nil {
 			return
 		}
-		var dir string
-		dir, e = c.typePackageDirectory(i)
-		if e != nil {
-			return
-		}
-		file := jen.NewFilePath(pkg)
+		dir := pm.PrivatePackage().Path()
+		file := jen.NewFilePath(dir)
 		file.Add(i.Definition().Definition())
 		f = append(f, &File{
 			F:         file,
@@ -127,6 +140,15 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			Directory: dir,
 		})
 	}
+	// TODO: For Manager
+	dir := c.VocabularyRoot.PrivatePackage().Path()
+	file := jen.NewFilePath(dir)
+	file.Add(v.Manager.PrivateManager().Definition())
+	f = append(f, &File{
+		F: file,
+		FileName: "gen_manager.go",
+		Directory: dir,
+	})
 	return
 }
 
@@ -186,6 +208,11 @@ func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e e
 			return
 		}
 	}
+	v.Manager, e = props.NewManagerGenerator(
+		*c.VocabularyRoot,
+		v.typeArray(),
+		v.funcPropArray(),
+		v.nonFuncPropArray())
 	return
 }
 
@@ -195,11 +222,12 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	existingNFProps map[string]*props.NonFunctionalPropertyGenerator,
 	existingTypes map[string]*props.TypeGenerator) (tg *props.TypeGenerator, e error) {
 	// Determine the props package name
-	var pkg string
-	pkg, e = c.typePackageName(t)
+	var pm *props.PackageManager
+	pm, e = c.typePackageManager(t)
 	if e != nil {
 		return
 	}
+	pkg := pm.PrivatePackage()
 	// Determine the properties for this type
 	var p []props.Property
 	for _, prop := range t.Properties {
@@ -251,60 +279,48 @@ func (c Converter) convertType(t rdf.VocabularyType,
 			ext = append(ext, existingTypes[ex.Name])
 		}
 	}
-	tg, e = props.NewTypeGenerator(
-		pkg,
-		c.convertTypeToName(t),
-		t.Notes,
-		p,
-		wop,
-		ext,
-		nil)
-	if e != nil {
-		return
-	}
 	// Apply disjoint if both sides are available because the TypeGenerator
 	// does not know the entire vocabulary, so cannot do this lookup and
 	// create this connection for us.
-	//
-	// TODO: Pass in the disjoint and have the TypeGenerator complete the
-	// doubly-linked connection for us.
+	var disjoint []*props.TypeGenerator
 	for _, disj := range t.DisjointWith {
 		if len(disj.Vocab) != 0 {
 			// TODO: This should be fixed to handle references
 			e = fmt.Errorf("unhandled use case: type is disjoint with another type outside its vocabulary")
 			return
 		} else if disjointType, ok := existingTypes[disj.Name]; ok {
-			disjointType.AddDisjoint(tg)
-			tg.AddDisjoint(disjointType)
+			disjoint = append(disjoint, disjointType)
 		}
 	}
-	// Apply the type's KindSerializationFuncs to the property because there
-	// is no way for the TypeGenerator to know all properties who have a
-	// range of this type.
+	// Pass in properties whose range is this type so it can build
+	// references properly.
 	//
-	// TODO: Pass in these properties to the TypeGenerator constructor so it
-	// can build these double-links properly. Note this would also need to
-	// apply to referenced properties, possibly.
+	// TODO: Enable this for referenced properties.
+	name := c.convertTypeToName(t)
+	var rangeProps []props.Property
 	for _, prop := range existingFProps {
 		for _, kind := range prop.Kinds {
-			if kind.Name.LowerName == tg.TypeName() {
-				ser, deser, less := tg.KindSerializationFuncs()
-				if e = prop.SetKindFns(tg.TypeName(), ser, deser, less); e != nil {
-					return
-				}
+			if kind.Name.LowerName == name {
+				rangeProps = append(rangeProps, prop)
 			}
 		}
 	}
 	for _, prop := range existingNFProps {
 		for _, kind := range prop.Kinds {
-			if kind.Name.LowerName == tg.TypeName() {
-				ser, deser, less := tg.KindSerializationFuncs()
-				if e = prop.SetKindFns(tg.TypeName(), ser, deser, less); e != nil {
-					return
-				}
+			if kind.Name.LowerName == name {
+				rangeProps = append(rangeProps, prop)
 			}
 		}
 	}
+	tg, e = props.NewTypeGenerator(
+		pkg,
+		name,
+		t.Notes,
+		p,
+		wop,
+		rangeProps,
+		ext,
+		disjoint)
 	return
 }
 
@@ -317,11 +333,12 @@ func (c Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 	if e != nil {
 		return
 	}
-	var pkg string
-	pkg, e = c.propertyPackageName(p)
+	var pm *props.PackageManager
+	pm, e = c.propertyPackageManager(p)
 	if e != nil {
 		return
 	}
+	pkg := pm.PrivatePackage()
 	fp = props.NewFunctionalPropertyGenerator(
 		pkg,
 		c.toIdentifier(p),
@@ -339,11 +356,12 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 	if e != nil {
 		return
 	}
-	var pkg string
-	pkg, e = c.propertyPackageName(p)
+	var pm *props.PackageManager
+	pm, e = c.propertyPackageManager(p)
 	if e != nil {
 		return
 	}
+	pkg := pm.PrivatePackage()
 	nfp = props.NewNonFunctionalPropertyGenerator(
 		pkg,
 		c.toIdentifier(p),
@@ -357,9 +375,10 @@ func (c Converter) convertValue(v rdf.VocabularyValue) (k *props.Kind) {
 		Name:          c.toIdentifier(v),
 		ConcreteKind:  v.DefinitionType,
 		Nilable:       c.isNilable(v.DefinitionType),
-		SerializeFn:   v.SerializeFn,
-		DeserializeFn: v.DeserializeFn,
-		LessFn:        v.LessFn,
+		// TODO
+		SerializeFn:   jen.Empty().Add(v.SerializeFn.Call()),
+		DeserializeFn: jen.Empty().Add(v.DeserializeFn.Call()),
+		LessFn:        jen.Empty().Add(v.LessFn.Call()),
 	}
 	return
 }
@@ -445,12 +464,12 @@ func (c Converter) propertyKinds(v rdf.VocabularyProperty,
 	return
 }
 
-func (c Converter) typePackageName(v rdf.VocabularyType) (pkg string, e error) {
+func (c Converter) typePackageManager(v typeNamer) (pkg *props.PackageManager, e error) {
 	switch c.TypePackagePolicy {
 	case TypeFlatUnderRoot:
 		pkg = c.TypePackageRoot
 	case TypeIndividualUnderRoot:
-		pkg = v.Name
+		pkg = c.TypePackageRoot.Sub(v.TypeName())
 	case TypeFlatUnderVocabularyRoot:
 		pkg = c.VocabularyRoot
 	default:
@@ -459,12 +478,12 @@ func (c Converter) typePackageName(v rdf.VocabularyType) (pkg string, e error) {
 	return
 }
 
-func (c Converter) propertyPackageName(v rdf.VocabularyProperty) (pkg string, e error) {
+func (c Converter) propertyPackageManager(v propertyNamer) (pkg *props.PackageManager, e error) {
 	switch c.PropertyPackagePolicy {
 	case PropertyFlatUnderRoot:
 		pkg = c.PropertyPackageRoot
 	case PropertyIndividualUnderRoot:
-		pkg = v.Name
+		pkg = c.PropertyPackageRoot.Sub(v.PropertyName())
 	case PropertyFlatUnderVocabularyRoot:
 		pkg = c.VocabularyRoot
 	default:
@@ -473,33 +492,14 @@ func (c Converter) propertyPackageName(v rdf.VocabularyProperty) (pkg string, e 
 	return
 }
 
-func (c Converter) typePackageDirectory(v *props.TypeGenerator) (dir string, e error) {
-	switch c.TypePackagePolicy {
-	case TypeFlatUnderRoot:
-		dir = fmt.Sprintf("%s/%s/", c.VocabularyRoot, c.TypePackageRoot)
-	case TypeIndividualUnderRoot:
-		dir = fmt.Sprintf("%s/%s/%s/", c.VocabularyRoot, c.TypePackageRoot, v.TypeName())
-	case TypeFlatUnderVocabularyRoot:
-		dir = c.VocabularyRoot + "/"
-	default:
-		e = fmt.Errorf("unrecognized TypePackagePolicy: %v", c.TypePackagePolicy)
-	}
-	return
+type typeNamer interface {
+	TypeName() string
 }
 
-func (c Converter) typePackageFile(v *props.TypeGenerator) (pkg string, e error) {
-	switch c.TypePackagePolicy {
-	case TypeFlatUnderRoot:
-		pkg = fmt.Sprintf("%s/%s", c.VocabularyRoot, c.TypePackageRoot)
-	case TypeIndividualUnderRoot:
-		pkg = fmt.Sprintf("%s/%s/%s", c.VocabularyRoot, c.TypePackageRoot, v.TypeName())
-	case TypeFlatUnderVocabularyRoot:
-		pkg = c.VocabularyRoot
-	default:
-		e = fmt.Errorf("unrecognized TypePackagePolicy: %v", c.TypePackagePolicy)
-	}
-	return
-}
+var (
+	_ typeNamer = &props.TypeGenerator{}
+	_ typeNamer = &rdf.VocabularyType{}
+)
 
 type propertyNamer interface {
 	PropertyName() string
@@ -508,35 +508,8 @@ type propertyNamer interface {
 var (
 	_ propertyNamer = &props.FunctionalPropertyGenerator{}
 	_ propertyNamer = &props.NonFunctionalPropertyGenerator{}
+	_ propertyNamer = &rdf.VocabularyProperty{}
 )
-
-func (c Converter) propertyPackageDirectory(v propertyNamer) (dir string, e error) {
-	switch c.PropertyPackagePolicy {
-	case PropertyFlatUnderRoot:
-		dir = fmt.Sprintf("%s/%s/", c.VocabularyRoot, c.PropertyPackageRoot)
-	case PropertyIndividualUnderRoot:
-		dir = fmt.Sprintf("%s/%s/%s/", c.VocabularyRoot, c.PropertyPackageRoot, v.PropertyName())
-	case PropertyFlatUnderVocabularyRoot:
-		dir = c.VocabularyRoot + "/"
-	default:
-		e = fmt.Errorf("unrecognized PropertyPackagePolicy: %v", c.PropertyPackagePolicy)
-	}
-	return
-}
-
-func (c Converter) propertyPackageFile(v propertyNamer) (pkg string, e error) {
-	switch c.PropertyPackagePolicy {
-	case PropertyFlatUnderRoot:
-		pkg = fmt.Sprintf("%s/%s", c.VocabularyRoot, c.PropertyPackageRoot)
-	case PropertyIndividualUnderRoot:
-		pkg = fmt.Sprintf("%s/%s/%s", c.VocabularyRoot, c.PropertyPackageRoot, v.PropertyName())
-	case PropertyFlatUnderVocabularyRoot:
-		pkg = c.VocabularyRoot
-	default:
-		e = fmt.Errorf("unrecognized PropertyPackagePolicy: %v", c.PropertyPackagePolicy)
-	}
-	return
-}
 
 func (c Converter) toIdentifier(n rdf.NameGetter) props.Identifier {
 	return props.Identifier{

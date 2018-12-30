@@ -78,3 +78,12 @@ func (s *Struct) Method(name string) *Method {
 func (s *Struct) Constructors(name string) *Function {
 	return s.constructors[name]
 }
+
+// ToInterface creates an interface version of this struct.
+func (s *Struct) ToInterface(pkg, name, comment string) *Interface {
+	fns := make([]FunctionSignature, 0, len(s.methods))
+	for _, m := range s.methods {
+		fns = append(fns, m.ToFunctionSignature())
+	}
+	return NewInterface(pkg, name, fns, comment)
+}

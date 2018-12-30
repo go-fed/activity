@@ -20,7 +20,10 @@ type NonFunctionalPropertyGenerator struct {
 
 // NewNonFunctionalPropertyGenerator is a convenience constructor to create
 // NonFunctionalPropertyGenerators.
-func NewNonFunctionalPropertyGenerator(pkg string,
+//
+// PropertyGenerators shoulf be in the first pass to construct, before types and
+// other generators are constructed.
+func NewNonFunctionalPropertyGenerator(pkg Package,
 	name Identifier,
 	kinds []Kind,
 	hasNaturalLanguageMap bool) *NonFunctionalPropertyGenerator {
@@ -34,12 +37,25 @@ func NewNonFunctionalPropertyGenerator(pkg string,
 	}
 }
 
+// toInterfaces creates the interface versions of the definitions generated.
+func (p *NonFunctionalPropertyGenerator) toInterfaces(pkg Package) []*codegen.Interface {
+	s, t := p.Definitions()
+	return []*codegen.Interface{
+		s.ToInterface(pkg.Path(), p.InterfaceName(), ""),
+		t.ToInterface(pkg.Path(), p.elementTypeGenerator().InterfaceName(), ""),
+	}
+}
+
 // Definitions produces the Go code definitions, which can generate their Go
 // implementations. The struct is the iterator for various values of the
 // property, which is defined by the type definition.
 func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codegen.Typedef) {
 	p.cacheOnce.Do(func() {
-		methods, funcs := p.serializationFuncs()
+		var methods []*codegen.Method
+		var funcs []*codegen.Function
+		ser, deser := p.serializationFuncs()
+		methods = append(methods, ser)
+		funcs = append(funcs, deser)
 		methods = append(methods, p.funcs()...)
 		property := codegen.NewTypedef(
 			jen.Commentf("%s is the non-functional property %q. It is permitted to have one or more values, and of different value types.", p.StructName(), p.PropertyName()),
@@ -90,7 +106,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		prependMethodName := fmt.Sprintf("%s%s", prependMethod, p.kindCamelName(i))
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
-				p.PackageName(),
+				p.Package.Path(),
 				prependMethodName,
 				p.StructName(),
 				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
@@ -108,7 +124,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		appendMethodName := fmt.Sprintf("%s%s", appendMethod, p.kindCamelName(i))
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
-				p.PackageName(),
+				p.Package.Path(),
 				appendMethodName,
 				p.StructName(),
 				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
@@ -140,7 +156,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Remove Method
 	methods = append(methods,
 		codegen.NewCommentedPointerMethod(
-			p.PackageName(),
+			p.Package.Path(),
 			removeMethod,
 			p.StructName(),
 			[]jen.Code{jen.Id("idx").Int()},
@@ -176,7 +192,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Len Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
-			p.PackageName(),
+			p.Package.Path(),
 			lenMethod,
 			p.StructName(),
 			/*params=*/ nil,
@@ -192,7 +208,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Swap Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
-			p.PackageName(),
+			p.Package.Path(),
 			swapMethod,
 			p.StructName(),
 			[]jen.Code{
@@ -213,7 +229,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Less Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
-			p.PackageName(),
+			p.Package.Path(),
 			lessMethod,
 			p.StructName(),
 			[]jen.Code{
@@ -235,7 +251,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Kind Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
-			p.PackageName(),
+			p.Package.Path(),
 			kindIndexMethod,
 			p.StructName(),
 			[]jen.Code{jen.Id("idx").Int()},
@@ -252,52 +268,49 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 // serializationFuncs produces the Methods and Functions needed for a
 // NonFunctional property to be serialized and deserialized to and from an
 // encoding.
-func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method, []*codegen.Function) {
-	serialize := []*codegen.Method{
-		codegen.NewCommentedValueMethod(
-			p.PackageName(),
-			p.serializeFnName(),
-			p.StructName(),
-			/*params=*/ nil,
-			[]jen.Code{jen.Interface(), jen.Error()},
-			[]jen.Code{
-				jen.Id("s").Op(":=").Make(
-					jen.Index().Interface(),
-					jen.Lit(0),
-					jen.Len(jen.Id(codegen.This())),
-				),
-				jen.For(
+func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *codegen.Function) {
+	serialize := codegen.NewCommentedValueMethod(
+		p.Package.Path(),
+		p.serializeFnName(),
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Interface(), jen.Error()},
+		[]jen.Code{
+			jen.Id("s").Op(":=").Make(
+				jen.Index().Interface(),
+				jen.Lit(0),
+				jen.Len(jen.Id(codegen.This())),
+			),
+			jen.For(
+				jen.List(
+					jen.Id("_"),
+					jen.Id("iterator"),
+				).Op(":=").Range().Id(codegen.This()),
+			).Block(
+				jen.If(
 					jen.List(
-						jen.Id("_"),
-						jen.Id("iterator"),
-					).Op(":=").Range().Id(codegen.This()),
+						jen.Id("b"),
+						jen.Err(),
+					).Op(":=").Id("iterator").Dot(serializeIteratorMethod).Call(),
+					jen.Err().Op("!=").Nil(),
 				).Block(
-					jen.If(
-						jen.List(
-							jen.Id("b"),
-							jen.Err(),
-						).Op(":=").Id("iterator").Dot(serializeIteratorMethod).Call(),
-						jen.Err().Op("!=").Nil(),
-					).Block(
-						jen.Return(
-							jen.Id("s"),
-							jen.Err(),
-						),
-					).Else().Block(
-						jen.Id("s").Op("=").Append(
-							jen.Id("s"),
-							jen.Id("b"),
-						),
+					jen.Return(
+						jen.Id("s"),
+						jen.Err(),
+					),
+				).Else().Block(
+					jen.Id("s").Op("=").Append(
+						jen.Id("s"),
+						jen.Id("b"),
 					),
 				),
-				jen.Return(
-					jen.Id("s"),
-					jen.Nil(),
-				),
-			},
-			jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName()),
-		),
-	}
+			),
+			jen.Return(
+				jen.Id("s"),
+				jen.Nil(),
+			),
+		},
+		jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName()))
 	deserializeFn := func(variable string) jen.Code {
 		return jen.If(
 			jen.List(
@@ -321,51 +334,48 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() ([]*codegen.Method
 			),
 		)
 	}
-	deserialize := []*codegen.Function{
-		codegen.NewCommentedFunction(
-			p.PackageName(),
-			p.DeserializeFnName(),
-			[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
-			[]jen.Code{jen.Id(p.StructName()), jen.Error()},
-			[]jen.Code{
-				jen.Var().Id(codegen.This()).Index().Id(p.iteratorTypeName().CamelName),
+	deserialize := codegen.NewCommentedFunction(
+		p.Package.Path(),
+		p.DeserializeFnName(),
+		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
+		[]jen.Code{jen.Id(p.StructName()), jen.Error()},
+		[]jen.Code{
+			jen.Var().Id(codegen.This()).Index().Id(p.iteratorTypeName().CamelName),
+			jen.If(
+				jen.List(
+					jen.Id("i"),
+					jen.Id("ok"),
+				).Op(":=").Id("m").Index(
+					jen.Lit(p.PropertyName()),
+				),
+				jen.Id("ok"),
+			).Block(
 				jen.If(
 					jen.List(
-						jen.Id("i"),
+						jen.Id("list"),
 						jen.Id("ok"),
-					).Op(":=").Id("m").Index(
-						jen.Lit(p.PropertyName()),
+					).Op(":=").Id("i").Assert(
+						jen.Index().Interface(),
 					),
 					jen.Id("ok"),
 				).Block(
-					jen.If(
+					jen.For(
 						jen.List(
-							jen.Id("list"),
-							jen.Id("ok"),
-						).Op(":=").Id("i").Assert(
-							jen.Index().Interface(),
-						),
-						jen.Id("ok"),
+							jen.Id("_"),
+							jen.Id("iterator"),
+						).Op(":=").Range().Id("list"),
 					).Block(
-						jen.For(
-							jen.List(
-								jen.Id("_"),
-								jen.Id("iterator"),
-							).Op(":=").Range().Id("list"),
-						).Block(
-							deserializeFn("iterator"),
-						),
-					).Else().Block(
-						deserializeFn("i"),
+						deserializeFn("iterator"),
 					),
+				).Else().Block(
+					deserializeFn("i"),
 				),
-				jen.Return(
-					jen.Id(codegen.This()),
-					jen.Nil(),
-				),
-			},
-			jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.DeserializeFnName(), p.PropertyName()),
-		),
-	}
+			),
+			jen.Return(
+				jen.Id(codegen.This()),
+				jen.Nil(),
+			),
+		},
+		jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.DeserializeFnName(), p.PropertyName()))
 	return serialize, deserialize
 }

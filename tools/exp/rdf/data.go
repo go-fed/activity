@@ -153,6 +153,10 @@ func (v VocabularyType) GetName() string {
 	return v.Name
 }
 
+func (v VocabularyType) TypeName() string {
+	return v.Name
+}
+
 func (v *VocabularyType) SetURI(s string) error {
 	var e error
 	v.URI, e = url.Parse(s)
@@ -200,6 +204,10 @@ func (v *VocabularyProperty) SetName(s string) {
 }
 
 func (v VocabularyProperty) GetName() string {
+	return v.Name
+}
+
+func (v VocabularyProperty) PropertyName() string {
 	return v.Name
 }
 

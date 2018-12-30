@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/convert"
 	"github.com/cjslep/activity/tools/exp/rdf"
+	"github.com/cjslep/activity/tools/exp/props"
 	"github.com/cjslep/activity/tools/exp/rdf/owl"
 	"github.com/cjslep/activity/tools/exp/rdf/rdfs"
 	"github.com/cjslep/activity/tools/exp/rdf/schema"
@@ -81,11 +82,11 @@ func main() {
 	}
 	c := &convert.Converter{
 		Registry:              registry,
-		VocabularyRoot:        "as",
+		VocabularyRoot:        props.NewPackageManager("as"),
 		PropertyPackagePolicy: convert.PropertyFlatUnderRoot,
-		PropertyPackageRoot:   "props",
+		PropertyPackageRoot:   props.NewPackageManager("props"),
 		TypePackagePolicy:     convert.TypeFlatUnderRoot,
-		TypePackageRoot:       "types",
+		TypePackageRoot:       props.NewPackageManager("types"),
 	}
 	f, err := c.Convert(p)
 	if err != nil {
