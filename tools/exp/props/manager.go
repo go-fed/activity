@@ -57,7 +57,8 @@ type ManagerGenerator struct {
 // managedMethods caches the specific methods and interfaces mapped to specific
 // properties and types.
 type managedMethods struct {
-	deserializor       *codegen.Method
+	deserializor *codegen.Method
+	// TODO: Delete these?
 	publicDeserializor *codegen.Method
 	// Interface for a manager
 	mIface *codegen.Interface
@@ -203,6 +204,7 @@ func (m *ManagerGenerator) PrivateManager() *codegen.Struct {
 func (m *ManagerGenerator) createPrivateDeserializationMethodForType(tg *TypeGenerator) *codegen.Method {
 	dn := tg.deserializationFnName()
 	pkg := m.pm.PrivatePackage()
+	// TODO: Better naming scheme from package name
 	name := fmt.Sprintf("%s%s%s", dn, tg.PrivatePackage().Name(), strings.Title(pkg.Name()))
 	return codegen.NewCommentedValueMethod(
 		pkg.Path(),
@@ -233,6 +235,7 @@ func (m *ManagerGenerator) createPrivateDeserializationMethodForType(tg *TypeGen
 func (m *ManagerGenerator) createPrivateDeserializationMethodForFuncProperty(fp *FunctionalPropertyGenerator) *codegen.Method {
 	dn := fp.DeserializeFnName()
 	pkg := m.pm.PrivatePackage()
+	// TODO: Better naming scheme from package name
 	name := fmt.Sprintf("%s%s%s", dn, fp.Package.Name(), strings.Title(pkg.Name()))
 	return codegen.NewCommentedValueMethod(
 		pkg.Path(),
@@ -263,6 +266,7 @@ func (m *ManagerGenerator) createPrivateDeserializationMethodForFuncProperty(fp 
 func (m *ManagerGenerator) createPrivateDeserializationMethodForNonFuncProperty(nfp *NonFunctionalPropertyGenerator) *codegen.Method {
 	dn := nfp.DeserializeFnName()
 	pkg := m.pm.PrivatePackage()
+	// TODO: Better naming scheme from package name
 	name := fmt.Sprintf("%s%s%s", dn, nfp.Package.Name(), strings.Title(pkg.Name()))
 	return codegen.NewCommentedValueMethod(
 		pkg.Path(),

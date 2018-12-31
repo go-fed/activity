@@ -9,9 +9,6 @@ import (
 	"sync"
 )
 
-// TODO: Prevent circular dependency by somehow abstracting the requisite
-// functions between props and types.
-
 const (
 	typeInterfaceName   = "Type"
 	extendedByMethod    = "IsExtendedBy"
@@ -21,7 +18,7 @@ const (
 	typeNameMethod      = "Name"
 	serializeMethodName = "Serialize"
 	deserializeFnName   = "Deserialize"
-	lessFnName          = "Less"
+	typeLessMethod      = "LessThan"
 )
 
 // TypeInterface returns the Type Interface that is needed for ActivityStream
@@ -45,7 +42,7 @@ type Property interface {
 	GetPackage() Package
 	PropertyName() string
 	StructName() string
-	SetKindFns(name string, kind, ser, deser, less *jen.Statement) error
+	SetKindFns(name string, kind, deser *jen.Statement) error
 	DeserializeFnName() string
 }
 
@@ -128,13 +125,12 @@ func NewTypeGenerator(pm *PackageManager, typeName, comment string,
 func (t *TypeGenerator) apply(m *ManagerGenerator) error {
 	t.m = m
 	// Set up Kind functions
-	// TODO: Call serialize on an object instead of using a function.
-	ser := jen.Qual(t.PrivatePackage().Path(), t.serializationFnName())
-	deser := jen.Qual(m.privatePackage().Path(), m.getPrivateDeserializationMethodForType(t).Name())
-	less := jen.Qual(t.PrivatePackage().Path(), t.lessFnName())
+	// Note: this "i" must be the same as the "i" in the deserialization definition.
+	// TODO: Remove this kluge.
+	deser := m.getPrivateDeserializationMethodForType(t).On(managerInitName())
 	kind := jen.Qual(t.PublicPackage().Path(), t.InterfaceName())
 	for _, p := range t.rangeProperties {
-		if e := p.SetKindFns(t.TypeName(), kind, ser, deser, less); e != nil {
+		if e := p.SetKindFns(t.TypeName(), kind, deser); e != nil {
 			return e
 		}
 	}
@@ -220,17 +216,6 @@ func (t *TypeGenerator) deserializationFnName() string {
 	return fmt.Sprintf("%s%s", deserializeFnName, t.TypeName())
 }
 
-// serializationFnName determines the name of the serialize function for this
-// type.
-func (t *TypeGenerator) serializationFnName() string {
-	return fmt.Sprintf("%s%s", serializeMethodName, t.TypeName())
-}
-
-// lessFnName determines the name of the less function for this type.
-func (t *TypeGenerator) lessFnName() string {
-	return fmt.Sprintf("%s%s", lessFnName, t.TypeName())
-}
-
 // toInterface creates the interface version of the definition generated.
 //
 // Requires apply to have already been called.
@@ -254,8 +239,9 @@ func (t *TypeGenerator) InterfaceDefinition(pkg Package) *codegen.Interface {
 func (t *TypeGenerator) Definition() *codegen.Struct {
 	t.cacheOnce.Do(func() {
 		members := t.members()
-		m := t.serializationMethod()
-		ser, deser, less := t.kindSerializationFuncs()
+		ser := t.serializationMethod()
+		less := t.lessMethod()
+		deser := t.kindDeserializationFunc()
 		extendsFn, extendsMethod := t.extendsDefinition()
 		t.cachedStruct = codegen.NewStruct(
 			jen.Commentf(t.Comments()),
@@ -263,15 +249,14 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 			[]*codegen.Method{
 				t.nameDefinition(),
 				extendsMethod,
-				m,
+				ser,
+				less,
 			},
 			[]*codegen.Function{
 				t.extendedByDefinition(),
 				extendsFn,
 				t.disjointWithDefinition(),
-				ser,
 				deser,
-				less,
 			},
 			members)
 	})
@@ -322,6 +307,7 @@ func (t *TypeGenerator) members() (members []jen.Code) {
 	// Convert to jen.Code
 	members = make([]jen.Code, 0, len(p))
 	for _, property := range sortedMembers {
+		// TODO: Use interface instead
 		members = append(members, jen.Id(strings.Title(property.PropertyName())).Qual(property.GetPackage().Path(), property.StructName()))
 	}
 	return
@@ -508,20 +494,27 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 	return
 }
 
-// kindSerializationFuncs returns free function references that can be used to
-// treat a TypeGenerator as another property's Kind.
-func (t *TypeGenerator) kindSerializationFuncs() (ser, deser, less *codegen.Function) {
-	ser = codegen.NewCommentedFunction(
+// lessMethod returns the method needed to compare a type with another type.
+func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
+	less = codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
-		t.serializationFnName(),
-		[]jen.Code{jen.Id("s").Id(t.TypeName())},
-		[]jen.Code{jen.Interface(), jen.Error()},
+		typeLessMethod,
+		t.TypeName(),
 		[]jen.Code{
-			jen.Return(
-				jen.Id("s").Dot(serializeMethodName).Call(),
-			),
+			jen.Id("o").Op("*").Id(t.TypeName()),
 		},
-		jen.Commentf("%s calls %s on the %s type.", t.serializationFnName(), serializeMethodName, t.TypeName()))
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{
+			// TODO
+			jen.Commentf("TODO: Less code for %s", t.TypeName()),
+		},
+		jen.Commentf("%s computes if this %s is lesser, with an arbitrary but stable determination", typeLessMethod, t.TypeName()))
+	return
+}
+
+// kindDeserializationFunc returns free function reference that can be used to
+// treat a TypeGenerator as another property's Kind.
+func (t *TypeGenerator) kindDeserializationFunc() (deser *codegen.Function) {
 	deserCode := jen.Empty()
 	for name, prop := range t.allProperties() {
 		deserMethod := t.m.getPrivateDeserializationMethodForProperty(prop)
@@ -550,18 +543,5 @@ func (t *TypeGenerator) kindSerializationFuncs() (ser, deser, less *codegen.Func
 			jen.Return(jen.Id(codegen.This()), jen.Nil()),
 		},
 		jen.Commentf("%s creates a %s from a map representation that has been unmarshalled from a text or binary format.", t.deserializationFnName(), t.TypeName()))
-	less = codegen.NewCommentedFunction(
-		t.PrivatePackage().Path(),
-		t.lessFnName(),
-		[]jen.Code{
-			jen.Id("i"),
-			jen.Id("j").Op("*").Id(t.TypeName()),
-		},
-		[]jen.Code{jen.Bool()},
-		[]jen.Code{
-			// TODO
-			jen.Commentf("TODO: Less code for %s", t.TypeName()),
-		},
-		jen.Commentf("%s computes which %s is lesser, with an arbitrary but stable determination", t.lessFnName(), t.TypeName()))
 	return
 }

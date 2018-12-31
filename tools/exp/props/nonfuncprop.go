@@ -156,15 +156,21 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		if i > 0 {
 			less.Else()
 		}
+		// LessFn is nil case -- call Less method directly on the LHS.
+		lessCall := jen.Id("lhs").Dot(lessMethod).Call(jen.Id("rhs"))
+		if kind.LessFn != nil {
+			// LessFn is indeed a function -- call this function
+			lessCall = kind.LessFn.Clone().Call(
+				jen.Id("lhs"),
+				jen.Id("rhs"),
+			)
+		}
 		less.If(
 			jen.Id("idx1").Op("==").Lit(i),
 		).Block(
 			jen.Id("lhs").Op(":=").Id(codegen.This()).Index(jen.Id("i")).Dot(p.getFnName(i)).Call(),
 			jen.Id("rhs").Op(":=").Id(codegen.This()).Index(jen.Id("j")).Dot(p.getFnName(i)).Call(),
-			jen.Return(kind.LessFn.Clone().Call(
-				jen.Id("lhs"),
-				jen.Id("rhs"),
-			)),
+			jen.Return(lessCall),
 		)
 	}
 	// Remove Method

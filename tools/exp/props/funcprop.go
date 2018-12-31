@@ -282,13 +282,24 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 				jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
 			)
 		}
-		serializeFns = serializeFns.Block(
-			jen.Return(
-				kind.SerializeFn.Clone().Call(
-					jen.Id(codegen.This()).Dot(p.getFnName(i)).Call(),
+		if kind.SerializeFn != nil {
+			// This is a value that has a function that must be
+			// called to serialize properly.
+			serializeFns = serializeFns.Block(
+				jen.Return(
+					kind.SerializeFn.Clone().Call(
+						jen.Id(codegen.This()).Dot(p.getFnName(i)).Call(),
+					),
 				),
-			),
-		)
+			)
+		} else {
+			// This is a type with a Serialize method.
+			serializeFns = serializeFns.Block(
+				jen.Return(
+					jen.Id(codegen.This()).Dot(p.getFnName(i)).Call().Dot(serializeMethodName).Call(),
+				),
+			)
+		}
 	}
 	serialize := codegen.NewCommentedValueMethod(
 		p.Package.Path(),

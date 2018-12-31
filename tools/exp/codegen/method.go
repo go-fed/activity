@@ -202,6 +202,12 @@ func (m Method) Call(on string, params ...jen.Code) jen.Code {
 	return jen.Id(on).Dot(m.function.name).Call(params...)
 }
 
+// On generates the Go code that determines the qualified method name on a
+// specific variable.
+func (m Method) On(on string) *jen.Statement {
+	return jen.Id(on).Dot(m.function.name)
+}
+
 // Name returns the identifier of this function.
 func (m Method) Name() string {
 	return m.function.name

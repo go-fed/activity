@@ -62,13 +62,15 @@ type Identifier struct {
 // Only represents values and other types.
 type Kind struct {
 	Name Identifier
-	// ConcreteKind is expected to be a jen.Qual
+	// ConcreteKind is expected to be properly qualified.
 	ConcreteKind *jen.Statement
 	Nilable      bool
-	// These functions are expected to be a jen.Qual
-	SerializeFn   *jen.Statement
+	// Expected to always be non-nil: a function is needed to deserialize.
 	DeserializeFn *jen.Statement
-	LessFn        *jen.Statement
+	// If any of these are nil at generation time, assume to call the method
+	// on the object directly (instead of a qualified function).
+	SerializeFn *jen.Statement
+	LessFn      *jen.Statement
 }
 
 // PropertyGenerator is a common base struct used in both Functional and
@@ -100,16 +102,14 @@ func (p *PropertyGenerator) GetPackage() Package {
 // The name parameter must match the LowerName of an Identifier.
 //
 // This feels very hacky.
-func (p *PropertyGenerator) SetKindFns(name string, qualKind, ser, deser, less *jen.Statement) error {
+func (p *PropertyGenerator) SetKindFns(name string, qualKind, deser *jen.Statement) error {
 	for i, kind := range p.Kinds {
 		if kind.Name.LowerName == name {
 			if kind.SerializeFn != nil || kind.DeserializeFn != nil || kind.LessFn != nil {
 				return fmt.Errorf("property kind already has serialization functions set for %q", name)
 			}
 			kind.ConcreteKind = qualKind
-			kind.SerializeFn = ser
 			kind.DeserializeFn = deser
-			kind.LessFn = less
 			p.Kinds[i] = kind
 			return nil
 		}
