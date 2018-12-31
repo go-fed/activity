@@ -116,7 +116,7 @@ func NewManagerGenerator(pm PackageManager,
 	// Pass 3: Populate interfaces of the types and properties, which relies
 	// on the first pass's data population.
 	for _, t := range tg {
-		publicPkg := t.Package().Parent().PublicPackage()
+		publicPkg := t.PublicPackage()
 		mg.tgManagedMethods[t].ifaces = []*codegen.Interface{t.toInterface(publicPkg)}
 	}
 	// TODO: Move these back to pass 1
@@ -187,14 +187,12 @@ func (m *ManagerGenerator) PrivateManager() *codegen.Struct {
 	for _, nfp := range m.nfpManagedMethods {
 		methods = append(methods, nfp.deserializor)
 	}
-	var functions []*codegen.Function
-	var members []jen.Code
 	s := codegen.NewStruct(
 		jen.Commentf(fmt.Sprintf("%s privately manages concrete types and deserializations for internal use by generated code. Application code should use the public version instead, which uses interfaces to abstract away the generated code and allow apps to not entirely rely on go-fed should they choose not to.", managerName)),
 		managerName,
 		methods,
-		functions,
-		members)
+		/*functions=*/ nil,
+		/*members=*/ nil)
 	return s
 }
 
@@ -205,7 +203,7 @@ func (m *ManagerGenerator) PrivateManager() *codegen.Struct {
 func (m *ManagerGenerator) createPrivateDeserializationMethodForType(tg *TypeGenerator) *codegen.Method {
 	dn := tg.deserializationFnName()
 	pkg := m.pm.PrivatePackage()
-	name := fmt.Sprintf("%s%s%s", dn, tg.Package().Name(), strings.Title(pkg.Name()))
+	name := fmt.Sprintf("%s%s%s", dn, tg.PrivatePackage().Name(), strings.Title(pkg.Name()))
 	return codegen.NewCommentedValueMethod(
 		pkg.Path(),
 		name,
@@ -222,10 +220,10 @@ func (m *ManagerGenerator) createPrivateDeserializationMethodForType(tg *TypeGen
 		},
 		[]jen.Code{
 			jen.Return(
-				jen.Qual(tg.Package().Path(), dn),
+				jen.Qual(tg.PrivatePackage().Path(), dn),
 			),
 		},
-		jen.Commentf("%s returns the deserialization method for the %q type in package %q", name, tg.TypeName(), tg.Package().Name()))
+		jen.Commentf("%s returns the deserialization method for the %q type in package %q", name, tg.TypeName(), tg.PrivatePackage().Name()))
 }
 
 // createPrivateDeserializationMethodForFuncProperty creates a new method for the

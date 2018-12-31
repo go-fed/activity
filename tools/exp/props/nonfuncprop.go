@@ -121,7 +121,8 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				p.Package.Path(),
 				prependMethodName,
 				p.StructName(),
-				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
+				// TODO: Interface Kind
+				[]jen.Code{jen.Id("v").Add(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
 					jen.Op("*").Id(codegen.This()).Op("=").Append(
@@ -139,7 +140,8 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				p.Package.Path(),
 				appendMethodName,
 				p.StructName(),
-				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
+				// TODO: Interface Kind
+				[]jen.Code{jen.Id("v").Add(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
 					jen.Op("*").Id(codegen.This()).Op("=").Append(
@@ -159,7 +161,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		).Block(
 			jen.Id("lhs").Op(":=").Id(codegen.This()).Index(jen.Id("i")).Dot(p.getFnName(i)).Call(),
 			jen.Id("rhs").Op(":=").Id(codegen.This()).Index(jen.Id("j")).Dot(p.getFnName(i)).Call(),
-			jen.Return(kind.LessFn.Call(
+			jen.Return(kind.LessFn.Clone().Call(
 				jen.Id("lhs"),
 				jen.Id("rhs"),
 			)),

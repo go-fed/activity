@@ -259,7 +259,6 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	if e != nil {
 		return
 	}
-	pkg := pm.PrivatePackage()
 	// Determine the properties for this type
 	var p []props.Property
 	for _, prop := range t.Properties {
@@ -345,7 +344,7 @@ func (c Converter) convertType(t rdf.VocabularyType,
 		}
 	}
 	tg, e = props.NewTypeGenerator(
-		pkg,
+		pm,
 		name,
 		t.Notes,
 		p,
@@ -405,10 +404,11 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 
 func (c Converter) convertValue(v rdf.VocabularyValue) (k *props.Kind) {
 	k = &props.Kind{
-		Name:         c.toIdentifier(v),
-		ConcreteKind: v.DefinitionType,
+		Name: c.toIdentifier(v),
+		// TODO: Add Qualifier
+		ConcreteKind: jen.Id(v.DefinitionType),
 		Nilable:      c.isNilable(v.DefinitionType),
-		// TODO
+		// TODO: Fix Qualifying calls?
 		SerializeFn:   jen.Empty().Add(v.SerializeFn.Call()),
 		DeserializeFn: jen.Empty().Add(v.DeserializeFn.Call()),
 		LessFn:        jen.Empty().Add(v.LessFn.Call()),
@@ -418,10 +418,10 @@ func (c Converter) convertValue(v rdf.VocabularyValue) (k *props.Kind) {
 
 func (c Converter) convertTypeToKind(v rdf.VocabularyType) (k *props.Kind, e error) {
 	k = &props.Kind{
-		Name:         c.toIdentifier(v),
-		ConcreteKind: c.convertTypeToConcreteKind(v),
-		Nilable:      true,
+		Name:    c.toIdentifier(v),
+		Nilable: true,
 		// Instead of populating:
+		//   - ConcreteKind
 		//   - SerializeFn
 		//   - DeserializeFn
 		//   - LessFn
@@ -435,10 +435,6 @@ func (c Converter) convertTypeToKind(v rdf.VocabularyType) (k *props.Kind, e err
 
 func (c Converter) convertTypeToName(v rdf.VocabularyType) string {
 	return strings.Title(v.Name)
-}
-
-func (c Converter) convertTypeToConcreteKind(v rdf.VocabularyType) string {
-	return "*" + c.convertTypeToName(v)
 }
 
 func (c Converter) propertyKinds(v rdf.VocabularyProperty,

@@ -45,13 +45,13 @@ type Property interface {
 	GetPackage() Package
 	PropertyName() string
 	StructName() string
-	SetKindFns(name string, ser, deser, less *jen.Statement) error
+	SetKindFns(name string, kind, ser, deser, less *jen.Statement) error
 	DeserializeFnName() string
 }
 
 // TypeGenerator represents an ActivityStream type definition to generate in Go.
 type TypeGenerator struct {
-	pkg               Package
+	pm                *PackageManager
 	typeName          string
 	comment           string
 	properties        map[string]Property
@@ -85,11 +85,11 @@ type TypeGenerator struct {
 //
 // A ManagerGenerator must be created with this type before Definition is
 // called, to ensure that the serialization functions are properly set up.
-func NewTypeGenerator(pkg Package, typeName, comment string,
+func NewTypeGenerator(pm *PackageManager, typeName, comment string,
 	properties, withoutProperties, rangeProperties []Property,
 	extends, disjoint []*TypeGenerator) (*TypeGenerator, error) {
 	t := &TypeGenerator{
-		pkg:               pkg,
+		pm:                pm,
 		typeName:          typeName,
 		comment:           comment,
 		properties:        make(map[string]Property, len(properties)),
@@ -128,20 +128,27 @@ func NewTypeGenerator(pkg Package, typeName, comment string,
 func (t *TypeGenerator) apply(m *ManagerGenerator) error {
 	t.m = m
 	// Set up Kind functions
-	ser := jen.Qual(t.Package().Path(), t.serializationFnName())
+	// TODO: Call serialize on an object instead of using a function.
+	ser := jen.Qual(t.PrivatePackage().Path(), t.serializationFnName())
 	deser := jen.Qual(m.privatePackage().Path(), m.getPrivateDeserializationMethodForType(t).Name())
-	less := jen.Qual(t.Package().Path(), t.lessFnName())
+	less := jen.Qual(t.PrivatePackage().Path(), t.lessFnName())
+	kind := jen.Qual(t.PublicPackage().Path(), t.InterfaceName())
 	for _, p := range t.rangeProperties {
-		if e := p.SetKindFns(t.TypeName(), ser, deser, less); e != nil {
+		if e := p.SetKindFns(t.TypeName(), kind, ser, deser, less); e != nil {
 			return e
 		}
 	}
 	return nil
 }
 
-// Package gets this TypeGenerator's Package.
-func (t *TypeGenerator) Package() Package {
-	return t.pkg
+// Package gets this TypeGenerator's Private Package.
+func (t *TypeGenerator) PrivatePackage() Package {
+	return t.pm.PrivatePackage()
+}
+
+// Package gets this TypeGenerator's Public Package.
+func (t *TypeGenerator) PublicPackage() Package {
+	return t.pm.PublicPackage()
 }
 
 // Comment returns the comment for this type.
@@ -324,7 +331,7 @@ func (t *TypeGenerator) members() (members []jen.Code) {
 // type name.
 func (t *TypeGenerator) nameDefinition() *codegen.Method {
 	return codegen.NewCommentedValueMethod(
-		t.pkg.Path(),
+		t.PrivatePackage().Path(),
 		typeNameMethod,
 		t.TypeName(),
 		/*params=*/ nil,
@@ -374,14 +381,14 @@ func (t *TypeGenerator) extendsDefinition() (*codegen.Function, *codegen.Method)
 			jen.Return(jen.False())}
 	}
 	f := codegen.NewCommentedFunction(
-		t.pkg.Path(),
+		t.PrivatePackage().Path(),
 		t.extendsFnName(),
 		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		impl,
 		jen.Commentf("%s returns true if the %s type extends from the other type.", t.extendsFnName(), t.TypeName()))
 	m := codegen.NewCommentedValueMethod(
-		t.pkg.Path(),
+		t.PrivatePackage().Path(),
 		extendingMethod,
 		t.TypeName(),
 		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
@@ -430,7 +437,7 @@ func (t *TypeGenerator) extendedByDefinition() *codegen.Function {
 			jen.Return(jen.False())}
 	}
 	return codegen.NewCommentedFunction(
-		t.pkg.Path(),
+		t.PrivatePackage().Path(),
 		t.extendedByFnName(),
 		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
@@ -476,7 +483,7 @@ func (t *TypeGenerator) disjointWithDefinition() *codegen.Function {
 			jen.Return(jen.False())}
 	}
 	return codegen.NewCommentedFunction(
-		t.pkg.Path(),
+		t.PrivatePackage().Path(),
 		t.disjointWithFnName(),
 		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
@@ -488,7 +495,7 @@ func (t *TypeGenerator) disjointWithDefinition() *codegen.Function {
 // a property.
 func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 	ser = codegen.NewCommentedValueMethod(
-		t.pkg.Path(),
+		t.PrivatePackage().Path(),
 		serializeMethodName,
 		t.TypeName(),
 		/*params=*/ nil,
@@ -505,7 +512,7 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 // treat a TypeGenerator as another property's Kind.
 func (t *TypeGenerator) kindSerializationFuncs() (ser, deser, less *codegen.Function) {
 	ser = codegen.NewCommentedFunction(
-		t.pkg.Path(),
+		t.PrivatePackage().Path(),
 		t.serializationFnName(),
 		[]jen.Code{jen.Id("s").Id(t.TypeName())},
 		[]jen.Code{jen.Interface(), jen.Error()},
@@ -523,7 +530,8 @@ func (t *TypeGenerator) kindSerializationFuncs() (ser, deser, less *codegen.Func
 				jen.List(
 					jen.Id("p"),
 					jen.Err(),
-				).Op(":=").Add(deserMethod.Call(managerInitName())).Call(jen.Id("m")),
+				// TODO: Ensure this variable is called correctly
+				).Op(":=").Add(deserMethod.Call(managerInitName(), jen.Id("m"))),
 				jen.Err().Op("!=").Nil(),
 			).Block(
 				jen.Return(jen.Nil(), jen.Err()),
@@ -532,7 +540,7 @@ func (t *TypeGenerator) kindSerializationFuncs() (ser, deser, less *codegen.Func
 			).Line())
 	}
 	deser = codegen.NewCommentedFunction(
-		t.pkg.Path(),
+		t.PrivatePackage().Path(),
 		t.deserializationFnName(),
 		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
 		[]jen.Code{jen.Op("*").Id(t.TypeName()), jen.Error()},
@@ -543,7 +551,7 @@ func (t *TypeGenerator) kindSerializationFuncs() (ser, deser, less *codegen.Func
 		},
 		jen.Commentf("%s creates a %s from a map representation that has been unmarshalled from a text or binary format.", t.deserializationFnName(), t.TypeName()))
 	less = codegen.NewCommentedFunction(
-		t.pkg.Path(),
+		t.PrivatePackage().Path(),
 		t.lessFnName(),
 		[]jen.Code{
 			jen.Id("i"),

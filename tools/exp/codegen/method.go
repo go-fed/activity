@@ -199,7 +199,7 @@ func (m Method) Definition() jen.Code {
 // Call generates the Go code required to call this method, with qualifier if
 // required.
 func (m Method) Call(on string, params ...jen.Code) jen.Code {
-	return jen.Id(on).Call(params...)
+	return jen.Id(on).Dot(m.function.name).Call(params...)
 }
 
 // Name returns the identifier of this function.

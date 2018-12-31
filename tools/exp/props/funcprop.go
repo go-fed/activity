@@ -284,7 +284,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 		}
 		serializeFns = serializeFns.Block(
 			jen.Return(
-				kind.SerializeFn.Call(
+				kind.SerializeFn.Clone().Call(
 					jen.Id(codegen.This()).Dot(p.getFnName(i)).Call(),
 				),
 			),
@@ -317,7 +317,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 				jen.Id("v"),
 				jen.Id("handled"),
 				jen.Err(),
-			).Op(":=").Add(kind.DeserializeFn.Call(
+			).Op(":=").Add(kind.DeserializeFn.Clone().Call(
 				jen.Id("i"),
 			)),
 			jen.Id("handled"),
@@ -385,7 +385,7 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single nilable value type.", p.StructName())
 		}
 		kindMembers = []jen.Code{
-			jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind),
+			jen.Id(p.memberName(0)).Add(p.Kinds[0].ConcreteKind),
 		}
 	} else {
 		comment = jen.Commentf("%s is the functional property %q. It is permitted to be a single default-valued value type.", p.StructName(), p.PropertyName())
@@ -393,7 +393,7 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single default-valued value type.", p.StructName())
 		}
 		kindMembers = []jen.Code{
-			jen.Id(p.memberName(0)).Id(p.Kinds[0].ConcreteKind),
+			jen.Id(p.memberName(0)).Add(p.Kinds[0].ConcreteKind),
 			jen.Id(p.hasMemberName(0)).Bool(),
 		}
 	}
@@ -463,7 +463,8 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		p.getFnName(0),
 		p.StructName(),
 		/*params=*/ nil,
-		[]jen.Code{jen.Id(p.Kinds[0].ConcreteKind)},
+		// TODO: Interface Kind
+		[]jen.Code{p.Kinds[0].ConcreteKind},
 		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(p.memberName(0)))},
 		getComment,
 	))
@@ -484,7 +485,8 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 			p.Package.Path(),
 			p.setFnName(0),
 			p.StructName(),
-			[]jen.Code{jen.Id("v").Id(p.Kinds[0].ConcreteKind)},
+			// TODO: Interface Kind
+			[]jen.Code{jen.Id("v").Add(p.Kinds[0].ConcreteKind)},
 			/*ret=*/ nil,
 			[]jen.Code{
 				jen.Id(codegen.This()).Dot(p.clearMethodName()).Call(),
@@ -497,7 +499,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 			p.Package.Path(),
 			p.setFnName(0),
 			p.StructName(),
-			[]jen.Code{jen.Id("v").Id(p.Kinds[0].ConcreteKind)},
+			[]jen.Code{jen.Id("v").Add(p.Kinds[0].ConcreteKind)},
 			/*ret=*/ nil,
 			[]jen.Code{
 				jen.Id(codegen.This()).Dot(p.clearMethodName()).Call(),
@@ -551,9 +553,9 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
 	kindMembers := make([]jen.Code, 0, len(p.Kinds))
 	for i, kind := range p.Kinds {
 		if kind.Nilable {
-			kindMembers = append(kindMembers, jen.Id(p.memberName(i)).Id(p.Kinds[i].ConcreteKind))
+			kindMembers = append(kindMembers, jen.Id(p.memberName(i)).Add(p.Kinds[i].ConcreteKind))
 		} else {
-			kindMembers = append(kindMembers, jen.Id(p.memberName(i)).Id(p.Kinds[i].ConcreteKind))
+			kindMembers = append(kindMembers, jen.Id(p.memberName(i)).Add(p.Kinds[i].ConcreteKind))
 			kindMembers = append(kindMembers, jen.Id(p.hasMemberName(i)).Bool())
 		}
 	}
@@ -707,7 +709,8 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 				p.Package.Path(),
 				p.setFnName(i),
 				p.StructName(),
-				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
+				// TODO: Interface Kind
+				[]jen.Code{jen.Id("v").Add(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
 					jen.Id(codegen.This()).Dot(p.clearMethodName()).Call(),
@@ -720,7 +723,8 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 				p.Package.Path(),
 				p.setFnName(i),
 				p.StructName(),
-				[]jen.Code{jen.Id("v").Id(kind.ConcreteKind)},
+				// TODO: Interface Kind
+				[]jen.Code{jen.Id("v").Add(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
 					jen.Id(codegen.This()).Dot(p.clearMethodName()).Call(),
@@ -739,7 +743,8 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			p.getFnName(i),
 			p.StructName(),
 			/*params=*/ nil,
-			[]jen.Code{jen.Id(kind.ConcreteKind)},
+			// TODO: Interface Kind
+			[]jen.Code{jen.Add(kind.ConcreteKind)},
 			[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(p.memberName(i)))},
 			getComment,
 		))

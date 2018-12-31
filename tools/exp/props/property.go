@@ -58,11 +58,14 @@ type Identifier struct {
 // Kind is data that describes a concrete Go type, how to serialize and
 // deserialize such types, compare the types, and other meta-information to use
 // during Go code generation.
+//
+// Only represents values and other types.
 type Kind struct {
-	Name         Identifier
-	ConcreteKind string
+	Name Identifier
+	// ConcreteKind is expected to be a jen.Qual
+	ConcreteKind *jen.Statement
 	Nilable      bool
-	// Expected to be a jen.Qual
+	// These functions are expected to be a jen.Qual
 	SerializeFn   *jen.Statement
 	DeserializeFn *jen.Statement
 	LessFn        *jen.Statement
@@ -97,12 +100,13 @@ func (p *PropertyGenerator) GetPackage() Package {
 // The name parameter must match the LowerName of an Identifier.
 //
 // This feels very hacky.
-func (p *PropertyGenerator) SetKindFns(name string, ser, deser, less *jen.Statement) error {
+func (p *PropertyGenerator) SetKindFns(name string, qualKind, ser, deser, less *jen.Statement) error {
 	for i, kind := range p.Kinds {
 		if kind.Name.LowerName == name {
 			if kind.SerializeFn != nil || kind.DeserializeFn != nil || kind.LessFn != nil {
 				return fmt.Errorf("property kind already has serialization functions set for %q", name)
 			}
+			kind.ConcreteKind = qualKind
 			kind.SerializeFn = ser
 			kind.DeserializeFn = deser
 			kind.LessFn = less
