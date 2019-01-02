@@ -8,13 +8,15 @@ import (
 // PackageManager manages the path and names of a package consisting of a public
 // and a private portion.
 type PackageManager struct {
+	prefix  string
 	root    string
 	public  string
 	private string
 }
 
-func NewPackageManager(root string) *PackageManager {
+func NewPackageManager(prefix, root string) *PackageManager {
 	return &PackageManager{
+		prefix:  prefix,
 		root:    root,
 		public:  "",
 		private: "internal",
@@ -48,6 +50,7 @@ func (p *PackageManager) toPackage(suffix string, public bool) Package {
 	s := strings.Split(path, "/")
 	name := s[len(s)-1]
 	return Package{
+		prefix:   p.prefix,
 		path:     path,
 		name:     name,
 		isPublic: public,
@@ -56,6 +59,7 @@ func (p *PackageManager) toPackage(suffix string, public bool) Package {
 }
 
 type Package struct {
+	prefix   string
 	path     string
 	name     string
 	isPublic bool
@@ -63,6 +67,10 @@ type Package struct {
 }
 
 func (p Package) Path() string {
+	return p.prefix + "/" + p.path
+}
+
+func (p Package) WriteDir() string {
 	return p.path
 }
 

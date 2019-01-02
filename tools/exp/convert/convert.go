@@ -101,22 +101,22 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			return
 		}
 		// Implementation
-		dir := pm.PrivatePackage().Path()
-		file := jen.NewFilePath(dir)
+		priv := pm.PrivatePackage()
+		file := jen.NewFilePath(priv.Path())
 		file.Add(i.Definition().Definition())
 		f = append(f, &File{
 			F:         file,
 			FileName:  fmt.Sprintf("gen_%s.go", i.PropertyName()),
-			Directory: dir,
+			Directory: priv.WriteDir(),
 		})
 		// Interface
-		dir = pm.PublicPackage().Path()
-		file = jen.NewFilePath(dir)
+		pub := pm.PublicPackage()
+		file = jen.NewFilePath(pub.Path())
 		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
 		f = append(f, &File{
 			F:         file,
 			FileName:  fmt.Sprintf("gen_%s_interface.go", i.PropertyName()),
-			Directory: dir,
+			Directory: pub.WriteDir(),
 		})
 	}
 	for _, i := range v.NFProps {
@@ -126,25 +126,25 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			return
 		}
 		// Implementation
-		dir := pm.PrivatePackage().Path()
-		file := jen.NewFilePath(dir)
+		priv := pm.PrivatePackage()
+		file := jen.NewFilePath(priv.Path())
 		s, t := i.Definitions()
 		file.Add(s.Definition()).Line().Add(t.Definition())
 		f = append(f, &File{
 			F:         file,
 			FileName:  fmt.Sprintf("gen_%s.go", i.PropertyName()),
-			Directory: dir,
+			Directory: priv.WriteDir(),
 		})
 		// TODO: Interface
-		dir = pm.PublicPackage().Path()
-		file = jen.NewFilePath(dir)
+		pub := pm.PublicPackage()
+		file = jen.NewFilePath(pub.Path())
 		for _, intf := range i.InterfaceDefinitions(pm.PublicPackage()) {
 			file.Add(intf.Definition())
 		}
 		f = append(f, &File{
 			F:         file,
 			FileName:  fmt.Sprintf("gen_%s_interface.go", i.PropertyName()),
-			Directory: dir,
+			Directory: pub.WriteDir(),
 		})
 	}
 	for _, i := range v.Types {
@@ -154,32 +154,32 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			return
 		}
 		// Implementation
-		dir := pm.PrivatePackage().Path()
-		file := jen.NewFilePath(dir)
+		priv := pm.PrivatePackage()
+		file := jen.NewFilePath(priv.Path())
 		file.Add(i.Definition().Definition())
 		f = append(f, &File{
 			F:         file,
 			FileName:  fmt.Sprintf("gen_%s.go", i.TypeName()),
-			Directory: dir,
+			Directory: priv.WriteDir(),
 		})
 		// TODO: Interface
-		dir = pm.PublicPackage().Path()
-		file = jen.NewFilePath(dir)
+		pub := pm.PublicPackage()
+		file = jen.NewFilePath(pub.Path())
 		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
 		f = append(f, &File{
 			F:         file,
 			FileName:  fmt.Sprintf("gen_%s_interface.go", i.TypeName()),
-			Directory: dir,
+			Directory: pub.WriteDir(),
 		})
 	}
 	// TODO: For Manager
-	dir := c.VocabularyRoot.PrivatePackage().Path()
-	file := jen.NewFilePath(dir)
+	priv := c.VocabularyRoot.PrivatePackage()
+	file := jen.NewFilePath(priv.Path())
 	file.Add(v.Manager.PrivateManager().Definition())
 	f = append(f, &File{
 		F:         file,
 		FileName:  "gen_manager.go",
-		Directory: dir,
+		Directory: priv.WriteDir(),
 	})
 	return
 }

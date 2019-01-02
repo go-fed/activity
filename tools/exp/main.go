@@ -37,6 +37,8 @@ func init() {
 
 var (
 	input = flag.String("input", "spec.json", "Input JSON-LD specification used to generate Go code.")
+	// TODO: Be more rigorous when applying this. Also, clear the default value I am using for convenience.
+	prefix = flag.String("prefix", "github.com/cjslep/activity/tools/exp/tmp", "Package prefix to use for all generated package paths. This should be the prefix in the GOPATH directory if generating in a subdirectory.")
 	// TODO: Use this flag
 	root   = flag.String("root", "github.com/go-fed/activity/", "Go import path prefix for generated packages")
 	xmlpkg = flag.String("xmlpkg", "github.com/go-fed/activity/tools/exp/ref/xml", "Go package location for known XML references")
@@ -58,6 +60,7 @@ func (l *list) Set(v string) error {
 }
 
 func main() {
+	// TODO: Use only one kind of flag style.
 	var ref list
 	var refspec list
 	var refpkg list
@@ -82,11 +85,11 @@ func main() {
 	}
 	c := &convert.Converter{
 		Registry:              registry,
-		VocabularyRoot:        props.NewPackageManager("gen/as"),
+		VocabularyRoot:        props.NewPackageManager(*prefix, "gen/as"),
 		PropertyPackagePolicy: convert.PropertyFlatUnderRoot,
-		PropertyPackageRoot:   props.NewPackageManager("gen/as/props"),
+		PropertyPackageRoot:   props.NewPackageManager(*prefix, "gen/as/props"),
 		TypePackagePolicy:     convert.TypeFlatUnderRoot,
-		TypePackageRoot:       props.NewPackageManager("gen/as/types"),
+		TypePackageRoot:       props.NewPackageManager(*prefix, "gen/as/types"),
 	}
 	f, err := c.Convert(p)
 	if err != nil {
