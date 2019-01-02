@@ -22,14 +22,14 @@ type FunctionalPropertyGenerator struct {
 //
 // PropertyGenerators shoulf be in the first pass to construct, before types and
 // other generators are constructed.
-func NewFunctionalPropertyGenerator(pkg Package,
+func NewFunctionalPropertyGenerator(pm *PackageManager,
 	name Identifier,
 	comment string,
 	kinds []Kind,
 	hasNaturalLanguageMap bool) *FunctionalPropertyGenerator {
 	return &FunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
-			Package:               pkg,
+			PackageManager:        pm,
 			HasNaturalLanguageMap: hasNaturalLanguageMap,
 			Name:                  name,
 			Comment:               comment,
@@ -132,7 +132,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 	}
 	methods := []*codegen.Method{
 		codegen.NewCommentedValueMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			kindIndexMethod,
 			p.StructName(),
 			/*params=*/ nil,
@@ -148,7 +148,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 		// IsLanguageMap Method
 		methods = append(methods,
 			codegen.NewCommentedValueMethod(
-				p.Package.Path(),
+				p.GetPrivatePackage().Path(),
 				isLanguageMapMethod,
 				p.StructName(),
 				/*params=*/ nil,
@@ -173,7 +173,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 		// HasLanguage Method
 		methods = append(methods,
 			codegen.NewCommentedValueMethod(
-				p.Package.Path(),
+				p.GetPrivatePackage().Path(),
 				hasLanguageMethod,
 				p.StructName(),
 				[]jen.Code{jen.Id("bcp47").String()},
@@ -201,7 +201,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 		// GetLanguage Method
 		methods = append(methods,
 			codegen.NewCommentedValueMethod(
-				p.Package.Path(),
+				p.GetPrivatePackage().Path(),
 				getLanguageMethod,
 				p.StructName(),
 				[]jen.Code{jen.Id("bcp47").String()},
@@ -233,7 +233,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 		// SetLanguage Method
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
-				p.Package.Path(),
+				p.GetPrivatePackage().Path(),
 				setLanguageMethod,
 				p.StructName(),
 				[]jen.Code{
@@ -302,7 +302,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 		}
 	}
 	serialize := codegen.NewCommentedValueMethod(
-		p.Package.Path(),
+		p.GetPrivatePackage().Path(),
 		p.serializeFnName(),
 		p.StructName(),
 		/*params=*/ nil,
@@ -345,7 +345,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 	var deserialize *codegen.Function
 	if p.asIterator {
 		deserialize = codegen.NewCommentedFunction(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			p.DeserializeFnName(),
 			[]jen.Code{jen.Id("i").Interface()},
 			[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
@@ -359,7 +359,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			jen.Commentf("%s creates an iterator from an element that has been unmarshalled from a text or binary format.", p.DeserializeFnName()))
 	} else {
 		deserialize = codegen.NewCommentedFunction(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			p.DeserializeFnName(),
 			[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
 			[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
@@ -448,7 +448,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 	}
 	if p.Kinds[0].Nilable {
 		methods = append(methods, codegen.NewCommentedValueMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			hasMethod,
 			p.StructName(),
 			/*params=*/ nil,
@@ -458,7 +458,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		))
 	} else {
 		methods = append(methods, codegen.NewCommentedValueMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			hasMethod,
 			p.StructName(),
 			/*params=*/ nil,
@@ -470,11 +470,10 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 	// Get Method
 	getComment := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return any arbitrary value.", getMethod, hasMethod, getMethod)
 	methods = append(methods, codegen.NewCommentedValueMethod(
-		p.Package.Path(),
+		p.GetPrivatePackage().Path(),
 		p.getFnName(0),
 		p.StructName(),
 		/*params=*/ nil,
-		// TODO: Interface Kind
 		[]jen.Code{p.Kinds[0].ConcreteKind},
 		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(p.memberName(0)))},
 		getComment,
@@ -493,10 +492,9 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 	}
 	if p.Kinds[0].Nilable {
 		methods = append(methods, codegen.NewCommentedPointerMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			p.setFnName(0),
 			p.StructName(),
-			// TODO: Interface Kind
 			[]jen.Code{jen.Id("v").Add(p.Kinds[0].ConcreteKind)},
 			/*ret=*/ nil,
 			[]jen.Code{
@@ -507,7 +505,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		))
 	} else {
 		methods = append(methods, codegen.NewCommentedPointerMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			p.setFnName(0),
 			p.StructName(),
 			[]jen.Code{jen.Id("v").Add(p.Kinds[0].ConcreteKind)},
@@ -536,7 +534,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 	}
 	if p.Kinds[0].Nilable {
 		methods = append(methods, codegen.NewCommentedPointerMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			p.clearMethodName(),
 			p.StructName(),
 			/*params=*/ nil,
@@ -546,7 +544,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		))
 	} else {
 		methods = append(methods, codegen.NewCommentedPointerMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			p.clearMethodName(),
 			p.StructName(),
 			/*params=*/ nil,
@@ -635,7 +633,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		)
 	}
 	methods = append(methods, codegen.NewCommentedPointerMethod(
-		p.Package.Path(),
+		p.GetPrivatePackage().Path(),
 		hasAnyMethodName,
 		p.StructName(),
 		/*params=*/ nil,
@@ -659,7 +657,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		clearLine = append(clearLine, jen.Id(codegen.This()).Dot(langMapMember).Op("=").Nil())
 	}
 	methods = append(methods, codegen.NewCommentedPointerMethod(
-		p.Package.Path(),
+		p.GetPrivatePackage().Path(),
 		p.clearMethodName(),
 		p.StructName(),
 		/*params=*/ nil,
@@ -682,7 +680,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		}
 		if kind.Nilable {
 			methods = append(methods, codegen.NewCommentedValueMethod(
-				p.Package.Path(),
+				p.GetPrivatePackage().Path(),
 				p.isMethodName(i),
 				p.StructName(),
 				/*params=*/ nil,
@@ -692,7 +690,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			))
 		} else {
 			methods = append(methods, codegen.NewCommentedValueMethod(
-				p.Package.Path(),
+				p.GetPrivatePackage().Path(),
 				p.isMethodName(i),
 				p.StructName(),
 				/*params=*/ nil,
@@ -717,10 +715,9 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		}
 		if kind.Nilable {
 			methods = append(methods, codegen.NewCommentedPointerMethod(
-				p.Package.Path(),
+				p.GetPrivatePackage().Path(),
 				p.setFnName(i),
 				p.StructName(),
-				// TODO: Interface Kind
 				[]jen.Code{jen.Id("v").Add(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
@@ -731,10 +728,9 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			))
 		} else {
 			methods = append(methods, codegen.NewCommentedPointerMethod(
-				p.Package.Path(),
+				p.GetPrivatePackage().Path(),
 				p.setFnName(i),
 				p.StructName(),
-				// TODO: Interface Kind
 				[]jen.Code{jen.Id("v").Add(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
@@ -750,11 +746,10 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 	for i, kind := range p.Kinds {
 		getComment := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return an arbitrary value.", p.getFnName(i), p.isMethodName(i), p.getFnName(i))
 		methods = append(methods, codegen.NewCommentedValueMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			p.getFnName(i),
 			p.StructName(),
 			/*params=*/ nil,
-			// TODO: Interface Kind
 			[]jen.Code{jen.Add(kind.ConcreteKind)},
 			[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(p.memberName(i)))},
 			getComment,

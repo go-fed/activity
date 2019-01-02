@@ -369,9 +369,8 @@ func (c Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 	if e != nil {
 		return
 	}
-	pkg := pm.PrivatePackage()
 	fp = props.NewFunctionalPropertyGenerator(
-		pkg,
+		pm,
 		c.toIdentifier(p),
 		p.Notes,
 		k,
@@ -393,9 +392,8 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 	if e != nil {
 		return
 	}
-	pkg := pm.PrivatePackage()
 	nfp = props.NewNonFunctionalPropertyGenerator(
-		pkg,
+		pm,
 		c.toIdentifier(p),
 		k,
 		p.NaturalLanguageMap)

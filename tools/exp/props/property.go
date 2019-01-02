@@ -83,7 +83,7 @@ type Kind struct {
 // TODO: Make this type private
 type PropertyGenerator struct {
 	// TODO: Make these private
-	Package               Package
+	PackageManager        *PackageManager
 	Name                  Identifier
 	Comment               string
 	Kinds                 []Kind
@@ -91,9 +91,14 @@ type PropertyGenerator struct {
 	asIterator            bool
 }
 
-// GetPackage gets this property's Package.
-func (p *PropertyGenerator) GetPackage() Package {
-	return p.Package
+// GetPrivatePackage gets this property's private Package.
+func (p *PropertyGenerator) GetPrivatePackage() Package {
+	return p.PackageManager.PrivatePackage()
+}
+
+// GetPublicPackage gets this property's public Package.
+func (p *PropertyGenerator) GetPublicPackage() Package {
+	return p.PackageManager.PublicPackage()
 }
 
 // SetKindFns allows TypeGenerators to later notify this Property what functions
@@ -217,7 +222,7 @@ func (p *PropertyGenerator) clearMethodName() string {
 func (p *PropertyGenerator) commonMethods() []*codegen.Method {
 	return []*codegen.Method{
 		codegen.NewCommentedValueMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			nameMethod,
 			p.StructName(),
 			/*params=*/ nil,

@@ -23,13 +23,13 @@ type NonFunctionalPropertyGenerator struct {
 //
 // PropertyGenerators shoulf be in the first pass to construct, before types and
 // other generators are constructed.
-func NewNonFunctionalPropertyGenerator(pkg Package,
+func NewNonFunctionalPropertyGenerator(pm *PackageManager,
 	name Identifier,
 	kinds []Kind,
 	hasNaturalLanguageMap bool) *NonFunctionalPropertyGenerator {
 	return &NonFunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
-			Package:               pkg,
+			PackageManager:        pm,
 			HasNaturalLanguageMap: hasNaturalLanguageMap,
 			Name:                  name,
 			Kinds:                 kinds,
@@ -94,7 +94,7 @@ func (p *NonFunctionalPropertyGenerator) iteratorTypeName() Identifier {
 func (p *NonFunctionalPropertyGenerator) elementTypeGenerator() *FunctionalPropertyGenerator {
 	return &FunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
-			Package:               p.PropertyGenerator.Package,
+			PackageManager:        p.PropertyGenerator.PackageManager,
 			Name:                  p.iteratorTypeName(),
 			Kinds:                 p.Kinds,
 			HasNaturalLanguageMap: p.PropertyGenerator.HasNaturalLanguageMap,
@@ -118,10 +118,9 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		prependMethodName := fmt.Sprintf("%s%s", prependMethod, p.kindCamelName(i))
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
-				p.Package.Path(),
+				p.GetPrivatePackage().Path(),
 				prependMethodName,
 				p.StructName(),
-				// TODO: Interface Kind
 				[]jen.Code{jen.Id("v").Add(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
@@ -137,10 +136,9 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		appendMethodName := fmt.Sprintf("%s%s", appendMethod, p.kindCamelName(i))
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
-				p.Package.Path(),
+				p.GetPrivatePackage().Path(),
 				appendMethodName,
 				p.StructName(),
-				// TODO: Interface Kind
 				[]jen.Code{jen.Id("v").Add(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
@@ -176,7 +174,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Remove Method
 	methods = append(methods,
 		codegen.NewCommentedPointerMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			removeMethod,
 			p.StructName(),
 			[]jen.Code{jen.Id("idx").Int()},
@@ -212,7 +210,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Len Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			lenMethod,
 			p.StructName(),
 			/*params=*/ nil,
@@ -228,7 +226,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Swap Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			swapMethod,
 			p.StructName(),
 			[]jen.Code{
@@ -249,7 +247,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Less Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			lessMethod,
 			p.StructName(),
 			[]jen.Code{
@@ -271,7 +269,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	// Kind Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
-			p.Package.Path(),
+			p.GetPrivatePackage().Path(),
 			kindIndexMethod,
 			p.StructName(),
 			[]jen.Code{jen.Id("idx").Int()},
@@ -290,7 +288,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 // encoding.
 func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *codegen.Function) {
 	serialize := codegen.NewCommentedValueMethod(
-		p.Package.Path(),
+		p.GetPrivatePackage().Path(),
 		p.serializeFnName(),
 		p.StructName(),
 		/*params=*/ nil,
@@ -355,7 +353,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 		)
 	}
 	deserialize := codegen.NewCommentedFunction(
-		p.Package.Path(),
+		p.GetPrivatePackage().Path(),
 		p.DeserializeFnName(),
 		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
 		[]jen.Code{jen.Id(p.StructName()), jen.Error()},

@@ -39,9 +39,9 @@ func TypeInterface(pkg Package) *codegen.Interface {
 
 // Property represents a property of an ActivityStreams type.
 type Property interface {
-	GetPackage() Package
+	GetPublicPackage() Package
 	PropertyName() string
-	StructName() string
+	InterfaceName() string
 	SetKindFns(name string, kind, deser *jen.Statement) error
 	DeserializeFnName() string
 }
@@ -307,8 +307,7 @@ func (t *TypeGenerator) members() (members []jen.Code) {
 	// Convert to jen.Code
 	members = make([]jen.Code, 0, len(p))
 	for _, property := range sortedMembers {
-		// TODO: Use interface instead
-		members = append(members, jen.Id(strings.Title(property.PropertyName())).Qual(property.GetPackage().Path(), property.StructName()))
+		members = append(members, jen.Id(strings.Title(property.PropertyName())).Qual(property.GetPublicPackage().Path(), property.InterfaceName()))
 	}
 	return
 }
@@ -501,7 +500,7 @@ func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
 		typeLessMethod,
 		t.TypeName(),
 		[]jen.Code{
-			jen.Id("o").Op("*").Id(t.TypeName()),
+			jen.Id("o").Qual(t.PublicPackage().Path(), t.InterfaceName()),
 		},
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{

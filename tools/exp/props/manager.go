@@ -122,11 +122,11 @@ func NewManagerGenerator(pm PackageManager,
 	}
 	// TODO: Move these back to pass 1
 	for _, p := range fp {
-		publicPkg := p.GetPackage().Parent().PublicPackage()
+		publicPkg := p.GetPublicPackage()
 		mg.fpManagedMethods[p].ifaces = []*codegen.Interface{p.toInterface(publicPkg)}
 	}
 	for _, p := range nfp {
-		publicPkg := p.GetPackage().Parent().PublicPackage()
+		publicPkg := p.GetPublicPackage()
 		mg.nfpManagedMethods[p].ifaces = p.toInterfaces(publicPkg)
 	}
 	return mg, nil
@@ -236,7 +236,7 @@ func (m *ManagerGenerator) createPrivateDeserializationMethodForFuncProperty(fp 
 	dn := fp.DeserializeFnName()
 	pkg := m.pm.PrivatePackage()
 	// TODO: Better naming scheme from package name
-	name := fmt.Sprintf("%s%s%s", dn, fp.Package.Name(), strings.Title(pkg.Name()))
+	name := fmt.Sprintf("%s%s%s", dn, fp.GetPrivatePackage().Name(), strings.Title(pkg.Name()))
 	return codegen.NewCommentedValueMethod(
 		pkg.Path(),
 		name,
@@ -253,10 +253,10 @@ func (m *ManagerGenerator) createPrivateDeserializationMethodForFuncProperty(fp 
 		},
 		[]jen.Code{
 			jen.Return(
-				jen.Qual(fp.Package.Path(), dn),
+				jen.Qual(fp.GetPrivatePackage().Path(), dn),
 			),
 		},
-		jen.Commentf("%s returns the deserialization method for the %q functional property in package %q", name, fp.StructName(), fp.Package.Name()))
+		jen.Commentf("%s returns the deserialization method for the %q functional property in package %q", name, fp.StructName(), fp.GetPrivatePackage().Name()))
 }
 
 // createPrivateDeserializationMethodForNonFuncProperty creates a new method for the
@@ -267,7 +267,7 @@ func (m *ManagerGenerator) createPrivateDeserializationMethodForNonFuncProperty(
 	dn := nfp.DeserializeFnName()
 	pkg := m.pm.PrivatePackage()
 	// TODO: Better naming scheme from package name
-	name := fmt.Sprintf("%s%s%s", dn, nfp.Package.Name(), strings.Title(pkg.Name()))
+	name := fmt.Sprintf("%s%s%s", dn, nfp.GetPrivatePackage().Name(), strings.Title(pkg.Name()))
 	return codegen.NewCommentedValueMethod(
 		pkg.Path(),
 		name,
@@ -284,8 +284,8 @@ func (m *ManagerGenerator) createPrivateDeserializationMethodForNonFuncProperty(
 		},
 		[]jen.Code{
 			jen.Return(
-				jen.Qual(nfp.Package.Path(), dn),
+				jen.Qual(nfp.GetPrivatePackage().Path(), dn),
 			),
 		},
-		jen.Commentf("%s returns the deserialization method for the %q non-functional property in package %q", name, nfp.StructName(), nfp.Package.Name()))
+		jen.Commentf("%s returns the deserialization method for the %q non-functional property in package %q", name, nfp.StructName(), nfp.GetPrivatePackage().Name()))
 }
