@@ -317,6 +317,7 @@ func (t *TypeGenerator) members() (members []jen.Code) {
 	for _, property := range p {
 		members = append(members, jen.Id(t.memberName(property)).Qual(property.GetPublicPackage().Path(), property.InterfaceName()))
 	}
+	// TODO: Unknown member
 	return
 }
 

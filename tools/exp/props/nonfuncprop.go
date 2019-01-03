@@ -155,6 +155,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			less.Else()
 		}
 		// LessFn is nil case -- call comparison Less method directly on the LHS.
+		// TODO: Move this logic to a Kind method (see funcprop.go too)
 		lessCall := jen.Id("lhs").Dot(compareLessMethod).Call(jen.Id("rhs"))
 		if kind.LessFn != nil {
 			// LessFn is indeed a function -- call this function
@@ -280,7 +281,43 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				),
 			},
 			jen.Commentf("%s computes an arbitrary value for indexing this kind of value.", kindIndexMethod)))
-	// TODO: Comparison LessThan method
+	// LessThan Method
+	lessCode := jen.Empty().Add(
+		jen.Id("l1").Op(":=").Id(codegen.This()).Dot(lenMethod).Call().Line(),
+		jen.Id("l2").Op(":=").Id("o").Dot(lenMethod).Call().Line(),
+		jen.Id("l").Op(":=").Id("l1").Line(),
+		jen.If(
+			jen.Id("l2").Op("<").Id("l1"),
+		).Block(
+			jen.Id("l").Op("=").Id("l2"),
+		))
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		compareLessMethod,
+		p.StructName(),
+		[]jen.Code{jen.Id("o").Id(p.InterfaceName())},
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{
+			lessCode,
+			jen.For(
+				jen.Id("i").Op(":=").Lit(0),
+				jen.Id("i").Op("<").Id("l"),
+				jen.Id("i").Op("++"),
+			).Block(
+				jen.If(
+					jen.Id(codegen.This()).Index(jen.Id("i")).Dot(compareLessMethod).Call(jen.Id("o").Index(jen.Id("i"))),
+				).Block(
+					jen.Return(jen.True()),
+				).Else().If(
+					jen.Id("o").Index(jen.Id("i")).Dot(compareLessMethod).Call(jen.Id(codegen.This()).Index(jen.Id("i"))),
+				).Block(
+					jen.Return(jen.False()),
+				),
+			),
+			jen.Return(jen.Id("l1").Op("<").Id("l2")),
+		},
+		jen.Commentf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
+	))
 	return methods
 }
 

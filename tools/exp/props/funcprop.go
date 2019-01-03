@@ -388,7 +388,6 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 // singleTypeDef generates a special-case simplified API for a functional
 // property that can only be a single Kind of value.
 func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
-	// TODO: Comparison LessThan method
 	var comment jen.Code
 	var kindMembers []jen.Code
 	if p.Kinds[0].Nilable {
@@ -554,13 +553,32 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 			clearComment,
 		))
 	}
+	// LessThan Method
+	// LessFn is nil case -- call comparison Less method directly on the LHS
+	// TODO: Move this logic to a Kind method (see nonfuncprop.go too)
+	lessCall := jen.Id(codegen.This()).Dot(compareLessMethod).Call(jen.Id("o"))
+	if p.Kinds[0].LessFn != nil {
+		// LessFn is indeed a function -- call this function
+		lessCall = p.Kinds[0].LessFn.Clone().Call(
+			jen.Id(codegen.This()),
+			jen.Id("o"),
+		)
+	}
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		compareLessMethod,
+		p.StructName(),
+		[]jen.Code{jen.Id("o").Id(p.InterfaceName())},
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{jen.Return(lessCall)},
+		jen.Commentf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
+	))
 	return methods
 }
 
 // multiTypeDef generates an API for a functional property that can be multiple
 // Kinds of value.
 func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
-	// TODO: Comparison LessThan method
 	kindMembers := make([]jen.Code, 0, len(p.Kinds))
 	for i, kind := range p.Kinds {
 		if kind.Nilable {
@@ -757,6 +775,50 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			getComment,
 		))
 	}
+	// LessThan Method
+	lessCode := jen.Empty().Add(
+		jen.Id("idx1").Op(":=").Id(codegen.This()).Dot(kindIndexMethod).Call().Line(),
+		jen.Id("idx2").Op(":=").Id("o").Dot(kindIndexMethod).Call().Line(),
+		jen.If(jen.Id("idx1").Op("<").Id("idx2")).Block(
+			jen.Return(jen.True()),
+		).Else().If(jen.Id("idx1").Op(">").Id("idx2")).Block(
+			jen.Return(jen.False()),
+		))
+	for i, kind := range p.Kinds {
+		// LessFn is nil case -- call comparison Less method directly on the LHS
+		// TODO: Move this logic to a Kind method (see nonfuncprop.go too)
+		if p.Kinds[i].LessFn == nil {
+			lessCode.Add(
+				jen.Else().If(
+					jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
+				).Block(
+					jen.Return(jen.Id(codegen.This()).Dot(p.getFnName(i)).Call().Dot(compareLessMethod).Call(jen.Id("o").Dot(p.getFnName(i)).Call()))))
+		} else {
+			// LessFn is indeed a function -- call this function
+			lessCode.Add(
+				jen.Else().If(
+					jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
+				).Block(
+					kind.LessFn.Clone().Call(
+						jen.Id(codegen.This()).Dot(p.getFnName(i)).Call(),
+						jen.Id("o").Dot(p.getFnName(i)).Call(),
+					),
+				))
+		}
+	}
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		compareLessMethod,
+		p.StructName(),
+		[]jen.Code{jen.Id("o").Id(p.InterfaceName())},
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{
+			lessCode,
+			// TODO: Unknown member comparison.
+			jen.Return(jen.False()),
+		},
+		jen.Commentf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
+	))
 	return methods
 }
 

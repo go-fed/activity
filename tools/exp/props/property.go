@@ -131,7 +131,7 @@ func (p *PropertyGenerator) StructName() string {
 	return fmt.Sprintf("%sProperty", p.Name.CamelName)
 }
 
-// InterfaceNAme returns the interface name of the property type.
+// InterfaceName returns the interface name of the property type.
 func (p *PropertyGenerator) InterfaceName() string {
 	return fmt.Sprintf("%sInterface", p.StructName())
 }
