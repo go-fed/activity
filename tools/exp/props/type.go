@@ -334,6 +334,16 @@ func (t *TypeGenerator) getAllParentExtends(s []*TypeGenerator, tg *TypeGenerato
 		s = append(s, e)
 		s = append(s, t.getAllParentExtends(s, e)...)
 	}
+	// Make unique, as "s" will contain duplicates.
+	// TODO: Use a map to begin with, to avoid all of this copying around.
+	m := make(map[*TypeGenerator]struct{}, len(s))
+	for _, e := range s {
+		m[e] = struct{}{}
+	}
+	s = make([]*TypeGenerator, 0, len(m))
+	for k := range m {
+		s = append(s, k)
+	}
 	return s
 }
 
@@ -342,13 +352,9 @@ func (t *TypeGenerator) getAllParentExtends(s []*TypeGenerator, tg *TypeGenerato
 func (t *TypeGenerator) extendsDefinition() (*codegen.Function, *codegen.Method) {
 	var extends []*TypeGenerator
 	extends = t.getAllParentExtends(extends, t)
-	extendNames := make(map[string]struct{}, len(extends))
-	for _, ext := range extends {
-		extendNames[ext.TypeName()] = struct{}{}
-	}
-	extensions := make([]jen.Code, len(extendNames))
-	for e := range extendNames {
-		extensions = append(extensions, jen.Lit(e))
+	extensions := make([]jen.Code, len(extends))
+	for _, e := range extends {
+		extensions = append(extensions, jen.Lit(e.TypeName()))
 	}
 	impl := []jen.Code{jen.Comment("Shortcut implementation: this does not extend anything."), jen.Return(jen.False())}
 	if len(extensions) > 0 {
@@ -389,19 +395,19 @@ func (t *TypeGenerator) extendsDefinition() (*codegen.Function, *codegen.Method)
 
 // getAllChildrenExtendBy recursivley determines all the child types that this
 // type is extended by.
-func (t *TypeGenerator) getAllChildrenExtendedBy(s []string, tg *TypeGenerator) {
+func (t *TypeGenerator) getAllChildrenExtendedBy(s []string, tg *TypeGenerator) []string {
 	for _, e := range tg.ExtendedBy() {
 		s = append(s, e.TypeName())
-		t.getAllChildrenExtendedBy(s, e)
+		s = t.getAllChildrenExtendedBy(s, e)
 	}
+	return s
 }
 
 // extendedByDefinition generates the golang function for determining if
 // another ActivityStreams type extends this type. It requires the Type
 // interface.
 func (t *TypeGenerator) extendedByDefinition() *codegen.Function {
-	var extendNames []string
-	t.getAllChildrenExtendedBy(extendNames, t)
+	extendNames := t.getAllChildrenExtendedBy(nil, t)
 	extensions := make([]jen.Code, len(extendNames))
 	for i, e := range extendNames {
 		extensions[i] = jen.Lit(e)
@@ -432,22 +438,25 @@ func (t *TypeGenerator) extendedByDefinition() *codegen.Function {
 
 // getAllChildrenDisjointWith recursivley determines all the child types that this
 // type is disjoint with.
-func (t *TypeGenerator) getAllDisjointWith(s []string) {
-	for _, e := range t.Disjoint() {
-		s = append(s, e.TypeName())
-		// Get all the disjoint type's children.
-		t.getAllChildrenExtendedBy(s, e)
+func (t *TypeGenerator) getAllDisjointWith() (s []string) {
+	var extends []*TypeGenerator
+	extends = t.getAllParentExtends(extends, t)
+	extends = append(extends, t)
+	for _, tg := range extends {
+		for _, e := range tg.Disjoint() {
+			s = append(s, e.TypeName())
+			// Get all the disjoint type's children.
+			s = t.getAllChildrenExtendedBy(s, e)
+		}
 	}
+	return s
 }
 
 // disjointWithDefinition generates the golang function for determining if
 // another ActivityStreams type is disjoint with this type. It requires the Type
 // interface.
 func (t *TypeGenerator) disjointWithDefinition() *codegen.Function {
-	// TODO: Inherit disjoint from parent and the other extended types of
-	// the other.
-	var disjointNames []string
-	t.getAllDisjointWith(disjointNames)
+	disjointNames := t.getAllDisjointWith()
 	disjointWith := make([]jen.Code, len(disjointNames))
 	for i, d := range disjointNames {
 		disjointWith[i] = jen.Lit(d)
