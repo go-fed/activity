@@ -84,7 +84,7 @@ func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codege
 // iteratorTypeName determines the identifier to use for the iterator type.
 func (p *NonFunctionalPropertyGenerator) iteratorTypeName() Identifier {
 	return Identifier{
-		LowerName: fmt.Sprintf("%sPropertyIterator", p.Name.LowerName),
+		LowerName: p.Name.LowerName,
 		CamelName: fmt.Sprintf("%sPropertyIterator", p.Name.CamelName),
 	}
 }
@@ -318,6 +318,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		},
 		jen.Commentf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
 	))
+	methods = append(methods, p.commonMethods()...)
 	return methods
 }
 
