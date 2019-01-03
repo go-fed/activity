@@ -497,6 +497,24 @@ func (t *TypeGenerator) disjointWithDefinition() *codegen.Function {
 // serializationMethod returns the method needed to serialize a TypeGenerator as
 // a property.
 func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
+	serCode := jen.Empty()
+	for _, prop := range t.allProperties() {
+		serCode.Add(
+			jen.Commentf("Maybe serialize property %q", prop.PropertyName()).Line(),
+			jen.If(
+				jen.List(
+					jen.Id("i"),
+					jen.Err(),
+				).Op(":=").Id(codegen.This()).Dot(t.memberName(prop)).Dot(serializeMethod).Call(),
+				jen.Err().Op("!=").Nil(),
+			).Block(
+				jen.Return(jen.Nil(), jen.Err()),
+			).Else().If(
+				jen.Id("i").Op("!=").Nil(),
+			).Block(
+				jen.Id("m").Index(jen.Id(codegen.This()).Dot(t.memberName(prop)).Dot(nameMethod).Call()).Op("=").Id("i"),
+			).Line())
+	}
 	ser = codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
 		serializeMethodName,
@@ -504,8 +522,11 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 		/*params=*/ nil,
 		[]jen.Code{jen.Interface(), jen.Error()},
 		[]jen.Code{
-			// TODO
-			jen.Commentf("TODO: Serialization code for %s", t.TypeName()),
+			jen.Id("m").Op(":=").Make(
+				jen.Map(jen.String()).Interface(),
+			),
+			serCode,
+			jen.Return(jen.Id("m"), jen.Nil()),
 		},
 		jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", serializeMethodName))
 	return
