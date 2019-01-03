@@ -18,7 +18,7 @@ const (
 	typeNameMethod      = "Name"
 	serializeMethodName = "Serialize"
 	deserializeFnName   = "Deserialize"
-	typeLessMethod      = "LessThan"
+	compareLessMethod   = "LessThan"
 )
 
 // TypeInterface returns the Type Interface that is needed for ActivityStream
@@ -263,24 +263,6 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 	return t.cachedStruct
 }
 
-func (t *TypeGenerator) allProperties() map[string]Property {
-	p := t.properties
-	// Properties of parents that are extended, minus DoesNotApplyTo
-	var extends []*TypeGenerator
-	extends = t.getAllParentExtends(extends, t)
-	for _, ext := range t.extends {
-		for k, v := range ext.Properties() {
-			p[k] = v
-		}
-	}
-	for _, ext := range t.extends {
-		for k, _ := range ext.WithoutProperties() {
-			delete(p, k)
-		}
-	}
-	return p
-}
-
 // sortedProperty is a slice of Properties that implements the Sort interface.
 type sortedProperty []Property
 
@@ -296,18 +278,44 @@ func (s sortedProperty) Len() int {
 	return len(s)
 }
 
+func (t *TypeGenerator) allProperties() []Property {
+	p := t.properties
+	// Properties of parents that are extended, minus DoesNotApplyTo
+	var extends []*TypeGenerator
+	extends = t.getAllParentExtends(extends, t)
+	for _, ext := range t.extends {
+		for k, v := range ext.Properties() {
+			p[k] = v
+		}
+	}
+	for _, ext := range t.extends {
+		for k, _ := range ext.WithoutProperties() {
+			delete(p, k)
+		}
+	}
+	// Sort the properties into a stable order -- this is important for
+	// stability in comparisons such as LessThan in order to be able to
+	// easily explain the "in property lexicographical" order.
+	//
+	// Also improves readability in the implementation code.
+	sortedP := make(sortedProperty, 0, len(p))
+	for _, property := range p {
+		sortedP = append(sortedP, property)
+	}
+	sort.Sort(sortedP)
+	return sortedP
+}
+
+func (*TypeGenerator) memberName(p Property) string {
+	return strings.Title(p.PropertyName())
+}
+
 func (t *TypeGenerator) members() (members []jen.Code) {
 	p := t.allProperties()
-	// Sort the properties for readability
-	sortedMembers := make(sortedProperty, 0, len(p))
-	for _, property := range p {
-		sortedMembers = append(sortedMembers, property)
-	}
-	sort.Sort(sortedMembers)
 	// Convert to jen.Code
 	members = make([]jen.Code, 0, len(p))
-	for _, property := range sortedMembers {
-		members = append(members, jen.Id(strings.Title(property.PropertyName())).Qual(property.GetPublicPackage().Path(), property.InterfaceName()))
+	for _, property := range p {
+		members = append(members, jen.Id(t.memberName(property)).Qual(property.GetPublicPackage().Path(), property.InterfaceName()))
 	}
 	return
 }
@@ -504,19 +512,38 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 
 // lessMethod returns the method needed to compare a type with another type.
 func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
+	lessCode := jen.Empty()
+	for _, prop := range t.allProperties() {
+		lessCode = lessCode.Add(
+			jen.Commentf("Compare property %q", prop.PropertyName()).Line(),
+			jen.If(
+				jen.Id(codegen.This()).Dot(t.memberName(prop)).Dot(compareLessMethod).Call(
+					jen.Id("o").Dot(t.memberName(prop)),
+				),
+			).Block(
+				jen.Return(jen.True()),
+			).Else().If(
+				jen.Id("o").Dot(t.memberName(prop)).Dot(compareLessMethod).Call(
+					jen.Id(codegen.This()).Dot(t.memberName(prop)),
+				),
+			).Block(
+				jen.Return(jen.False()),
+			).Line())
+	}
 	less = codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
-		typeLessMethod,
+		compareLessMethod,
 		t.TypeName(),
 		[]jen.Code{
 			jen.Id("o").Qual(t.PublicPackage().Path(), t.InterfaceName()),
 		},
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{
-			// TODO
-			jen.Commentf("TODO: Less code for %s", t.TypeName()),
+			lessCode,
+			jen.Commentf("All properties are the same."),
+			jen.Return(jen.False()),
 		},
-		jen.Commentf("%s computes if this %s is lesser, with an arbitrary but stable determination", typeLessMethod, t.TypeName()))
+		jen.Commentf("%s computes if this %s is lesser, with an arbitrary but stable determination", compareLessMethod, t.TypeName()))
 	return
 }
 
@@ -524,7 +551,7 @@ func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
 // treat a TypeGenerator as another property's Kind.
 func (t *TypeGenerator) kindDeserializationFunc() (deser *codegen.Function) {
 	deserCode := jen.Empty()
-	for name, prop := range t.allProperties() {
+	for _, prop := range t.allProperties() {
 		deserMethod := t.m.getPrivateDeserializationMethodForProperty(prop)
 		deserCode = deserCode.Add(
 			jen.If(
@@ -537,7 +564,7 @@ func (t *TypeGenerator) kindDeserializationFunc() (deser *codegen.Function) {
 			).Block(
 				jen.Return(jen.Nil(), jen.Err()),
 			).Else().Block(
-				jen.Id(codegen.This()).Dot(strings.Title(name)).Op("=").Op("*").Id("p"),
+				jen.Id(codegen.This()).Dot(t.memberName(prop)).Op("=").Op("*").Id("p"),
 			).Line())
 	}
 	deser = codegen.NewCommentedFunction(

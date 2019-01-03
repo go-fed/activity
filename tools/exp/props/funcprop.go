@@ -388,6 +388,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 // singleTypeDef generates a special-case simplified API for a functional
 // property that can only be a single Kind of value.
 func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
+	// TODO: Comparison LessThan method
 	var comment jen.Code
 	var kindMembers []jen.Code
 	if p.Kinds[0].Nilable {
@@ -559,6 +560,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 // multiTypeDef generates an API for a functional property that can be multiple
 // Kinds of value.
 func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
+	// TODO: Comparison LessThan method
 	kindMembers := make([]jen.Code, 0, len(p.Kinds))
 	for i, kind := range p.Kinds {
 		if kind.Nilable {

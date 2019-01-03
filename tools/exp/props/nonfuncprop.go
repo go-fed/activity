@@ -154,8 +154,8 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		if i > 0 {
 			less.Else()
 		}
-		// LessFn is nil case -- call Less method directly on the LHS.
-		lessCall := jen.Id("lhs").Dot(lessMethod).Call(jen.Id("rhs"))
+		// LessFn is nil case -- call comparison Less method directly on the LHS.
+		lessCall := jen.Id("lhs").Dot(compareLessMethod).Call(jen.Id("rhs"))
 		if kind.LessFn != nil {
 			// LessFn is indeed a function -- call this function
 			lessCall = kind.LessFn.Clone().Call(
@@ -280,6 +280,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				),
 			},
 			jen.Commentf("%s computes an arbitrary value for indexing this kind of value.", kindIndexMethod)))
+	// TODO: Comparison LessThan method
 	return methods
 }
 
