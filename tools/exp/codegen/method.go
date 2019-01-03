@@ -85,6 +85,11 @@ func (m Function) Name() string {
 	return m.name
 }
 
+// QualifiedName returns the qualified identifier for this function.
+func (m Function) QualifiedName() *jen.Statement {
+	return m.qual.Clone()
+}
+
 // Method represents a method on a type, not a free function, for Go code to be
 // generated.
 type Method struct {

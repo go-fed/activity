@@ -404,12 +404,11 @@ func (c Converter) convertValue(v rdf.VocabularyValue) (k *props.Kind) {
 	k = &props.Kind{
 		Name: c.toIdentifier(v),
 		// TODO: Add Qualifier
-		ConcreteKind: jen.Id(v.DefinitionType),
-		Nilable:      c.isNilable(v.DefinitionType),
-		// TODO: Fix Qualifying calls?
-		SerializeFn:   jen.Empty().Add(v.SerializeFn.Call()),
-		DeserializeFn: jen.Empty().Add(v.DeserializeFn.Call()),
-		LessFn:        jen.Empty().Add(v.LessFn.Call()),
+		ConcreteKind:  jen.Id(v.DefinitionType),
+		Nilable:       c.isNilable(v.DefinitionType),
+		SerializeFn:   v.SerializeFn.QualifiedName(),
+		DeserializeFn: v.DeserializeFn.QualifiedName(),
+		LessFn:        v.LessFn.QualifiedName(),
 	}
 	return
 }
