@@ -154,16 +154,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		if i > 0 {
 			less.Else()
 		}
-		// LessFn is nil case -- call comparison Less method directly on the LHS.
-		// TODO: Move this logic to a Kind method (see funcprop.go too)
-		lessCall := jen.Id("lhs").Dot(compareLessMethod).Call(jen.Id("rhs"))
-		if kind.LessFn != nil {
-			// LessFn is indeed a function -- call this function
-			lessCall = kind.LessFn.Clone().Call(
-				jen.Id("lhs"),
-				jen.Id("rhs"),
-			)
-		}
+		lessCall := kind.lessFnCode(jen.Id("lhs"), jen.Id("rhs"))
 		less.If(
 			jen.Id("idx1").Op("==").Lit(i),
 		).Block(

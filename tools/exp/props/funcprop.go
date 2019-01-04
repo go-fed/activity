@@ -554,23 +554,14 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		))
 	}
 	// LessThan Method
-	// LessFn is nil case -- call comparison Less method directly on the LHS
-	// TODO: Move this logic to a Kind method (see nonfuncprop.go too)
-	lessCall := jen.Id(codegen.This()).Dot(compareLessMethod).Call(jen.Id("o"))
-	if p.Kinds[0].LessFn != nil {
-		// LessFn is indeed a function -- call this function
-		lessCall = p.Kinds[0].LessFn.Clone().Call(
-			jen.Id(codegen.This()),
-			jen.Id("o"),
-		)
-	}
+	lessCode := p.Kinds[0].lessFnCode(jen.Id(codegen.This()), jen.Id("o"))
 	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		compareLessMethod,
 		p.StructName(),
 		[]jen.Code{jen.Id("o").Id(p.InterfaceName())},
 		[]jen.Code{jen.Bool()},
-		[]jen.Code{jen.Return(lessCall)},
+		[]jen.Code{jen.Return(lessCode)},
 		jen.Commentf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
 	))
 	return methods
@@ -785,26 +776,11 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			jen.Return(jen.False()),
 		))
 	for i, kind := range p.Kinds {
-		// LessFn is nil case -- call comparison Less method directly on the LHS
-		// TODO: Move this logic to a Kind method (see nonfuncprop.go too)
-		if p.Kinds[i].LessFn == nil {
-			lessCode.Add(
-				jen.Else().If(
-					jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
-				).Block(
-					jen.Return(jen.Id(codegen.This()).Dot(p.getFnName(i)).Call().Dot(compareLessMethod).Call(jen.Id("o").Dot(p.getFnName(i)).Call()))))
-		} else {
-			// LessFn is indeed a function -- call this function
-			lessCode.Add(
-				jen.Else().If(
-					jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
-				).Block(
-					kind.LessFn.Clone().Call(
-						jen.Id(codegen.This()).Dot(p.getFnName(i)).Call(),
-						jen.Id("o").Dot(p.getFnName(i)).Call(),
-					),
-				))
-		}
+		lessCode.Add(
+			jen.Else().If(
+				jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
+			).Block(
+				jen.Return(kind.lessFnCode(jen.Id(codegen.This()).Dot(p.getFnName(i)).Call(), jen.Id("o").Dot(p.getFnName(i)).Call()))))
 	}
 	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),

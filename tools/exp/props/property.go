@@ -73,6 +73,19 @@ type Kind struct {
 	LessFn      *jen.Statement
 }
 
+func (k Kind) lessFnCode(this, other *jen.Statement) *jen.Statement {
+	// LessFn is nil case -- call comparison Less method directly on the LHS
+	lessCall := this.Clone().Dot(compareLessMethod).Call(other.Clone())
+	if k.LessFn != nil {
+		// LessFn is indeed a function -- call this function
+		lessCall = k.LessFn.Clone().Call(
+			this.Clone(),
+			other.Clone(),
+		)
+	}
+	return lessCall
+}
+
 // PropertyGenerator is a common base struct used in both Functional and
 // NonFunctional ActivityStreams properties. It provides common naming patterns,
 // logic, and common Go code to be generated.

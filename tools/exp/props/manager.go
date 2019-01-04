@@ -120,7 +120,6 @@ func NewManagerGenerator(pm PackageManager,
 		publicPkg := t.PublicPackage()
 		mg.tgManagedMethods[t].ifaces = []*codegen.Interface{t.toInterface(publicPkg)}
 	}
-	// TODO: Move these back to pass 1
 	for _, p := range fp {
 		publicPkg := p.GetPublicPackage()
 		mg.fpManagedMethods[p].ifaces = []*codegen.Interface{p.toInterface(publicPkg)}
