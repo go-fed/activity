@@ -15,19 +15,21 @@ type File struct {
 }
 
 type vocabulary struct {
-	Kinds   map[string]*props.Kind
-	FProps  map[string]*props.FunctionalPropertyGenerator
-	NFProps map[string]*props.NonFunctionalPropertyGenerator
-	Types   map[string]*props.TypeGenerator
-	Manager *props.ManagerGenerator
+	Values     map[string]*props.Kind
+	FProps     map[string]*props.FunctionalPropertyGenerator
+	NFProps    map[string]*props.NonFunctionalPropertyGenerator
+	Types      map[string]*props.TypeGenerator
+	Manager    *props.ManagerGenerator
+	References map[string]*vocabulary
 }
 
 func newVocabulary() vocabulary {
 	return vocabulary{
-		Kinds:   make(map[string]*props.Kind, 0),
-		FProps:  make(map[string]*props.FunctionalPropertyGenerator, 0),
-		NFProps: make(map[string]*props.NonFunctionalPropertyGenerator, 0),
-		Types:   make(map[string]*props.TypeGenerator, 0),
+		Values:     make(map[string]*props.Kind, 0),
+		FProps:     make(map[string]*props.FunctionalPropertyGenerator, 0),
+		NFProps:    make(map[string]*props.NonFunctionalPropertyGenerator, 0),
+		Types:      make(map[string]*props.TypeGenerator, 0),
+		References: make(map[string]*vocabulary, 0),
 	}
 }
 
@@ -74,6 +76,7 @@ const (
 type Converter struct {
 	Registry              *rdf.RDFRegistry
 	VocabularyRoot        *props.PackageManager
+	ValueRoot             *props.PackageManager
 	PropertyPackagePolicy PropertyPackagePolicy
 	PropertyPackageRoot   *props.PackageManager
 	TypePackagePolicy     TypePackagePolicy
@@ -86,14 +89,36 @@ func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 	if e != nil {
 		return
 	}
+	for k, refVocab := range p.References {
+		// Create a copy, but with the Reference moved to Vocab.
+		refP := p
+		refP.Vocab = *refVocab
+		delete(refP.References, k)
+
+		var refV vocabulary
+		refV, e = c.convertVocabulary(refP)
+		if e != nil {
+			return
+		}
+		v.References[k] = &refV
+	}
 	f, e = c.convertToFiles(v)
 	return
 }
 
 func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
-	for _, _ = range v.Kinds {
-		// TODO: Implement
+	// Values -- include all referenced values too.
+	for _, v := range v.Values {
+		pkg := c.valuePackage(v)
+		f = append(f, convertValue(pkg, v))
 	}
+	for _, ref := range v.References {
+		for _, v := range ref.Values {
+			pkg := c.valuePackage(v)
+			f = append(f, convertValue(pkg, v))
+		}
+	}
+	// Functional Properties
 	for _, i := range v.FProps {
 		var pm *props.PackageManager
 		pm, e = c.propertyPackageManager(i)
@@ -119,6 +144,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			Directory: pub.WriteDir(),
 		})
 	}
+	// Non-Functional Properties
 	for _, i := range v.NFProps {
 		var pm *props.PackageManager
 		pm, e = c.propertyPackageManager(i)
@@ -135,7 +161,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			FileName:  fmt.Sprintf("gen_%s.go", i.PropertyName()),
 			Directory: priv.WriteDir(),
 		})
-		// TODO: Interface
+		// Interface
 		pub := pm.PublicPackage()
 		file = jen.NewFilePath(pub.Path())
 		for _, intf := range i.InterfaceDefinitions(pm.PublicPackage()) {
@@ -147,6 +173,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			Directory: pub.WriteDir(),
 		})
 	}
+	// Types
 	for _, i := range v.Types {
 		var pm *props.PackageManager
 		pm, e = c.typePackageManager(i)
@@ -162,7 +189,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			FileName:  fmt.Sprintf("gen_%s.go", i.TypeName()),
 			Directory: priv.WriteDir(),
 		})
-		// TODO: Interface
+		// Interface
 		pub := pm.PublicPackage()
 		file = jen.NewFilePath(pub.Path())
 		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
@@ -197,13 +224,13 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e error) {
 	v = newVocabulary()
 	for k, val := range p.Vocab.Values {
-		v.Kinds[k] = c.convertValue(val)
+		v.Values[k] = c.convertValue(val)
 	}
 	for k, prop := range p.Vocab.Properties {
 		if prop.Functional {
-			v.FProps[k], e = c.convertFunctionalProperty(prop, v.Kinds, p.Vocab, p.References)
+			v.FProps[k], e = c.convertFunctionalProperty(prop, v.Values, p.Vocab, p.References)
 		} else {
-			v.NFProps[k], e = c.convertNonFunctionalProperty(prop, v.Kinds, p.Vocab, p.References)
+			v.NFProps[k], e = c.convertNonFunctionalProperty(prop, v.Values, p.Vocab, p.References)
 		}
 		if e != nil {
 			return
@@ -326,6 +353,9 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	// Pass in properties whose range is this type so it can build
 	// references properly.
 	//
+	// Note that the Kinds container on properties contains both types and
+	// values.
+	//
 	// TODO: Enable this for referenced properties.
 	name := c.convertTypeToName(t)
 	var rangeProps []props.Property
@@ -401,14 +431,20 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 }
 
 func (c Converter) convertValue(v rdf.VocabularyValue) (k *props.Kind) {
+	s := v.SerializeFn.CloneToPackage(c.vocabValuePackage(v).Path())
+	d := v.DeserializeFn.CloneToPackage(c.vocabValuePackage(v).Path())
+	l := v.LessFn.CloneToPackage(c.vocabValuePackage(v).Path())
 	k = &props.Kind{
 		Name: c.toIdentifier(v),
 		// TODO: Add Qualifier
-		ConcreteKind:  jen.Id(v.DefinitionType),
-		Nilable:       c.isNilable(v.DefinitionType),
-		SerializeFn:   v.SerializeFn.QualifiedName(),
-		DeserializeFn: v.DeserializeFn.QualifiedName(),
-		LessFn:        v.LessFn.QualifiedName(),
+		ConcreteKind:   jen.Id(v.DefinitionType),
+		Nilable:        c.isNilable(v.DefinitionType),
+		SerializeFn:    s.QualifiedName(),
+		DeserializeFn:  d.QualifiedName(),
+		LessFn:         l.QualifiedName(),
+		SerializeDef:   s,
+		DeserializeDef: d,
+		LessDef:        l,
 	}
 	return
 }
@@ -423,7 +459,7 @@ func (c Converter) convertTypeToKind(v rdf.VocabularyType) (k *props.Kind, e err
 		//   - DeserializeFn
 		//   - LessFn
 		//
-		// The TypeGenerator is responsible for calling setKindFns on
+		// The TypeGenerator is responsible for calling SetKindFns on
 		// the properties, to property wire a Property's Kind back to
 		// the Type's implementation.
 	}
@@ -488,6 +524,14 @@ func (c Converter) propertyKinds(v rdf.VocabularyProperty,
 		}
 	}
 	return
+}
+
+func (c Converter) valuePackage(v *props.Kind) props.Package {
+	return c.ValueRoot.Sub(v.Name.LowerName).PublicPackage()
+}
+
+func (c Converter) vocabValuePackage(v rdf.VocabularyValue) props.Package {
+	return c.ValueRoot.Sub(c.toIdentifier(v).LowerName).PublicPackage()
 }
 
 func (c Converter) typePackageManager(v typeNamer) (pkg *props.PackageManager, e error) {
@@ -558,4 +602,19 @@ func allExtendsAreIn(t rdf.VocabularyType, v map[string]*props.TypeGenerator) bo
 		}
 	}
 	return true
+}
+
+func convertValue(pkg props.Package, v *props.Kind) *File {
+	file := jen.NewFilePath(pkg.Path())
+	file.Add(
+		v.SerializeDef.Definition(),
+	).Line().Add(
+		v.DeserializeDef.Definition(),
+	).Line().Add(
+		v.LessDef.Definition())
+	return &File{
+		F:         file,
+		FileName:  fmt.Sprintf("gen_%s.go", v.Name.LowerName),
+		Directory: pkg.WriteDir(),
+	}
 }

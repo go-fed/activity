@@ -65,12 +65,22 @@ type Kind struct {
 	// ConcreteKind is expected to be properly qualified.
 	ConcreteKind *jen.Statement
 	Nilable      bool
+
+	// TODO: Untangle the package management mess so that the below do not
+	// need to be duplicated.
+
+	// These <FuncName>Fn types are for qualified names of the functions.
 	// Expected to always be non-nil: a function is needed to deserialize.
 	DeserializeFn *jen.Statement
 	// If any of these are nil at generation time, assume to call the method
 	// on the object directly (instead of a qualified function).
 	SerializeFn *jen.Statement
 	LessFn      *jen.Statement
+
+	// The following are only used for values, not types, as actual implementations
+	SerializeDef   *codegen.Function
+	DeserializeDef *codegen.Function
+	LessDef        *codegen.Function
 }
 
 func (k Kind) lessFnCode(this, other *jen.Statement) *jen.Statement {

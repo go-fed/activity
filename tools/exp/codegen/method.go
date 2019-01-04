@@ -58,6 +58,14 @@ func NewFunction(pkg, name string,
 	}
 }
 
+// CloneToPackage copies this Function into a new one defined in the provided
+// package
+func (m Function) CloneToPackage(pkg string) *Function {
+	f := m
+	f.qual = jen.Qual(pkg, m.name)
+	return &f
+}
+
 // Definition generates the Go code required to define and implement this
 // function.
 func (m Function) Definition() jen.Code {

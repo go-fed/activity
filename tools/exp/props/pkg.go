@@ -19,7 +19,7 @@ func NewPackageManager(prefix, root string) *PackageManager {
 		prefix:  prefix,
 		root:    root,
 		public:  "",
-		private: "internal",
+		private: "impl",
 	}
 }
 
@@ -36,6 +36,7 @@ func (p *PackageManager) PrivatePackage() Package {
 // Sub creates a PackageManager clone that manages a subdirectory.
 func (p *PackageManager) Sub(name string) *PackageManager {
 	return &PackageManager{
+		prefix:  p.prefix,
 		root:    fmt.Sprintf("%s/%s", p.root, name),
 		public:  p.public,
 		private: p.private,

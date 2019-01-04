@@ -201,21 +201,21 @@ func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (
 			SerializeFn: rdf.SerializeValueFunction(
 				a.pkg,
 				anyURISpec,
-				jen.Op("*").Qual("url", "URL"),
+				jen.Op("*").Qual("net/url", "URL"),
 				[]jen.Code{
 					// TODO
 				}),
 			DeserializeFn: rdf.DeserializeValueFunction(
 				a.pkg,
 				anyURISpec,
-				jen.Op("*").Qual("url", "URL"),
+				jen.Op("*").Qual("net/url", "URL"),
 				[]jen.Code{
 					// TODO
 				}),
 			LessFn: rdf.LessFunction(
 				a.pkg,
 				anyURISpec,
-				jen.Op("*").Qual("url", "URL"),
+				jen.Op("*").Qual("net/url", "URL"),
 				[]jen.Code{
 					// TODO
 				}),

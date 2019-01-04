@@ -86,6 +86,7 @@ func main() {
 	c := &convert.Converter{
 		Registry:              registry,
 		VocabularyRoot:        props.NewPackageManager(*prefix, "gen/as"),
+		ValueRoot:             props.NewPackageManager(*prefix, "gen/vals"),
 		PropertyPackagePolicy: convert.PropertyFlatUnderRoot,
 		PropertyPackageRoot:   props.NewPackageManager(*prefix, "gen/as/props"),
 		TypePackagePolicy:     convert.TypeFlatUnderRoot,
