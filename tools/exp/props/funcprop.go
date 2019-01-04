@@ -38,14 +38,6 @@ func NewFunctionalPropertyGenerator(pm *PackageManager,
 	}
 }
 
-// toInterface creates the interface version of the definition generated.
-//
-// TODO: Remove -- redundant?
-func (p *FunctionalPropertyGenerator) toInterface(pkg Package) *codegen.Interface {
-	s := p.Definition()
-	return s.ToInterface(pkg.Path(), p.InterfaceName(), "")
-}
-
 // InterfaceDefinition creates an interface definition in the provided package.
 func (p *FunctionalPropertyGenerator) InterfaceDefinition(pkg Package) *codegen.Interface {
 	s := p.Definition()

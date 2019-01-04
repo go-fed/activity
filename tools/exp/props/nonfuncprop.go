@@ -37,17 +37,6 @@ func NewNonFunctionalPropertyGenerator(pm *PackageManager,
 	}
 }
 
-// toInterfaces creates the interface versions of the definitions generated.
-//
-// TODO: Remove -- redundant?
-func (p *NonFunctionalPropertyGenerator) toInterfaces(pkg Package) []*codegen.Interface {
-	s, t := p.Definitions()
-	return []*codegen.Interface{
-		s.ToInterface(pkg.Path(), p.elementTypeGenerator().InterfaceName(), ""),
-		t.ToInterface(pkg.Path(), p.InterfaceName(), ""),
-	}
-}
-
 // InterfaceDefinitions creates interface definitions in the provided package.
 func (p *NonFunctionalPropertyGenerator) InterfaceDefinitions(pkg Package) []*codegen.Interface {
 	s, t := p.Definitions()

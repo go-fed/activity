@@ -216,16 +216,6 @@ func (t *TypeGenerator) deserializationFnName() string {
 	return fmt.Sprintf("%s%s", deserializeFnName, t.TypeName())
 }
 
-// toInterface creates the interface version of the definition generated.
-//
-// Requires apply to have already been called.
-//
-// TODO: Delete -- redundant?
-func (t *TypeGenerator) toInterface(pkg Package) *codegen.Interface {
-	s := t.Definition()
-	return s.ToInterface(pkg.Path(), t.InterfaceName(), "")
-}
-
 // InterfaceDefinition creates the interface of this type in the specified
 // package.
 //

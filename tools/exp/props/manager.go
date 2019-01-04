@@ -118,15 +118,15 @@ func NewManagerGenerator(pm PackageManager,
 	// on the first pass's data population.
 	for _, t := range tg {
 		publicPkg := t.PublicPackage()
-		mg.tgManagedMethods[t].ifaces = []*codegen.Interface{t.toInterface(publicPkg)}
+		mg.tgManagedMethods[t].ifaces = []*codegen.Interface{t.InterfaceDefinition(publicPkg)}
 	}
 	for _, p := range fp {
 		publicPkg := p.GetPublicPackage()
-		mg.fpManagedMethods[p].ifaces = []*codegen.Interface{p.toInterface(publicPkg)}
+		mg.fpManagedMethods[p].ifaces = []*codegen.Interface{p.InterfaceDefinition(publicPkg)}
 	}
 	for _, p := range nfp {
 		publicPkg := p.GetPublicPackage()
-		mg.nfpManagedMethods[p].ifaces = p.toInterfaces(publicPkg)
+		mg.nfpManagedMethods[p].ifaces = p.InterfaceDefinitions(publicPkg)
 	}
 	return mg, nil
 }
