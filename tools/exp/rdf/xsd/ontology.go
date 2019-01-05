@@ -397,21 +397,45 @@ func (f *float) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (b
 				floatSpec,
 				jen.Id("float32"),
 				[]jen.Code{
-					// TODO
+					jen.Return(
+						jen.Id(codegen.This()),
+						jen.Nil(),
+					),
 				}),
 			DeserializeFn: rdf.DeserializeValueFunction(
 				f.pkg,
 				floatSpec,
 				jen.Id("float32"),
 				[]jen.Code{
-					// TODO
+					jen.If(
+						jen.List(
+							jen.Id("f"),
+							jen.Id("ok"),
+						).Op(":=").Id(codegen.This()).Assert(jen.Float32()),
+						jen.Id("ok"),
+					).Block(
+						jen.Return(
+							jen.Id("f"),
+							jen.Nil(),
+						),
+					).Else().Block(
+						jen.Return(
+							jen.Lit(0),
+							jen.Qual("fmt", "Errorf").Call(
+								jen.Lit("%v cannot be interpreted as a float32 for xsd:float"),
+								jen.Id(codegen.This()),
+							),
+						),
+					),
 				}),
 			LessFn: rdf.LessFunction(
 				f.pkg,
 				floatSpec,
 				jen.Id("float32"),
 				[]jen.Code{
-					// TODO
+					jen.Return(
+						jen.Id("lhs").Op("<").Id("rhs"),
+					),
 				}),
 		}
 		if err = v.SetValue(floatSpec, val); err != nil {
