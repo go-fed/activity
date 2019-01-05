@@ -204,21 +204,57 @@ func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (
 				anyURISpec,
 				jen.Op("*").Qual("net/url", "URL"),
 				[]jen.Code{
-					// TODO
+					jen.Return(
+						jen.Id(codegen.This()).Dot("String").Call(),
+						jen.Nil(),
+					),
 				}),
 			DeserializeFn: rdf.DeserializeValueFunction(
 				a.pkg,
 				anyURISpec,
 				jen.Op("*").Qual("net/url", "URL"),
 				[]jen.Code{
-					// TODO
+					jen.Var().Id("u").Op("*").Qual("net/url", "URL"),
+					jen.Var().Err().Error(),
+					jen.If(
+						jen.List(
+							jen.Id("s"),
+							jen.Id("ok"),
+						).Op(":=").Id(codegen.This()).Assert(jen.String()),
+						jen.Id("ok"),
+					).Block(
+						jen.List(
+							jen.Id("u"),
+							jen.Err(),
+						).Op("=").Qual("net/url", "Parse").Call(jen.Id("s")),
+						jen.If(
+							jen.Err().Op("!=").Nil(),
+						).Block(
+							jen.Err().Op("=").Qual("fmt", "Errorf").Call(
+								jen.Lit("%v cannot be interpreted as a xsd:anyURI: %s"),
+								jen.Id(codegen.This()),
+								jen.Err(),
+							),
+						),
+					).Else().Block(
+						jen.Err().Op("=").Qual("fmt", "Errorf").Call(
+							jen.Lit("%v cannot be interpreted as a string for xsd:anyURI"),
+							jen.Id(codegen.This()),
+						),
+					),
+					jen.Return(jen.List(
+						jen.Id("u"),
+						jen.Err(),
+					)),
 				}),
 			LessFn: rdf.LessFunction(
 				a.pkg,
 				anyURISpec,
 				jen.Op("*").Qual("net/url", "URL"),
 				[]jen.Code{
-					// TODO
+					jen.Return(
+						jen.Id("lhs").Dot("String").Call().Op("<").Id("rhs").Dot("String").Call(),
+					),
 				}),
 		}
 		if err = v.SetValue(anyURISpec, val); err != nil {
