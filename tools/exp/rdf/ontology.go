@@ -162,21 +162,125 @@ func (l *langstring) Apply(key string, value interface{}, ctx *ParsingContext) (
 			langstringSpec,
 			jen.Map(jen.String()).String(),
 			[]jen.Code{
-				// TODO
+				jen.Return(
+					jen.Id(codegen.This()),
+					jen.Nil(),
+				),
 			}),
 		DeserializeFn: DeserializeValueFunction(
 			l.pkg,
 			langstringSpec,
 			jen.Map(jen.String()).String(),
 			[]jen.Code{
-				// TODO
+				jen.If(
+					jen.List(
+						jen.Id("m"),
+						jen.Id("ok"),
+					).Op(":=").Id(codegen.This()).Assert(jen.Map(jen.String()).Interface()),
+					jen.Id("ok"),
+				).Block(
+					jen.Id("r").Op(":=").Make(jen.Map(jen.String()).String()),
+					jen.For(
+						jen.List(
+							jen.Id("k"),
+							jen.Id("v"),
+						).Op(":=").Range().Id("m"),
+					).Block(
+						jen.If(
+							jen.List(
+								jen.Id("s"),
+								jen.Id("ok"),
+							).Op(":=").Id("v").Assert(jen.String()),
+							jen.Id("ok"),
+						).Block(
+							jen.Id("r").Index(jen.Id("k")).Op("=").Id("s"),
+						).Else().Block(
+							jen.Return(
+								jen.Nil(),
+								jen.Qual("fmt", "Errorf").Call(
+									jen.Lit("value %v cannot be interpreted as a string for rdf:langString"),
+									jen.Id("v"),
+								),
+							),
+						),
+					),
+					jen.Return(
+						jen.Id("r"),
+						jen.Nil(),
+					),
+				).Else().Block(
+					jen.Return(
+						jen.Nil(),
+						jen.Qual("fmt", "Errorf").Call(
+							jen.Lit("%v cannot be interpreted as a map[string]interface{} for rdf:langString"),
+							jen.Id(codegen.This()),
+						),
+					),
+				),
 			}),
 		LessFn: LessFunction(
 			l.pkg,
 			langstringSpec,
 			jen.Map(jen.String()).String(),
 			[]jen.Code{
-				// TODO
+				jen.Var().Id("lk").Index().String(),
+				jen.Var().Id("rk").Index().String(),
+				jen.For(
+					jen.List(
+						jen.Id("k"),
+					).Op(":=").Range().Id("lhs"),
+				).Block(
+					jen.Id("lk").Op("=").Append(
+						jen.Id("lk"),
+						jen.Id("k"),
+					),
+				),
+				jen.For(
+					jen.List(
+						jen.Id("k"),
+					).Op(":=").Range().Id("rhs"),
+				).Block(
+					jen.Id("rk").Op("=").Append(
+						jen.Id("rk"),
+						jen.Id("k"),
+					),
+				),
+				jen.Qual("sort", "Sort").Call(
+					jen.Qual("sort", "StringSlice").Call(jen.Id("lk")),
+				),
+				jen.Qual("sort", "Sort").Call(
+					jen.Qual("sort", "StringSlice").Call(jen.Id("rk")),
+				),
+				jen.For(
+					jen.Id("i").Op(":=").Lit(0),
+					jen.Id("i").Op("<").Len(jen.Id("lk")).Op("&&").Id("i").Op("<").Len(jen.Id("rk")),
+					jen.Id("i").Op("++"),
+				).Block(
+					jen.If(
+						jen.Id("lk").Index(jen.Id("i")).Op("<").Id("rk").Index(jen.Id("i")),
+					).Block(
+						jen.Return(jen.True()),
+					).Else().If(
+						jen.Id("rk").Index(jen.Id("i")).Op("<").Id("lk").Index(jen.Id("i")),
+					).Block(
+						jen.Return(jen.False()),
+					).Else().If(
+						jen.Id("lhs").Index(jen.Id("lk").Index(jen.Id("i"))).Op("<").Id("rhs").Index(jen.Id("rk").Index(jen.Id("i"))),
+					).Block(
+						jen.Return(jen.True()),
+					).Else().If(
+						jen.Id("rhs").Index(jen.Id("rk").Index(jen.Id("i"))).Op("<").Id("lhs").Index(jen.Id("lk").Index(jen.Id("i"))),
+					).Block(
+						jen.Return(jen.False()),
+					),
+				),
+				jen.If(
+					jen.Len(jen.Id("lk")).Op("<").Len(jen.Id("rk")),
+				).Block(
+					jen.Return(jen.True()),
+				).Else().Block(
+					jen.Return(jen.False()),
+				),
 			}),
 	})
 	return true, e
