@@ -19,6 +19,8 @@ const (
 	serializeMethodName = "Serialize"
 	deserializeFnName   = "Deserialize"
 	compareLessMethod   = "LessThan"
+	getUnknownMethod    = "GetUnknownProperties"
+	unknownMember       = "unknown"
 )
 
 // TypeInterface returns the Type Interface that is needed for ActivityStream
@@ -228,9 +230,11 @@ func (t *TypeGenerator) InterfaceDefinition(pkg Package) *codegen.Interface {
 // Definition generates the golang code for this ActivityStreams type.
 func (t *TypeGenerator) Definition() *codegen.Struct {
 	t.cacheOnce.Do(func() {
+		// TODO: Constructor function (not here, maybe in manager?)
 		members := t.members()
 		ser := t.serializationMethod()
 		less := t.lessMethod()
+		get := t.getUnknownMethod()
 		deser := t.kindDeserializationFunc()
 		extendsFn, extendsMethod := t.extendsDefinition()
 		t.cachedStruct = codegen.NewStruct(
@@ -241,6 +245,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 				extendsMethod,
 				ser,
 				less,
+				get,
 			},
 			[]*codegen.Function{
 				t.extendedByDefinition(),
@@ -307,7 +312,7 @@ func (t *TypeGenerator) members() (members []jen.Code) {
 	for _, property := range p {
 		members = append(members, jen.Id(t.memberName(property)).Qual(property.GetPublicPackage().Path(), property.InterfaceName()))
 	}
-	// TODO: Unknown member
+	members = append(members, jen.Id(unknownMember).Map(jen.String()).Interface())
 	return
 }
 
@@ -480,7 +485,7 @@ func (t *TypeGenerator) disjointWithDefinition() *codegen.Function {
 // serializationMethod returns the method needed to serialize a TypeGenerator as
 // a property.
 func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
-	serCode := jen.Empty()
+	serCode := jen.Commentf("Begin: Serialize known properties").Line()
 	for _, prop := range t.allProperties() {
 		serCode.Add(
 			jen.Commentf("Maybe serialize property %q", prop.PropertyName()).Line(),
@@ -498,6 +503,24 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 				jen.Id("m").Index(jen.Id(codegen.This()).Dot(t.memberName(prop)).Dot(nameMethod).Call()).Op("=").Id("i"),
 			).Line())
 	}
+	serCode = serCode.Commentf("End: Serialize known properties").Line()
+	unknownCode := jen.Commentf("Begin: Serialize unknown properties").Line().For(
+		jen.List(
+			jen.Id("k"),
+			jen.Id("v"),
+		).Op(":=").Range().Id(codegen.This()).Dot(unknownMember),
+	).Block(
+		jen.Commentf("To be safe, ensure we aren't overwriting a known property"),
+		jen.If(
+			jen.List(
+				jen.Id("_"),
+				jen.Id("has"),
+			).Op(":=").Id("m").Index(jen.Id("k")),
+			jen.Op("!").Id("has"),
+		).Block(
+			jen.Id("m").Index(jen.Id("k")).Op("=").Id("v"),
+		),
+	).Line().Commentf("End: Serialize unknown properties").Line()
 	ser = codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
 		serializeMethodName,
@@ -509,6 +532,7 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 				jen.Map(jen.String()).Interface(),
 			),
 			serCode,
+			unknownCode,
 			jen.Return(jen.Id("m"), jen.Nil()),
 		},
 		jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", serializeMethodName))
@@ -517,7 +541,7 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 
 // lessMethod returns the method needed to compare a type with another type.
 func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
-	lessCode := jen.Empty()
+	lessCode := jen.Commentf("Begin: Compare known properties").Line()
 	for _, prop := range t.allProperties() {
 		lessCode = lessCode.Add(
 			jen.Commentf("Compare property %q", prop.PropertyName()).Line(),
@@ -535,6 +559,24 @@ func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
 				jen.Return(jen.False()),
 			).Line())
 	}
+	lessCode = lessCode.Commentf("End: Compare known properties").Line()
+	unknownCode := jen.Commentf("Begin: Compare unknown properties (only by number of them)").Line().If(
+		jen.Len(
+			jen.Id(codegen.This()).Dot(unknownMember),
+		).Op("<").Len(
+			jen.Id("o").Dot(getUnknownMethod).Call(),
+		),
+	).Block(
+		jen.Return(jen.True()),
+	).Else().If(
+		jen.Len(
+			jen.Id("o").Dot(getUnknownMethod).Call(),
+		).Op("<").Len(
+			jen.Id(codegen.This()).Dot(unknownMember),
+		),
+	).Block(
+		jen.Return(jen.False()),
+	).Commentf("End: Compare unknown properties (only by number of them)").Line()
 	less = codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
 		compareLessMethod,
@@ -545,17 +587,18 @@ func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{
 			lessCode,
+			unknownCode,
 			jen.Commentf("All properties are the same."),
 			jen.Return(jen.False()),
 		},
-		jen.Commentf("%s computes if this %s is lesser, with an arbitrary but stable determination", compareLessMethod, t.TypeName()))
+		jen.Commentf("%s computes if this %s is lesser, with an arbitrary but stable determination.", compareLessMethod, t.TypeName()))
 	return
 }
 
 // kindDeserializationFunc returns free function reference that can be used to
 // treat a TypeGenerator as another property's Kind.
 func (t *TypeGenerator) kindDeserializationFunc() (deser *codegen.Function) {
-	deserCode := jen.Empty()
+	deserCode := jen.Commentf("Begin: Known property deserialization").Line()
 	for _, prop := range t.allProperties() {
 		deserMethod := t.m.getPrivateDeserializationMethodForProperty(prop)
 		deserCode = deserCode.Add(
@@ -572,16 +615,64 @@ func (t *TypeGenerator) kindDeserializationFunc() (deser *codegen.Function) {
 				jen.Id(codegen.This()).Dot(t.memberName(prop)).Op("=").Op("*").Id("p"),
 			).Line())
 	}
+	deserCode = deserCode.Commentf("End: Known property deserialization").Line()
+	knownProps := jen.Commentf("Begin: Code that ensures a property name is unknown").Line()
+	for i, prop := range t.allProperties() {
+		if i > 0 {
+			knownProps = knownProps.Else()
+		}
+		knownProps = knownProps.If(
+			jen.Id("k").Op("==").Lit(prop.PropertyName()),
+		).Block(
+			jen.Continue(),
+		)
+	}
+	knownProps = knownProps.Commentf("End: Code that ensures a property name is unknown").Line()
+	unknownCode := jen.Commentf("Begin: Unknown deserialization").Line().For(
+		jen.List(
+			jen.Id("k"),
+			jen.Id("v"),
+		).Op(":=").Range().Id("m"),
+	).Block(
+		knownProps,
+		jen.Id(codegen.This()).Dot(unknownMember).Index(jen.Id("k")).Op("=").Id("v"),
+	).Line().Commentf("End: Unknown deserialization").Line()
 	deser = codegen.NewCommentedFunction(
 		t.PrivatePackage().Path(),
 		t.deserializationFnName(),
 		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
 		[]jen.Code{jen.Op("*").Id(t.TypeName()), jen.Error()},
 		[]jen.Code{
-			jen.Id(codegen.This()).Op(":=").Op("&").Id(t.TypeName()).Values(),
+			jen.Id(codegen.This()).Op(":=").Op("&").Id(t.TypeName()).Values(jen.Dict{
+				jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface()),
+			}),
 			deserCode,
+			unknownCode,
 			jen.Return(jen.Id(codegen.This()), jen.Nil()),
 		},
 		jen.Commentf("%s creates a %s from a map representation that has been unmarshalled from a text or binary format.", t.deserializationFnName(), t.TypeName()))
+	return
+}
+
+// getUnknownMethod returns the GetUnknown helper used to compare which type is
+// LessThan. This method is API-leaky and shouldn't be used by normal app
+// developers.
+func (t *TypeGenerator) getUnknownMethod() (get *codegen.Method) {
+	get = codegen.NewCommentedValueMethod(
+		t.PrivatePackage().Path(),
+		getUnknownMethod,
+		t.TypeName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Map(jen.String()).Interface()},
+		[]jen.Code{
+			jen.Return(jen.Id(codegen.This()).Dot(unknownMember)),
+		},
+		jen.Commentf(`%s returns the unknown properties for the %s type.
+
+Note that this should not be used by app developers. It is only used to help determine
+which implementation is LessThan the other. Developers who are creating a different
+implementation of this type's interface can use this method in their LessThan
+implementation, but routine ActivityPub applications should not use this to bypass the
+code generation tool.`, getUnknownMethod, t.TypeName()))
 	return
 }
