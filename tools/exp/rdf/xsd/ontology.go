@@ -2,6 +2,7 @@ package xsd
 
 import (
 	"fmt"
+	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/cjslep/activity/tools/exp/rdf"
 	"github.com/dave/jennifer/jen"
 	"net/url"
@@ -258,21 +259,68 @@ func (d *dateTime) Apply(key string, value interface{}, ctx *rdf.ParsingContext)
 				dateTimeSpec,
 				jen.Qual("time", "Time"),
 				[]jen.Code{
-					// TODO
+					jen.Return(
+						jen.Id(codegen.This()).Dot("Format").Call(jen.Qual("time", "RFC3339")),
+						jen.Nil(),
+					),
 				}),
 			DeserializeFn: rdf.DeserializeValueFunction(
 				d.pkg,
 				dateTimeSpec,
 				jen.Qual("time", "Time"),
 				[]jen.Code{
-					// TODO
+					jen.Var().Id("tmp").Qual("time", "Time"),
+					jen.Var().Err().Error(),
+					jen.If(
+						jen.List(
+							jen.Id("s"),
+							jen.Id("ok"),
+						).Op(":=").Id(codegen.This()).Assert(jen.String()),
+						jen.Id("ok"),
+					).Block(
+						jen.List(
+							jen.Id("tmp"),
+							jen.Err(),
+						).Op("=").Qual("time", "Parse").Call(
+							jen.Qual("time", "RFC3339"),
+							jen.Id("s"),
+						),
+						jen.If(
+							jen.Err().Op("!=").Nil(),
+						).Block(
+							jen.List(
+								jen.Id("tmp"),
+								jen.Err(),
+							).Op("=").Qual("time", "Parse").Call(
+								jen.Lit("2006-01-02T15:04Z07:00"),
+								jen.Id("s"),
+							),
+							jen.If(
+								jen.Err().Op("!=").Nil(),
+							).Block(
+								jen.Err().Op("=").Qual("fmt", "Errorf").Call(
+									jen.Lit("%v cannot be interpreted as xsd:datetime"),
+									jen.Id(codegen.This()),
+								),
+							),
+						),
+					).Else().Block(
+						jen.Err().Op("=").Qual("fmt", "Errorf").Call(
+							jen.Lit("%v cannot be interpreted as a string for xsd:datetime"),
+							jen.Id(codegen.This()),
+						),
+					),
+					jen.Return(jen.List(
+						jen.Id("tmp"),
+						jen.Err(),
+					)),
 				}),
 			LessFn: rdf.LessFunction(
 				d.pkg,
 				dateTimeSpec,
 				jen.Qual("time", "Time"),
 				[]jen.Code{
-					// TODO
+					jen.Return(jen.Id("lhs").Dot("Before").Call(jen.Id("rhs"))),
 				}),
 		}
 		if err = v.SetValue(dateTimeSpec, val); err != nil {
