@@ -199,14 +199,14 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			Directory: pub.WriteDir(),
 		})
 	}
-	// TODO: For Manager
-	priv := c.VocabularyRoot.PrivatePackage()
-	file := jen.NewFilePath(priv.Path())
-	file.Add(v.Manager.PrivateManager().Definition())
+	// Manager
+	pub := c.VocabularyRoot.PublicPackage()
+	file := jen.NewFilePath(pub.Path())
+	file.Add(v.Manager.Definition().Definition())
 	f = append(f, &File{
 		F:         file,
 		FileName:  "gen_manager.go",
-		Directory: priv.WriteDir(),
+		Directory: pub.WriteDir(),
 	})
 	return
 }
@@ -268,7 +268,7 @@ func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e e
 		}
 	}
 	v.Manager, e = props.NewManagerGenerator(
-		*c.VocabularyRoot,
+		c.VocabularyRoot.PublicPackage(),
 		v.typeArray(),
 		v.funcPropArray(),
 		v.nonFuncPropArray())
@@ -374,6 +374,7 @@ func (c Converter) convertType(t rdf.VocabularyType,
 		}
 	}
 	tg, e = props.NewTypeGenerator(
+		v.GetName(),
 		pm,
 		name,
 		t.Notes,
@@ -400,6 +401,7 @@ func (c Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 		return
 	}
 	fp = props.NewFunctionalPropertyGenerator(
+		v.GetName(),
 		pm,
 		c.toIdentifier(p),
 		p.Notes,
@@ -423,6 +425,7 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 		return
 	}
 	nfp = props.NewNonFunctionalPropertyGenerator(
+		v.GetName(),
 		pm,
 		c.toIdentifier(p),
 		k,

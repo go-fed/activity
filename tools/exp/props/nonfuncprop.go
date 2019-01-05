@@ -23,12 +23,14 @@ type NonFunctionalPropertyGenerator struct {
 //
 // PropertyGenerators shoulf be in the first pass to construct, before types and
 // other generators are constructed.
-func NewNonFunctionalPropertyGenerator(pm *PackageManager,
+func NewNonFunctionalPropertyGenerator(vocabName string,
+	pm *PackageManager,
 	name Identifier,
 	kinds []Kind,
 	hasNaturalLanguageMap bool) *NonFunctionalPropertyGenerator {
 	return &NonFunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
+			vocabName:             vocabName,
 			PackageManager:        pm,
 			HasNaturalLanguageMap: hasNaturalLanguageMap,
 			Name:                  name,

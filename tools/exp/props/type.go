@@ -50,6 +50,7 @@ type Property interface {
 
 // TypeGenerator represents an ActivityStream type definition to generate in Go.
 type TypeGenerator struct {
+	vocabName         string
 	pm                *PackageManager
 	typeName          string
 	comment           string
@@ -84,10 +85,11 @@ type TypeGenerator struct {
 //
 // A ManagerGenerator must be created with this type before Definition is
 // called, to ensure that the serialization functions are properly set up.
-func NewTypeGenerator(pm *PackageManager, typeName, comment string,
+func NewTypeGenerator(vocabName string, pm *PackageManager, typeName, comment string,
 	properties, withoutProperties, rangeProperties []Property,
 	extends, disjoint []*TypeGenerator) (*TypeGenerator, error) {
 	t := &TypeGenerator{
+		vocabName:         vocabName,
 		pm:                pm,
 		typeName:          typeName,
 		comment:           comment,
@@ -129,7 +131,7 @@ func (t *TypeGenerator) apply(m *ManagerGenerator) error {
 	// Set up Kind functions
 	// Note: this "i" must be the same as the "i" in the deserialization definition.
 	// TODO: Remove this kluge.
-	deser := m.getPrivateDeserializationMethodForType(t).On(managerInitName())
+	deser := m.getDeserializationMethodForType(t).On(managerInitName())
 	kind := jen.Qual(t.PublicPackage().Path(), t.InterfaceName())
 	for _, p := range t.rangeProperties {
 		if e := p.SetKindFns(t.TypeName(), kind, deser); e != nil {
@@ -137,6 +139,11 @@ func (t *TypeGenerator) apply(m *ManagerGenerator) error {
 		}
 	}
 	return nil
+}
+
+// VocabName returns this TypeGenerator's vocabulary name.
+func (t *TypeGenerator) VocabName() string {
+	return t.vocabName
 }
 
 // Package gets this TypeGenerator's Private Package.
@@ -230,7 +237,6 @@ func (t *TypeGenerator) InterfaceDefinition(pkg Package) *codegen.Interface {
 // Definition generates the golang code for this ActivityStreams type.
 func (t *TypeGenerator) Definition() *codegen.Struct {
 	t.cacheOnce.Do(func() {
-		// TODO: Constructor function (not here, maybe in manager?)
 		members := t.members()
 		ser := t.serializationMethod()
 		less := t.lessMethod()
@@ -600,19 +606,18 @@ func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
 func (t *TypeGenerator) kindDeserializationFunc() (deser *codegen.Function) {
 	deserCode := jen.Commentf("Begin: Known property deserialization").Line()
 	for _, prop := range t.allProperties() {
-		deserMethod := t.m.getPrivateDeserializationMethodForProperty(prop)
+		deserMethod := t.m.getDeserializationMethodForProperty(prop)
 		deserCode = deserCode.Add(
 			jen.If(
 				jen.List(
 					jen.Id("p"),
 					jen.Err(),
-				// TODO: Ensure this variable is called correctly
-				).Op(":=").Add(deserMethod.Call(managerInitName(), jen.Id("m"))),
+				).Op(":=").Add(deserMethod.On(managerInitName()).Call().Call(jen.Id("m"))),
 				jen.Err().Op("!=").Nil(),
 			).Block(
 				jen.Return(jen.Nil(), jen.Err()),
 			).Else().Block(
-				jen.Id(codegen.This()).Dot(t.memberName(prop)).Op("=").Op("*").Id("p"),
+				jen.Id(codegen.This()).Dot(t.memberName(prop)).Op("=").Id("p"),
 			).Line())
 	}
 	deserCode = deserCode.Commentf("End: Known property deserialization").Line()

@@ -42,13 +42,19 @@ func (p ParsedVocabulary) String() string {
 // Vocabulary contains the type, property, and value definitions for a single
 // ActivityStreams or extension vocabulary.
 type Vocabulary struct {
+	Name       string
 	Types      map[string]VocabularyType
 	Properties map[string]VocabularyProperty
 	Values     map[string]VocabularyValue
 }
 
+func (v Vocabulary) GetName() string {
+	return v.Name
+}
+
 func (v Vocabulary) String() string {
 	var b bytes.Buffer
+	b.WriteString(fmt.Sprintf("Vocabulary %q\n", v.Name))
 	for k, v := range v.Types {
 		b.WriteString(fmt.Sprintf("Type %s:\n\t%s\n", k, v))
 	}

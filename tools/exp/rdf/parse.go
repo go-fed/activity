@@ -119,7 +119,7 @@ type RDFNode interface {
 
 // ParseVocabulary parses the specified input as an ActivityStreams context that
 // specifies a Core, Extended, or Extension vocabulary.
-func ParseVocabulary(registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVocabulary, err error) {
+func ParseVocabulary(name string, registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVocabulary, err error) {
 	var nodes []RDFNode
 	nodes, err = parseJSONLDContext(registry, input)
 	if err != nil {
@@ -151,6 +151,8 @@ func ParseVocabulary(registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVoc
 	// Step 3: Populate VocabularyType's 'Properties' and
 	// 'WithoutProperties' fields
 	err = populatePropertiesOnTypes(ctx)
+	// Populate this parsed vocabulary's name
+	vocabulary.Vocab.Name = name
 	return
 }
 

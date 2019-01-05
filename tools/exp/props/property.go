@@ -105,6 +105,7 @@ func (k Kind) lessFnCode(this, other *jen.Statement) *jen.Statement {
 //
 // TODO: Make this type private
 type PropertyGenerator struct {
+	vocabName string
 	// TODO: Make these private
 	PackageManager        *PackageManager
 	Name                  Identifier
@@ -112,6 +113,11 @@ type PropertyGenerator struct {
 	Kinds                 []Kind
 	HasNaturalLanguageMap bool
 	asIterator            bool
+}
+
+// VocabName returns this property's vocabulary name.
+func (p *PropertyGenerator) VocabName() string {
+	return p.vocabName
 }
 
 // GetPrivatePackage gets this property's private Package.

@@ -22,13 +22,15 @@ type FunctionalPropertyGenerator struct {
 //
 // PropertyGenerators shoulf be in the first pass to construct, before types and
 // other generators are constructed.
-func NewFunctionalPropertyGenerator(pm *PackageManager,
+func NewFunctionalPropertyGenerator(vocabName string,
+	pm *PackageManager,
 	name Identifier,
 	comment string,
 	kinds []Kind,
 	hasNaturalLanguageMap bool) *FunctionalPropertyGenerator {
 	return &FunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
+			vocabName:             vocabName,
 			PackageManager:        pm,
 			HasNaturalLanguageMap: hasNaturalLanguageMap,
 			Name:                  name,
