@@ -476,21 +476,45 @@ func (s *xmlString) Apply(key string, value interface{}, ctx *rdf.ParsingContext
 				stringSpec,
 				jen.Id("string"),
 				[]jen.Code{
-					// TODO
+					jen.Return(
+						jen.Id(codegen.This()),
+						jen.Nil(),
+					),
 				}),
 			DeserializeFn: rdf.DeserializeValueFunction(
 				s.pkg,
 				stringSpec,
 				jen.Id("string"),
 				[]jen.Code{
-					// TODO
+					jen.If(
+						jen.List(
+							jen.Id("s"),
+							jen.Id("ok"),
+						).Op(":=").Id(codegen.This()).Assert(jen.String()),
+						jen.Id("ok"),
+					).Block(
+						jen.Return(
+							jen.Id("s"),
+							jen.Nil(),
+						),
+					).Else().Block(
+						jen.Return(
+							jen.Lit(""),
+							jen.Qual("fmt", "Errorf").Call(
+								jen.Lit("%v cannot be interpreted as a string for xsd:string"),
+								jen.Id(codegen.This()),
+							),
+						),
+					),
 				}),
 			LessFn: rdf.LessFunction(
 				s.pkg,
 				stringSpec,
 				jen.Id("string"),
 				[]jen.Code{
-					// TODO
+					jen.Return(
+						jen.Id("lhs").Op("<").Id("rhs"),
+					),
 				}),
 		}
 		if err = v.SetValue(stringSpec, val); err != nil {
