@@ -665,21 +665,58 @@ func (n *nonNegativeInteger) Apply(key string, value interface{}, ctx *rdf.Parsi
 				nonNegativeIntegerSpec,
 				jen.Id("int"),
 				[]jen.Code{
-					// TODO
+					jen.Return(
+						jen.Id(codegen.This()),
+						jen.Nil(),
+					),
 				}),
 			DeserializeFn: rdf.DeserializeValueFunction(
 				n.pkg,
 				nonNegativeIntegerSpec,
 				jen.Id("int"),
 				[]jen.Code{
-					// TODO
+					jen.If(
+						jen.List(
+							jen.Id("i"),
+							jen.Id("ok"),
+						).Op(":=").Id(codegen.This()).Assert(jen.Float64()),
+						jen.Id("ok"),
+					).Block(
+						jen.Id("n").Op(":=").Int().Call(jen.Id("i")),
+						jen.If(
+							jen.Id("n").Op(">=").Lit(0),
+						).Block(
+							jen.Return(
+								jen.Id("n"),
+								jen.Nil(),
+							),
+						).Else().Block(
+							jen.Return(
+								jen.Lit(0),
+								jen.Qual("fmt", "Errorf").Call(
+									jen.Lit("%v is a negative integer for xsd:nonNegativeInteger"),
+									jen.Id(codegen.This()),
+								),
+							),
+						),
+					).Else().Block(
+						jen.Return(
+							jen.Lit(0),
+							jen.Qual("fmt", "Errorf").Call(
+								jen.Lit("%v cannot be interpreted as a float for xsd:nonNegativeInteger"),
+								jen.Id(codegen.This()),
+							),
+						),
+					),
 				}),
 			LessFn: rdf.LessFunction(
 				n.pkg,
 				nonNegativeIntegerSpec,
 				jen.Id("int"),
 				[]jen.Code{
-					// TODO
+					jen.Return(
+						jen.Id("lhs").Op("<").Id("rhs"),
+					),
 				}),
 		}
 		if err = v.SetValue(nonNegativeIntegerSpec, val); err != nil {
