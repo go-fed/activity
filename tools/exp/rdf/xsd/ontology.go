@@ -757,21 +757,411 @@ func (d *duration) Apply(key string, value interface{}, ctx *rdf.ParsingContext)
 				durationSpec,
 				jen.Qual("time", "Duration"),
 				[]jen.Code{
-					// TODO
+					jen.Commentf("Seriously questioning my life choices."),
+					jen.Id("s").Op(":=").Lit("P"),
+					jen.If(
+						jen.Id(codegen.This()).Op("<").Lit(0),
+					).Block(
+						jen.Id("s").Op("=").Lit("-P"),
+						jen.Id(codegen.This()).Op("=").Lit(-1).Op("*").Id(codegen.This()),
+					),
+					jen.Var().Id("tally").Qual("time", "Duration"),
+					// Years
+					jen.Commentf("Assume 8760 Hours per 365 days, cannot account for leap years in xsd:duration. :("),
+					jen.If(
+						jen.Id("years").Op(":=").Id(codegen.This()).Dot("Hours").Call().Op("/").Lit(8760.0),
+						jen.Id("years").Op(">=").Lit(1),
+					).Block(
+						jen.Id("nYears").Op(":=").Int64().Call(
+							jen.Qual("math", "Floor").Call(
+								jen.Id("years"),
+							),
+						),
+						jen.Id("tally").Op("+=").Qual("time", "Duration").Call(
+							jen.Id("nYears"),
+						).Op("*").Lit(8760).Op("*").Qual("time", "Hour"),
+						jen.Id("s").Op("=").Qual("fmt", "Sprintf").Call(
+							jen.Lit("%s%dY"),
+							jen.Id("s"),
+							jen.Id("nYears"),
+						),
+					),
+					// Months
+					jen.Commentf("Assume 30 days per month, cannot account for months lasting 31, 30, 29, or 28 days in xsd:duration. :("),
+					jen.If(
+						jen.Id("months").Op(":=").Parens(
+							jen.Id(codegen.This()).Dot("Hours").Call().Op("-").Id("tally").Dot("Hours").Call(),
+						).Op("/").Lit(720.0),
+						jen.Id("months").Op(">=").Lit(1),
+					).Block(
+						jen.Id("nMonths").Op(":=").Int64().Call(
+							jen.Qual("math", "Floor").Call(
+								jen.Id("months"),
+							),
+						),
+						jen.Id("tally").Op("+=").Qual("time", "Duration").Call(
+							jen.Id("nMonths"),
+						).Op("*").Lit(720).Op("*").Qual("time", "Hour"),
+						jen.Id("s").Op("=").Qual("fmt", "Sprintf").Call(
+							jen.Lit("%s%dM"),
+							jen.Id("s"),
+							jen.Id("nMonths"),
+						),
+					),
+					// Days
+					jen.If(
+						jen.Id("days").Op(":=").Parens(
+							jen.Id(codegen.This()).Dot("Hours").Call().Op("-").Id("tally").Dot("Hours").Call(),
+						).Op("/").Lit(24.0),
+						jen.Id("days").Op(">=").Lit(1),
+					).Block(
+						jen.Id("nDays").Op(":=").Int64().Call(
+							jen.Qual("math", "Floor").Call(
+								jen.Id("days"),
+							),
+						),
+						jen.Id("tally").Op("+=").Qual("time", "Duration").Call(
+							jen.Id("nDays"),
+						).Op("*").Lit(24).Op("*").Qual("time", "Hour"),
+						jen.Id("s").Op("=").Qual("fmt", "Sprintf").Call(
+							jen.Lit("%s%dD"),
+							jen.Id("s"),
+							jen.Id("nDays"),
+						),
+					),
+					jen.If(
+						jen.Id("tally").Op("<").Id(codegen.This()),
+					).Block(
+						jen.Id("s").Op("=").Qual("fmt", "Sprintf").Call(
+							jen.Lit("%sT"),
+							jen.Id("s"),
+						),
+						// Hours
+						jen.If(
+							jen.Id("hours").Op(":=").Id(codegen.This()).Dot("Hours").Call().Op("-").Id("tally").Dot("Hours").Call(),
+							jen.Id("hours").Op(">=").Lit(1),
+						).Block(
+							jen.Id("nHours").Op(":=").Int64().Call(
+								jen.Qual("math", "Floor").Call(
+									jen.Id("hours"),
+								),
+							),
+							jen.Id("tally").Op("+=").Qual("time", "Duration").Call(
+								jen.Id("nHours"),
+							).Op("*").Qual("time", "Hour"),
+							jen.Id("s").Op("=").Qual("fmt", "Sprintf").Call(
+								jen.Lit("%s%dH"),
+								jen.Id("s"),
+								jen.Id("nHours"),
+							),
+						),
+						// Minutes
+						jen.If(
+							jen.Id("minutes").Op(":=").Id(codegen.This()).Dot("Minutes").Call().Op("-").Id("tally").Dot("Minutes").Call(),
+							jen.Id("minutes").Op(">=").Lit(1),
+						).Block(
+							jen.Id("nMinutes").Op(":=").Int64().Call(
+								jen.Qual("math", "Floor").Call(
+									jen.Id("minutes"),
+								),
+							),
+							jen.Id("tally").Op("+=").Qual("time", "Duration").Call(
+								jen.Id("nMinutes"),
+							).Op("*").Qual("time", "Minute"),
+							jen.Id("s").Op("=").Qual("fmt", "Sprintf").Call(
+								jen.Lit("%s%dM"),
+								jen.Id("s"),
+								jen.Id("nMinutes"),
+							),
+						),
+						// Seconds
+						jen.If(
+							jen.Id("seconds").Op(":=").Id(codegen.This()).Dot("Seconds").Call().Op("-").Id("tally").Dot("Seconds").Call(),
+							jen.Id("seconds").Op(">=").Lit(1),
+						).Block(
+							jen.Id("nSeconds").Op(":=").Int64().Call(
+								jen.Qual("math", "Floor").Call(
+									jen.Id("seconds"),
+								),
+							),
+							jen.Id("tally").Op("+=").Qual("time", "Duration").Call(
+								jen.Id("nSeconds"),
+							).Op("*").Qual("time", "Second"),
+							jen.Id("s").Op("=").Qual("fmt", "Sprintf").Call(
+								jen.Lit("%s%dS"),
+								jen.Id("s"),
+								jen.Id("nSeconds"),
+							),
+						),
+					),
+					jen.Return(
+						jen.Id("s"),
+						jen.Nil(),
+					),
 				}),
 			DeserializeFn: rdf.DeserializeValueFunction(
 				d.pkg,
 				durationSpec,
 				jen.Qual("time", "Duration"),
 				[]jen.Code{
-					// TODO
+					jen.Commentf("Maybe this time it will be easier."),
+					jen.If(
+						jen.List(
+							jen.Id("s"),
+							jen.Id("ok"),
+						).Op(":=").Id(codegen.This()).Assert(jen.String()),
+						jen.Id("ok"),
+					).Block(
+						jen.Id("isNeg").Op(":=").False(),
+						jen.If(
+							jen.Id("s").Index(jen.Lit(0)).Op("==").LitRune('-'),
+						).Block(
+							jen.Id("isNeg").Op("=").True(),
+							jen.Id("s").Op("=").Id("s").Index(jen.Lit(1), jen.Empty()),
+						),
+						jen.If(
+							jen.Id("s").Index(jen.Lit(0)).Op("!=").LitRune('P'),
+						).Block(
+							jen.Return(
+								jen.Lit(0),
+								jen.Qual("fmt", "Errorf").Call(
+									jen.Lit("%s malformed: missing 'P' for xsd:duration"),
+									jen.Id("s"),
+								),
+							),
+						),
+						jen.Id("re").Op(":=").Qual("regexp", "MustCompile").Call(
+							jen.Lit("P(\\d*Y)?(\\d*M)?(\\d*D)?(T(\\d*H)?(\\d*M)?(\\d*S)?)?"),
+						),
+						jen.Id("res").Op(":=").Id("re").Dot("FindStringSubmatch").Call(jen.Id("s")),
+						jen.Var().Id("dur").Qual("time", "Duration"),
+						// Years
+						jen.Id("nYear").Op(":=").Id("res").Index(jen.Lit(1)),
+						jen.If(
+							jen.Len(
+								jen.Id("nYear"),
+							).Op(">").Lit(0),
+						).Block(
+							jen.Id("nYear").Op("=").Id("nYear").Index(
+								jen.Empty(),
+								jen.Len(
+									jen.Id("nYear"),
+								).Op("-").Lit(1),
+							),
+							jen.List(
+								jen.Id("vYear"),
+								jen.Err(),
+							).Op(":=").Qual("strconv", "ParseInt").Call(
+								jen.Id("nYear"),
+								jen.Lit(10),
+								jen.Lit(64),
+							),
+							jen.If(
+								jen.Err().Op("!=").Nil(),
+							).Block(
+								jen.Return(
+									jen.Lit(0),
+									jen.Err(),
+								),
+							),
+							jen.Commentf("Assume 8760 Hours per 365 days, cannot account for leap years in xsd:duration. :("),
+							jen.Id("dur").Op("+=").Qual("time", "Duration").Call(
+								jen.Id("vYear"),
+							).Op("*").Qual("time", "Hour").Op("*").Lit(8760),
+						),
+						// Months
+						jen.Id("nMonth").Op(":=").Id("res").Index(jen.Lit(2)),
+						jen.If(
+							jen.Len(
+								jen.Id("nMonth"),
+							).Op(">").Lit(0),
+						).Block(
+							jen.Id("nMonth").Op("=").Id("nMonth").Index(
+								jen.Empty(),
+								jen.Len(
+									jen.Id("nMonth"),
+								).Op("-").Lit(1),
+							),
+							jen.List(
+								jen.Id("vMonth"),
+								jen.Err(),
+							).Op(":=").Qual("strconv", "ParseInt").Call(
+								jen.Id("nMonth"),
+								jen.Lit(10),
+								jen.Lit(64),
+							),
+							jen.If(
+								jen.Err().Op("!=").Nil(),
+							).Block(
+								jen.Return(
+									jen.Lit(0),
+									jen.Err(),
+								),
+							),
+							jen.Commentf("Assume 30 days per month, cannot account for months lasting 31, 30, 29, or 28 days in xsd:duration. :("),
+							jen.Id("dur").Op("+=").Qual("time", "Duration").Call(
+								jen.Id("vMonth"),
+							).Op("*").Qual("time", "Hour").Op("*").Lit(720),
+						),
+						// Days
+						jen.Id("nDay").Op(":=").Id("res").Index(jen.Lit(3)),
+						jen.If(
+							jen.Len(
+								jen.Id("nDay"),
+							).Op(">").Lit(0),
+						).Block(
+							jen.Id("nDay").Op("=").Id("nDay").Index(
+								jen.Empty(),
+								jen.Len(
+									jen.Id("nDay"),
+								).Op("-").Lit(1),
+							),
+							jen.List(
+								jen.Id("vDay"),
+								jen.Err(),
+							).Op(":=").Qual("strconv", "ParseInt").Call(
+								jen.Id("nDay"),
+								jen.Lit(10),
+								jen.Lit(64),
+							),
+							jen.If(
+								jen.Err().Op("!=").Nil(),
+							).Block(
+								jen.Return(
+									jen.Lit(0),
+									jen.Err(),
+								),
+							),
+							jen.Id("dur").Op("+=").Qual("time", "Duration").Call(
+								jen.Id("vDay"),
+							).Op("*").Qual("time", "Hour").Op("*").Lit(24),
+						),
+						// Hours
+						jen.Id("nHour").Op(":=").Id("res").Index(jen.Lit(5)),
+						jen.If(
+							jen.Len(
+								jen.Id("nHour"),
+							).Op(">").Lit(0),
+						).Block(
+							jen.Id("nHour").Op("=").Id("nHour").Index(
+								jen.Empty(),
+								jen.Len(
+									jen.Id("nHour"),
+								).Op("-").Lit(1),
+							),
+							jen.List(
+								jen.Id("vHour"),
+								jen.Err(),
+							).Op(":=").Qual("strconv", "ParseInt").Call(
+								jen.Id("nHour"),
+								jen.Lit(10),
+								jen.Lit(64),
+							),
+							jen.If(
+								jen.Err().Op("!=").Nil(),
+							).Block(
+								jen.Return(
+									jen.Lit(0),
+									jen.Err(),
+								),
+							),
+							jen.Id("dur").Op("+=").Qual("time", "Duration").Call(
+								jen.Id("vHour"),
+							).Op("*").Qual("time", "Hour"),
+						),
+						// Minutes
+						jen.Id("nMinute").Op(":=").Id("res").Index(jen.Lit(6)),
+						jen.If(
+							jen.Len(
+								jen.Id("nMinute"),
+							).Op(">").Lit(0),
+						).Block(
+							jen.Id("nMinute").Op("=").Id("nMinute").Index(
+								jen.Empty(),
+								jen.Len(
+									jen.Id("nMinute"),
+								).Op("-").Lit(1),
+							),
+							jen.List(
+								jen.Id("vMinute"),
+								jen.Err(),
+							).Op(":=").Qual("strconv", "ParseInt").Call(
+								jen.Id("nMinute"),
+								jen.Lit(10),
+								jen.Lit(64),
+							),
+							jen.If(
+								jen.Err().Op("!=").Nil(),
+							).Block(
+								jen.Return(
+									jen.Lit(0),
+									jen.Err(),
+								),
+							),
+							jen.Id("dur").Op("+=").Qual("time", "Duration").Call(
+								jen.Id("vMinute"),
+							).Op("*").Qual("time", "Minute"),
+						),
+						// Seconds
+						jen.Id("nSecond").Op(":=").Id("res").Index(jen.Lit(7)),
+						jen.If(
+							jen.Len(
+								jen.Id("nSecond"),
+							).Op(">").Lit(0),
+						).Block(
+							jen.Id("nSecond").Op("=").Id("nSecond").Index(
+								jen.Empty(),
+								jen.Len(
+									jen.Id("nSecond"),
+								).Op("-").Lit(1),
+							),
+							jen.List(
+								jen.Id("vSecond"),
+								jen.Err(),
+							).Op(":=").Qual("strconv", "ParseInt").Call(
+								jen.Id("nSecond"),
+								jen.Lit(10),
+								jen.Lit(64),
+							),
+							jen.If(
+								jen.Err().Op("!=").Nil(),
+							).Block(
+								jen.Return(
+									jen.Lit(0),
+									jen.Err(),
+								),
+							),
+							jen.Id("dur").Op("+=").Qual("time", "Duration").Call(
+								jen.Id("vSecond"),
+							).Op("*").Qual("time", "Second"),
+						),
+						jen.If(
+							jen.Id("isNeg"),
+						).Block(
+							jen.Id("dur").Op("*=").Lit(-1),
+						),
+						jen.Return(
+							jen.Id("dur"),
+							jen.Nil(),
+						),
+					).Else().Block(
+						jen.Return(
+							jen.Lit(0),
+							jen.Qual("fmt", "Errorf").Call(
+								jen.Lit("%v cannot be interpreted as a string for xsd:duration"),
+								jen.Id(codegen.This()),
+							),
+						),
+					),
 				}),
 			LessFn: rdf.LessFunction(
 				d.pkg,
 				durationSpec,
 				jen.Qual("time", "Duration"),
 				[]jen.Code{
-					// TODO
+					jen.Return(
+						jen.Id("lhs").Op("<").Id("rhs"),
+					),
 				}),
 		}
 		if err = v.SetValue(durationSpec, val); err != nil {
