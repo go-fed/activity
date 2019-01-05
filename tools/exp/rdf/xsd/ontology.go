@@ -197,8 +197,9 @@ func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (
 		val := &rdf.VocabularyValue{
 			Name:           anyURISpec,
 			URI:            u,
-			DefinitionType: "*url.URL",
+			DefinitionType: jen.Op("*").Qual("net/url", "URL"),
 			Zero:           "&url.URL{}",
+			IsNilable:      true,
 			SerializeFn: rdf.SerializeValueFunction(
 				a.pkg,
 				anyURISpec,
@@ -288,8 +289,9 @@ func (d *dateTime) Apply(key string, value interface{}, ctx *rdf.ParsingContext)
 		val := &rdf.VocabularyValue{
 			Name:           dateTimeSpec,
 			URI:            u,
-			DefinitionType: "time.Time",
+			DefinitionType: jen.Qual("time", "Time"),
 			Zero:           "&time.Time{}",
+			IsNilable:      false,
 			SerializeFn: rdf.SerializeValueFunction(
 				d.pkg,
 				dateTimeSpec,
@@ -390,8 +392,9 @@ func (f *float) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (b
 		val := &rdf.VocabularyValue{
 			Name:           floatSpec,
 			URI:            u,
-			DefinitionType: "float32",
+			DefinitionType: jen.Float32(),
 			Zero:           "0.0",
+			IsNilable:      false,
 			SerializeFn: rdf.SerializeValueFunction(
 				f.pkg,
 				floatSpec,
@@ -469,8 +472,9 @@ func (s *xmlString) Apply(key string, value interface{}, ctx *rdf.ParsingContext
 		val := &rdf.VocabularyValue{
 			Name:           stringSpec,
 			URI:            u,
-			DefinitionType: "string",
+			DefinitionType: jen.String(),
 			Zero:           "\"\"",
+			IsNilable:      false,
 			SerializeFn: rdf.SerializeValueFunction(
 				s.pkg,
 				stringSpec,
@@ -548,8 +552,9 @@ func (b *boolean) Apply(key string, value interface{}, ctx *rdf.ParsingContext) 
 		val := &rdf.VocabularyValue{
 			Name:           booleanSpec,
 			URI:            u,
-			DefinitionType: "bool",
+			DefinitionType: jen.Bool(),
 			Zero:           "false",
+			IsNilable:      false,
 			SerializeFn: rdf.SerializeValueFunction(
 				b.pkg,
 				booleanSpec,
@@ -658,8 +663,9 @@ func (n *nonNegativeInteger) Apply(key string, value interface{}, ctx *rdf.Parsi
 		val := &rdf.VocabularyValue{
 			Name:           nonNegativeIntegerSpec,
 			URI:            u,
-			DefinitionType: "int",
+			DefinitionType: jen.Int(),
 			Zero:           "0",
+			IsNilable:      false,
 			SerializeFn: rdf.SerializeValueFunction(
 				n.pkg,
 				nonNegativeIntegerSpec,
@@ -750,8 +756,9 @@ func (d *duration) Apply(key string, value interface{}, ctx *rdf.ParsingContext)
 		val := &rdf.VocabularyValue{
 			Name:           durationSpec,
 			URI:            u,
-			DefinitionType: "time.Duration",
+			DefinitionType: jen.Qual("time", "Duration"),
 			Zero:           "time.Duration(0)",
+			IsNilable:      false,
 			SerializeFn: rdf.SerializeValueFunction(
 				d.pkg,
 				durationSpec,

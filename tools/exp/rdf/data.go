@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/codegen"
+	"github.com/dave/jennifer/jen"
 	"net/url"
 )
 
@@ -104,8 +105,9 @@ func (v *Vocabulary) SetValue(name string, a *VocabularyValue) error {
 type VocabularyValue struct {
 	Name           string
 	URI            *url.URL
-	DefinitionType string
+	DefinitionType *jen.Statement
 	Zero           string
+	IsNilable      bool
 	SerializeFn    *codegen.Function
 	DeserializeFn  *codegen.Function
 	LessFn         *codegen.Function

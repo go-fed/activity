@@ -446,8 +446,8 @@ func (c Converter) convertValue(v rdf.VocabularyValue) (k *props.Kind) {
 	k = &props.Kind{
 		Name: c.toIdentifier(v),
 		// TODO: Add Qualifier
-		ConcreteKind:   jen.Id(v.DefinitionType),
-		Nilable:        c.isNilable(v.DefinitionType),
+		ConcreteKind:   v.DefinitionType,
+		Nilable:        v.IsNilable,
 		SerializeFn:    s.QualifiedName(),
 		DeserializeFn:  d.QualifiedName(),
 		LessFn:         l.QualifiedName(),
@@ -641,10 +641,6 @@ func (c Converter) toIdentifier(n rdf.NameGetter) props.Identifier {
 		LowerName: n.GetName(),
 		CamelName: strings.Title(n.GetName()),
 	}
-}
-
-func (c Converter) isNilable(goType string) bool {
-	return goType[0] == '*'
 }
 
 func allExtendsAreIn(t rdf.VocabularyType, v map[string]*props.TypeGenerator) bool {

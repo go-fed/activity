@@ -155,8 +155,9 @@ func (l *langstring) Apply(key string, value interface{}, ctx *ParsingContext) (
 	e = ctx.Result.GetReference(rdfSpec).SetValue(langstringSpec, &VocabularyValue{
 		Name:           langstringSpec,
 		URI:            u,
-		DefinitionType: "map[string]string",
-		Zero:           "nil",
+		DefinitionType: jen.Map(jen.String()).String(),
+		Zero:           "make(map[string]string)",
+		IsNilable:      true,
 		SerializeFn: SerializeValueFunction(
 			l.pkg,
 			langstringSpec,

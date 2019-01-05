@@ -277,7 +277,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		p.GetPrivatePackage().Path(),
 		compareLessMethod,
 		p.StructName(),
-		[]jen.Code{jen.Id("o").Id(p.InterfaceName())},
+		[]jen.Code{jen.Id("o").Qual(p.GetPublicPackage().Path(), p.InterfaceName())},
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{
 			lessCode,
