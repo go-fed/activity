@@ -271,14 +271,14 @@ func (s sortedProperty) Len() int {
 func (t *TypeGenerator) allProperties() []Property {
 	p := t.properties
 	// Properties of parents that are extended, minus DoesNotApplyTo
-	var extends []*TypeGenerator
+	var extends map[*TypeGenerator]string
 	extends = t.getAllParentExtends(extends, t)
-	for _, ext := range t.extends {
+	for ext := range extends {
 		for k, v := range ext.Properties() {
 			p[k] = v
 		}
 	}
-	for _, ext := range t.extends {
+	for ext := range extends {
 		for k, _ := range ext.WithoutProperties() {
 			delete(p, k)
 		}
@@ -328,20 +328,13 @@ func (t *TypeGenerator) nameDefinition() *codegen.Method {
 
 // getAllParentExtends recursively determines all the parent types that this
 // type extends from.
-func (t *TypeGenerator) getAllParentExtends(s []*TypeGenerator, tg *TypeGenerator) []*TypeGenerator {
+func (t *TypeGenerator) getAllParentExtends(s map[*TypeGenerator]string, tg *TypeGenerator) map[*TypeGenerator]string {
+	if s == nil {
+		s = make(map[*TypeGenerator]string)
+	}
 	for _, e := range tg.Extends() {
-		s = append(s, e)
-		s = append(s, t.getAllParentExtends(s, e)...)
-	}
-	// Make unique, as "s" will contain duplicates.
-	// TODO: Use a map to begin with, to avoid all of this copying around.
-	m := make(map[*TypeGenerator]struct{}, len(s))
-	for _, e := range s {
-		m[e] = struct{}{}
-	}
-	s = make([]*TypeGenerator, 0, len(m))
-	for k := range m {
-		s = append(s, k)
+		s[e] = e.TypeName()
+		s = t.getAllParentExtends(s, e)
 	}
 	return s
 }
@@ -349,11 +342,11 @@ func (t *TypeGenerator) getAllParentExtends(s []*TypeGenerator, tg *TypeGenerato
 // extendsDefinition generates the golang function for determining if this
 // ActivityStreams type extends another type. It requires the Type interface.
 func (t *TypeGenerator) extendsDefinition() (*codegen.Function, *codegen.Method) {
-	var extends []*TypeGenerator
+	var extends map[*TypeGenerator]string
 	extends = t.getAllParentExtends(extends, t)
 	extensions := make([]jen.Code, len(extends))
-	for _, e := range extends {
-		extensions = append(extensions, jen.Lit(e.TypeName()))
+	for _, name := range extends {
+		extensions = append(extensions, jen.Lit(name))
 	}
 	impl := []jen.Code{jen.Comment("Shortcut implementation: this does not extend anything."), jen.Return(jen.False())}
 	if len(extensions) > 0 {
@@ -438,10 +431,10 @@ func (t *TypeGenerator) extendedByDefinition() *codegen.Function {
 // getAllChildrenDisjointWith recursivley determines all the child types that this
 // type is disjoint with.
 func (t *TypeGenerator) getAllDisjointWith() (s []string) {
-	var extends []*TypeGenerator
+	var extends map[*TypeGenerator]string
 	extends = t.getAllParentExtends(extends, t)
-	extends = append(extends, t)
-	for _, tg := range extends {
+	extends[t] = t.TypeName()
+	for tg := range extends {
 		for _, e := range tg.Disjoint() {
 			s = append(s, e.TypeName())
 			// Get all the disjoint type's children.
