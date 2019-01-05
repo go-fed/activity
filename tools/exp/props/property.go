@@ -20,7 +20,7 @@ const (
 	lenMethod                 = "Len"
 	swapMethod                = "Swap"
 	lessMethod                = "Less"
-	kindIndexMethod           = "kindIndex"
+	kindIndexMethod           = "KindIndex"
 	serializeMethod           = "Serialize"
 	deserializeMethod         = "Deserialize"
 	nameMethod                = "Name"

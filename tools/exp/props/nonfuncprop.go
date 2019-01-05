@@ -7,6 +7,10 @@ import (
 	"sync"
 )
 
+const (
+	atMethodName = "At"
+)
+
 // NonFunctionalPropertyGenerator produces Go code for properties that can have
 // more than one value. The resulting property is a type that is a list of
 // iterators; each iterator is a concrete struct type. The property can be
@@ -63,7 +67,7 @@ func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codege
 		property := codegen.NewTypedef(
 			jen.Commentf("%s is the non-functional property %q. It is permitted to have one or more values, and of different value types.", p.StructName(), p.PropertyName()),
 			p.StructName(),
-			jen.Index().Id(p.iteratorTypeName().CamelName),
+			jen.Index().Op("*").Id(p.iteratorTypeName().CamelName),
 			methods,
 			funcs)
 		iterator := p.elementTypeGenerator().Definition()
@@ -78,6 +82,15 @@ func (p *NonFunctionalPropertyGenerator) iteratorTypeName() Identifier {
 		LowerName: p.Name.LowerName,
 		CamelName: fmt.Sprintf("%sPropertyIterator", p.Name.CamelName),
 	}
+}
+
+// iteratorInterfaceName gets the interface name for the iterator.
+//
+// TODO: Fix this kluge, which must be kept in sync with
+// PropertyGenerator.InterfaceName().
+func (p *NonFunctionalPropertyGenerator) iteratorInterfaceName() string {
+	id := p.iteratorTypeName()
+	return fmt.Sprintf("%sInterface", id.CamelName)
 }
 
 // elementTypeGenerator produces a FunctionalPropertyGenerator for the iterator
@@ -116,7 +129,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				/*ret=*/ nil,
 				[]jen.Code{
 					jen.Op("*").Id(codegen.This()).Op("=").Append(
-						jen.Index().Id(p.iteratorTypeName().CamelName).Values(
+						jen.Index().Op("*").Id(p.iteratorTypeName().CamelName).Values(
 							jen.Values(dict),
 						),
 						jen.Op("*").Id(codegen.This()).Op("..."),
@@ -135,7 +148,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				[]jen.Code{
 					jen.Op("*").Id(codegen.This()).Op("=").Append(
 						jen.Op("*").Id(codegen.This()),
-						jen.Id(p.iteratorTypeName().CamelName).Values(
+						jen.Op("&").Id(p.iteratorTypeName().CamelName).Values(
 							dict,
 						),
 					),
@@ -181,7 +194,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Op("*").Id(codegen.This()),
 				).Index(
 					jen.Len(jen.Op("*").Id(codegen.This())).Op("-").Lit(1),
-				).Op("=").Id(p.iteratorTypeName().CamelName).Values(),
+				).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(),
 				jen.Op("*").Id(codegen.This()).Op("=").Parens(
 					jen.Op("*").Id(codegen.This()),
 				).Index(
@@ -249,7 +262,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				jen.Return(jen.False()),
 			},
 			jen.Commentf("%s computes whether another property is less than this one. Mixing types results in a consistent but arbitrary ordering", lessMethod)))
-	// Kind Method
+	// KindIndex Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
 			p.GetPrivatePackage().Path(),
@@ -300,6 +313,19 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		},
 		jen.Commentf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
 	))
+	// At Method
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		atMethodName,
+		p.StructName(),
+		[]jen.Code{jen.Id("index").Int()},
+		[]jen.Code{jen.Qual(p.GetPublicPackage().Path(), p.iteratorInterfaceName())},
+		[]jen.Code{
+			jen.Return(
+				jen.Id(codegen.This()).Index(jen.Id("index")),
+			),
+		},
+		jen.Commentf("%s returns the property value for the specified index.", atMethodName)))
 	methods = append(methods, p.commonMethods()...)
 	return methods
 }
@@ -369,7 +395,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 		).Block(
 			jen.Id(codegen.This()).Op("=").Append(
 				jen.Id(codegen.This()),
-				jen.Op("*").Id("p"),
+				jen.Id("p"),
 			),
 		)
 	}
@@ -379,7 +405,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
 		[]jen.Code{jen.Id(p.StructName()), jen.Error()},
 		[]jen.Code{
-			jen.Var().Id(codegen.This()).Index().Id(p.iteratorTypeName().CamelName),
+			jen.Var().Id(codegen.This()).Index().Op("*").Id(p.iteratorTypeName().CamelName),
 			jen.If(
 				jen.List(
 					jen.Id("i"),

@@ -135,7 +135,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 				join(kindIndexFns),
 				jen.Return(jen.Lit(-1)),
 			},
-			jen.Commentf("%s computes an arbitrary value for indexing this kind of value.", kindIndexMethod),
+			jen.Commentf("%s computes an arbitrary value for indexing this kind of value. This is a leaky API detail only for folks looking to replace the go-fed implementation. Applications should not use this method.", kindIndexMethod),
 		),
 	}
 	if p.HasNaturalLanguageMap {
@@ -320,19 +320,18 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 		deserializeFns = deserializeFns.If(
 			jen.List(
 				jen.Id("v"),
-				jen.Id("handled"),
 				jen.Err(),
 			).Op(":=").Add(kind.DeserializeFn.Clone().Call(
 				jen.Id("i"),
 			)),
-			jen.Id("handled"),
+			jen.Err().Op("!=").Nil(),
 		).Block(
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
 				values,
 			),
 			jen.Return(
 				jen.Id(codegen.This()),
-				jen.Err(),
+				jen.Nil(),
 			),
 		)
 	}
@@ -344,7 +343,15 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			[]jen.Code{jen.Id("i").Interface()},
 			[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 			[]jen.Code{
-				p.addUnknownDeserializeCode(deserializeFns),
+				p.addUnknownDeserializeCode(deserializeFns).Else().Block(
+					jen.Return(
+						jen.Nil(),
+						jen.Qual("fmt", "Errorf").Call(
+							jen.Lit("could not deserialize %q property"),
+							jen.Lit(p.PropertyName()),
+						),
+					),
+				),
 				jen.Return(
 					jen.Nil(),
 					jen.Nil(),
@@ -653,7 +660,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			isLanguageMapMethod,
 		)
 	}
-	methods = append(methods, codegen.NewCommentedPointerMethod(
+	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		hasAnyMethodName,
 		p.StructName(),
@@ -816,7 +823,7 @@ func (p *FunctionalPropertyGenerator) unknownMemberDef() jen.Code {
 
 // addUnknownDeserializeCode generates the "else if it's a []byte" code used for
 // deserializing unknown values.
-func (p *FunctionalPropertyGenerator) addUnknownDeserializeCode(existing jen.Code) jen.Code {
+func (p *FunctionalPropertyGenerator) addUnknownDeserializeCode(existing jen.Code) *jen.Statement {
 	if len(p.Kinds) > 0 {
 		existing = jen.Add(existing, jen.Else())
 	}
