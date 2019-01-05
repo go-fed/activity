@@ -300,11 +300,11 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				jen.Id("i").Op("++"),
 			).Block(
 				jen.If(
-					jen.Id(codegen.This()).Index(jen.Id("i")).Dot(compareLessMethod).Call(jen.Id("o").Index(jen.Id("i"))),
+					jen.Id(codegen.This()).Index(jen.Id("i")).Dot(compareLessMethod).Call(jen.Id("o").Dot(atMethodName).Call(jen.Id("i"))),
 				).Block(
 					jen.Return(jen.True()),
 				).Else().If(
-					jen.Id("o").Index(jen.Id("i")).Dot(compareLessMethod).Call(jen.Id(codegen.This()).Index(jen.Id("i"))),
+					jen.Id("o").Dot(atMethodName).Call(jen.Id("i")).Dot(compareLessMethod).Call(jen.Id(codegen.This()).Index(jen.Id("i"))),
 				).Block(
 					jen.Return(jen.False()),
 				),
