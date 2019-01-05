@@ -148,3 +148,42 @@ func (t *TypePackageGenerator) PrivateDefinitions(tgs []*TypeGenerator) (*jen.St
 // PropertyPackageGenerator manages generating one-time files needed for
 // properties.
 type PropertyPackageGenerator struct{}
+
+// NewPropertyPackageGenerator creates a new TypePackageGenerator.
+func NewPropertyPackageGenerator() *PropertyPackageGenerator {
+	return &PropertyPackageGenerator{}
+}
+
+// PrivateDefinitions creates the private code generated definitions needed once
+// per package.
+//
+// Precondition: The passed-in generators are the complete set of type
+// generators within a package.
+func (p *PropertyPackageGenerator) PrivateDefinitions(pgs []*PropertyGenerator) (*jen.Statement, *codegen.Interface, *codegen.Function) {
+	fnsMap := make(map[string]codegen.FunctionSignature)
+	for _, pg := range pgs {
+		for _, m := range pg.getAllManagerMethods() {
+			v := m.ToFunctionSignature()
+			fnsMap[v.Name] = v
+		}
+	}
+	var fns []codegen.FunctionSignature
+	for _, v := range fnsMap {
+		fns = append(fns, v)
+	}
+	return jen.Var().Id(managerInitName()).Id(managerInterfaceName),
+		codegen.NewInterface(pgs[0].GetPrivatePackage().Path(),
+			managerInterfaceName,
+			fns,
+			fmt.Sprintf("%s abstracts the code-generated manager that provides access to concrete implementations.", managerInterfaceName)),
+		codegen.NewCommentedFunction(pgs[0].GetPrivatePackage().Path(),
+			setManagerFunctionName,
+			[]jen.Code{
+				jen.Id("m").Id(managerInterfaceName),
+			},
+			/*ret=*/ nil,
+			[]jen.Code{
+				jen.Id(managerInitName()).Op("=").Id("m"),
+			},
+			jen.Commentf("%s sets the manager package-global variable. For internal use only, do not use as part of Application behavior. Must be called at golang init time.", setManagerFunctionName))
+}

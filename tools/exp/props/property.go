@@ -105,7 +105,8 @@ func (k Kind) lessFnCode(this, other *jen.Statement) *jen.Statement {
 //
 // TODO: Make this type private
 type PropertyGenerator struct {
-	vocabName string
+	vocabName      string
+	managerMethods []*codegen.Method
 	// TODO: Make these private
 	PackageManager        *PackageManager
 	Name                  Identifier
@@ -136,19 +137,26 @@ func (p *PropertyGenerator) GetPublicPackage() Package {
 // The name parameter must match the LowerName of an Identifier.
 //
 // This feels very hacky.
-func (p *PropertyGenerator) SetKindFns(name string, qualKind, deser *jen.Statement) error {
+func (p *PropertyGenerator) SetKindFns(name string, qualKind *jen.Statement, deser *codegen.Method) error {
 	for i, kind := range p.Kinds {
 		if kind.Name.LowerName == name {
 			if kind.SerializeFn != nil || kind.DeserializeFn != nil || kind.LessFn != nil {
 				return fmt.Errorf("property kind already has serialization functions set for %q", name)
 			}
 			kind.ConcreteKind = qualKind
-			kind.DeserializeFn = deser
+			kind.DeserializeFn = deser.On(managerInitName())
+			p.managerMethods = append(p.managerMethods, deser)
 			p.Kinds[i] = kind
 			return nil
 		}
 	}
 	return fmt.Errorf("cannot find property kind %q", name)
+}
+
+// getAllManagerMethods returns the list of manager methods used by this
+// property.
+func (p *PropertyGenerator) getAllManagerMethods() []*codegen.Method {
+	return p.managerMethods
 }
 
 // StructName returns the name of the type, which may or may not be a struct,

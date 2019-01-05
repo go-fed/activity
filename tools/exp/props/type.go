@@ -44,7 +44,7 @@ type Property interface {
 	GetPublicPackage() Package
 	PropertyName() string
 	InterfaceName() string
-	SetKindFns(name string, kind, deser *jen.Statement) error
+	SetKindFns(name string, kind *jen.Statement, deser *codegen.Method) error
 	DeserializeFnName() string
 }
 
@@ -130,8 +130,8 @@ func (t *TypeGenerator) apply(m *ManagerGenerator) error {
 	t.m = m
 	// Set up Kind functions
 	// Note: this "i" must be the same as the "i" in the deserialization definition.
-	// TODO: Remove this kluge.
-	deser := m.getDeserializationMethodForType(t).On(managerInitName())
+	// TODO: Remove this kluge. (2nd todo: figure out wtf this todo means)
+	deser := m.getDeserializationMethodForType(t)
 	kind := jen.Qual(t.PublicPackage().Path(), t.InterfaceName())
 	for _, p := range t.rangeProperties {
 		if e := p.SetKindFns(t.TypeName(), kind, deser); e != nil {

@@ -321,7 +321,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			jen.List(
 				jen.Id("v"),
 				jen.Err(),
-			).Op(":=").Add(kind.DeserializeFn.Clone().Call(
+			).Op(":=").Add(kind.DeserializeFn.Clone().Call().Call(
 				jen.Id("i"),
 			)),
 			jen.Err().Op("!=").Nil(),

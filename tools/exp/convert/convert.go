@@ -173,6 +173,12 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			Directory: pub.WriteDir(),
 		})
 	}
+	propPkgFiles, err := c.propertyPackageFiles(v.FProps, v.NFProps)
+	if err != nil {
+		e = err
+		return
+	}
+	f = append(f, propPkgFiles...)
 	// Types
 	for _, i := range v.Types {
 		var pm *props.PackageManager
@@ -613,6 +619,45 @@ func (c Converter) typePackageFiles(t map[string]*props.TypeGenerator) (f []*Fil
 		// TODO
 	default:
 		e = fmt.Errorf("unrecognized TypePackagePolicy: %v", c.TypePackagePolicy)
+	}
+	return
+}
+
+func (c Converter) propertyPackageFiles(fp map[string]*props.FunctionalPropertyGenerator, nfp map[string]*props.NonFunctionalPropertyGenerator) (f []*File, e error) {
+	switch c.PropertyPackagePolicy {
+	case PropertyFlatUnderRoot:
+		fallthrough
+	case PropertyFlatUnderVocabularyRoot:
+		// Only need one for all types.
+		pgs := make([]*props.PropertyGenerator, 0, len(fp)+len(nfp))
+		for _, v := range fp {
+			pgs = append(pgs, &v.PropertyGenerator)
+		}
+		for _, v := range nfp {
+			pgs = append(pgs, &v.PropertyGenerator)
+		}
+		ppg := props.NewPropertyPackageGenerator()
+		// Private
+		s, i, fn := ppg.PrivateDefinitions(pgs)
+		priv := pgs[0].GetPrivatePackage()
+		file := jen.NewFilePath(priv.Path())
+		file.Add(
+			s,
+		).Line().Add(
+			i.Definition(),
+		).Line().Add(
+			fn.Definition(),
+		).Line()
+		f = append(f, &File{
+			F:         file,
+			FileName:  "gen_pkg.go",
+			Directory: priv.WriteDir(),
+		})
+	case PropertyIndividualUnderRoot:
+		// Need individual files per type.
+		// TODO
+	default:
+		e = fmt.Errorf("unrecognized PropertyPackagePolicy: %v", c.PropertyPackagePolicy)
 	}
 	return
 }
