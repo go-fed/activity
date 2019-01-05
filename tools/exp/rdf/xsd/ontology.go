@@ -555,21 +555,76 @@ func (b *boolean) Apply(key string, value interface{}, ctx *rdf.ParsingContext) 
 				booleanSpec,
 				jen.Id("bool"),
 				[]jen.Code{
-					// TODO
+					jen.Return(
+						jen.Id(codegen.This()),
+						jen.Nil(),
+					),
 				}),
 			DeserializeFn: rdf.DeserializeValueFunction(
 				b.pkg,
 				booleanSpec,
 				jen.Id("bool"),
 				[]jen.Code{
-					// TODO
+					jen.If(
+						jen.List(
+							jen.Id("b"),
+							jen.Id("ok"),
+						).Op(":=").Id(codegen.This()).Assert(jen.Bool()),
+						jen.Id("ok"),
+					).Block(
+						jen.Return(
+							jen.Id("b"),
+							jen.Nil(),
+						),
+					).Else().If(
+						jen.List(
+							jen.Id("f"),
+							jen.Id("ok"),
+						).Op(":=").Id(codegen.This()).Assert(jen.Float64()),
+						jen.Id("ok"),
+					).Block(
+						jen.If(
+							jen.Id("f").Op("==").Lit(0),
+						).Block(
+							jen.Return(
+								jen.False(),
+								jen.Nil(),
+							),
+						).Else().If(
+							jen.Id("f").Op("==").Lit(1),
+						).Block(
+							jen.Return(
+								jen.True(),
+								jen.Nil(),
+							),
+						).Else().Block(
+							jen.Return(
+								jen.False(),
+								jen.Qual("fmt", "Errorf").Call(
+									jen.Lit("%v cannot be interpreted as a bool float64 for xsd:boolean"),
+									jen.Id(codegen.This()),
+								),
+							),
+						),
+					).Else().Block(
+						jen.Return(
+							jen.False(),
+							jen.Qual("fmt", "Errorf").Call(
+								jen.Lit("%v cannot be interpreted as a bool for xsd:boolean"),
+								jen.Id(codegen.This()),
+							),
+						),
+					),
 				}),
 			LessFn: rdf.LessFunction(
 				b.pkg,
 				booleanSpec,
 				jen.Id("bool"),
 				[]jen.Code{
-					// TODO
+					jen.Commentf("Booleans don't have a natural ordering, so we pick that truth is greater than falsehood."),
+					jen.Return(
+						jen.Op("!").Id("lhs").Op("&&").Id("rhs"),
+					),
 				}),
 		}
 		if err = v.SetValue(booleanSpec, val); err != nil {
