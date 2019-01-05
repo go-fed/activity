@@ -548,14 +548,30 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		))
 	}
 	// LessThan Method
-	lessCode := p.Kinds[0].lessFnCode(jen.Id(codegen.This()), jen.Id("o"))
+	lessCode := p.Kinds[0].lessFnCode(jen.Id(codegen.This()).Dot(p.getFnName(0)).Call(), jen.Id("o").Dot(p.getFnName(0)).Call())
 	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		compareLessMethod,
 		p.StructName(),
-		[]jen.Code{jen.Id("o").Id(p.InterfaceName())},
+		[]jen.Code{jen.Id("o").Qual(p.GetPublicPackage().Path(), p.InterfaceName())},
 		[]jen.Code{jen.Bool()},
-		[]jen.Code{jen.Return(lessCode)},
+		[]jen.Code{
+			jen.If(
+				jen.Op("!").Id(codegen.This()).Dot(hasMethod).Call().Op("&&").Op("!").Id("o").Dot(hasMethod).Call(),
+			).Block(
+				jen.Return(jen.False()),
+			).Else().If(
+				jen.Id(codegen.This()).Dot(hasMethod).Call().Op("&&").Op("!").Id("o").Dot(hasMethod).Call(),
+			).Block(
+				jen.Return(jen.False()),
+			).Else().If(
+				jen.Op("!").Id(codegen.This()).Dot(hasMethod).Call().Op("&&").Id("o").Dot(hasMethod).Call(),
+			).Block(
+				jen.Return(jen.True()),
+			).Else().Block(
+				jen.Return(lessCode),
+			),
+		},
 		jen.Commentf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
 	))
 	return methods
@@ -780,7 +796,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		p.GetPrivatePackage().Path(),
 		compareLessMethod,
 		p.StructName(),
-		[]jen.Code{jen.Id("o").Id(p.InterfaceName())},
+		[]jen.Code{jen.Id("o").Qual(p.GetPublicPackage().Path(), p.InterfaceName())},
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{
 			lessCode,
