@@ -377,7 +377,7 @@ func (t *TypeGenerator) extendsDefinition() (*codegen.Function, *codegen.Method)
 	f := codegen.NewCommentedFunction(
 		t.PrivatePackage().Path(),
 		t.extendsFnName(),
-		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
+		[]jen.Code{jen.Id("other").Qual(t.PublicPackage().Path(), typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		impl,
 		jen.Commentf("%s returns true if the %s type extends from the other type.", t.extendsFnName(), t.TypeName()))
@@ -385,7 +385,7 @@ func (t *TypeGenerator) extendsDefinition() (*codegen.Function, *codegen.Method)
 		t.PrivatePackage().Path(),
 		extendingMethod,
 		t.TypeName(),
-		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
+		[]jen.Code{jen.Id("other").Qual(t.PublicPackage().Path(), typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{
 			jen.Return(
@@ -433,7 +433,7 @@ func (t *TypeGenerator) extendedByDefinition() *codegen.Function {
 	return codegen.NewCommentedFunction(
 		t.PrivatePackage().Path(),
 		t.extendedByFnName(),
-		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
+		[]jen.Code{jen.Id("other").Qual(t.PublicPackage().Path(), typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		impl,
 		jen.Commentf("%s returns true if the other provided type extends from the %s type.", t.extendedByFnName(), t.TypeName()))
@@ -482,7 +482,7 @@ func (t *TypeGenerator) disjointWithDefinition() *codegen.Function {
 	return codegen.NewCommentedFunction(
 		t.PrivatePackage().Path(),
 		t.disjointWithFnName(),
-		[]jen.Code{jen.Id("other").Id(typeInterfaceName)},
+		[]jen.Code{jen.Id("other").Qual(t.PublicPackage().Path(), typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		impl,
 		jen.Commentf("%s returns true if the other provided type is disjoint with the %s type.", t.disjointWithFnName(), t.TypeName()))
@@ -680,4 +680,13 @@ implementation of this type's interface can use this method in their LessThan
 implementation, but routine ActivityPub applications should not use this to bypass the
 code generation tool.`, getUnknownMethod, t.TypeName()))
 	return
+}
+
+// getAllManagerMethods returns all the manager methods used by this type.
+func (t *TypeGenerator) getAllManagerMethods() (m []*codegen.Method) {
+	for _, prop := range t.allProperties() {
+		deserMethod := t.m.getDeserializationMethodForProperty(prop)
+		m = append(m, deserMethod)
+	}
+	return m
 }

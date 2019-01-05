@@ -199,6 +199,12 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			Directory: pub.WriteDir(),
 		})
 	}
+	typePkgFiles, err := c.typePackageFiles(v.Types)
+	if err != nil {
+		e = err
+		return
+	}
+	f = append(f, typePkgFiles...)
 	// Manager
 	pub := c.VocabularyRoot.PublicPackage()
 	file := jen.NewFilePath(pub.Path())
@@ -561,6 +567,52 @@ func (c Converter) propertyPackageManager(v propertyNamer) (pkg *props.PackageMa
 		pkg = c.VocabularyRoot
 	default:
 		e = fmt.Errorf("unrecognized PropertyPackagePolicy: %v", c.PropertyPackagePolicy)
+	}
+	return
+}
+
+func (c Converter) typePackageFiles(t map[string]*props.TypeGenerator) (f []*File, e error) {
+	switch c.TypePackagePolicy {
+	case TypeFlatUnderRoot:
+		fallthrough
+	case TypeFlatUnderVocabularyRoot:
+		// Only need one for all types.
+		tgs := make([]*props.TypeGenerator, 0, len(t))
+		for _, v := range t {
+			tgs = append(tgs, v)
+		}
+		tpg := props.NewTypePackageGenerator()
+		pubI := tpg.PublicDefinitions(tgs)
+		// Public
+		pub := tgs[0].PublicPackage()
+		file := jen.NewFilePath(pub.Path())
+		file.Add(pubI.Definition())
+		f = append(f, &File{
+			F:         file,
+			FileName:  "gen_pkg.go",
+			Directory: pub.WriteDir(),
+		})
+		// Private
+		s, i, fn := tpg.PrivateDefinitions(tgs)
+		priv := tgs[0].PrivatePackage()
+		file = jen.NewFilePath(priv.Path())
+		file.Add(
+			s,
+		).Line().Add(
+			i.Definition(),
+		).Line().Add(
+			fn.Definition(),
+		).Line()
+		f = append(f, &File{
+			F:         file,
+			FileName:  "gen_pkg.go",
+			Directory: priv.WriteDir(),
+		})
+	case TypeIndividualUnderRoot:
+		// Need individual files per type.
+		// TODO
+	default:
+		e = fmt.Errorf("unrecognized TypePackagePolicy: %v", c.TypePackagePolicy)
 	}
 	return
 }
