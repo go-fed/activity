@@ -117,11 +117,16 @@ func (t *TypePackageGenerator) PublicDefinitions(tgs []*TypeGenerator) *codegen.
 // Precondition: The passed-in generators are the complete set of type
 // generators within a package.
 func (t *TypePackageGenerator) PrivateDefinitions(tgs []*TypeGenerator) (*jen.Statement, *codegen.Interface, *codegen.Function) {
-	var fns []codegen.FunctionSignature
+	fnsMap := make(map[string]codegen.FunctionSignature)
 	for _, tg := range tgs {
 		for _, m := range tg.getAllManagerMethods() {
-			fns = append(fns, m.ToFunctionSignature())
+			v := m.ToFunctionSignature()
+			fnsMap[v.Name] = v
 		}
+	}
+	var fns []codegen.FunctionSignature
+	for _, v := range fnsMap {
+		fns = append(fns, v)
 	}
 	return jen.Var().Id(managerInitName()).Id(managerInterfaceName),
 		codegen.NewInterface(tgs[0].PrivatePackage().Path(),
