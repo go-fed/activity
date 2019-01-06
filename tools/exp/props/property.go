@@ -87,7 +87,7 @@ type Kind struct {
 func (k Kind) lessFnCode(this, other *jen.Statement) *jen.Statement {
 	// LessFn is nil case -- call comparison Less method directly on the LHS
 	lessCall := this.Clone().Dot(compareLessMethod).Call(other.Clone())
-	if k.LessFn != nil {
+	if k.isValue() {
 		// LessFn is indeed a function -- call this function
 		lessCall = k.LessFn.Clone().Call(
 			this.Clone(),
@@ -98,14 +98,20 @@ func (k Kind) lessFnCode(this, other *jen.Statement) *jen.Statement {
 }
 
 func (k Kind) deserializeFnCode(this *jen.Statement) *jen.Statement {
-	// LessFn is not nil, this means it is a value.
-	if k.LessFn != nil {
+	if k.isValue() {
 		return k.DeserializeFn.Clone().Call(this)
 	} else {
 		// If LessFn is nil, this means it is a type. Which requires an
 		// additional Call.
 		return k.DeserializeFn.Clone().Call().Call(this)
 	}
+}
+
+func (k Kind) isValue() bool {
+	// LessFn is not nil, this means it is a value.
+	// If LessFn is nil, this means it is a type. Types will have their
+	// LessThan method called directly on the type.
+	return k.LessFn != nil
 }
 
 // PropertyGenerator is a common base struct used in both Functional and

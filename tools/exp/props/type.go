@@ -21,6 +21,7 @@ const (
 	compareLessMethod   = "LessThan"
 	getUnknownMethod    = "GetUnknownProperties"
 	unknownMember       = "unknown"
+	getMethodFormat     = "Get%s"
 )
 
 // TypeInterface returns the Type Interface that is needed for ActivityStream
@@ -559,12 +560,16 @@ func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
 			jen.Commentf("Compare property %q", prop.PropertyName()).Line(),
 			jen.If(
 				jen.Id(codegen.This()).Dot(t.memberName(prop)).Dot(compareLessMethod).Call(
-					jen.Id("o").Dot(t.memberName(prop)),
+					jen.Id("o").Dot(
+						fmt.Sprintf(getMethodFormat, t.memberName(prop)),
+					).Call(),
 				),
 			).Block(
 				jen.Return(jen.True()),
 			).Else().If(
-				jen.Id("o").Dot(t.memberName(prop)).Dot(compareLessMethod).Call(
+				jen.Id("o").Dot(
+					fmt.Sprintf(getMethodFormat, t.memberName(prop)),
+				).Call().Dot(compareLessMethod).Call(
 					jen.Id(codegen.This()).Dot(t.memberName(prop)),
 				),
 			).Block(
@@ -693,7 +698,7 @@ func (t *TypeGenerator) allGetters() (m []*codegen.Method) {
 	for _, property := range t.allProperties() {
 		m = append(m, codegen.NewCommentedValueMethod(
 			t.PrivatePackage().Path(),
-			fmt.Sprintf("Get%s", t.memberName(property)),
+			fmt.Sprintf(getMethodFormat, t.memberName(property)),
 			t.TypeName(),
 			/*params=*/ nil,
 			[]jen.Code{jen.Qual(property.GetPublicPackage().Path(), property.InterfaceName())},
@@ -702,7 +707,7 @@ func (t *TypeGenerator) allGetters() (m []*codegen.Method) {
 					jen.Id(codegen.This()).Dot(t.memberName(property)),
 				),
 			},
-			jen.Commentf("Get%s returns the %q property if it exists, and nil otherwise.", t.memberName(property), property.PropertyName())))
+			jen.Commentf(getMethodFormat+" returns the %q property if it exists, and nil otherwise.", t.memberName(property), property.PropertyName())))
 	}
 	return
 }
@@ -719,7 +724,7 @@ func (t *TypeGenerator) allSetters() (m []*codegen.Method) {
 			[]jen.Code{
 				jen.Id(codegen.This()).Dot(t.memberName(property)).Op("=").Id("i"),
 			},
-			jen.Commentf("Get%s returns the %q property if it exists, and nil otherwise.", t.memberName(property), property.PropertyName())))
+			jen.Commentf("Set%s returns the %q property if it exists, and nil otherwise.", t.memberName(property), property.PropertyName())))
 	}
 	return
 }

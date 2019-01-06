@@ -386,8 +386,9 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 			),
 			jen.Err().Op("!=").Nil(),
 		).Block(
+			jen.Id("ret").Op(":=").Id(p.StructName()).Call(jen.Id(codegen.This())),
 			jen.Return(
-				jen.Id(codegen.This()),
+				jen.Op("&").Id("ret"),
 				jen.Err(),
 			),
 		).Else().If(
@@ -403,7 +404,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 		p.GetPrivatePackage().Path(),
 		p.DeserializeFnName(),
 		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
-		[]jen.Code{jen.Id(p.StructName()), jen.Error()},
+		[]jen.Code{jen.Qual(p.GetPublicPackage().Path(), p.InterfaceName()), jen.Error()},
 		[]jen.Code{
 			jen.Var().Id(codegen.This()).Index().Op("*").Id(p.iteratorTypeName().CamelName),
 			jen.If(
@@ -436,8 +437,9 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 					deserializeFn("i"),
 				),
 			),
+			jen.Id("ret").Op(":=").Id(p.StructName()).Call(jen.Id(codegen.This())),
 			jen.Return(
-				jen.Id(codegen.This()),
+				jen.Op("&").Id("ret"),
 				jen.Nil(),
 			),
 		},

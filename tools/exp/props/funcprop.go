@@ -7,6 +7,10 @@ import (
 	"sync"
 )
 
+const (
+	iriMember = "iri"
+)
+
 // FunctionalPropertyGenerator produces Go code for properties that can have
 // only one value. The resulting property is a struct type that can have one
 // value that could be from multiple Kinds of values. If there is only one
@@ -306,22 +310,32 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			jen.Nil(),
 		)},
 		jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName()))
-	deserializeFns := jen.Empty()
+	valueDeserializeFns := jen.Empty()
+	typeDeserializeFns := jen.Empty()
+	foundValue := false
+	foundType := false
 	for i, kind := range p.Kinds {
-		if i > 0 {
-			deserializeFns = deserializeFns.Else()
-		}
 		values := jen.Dict{
 			jen.Id(p.memberName(i)): jen.Id("v"),
 		}
 		if !kind.Nilable {
 			values[jen.Id(p.hasMemberName(i))] = jen.True()
 		}
-		deserializeFns = deserializeFns.If(
+		tmp := jen.Empty()
+		if kind.isValue() && foundValue {
+			tmp = tmp.Else()
+		} else if !kind.isValue() && foundType {
+			tmp = tmp.Else()
+		}
+		variable := jen.Id("i")
+		if !kind.isValue() {
+			variable = jen.Id("m")
+		}
+		tmp = tmp.If(
 			jen.List(
 				jen.Id("v"),
 				jen.Err(),
-			).Op(":=").Add(kind.deserializeFnCode(jen.Id("i"))),
+			).Op(":=").Add(kind.deserializeFnCode(variable)),
 			jen.Err().Op("!=").Nil(),
 		).Block(
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
@@ -332,9 +346,15 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 				jen.Nil(),
 			),
 		)
+		if kind.isValue() {
+			foundValue = true
+			valueDeserializeFns = valueDeserializeFns.Add(tmp)
+		} else {
+			foundType = true
+			typeDeserializeFns = typeDeserializeFns.Add(tmp)
+		}
 	}
 	var deserialize *codegen.Function
-	// TODO: IRI Value
 	if p.asIterator {
 		deserialize = codegen.NewCommentedFunction(
 			p.GetPrivatePackage().Path(),
@@ -342,18 +362,12 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			[]jen.Code{jen.Id("i").Interface()},
 			[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 			[]jen.Code{
-				p.addUnknownDeserializeCode(deserializeFns).Else().Block(
-					jen.Return(
-						jen.Nil(),
-						jen.Qual("fmt", "Errorf").Call(
-							jen.Lit("could not deserialize %q property"),
-							jen.Lit(p.PropertyName()),
-						),
+				p.wrapDeserializeCode(valueDeserializeFns, typeDeserializeFns, false).Line().Return(
+					jen.Nil(),
+					jen.Qual("fmt", "Errorf").Call(
+						jen.Lit("could not deserialize %q property"),
+						jen.Lit(p.PropertyName()),
 					),
-				),
-				jen.Return(
-					jen.Nil(),
-					jen.Nil(),
 				),
 			},
 			jen.Commentf("%s creates an iterator from an element that has been unmarshalled from a text or binary format.", p.DeserializeFnName()))
@@ -373,7 +387,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 					),
 					jen.Id("ok"),
 				).Block(
-					p.addUnknownDeserializeCode(deserializeFns),
+					p.wrapDeserializeCode(valueDeserializeFns, typeDeserializeFns, true),
 				),
 				jen.Return(
 					jen.Nil(),
@@ -409,6 +423,7 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 		}
 	}
 	kindMembers = append(kindMembers, p.unknownMemberDef())
+	kindMembers = append(kindMembers, p.iriMemberDef())
 	if p.HasNaturalLanguageMap {
 		kindMembers = append(kindMembers, jen.Id(langMapMember).Map(jen.String()).String())
 	}
@@ -596,6 +611,7 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
 		}
 	}
 	kindMembers = append(kindMembers, p.unknownMemberDef())
+	kindMembers = append(kindMembers, p.iriMemberDef())
 	if p.HasNaturalLanguageMap {
 		kindMembers = append(kindMembers, jen.Id(langMapMember).Map(jen.String()).String())
 	}
@@ -820,13 +836,58 @@ func (p *FunctionalPropertyGenerator) unknownMemberDef() jen.Code {
 	return jen.Id(unknownMemberName).Index().Byte()
 }
 
-// addUnknownDeserializeCode generates the "else if it's a []byte" code used for
-// deserializing unknown values.
-func (p *FunctionalPropertyGenerator) addUnknownDeserializeCode(existing jen.Code) *jen.Statement {
-	if len(p.Kinds) > 0 {
-		existing = jen.Add(existing, jen.Else())
+// iriMemberDef returns the definition of a struct member that handles
+// a property whose type is an IRI.
+func (p *FunctionalPropertyGenerator) iriMemberDef() jen.Code {
+	return jen.Id(iriMember).Op("*").Qual("net/url", "URL")
+}
+
+// wrapDeserializeCode generates the "else if it's a []byte" code and IRI code
+// used for deserializing unknown values.
+func (p *FunctionalPropertyGenerator) wrapDeserializeCode(valueExisting, typeExisting jen.Code, errorAtEnd bool) *jen.Statement {
+	iriCode := jen.Empty()
+	if !p.hasURIKind() {
+		iriCode = jen.If(
+			jen.List(
+				jen.Id("s"),
+				jen.Id("ok"),
+			).Op(":=").Id("i").Assert(jen.String()),
+			jen.Id("ok"),
+		).Block(
+			// IRI
+			jen.List(
+				jen.Id("u"),
+				jen.Err(),
+			).Op(":=").Qual("net/url", "Parse").Call(jen.Id("s")),
+			jen.Commentf("If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst"),
+			jen.If(jen.Err().Op("==").Nil()).Block(
+				jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
+					jen.Dict{
+						jen.Id(iriMember): jen.Id("u"),
+					},
+				),
+				jen.Return(
+					jen.Id(codegen.This()),
+					jen.Nil(),
+				),
+			),
+		).Line()
 	}
-	return jen.Add(existing,
+	if p.hasTypeKind() {
+		iriCode = iriCode.If(
+			jen.List(
+				jen.Id("m"),
+				jen.Id("ok"),
+			).Op(":=").Id("i").Assert(jen.Map(jen.String()).Interface()),
+			jen.Id("ok"),
+		).Block(
+			typeExisting,
+		).Else()
+	}
+	if p.hasValueKind() {
+		iriCode = iriCode.Add(valueExisting).Else()
+	}
+	iriCode = iriCode.Add(
 		jen.If(
 			jen.List(
 				jen.Id("v"),
@@ -847,4 +908,46 @@ func (p *FunctionalPropertyGenerator) addUnknownDeserializeCode(existing jen.Cod
 			),
 		),
 	)
+	if errorAtEnd {
+		iriCode = iriCode.Else().Block(
+			jen.Return(
+				jen.Nil(),
+				jen.Qual("fmt", "Errorf").Call(
+					jen.Lit("could not deserialize %q property"),
+					jen.Lit(p.PropertyName()),
+				),
+			),
+		)
+	}
+	return iriCode
+}
+
+// hasURIKind returns true if this property already has a Kind that is a URI.
+func (p *FunctionalPropertyGenerator) hasURIKind() bool {
+	for _, k := range p.Kinds {
+		if k.IsURI {
+			return true
+		}
+	}
+	return false
+}
+
+// hasTypeKind returns true if this property has a Kind that is a type.
+func (p *FunctionalPropertyGenerator) hasTypeKind() bool {
+	for _, k := range p.Kinds {
+		if !k.isValue() {
+			return true
+		}
+	}
+	return false
+}
+
+// hasValueKind returns true if this property has a Kind that is a Value.
+func (p *FunctionalPropertyGenerator) hasValueKind() bool {
+	for _, k := range p.Kinds {
+		if k.isValue() {
+			return true
+		}
+	}
+	return false
 }
