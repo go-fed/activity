@@ -645,9 +645,10 @@ func (t *TypeGenerator) kindDeserializationFunc() (deser *codegen.Function) {
 	deser = codegen.NewCommentedFunction(
 		t.PrivatePackage().Path(),
 		t.deserializationFnName(),
-		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
+		[]jen.Code{jen.Id("i").Interface()},
 		[]jen.Code{jen.Op("*").Id(t.TypeName()), jen.Error()},
 		[]jen.Code{
+			// TODO: Assertion that interface is a map.
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(t.TypeName()).Values(jen.Dict{
 				jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface()),
 			}),

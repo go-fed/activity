@@ -201,7 +201,7 @@ func (m *ManagerGenerator) createDeserializationMethod(deserName string, pubPkg,
 		/*param=*/ nil,
 		[]jen.Code{
 			jen.Func().Params(
-				jen.Map(jen.String()).Interface(),
+				jen.Interface(),
 			).Params(
 				jen.Qual(pubPkg.Path(), interfaceName),
 				jen.Error(),
@@ -210,7 +210,7 @@ func (m *ManagerGenerator) createDeserializationMethod(deserName string, pubPkg,
 		[]jen.Code{
 			jen.Return(
 				jen.Func().Params(
-					jen.Id("m").Map(jen.String()).Interface(),
+					jen.Id("v").Interface(),
 				).Params(
 					jen.Qual(pubPkg.Path(), interfaceName),
 					jen.Error(),
@@ -218,7 +218,7 @@ func (m *ManagerGenerator) createDeserializationMethod(deserName string, pubPkg,
 					jen.List(
 						jen.Id("i"),
 						jen.Err(),
-					).Op(":=").Qual(privPkg.Path(), deserName).Call(jen.Id("m")),
+					).Op(":=").Qual(privPkg.Path(), deserName).Call(jen.Id("v")),
 					jen.Return(jen.List(
 						jen.Id("i"),
 						jen.Err(),

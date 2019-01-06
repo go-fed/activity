@@ -96,6 +96,17 @@ func (k Kind) lessFnCode(this, other *jen.Statement) *jen.Statement {
 	return lessCall
 }
 
+func (k Kind) deserializeFnCode(this *jen.Statement) *jen.Statement {
+	// LessFn is not nil, this means it is a value.
+	if k.LessFn != nil {
+		return k.DeserializeFn.Clone().Call(this)
+	} else {
+		// If LessFn is nil, this means it is a type. Which requires an
+		// additional Call.
+		return k.DeserializeFn.Clone().Call().Call(this)
+	}
+}
+
 // PropertyGenerator is a common base struct used in both Functional and
 // NonFunctional ActivityStreams properties. It provides common naming patterns,
 // logic, and common Go code to be generated.

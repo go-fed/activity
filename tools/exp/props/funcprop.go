@@ -321,9 +321,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			jen.List(
 				jen.Id("v"),
 				jen.Err(),
-			).Op(":=").Add(kind.DeserializeFn.Clone().Call().Call(
-				jen.Id("i"),
-			)),
+			).Op(":=").Add(kind.deserializeFnCode(jen.Id("i"))),
 			jen.Err().Op("!=").Nil(),
 		).Block(
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
@@ -844,7 +842,7 @@ func (p *FunctionalPropertyGenerator) addUnknownDeserializeCode(existing jen.Cod
 			),
 			jen.Return(
 				jen.Id(codegen.This()),
-				jen.Err(),
+				jen.Nil(),
 			),
 		),
 	)
