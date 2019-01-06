@@ -4192,7 +4192,7 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-mediatype",
           "range": {
             "type": "owl:Class",
-            "unionOf": []
+            "unionOf": "rfc:rfc2045"
           },
           "name": "mediaType",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-mediatype"
