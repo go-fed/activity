@@ -65,6 +65,7 @@ type Kind struct {
 	// ConcreteKind is expected to be properly qualified.
 	ConcreteKind *jen.Statement
 	Nilable      bool
+	IsURI        bool
 
 	// TODO: Untangle the package management mess so that the below do not
 	// need to be duplicated.

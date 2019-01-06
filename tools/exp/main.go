@@ -74,13 +74,11 @@ func main() {
 		panic(err)
 	}
 	c := &convert.Converter{
-		Registry:              registry,
-		VocabularyRoot:        props.NewPackageManager(*prefix, "gen/as"),
-		ValueRoot:             props.NewPackageManager(*prefix, "gen/vals"),
-		PropertyPackagePolicy: convert.PropertyFlatUnderRoot,
-		PropertyPackageRoot:   props.NewPackageManager(*prefix, "gen/as/props"),
-		TypePackagePolicy:     convert.TypeFlatUnderRoot,
-		TypePackageRoot:       props.NewPackageManager(*prefix, "gen/as/types"),
+		Registry:       registry,
+		GenRoot:        props.NewPackageManager(*prefix, "gen"),
+		VocabularyName: *vocabName,
+		ValueRoot:      props.NewPackageManager(*prefix, "gen/vals"),
+		PackagePolicy:  convert.FlatUnderRoot,
 	}
 	f, err := c.Convert(p)
 	if err != nil {

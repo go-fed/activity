@@ -334,6 +334,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 		)
 	}
 	var deserialize *codegen.Function
+	// TODO: IRI Value
 	if p.asIterator {
 		deserialize = codegen.NewCommentedFunction(
 			p.GetPrivatePackage().Path(),

@@ -45,6 +45,17 @@ func (p *PackageManager) Sub(name string) *PackageManager {
 	}
 }
 
+// SubPrivate creates a PackageManager clone where the private package is one
+// subdirectory further.
+func (p *PackageManager) SubPrivate(name string) *PackageManager {
+	return &PackageManager{
+		prefix:  p.prefix,
+		root:    p.root,
+		public:  p.public,
+		private: fmt.Sprintf("%s/%s", p.private, name),
+	}
+}
+
 func (p *PackageManager) toPackage(suffix string, public bool) Package {
 	path := p.root
 	if len(suffix) > 0 {
@@ -149,7 +160,7 @@ func (t *TypePackageGenerator) PrivateDefinitions(tgs []*TypeGenerator) (*jen.St
 // properties.
 type PropertyPackageGenerator struct{}
 
-// NewPropertyPackageGenerator creates a new TypePackageGenerator.
+// NewPropertyPackageGenerator creates a new PropertyPackageGenerator.
 func NewPropertyPackageGenerator() *PropertyPackageGenerator {
 	return &PropertyPackageGenerator{}
 }
@@ -177,6 +188,64 @@ func (p *PropertyPackageGenerator) PrivateDefinitions(pgs []*PropertyGenerator) 
 			fns,
 			fmt.Sprintf("%s abstracts the code-generated manager that provides access to concrete implementations.", managerInterfaceName)),
 		codegen.NewCommentedFunction(pgs[0].GetPrivatePackage().Path(),
+			setManagerFunctionName,
+			[]jen.Code{
+				jen.Id("m").Id(managerInterfaceName),
+			},
+			/*ret=*/ nil,
+			[]jen.Code{
+				jen.Id(managerInitName()).Op("=").Id("m"),
+			},
+			jen.Commentf("%s sets the manager package-global variable. For internal use only, do not use as part of Application behavior. Must be called at golang init time.", setManagerFunctionName))
+}
+
+// PackageGenerator maanges generating one-time files needed for both type and
+// property implementations.
+type PackageGenerator struct{}
+
+// NewPackageGenerator creates a new PackageGenerator.
+func NewPackageGenerator() *PackageGenerator {
+	return &PackageGenerator{}
+}
+
+// PublicDefinitions creates the public-facing code generated definitions needed
+// once per package.
+//
+// Precondition: The passed-in generators are the complete set of type
+// generators within a package.
+func (t *PackageGenerator) PublicDefinitions(tgs []*TypeGenerator) *codegen.Interface {
+	return TypeInterface(tgs[0].PublicPackage())
+}
+
+// PrivateDefinitions creates the private code generated definitions needed once
+// per package.
+//
+// Precondition: The passed-in generators are the complete set of type
+// generators within a package.
+func (t *PackageGenerator) PrivateDefinitions(tgs []*TypeGenerator, pgs []*PropertyGenerator) (*jen.Statement, *codegen.Interface, *codegen.Function) {
+	fnsMap := make(map[string]codegen.FunctionSignature)
+	for _, tg := range tgs {
+		for _, m := range tg.getAllManagerMethods() {
+			v := m.ToFunctionSignature()
+			fnsMap[v.Name] = v
+		}
+	}
+	for _, pg := range pgs {
+		for _, m := range pg.getAllManagerMethods() {
+			v := m.ToFunctionSignature()
+			fnsMap[v.Name] = v
+		}
+	}
+	var fns []codegen.FunctionSignature
+	for _, v := range fnsMap {
+		fns = append(fns, v)
+	}
+	return jen.Var().Id(managerInitName()).Id(managerInterfaceName),
+		codegen.NewInterface(tgs[0].PrivatePackage().Path(),
+			managerInterfaceName,
+			fns,
+			fmt.Sprintf("%s abstracts the code-generated manager that provides access to concrete implementations.", managerInterfaceName)),
+		codegen.NewCommentedFunction(tgs[0].PrivatePackage().Path(),
 			setManagerFunctionName,
 			[]jen.Code{
 				jen.Id("m").Id(managerInterfaceName),

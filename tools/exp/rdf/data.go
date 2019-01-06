@@ -108,6 +108,7 @@ type VocabularyValue struct {
 	DefinitionType *jen.Statement
 	Zero           string
 	IsNilable      bool
+	IsURI          bool
 	SerializeFn    *codegen.Function
 	DeserializeFn  *codegen.Function
 	LessFn         *codegen.Function

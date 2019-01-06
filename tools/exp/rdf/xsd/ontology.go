@@ -200,6 +200,7 @@ func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (
 			DefinitionType: jen.Op("*").Qual("net/url", "URL"),
 			Zero:           "&url.URL{}",
 			IsNilable:      true,
+			IsURI:          true,
 			SerializeFn: rdf.SerializeValueFunction(
 				a.pkg,
 				anyURISpec,

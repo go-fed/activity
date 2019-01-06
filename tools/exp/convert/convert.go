@@ -57,30 +57,19 @@ func (v vocabulary) nonFuncPropArray() []*props.NonFunctionalPropertyGenerator {
 	return nfp
 }
 
-type PropertyPackagePolicy int
+type PackagePolicy int
 
 const (
-	PropertyFlatUnderRoot PropertyPackagePolicy = iota
-	PropertyIndividualUnderRoot
-	PropertyFlatUnderVocabularyRoot
-)
-
-type TypePackagePolicy int
-
-const (
-	TypeFlatUnderRoot TypePackagePolicy = iota
-	TypeIndividualUnderRoot
-	TypeFlatUnderVocabularyRoot
+	FlatUnderRoot PackagePolicy = iota
+	IndividualUnderRoot
 )
 
 type Converter struct {
-	Registry              *rdf.RDFRegistry
-	VocabularyRoot        *props.PackageManager
-	ValueRoot             *props.PackageManager
-	PropertyPackagePolicy PropertyPackagePolicy
-	PropertyPackageRoot   *props.PackageManager
-	TypePackagePolicy     TypePackagePolicy
-	TypePackageRoot       *props.PackageManager
+	Registry       *rdf.RDFRegistry
+	GenRoot        *props.PackageManager
+	VocabularyName string
+	ValueRoot      *props.PackageManager
+	PackagePolicy  PackagePolicy
 }
 
 func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
@@ -131,7 +120,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		file.Add(i.Definition().Definition())
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_%s.go", i.PropertyName()),
+			FileName:  fmt.Sprintf("gen_property_%s.go", i.PropertyName()),
 			Directory: priv.WriteDir(),
 		})
 		// Interface
@@ -140,7 +129,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_%s_interface.go", i.PropertyName()),
+			FileName:  fmt.Sprintf("gen_property_%s_interface.go", i.PropertyName()),
 			Directory: pub.WriteDir(),
 		})
 	}
@@ -158,7 +147,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		file.Add(s.Definition()).Line().Add(t.Definition())
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_%s.go", i.PropertyName()),
+			FileName:  fmt.Sprintf("gen_property_%s.go", i.PropertyName()),
 			Directory: priv.WriteDir(),
 		})
 		// Interface
@@ -169,16 +158,10 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		}
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_%s_interface.go", i.PropertyName()),
+			FileName:  fmt.Sprintf("gen_property_%s_interface.go", i.PropertyName()),
 			Directory: pub.WriteDir(),
 		})
 	}
-	propPkgFiles, err := c.propertyPackageFiles(v.FProps, v.NFProps)
-	if err != nil {
-		e = err
-		return
-	}
-	f = append(f, propPkgFiles...)
 	// Types
 	for _, i := range v.Types {
 		var pm *props.PackageManager
@@ -192,7 +175,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		file.Add(i.Definition().Definition())
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_%s.go", i.TypeName()),
+			FileName:  fmt.Sprintf("gen_type_%s.go", i.TypeName()),
 			Directory: priv.WriteDir(),
 		})
 		// Interface
@@ -201,18 +184,18 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_%s_interface.go", i.TypeName()),
+			FileName:  fmt.Sprintf("gen_type_%s_interface.go", i.TypeName()),
 			Directory: pub.WriteDir(),
 		})
 	}
-	typePkgFiles, err := c.typePackageFiles(v.Types)
+	pkgFiles, err := c.packageFiles(v.Types, v.FProps, v.NFProps)
 	if err != nil {
 		e = err
 		return
 	}
-	f = append(f, typePkgFiles...)
+	f = append(f, pkgFiles...)
 	// Manager
-	pub := c.VocabularyRoot.PublicPackage()
+	pub := c.GenRoot.PublicPackage()
 	file := jen.NewFilePath(pub.Path())
 	file.Add(v.Manager.Definition().Definition())
 	f = append(f, &File{
@@ -280,7 +263,7 @@ func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e e
 		}
 	}
 	v.Manager, e = props.NewManagerGenerator(
-		c.VocabularyRoot.PublicPackage(),
+		c.GenRoot.PublicPackage(),
 		v.typeArray(),
 		v.funcPropArray(),
 		v.nonFuncPropArray())
@@ -450,10 +433,10 @@ func (c Converter) convertValue(v rdf.VocabularyValue) (k *props.Kind) {
 	d := v.DeserializeFn.CloneToPackage(c.vocabValuePackage(v).Path())
 	l := v.LessFn.CloneToPackage(c.vocabValuePackage(v).Path())
 	k = &props.Kind{
-		Name: c.toIdentifier(v),
-		// TODO: Add Qualifier
+		Name:           c.toIdentifier(v),
 		ConcreteKind:   v.DefinitionType,
 		Nilable:        v.IsNilable,
+		IsURI:          v.IsURI,
 		SerializeFn:    s.QualifiedName(),
 		DeserializeFn:  d.QualifiedName(),
 		LessFn:         l.QualifiedName(),
@@ -468,6 +451,7 @@ func (c Converter) convertTypeToKind(v rdf.VocabularyType) (k *props.Kind, e err
 	k = &props.Kind{
 		Name:    c.toIdentifier(v),
 		Nilable: true,
+		IsURI:   false,
 		// Instead of populating:
 		//   - ConcreteKind
 		//   - SerializeFn
@@ -550,45 +534,44 @@ func (c Converter) vocabValuePackage(v rdf.VocabularyValue) props.Package {
 }
 
 func (c Converter) typePackageManager(v typeNamer) (pkg *props.PackageManager, e error) {
-	switch c.TypePackagePolicy {
-	case TypeFlatUnderRoot:
-		pkg = c.TypePackageRoot
-	case TypeIndividualUnderRoot:
-		pkg = c.TypePackageRoot.Sub(v.TypeName())
-	case TypeFlatUnderVocabularyRoot:
-		pkg = c.VocabularyRoot
-	default:
-		e = fmt.Errorf("unrecognized TypePackagePolicy: %v", c.TypePackagePolicy)
-	}
-	return
+	return c.packageManager(v.TypeName())
 }
 
 func (c Converter) propertyPackageManager(v propertyNamer) (pkg *props.PackageManager, e error) {
-	switch c.PropertyPackagePolicy {
-	case PropertyFlatUnderRoot:
-		pkg = c.PropertyPackageRoot
-	case PropertyIndividualUnderRoot:
-		pkg = c.PropertyPackageRoot.Sub(v.PropertyName())
-	case PropertyFlatUnderVocabularyRoot:
-		pkg = c.VocabularyRoot
+	return c.packageManager(v.PropertyName())
+}
+
+func (c Converter) packageManager(s string) (pkg *props.PackageManager, e error) {
+	switch c.PackagePolicy {
+	case FlatUnderRoot:
+		pkg = c.GenRoot.Sub(c.VocabularyName)
+	case IndividualUnderRoot:
+		pkg = c.GenRoot.Sub(c.VocabularyName).SubPrivate(s)
 	default:
-		e = fmt.Errorf("unrecognized PropertyPackagePolicy: %v", c.PropertyPackagePolicy)
+		e = fmt.Errorf("unrecognized PackagePolicy: %v", c.PackagePolicy)
 	}
 	return
 }
 
-func (c Converter) typePackageFiles(t map[string]*props.TypeGenerator) (f []*File, e error) {
-	switch c.TypePackagePolicy {
-	case TypeFlatUnderRoot:
-		fallthrough
-	case TypeFlatUnderVocabularyRoot:
+func (c Converter) packageFiles(t map[string]*props.TypeGenerator,
+	fp map[string]*props.FunctionalPropertyGenerator,
+	nfp map[string]*props.NonFunctionalPropertyGenerator) (f []*File, e error) {
+	switch c.PackagePolicy {
+	case FlatUnderRoot:
 		// Only need one for all types.
 		tgs := make([]*props.TypeGenerator, 0, len(t))
 		for _, v := range t {
 			tgs = append(tgs, v)
 		}
-		tpg := props.NewTypePackageGenerator()
-		pubI := tpg.PublicDefinitions(tgs)
+		pgs := make([]*props.PropertyGenerator, 0, len(fp)+len(nfp))
+		for _, v := range fp {
+			pgs = append(pgs, &v.PropertyGenerator)
+		}
+		for _, v := range nfp {
+			pgs = append(pgs, &v.PropertyGenerator)
+		}
+		pg := props.NewPackageGenerator()
+		pubI := pg.PublicDefinitions(tgs)
 		// Public
 		pub := tgs[0].PublicPackage()
 		file := jen.NewFilePath(pub.Path())
@@ -599,7 +582,7 @@ func (c Converter) typePackageFiles(t map[string]*props.TypeGenerator) (f []*Fil
 			Directory: pub.WriteDir(),
 		})
 		// Private
-		s, i, fn := tpg.PrivateDefinitions(tgs)
+		s, i, fn := pg.PrivateDefinitions(tgs, pgs)
 		priv := tgs[0].PrivatePackage()
 		file = jen.NewFilePath(priv.Path())
 		file.Add(
@@ -614,51 +597,99 @@ func (c Converter) typePackageFiles(t map[string]*props.TypeGenerator) (f []*Fil
 			FileName:  "gen_pkg.go",
 			Directory: priv.WriteDir(),
 		})
-	case TypeIndividualUnderRoot:
-		// Need individual files per type.
-		// TODO
+	case IndividualUnderRoot:
+		for k, tg := range t {
+			var file []*File
+			file, e = c.typePackageFiles(map[string]*props.TypeGenerator{k: tg})
+			if e != nil {
+				return
+			}
+			f = append(f, file...)
+		}
+		for k, pg := range fp {
+			var file []*File
+			file, e = c.propertyPackageFiles(map[string]*props.FunctionalPropertyGenerator{k: pg}, nil)
+			if e != nil {
+				return
+			}
+			f = append(f, file...)
+		}
+		for k, pg := range nfp {
+			var file []*File
+			file, e = c.propertyPackageFiles(nil, map[string]*props.NonFunctionalPropertyGenerator{k: pg})
+			if e != nil {
+				return
+			}
+			f = append(f, file...)
+		}
 	default:
-		e = fmt.Errorf("unrecognized TypePackagePolicy: %v", c.TypePackagePolicy)
+		e = fmt.Errorf("unrecognized PackagePolicy: %v", c.PackagePolicy)
 	}
 	return
 }
 
-func (c Converter) propertyPackageFiles(fp map[string]*props.FunctionalPropertyGenerator, nfp map[string]*props.NonFunctionalPropertyGenerator) (f []*File, e error) {
-	switch c.PropertyPackagePolicy {
-	case PropertyFlatUnderRoot:
-		fallthrough
-	case PropertyFlatUnderVocabularyRoot:
-		// Only need one for all types.
-		pgs := make([]*props.PropertyGenerator, 0, len(fp)+len(nfp))
-		for _, v := range fp {
-			pgs = append(pgs, &v.PropertyGenerator)
-		}
-		for _, v := range nfp {
-			pgs = append(pgs, &v.PropertyGenerator)
-		}
-		ppg := props.NewPropertyPackageGenerator()
-		// Private
-		s, i, fn := ppg.PrivateDefinitions(pgs)
-		priv := pgs[0].GetPrivatePackage()
-		file := jen.NewFilePath(priv.Path())
-		file.Add(
-			s,
-		).Line().Add(
-			i.Definition(),
-		).Line().Add(
-			fn.Definition(),
-		).Line()
-		f = append(f, &File{
-			F:         file,
-			FileName:  "gen_pkg.go",
-			Directory: priv.WriteDir(),
-		})
-	case PropertyIndividualUnderRoot:
-		// Need individual files per type.
-		// TODO
-	default:
-		e = fmt.Errorf("unrecognized PropertyPackagePolicy: %v", c.PropertyPackagePolicy)
+func (c Converter) typePackageFiles(t map[string]*props.TypeGenerator) (f []*File, e error) {
+	// Only need one for all types.
+	tgs := make([]*props.TypeGenerator, 0, len(t))
+	for _, v := range t {
+		tgs = append(tgs, v)
 	}
+	tpg := props.NewTypePackageGenerator()
+	pubI := tpg.PublicDefinitions(tgs)
+	// Public
+	pub := tgs[0].PublicPackage()
+	file := jen.NewFilePath(pub.Path())
+	file.Add(pubI.Definition())
+	f = append(f, &File{
+		F:         file,
+		FileName:  "gen_pkg.go",
+		Directory: pub.WriteDir(),
+	})
+	// Private
+	s, i, fn := tpg.PrivateDefinitions(tgs)
+	priv := tgs[0].PrivatePackage()
+	file = jen.NewFilePath(priv.Path())
+	file.Add(
+		s,
+	).Line().Add(
+		i.Definition(),
+	).Line().Add(
+		fn.Definition(),
+	).Line()
+	f = append(f, &File{
+		F:         file,
+		FileName:  "gen_pkg.go",
+		Directory: priv.WriteDir(),
+	})
+	return
+}
+
+func (c Converter) propertyPackageFiles(fp map[string]*props.FunctionalPropertyGenerator, nfp map[string]*props.NonFunctionalPropertyGenerator) (f []*File, e error) {
+	// Only need one for all types.
+	pgs := make([]*props.PropertyGenerator, 0, len(fp)+len(nfp))
+	for _, v := range fp {
+		pgs = append(pgs, &v.PropertyGenerator)
+	}
+	for _, v := range nfp {
+		pgs = append(pgs, &v.PropertyGenerator)
+	}
+	ppg := props.NewPropertyPackageGenerator()
+	// Private
+	s, i, fn := ppg.PrivateDefinitions(pgs)
+	priv := pgs[0].GetPrivatePackage()
+	file := jen.NewFilePath(priv.Path())
+	file.Add(
+		s,
+	).Line().Add(
+		i.Definition(),
+	).Line().Add(
+		fn.Definition(),
+	).Line()
+	f = append(f, &File{
+		F:         file,
+		FileName:  "gen_pkg.go",
+		Directory: priv.WriteDir(),
+	})
 	return
 }
 

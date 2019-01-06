@@ -243,16 +243,22 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 		get := t.getUnknownMethod()
 		deser := t.kindDeserializationFunc()
 		extendsFn, extendsMethod := t.extendsDefinition()
+		getters := t.allGetters()
+		setters := t.allSetters()
 		t.cachedStruct = codegen.NewStruct(
 			jen.Commentf(t.Comments()),
 			t.TypeName(),
-			[]*codegen.Method{
-				t.nameDefinition(),
-				extendsMethod,
-				ser,
-				less,
-				get,
-			},
+			append(append(
+				[]*codegen.Method{
+					t.nameDefinition(),
+					extendsMethod,
+					ser,
+					less,
+					get,
+				},
+				getters...),
+				setters...,
+			),
 			[]*codegen.Function{
 				t.extendedByDefinition(),
 				extendsFn,
@@ -645,10 +651,9 @@ func (t *TypeGenerator) kindDeserializationFunc() (deser *codegen.Function) {
 	deser = codegen.NewCommentedFunction(
 		t.PrivatePackage().Path(),
 		t.deserializationFnName(),
-		[]jen.Code{jen.Id("i").Interface()},
+		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
 		[]jen.Code{jen.Op("*").Id(t.TypeName()), jen.Error()},
 		[]jen.Code{
-			// TODO: Assertion that interface is a map.
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(t.TypeName()).Values(jen.Dict{
 				jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface()),
 			}),
@@ -680,6 +685,42 @@ which implementation is LessThan the other. Developers who are creating a differ
 implementation of this type's interface can use this method in their LessThan
 implementation, but routine ActivityPub applications should not use this to bypass the
 code generation tool.`, getUnknownMethod, t.TypeName()))
+	return
+}
+
+// allGetters returns all property Getters for this type.
+func (t *TypeGenerator) allGetters() (m []*codegen.Method) {
+	for _, property := range t.allProperties() {
+		m = append(m, codegen.NewCommentedValueMethod(
+			t.PrivatePackage().Path(),
+			fmt.Sprintf("Get%s", t.memberName(property)),
+			t.TypeName(),
+			/*params=*/ nil,
+			[]jen.Code{jen.Qual(property.GetPublicPackage().Path(), property.InterfaceName())},
+			[]jen.Code{
+				jen.Return(
+					jen.Id(codegen.This()).Dot(t.memberName(property)),
+				),
+			},
+			jen.Commentf("Get%s returns the %q property if it exists, and nil otherwise.", t.memberName(property), property.PropertyName())))
+	}
+	return
+}
+
+// allSetters returns all property Setters for this type.
+func (t *TypeGenerator) allSetters() (m []*codegen.Method) {
+	for _, property := range t.allProperties() {
+		m = append(m, codegen.NewCommentedValueMethod(
+			t.PrivatePackage().Path(),
+			fmt.Sprintf("Set%s", t.memberName(property)),
+			t.TypeName(),
+			[]jen.Code{jen.Id("i").Qual(property.GetPublicPackage().Path(), property.InterfaceName())},
+			/*ret=*/ nil,
+			[]jen.Code{
+				jen.Id(codegen.This()).Dot(t.memberName(property)).Op("=").Id("i"),
+			},
+			jen.Commentf("Get%s returns the %q property if it exists, and nil otherwise.", t.memberName(property), property.PropertyName())))
+	}
 	return
 }
 
