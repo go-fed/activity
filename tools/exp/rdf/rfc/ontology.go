@@ -15,6 +15,7 @@ const (
 	rfcSpec   = "https://tools.ietf.org/html/"
 	bcp47Spec = "bcp47"
 	mimeSpec  = "rfc2045" // See also: rfc2046 and rfc6838
+	relSpec   = "rfc5988"
 )
 
 type RFCOntology struct {
@@ -43,6 +44,12 @@ func (o *RFCOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 			Name:     mimeSpec,
 			Delegate: &mime{pkg: o.Package},
 		},
+		&rdf.AliasedDelegate{
+			Spec:     rfcSpec,
+			Alias:    s,
+			Name:     relSpec,
+			Delegate: &rel{pkg: o.Package},
+		},
 	}, nil
 }
 
@@ -66,6 +73,15 @@ func (o *RFCOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, er
 				Delegate: &mime{pkg: o.Package},
 			},
 		}, nil
+	case relSpec:
+		return []rdf.RDFNode{
+			&rdf.AliasedDelegate{
+				Spec:     "",
+				Alias:    "",
+				Name:     alias,
+				Delegate: &rel{pkg: o.Package},
+			},
+		}, nil
 	}
 	return nil, fmt.Errorf("rfc ontology cannot find %q to alias to %q", name, alias)
 }
@@ -81,6 +97,8 @@ func (o *RFCOntology) GetByName(name string) (rdf.RDFNode, error) {
 		return &bcp47{pkg: o.Package}, nil
 	case mimeSpec:
 		return &mime{pkg: o.Package}, nil
+	case relSpec:
+		return &rel{pkg: o.Package}, nil
 	}
 	return nil, fmt.Errorf("rfc ontology could not find node for name %s", name)
 }
@@ -239,6 +257,86 @@ func (m *mime) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bo
 				}),
 		}
 		if err = v.SetValue(mimeSpec, val); err != nil {
+			return true, err
+		}
+	}
+	return true, nil
+}
+
+var _ rdf.RDFNode = &rel{}
+
+type rel struct {
+	pkg string
+}
+
+func (*rel) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
+	return true, fmt.Errorf("rel cannot be entered")
+}
+
+func (*rel) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
+	return true, fmt.Errorf("rel cannot be exited")
+}
+
+func (r *rel) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
+	v := ctx.Result.GetReference(rfcSpec)
+	if len(v.Values[relSpec].Name) == 0 {
+		u, err := url.Parse(rfcSpec + relSpec)
+		if err != nil {
+			return true, err
+		}
+		val := &rdf.VocabularyValue{
+			Name:           relSpec,
+			URI:            u,
+			DefinitionType: jen.String(),
+			Zero:           "\"\"",
+			IsNilable:      false,
+			SerializeFn: rdf.SerializeValueFunction(
+				r.pkg,
+				relSpec,
+				jen.String(),
+				[]jen.Code{
+					jen.Return(
+						jen.Id(codegen.This()),
+						jen.Nil(),
+					),
+				}),
+			DeserializeFn: rdf.DeserializeValueFunction(
+				r.pkg,
+				relSpec,
+				jen.String(),
+				[]jen.Code{
+					jen.If(
+						jen.List(
+							jen.Id("s"),
+							jen.Id("ok"),
+						).Op(":=").Id(codegen.This()).Assert(jen.String()),
+						jen.Id("ok"),
+					).Block(
+						jen.Return(
+							jen.Id("s"),
+							jen.Nil(),
+						),
+					).Else().Block(
+						jen.Return(
+							jen.Lit(""),
+							jen.Qual("fmt", "Errorf").Call(
+								jen.Lit("%v cannot be interpreted as a string for rel"),
+								jen.Id(codegen.This()),
+							),
+						),
+					),
+				}),
+			LessFn: rdf.LessFunction(
+				r.pkg,
+				relSpec,
+				jen.String(),
+				[]jen.Code{
+					jen.Return(
+						jen.Id("lhs").Op("<").Id("rhs"),
+					),
+				}),
+		}
+		if err = v.SetValue(relSpec, val); err != nil {
 			return true, err
 		}
 	}

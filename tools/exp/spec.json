@@ -4369,7 +4369,7 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-rel",
           "range": {
             "type": "owl:Class",
-            "unionOf": []
+            "unionOf": "rfc:rfc5988"
           },
           "name": "rel",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-rel"
