@@ -9,6 +9,7 @@ import (
 	"github.com/cjslep/activity/tools/exp/rdf"
 	"github.com/cjslep/activity/tools/exp/rdf/owl"
 	"github.com/cjslep/activity/tools/exp/rdf/rdfs"
+	"github.com/cjslep/activity/tools/exp/rdf/rfc"
 	"github.com/cjslep/activity/tools/exp/rdf/schema"
 	"github.com/cjslep/activity/tools/exp/rdf/xsd"
 	"io/ioutil"
@@ -33,6 +34,7 @@ func init() {
 	mustAddOntology(&rdf.RDFOntology{Package: "rdf"})
 	mustAddOntology(&rdfs.RDFSchemaOntology{})
 	mustAddOntology(&schema.SchemaOntology{})
+	mustAddOntology(&rfc.RFCOntology{Package: "rfc"})
 }
 
 var (

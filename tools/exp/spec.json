@@ -4,6 +4,7 @@
       "owl": "http://www.w3.org/2002/07/owl#",
       "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
       "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+      "rfc": "https://tools.ietf.org/html/",
       "schema": "http://schema.org/",
       "xsd": "http://www.w3.org/2001/XMLSchema#"
     },
@@ -4021,7 +4022,7 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-hreflang",
           "range": {
             "type": "owl:Class",
-            "unionOf": []
+            "unionOf": "rfc:bcp47"
           },
           "name": "hreflang",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-hreflang"
