@@ -43,7 +43,7 @@ func NewTypedef(comment string,
 func (t *Typedef) Definition() jen.Code {
 	def := jen.Empty()
 	if len(t.comment) > 0 {
-		def = jen.Commentf(t.comment).Line()
+		def = jen.Commentf(insertNewlines(t.comment)).Line()
 	}
 	def = def.Type().Id(
 		t.name,

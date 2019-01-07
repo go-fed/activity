@@ -683,13 +683,10 @@ func (t *TypeGenerator) getUnknownMethod() (get *codegen.Method) {
 		[]jen.Code{
 			jen.Return(jen.Id(codegen.This()).Dot(unknownMember)),
 		},
-		fmt.Sprintf(`%s returns the unknown properties for the %s type.
-
-Note that this should not be used by app developers. It is only used to help determine
-which implementation is LessThan the other. Developers who are creating a different
-implementation of this type's interface can use this method in their LessThan
-implementation, but routine ActivityPub applications should not use this to bypass the
-code generation tool.`, getUnknownMethod, t.TypeName()))
+		fmt.Sprintf(
+			"%s returns the unknown properties for the %s type. Note that this should not be used by app developers. It is only used to help determine which implementation is LessThan the other. Developers who are creating a different implementation of this type's interface can use this method in their LessThan implementation, but routine ActivityPub applications should not use this to bypass the code generation tool.",
+			getUnknownMethod,
+			t.TypeName()))
 	return
 }
 

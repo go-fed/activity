@@ -70,7 +70,7 @@ func (m Function) CloneToPackage(pkg string) *Function {
 func (m Function) Definition() jen.Code {
 	stmts := jen.Empty()
 	if len(m.comment) > 0 {
-		stmts = jen.Commentf(m.comment).Line()
+		stmts = jen.Commentf(insertNewlines(m.comment)).Line()
 	}
 	return stmts.Add(jen.Func().Id(m.name).Params(
 		m.params...,
@@ -180,7 +180,7 @@ func NewPointerMethod(pkg, name, structName string,
 func (m Method) Definition() jen.Code {
 	comment := jen.Empty()
 	if len(m.function.comment) > 0 {
-		comment = jen.Commentf(m.function.comment).Line()
+		comment = jen.Commentf(insertNewlines(m.function.comment)).Line()
 	}
 	funcDef := jen.Empty()
 	switch m.member {

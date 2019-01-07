@@ -55,7 +55,7 @@ func NewStruct(comment string,
 func (s *Struct) Definition() jen.Code {
 	comment := jen.Empty()
 	if len(s.comment) > 0 {
-		comment = jen.Commentf(s.comment).Line()
+		comment = jen.Commentf(insertNewlines(s.comment)).Line()
 	}
 	def := comment.Type().Id(s.name).Struct(
 		join(s.members),

@@ -49,13 +49,13 @@ func NewInterface(pkg, name string,
 func (i Interface) Definition() jen.Code {
 	stmts := jen.Empty()
 	if len(i.comment) > 0 {
-		stmts = jen.Comment(i.comment).Line()
+		stmts = jen.Comment(insertNewlines(i.comment)).Line()
 	}
 	defs := make([]jen.Code, 0, len(i.functions))
 	for _, fn := range i.functions {
 		def := jen.Empty()
 		if len(fn.Comment) > 0 {
-			def.Comment(fn.Comment).Line()
+			def.Comment(insertNewlinesIndented(fn.Comment)).Line()
 		}
 		def.Id(fn.Name).Params(fn.Params...)
 		if len(fn.Ret) > 0 {
