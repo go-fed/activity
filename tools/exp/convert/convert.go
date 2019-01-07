@@ -154,7 +154,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		pub := pm.PublicPackage()
 		file = jen.NewFilePath(pub.Path())
 		for _, intf := range i.InterfaceDefinitions(pm.PublicPackage()) {
-			file.Add(intf.Definition())
+			file.Add(intf.Definition()).Line()
 		}
 		f = append(f, &File{
 			F:         file,
