@@ -247,7 +247,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 		getters := t.allGetters()
 		setters := t.allSetters()
 		t.cachedStruct = codegen.NewStruct(
-			jen.Commentf(t.Comments()),
+			t.Comments(),
 			t.TypeName(),
 			append(append(
 				[]*codegen.Method{
@@ -341,7 +341,7 @@ func (t *TypeGenerator) nameDefinition() *codegen.Method {
 		[]jen.Code{
 			jen.Return(jen.Lit(t.TypeName())),
 		},
-		jen.Commentf("%s returns the name of this type.", typeNameMethod))
+		fmt.Sprintf("%s returns the name of this type.", typeNameMethod))
 }
 
 // getAllParentExtends recursively determines all the parent types that this
@@ -387,7 +387,7 @@ func (t *TypeGenerator) extendsDefinition() (*codegen.Function, *codegen.Method)
 		[]jen.Code{jen.Id("other").Qual(t.PublicPackage().Path(), typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		impl,
-		jen.Commentf("%s returns true if the %s type extends from the other type.", t.extendsFnName(), t.TypeName()))
+		fmt.Sprintf("%s returns true if the %s type extends from the other type.", t.extendsFnName(), t.TypeName()))
 	m := codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
 		extendingMethod,
@@ -399,7 +399,7 @@ func (t *TypeGenerator) extendsDefinition() (*codegen.Function, *codegen.Method)
 				jen.Id(t.extendsFnName()).Call(jen.Id("other")),
 			),
 		},
-		jen.Commentf("%s returns true if the %s type extends from the other type.", extendingMethod, t.TypeName()))
+		fmt.Sprintf("%s returns true if the %s type extends from the other type.", extendingMethod, t.TypeName()))
 	return f, m
 }
 
@@ -443,7 +443,7 @@ func (t *TypeGenerator) extendedByDefinition() *codegen.Function {
 		[]jen.Code{jen.Id("other").Qual(t.PublicPackage().Path(), typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		impl,
-		jen.Commentf("%s returns true if the other provided type extends from the %s type.", t.extendedByFnName(), t.TypeName()))
+		fmt.Sprintf("%s returns true if the other provided type extends from the %s type.", t.extendedByFnName(), t.TypeName()))
 }
 
 // getAllChildrenDisjointWith recursivley determines all the child types that this
@@ -492,7 +492,7 @@ func (t *TypeGenerator) disjointWithDefinition() *codegen.Function {
 		[]jen.Code{jen.Id("other").Qual(t.PublicPackage().Path(), typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		impl,
-		jen.Commentf("%s returns true if the other provided type is disjoint with the %s type.", t.disjointWithFnName(), t.TypeName()))
+		fmt.Sprintf("%s returns true if the other provided type is disjoint with the %s type.", t.disjointWithFnName(), t.TypeName()))
 }
 
 // serializationMethod returns the method needed to serialize a TypeGenerator as
@@ -548,7 +548,7 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 			unknownCode,
 			jen.Return(jen.Id("m"), jen.Nil()),
 		},
-		jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", serializeMethodName))
+		fmt.Sprintf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", serializeMethodName))
 	return
 }
 
@@ -608,7 +608,7 @@ func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
 			jen.Commentf("All properties are the same."),
 			jen.Return(jen.False()),
 		},
-		jen.Commentf("%s computes if this %s is lesser, with an arbitrary but stable determination.", compareLessMethod, t.TypeName()))
+		fmt.Sprintf("%s computes if this %s is lesser, with an arbitrary but stable determination.", compareLessMethod, t.TypeName()))
 	return
 }
 
@@ -666,7 +666,7 @@ func (t *TypeGenerator) kindDeserializationFunc() (deser *codegen.Function) {
 			unknownCode,
 			jen.Return(jen.Id(codegen.This()), jen.Nil()),
 		},
-		jen.Commentf("%s creates a %s from a map representation that has been unmarshalled from a text or binary format.", t.deserializationFnName(), t.TypeName()))
+		fmt.Sprintf("%s creates a %s from a map representation that has been unmarshalled from a text or binary format.", t.deserializationFnName(), t.TypeName()))
 	return
 }
 
@@ -683,7 +683,7 @@ func (t *TypeGenerator) getUnknownMethod() (get *codegen.Method) {
 		[]jen.Code{
 			jen.Return(jen.Id(codegen.This()).Dot(unknownMember)),
 		},
-		jen.Commentf(`%s returns the unknown properties for the %s type.
+		fmt.Sprintf(`%s returns the unknown properties for the %s type.
 
 Note that this should not be used by app developers. It is only used to help determine
 which implementation is LessThan the other. Developers who are creating a different
@@ -707,7 +707,7 @@ func (t *TypeGenerator) allGetters() (m []*codegen.Method) {
 					jen.Id(codegen.This()).Dot(t.memberName(property)),
 				),
 			},
-			jen.Commentf(getMethodFormat+" returns the %q property if it exists, and nil otherwise.", t.memberName(property), property.PropertyName())))
+			fmt.Sprintf(getMethodFormat+" returns the %q property if it exists, and nil otherwise.", t.memberName(property), property.PropertyName())))
 	}
 	return
 }
@@ -724,7 +724,7 @@ func (t *TypeGenerator) allSetters() (m []*codegen.Method) {
 			[]jen.Code{
 				jen.Id(codegen.This()).Dot(t.memberName(property)).Op("=").Id("i"),
 			},
-			jen.Commentf("Set%s returns the %q property if it exists, and nil otherwise.", t.memberName(property), property.PropertyName())))
+			fmt.Sprintf("Set%s returns the %q property if it exists, and nil otherwise.", t.memberName(property), property.PropertyName())))
 	}
 	return
 }

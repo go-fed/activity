@@ -24,7 +24,7 @@ func SerializeValueFunction(pkg, valueName string,
 		[]jen.Code{jen.Id(codegen.This()).Add(concreteType)},
 		[]jen.Code{jen.Interface(), jen.Error()},
 		impl,
-		jen.Commentf("%s converts a %s value to an interface representation suitable for marshalling into a text or binary format.", name, valueName))
+		fmt.Sprintf("%s converts a %s value to an interface representation suitable for marshalling into a text or binary format.", name, valueName))
 }
 
 func DeserializeValueFunction(pkg, valueName string,
@@ -37,7 +37,7 @@ func DeserializeValueFunction(pkg, valueName string,
 		[]jen.Code{jen.Id(codegen.This()).Interface()},
 		[]jen.Code{concreteType, jen.Error()},
 		impl,
-		jen.Commentf("%s creates %s value from an interface representation that has been unmarshalled from a text or binary format.", name, valueName))
+		fmt.Sprintf("%s creates %s value from an interface representation that has been unmarshalled from a text or binary format.", name, valueName))
 }
 
 func LessFunction(pkg, valueName string,
@@ -50,7 +50,7 @@ func LessFunction(pkg, valueName string,
 		[]jen.Code{jen.List(jen.Id("lhs"), jen.Id("rhs")).Add(concreteType)},
 		[]jen.Code{jen.Bool()},
 		impl,
-		jen.Commentf("%s returns true if the left %s value is less than the right value.", name, valueName))
+		fmt.Sprintf("%s returns true if the left %s value is less than the right value.", name, valueName))
 }
 
 type RDFOntology struct {

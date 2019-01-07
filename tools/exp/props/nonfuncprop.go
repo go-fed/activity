@@ -66,7 +66,7 @@ func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codege
 		funcs = append(funcs, deser)
 		methods = append(methods, p.funcs()...)
 		property := codegen.NewTypedef(
-			jen.Commentf("%s is the non-functional property %q. It is permitted to have one or more values, and of different value types.", p.StructName(), p.PropertyName()),
+			fmt.Sprintf("%s is the non-functional property %q. It is permitted to have one or more values, and of different value types.", p.StructName(), p.PropertyName()),
 			p.StructName(),
 			jen.Index().Op("*").Id(p.iteratorTypeName().CamelName),
 			methods,
@@ -136,7 +136,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 						jen.Op("*").Id(codegen.This()).Op("..."),
 					),
 				},
-				jen.Commentf("%s prepends a %s value to the front of a list of the property %q.", prependMethodName, kind.ConcreteKind, p.PropertyName())))
+				fmt.Sprintf("%s prepends a %s value to the front of a list of the property %q.", prependMethodName, kind.ConcreteKind, p.PropertyName())))
 		// Append Method
 		appendMethodName := fmt.Sprintf("%s%s", appendMethod, p.kindCamelName(i))
 		methods = append(methods,
@@ -154,7 +154,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 						),
 					),
 				},
-				jen.Commentf("%s appends a %s value to the back of a list of the property %q", appendMethodName, kind.ConcreteKind, p.PropertyName())))
+				fmt.Sprintf("%s appends a %s value to the back of a list of the property %q", appendMethodName, kind.ConcreteKind, p.PropertyName())))
 		// Less logic
 		if i > 0 {
 			less.Else()
@@ -186,7 +186,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Op("*").Id(codegen.This()).Op("..."),
 				),
 			},
-			jen.Commentf("%sIRI prepends an IRI value to the front of a list of the property %q.", prependMethod, p.PropertyName())))
+			fmt.Sprintf("%sIRI prepends an IRI value to the front of a list of the property %q.", prependMethod, p.PropertyName())))
 	methods = append(methods,
 		codegen.NewCommentedPointerMethod(
 			p.GetPrivatePackage().Path(),
@@ -204,7 +204,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					),
 				),
 			},
-			jen.Commentf("%sIRI appends an IRI value to the back of a list of the property %q", appendMethod, p.PropertyName())))
+			fmt.Sprintf("%sIRI appends an IRI value to the back of a list of the property %q", appendMethod, p.PropertyName())))
 	less = less.Else().If(
 		jen.Id("idx1").Op("==").Lit(iriKindIndex),
 	).Block(
@@ -249,7 +249,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Len(jen.Op("*").Id(codegen.This())).Op("-").Lit(1),
 				),
 			},
-			jen.Commentf("%s deletes an element at the specified index from a list of the property %q, regardless of its type.", removeMethod, p.PropertyName())))
+			fmt.Sprintf("%s deletes an element at the specified index from a list of the property %q, regardless of its type.", removeMethod, p.PropertyName())))
 	// Len Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
@@ -265,7 +265,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					),
 				),
 			},
-			jen.Commentf("%s returns the number of values that exist for the %q property.", lenMethod, p.PropertyName())))
+			fmt.Sprintf("%s returns the number of values that exist for the %q property.", lenMethod, p.PropertyName())))
 	// Swap Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
@@ -286,7 +286,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Id(codegen.This()).Index(jen.Id("i")),
 				),
 			},
-			jen.Commentf("%s swaps the location of values at two indices for the %q property.", swapMethod, p.PropertyName())))
+			fmt.Sprintf("%s swaps the location of values at two indices for the %q property.", swapMethod, p.PropertyName())))
 	// Less Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
@@ -308,7 +308,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				),
 				jen.Return(jen.False()),
 			},
-			jen.Commentf("%s computes whether another property is less than this one. Mixing types results in a consistent but arbitrary ordering", lessMethod)))
+			fmt.Sprintf("%s computes whether another property is less than this one. Mixing types results in a consistent but arbitrary ordering", lessMethod)))
 	// KindIndex Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
@@ -322,7 +322,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Id(codegen.This()).Index(jen.Id("idx")).Dot(kindIndexMethod).Call(),
 				),
 			},
-			jen.Commentf("%s computes an arbitrary value for indexing this kind of value.", kindIndexMethod)))
+			fmt.Sprintf("%s computes an arbitrary value for indexing this kind of value.", kindIndexMethod)))
 	// LessThan Method
 	lessCode := jen.Empty().Add(
 		jen.Id("l1").Op(":=").Id(codegen.This()).Dot(lenMethod).Call().Line(),
@@ -358,7 +358,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			),
 			jen.Return(jen.Id("l1").Op("<").Id("l2")),
 		},
-		jen.Commentf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
+		fmt.Sprintf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
 	))
 	// At Method
 	methods = append(methods, codegen.NewCommentedValueMethod(
@@ -372,7 +372,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				jen.Id(codegen.This()).Index(jen.Id("index")),
 			),
 		},
-		jen.Commentf("%s returns the property value for the specified index.", atMethodName)))
+		fmt.Sprintf("%s returns the property value for the specified index.", atMethodName)))
 	methods = append(methods, p.commonMethods()...)
 	return methods
 }
@@ -422,7 +422,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 				jen.Nil(),
 			),
 		},
-		jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName()))
+		fmt.Sprintf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName()))
 	deserializeFn := func(variable string) jen.Code {
 		return jen.If(
 			jen.List(
@@ -490,6 +490,6 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 				jen.Nil(),
 			),
 		},
-		jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.DeserializeFnName(), p.PropertyName()))
+		fmt.Sprintf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.DeserializeFnName(), p.PropertyName()))
 	return serialize, deserialize
 }

@@ -293,7 +293,7 @@ func (p *PropertyGenerator) commonMethods() []*codegen.Method {
 					jen.Lit(p.PropertyName()),
 				),
 			},
-			jen.Commentf("%s returns the name of this property: %q.", nameMethod, p.PropertyName()),
+			fmt.Sprintf("%s returns the name of this property: %q.", nameMethod, p.PropertyName()),
 		),
 	}
 }

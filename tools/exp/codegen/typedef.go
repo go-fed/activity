@@ -9,7 +9,7 @@ import (
 // Typedef defines a non-struct-based type, its functions, and its methods for
 // Go code generation.
 type Typedef struct {
-	comment      jen.Code
+	comment      string
 	name         string
 	concreteType jen.Code
 	methods      map[string]*Method
@@ -17,7 +17,7 @@ type Typedef struct {
 }
 
 // NewTypedef creates a new commented Typedef.
-func NewTypedef(comment jen.Code,
+func NewTypedef(comment string,
 	name string,
 	concreteType jen.Code,
 	methods []*Method,
@@ -41,9 +41,11 @@ func NewTypedef(comment jen.Code,
 // Definition generates the Go code required to define and implement this type,
 // its methods, and its functions.
 func (t *Typedef) Definition() jen.Code {
-	def := jen.Empty().Add(
-		t.comment,
-	).Line().Type().Id(
+	def := jen.Empty()
+	if len(t.comment) > 0 {
+		def = jen.Commentf(t.comment).Line()
+	}
+	def = def.Type().Id(
 		t.name,
 	).Add(
 		t.concreteType,

@@ -153,7 +153,7 @@ func (t *TypePackageGenerator) PrivateDefinitions(tgs []*TypeGenerator) (*jen.St
 			[]jen.Code{
 				jen.Id(managerInitName()).Op("=").Id("m"),
 			},
-			jen.Commentf("%s sets the manager package-global variable. For internal use only, do not use as part of Application behavior. Must be called at golang init time.", setManagerFunctionName))
+			fmt.Sprintf("%s sets the manager package-global variable. For internal use only, do not use as part of Application behavior. Must be called at golang init time.", setManagerFunctionName))
 }
 
 // PropertyPackageGenerator manages generating one-time files needed for
@@ -196,7 +196,7 @@ func (p *PropertyPackageGenerator) PrivateDefinitions(pgs []*PropertyGenerator) 
 			[]jen.Code{
 				jen.Id(managerInitName()).Op("=").Id("m"),
 			},
-			jen.Commentf("%s sets the manager package-global variable. For internal use only, do not use as part of Application behavior. Must be called at golang init time.", setManagerFunctionName))
+			fmt.Sprintf("%s sets the manager package-global variable. For internal use only, do not use as part of Application behavior. Must be called at golang init time.", setManagerFunctionName))
 }
 
 // PackageGenerator maanges generating one-time files needed for both type and
@@ -254,5 +254,5 @@ func (t *PackageGenerator) PrivateDefinitions(tgs []*TypeGenerator, pgs []*Prope
 			[]jen.Code{
 				jen.Id(managerInitName()).Op("=").Id("m"),
 			},
-			jen.Commentf("%s sets the manager package-global variable. For internal use only, do not use as part of Application behavior. Must be called at golang init time.", setManagerFunctionName))
+			fmt.Sprintf("%s sets the manager package-global variable. For internal use only, do not use as part of Application behavior. Must be called at golang init time.", setManagerFunctionName))
 }

@@ -21,7 +21,7 @@ func join(s []jen.Code) *jen.Statement {
 // Struct defines a struct-based type, its functions, and its methods for Go
 // code generation.
 type Struct struct {
-	comment      jen.Code
+	comment      string
 	name         string
 	methods      map[string]*Method
 	constructors map[string]*Function
@@ -29,7 +29,7 @@ type Struct struct {
 }
 
 // NewStruct creates a new commented Struct type.
-func NewStruct(comment jen.Code,
+func NewStruct(comment string,
 	name string,
 	methods []*Method,
 	constructors []*Function,
@@ -54,8 +54,8 @@ func NewStruct(comment jen.Code,
 // struct, its methods, and its functions.
 func (s *Struct) Definition() jen.Code {
 	comment := jen.Empty()
-	if s.comment != nil {
-		comment = jen.Empty().Add(s.comment).Line()
+	if len(s.comment) > 0 {
+		comment = jen.Commentf(s.comment).Line()
 	}
 	def := comment.Type().Id(s.name).Struct(
 		join(s.members),

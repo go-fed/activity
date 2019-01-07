@@ -150,7 +150,7 @@ func (m *ManagerGenerator) Definition() *codegen.Struct {
 		methods = append(methods, nfp.deserializor)
 	}
 	s := codegen.NewStruct(
-		jen.Commentf(fmt.Sprintf("%s manages interface types and deserializations for use by generated code. Application code implicitly uses this manager at run-time to create concrete implementations of the interfaces.", managerName)),
+		fmt.Sprintf("%s manages interface types and deserializations for use by generated code. Application code implicitly uses this manager at run-time to create concrete implementations of the interfaces.", managerName),
 		managerName,
 		methods,
 		/*functions=*/ nil,
@@ -226,5 +226,5 @@ func (m *ManagerGenerator) createDeserializationMethod(deserName string, pubPkg,
 				),
 			),
 		},
-		jen.Commentf("%s returns the deserialization method for the %q non-functional property in the vocabulary %q", name, interfaceName, vocabName))
+		fmt.Sprintf("%s returns the deserialization method for the %q non-functional property in the vocabulary %q", name, interfaceName, vocabName))
 }

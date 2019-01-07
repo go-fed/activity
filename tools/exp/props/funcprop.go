@@ -1,6 +1,7 @@
 package props
 
 import (
+	"fmt"
 	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
 	"sync"
@@ -138,7 +139,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 				join(kindIndexFns),
 				jen.Return(jen.Lit(noneOrUnknownKindIndex)),
 			},
-			jen.Commentf("%s computes an arbitrary value for indexing this kind of value. This is a leaky API detail only for folks looking to replace the go-fed implementation. Applications should not use this method.", kindIndexMethod),
+			fmt.Sprintf("%s computes an arbitrary value for indexing this kind of value. This is a leaky API detail only for folks looking to replace the go-fed implementation. Applications should not use this method.", kindIndexMethod),
 		),
 	}
 	if p.HasNaturalLanguageMap {
@@ -153,19 +154,13 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 				[]jen.Code{
 					jen.Return(jen.Id(codegen.This()).Dot(langMapMember).Op("!=").Nil()),
 				},
-				jen.Commentf(
-					"%s determines if this property is represented by a natural language map.",
+				fmt.Sprintf(
+					"%s determines if this property is represented by a natural language map. When true, use %s, %s, and %s methods to access and mutate the natural language map. The %s method can be used to clear the natural language map. Note that this method is only used for natural language representations, and does not determine the presence nor absence of other values for this property.",
 					isLanguageMapMethod,
-				).Line().Commentf("").Line().Commentf(
-					"When true, use %s, %s, and %s methods to access and mutate the natural language map.",
 					hasLanguageMethod,
 					getLanguageMethod,
 					setLanguageMethod,
-				).Line().Commentf(
-					"The %s method can be used to clear the natural language map.",
 					p.clearMethodName(),
-				).Line().Commentf("").Line().Commentf(
-					"Note that this method is only used for natural language representations, and does not determine the presence nor absence of other values for this property.",
 				)))
 		// HasLanguage Method
 		methods = append(methods,
@@ -190,7 +185,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 						jen.Return(jen.Id("ok")),
 					),
 				},
-				jen.Commentf(
+				fmt.Sprintf(
 					"%s returns true if the natural language map has an entry for the specified BCP47 language code.",
 					hasLanguageMethod,
 				),
@@ -222,7 +217,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 						jen.Return(jen.Lit("")),
 					),
 				},
-				jen.Commentf(
+				fmt.Sprintf(
 					"%s returns the value for the specified BCP47 language code, or an empty string if it is either not a language map or no value is present.",
 					getLanguageMethod,
 				),
@@ -252,7 +247,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 						).Op("=").Id("value"),
 					}...,
 				),
-				jen.Commentf(
+				fmt.Sprintf(
 					"%s sets the value for the specified BCP47 language code.",
 					setLanguageMethod,
 				),
@@ -310,7 +305,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			jen.Id(codegen.This()).Dot(unknownMemberName),
 			jen.Nil(),
 		)},
-		jen.Commentf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName()))
+		fmt.Sprintf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName()))
 	valueDeserializeFns := jen.Empty()
 	typeDeserializeFns := jen.Empty()
 	foundValue := false
@@ -371,7 +366,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 					),
 				),
 			},
-			jen.Commentf("%s creates an iterator from an element that has been unmarshalled from a text or binary format.", p.DeserializeFnName()))
+			fmt.Sprintf("%s creates an iterator from an element that has been unmarshalled from a text or binary format.", p.DeserializeFnName()))
 	} else {
 		deserialize = codegen.NewCommentedFunction(
 			p.GetPrivatePackage().Path(),
@@ -395,7 +390,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 					jen.Nil(),
 				),
 			},
-			jen.Commentf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.DeserializeFnName(), p.PropertyName()))
+			fmt.Sprintf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.DeserializeFnName(), p.PropertyName()))
 	}
 	return serialize, deserialize
 }
@@ -403,20 +398,20 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 // singleTypeDef generates a special-case simplified API for a functional
 // property that can only be a single Kind of value.
 func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
-	var comment jen.Code
+	var comment string
 	var kindMembers []jen.Code
 	if p.Kinds[0].Nilable {
-		comment = jen.Commentf("%s is the functional property %q. It is permitted to be a single nilable value type.", p.StructName(), p.PropertyName())
+		comment = fmt.Sprintf("%s is the functional property %q. It is permitted to be a single nilable value type.", p.StructName(), p.PropertyName())
 		if p.asIterator {
-			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single nilable value type.", p.StructName())
+			comment = fmt.Sprintf("%s is an iterator for a property. It is permitted to be a single nilable value type.", p.StructName())
 		}
 		kindMembers = []jen.Code{
 			jen.Id(p.memberName(0)).Add(p.Kinds[0].ConcreteKind),
 		}
 	} else {
-		comment = jen.Commentf("%s is the functional property %q. It is permitted to be a single default-valued value type.", p.StructName(), p.PropertyName())
+		comment = fmt.Sprintf("%s is the functional property %q. It is permitted to be a single default-valued value type.", p.StructName(), p.PropertyName())
 		if p.asIterator {
-			comment = jen.Commentf("%s is an iterator for a property. It is permitted to be a single default-valued value type.", p.StructName())
+			comment = fmt.Sprintf("%s is an iterator for a property. It is permitted to be a single default-valued value type.", p.StructName())
 		}
 		kindMembers = []jen.Code{
 			jen.Id(p.memberName(0)).Add(p.Kinds[0].ConcreteKind),
@@ -456,20 +451,16 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		/*params=*/ nil,
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{jen.Return(isLine)},
-		jen.Commentf("%s returns true if the value or IRI is set.", hasAnyMethod),
+		fmt.Sprintf("%s returns true if the value or IRI is set.", hasAnyMethod),
 	))
 	// Is Method
-	hasComment := jen.Commentf("%s returns true if this property is set and not an IRI.", p.isMethodName(0))
+	hasComment := fmt.Sprintf("%s returns true if this property is set and not an IRI.", p.isMethodName(0))
 	if p.HasNaturalLanguageMap {
-		hasComment = jen.Commentf(
-			"%s returns true if this property is set and is not a natural language map.",
+		hasComment = fmt.Sprintf(
+			"%s returns true if this property is set and is not a natural language map. When true, the %s and %s methods may be used to access and set this property. To determine if the property was set as a natural language map, use the %s method instead.",
 			p.isMethodName(0),
-		).Line().Commentf("").Line().Commentf(
-			"When true, the %s and %s methods may be used to access and set this property.",
 			getMethod,
 			p.setFnName(0),
-		).Line().Commentf("").Line().Commentf(
-			"To determine if the property was set as a natural language map, use the %s method instead.",
 			isLanguageMapMethod,
 		)
 	}
@@ -501,10 +492,10 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		/*params=*/ nil,
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(iriMember).Op("!=").Nil())},
-		jen.Commentf("%s returns true if this property is an IRI.", isIRIMethod),
+		fmt.Sprintf("%s returns true if this property is an IRI.", isIRIMethod),
 	))
 	// Get Method
-	getComment := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return any arbitrary value.", getMethod, p.isMethodName(0), getMethod)
+	getComment := fmt.Sprintf("%s returns the value of this property. When %s returns false, %s will return any arbitrary value.", getMethod, p.isMethodName(0), getMethod)
 	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		p.getFnName(0),
@@ -521,16 +512,14 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		/*params=*/ nil,
 		[]jen.Code{jen.Op("*").Qual("net/url", "URL")},
 		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(iriMember))},
-		jen.Commentf("%s returns the IRI of this property. When %s returns false, %s will return any arbitrary value.", getIRIMethod, isIRIMethod, getIRIMethod),
+		fmt.Sprintf("%s returns the IRI of this property. When %s returns false, %s will return any arbitrary value.", getIRIMethod, isIRIMethod, getIRIMethod),
 	))
 	// Set Method
-	setComment := jen.Commentf("%s sets the value of this property. Calling %s afterwards will return true.", p.setFnName(0), p.isMethodName(0))
+	setComment := fmt.Sprintf("%s sets the value of this property. Calling %s afterwards will return true.", p.setFnName(0), p.isMethodName(0))
 	if p.HasNaturalLanguageMap {
-		setComment = jen.Commentf(
-			"%s sets the value of this property and clears the natural language map.",
+		setComment = fmt.Sprintf(
+			"%s sets the value of this property and clears the natural language map. Calling %s afterwards will return true. Calling %s afterwards returns false.",
 			p.setFnName(0),
-		).Line().Commentf("").Line().Commentf(
-			"Calling %s afterwards will return true. Calling %s afterwards returns false.",
 			p.isMethodName(0),
 			isLanguageMapMethod,
 		)
@@ -573,17 +562,15 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 			jen.Id(codegen.This()).Dot(p.clearMethodName()).Call(),
 			jen.Id(codegen.This()).Dot(iriMember).Op("=").Id("v"),
 		},
-		jen.Commentf("%s sets the value of this property. Calling %s afterwards will return true.", setIRIMethod, isIRIMethod),
+		fmt.Sprintf("%s sets the value of this property. Calling %s afterwards will return true.", setIRIMethod, isIRIMethod),
 	))
 	// Clear Method
-	clearComment := jen.Commentf("%s ensures no value of this property is set. Calling %s afterwards will return false.", p.clearMethodName(), p.isMethodName(0))
+	clearComment := fmt.Sprintf("%s ensures no value of this property is set. Calling %s afterwards will return false.", p.clearMethodName(), p.isMethodName(0))
 	clearCode := p.singleTypeClearNonLanguageMapMembers()
 	if p.HasNaturalLanguageMap {
-		clearComment = jen.Commentf(
-			"%s ensures no value and no language map for this property is set.",
+		clearComment = fmt.Sprintf(
+			"%s ensures no value and no language map for this property is set. Calling %s or %s afterwards will return false.",
 			p.clearMethodName(),
-		).Line().Commentf("").Line().Commentf(
-			"Calling %s or %s afterwards will return false.",
 			p.isMethodName(0),
 			isLanguageMapMethod,
 		)
@@ -646,7 +633,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 				jen.Return(lessCode),
 			),
 		},
-		jen.Commentf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
+		fmt.Sprintf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
 	))
 	return methods
 }
@@ -668,22 +655,19 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
 	if p.HasNaturalLanguageMap {
 		kindMembers = append(kindMembers, jen.Id(langMapMember).Map(jen.String()).String())
 	}
-	explanation := jen.Commentf(
-		"At most, one type of value can be present, or none at all. Setting a value will",
-	).Line().Commentf(
-		"clear the other types of values so that only one of the 'Is' methods will return",
-	).Line().Commentf(
-		"true.",
-	).Line().Comment("").Line().Commentf(
-		"It is possible to clear all values, so that this property is empty.",
+	explanation := "At most, one type of value can be present, or none at all. Setting a value will clear the other types of values so that only one of the 'Is' methods will return true. It is possible to clear all values, so that this property is empty."
+	comment := fmt.Sprintf(
+		"%s is the functional property %q. It is permitted to be one of multiple value types. %s",
+		p.StructName(),
+		p.PropertyName(),
+		explanation,
 	)
-	comment := jen.Commentf(
-		"%s is the functional property %q. It is permitted to be one of multiple value types.", p.StructName(), p.PropertyName(),
-	).Line().Comment("").Line().Add(explanation)
 	if p.asIterator {
-		comment = jen.Commentf(
-			"%s is an iterator for a property. It is permitted to be one of multiple value types.", p.StructName(),
-		).Line().Comment("").Line().Add(explanation)
+		comment = fmt.Sprintf(
+			"%s is an iterator for a property. It is permitted to be one of multiple value types. %s",
+			p.StructName(),
+			explanation,
+		)
 	}
 	var methods []*codegen.Method
 	var funcs []*codegen.Function
@@ -710,17 +694,13 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		isLine[i] = jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call().Op("||")
 	}
 	isLine[len(isLine)-1] = jen.Id(codegen.This()).Dot(iriMember).Op("!=").Nil()
-	hasAnyComment := jen.Commentf(
+	hasAnyComment := fmt.Sprintf(
 		"%s returns true if any of the different values is set.", hasAnyMethod,
 	)
 	if p.HasNaturalLanguageMap {
-		hasAnyComment = jen.Commentf(
-			"%s returns true if any of the values are set, except for the natural language map",
+		hasAnyComment = fmt.Sprintf(
+			"%s returns true if any of the values are set, except for the natural language map. When true, the specific has, getter, and setter methods may be used to determine what kind of value there is to access and set this property. To determine if the property was set as a natural language map, use the %s method instead.",
 			hasAnyMethod,
-		).Line().Commentf("").Line().Commentf(
-			"When true, the specific has, getter, and setter methods may be used to determine what kind of value there is to access and set this property.",
-		).Line().Commentf("").Line().Commentf(
-			"To determine if the property was set as a natural language map, use the %s method instead.",
 			isLanguageMapMethod,
 		)
 	}
@@ -734,16 +714,14 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		hasAnyComment,
 	))
 	// Clear Method
-	clearComment := jen.Commentf(
+	clearComment := fmt.Sprintf(
 		"%s ensures no value of this property is set. Calling %s or any of the 'Is' methods afterwards will return false.", p.clearMethodName(), hasAnyMethod,
 	)
 	clearLine := p.multiTypeClearNonLanguageMapMembers()
 	if p.HasNaturalLanguageMap {
-		clearComment = jen.Commentf(
-			"%s ensures no value and no language map for this property is set.",
+		clearComment = fmt.Sprintf(
+			"%s ensures no value and no language map for this property is set. Calling %s or any of the 'Is' methods afterwards will return false.",
 			p.clearMethodName(),
-		).Line().Commentf("").Line().Commentf(
-			"Calling %s or any of the 'Is' methods afterwards will return false.",
 			hasAnyMethod,
 		)
 		clearLine = append(clearLine, jen.Id(codegen.This()).Dot(langMapMember).Op("=").Nil())
@@ -759,14 +737,17 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 	))
 	// Is Method
 	for i, kind := range p.Kinds {
-		isComment := jen.Commentf("%s returns true if this property has a type of value of %q.", p.isMethodName(i), kind.ConcreteKind).Line().Commentf("").Line().Commentf(
-			"When true, use the %s and %s methods to access and set this property.",
+		isComment := fmt.Sprintf(
+			"%s returns true if this property has a type of value of %q. When true, use the %s and %s methods to access and set this property.",
+			p.isMethodName(i),
+			kind.ConcreteKind,
 			p.getFnName(i),
 			p.setFnName(i),
 		)
 		if p.HasNaturalLanguageMap {
-			isComment = isComment.Line().Commentf("").Line().Commentf(
-				"To determine if the property was set as a natural language map, use the %s method instead.",
+			isComment = fmt.Sprintf(
+				"%s. To determine if the property was set as a natural language map, use the %s method instead.",
+				isComment,
 				isLanguageMapMethod,
 			)
 		}
@@ -799,17 +780,19 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		/*params=*/ nil,
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(iriMember).Op("!=").Nil())},
-		jen.Commentf("%s returns true if this property is an IRI.", isIRIMethod).Line().Line().Commentf("When true, use %s and %s to access and set this property", getIRIMethod, setIRIMethod),
-	))
+		fmt.Sprintf(
+			"%s returns true if this property is an IRI. When true, use %s and %s to access and set this property",
+			isIRIMethod,
+			getIRIMethod,
+			setIRIMethod,
+		)))
 	// Set Method
 	for i, kind := range p.Kinds {
-		setComment := jen.Commentf("%s sets the value of this property. Calling %s afterwards returns true.", p.setFnName(i), p.isMethodName(i))
+		setComment := fmt.Sprintf("%s sets the value of this property. Calling %s afterwards returns true.", p.setFnName(i), p.isMethodName(i))
 		if p.HasNaturalLanguageMap {
-			setComment = jen.Commentf(
-				"%s sets the value of this property and clears the natural language map.",
+			setComment = fmt.Sprintf(
+				"%s sets the value of this property and clears the natural language map. Calling %s afterwards will return true. Calling %s afterwards returns false.",
 				p.setFnName(i),
-			).Line().Commentf("").Line().Commentf(
-				"Calling %s afterwards will return true. Calling %s afterwards returns false.",
 				p.isMethodName(i),
 				isLanguageMapMethod,
 			)
@@ -853,11 +836,11 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			jen.Id(codegen.This()).Dot(p.clearMethodName()).Call(),
 			jen.Id(codegen.This()).Dot(iriMember).Op("=").Id("v"),
 		},
-		jen.Commentf("%s sets the value of this property. Calling %s afterwards returns true.", setIRIMethod, isIRIMethod),
+		fmt.Sprintf("%s sets the value of this property. Calling %s afterwards returns true.", setIRIMethod, isIRIMethod),
 	))
 	// Get Method
 	for i, kind := range p.Kinds {
-		getComment := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return an arbitrary value.", p.getFnName(i), p.isMethodName(i), p.getFnName(i))
+		getComment := fmt.Sprintf("%s returns the value of this property. When %s returns false, %s will return an arbitrary value.", p.getFnName(i), p.isMethodName(i), p.getFnName(i))
 		methods = append(methods, codegen.NewCommentedValueMethod(
 			p.GetPrivatePackage().Path(),
 			p.getFnName(i),
@@ -875,7 +858,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		/*params=*/ nil,
 		[]jen.Code{jen.Op("*").Qual("net/url", "URL")},
 		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(iriMember))},
-		jen.Commentf("%s returns the IRI of this property. When %s returns false, %s will return an arbitrary value.", getIRIMethod, isIRIMethod, getIRIMethod),
+		fmt.Sprintf("%s returns the IRI of this property. When %s returns false, %s will return an arbitrary value.", getIRIMethod, isIRIMethod, getIRIMethod),
 	))
 	// LessThan Method
 	lessCode := jen.Empty().Add(
@@ -911,7 +894,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			lessCode,
 			jen.Return(jen.False()),
 		},
-		jen.Commentf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
+		fmt.Sprintf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
 	))
 	return methods
 }
