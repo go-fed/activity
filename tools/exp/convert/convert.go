@@ -423,6 +423,7 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 		v.GetName(),
 		pm,
 		c.toIdentifier(p),
+		p.Notes,
 		k,
 		p.NaturalLanguageMap)
 	return

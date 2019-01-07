@@ -30,6 +30,7 @@ type NonFunctionalPropertyGenerator struct {
 func NewNonFunctionalPropertyGenerator(vocabName string,
 	pm *PackageManager,
 	name Identifier,
+	comment string,
 	kinds []Kind,
 	hasNaturalLanguageMap bool) *NonFunctionalPropertyGenerator {
 	return &NonFunctionalPropertyGenerator{
@@ -38,6 +39,7 @@ func NewNonFunctionalPropertyGenerator(vocabName string,
 			PackageManager:        pm,
 			HasNaturalLanguageMap: hasNaturalLanguageMap,
 			Name:                  name,
+			Comment:               comment,
 			Kinds:                 kinds,
 		},
 	}
@@ -47,8 +49,7 @@ func NewNonFunctionalPropertyGenerator(vocabName string,
 func (p *NonFunctionalPropertyGenerator) InterfaceDefinitions(pkg Package) []*codegen.Interface {
 	s, t := p.Definitions()
 	return []*codegen.Interface{
-		// TODO: Comments
-		s.ToInterface(pkg.Path(), p.elementTypeGenerator().InterfaceName(), ""),
+		s.ToInterface(pkg.Path(), p.elementTypeGenerator().InterfaceName(), fmt.Sprintf("%s represents a single value for the %q property.", p.elementTypeGenerator().InterfaceName(), p.PropertyName())),
 		t.ToInterface(pkg.Path(), p.InterfaceName(), p.Comments()),
 	}
 }
