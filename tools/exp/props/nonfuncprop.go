@@ -136,7 +136,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 						jen.Op("*").Id(codegen.This()).Op("..."),
 					),
 				},
-				fmt.Sprintf("%s prepends a %s value to the front of a list of the property %q.", prependMethodName, kind.ConcreteKind, p.PropertyName())))
+				fmt.Sprintf("%s prepends a %s value to the front of a list of the property %q.", prependMethodName, kind.Name.LowerName, p.PropertyName())))
 		// Append Method
 		appendMethodName := fmt.Sprintf("%s%s", appendMethod, p.kindCamelName(i))
 		methods = append(methods,
@@ -154,7 +154,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 						),
 					),
 				},
-				fmt.Sprintf("%s appends a %s value to the back of a list of the property %q", appendMethodName, kind.ConcreteKind, p.PropertyName())))
+				fmt.Sprintf("%s appends a %s value to the back of a list of the property %q", appendMethodName, kind.Name.LowerName, p.PropertyName())))
 		// Less logic
 		if i > 0 {
 			less.Else()

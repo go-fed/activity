@@ -738,9 +738,9 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 	// Is Method
 	for i, kind := range p.Kinds {
 		isComment := fmt.Sprintf(
-			"%s returns true if this property has a type of value of %q. When true, use the %s and %s methods to access and set this property.",
+			"%s returns true if this property has a type of %q. When true, use the %s and %s methods to access and set this property.",
 			p.isMethodName(i),
-			kind.ConcreteKind,
+			kind.Name.LowerName,
 			p.getFnName(i),
 			p.setFnName(i),
 		)
