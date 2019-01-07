@@ -1,7 +1,6 @@
 package props
 
 import (
-	"fmt"
 	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
 	"sync"
@@ -86,6 +85,7 @@ func (p *FunctionalPropertyGenerator) clearNonLanguageMapMembers() []jen.Code {
 func (p *FunctionalPropertyGenerator) singleTypeClearNonLanguageMapMembers() []jen.Code {
 	clearCode := []jen.Code{
 		jen.Id(codegen.This()).Dot(unknownMemberName).Op("=").Nil(),
+		jen.Id(codegen.This()).Dot(iriMember).Op("=").Nil(),
 	}
 	if p.Kinds[0].Nilable {
 		clearCode = append(clearCode, jen.Id(codegen.This()).Dot(p.memberName(0)).Op("=").Nil())
@@ -107,27 +107,26 @@ func (p *FunctionalPropertyGenerator) multiTypeClearNonLanguageMapMembers() []je
 		}
 	}
 	clearLine = append(clearLine, jen.Id(codegen.This()).Dot(unknownMemberName).Op("=").Nil())
+	clearLine = append(clearLine, jen.Id(codegen.This()).Dot(iriMember).Op("=").Nil())
 	return clearLine
 }
 
 // funcs produces the methods needed for the functional property.
 func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
-	kindIndexFns := make([]jen.Code, 0, len(p.Kinds))
+	kindIndexFns := make([]jen.Code, 0, len(p.Kinds)+1)
 	for i, _ := range p.Kinds {
-		if p.isSingleTypeDef() {
-			kindIndexFns = append(kindIndexFns, jen.If(
-				jen.Id(codegen.This()).Dot(hasMethod).Call(),
-			).Block(
-				jen.Return(jen.Lit(i)),
-			))
-		} else {
-			kindIndexFns = append(kindIndexFns, jen.If(
-				jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
-			).Block(
-				jen.Return(jen.Lit(i)),
-			))
-		}
+		kindIndexFns = append(kindIndexFns, jen.If(
+			jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
+		).Block(
+			jen.Return(jen.Lit(i)),
+		))
 	}
+	kindIndexFns = append(kindIndexFns,
+		jen.If(
+			jen.Id(codegen.This()).Dot(isIRIMethod).Call(),
+		).Block(
+			jen.Return(jen.Lit(iriKindIndex)),
+		))
 	methods := []*codegen.Method{
 		codegen.NewCommentedValueMethod(
 			p.GetPrivatePackage().Path(),
@@ -137,7 +136,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 			[]jen.Code{jen.Int()},
 			[]jen.Code{
 				join(kindIndexFns),
-				jen.Return(jen.Lit(-1)),
+				jen.Return(jen.Lit(noneOrUnknownKindIndex)),
 			},
 			jen.Commentf("%s computes an arbitrary value for indexing this kind of value. This is a leaky API detail only for folks looking to replace the go-fed implementation. Applications should not use this method.", kindIndexMethod),
 		),
@@ -271,15 +270,9 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 		if i > 0 {
 			serializeFns = serializeFns.Else()
 		}
-		if p.isSingleTypeDef() {
-			serializeFns = serializeFns.If(
-				jen.Id(codegen.This()).Dot(hasMethod).Call(),
-			)
-		} else {
-			serializeFns = serializeFns.If(
-				jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
-			)
-		}
+		serializeFns = serializeFns.If(
+			jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
+		)
 		if kind.SerializeFn != nil {
 			// This is a value that has a function that must be
 			// called to serialize properly.
@@ -299,6 +292,14 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			)
 		}
 	}
+	serializeFns = serializeFns.Else().If(
+		jen.Id(codegen.This()).Dot(isIRIMethod).Call(),
+	).Block(
+		jen.Return(
+			jen.Id(codegen.This()).Dot(iriMember).Dot("String").Call(),
+			jen.Nil(),
+		),
+	)
 	serialize := codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		p.serializeFnName(),
@@ -446,12 +447,23 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 // functional property with exactly one Kind of value.
 func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 	var methods []*codegen.Method
-	// Has Method
-	hasComment := jen.Commentf("%s returns true if this property is set.", hasMethod)
+	// HasAny Method
+	isLine := jen.Id(codegen.This()).Dot(p.isMethodName(0)).Call().Op("||").Id(codegen.This()).Dot(iriMember).Op("!=").Nil()
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		hasAnyMethod,
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{jen.Return(isLine)},
+		jen.Commentf("%s returns true if the value or IRI is set.", hasAnyMethod),
+	))
+	// Is Method
+	hasComment := jen.Commentf("%s returns true if this property is set and not an IRI.", p.isMethodName(0))
 	if p.HasNaturalLanguageMap {
 		hasComment = jen.Commentf(
 			"%s returns true if this property is set and is not a natural language map.",
-			hasMethod,
+			p.isMethodName(0),
 		).Line().Commentf("").Line().Commentf(
 			"When true, the %s and %s methods may be used to access and set this property.",
 			getMethod,
@@ -464,7 +476,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 	if p.Kinds[0].Nilable {
 		methods = append(methods, codegen.NewCommentedValueMethod(
 			p.GetPrivatePackage().Path(),
-			hasMethod,
+			p.isMethodName(0),
 			p.StructName(),
 			/*params=*/ nil,
 			[]jen.Code{jen.Bool()},
@@ -474,7 +486,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 	} else {
 		methods = append(methods, codegen.NewCommentedValueMethod(
 			p.GetPrivatePackage().Path(),
-			hasMethod,
+			p.isMethodName(0),
 			p.StructName(),
 			/*params=*/ nil,
 			[]jen.Code{jen.Bool()},
@@ -482,8 +494,17 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 			hasComment,
 		))
 	}
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		isIRIMethod,
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(iriMember).Op("!=").Nil())},
+		jen.Commentf("%s returns true if this property is an IRI.", isIRIMethod),
+	))
 	// Get Method
-	getComment := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return any arbitrary value.", getMethod, hasMethod, getMethod)
+	getComment := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return any arbitrary value.", getMethod, p.isMethodName(0), getMethod)
 	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		p.getFnName(0),
@@ -493,15 +514,24 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(p.memberName(0)))},
 		getComment,
 	))
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		getIRIMethod,
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Op("*").Qual("net/url", "URL")},
+		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(iriMember))},
+		jen.Commentf("%s returns the IRI of this property. When %s returns false, %s will return any arbitrary value.", getIRIMethod, isIRIMethod, getIRIMethod),
+	))
 	// Set Method
-	setComment := jen.Commentf("%s sets the value of this property. Calling %s afterwards will return true.", p.setFnName(0), hasMethod)
+	setComment := jen.Commentf("%s sets the value of this property. Calling %s afterwards will return true.", p.setFnName(0), p.isMethodName(0))
 	if p.HasNaturalLanguageMap {
 		setComment = jen.Commentf(
 			"%s sets the value of this property and clears the natural language map.",
 			p.setFnName(0),
 		).Line().Commentf("").Line().Commentf(
 			"Calling %s afterwards will return true. Calling %s afterwards returns false.",
-			hasMethod,
+			p.isMethodName(0),
 			isLanguageMapMethod,
 		)
 	}
@@ -533,8 +563,20 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 			setComment,
 		))
 	}
+	methods = append(methods, codegen.NewCommentedPointerMethod(
+		p.GetPrivatePackage().Path(),
+		setIRIMethod,
+		p.StructName(),
+		[]jen.Code{jen.Id("v").Op("*").Qual("net/url", "URL")},
+		/*ret=*/ nil,
+		[]jen.Code{
+			jen.Id(codegen.This()).Dot(p.clearMethodName()).Call(),
+			jen.Id(codegen.This()).Dot(iriMember).Op("=").Id("v"),
+		},
+		jen.Commentf("%s sets the value of this property. Calling %s afterwards will return true.", setIRIMethod, isIRIMethod),
+	))
 	// Clear Method
-	clearComment := jen.Commentf("%s ensures no value of this property is set. Calling %s afterwards will return false.", p.clearMethodName(), hasMethod)
+	clearComment := jen.Commentf("%s ensures no value of this property is set. Calling %s afterwards will return false.", p.clearMethodName(), p.isMethodName(0))
 	clearCode := p.singleTypeClearNonLanguageMapMembers()
 	if p.HasNaturalLanguageMap {
 		clearComment = jen.Commentf(
@@ -542,32 +584,20 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 			p.clearMethodName(),
 		).Line().Commentf("").Line().Commentf(
 			"Calling %s or %s afterwards will return false.",
-			hasMethod,
+			p.isMethodName(0),
 			isLanguageMapMethod,
 		)
 		clearCode = append(clearCode, jen.Id(codegen.This()).Dot(langMapMember).Op("=").Nil())
 	}
-	if p.Kinds[0].Nilable {
-		methods = append(methods, codegen.NewCommentedPointerMethod(
-			p.GetPrivatePackage().Path(),
-			p.clearMethodName(),
-			p.StructName(),
-			/*params=*/ nil,
-			/*ret=*/ nil,
-			clearCode,
-			clearComment,
-		))
-	} else {
-		methods = append(methods, codegen.NewCommentedPointerMethod(
-			p.GetPrivatePackage().Path(),
-			p.clearMethodName(),
-			p.StructName(),
-			/*params=*/ nil,
-			/*ret=*/ nil,
-			clearCode,
-			clearComment,
-		))
-	}
+	methods = append(methods, codegen.NewCommentedPointerMethod(
+		p.GetPrivatePackage().Path(),
+		p.clearMethodName(),
+		p.StructName(),
+		/*params=*/ nil,
+		/*ret=*/ nil,
+		clearCode,
+		clearComment,
+	))
 	// LessThan Method
 	lessCode := p.Kinds[0].lessFnCode(jen.Id(codegen.This()).Dot(p.getFnName(0)).Call(), jen.Id("o").Dot(p.getFnName(0)).Call())
 	methods = append(methods, codegen.NewCommentedValueMethod(
@@ -577,19 +607,42 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		[]jen.Code{jen.Id("o").Qual(p.GetPublicPackage().Path(), p.InterfaceName())},
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{
+			jen.Commentf("LessThan comparison for if either or both are IRIs."),
 			jen.If(
-				jen.Op("!").Id(codegen.This()).Dot(hasMethod).Call().Op("&&").Op("!").Id("o").Dot(hasMethod).Call(),
+				jen.Id(codegen.This()).Dot(isIRIMethod).Call().Op("&&").Id("o").Dot(isIRIMethod).Call(),
 			).Block(
+				jen.Return(
+					jen.Id(codegen.This()).Dot(iriMember).Dot("String").Call().Op("<").Id("o").Dot(getIRIMethod).Call().Dot("String").Call(),
+				),
+			).Else().If(
+				jen.Id(codegen.This()).Dot(isIRIMethod).Call(),
+			).Block(
+				jen.Commentf("IRIs are always less than other values, none, or unknowns"),
+				jen.Return(jen.True()),
+			).Else().If(
+				jen.Id("o").Dot(isIRIMethod).Call(),
+			).Block(
+				jen.Commentf("This other, none, or unknown value is always greater than IRIs"),
+				jen.Return(jen.False()),
+			),
+			jen.Commentf("LessThan comparison for the single value or unknown value."),
+			jen.If(
+				jen.Op("!").Id(codegen.This()).Dot(p.isMethodName(0)).Call().Op("&&").Op("!").Id("o").Dot(p.isMethodName(0)).Call(),
+			).Block(
+				jen.Commentf("Both are unknowns."),
 				jen.Return(jen.False()),
 			).Else().If(
-				jen.Id(codegen.This()).Dot(hasMethod).Call().Op("&&").Op("!").Id("o").Dot(hasMethod).Call(),
+				jen.Id(codegen.This()).Dot(p.isMethodName(0)).Call().Op("&&").Op("!").Id("o").Dot(p.isMethodName(0)).Call(),
 			).Block(
+				jen.Commentf("Values are always greater than unknown values."),
 				jen.Return(jen.False()),
 			).Else().If(
-				jen.Op("!").Id(codegen.This()).Dot(hasMethod).Call().Op("&&").Id("o").Dot(hasMethod).Call(),
+				jen.Op("!").Id(codegen.This()).Dot(p.isMethodName(0)).Call().Op("&&").Id("o").Dot(p.isMethodName(0)).Call(),
 			).Block(
+				jen.Commentf("Unknowns are always less than known values."),
 				jen.Return(jen.True()),
 			).Else().Block(
+				jen.Commentf("Actual comparison."),
 				jen.Return(lessCode),
 			),
 		},
@@ -652,22 +705,18 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
 func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 	var methods []*codegen.Method
 	// HasAny Method
-	hasAnyMethodName := fmt.Sprintf("%sAny", hasMethod)
-	isLine := make([]jen.Code, len(p.Kinds))
+	isLine := make([]jen.Code, len(p.Kinds)+1)
 	for i := range p.Kinds {
-		or := jen.Empty()
-		if i != len(p.Kinds)-1 {
-			or = jen.Op("||")
-		}
-		isLine[i] = jen.Id(codegen.This()).Dot(p.isMethodName(i)).Parens(nil).Add(or)
+		isLine[i] = jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call().Op("||")
 	}
+	isLine[len(isLine)-1] = jen.Id(codegen.This()).Dot(iriMember).Op("!=").Nil()
 	hasAnyComment := jen.Commentf(
-		"%s returns true if any of the different values is set.", hasAnyMethodName,
+		"%s returns true if any of the different values is set.", hasAnyMethod,
 	)
 	if p.HasNaturalLanguageMap {
 		hasAnyComment = jen.Commentf(
 			"%s returns true if any of the values are set, except for the natural language map",
-			hasAnyMethodName,
+			hasAnyMethod,
 		).Line().Commentf("").Line().Commentf(
 			"When true, the specific has, getter, and setter methods may be used to determine what kind of value there is to access and set this property.",
 		).Line().Commentf("").Line().Commentf(
@@ -677,7 +726,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 	}
 	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
-		hasAnyMethodName,
+		hasAnyMethod,
 		p.StructName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.Bool()},
@@ -686,7 +735,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 	))
 	// Clear Method
 	clearComment := jen.Commentf(
-		"%s ensures no value of this property is set. Calling %s or any of the 'Is' methods afterwards will return false.", p.clearMethodName(), hasAnyMethodName,
+		"%s ensures no value of this property is set. Calling %s or any of the 'Is' methods afterwards will return false.", p.clearMethodName(), hasAnyMethod,
 	)
 	clearLine := p.multiTypeClearNonLanguageMapMembers()
 	if p.HasNaturalLanguageMap {
@@ -695,7 +744,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			p.clearMethodName(),
 		).Line().Commentf("").Line().Commentf(
 			"Calling %s or any of the 'Is' methods afterwards will return false.",
-			hasAnyMethodName,
+			hasAnyMethod,
 		)
 		clearLine = append(clearLine, jen.Id(codegen.This()).Dot(langMapMember).Op("=").Nil())
 	}
@@ -743,6 +792,15 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			))
 		}
 	}
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		isIRIMethod,
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(iriMember).Op("!=").Nil())},
+		jen.Commentf("%s returns true if this property is an IRI.", isIRIMethod).Line().Line().Commentf("When true, use %s and %s to access and set this property", getIRIMethod, setIRIMethod),
+	))
 	// Set Method
 	for i, kind := range p.Kinds {
 		setComment := jen.Commentf("%s sets the value of this property. Calling %s afterwards returns true.", p.setFnName(i), p.isMethodName(i))
@@ -785,6 +843,18 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			))
 		}
 	}
+	methods = append(methods, codegen.NewCommentedPointerMethod(
+		p.GetPrivatePackage().Path(),
+		setIRIMethod,
+		p.StructName(),
+		[]jen.Code{jen.Id("v").Op("*").Qual("net/url", "URL")},
+		/*ret=*/ nil,
+		[]jen.Code{
+			jen.Id(codegen.This()).Dot(p.clearMethodName()).Call(),
+			jen.Id(codegen.This()).Dot(iriMember).Op("=").Id("v"),
+		},
+		jen.Commentf("%s sets the value of this property. Calling %s afterwards returns true.", setIRIMethod, isIRIMethod),
+	))
 	// Get Method
 	for i, kind := range p.Kinds {
 		getComment := jen.Commentf("%s returns the value of this property. When %s returns false, %s will return an arbitrary value.", p.getFnName(i), p.isMethodName(i), p.getFnName(i))
@@ -798,6 +868,15 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			getComment,
 		))
 	}
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		getIRIMethod,
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Op("*").Qual("net/url", "URL")},
+		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(iriMember))},
+		jen.Commentf("%s returns the IRI of this property. When %s returns false, %s will return an arbitrary value.", getIRIMethod, isIRIMethod, getIRIMethod),
+	))
 	// LessThan Method
 	lessCode := jen.Empty().Add(
 		jen.Id("idx1").Op(":=").Id(codegen.This()).Dot(kindIndexMethod).Call().Line(),
@@ -814,6 +893,14 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			).Block(
 				jen.Return(kind.lessFnCode(jen.Id(codegen.This()).Dot(p.getFnName(i)).Call(), jen.Id("o").Dot(p.getFnName(i)).Call()))))
 	}
+	lessCode.Add(
+		jen.Else().If(
+			jen.Id(codegen.This()).Dot(isIRIMethod).Call(),
+		).Block(
+			jen.Return(
+				jen.Id(codegen.This()).Dot(iriMember).Dot("String").Call().Op("<").Id("o").Dot(getIRIMethod).Call().Dot("String").Call(),
+			),
+		))
 	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		compareLessMethod,
@@ -822,7 +909,6 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{
 			lessCode,
-			// TODO: Unknown member comparison.
 			jen.Return(jen.False()),
 		},
 		jen.Commentf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),

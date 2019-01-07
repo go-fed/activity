@@ -167,6 +167,52 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			jen.Return(lessCall),
 		)
 	}
+	// IRI Prepend, Append, and Less logic
+	methods = append(methods,
+		codegen.NewCommentedPointerMethod(
+			p.GetPrivatePackage().Path(),
+			fmt.Sprintf("%sIRI", prependMethod),
+			p.StructName(),
+			[]jen.Code{jen.Id("v").Op("*").Qual("net/url", "URL")},
+			/*ret=*/ nil,
+			[]jen.Code{
+				jen.Op("*").Id(codegen.This()).Op("=").Append(
+					jen.Index().Op("*").Id(p.iteratorTypeName().CamelName).Values(
+						jen.Values(jen.Dict{
+							jen.Id(iriMember): jen.Id("v"),
+						}),
+					),
+					jen.Op("*").Id(codegen.This()).Op("..."),
+				),
+			},
+			jen.Commentf("%sIRI prepends an IRI value to the front of a list of the property %q.", prependMethod, p.PropertyName())))
+	methods = append(methods,
+		codegen.NewCommentedPointerMethod(
+			p.GetPrivatePackage().Path(),
+			fmt.Sprintf("%sIRI", appendMethod),
+			p.StructName(),
+			[]jen.Code{jen.Id("v").Op("*").Qual("net/url", "URL")},
+			/*ret=*/ nil,
+			[]jen.Code{
+				jen.Op("*").Id(codegen.This()).Op("=").Append(
+					jen.Op("*").Id(codegen.This()),
+					jen.Op("&").Id(p.iteratorTypeName().CamelName).Values(
+						jen.Dict{
+							jen.Id(iriMember): jen.Id("v"),
+						},
+					),
+				),
+			},
+			jen.Commentf("%sIRI appends an IRI value to the back of a list of the property %q", appendMethod, p.PropertyName())))
+	less = less.Else().If(
+		jen.Id("idx1").Op("==").Lit(iriKindIndex),
+	).Block(
+		jen.Id("lhs").Op(":=").Id(codegen.This()).Index(jen.Id("i")).Dot(getIRIMethod).Call(),
+		jen.Id("rhs").Op(":=").Id(codegen.This()).Index(jen.Id("j")).Dot(getIRIMethod).Call(),
+		jen.Return(
+			jen.Id("lhs").Dot("String").Call().Op("<").Id("rhs").Dot("String").Call(),
+		),
+	)
 	// Remove Method
 	methods = append(methods,
 		codegen.NewCommentedPointerMethod(

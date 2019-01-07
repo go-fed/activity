@@ -10,10 +10,13 @@ const (
 	// Method names for generated code
 	getMethod                 = "Get"
 	setMethod                 = "Set"
-	hasMethod                 = "Has"
+	hasAnyMethod              = "HasAny"
 	clearMethod               = "Clear"
 	iteratorClearMethod       = "clear"
 	isMethod                  = "Is"
+	isIRIMethod               = "IsIRI"
+	getIRIMethod              = "GetIRI"
+	setIRIMethod              = "SetIRI"
 	appendMethod              = "Append"
 	prependMethod             = "Prepend"
 	removeMethod              = "Remove"
@@ -33,6 +36,9 @@ const (
 	// Member names for generated code
 	unknownMemberName = "unknown"
 	langMapMember     = "langMap"
+	// Kind Index constants
+	iriKindIndex           = -2
+	noneOrUnknownKindIndex = -1
 )
 
 // join appends a bunch of Go Code together, each on their own line.
