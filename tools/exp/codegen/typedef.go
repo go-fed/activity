@@ -2,6 +2,7 @@ package codegen
 
 import (
 	"github.com/dave/jennifer/jen"
+	"sort"
 	"unicode"
 )
 
@@ -47,11 +48,23 @@ func (t *Typedef) Definition() jen.Code {
 	).Add(
 		t.concreteType,
 	)
+	// Sort the functions and methods
+	fs := make([]string, 0, len(t.constructors))
 	for _, c := range t.constructors {
-		def = def.Line().Line().Add(c.Definition())
+		fs = append(fs, c.Name())
 	}
+	ms := make([]string, 0, len(t.methods))
 	for _, m := range t.methods {
-		def = def.Line().Line().Add(m.Definition())
+		ms = append(ms, m.Name())
+	}
+	sort.Sort(sort.StringSlice(fs))
+	sort.Sort(sort.StringSlice(ms))
+	// Add the functions and methods in order
+	for _, c := range fs {
+		def = def.Line().Line().Add(t.constructors[c].Definition())
+	}
+	for _, m := range ms {
+		def = def.Line().Line().Add(t.methods[m].Definition())
 	}
 	return def
 }

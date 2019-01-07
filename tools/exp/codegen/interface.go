@@ -2,7 +2,22 @@ package codegen
 
 import (
 	"github.com/dave/jennifer/jen"
+	"sort"
 )
+
+type sortedFunctionSignature []FunctionSignature
+
+func (s sortedFunctionSignature) Less(i, j int) bool {
+	return s[i].Name < s[j].Name
+}
+
+func (s sortedFunctionSignature) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s sortedFunctionSignature) Len() int {
+	return len(s)
+}
 
 type FunctionSignature struct {
 	Name    string
@@ -21,12 +36,14 @@ type Interface struct {
 func NewInterface(pkg, name string,
 	funcs []FunctionSignature,
 	comment string) *Interface {
-	return &Interface{
+	i := &Interface{
 		qual:      jen.Qual(pkg, name),
 		name:      name,
 		functions: funcs,
 		comment:   comment,
 	}
+	sort.Sort(sortedFunctionSignature(i.functions))
+	return i
 }
 
 func (i Interface) Definition() jen.Code {

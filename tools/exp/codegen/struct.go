@@ -2,6 +2,7 @@ package codegen
 
 import (
 	"github.com/dave/jennifer/jen"
+	"sort"
 	"unicode"
 )
 
@@ -59,11 +60,23 @@ func (s *Struct) Definition() jen.Code {
 	def := comment.Type().Id(s.name).Struct(
 		join(s.members),
 	)
+	// Sort the functions and methods.
+	fs := make([]string, 0, len(s.constructors))
 	for _, c := range s.constructors {
-		def = def.Line().Line().Add(c.Definition())
+		fs = append(fs, c.Name())
 	}
+	ms := make([]string, 0, len(s.methods))
 	for _, m := range s.methods {
-		def = def.Line().Line().Add(m.Definition())
+		ms = append(ms, m.Name())
+	}
+	sort.Sort(sort.StringSlice(fs))
+	sort.Sort(sort.StringSlice(ms))
+	// Add the functions and methods in order.
+	for _, c := range fs {
+		def = def.Line().Line().Add(s.constructors[c].Definition())
+	}
+	for _, m := range ms {
+		def = def.Line().Line().Add(s.methods[m].Definition())
 	}
 	return def
 }
