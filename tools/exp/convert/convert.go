@@ -355,14 +355,14 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	name := c.convertTypeToName(t)
 	var rangeProps []props.Property
 	for _, prop := range existingFProps {
-		for _, kind := range prop.Kinds {
+		for _, kind := range prop.GetKinds() {
 			if kind.Name.LowerName == name {
 				rangeProps = append(rangeProps, prop)
 			}
 		}
 	}
 	for _, prop := range existingNFProps {
-		for _, kind := range prop.Kinds {
+		for _, kind := range prop.GetKinds() {
 			if kind.Name.LowerName == name {
 				rangeProps = append(rangeProps, prop)
 			}

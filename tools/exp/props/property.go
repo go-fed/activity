@@ -126,17 +126,14 @@ func (k Kind) isValue() bool {
 //
 // It also properly handles the concept of generating Go code for property
 // iterators, which are needed for NonFunctional properties.
-//
-// TODO: Make this type private
 type PropertyGenerator struct {
 	vocabName      string
 	managerMethods []*codegen.Method
-	// TODO: Make these private
-	PackageManager        *PackageManager
-	Name                  Identifier
-	Comment               string
-	Kinds                 []Kind
-	HasNaturalLanguageMap bool
+	packageManager        *PackageManager
+	name                  Identifier
+	comment               string
+	kinds                 []Kind
+	hasNaturalLanguageMap bool
 	asIterator            bool
 }
 
@@ -145,14 +142,19 @@ func (p *PropertyGenerator) VocabName() string {
 	return p.vocabName
 }
 
+// GetKinds gets this property's kinds.
+func (p *PropertyGenerator) GetKinds() []Kind {
+	return p.kinds
+}
+
 // GetPrivatePackage gets this property's private Package.
 func (p *PropertyGenerator) GetPrivatePackage() Package {
-	return p.PackageManager.PrivatePackage()
+	return p.packageManager.PrivatePackage()
 }
 
 // GetPublicPackage gets this property's public Package.
 func (p *PropertyGenerator) GetPublicPackage() Package {
-	return p.PackageManager.PublicPackage()
+	return p.packageManager.PublicPackage()
 }
 
 // SetKindFns allows TypeGenerators to later notify this Property what functions
@@ -162,7 +164,7 @@ func (p *PropertyGenerator) GetPublicPackage() Package {
 //
 // This feels very hacky.
 func (p *PropertyGenerator) SetKindFns(name string, qualKind *jen.Statement, deser *codegen.Method) error {
-	for i, kind := range p.Kinds {
+	for i, kind := range p.kinds {
 		if kind.Name.LowerName == name {
 			if kind.SerializeFn != nil || kind.DeserializeFn != nil || kind.LessFn != nil {
 				return fmt.Errorf("property kind already has serialization functions set for %q", name)
@@ -170,7 +172,7 @@ func (p *PropertyGenerator) SetKindFns(name string, qualKind *jen.Statement, des
 			kind.ConcreteKind = qualKind
 			kind.DeserializeFn = deser.On(managerInitName())
 			p.managerMethods = append(p.managerMethods, deser)
-			p.Kinds[i] = kind
+			p.kinds[i] = kind
 			return nil
 		}
 	}
@@ -187,16 +189,16 @@ func (p *PropertyGenerator) getAllManagerMethods() []*codegen.Method {
 // to generate.
 func (p *PropertyGenerator) StructName() string {
 	if p.asIterator {
-		return p.Name.CamelName
+		return p.name.CamelName
 	}
-	return fmt.Sprintf("%sProperty", p.Name.CamelName)
+	return fmt.Sprintf("%sProperty", p.name.CamelName)
 }
 
 // iteratorTypeName determines the identifier to use for the iterator type.
 func (p *PropertyGenerator) iteratorTypeName() Identifier {
 	return Identifier{
-		LowerName: p.Name.LowerName,
-		CamelName: fmt.Sprintf("%sPropertyIterator", p.Name.CamelName),
+		LowerName: p.name.LowerName,
+		CamelName: fmt.Sprintf("%sPropertyIterator", p.name.CamelName),
 	}
 }
 
@@ -209,27 +211,27 @@ func (p *PropertyGenerator) InterfaceName() string {
 // specifications. It is not suitable for use in generated code function
 // identifiers.
 func (p *PropertyGenerator) PropertyName() string {
-	return p.Name.LowerName
+	return p.name.LowerName
 }
 
 // Comments returns the comment for this property.
 func (p *PropertyGenerator) Comments() string {
-	return p.Comment
+	return p.comment
 }
 
 // DeserializeFnName returns the identifier of the function that deserializes
 // raw JSON into the generated Go type.
 func (p *PropertyGenerator) DeserializeFnName() string {
 	if p.asIterator {
-		return fmt.Sprintf("%s%s", deserializeIteratorMethod, p.Name.CamelName)
+		return fmt.Sprintf("%s%s", deserializeIteratorMethod, p.name.CamelName)
 	}
-	return fmt.Sprintf("%s%sProperty", deserializeMethod, p.Name.CamelName)
+	return fmt.Sprintf("%s%sProperty", deserializeMethod, p.name.CamelName)
 }
 
 // getFnName returns the identifier of the function that fetches concrete types
 // of the property.
 func (p *PropertyGenerator) getFnName(i int) string {
-	if len(p.Kinds) == 1 {
+	if len(p.kinds) == 1 {
 		return getMethod
 	}
 	return fmt.Sprintf("%s%s", getMethod, p.kindCamelName(i))
@@ -238,7 +240,7 @@ func (p *PropertyGenerator) getFnName(i int) string {
 // setFnName returns the identifier of the function that sets concrete types
 // of the property.
 func (p *PropertyGenerator) setFnName(i int) string {
-	if len(p.Kinds) == 1 {
+	if len(p.kinds) == 1 {
 		return setMethod
 	}
 	return fmt.Sprintf("%s%s", setMethod, p.kindCamelName(i))
@@ -258,24 +260,24 @@ func (p *PropertyGenerator) serializeFnName() string {
 //
 // It will panic if 'i' is out of range.
 func (p *PropertyGenerator) kindCamelName(i int) string {
-	return p.Kinds[i].Name.CamelName
+	return p.kinds[i].Name.CamelName
 }
 
 // memberName returns the identifier to use for the kind at the specified index.
 //
 // It will panic if 'i' is out of range.
 func (p *PropertyGenerator) memberName(i int) string {
-	return fmt.Sprintf("%sMember", p.Kinds[i].Name.LowerName)
+	return fmt.Sprintf("%sMember", p.kinds[i].Name.LowerName)
 }
 
 // hasMemberName returns the identifier to use for struct members that determine
 // whether non-nilable types have been set. Panics if called for a Kind that is
 // nilable.
 func (p *PropertyGenerator) hasMemberName(i int) string {
-	if len(p.Kinds) == 1 && p.Kinds[0].Nilable {
+	if len(p.kinds) == 1 && p.kinds[0].Nilable {
 		panic("PropertyGenerator.hasMemberName called for nilable single value")
 	}
-	return fmt.Sprintf("has%sMember", p.Kinds[i].Name.CamelName)
+	return fmt.Sprintf("has%sMember", p.kinds[i].Name.CamelName)
 }
 
 // clearMethodName returns the identifier to use for methods that clear all

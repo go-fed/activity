@@ -36,11 +36,11 @@ func NewNonFunctionalPropertyGenerator(vocabName string,
 	return &NonFunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
 			vocabName:             vocabName,
-			PackageManager:        pm,
-			HasNaturalLanguageMap: hasNaturalLanguageMap,
-			Name:                  name,
-			Comment:               comment,
-			Kinds:                 kinds,
+			packageManager:        pm,
+			hasNaturalLanguageMap: hasNaturalLanguageMap,
+			name:                  name,
+			comment:               comment,
+			kinds:                 kinds,
 		},
 	}
 }
@@ -87,10 +87,10 @@ func (p *NonFunctionalPropertyGenerator) iteratorInterfaceName() string {
 func (p *NonFunctionalPropertyGenerator) elementTypeGenerator() *FunctionalPropertyGenerator {
 	return &FunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
-			PackageManager:        p.PropertyGenerator.PackageManager,
-			Name:                  p.iteratorTypeName(),
-			Kinds:                 p.Kinds,
-			HasNaturalLanguageMap: p.PropertyGenerator.HasNaturalLanguageMap,
+			packageManager:        p.PropertyGenerator.packageManager,
+			name:                  p.iteratorTypeName(),
+			kinds:                 p.kinds,
+			hasNaturalLanguageMap: p.PropertyGenerator.hasNaturalLanguageMap,
 			asIterator:            true,
 		},
 	}
@@ -100,7 +100,7 @@ func (p *NonFunctionalPropertyGenerator) elementTypeGenerator() *FunctionalPrope
 func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	var methods []*codegen.Method
 	less := jen.Empty()
-	for i, kind := range p.Kinds {
+	for i, kind := range p.kinds {
 		dict := jen.Dict{
 			jen.Id(p.memberName(i)): jen.Id("v"),
 		}
