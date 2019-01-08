@@ -77,21 +77,9 @@ func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codege
 	return p.cachedStruct, p.cachedTypedef
 }
 
-// iteratorTypeName determines the identifier to use for the iterator type.
-func (p *NonFunctionalPropertyGenerator) iteratorTypeName() Identifier {
-	return Identifier{
-		LowerName: p.Name.LowerName,
-		CamelName: fmt.Sprintf("%sPropertyIterator", p.Name.CamelName),
-	}
-}
-
 // iteratorInterfaceName gets the interface name for the iterator.
-//
-// TODO: Fix this kluge, which must be kept in sync with
-// PropertyGenerator.InterfaceName().
 func (p *NonFunctionalPropertyGenerator) iteratorInterfaceName() string {
-	id := p.iteratorTypeName()
-	return fmt.Sprintf("%sInterface", id.CamelName)
+	return fmt.Sprintf("%sInterface", p.iteratorTypeName().CamelName)
 }
 
 // elementTypeGenerator produces a FunctionalPropertyGenerator for the iterator

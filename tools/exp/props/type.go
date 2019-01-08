@@ -130,8 +130,6 @@ func NewTypeGenerator(vocabName string, pm *PackageManager, typeName, comment st
 func (t *TypeGenerator) apply(m *ManagerGenerator) error {
 	t.m = m
 	// Set up Kind functions
-	// Note: this "i" must be the same as the "i" in the deserialization definition.
-	// TODO: Remove this kluge. (2nd todo: figure out wtf this todo means)
 	deser := m.getDeserializationMethodForType(t)
 	kind := jen.Qual(t.PublicPackage().Path(), t.InterfaceName())
 	for _, p := range t.rangeProperties {

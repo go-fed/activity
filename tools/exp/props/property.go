@@ -192,6 +192,14 @@ func (p *PropertyGenerator) StructName() string {
 	return fmt.Sprintf("%sProperty", p.Name.CamelName)
 }
 
+// iteratorTypeName determines the identifier to use for the iterator type.
+func (p *PropertyGenerator) iteratorTypeName() Identifier {
+	return Identifier{
+		LowerName: p.Name.LowerName,
+		CamelName: fmt.Sprintf("%sPropertyIterator", p.Name.CamelName),
+	}
+}
+
 // InterfaceName returns the interface name of the property type.
 func (p *PropertyGenerator) InterfaceName() string {
 	return fmt.Sprintf("%sInterface", p.StructName())
