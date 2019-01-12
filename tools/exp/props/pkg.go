@@ -113,11 +113,6 @@ func NewTypePackageGenerator() *TypePackageGenerator {
 	return &TypePackageGenerator{}
 }
 
-// RootDefinitions creates functions needed at the root level of the package declarations.
-func (t *TypePackageGenerator) RootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator) (ctors, ext, disj, extBy []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
-	return rootDefinitions(vocabName, m, tgs)
-}
-
 // PublicDefinitions creates the public-facing code generated definitions needed
 // once per package.
 //
@@ -164,8 +159,8 @@ func NewPackageGenerator() *PackageGenerator {
 }
 
 // RootDefinitions creates functions needed at the root level of the package declarations.
-func (t *PackageGenerator) RootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator) (ctors, ext, disj, extBy []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
-	return rootDefinitions(vocabName, m, tgs)
+func (t *PackageGenerator) RootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (ctors, ext, disj, extBy []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
+	return rootDefinitions(vocabName, m, tgs, pgs)
 }
 
 // PublicDefinitions creates the public-facing code generated definitions needed
@@ -237,7 +232,7 @@ func publicTypeDefinitions(tgs []*TypeGenerator) (typeI *codegen.Interface) {
 
 // rootDefinitions creates common functions needed at the root level of the
 // package declarations.
-func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator) (ctors, ext, disj, extBy []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
+func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (ctors, ext, disj, extBy []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
 	// Type constructors
 	for _, tg := range tgs {
 		ctors = append(ctors, codegen.NewCommentedFunction(
@@ -305,6 +300,11 @@ func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator
 	callInitsMap := make(map[string]jen.Code, len(tgs))
 	for _, tg := range tgs {
 		callInitsMap[tg.PrivatePackage().Path()] = jen.Qual(tg.PrivatePackage().Path(), setManagerFunctionName).Call(
+			jen.Qual(m.pkg.Path(), managerInitName()),
+		)
+	}
+	for _, pg := range pgs {
+		callInitsMap[pg.GetPrivatePackage().Path()] = jen.Qual(pg.GetPrivatePackage().Path(), setManagerFunctionName).Call(
 			jen.Qual(m.pkg.Path(), managerInitName()),
 		)
 	}

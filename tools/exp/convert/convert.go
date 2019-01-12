@@ -42,6 +42,17 @@ func (v vocabulary) typeArray() []*props.TypeGenerator {
 	return tg
 }
 
+func (v vocabulary) propArray() []*props.PropertyGenerator {
+	fp := make([]*props.PropertyGenerator, 0, len(v.FProps)+len(v.NFProps))
+	for _, f := range v.FProps {
+		fp = append(fp, &f.PropertyGenerator)
+	}
+	for _, f := range v.NFProps {
+		fp = append(fp, &f.PropertyGenerator)
+	}
+	return fp
+}
+
 func (v vocabulary) funcPropArray() []*props.FunctionalPropertyGenerator {
 	fp := make([]*props.FunctionalPropertyGenerator, 0, len(v.FProps))
 	for _, f := range v.FProps {
@@ -189,7 +200,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			Directory: pub.WriteDir(),
 		})
 	}
-	pkgFiles, err := c.packageFiles(v.Types, v.FProps, v.NFProps)
+	pkgFiles, err := c.packageFiles(v)
 	if err != nil {
 		e = err
 		return
@@ -205,7 +216,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		Directory: pub.WriteDir(),
 	})
 	var files []*File
-	files, e = c.rootFiles(pub, c.VocabularyName, v.Manager, v.Types)
+	files, e = c.rootFiles(pub, c.VocabularyName, v)
 	if e != nil {
 		return
 	}
@@ -542,32 +553,29 @@ func (c Converter) vocabValuePackage(v rdf.VocabularyValue) props.Package {
 }
 
 func (c Converter) typePackageManager(v typeNamer) (pkg *props.PackageManager, e error) {
-	return c.packageManager(v.TypeName())
+	return c.packageManager("type_" + v.TypeName())
 }
 
 func (c Converter) propertyPackageManager(v propertyNamer) (pkg *props.PackageManager, e error) {
-	return c.packageManager(v.PropertyName())
+	return c.packageManager("property_" + v.PropertyName())
 }
 
 func (c Converter) packageManager(s string) (pkg *props.PackageManager, e error) {
+	s = strings.ToLower(s)
 	switch c.PackagePolicy {
 	case FlatUnderRoot:
-		pkg = c.GenRoot.Sub(c.VocabularyName)
+		pkg = c.GenRoot.Sub(strings.ToLower(c.VocabularyName))
 	case IndividualUnderRoot:
-		pkg = c.GenRoot.Sub(c.VocabularyName).SubPrivate(s)
+		pkg = c.GenRoot.Sub(strings.ToLower(c.VocabularyName)).SubPrivate(s)
 	default:
 		e = fmt.Errorf("unrecognized PackagePolicy: %v", c.PackagePolicy)
 	}
 	return
 }
 
-func (c Converter) rootFiles(pkg props.Package, vocabName string, m *props.ManagerGenerator, t map[string]*props.TypeGenerator) (f []*File, e error) {
-	tgs := make([]*props.TypeGenerator, 0, len(t))
-	for _, v := range t {
-		tgs = append(tgs, v)
-	}
+func (c Converter) rootFiles(pkg props.Package, vocabName string, v vocabulary) (f []*File, e error) {
 	pg := props.NewPackageGenerator()
-	ctors, ext, disj, extBy, globalVar, initFn := pg.RootDefinitions(vocabName, m, tgs)
+	ctors, ext, disj, extBy, globalVar, initFn := pg.RootDefinitions(vocabName, v.Manager, v.typeArray(), v.propArray())
 	initFile := jen.NewFilePath(pkg.Path())
 	initFile.Add(globalVar).Line().Add(initFn.Definition()).Line()
 	f = append(f, &File{
@@ -582,27 +590,14 @@ func (c Converter) rootFiles(pkg props.Package, vocabName string, m *props.Manag
 	return
 }
 
-func (c Converter) packageFiles(t map[string]*props.TypeGenerator,
-	fp map[string]*props.FunctionalPropertyGenerator,
-	nfp map[string]*props.NonFunctionalPropertyGenerator) (f []*File, e error) {
+func (c Converter) packageFiles(v vocabulary) (f []*File, e error) {
 	switch c.PackagePolicy {
 	case FlatUnderRoot:
 		// Only need one for all types.
-		tgs := make([]*props.TypeGenerator, 0, len(t))
-		for _, v := range t {
-			tgs = append(tgs, v)
-		}
-		pgs := make([]*props.PropertyGenerator, 0, len(fp)+len(nfp))
-		for _, v := range fp {
-			pgs = append(pgs, &v.PropertyGenerator)
-		}
-		for _, v := range nfp {
-			pgs = append(pgs, &v.PropertyGenerator)
-		}
 		pg := props.NewPackageGenerator()
-		pubI := pg.PublicDefinitions(tgs)
+		pubI := pg.PublicDefinitions(v.typeArray())
 		// Public
-		pub := tgs[0].PublicPackage()
+		pub := v.typeArray()[0].PublicPackage()
 		file := jen.NewFilePath(pub.Path())
 		file.Add(pubI.Definition())
 		f = append(f, &File{
@@ -611,8 +606,8 @@ func (c Converter) packageFiles(t map[string]*props.TypeGenerator,
 			Directory: pub.WriteDir(),
 		})
 		// Private
-		s, i, fn := pg.PrivateDefinitions(tgs, pgs)
-		priv := tgs[0].PrivatePackage()
+		s, i, fn := pg.PrivateDefinitions(v.typeArray(), v.propArray())
+		priv := v.typeArray()[0].PrivatePackage()
 		file = jen.NewFilePath(priv.Path())
 		file.Add(
 			s,
@@ -627,25 +622,25 @@ func (c Converter) packageFiles(t map[string]*props.TypeGenerator,
 			Directory: priv.WriteDir(),
 		})
 	case IndividualUnderRoot:
-		for k, tg := range t {
+		for _, tg := range v.Types {
 			var file []*File
-			file, e = c.typePackageFiles(map[string]*props.TypeGenerator{k: tg})
+			file, e = c.typePackageFiles(tg)
 			if e != nil {
 				return
 			}
 			f = append(f, file...)
 		}
-		for k, pg := range fp {
+		for _, pg := range v.FProps {
 			var file []*File
-			file, e = c.propertyPackageFiles(map[string]*props.FunctionalPropertyGenerator{k: pg}, nil)
+			file, e = c.propertyPackageFiles(&pg.PropertyGenerator)
 			if e != nil {
 				return
 			}
 			f = append(f, file...)
 		}
-		for k, pg := range nfp {
+		for _, pg := range v.NFProps {
 			var file []*File
-			file, e = c.propertyPackageFiles(nil, map[string]*props.NonFunctionalPropertyGenerator{k: pg})
+			file, e = c.propertyPackageFiles(&pg.PropertyGenerator)
 			if e != nil {
 				return
 			}
@@ -657,16 +652,12 @@ func (c Converter) packageFiles(t map[string]*props.TypeGenerator,
 	return
 }
 
-func (c Converter) typePackageFiles(t map[string]*props.TypeGenerator) (f []*File, e error) {
+func (c Converter) typePackageFiles(tg *props.TypeGenerator) (f []*File, e error) {
 	// Only need one for all types.
-	tgs := make([]*props.TypeGenerator, 0, len(t))
-	for _, v := range t {
-		tgs = append(tgs, v)
-	}
 	tpg := props.NewTypePackageGenerator()
-	pubI := tpg.PublicDefinitions(tgs)
+	pubI := tpg.PublicDefinitions([]*props.TypeGenerator{tg})
 	// Public
-	pub := tgs[0].PublicPackage()
+	pub := tg.PublicPackage()
 	file := jen.NewFilePath(pub.Path())
 	file.Add(pubI.Definition())
 	f = append(f, &File{
@@ -675,8 +666,8 @@ func (c Converter) typePackageFiles(t map[string]*props.TypeGenerator) (f []*Fil
 		Directory: pub.WriteDir(),
 	})
 	// Private
-	s, i, fn := tpg.PrivateDefinitions(tgs)
-	priv := tgs[0].PrivatePackage()
+	s, i, fn := tpg.PrivateDefinitions([]*props.TypeGenerator{tg})
+	priv := tg.PrivatePackage()
 	file = jen.NewFilePath(priv.Path())
 	file.Add(
 		s,
@@ -693,19 +684,12 @@ func (c Converter) typePackageFiles(t map[string]*props.TypeGenerator) (f []*Fil
 	return
 }
 
-func (c Converter) propertyPackageFiles(fp map[string]*props.FunctionalPropertyGenerator, nfp map[string]*props.NonFunctionalPropertyGenerator) (f []*File, e error) {
+func (c Converter) propertyPackageFiles(pg *props.PropertyGenerator) (f []*File, e error) {
 	// Only need one for all types.
-	pgs := make([]*props.PropertyGenerator, 0, len(fp)+len(nfp))
-	for _, v := range fp {
-		pgs = append(pgs, &v.PropertyGenerator)
-	}
-	for _, v := range nfp {
-		pgs = append(pgs, &v.PropertyGenerator)
-	}
 	ppg := props.NewPropertyPackageGenerator()
 	// Private
-	s, i, fn := ppg.PrivateDefinitions(pgs)
-	priv := pgs[0].GetPrivatePackage()
+	s, i, fn := ppg.PrivateDefinitions([]*props.PropertyGenerator{pg})
+	priv := pg.GetPrivatePackage()
 	file := jen.NewFilePath(priv.Path())
 	file.Add(
 		s,
