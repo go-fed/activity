@@ -127,8 +127,8 @@ func (k Kind) isValue() bool {
 // It also properly handles the concept of generating Go code for property
 // iterators, which are needed for NonFunctional properties.
 type PropertyGenerator struct {
-	vocabName      string
-	managerMethods []*codegen.Method
+	vocabName             string
+	managerMethods        []*codegen.Method
 	packageManager        *PackageManager
 	name                  Identifier
 	comment               string

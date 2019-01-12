@@ -203,6 +203,12 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		FileName:  "gen_manager.go",
 		Directory: pub.WriteDir(),
 	})
+	var files []*File
+	files, e = c.rootFiles(pub, v.Types)
+	if e != nil {
+		return
+	}
+	f = append(f, files...)
 	return
 }
 
@@ -551,6 +557,25 @@ func (c Converter) packageManager(s string) (pkg *props.PackageManager, e error)
 	default:
 		e = fmt.Errorf("unrecognized PackagePolicy: %v", c.PackagePolicy)
 	}
+	return
+}
+
+func (c Converter) rootFiles(pkg props.Package, t map[string]*props.TypeGenerator) (f []*File, e error) {
+	tgs := make([]*props.TypeGenerator, 0, len(t))
+	for _, v := range t {
+		tgs = append(tgs, v)
+	}
+	pg := props.NewPackageGenerator()
+	ctors := pg.RootDefinitions(tgs)
+	file := jen.NewFilePath(pkg.Path())
+	for _, c := range ctors {
+		file.Add(c.Definition()).Line()
+	}
+	f = append(f, &File{
+		F:         file,
+		FileName:  "gen_ctors.go",
+		Directory: pkg.WriteDir(),
+	})
 	return
 }
 

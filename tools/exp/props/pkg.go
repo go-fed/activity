@@ -113,12 +113,35 @@ func NewTypePackageGenerator() *TypePackageGenerator {
 	return &TypePackageGenerator{}
 }
 
+// RootDefinitions creates functions needed at the root level of the package declarations.
+func (t *TypePackageGenerator) RootDefinitions(tgs []*TypeGenerator) (ctors []*codegen.Function) {
+	// Type constructors
+	for _, tg := range tgs {
+		ctors = append(ctors, codegen.NewCommentedFunction(
+			tg.PublicPackage().Path(),
+			fmt.Sprintf("New%s%s", tg.PublicPackage().Name(), tg.TypeName()),
+			/*params=*/ nil,
+			[]jen.Code{jen.Qual(tg.PublicPackage().Path(), tg.InterfaceName())},
+			[]jen.Code{
+				jen.Return(
+					jen.Op("&").Qual(tg.PrivatePackage().Path(), tg.TypeName()).Values(
+						jen.Dict{
+							jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface(), jen.Lit(0)),
+						},
+					),
+				),
+			},
+			fmt.Sprintf("New%s%s creates a new %s", tg.PublicPackage().Name(), tg.TypeName(), tg.InterfaceName())))
+	}
+	return
+}
+
 // PublicDefinitions creates the public-facing code generated definitions needed
 // once per package.
 //
 // Precondition: The passed-in generators are the complete set of type
 // generators within a package.
-func (t *TypePackageGenerator) PublicDefinitions(tgs []*TypeGenerator) *codegen.Interface {
+func (t *TypePackageGenerator) PublicDefinitions(tgs []*TypeGenerator) (typeI *codegen.Interface) {
 	return TypeInterface(tgs[0].PublicPackage())
 }
 
@@ -127,7 +150,7 @@ func (t *TypePackageGenerator) PublicDefinitions(tgs []*TypeGenerator) *codegen.
 //
 // Precondition: The passed-in generators are the complete set of type
 // generators within a package.
-func (t *TypePackageGenerator) PrivateDefinitions(tgs []*TypeGenerator) (*jen.Statement, *codegen.Interface, *codegen.Function) {
+func (t *TypePackageGenerator) PrivateDefinitions(tgs []*TypeGenerator) (mgrVar *jen.Statement, mgrI *codegen.Interface, setMgrFn *codegen.Function) {
 	fnsMap := make(map[string]codegen.FunctionSignature)
 	for _, tg := range tgs {
 		for _, m := range tg.getAllManagerMethods() {
@@ -206,6 +229,25 @@ type PackageGenerator struct{}
 // NewPackageGenerator creates a new PackageGenerator.
 func NewPackageGenerator() *PackageGenerator {
 	return &PackageGenerator{}
+}
+
+// RootDefinitions creates functions needed at the root level of the package declarations.
+func (t *PackageGenerator) RootDefinitions(tgs []*TypeGenerator) (ctors []*codegen.Function) {
+	// Type constructors
+	for _, tg := range tgs {
+		ctors = append(ctors, codegen.NewCommentedFunction(
+			tg.PublicPackage().Path(),
+			fmt.Sprintf("New%s%s", tg.PublicPackage().Name(), tg.TypeName()),
+			/*params=*/ nil,
+			[]jen.Code{jen.Qual(tg.PublicPackage().Path(), tg.InterfaceName())},
+			[]jen.Code{
+				jen.Return(
+					tg.constructorFn().Call(),
+				),
+			},
+			fmt.Sprintf("New%s%s creates a new %s", tg.PublicPackage().Name(), tg.TypeName(), tg.InterfaceName())))
+	}
+	return
 }
 
 // PublicDefinitions creates the public-facing code generated definitions needed

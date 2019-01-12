@@ -22,6 +22,7 @@ const (
 	getUnknownMethod    = "GetUnknownProperties"
 	unknownMember       = "unknown"
 	getMethodFormat     = "Get%s"
+	constructorName     = "New"
 )
 
 // TypeInterface returns the Type Interface that is needed for ActivityStream
@@ -244,6 +245,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 		extendsFn, extendsMethod := t.extendsDefinition()
 		getters := t.allGetters()
 		setters := t.allSetters()
+		constructor := t.constructorFn()
 		t.cachedStruct = codegen.NewStruct(
 			t.Comments(),
 			t.TypeName(),
@@ -259,6 +261,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 				setters...,
 			),
 			[]*codegen.Function{
+				constructor,
 				t.extendedByDefinition(),
 				extendsFn,
 				t.disjointWithDefinition(),
@@ -731,4 +734,25 @@ func (t *TypeGenerator) getAllManagerMethods() (m []*codegen.Method) {
 		m = append(m, deserMethod)
 	}
 	return m
+}
+
+// constructorFn creates a constructor for this type.
+func (t *TypeGenerator) constructorFn() *codegen.Function {
+	return codegen.NewCommentedFunction(
+		t.PrivatePackage().Path(),
+		fmt.Sprintf("%s%s", constructorName, t.TypeName()),
+		/*params=*/ nil,
+		[]jen.Code{
+			jen.Op("*").Qual(t.PrivatePackage().Path(), t.TypeName()),
+		},
+		[]jen.Code{
+			jen.Return(
+				jen.Op("&").Qual(t.PrivatePackage().Path(), t.TypeName()).Values(
+					jen.Dict{
+						jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface(), jen.Lit(0)),
+					},
+				),
+			),
+		},
+		fmt.Sprintf("%s%s creates a new %s type", constructorName, t.TypeName(), t.TypeName()))
 }
