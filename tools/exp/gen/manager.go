@@ -1,4 +1,4 @@
-package props
+package gen
 
 import (
 	"fmt"

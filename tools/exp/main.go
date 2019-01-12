@@ -5,7 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/convert"
-	"github.com/cjslep/activity/tools/exp/props"
+	"github.com/cjslep/activity/tools/exp/gen"
 	"github.com/cjslep/activity/tools/exp/rdf"
 	"github.com/cjslep/activity/tools/exp/rdf/owl"
 	"github.com/cjslep/activity/tools/exp/rdf/rdfs"
@@ -80,9 +80,9 @@ func main() {
 	}
 	c := &convert.Converter{
 		Registry:       registry,
-		GenRoot:        props.NewPackageManager(*prefix, "gen"),
+		GenRoot:        gen.NewPackageManager(*prefix, "gen"),
 		VocabularyName: *vocabName,
-		ValueRoot:      props.NewPackageManager(*prefix, "gen/vals"),
+		ValueRoot:      gen.NewPackageManager(*prefix, "gen/vals"),
 		PackagePolicy:  policy,
 	}
 	f, err := c.Convert(p)
