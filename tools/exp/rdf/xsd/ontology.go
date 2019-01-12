@@ -20,18 +20,22 @@ const (
 	durationSpec           = "duration"
 )
 
+// XMLOntology represents XML as an Ontology.
 type XMLOntology struct {
 	Package string
 }
 
+// SpecURI returns the XML URI.
 func (o *XMLOntology) SpecURI() string {
 	return xmlSpec
 }
 
+// Load the XML Ontology without an alias.
 func (o *XMLOntology) Load() ([]rdf.RDFNode, error) {
 	return o.LoadAsAlias("")
 }
 
+// LoadAsAlias loads the XML Ontology with an alias.
 func (o *XMLOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	return []rdf.RDFNode{
 		&rdf.AliasedDelegate{
@@ -79,6 +83,7 @@ func (o *XMLOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	}, nil
 }
 
+// LoadSpecificAsAlias loads a specific node with an alias.
 func (o *XMLOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, error) {
 	switch name {
 	case anyURISpec:
@@ -148,10 +153,12 @@ func (o *XMLOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, er
 	return nil, fmt.Errorf("xml ontology cannot find %q to alias to %q", name, alias)
 }
 
+// LoadElement does nothing.
 func (o *XMLOntology) LoadElement(name string, payload map[string]interface{}) ([]rdf.RDFNode, error) {
 	return nil, nil
 }
 
+// GetByName returns a bare node selected by name.
 func (o *XMLOntology) GetByName(name string) (rdf.RDFNode, error) {
 	name = strings.TrimPrefix(name, o.SpecURI())
 	switch name {
@@ -175,18 +182,22 @@ func (o *XMLOntology) GetByName(name string) (rdf.RDFNode, error) {
 
 var _ rdf.RDFNode = &anyURI{}
 
+// anyURI represents an xsd:anyURI value.
 type anyURI struct {
 	pkg string
 }
 
+// Enter returns an error.
 func (a *anyURI) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd anyURI cannot be entered")
 }
 
+// Exit returns an error.
 func (a *anyURI) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd anyURI cannot be exited")
 }
 
+// Apply adds the anyURI value Kind to the XML namespace.
 func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	v := ctx.Result.GetReference(xmlSpec)
 	if len(v.Values[anyURISpec].Name) == 0 {
@@ -268,18 +279,22 @@ func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (
 
 var _ rdf.RDFNode = &dateTime{}
 
+// dateTime is the xsd:dateTime value.
 type dateTime struct {
 	pkg string
 }
 
+// Enter returns an error.
 func (d *dateTime) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd dateTime cannot be entered")
 }
 
+// Exit returns an error.
 func (d *dateTime) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd dateTime cannot be exited")
 }
 
+// Apply adds the xsd:dateTime value Kind to the XML namespace.
 func (d *dateTime) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	v := ctx.Result.GetReference(xmlSpec)
 	if len(v.Values[dateTimeSpec].Name) == 0 {
@@ -371,18 +386,22 @@ func (d *dateTime) Apply(key string, value interface{}, ctx *rdf.ParsingContext)
 
 var _ rdf.RDFNode = &float{}
 
+// float is a 32 bit floating point value.
 type float struct {
 	pkg string
 }
 
+// Enter returns an error.
 func (f *float) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd float cannot be entered")
 }
 
+// Exit returns an error.
 func (f *float) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd float cannot be exited")
 }
 
+// Apply adds xsd:float value Kind to the XML namespace.
 func (f *float) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	v := ctx.Result.GetReference(xmlSpec)
 	if len(v.Values[floatSpec].Name) == 0 {
@@ -451,18 +470,22 @@ func (f *float) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (b
 
 var _ rdf.RDFNode = &xmlString{}
 
+// xmlString is a string.
 type xmlString struct {
 	pkg string
 }
 
+// Enter returns an error
 func (*xmlString) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd string cannot be entered")
 }
 
+// Exit returns an error.
 func (*xmlString) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd string cannot be exited")
 }
 
+// Apply adds xsd:xmlString value Kind to the XML namespace.
 func (s *xmlString) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	v := ctx.Result.GetReference(xmlSpec)
 	if len(v.Values[stringSpec].Name) == 0 {
@@ -531,18 +554,22 @@ func (s *xmlString) Apply(key string, value interface{}, ctx *rdf.ParsingContext
 
 var _ rdf.RDFNode = &boolean{}
 
+// boolean is truly obvious.
 type boolean struct {
 	pkg string
 }
 
+// Enter returns an error.
 func (*boolean) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd boolean cannot be entered")
 }
 
+// Exit returns an error.
 func (*boolean) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd boolean cannot be exited")
 }
 
+// Apply adds boolean value Kind to the XML namespace.
 func (b *boolean) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	v := ctx.Result.GetReference(xmlSpec)
 	if len(v.Values[booleanSpec].Name) == 0 {
@@ -642,18 +669,22 @@ func (b *boolean) Apply(key string, value interface{}, ctx *rdf.ParsingContext) 
 
 var _ rdf.RDFNode = &nonNegativeInteger{}
 
+// nonNegativeInteger is a non-negative integer value.
 type nonNegativeInteger struct {
 	pkg string
 }
 
+// Enter returns an error.
 func (*nonNegativeInteger) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd nonNegativeInteger cannot be entered")
 }
 
+// Exit returns an error.
 func (*nonNegativeInteger) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd nonNegativeInteger cannot be exited")
 }
 
+// Apply adds xsd:nonNegativeInteger value Kind to the XML namespace.
 func (n *nonNegativeInteger) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	v := ctx.Result.GetReference(xmlSpec)
 	if len(v.Values[nonNegativeIntegerSpec].Name) == 0 {
@@ -735,18 +766,27 @@ func (n *nonNegativeInteger) Apply(key string, value interface{}, ctx *rdf.Parsi
 
 var _ rdf.RDFNode = &duration{}
 
+// duration is a poorly defined value for a duration.
 type duration struct {
 	pkg string
 }
 
+// Enter returns an error.
 func (*duration) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd duration cannot be entered")
 }
 
+// Exit returns an error.
 func (*duration) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("xsd duration cannot be exited")
 }
 
+// Apply adds duration value Kind to the XML namespace.
+//
+// Note that duration has a really poor definition -- how long is a month or a
+// year in seconds?
+//
+// Avoid at all costs.
 func (d *duration) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	v := ctx.Result.GetReference(xmlSpec)
 	if len(v.Values[durationSpec].Name) == 0 {

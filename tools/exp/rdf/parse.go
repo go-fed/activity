@@ -17,15 +17,26 @@ type JSONLD map[string]interface{}
 // ParsingContext contains the results of the parsing as well as scratch space
 // required for RDFNodes to be able to statefully apply changes.
 type ParsingContext struct {
-	Result  *ParsedVocabulary
+	// Result contains the final ParsedVocabulary from a file.
+	Result *ParsedVocabulary
+	// Current item to operate upon. A call to Push or Pop will overwrite
+	// this field.
 	Current interface{}
-	Name    string
-	Stack   []interface{}
+	// Name of the Current item. A call to Push or Pop will modify this
+	// field.
+	Name string
+	// The Stack of Types, Properties, References, Examples, and other
+	// items being analyzed. A call to Push or Pop will modify this field.
+	//
+	// Do not use directly, instead use Push and Pop.
+	Stack []interface{}
 	// Applies the node only for the next level of processing.
 	//
 	// Do not touch, instead use the accessor methods.
 	OnlyApplyThisNodeNextLevel RDFNode
-	OnlyApplied                bool
+	// OnlyApplied keeps track if OnlyApplyThisNodeNextLevel has applied
+	// once.
+	OnlyApplied bool
 	// Applies the node once, for the rest of the data. This skips the
 	// recursive parsing, and the node's Apply is given an empty string
 	// for a key.
@@ -34,19 +45,30 @@ type ParsingContext struct {
 	OnlyApplyThisNode RDFNode
 }
 
+// SetOnlyApplyThisNode sets the provided node to be the only one applied until
+// ResetOnlyApplyThisNode is called.
 func (p *ParsingContext) SetOnlyApplyThisNode(n RDFNode) {
 	p.OnlyApplyThisNode = n
 }
 
+// ResetOnlyApplyThisNode clears the only node to apply, if set.
 func (p *ParsingContext) ResetOnlyApplyThisNode() {
 	p.OnlyApplyThisNode = nil
 }
 
+// SetOnlyApplyThisNodeNExtLevel will apply the next node only for the next
+// level.
 func (p *ParsingContext) SetOnlyApplyThisNodeNextLevel(n RDFNode) {
 	p.OnlyApplyThisNodeNextLevel = n
 	p.OnlyApplied = false
 }
 
+// GetNextNodes is given the list of nodes a parent process believes should be
+// applied, and returns the list of nodes that actually should be used.
+//
+// If there is node that should only apply or should only apply at the next
+// level (and hasn't yet), then the passed in list will not match the resulting
+// list.
 func (p *ParsingContext) GetNextNodes(n []RDFNode) (r []RDFNode, clearFn func()) {
 	if p.OnlyApplyThisNodeNextLevel == nil {
 		return n, func() {}
@@ -60,16 +82,21 @@ func (p *ParsingContext) GetNextNodes(n []RDFNode) (r []RDFNode, clearFn func())
 	}
 }
 
+// ResetOnlyAppliedThisNodeNextLevel clears the node that should have been
+// applied for the next level of depth only.
 func (p *ParsingContext) ResetOnlyAppliedThisNodeNextLevel() {
 	p.OnlyApplyThisNodeNextLevel = nil
 	p.OnlyApplied = false
 }
 
+// Push puts the Current onto the Stack.
 func (p *ParsingContext) Push() {
 	p.Stack = append([]interface{}{p.Current}, p.Stack...)
 	p.Current = nil
 }
 
+// Pop puts the top item on the Stack into Current, and sets Name as
+// appropriate.
 func (p *ParsingContext) Pop() {
 	p.Current = p.Stack[0]
 	p.Stack = p.Stack[1:]
@@ -78,32 +105,39 @@ func (p *ParsingContext) Pop() {
 	}
 }
 
+// IsReset determines if the Context's Current is nil and Name is empty. Note
 func (p *ParsingContext) IsReset() bool {
 	return p.Current == nil &&
 		p.Name == ""
 }
 
+// Reset sets Current to nil and Name to empty string.
 func (p *ParsingContext) Reset() {
 	p.Current = nil
 	p.Name = ""
 }
 
+// NameSetter is a utility interface for the rdf Vocabulary types.
 type NameSetter interface {
 	SetName(string)
 }
 
+// NameGetter is a utility interface for the rdf Vocabulary types.
 type NameGetter interface {
 	GetName() string
 }
 
+// URISetter is a utility interface for the rdf Vocabulary types.
 type URISetter interface {
 	SetURI(string) error
 }
 
+// NotesSetter is a utility interface for the rdf Vocabulary types.
 type NotesSetter interface {
 	SetNotes(string)
 }
 
+// ExampleAdder is a utility interface for the rdf Vocabulary types.
 type ExampleAdder interface {
 	AddExample(*VocabularyExample)
 }
@@ -112,8 +146,13 @@ type ExampleAdder interface {
 // ontology (determined at creation time). It applies the value in its own
 // specific implementation on the context.
 type RDFNode interface {
+	// Enter is called when the RDFNode is a label for an array of values or
+	// a key within a JSON object, and the parser is about to examine its
+	// value(s). Exit is guaranteed to be called afterwards.
 	Enter(key string, ctx *ParsingContext) (bool, error)
+	// Exit is called after the parser examines the node's value(s).
 	Exit(key string, ctx *ParsingContext) (bool, error)
+	// Apply is called by the parser on nodes when they appear as values.
 	Apply(key string, value interface{}, ctx *ParsingContext) (bool, error)
 }
 

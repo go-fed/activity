@@ -15,16 +15,20 @@ const (
 	creativeWorkSpec = "CreativeWork"
 )
 
+// SchemaOntology represents Ontologies from schema.org.
 type SchemaOntology struct{}
 
+// SpecURI returns the Schema.org URI.
 func (o *SchemaOntology) SpecURI() string {
 	return schemaSpec
 }
 
+// Load without an alias.
 func (o *SchemaOntology) Load() ([]rdf.RDFNode, error) {
 	return o.LoadAsAlias("")
 }
 
+// LoadAsAlias loads with an alias.
 func (o *SchemaOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	return []rdf.RDFNode{
 		&rdf.AliasedDelegate{
@@ -60,6 +64,7 @@ func (o *SchemaOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	}, nil
 }
 
+// LoadSpecificAsAlias loads a specific node and aliases it.
 func (o *SchemaOntology) LoadSpecificAsAlias(alias, n string) ([]rdf.RDFNode, error) {
 	switch n {
 	case exampleSpec:
@@ -111,10 +116,12 @@ func (o *SchemaOntology) LoadSpecificAsAlias(alias, n string) ([]rdf.RDFNode, er
 	return nil, fmt.Errorf("schema ontology cannot find %q to alias to %q", n, alias)
 }
 
+// LoadElement does nothing.
 func (o *SchemaOntology) LoadElement(name string, payload map[string]interface{}) ([]rdf.RDFNode, error) {
 	return nil, nil
 }
 
+// GetByName returns a bare node by name.
 func (o *SchemaOntology) GetByName(n string) (rdf.RDFNode, error) {
 	n = strings.TrimPrefix(n, o.SpecURI())
 	switch n {
@@ -134,14 +141,20 @@ func (o *SchemaOntology) GetByName(n string) (rdf.RDFNode, error) {
 
 var _ rdf.RDFNode = &example{}
 
+// example is best understood by giving an example, such as this.
 type example struct{}
 
+// Enter Pushes an Example as Current.
 func (e *example) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	ctx.Push()
 	ctx.Current = &rdf.VocabularyExample{}
 	return true, nil
 }
 
+// Exit Pops an Example and sets it on the parent item.
+//
+// Exit returns an error if the popped item is not an Example, or if after
+// popping the Current item cannot have an Example added to it.
 func (e *example) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	ei := ctx.Current
 	ctx.Pop()
@@ -155,20 +168,28 @@ func (e *example) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, nil
 }
 
+// Apply returns an error.
 func (e *example) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("schema example cannot be applied")
 }
 
 var _ rdf.RDFNode = &mainEntity{}
 
+// mainEntity reapplies itself in all sublevels and simply saves the value onto
+// Current. This saves the JSON example in raw form.
 type mainEntity struct{}
 
+// Enter Pushes the Current item and tells the context to only apply itself for
+// all sublevels.
 func (m *mainEntity) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	ctx.Push()
 	ctx.SetOnlyApplyThisNode(m)
 	return true, nil
 }
 
+// Exit saves the current raw JSON example onto a parent Example.
+//
+// Exit reutrns an error if Current after popping is not an Example.
 func (m *mainEntity) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	// Save the example
 	example := ctx.Current
@@ -184,6 +205,7 @@ func (m *mainEntity) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, nil
 }
 
+// Apply simply saves the value onto Current.
 func (m *mainEntity) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	ctx.Current = value
 	return true, nil
@@ -191,16 +213,23 @@ func (m *mainEntity) Apply(key string, value interface{}, ctx *rdf.ParsingContex
 
 var _ rdf.RDFNode = &url{}
 
+// url sets the URI on an item.
 type url struct{}
 
+// Enter does nothing.
 func (u *url) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("schema url cannot be entered")
 }
 
+// Exit does nothing.
 func (u *url) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("schema url cannot be exited")
 }
 
+// Apply sets the value as a URI onto an item.
+//
+// Returns an error if the value is not a string, or it cannot set the URI on
+// the Current item.
 func (u *url) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	if urlString, ok := value.(string); !ok {
 		return true, fmt.Errorf("schema url not given a string")
@@ -213,16 +242,23 @@ func (u *url) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (boo
 
 var _ rdf.RDFNode = &name{}
 
+// name sets the Name on an item.
 type name struct{}
 
+// Enter does nothing.
 func (n *name) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("schema name cannot be entered")
 }
 
+// Exit does nothing.
 func (n *name) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("schema name cannot be exited")
 }
 
+// Apply sets the value as a name on the Current item.
+//
+// Returns an error if the value is not a string, or if the Current item cannot
+// have its name set.
 func (n *name) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	if s, ok := value.(string); !ok {
 		return true, fmt.Errorf("schema name not given string")
@@ -237,16 +273,20 @@ func (n *name) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bo
 
 var _ rdf.RDFNode = &creativeWork{}
 
+// creativeWork does nothing.
 type creativeWork struct{}
 
+// Enter returns an error.
 func (c *creativeWork) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("schema creative work cannot be entered")
 }
 
+// Exit does nothing.
 func (c *creativeWork) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("schema creative work cannot be exited")
 }
 
+// Apply does nothing.
 func (c *creativeWork) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	// Do nothing -- should already be an example.
 	return true, nil

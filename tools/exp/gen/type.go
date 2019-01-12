@@ -241,7 +241,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 		ser := t.serializationMethod()
 		less := t.lessMethod()
 		get := t.getUnknownMethod()
-		deser := t.kindDeserializationFunc()
+		deser := t.deserializationFn()
 		extendsFn, extendsMethod := t.extendsDefinition()
 		getters := t.allGetters()
 		setters := t.allSetters()
@@ -275,18 +275,23 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 // sortedProperty is a slice of Properties that implements the Sort interface.
 type sortedProperty []Property
 
+// Less compares the property names.
 func (s sortedProperty) Less(i, j int) bool {
 	return s[i].PropertyName() < s[j].PropertyName()
 }
 
+// Swap reorders two elements.
 func (s sortedProperty) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
 }
 
+// Len returns the length of this slice of properties.
 func (s sortedProperty) Len() int {
 	return len(s)
 }
 
+// allProperties returns all properties that this type contains, accounting for
+// the extended types and without properties.
 func (t *TypeGenerator) allProperties() []Property {
 	p := t.properties
 	// Properties of parents that are extended, minus DoesNotApplyTo
@@ -315,10 +320,12 @@ func (t *TypeGenerator) allProperties() []Property {
 	return sortedP
 }
 
+// memberName returns the member name for this property.
 func (*TypeGenerator) memberName(p Property) string {
 	return strings.Title(p.PropertyName())
 }
 
+// members returns all the properties this type has as its members.
 func (t *TypeGenerator) members() (members []jen.Code) {
 	p := t.allProperties()
 	// Convert to jen.Code
@@ -613,9 +620,9 @@ func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
 	return
 }
 
-// kindDeserializationFunc returns free function reference that can be used to
+// deserializationFn returns free function reference that can be used to
 // treat a TypeGenerator as another property's Kind.
-func (t *TypeGenerator) kindDeserializationFunc() (deser *codegen.Function) {
+func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 	deserCode := jen.Commentf("Begin: Known property deserialization").Line()
 	for _, prop := range t.allProperties() {
 		deserMethod := t.m.getDeserializationMethodForProperty(prop)

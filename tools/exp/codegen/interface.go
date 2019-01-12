@@ -5,20 +5,26 @@ import (
 	"sort"
 )
 
+// sortedFunctionSignature sorts FunctionSignatures by name.
 type sortedFunctionSignature []FunctionSignature
 
+// Less compares Names.
 func (s sortedFunctionSignature) Less(i, j int) bool {
 	return s[i].Name < s[j].Name
 }
 
+// Swap values.
 func (s sortedFunctionSignature) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
 }
 
+// Len is the length of this slice.
 func (s sortedFunctionSignature) Len() int {
 	return len(s)
 }
 
+// FunctionSignature is an interface's function definition without
+// an implementation.
 type FunctionSignature struct {
 	Name    string
 	Params  []jen.Code
@@ -26,6 +32,7 @@ type FunctionSignature struct {
 	Comment string
 }
 
+// Interface manages and generates a Golang interface definition.
 type Interface struct {
 	qual      *jen.Statement
 	name      string
@@ -33,6 +40,7 @@ type Interface struct {
 	comment   string
 }
 
+// NewInterface creates an Interface.
 func NewInterface(pkg, name string,
 	funcs []FunctionSignature,
 	comment string) *Interface {
@@ -46,6 +54,7 @@ func NewInterface(pkg, name string,
 	return i
 }
 
+// Definition produces the Golang code.
 func (i Interface) Definition() jen.Code {
 	stmts := jen.Empty()
 	if len(i.comment) > 0 {

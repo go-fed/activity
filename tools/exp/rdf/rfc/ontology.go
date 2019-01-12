@@ -18,18 +18,23 @@ const (
 	relSpec   = "rfc5988"
 )
 
+// RFCOntology represents standards and values that originate from RFC
+// specifications.
 type RFCOntology struct {
 	Package string
 }
 
+// SpecURI returns the RFC specifications URI.
 func (o *RFCOntology) SpecURI() string {
 	return rfcSpec
 }
 
+// Load without an alias.
 func (o *RFCOntology) Load() ([]rdf.RDFNode, error) {
 	return o.LoadAsAlias("")
 }
 
+// LoadAsAlias loads with the given alias.
 func (o *RFCOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	return []rdf.RDFNode{
 		&rdf.AliasedDelegate{
@@ -53,6 +58,7 @@ func (o *RFCOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	}, nil
 }
 
+// LoadSpecificAsAlias loads a specific item with a given alias.
 func (o *RFCOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, error) {
 	switch name {
 	case bcp47Spec:
@@ -86,10 +92,12 @@ func (o *RFCOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, er
 	return nil, fmt.Errorf("rfc ontology cannot find %q to alias to %q", name, alias)
 }
 
+// LoadElement does nothing.
 func (o *RFCOntology) LoadElement(name string, payload map[string]interface{}) ([]rdf.RDFNode, error) {
 	return nil, nil
 }
 
+// GetByName obtains a bare node by name.
 func (o *RFCOntology) GetByName(name string) (rdf.RDFNode, error) {
 	name = strings.TrimPrefix(name, o.SpecURI())
 	switch name {
@@ -105,18 +113,24 @@ func (o *RFCOntology) GetByName(name string) (rdf.RDFNode, error) {
 
 var _ rdf.RDFNode = &bcp47{}
 
+// BCP47 represents a BCP47 value.
+//
+// No validation is done on deserialized values.
 type bcp47 struct {
 	pkg string
 }
 
+// Enter does nothing.
 func (b *bcp47) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("bcp47 langaugetag cannot be entered")
 }
 
+// Exit does nothing.
 func (b *bcp47) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("bcp47 languagetag cannot be exited")
 }
 
+// Apply adds BCP47 as a value Kind.
 func (b *bcp47) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	v := ctx.Result.GetReference(rfcSpec)
 	if len(v.Values[bcp47Spec].Name) == 0 {
@@ -185,18 +199,22 @@ func (b *bcp47) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (b
 
 var _ rdf.RDFNode = &mime{}
 
+// mime represents MIME values.
 type mime struct {
 	pkg string
 }
 
+// Enter does nothing.
 func (*mime) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("MIME media type cannot be entered")
 }
 
+// Exit does nothing.
 func (*mime) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("MIME media type cannot be exited")
 }
 
+// Apply adds MIME as a value Kind.
 func (m *mime) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	v := ctx.Result.GetReference(rfcSpec)
 	if len(v.Values[mimeSpec].Name) == 0 {
@@ -265,18 +283,22 @@ func (m *mime) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bo
 
 var _ rdf.RDFNode = &rel{}
 
+// rel is a Link Relation.
 type rel struct {
 	pkg string
 }
 
+// Enter does nothing.
 func (*rel) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("rel cannot be entered")
 }
 
+// Exit does nothing.
 func (*rel) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("rel cannot be exited")
 }
 
+// Apply adds rel as a supported value Kind.
 func (r *rel) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	v := ctx.Result.GetReference(rfcSpec)
 	if len(v.Values[relSpec].Name) == 0 {

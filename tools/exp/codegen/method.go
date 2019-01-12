@@ -4,6 +4,7 @@ import (
 	"github.com/dave/jennifer/jen"
 )
 
+// memberType defines the way a method belongs to its struct.
 type memberType int
 
 const (
@@ -11,7 +12,9 @@ const (
 )
 
 const (
+	// A method is by value.
 	valueMember memberType = iota
+	// A method is by pointer.
 	pointerMember
 )
 

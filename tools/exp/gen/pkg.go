@@ -16,6 +16,8 @@ type PackageManager struct {
 	private string
 }
 
+// NewPackageManager creates a package manager whose private implementation is
+// in an "impl" subdirectory.
 func NewPackageManager(prefix, root string) *PackageManager {
 	return &PackageManager{
 		prefix:  prefix,
@@ -56,6 +58,8 @@ func (p *PackageManager) SubPrivate(name string) *PackageManager {
 	}
 }
 
+// toPackage returns the public or private Package managed by this
+// PackageManager.
 func (p *PackageManager) toPackage(suffix string, public bool) Package {
 	path := p.root
 	if len(suffix) > 0 {
@@ -72,6 +76,7 @@ func (p *PackageManager) toPackage(suffix string, public bool) Package {
 	}
 }
 
+// Package represents a Golang package.
 type Package struct {
 	prefix   string
 	path     string
@@ -80,22 +85,30 @@ type Package struct {
 	parent   *PackageManager
 }
 
+// Path is the GOPATH or module path to this package.
 func (p Package) Path() string {
 	return p.prefix + "/" + p.path
 }
 
+// WriteDir obtains the relative directory this package should be written to,
+// which may not be the same as Path. The calling code may not be running at the
+// root of GOPATH.
 func (p Package) WriteDir() string {
 	return p.path
 }
 
+// Name returns the name of this package.
 func (p Package) Name() string {
 	return p.name
 }
 
+// IsPublic returns whether this package is intended to house public files for
+// application developer use.
 func (p Package) IsPublic() bool {
 	return p.isPublic
 }
 
+// Parent returns the PackageManager managing this Package.
 func (p Package) Parent() *PackageManager {
 	return p.parent
 }

@@ -82,7 +82,6 @@ func main() {
 		Registry:       registry,
 		GenRoot:        gen.NewPackageManager(*prefix, "gen"),
 		VocabularyName: *vocabName,
-		ValueRoot:      gen.NewPackageManager(*prefix, "gen/vals"),
 		PackagePolicy:  policy,
 	}
 	f, err := c.Convert(p)

@@ -14,6 +14,7 @@ const (
 	propertySpec   = "Property"
 )
 
+// SerializeValueFunction is a helper for creating a value's Serialize function.
 func SerializeValueFunction(pkg, valueName string,
 	concreteType jen.Code,
 	impl []jen.Code) *codegen.Function {
@@ -27,6 +28,8 @@ func SerializeValueFunction(pkg, valueName string,
 		fmt.Sprintf("%s converts a %s value to an interface representation suitable for marshalling into a text or binary format.", name, valueName))
 }
 
+// DeserializeValueFunction is a helper for creating a value's Deserialize
+// function.
 func DeserializeValueFunction(pkg, valueName string,
 	concreteType jen.Code,
 	impl []jen.Code) *codegen.Function {
@@ -40,6 +43,7 @@ func DeserializeValueFunction(pkg, valueName string,
 		fmt.Sprintf("%s creates %s value from an interface representation that has been unmarshalled from a text or binary format.", name, valueName))
 }
 
+// LessFunction is a helper for creating a value's Less function.
 func LessFunction(pkg, valueName string,
 	concreteType jen.Code,
 	impl []jen.Code) *codegen.Function {
@@ -53,19 +57,25 @@ func LessFunction(pkg, valueName string,
 		fmt.Sprintf("%s returns true if the left %s value is less than the right value.", name, valueName))
 }
 
+var _ Ontology = &RDFOntology{}
+
+// RDFOntology is an Ontology for the RDF namespace.
 type RDFOntology struct {
 	Package string
 	alias   string
 }
 
+// SpecURI returns the RDF URI spec.
 func (o *RDFOntology) SpecURI() string {
 	return rdfSpec
 }
 
+// Load loads the ontology with no alias set.
 func (o *RDFOntology) Load() ([]RDFNode, error) {
 	return o.LoadAsAlias("")
 }
 
+// LoadAsAlias loads the ontology with an alias.
 func (o *RDFOntology) LoadAsAlias(s string) ([]RDFNode, error) {
 	o.alias = s
 	return []RDFNode{
@@ -84,6 +94,7 @@ func (o *RDFOntology) LoadAsAlias(s string) ([]RDFNode, error) {
 	}, nil
 }
 
+// LoadSpecificAsAlias loads a specific RDFNode with the given alias.
 func (o *RDFOntology) LoadSpecificAsAlias(alias, name string) ([]RDFNode, error) {
 	switch name {
 	case langstringSpec:
@@ -108,10 +119,12 @@ func (o *RDFOntology) LoadSpecificAsAlias(alias, name string) ([]RDFNode, error)
 	return nil, fmt.Errorf("rdf ontology cannot find %q to make alias %q", name, alias)
 }
 
+// LoadElement does nothing.
 func (o *RDFOntology) LoadElement(name string, payload map[string]interface{}) ([]RDFNode, error) {
 	return nil, nil
 }
 
+// GetByName returns a raw, unguarded node by name.
 func (o *RDFOntology) GetByName(name string) (RDFNode, error) {
 	name = strings.TrimPrefix(name, o.SpecURI())
 	switch name {
@@ -125,19 +138,23 @@ func (o *RDFOntology) GetByName(name string) (RDFNode, error) {
 
 var _ RDFNode = &langstring{}
 
+// langstring is an RDF node representing the langstring value.
 type langstring struct {
 	alias string
 	pkg   string
 }
 
+// Enter returns an error.
 func (l *langstring) Enter(key string, ctx *ParsingContext) (bool, error) {
 	return true, fmt.Errorf("rdf langstring cannot be entered")
 }
 
+// Exit returns an error.
 func (l *langstring) Exit(key string, ctx *ParsingContext) (bool, error) {
 	return true, fmt.Errorf("rdf langstring cannot be exited")
 }
 
+// Apply sets the langstring value in the context as a referenced spec.
 func (l *langstring) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
 	for k, p := range ctx.Result.Vocab.Properties {
 		for _, ref := range p.Range {
@@ -289,16 +306,22 @@ func (l *langstring) Apply(key string, value interface{}, ctx *ParsingContext) (
 
 var _ RDFNode = &property{}
 
+// property is an RDFNode that sets a VocabularyProperty as the current.
 type property struct{}
 
+// Enter returns an error.
 func (p *property) Enter(key string, ctx *ParsingContext) (bool, error) {
 	return true, fmt.Errorf("rdf property cannot be entered")
 }
 
+// Exit returns an error.
 func (p *property) Exit(key string, ctx *ParsingContext) (bool, error) {
 	return true, fmt.Errorf("rdf property cannot be exited")
 }
 
+// Apply sets the current context to be a VocabularyProperty, if it is not
+// already. If the context isn't reset, an error is returned due to another node
+// not having cleaned up properly.
 func (p *property) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
 	// Prepare a new VocabularyProperty in the context. If one already
 	// exists, skip.

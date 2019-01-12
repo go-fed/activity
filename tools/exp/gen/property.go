@@ -90,6 +90,8 @@ type Kind struct {
 	LessDef        *codegen.Function
 }
 
+// lessFnCode creates the correct code calling this Kind's less function
+// depending on whether the Kind is a value or a type.
 func (k Kind) lessFnCode(this, other *jen.Statement) *jen.Statement {
 	// LessFn is nil case -- call comparison Less method directly on the LHS
 	lessCall := this.Clone().Dot(compareLessMethod).Call(other.Clone())
@@ -103,6 +105,8 @@ func (k Kind) lessFnCode(this, other *jen.Statement) *jen.Statement {
 	return lessCall
 }
 
+// lessFnCode creates the correct code calling this Kind's deserialize function
+// depending on whether the Kind is a value or a type.
 func (k Kind) deserializeFnCode(this *jen.Statement) *jen.Statement {
 	if k.isValue() {
 		return k.DeserializeFn.Clone().Call(this)
@@ -113,6 +117,7 @@ func (k Kind) deserializeFnCode(this *jen.Statement) *jen.Statement {
 	}
 }
 
+// isValue returns true if this Kind is a value, or false if it is a type.
 func (k Kind) isValue() bool {
 	// LessFn is not nil, this means it is a value.
 	// If LessFn is nil, this means it is a type. Types will have their
