@@ -250,7 +250,7 @@ func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator
 	for _, tg := range tgs {
 		ctors = append(ctors, codegen.NewCommentedFunction(
 			m.pkg.Path(),
-			fmt.Sprintf("New%s%s", tg.PublicPackage().Name(), tg.TypeName()),
+			fmt.Sprintf("New%s%s", vocabName, tg.TypeName()),
 			/*params=*/ nil,
 			[]jen.Code{jen.Qual(tg.PublicPackage().Path(), tg.InterfaceName())},
 			[]jen.Code{
