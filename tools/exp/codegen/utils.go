@@ -1,10 +1,20 @@
 package codegen
 
+import (
+	"strings"
+)
+
 const (
 	max_width         = 80
 	tab_assumed_width = 8
 	replacement       = "\n// "
 )
+
+// FormatPackageDocumentation is used to format package-level comments.
+func FormatPackageDocumentation(s string) string {
+	s = strings.Replace(s, "\n", replacement, -1)
+	return insertNewlines(s)
+}
 
 // insertNewlines is used to trade a space character for a newline character
 // in order to keep a string's visual width under a certain amount.
@@ -30,6 +40,9 @@ func insertNewlinesEvery(s string, n int) string {
 	for i < len(s) {
 		if s[i] == ' ' && (since < n || found < 0) {
 			found = i
+		} else if s[i] == '\n' {
+			since = 0
+			found = -1
 		}
 		if since >= n && found >= 0 {
 			// Replace character

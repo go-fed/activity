@@ -267,6 +267,14 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		return
 	}
 	f = append(f, files...)
+	// Root Package Documentation
+	rootDocFile := jen.NewFilePath(pub.Path())
+	rootDocFile.PackageComment(gen.GenRootPackageComment(pub.Name()))
+	f = append(f, &File{
+		F:         rootDocFile,
+		FileName:  "gen_doc.go",
+		Directory: pub.WriteDir(),
+	})
 	return
 }
 
