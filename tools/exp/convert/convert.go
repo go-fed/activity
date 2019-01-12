@@ -2,6 +2,7 @@ package convert
 
 import (
 	"fmt"
+	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/cjslep/activity/tools/exp/props"
 	"github.com/cjslep/activity/tools/exp/rdf"
 	"github.com/dave/jennifer/jen"
@@ -204,7 +205,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		Directory: pub.WriteDir(),
 	})
 	var files []*File
-	files, e = c.rootFiles(pub, v.Manager, v.Types)
+	files, e = c.rootFiles(pub, c.VocabularyName, v.Manager, v.Types)
 	if e != nil {
 		return
 	}
@@ -560,23 +561,24 @@ func (c Converter) packageManager(s string) (pkg *props.PackageManager, e error)
 	return
 }
 
-func (c Converter) rootFiles(pkg props.Package, m *props.ManagerGenerator, t map[string]*props.TypeGenerator) (f []*File, e error) {
+func (c Converter) rootFiles(pkg props.Package, vocabName string, m *props.ManagerGenerator, t map[string]*props.TypeGenerator) (f []*File, e error) {
 	tgs := make([]*props.TypeGenerator, 0, len(t))
 	for _, v := range t {
 		tgs = append(tgs, v)
 	}
 	pg := props.NewPackageGenerator()
-	ctors, globalVar, initFn := pg.RootDefinitions(m, tgs)
-	file := jen.NewFilePath(pkg.Path())
-	file.Add(globalVar).Line().Add(initFn.Definition()).Line()
-	for _, c := range ctors {
-		file.Add(c.Definition()).Line()
-	}
+	ctors, ext, disj, extBy, globalVar, initFn := pg.RootDefinitions(vocabName, m, tgs)
+	initFile := jen.NewFilePath(pkg.Path())
+	initFile.Add(globalVar).Line().Add(initFn.Definition()).Line()
 	f = append(f, &File{
-		F:         file,
-		FileName:  "gen_ctors.go",
+		F:         initFile,
+		FileName:  "gen_init.go",
 		Directory: pkg.WriteDir(),
 	})
+	f = append(f, funcsToFile(pkg, ctors, fmt.Sprintf("gen_pkg_%s_constructors.go", vocabName)))
+	f = append(f, funcsToFile(pkg, ext, fmt.Sprintf("gen_pkg_%s_extends.go", vocabName)))
+	f = append(f, funcsToFile(pkg, disj, fmt.Sprintf("gen_pkg_%s_disjoint.go", vocabName)))
+	f = append(f, funcsToFile(pkg, extBy, fmt.Sprintf("gen_pkg_%s_extendedby.go", vocabName)))
 	return
 }
 
@@ -769,6 +771,18 @@ func convertValue(pkg props.Package, v *props.Kind) *File {
 	return &File{
 		F:         file,
 		FileName:  fmt.Sprintf("gen_%s.go", v.Name.LowerName),
+		Directory: pkg.WriteDir(),
+	}
+}
+
+func funcsToFile(pkg props.Package, fns []*codegen.Function, filename string) *File {
+	file := jen.NewFilePath(pkg.Path())
+	for _, fn := range fns {
+		file.Add(fn.Definition()).Line()
+	}
+	return &File{
+		F:         file,
+		FileName:  filename,
 		Directory: pkg.WriteDir(),
 	}
 }

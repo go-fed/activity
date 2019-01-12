@@ -114,8 +114,8 @@ func NewTypePackageGenerator() *TypePackageGenerator {
 }
 
 // RootDefinitions creates functions needed at the root level of the package declarations.
-func (t *TypePackageGenerator) RootDefinitions(m *ManagerGenerator, tgs []*TypeGenerator) (ctors []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
-	return rootDefinitions(m, tgs)
+func (t *TypePackageGenerator) RootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator) (ctors, ext, disj, extBy []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
+	return rootDefinitions(vocabName, m, tgs)
 }
 
 // PublicDefinitions creates the public-facing code generated definitions needed
@@ -214,8 +214,8 @@ func NewPackageGenerator() *PackageGenerator {
 }
 
 // RootDefinitions creates functions needed at the root level of the package declarations.
-func (t *PackageGenerator) RootDefinitions(m *ManagerGenerator, tgs []*TypeGenerator) (ctors []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
-	return rootDefinitions(m, tgs)
+func (t *PackageGenerator) RootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator) (ctors, ext, disj, extBy []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
+	return rootDefinitions(vocabName, m, tgs)
 }
 
 // PublicDefinitions creates the public-facing code generated definitions needed
@@ -269,11 +269,11 @@ func (t *PackageGenerator) PrivateDefinitions(tgs []*TypeGenerator, pgs []*Prope
 
 // rootDefinitions creates common functions needed at the root level of the
 // package declarations.
-func rootDefinitions(m *ManagerGenerator, tgs []*TypeGenerator) (ctors []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
+func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator) (ctors, ext, disj, extBy []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
 	// Type constructors
 	for _, tg := range tgs {
 		ctors = append(ctors, codegen.NewCommentedFunction(
-			tg.PublicPackage().Path(),
+			m.pkg.Path(),
 			fmt.Sprintf("New%s%s", tg.PublicPackage().Name(), tg.TypeName()),
 			/*params=*/ nil,
 			[]jen.Code{jen.Qual(tg.PublicPackage().Path(), tg.InterfaceName())},
@@ -284,6 +284,55 @@ func rootDefinitions(m *ManagerGenerator, tgs []*TypeGenerator) (ctors []*codege
 			},
 			fmt.Sprintf("New%s%s creates a new %s", tg.PublicPackage().Name(), tg.TypeName(), tg.InterfaceName())))
 	}
+	// Extends
+	for _, tg := range tgs {
+		f, _ := tg.extendsDefinition()
+		name := fmt.Sprintf("%s%s", vocabName, f.Name())
+		ext = append(ext, codegen.NewCommentedFunction(
+			m.pkg.Path(),
+			name,
+			[]jen.Code{jen.Id("other").Qual(tg.PublicPackage().Path(), typeInterfaceName)},
+			[]jen.Code{jen.Bool()},
+			[]jen.Code{
+				jen.Return(
+					f.Call(jen.Id("other")),
+				),
+			},
+			fmt.Sprintf("%s returns true if %s extends from the other's type.", name, tg.TypeName())))
+	}
+	// DisjointWith
+	for _, tg := range tgs {
+		f := tg.disjointWithDefinition()
+		name := fmt.Sprintf("%s%s", vocabName, f.Name())
+		disj = append(disj, codegen.NewCommentedFunction(
+			m.pkg.Path(),
+			name,
+			[]jen.Code{jen.Id("other").Qual(tg.PublicPackage().Path(), typeInterfaceName)},
+			[]jen.Code{jen.Bool()},
+			[]jen.Code{
+				jen.Return(
+					f.Call(jen.Id("other")),
+				),
+			},
+			fmt.Sprintf("%s returns true if %s is disjoint with the other's type.", name, tg.TypeName())))
+	}
+	// ExtendedBy
+	for _, tg := range tgs {
+		f := tg.extendedByDefinition()
+		name := fmt.Sprintf("%s%s", vocabName, f.Name())
+		extBy = append(extBy, codegen.NewCommentedFunction(
+			m.pkg.Path(),
+			name,
+			[]jen.Code{jen.Id("other").Qual(tg.PublicPackage().Path(), typeInterfaceName)},
+			[]jen.Code{jen.Bool()},
+			[]jen.Code{
+				jen.Return(
+					f.Call(jen.Id("other")),
+				),
+			},
+			fmt.Sprintf("%s returns true if the other's type extends from %s.", name, tg.TypeName())))
+	}
+	// init
 	globalManager = jen.Var().Id(managerInitName()).Op("*").Qual(m.pkg.Path(), managerName)
 	callInitsMap := make(map[string]jen.Code, len(tgs))
 	for _, tg := range tgs {
