@@ -233,7 +233,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		file.Add(i.Definition().Definition())
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_type_%s.go", i.TypeName()),
+			FileName:  fmt.Sprintf("gen_type_%s.go", strings.ToLower(i.TypeName())),
 			Directory: priv.WriteDir(),
 		})
 		// Interface
@@ -242,7 +242,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_type_%s_interface.go", i.TypeName()),
+			FileName:  fmt.Sprintf("gen_type_%s_interface.go", strings.ToLower(i.TypeName())),
 			Directory: pub.WriteDir(),
 		})
 	}
@@ -682,10 +682,11 @@ func (c Converter) rootFiles(pkg gen.Package, vocabName string, v vocabulary) (f
 		FileName:  "gen_init.go",
 		Directory: pkg.WriteDir(),
 	})
-	f = append(f, funcsToFile(pkg, ctors, fmt.Sprintf("gen_pkg_%s_constructors.go", vocabName)))
-	f = append(f, funcsToFile(pkg, ext, fmt.Sprintf("gen_pkg_%s_extends.go", vocabName)))
-	f = append(f, funcsToFile(pkg, disj, fmt.Sprintf("gen_pkg_%s_disjoint.go", vocabName)))
-	f = append(f, funcsToFile(pkg, extBy, fmt.Sprintf("gen_pkg_%s_extendedby.go", vocabName)))
+	lowerVocabName := strings.ToLower(vocabName)
+	f = append(f, funcsToFile(pkg, ctors, fmt.Sprintf("gen_pkg_%s_constructors.go", lowerVocabName)))
+	f = append(f, funcsToFile(pkg, ext, fmt.Sprintf("gen_pkg_%s_extends.go", lowerVocabName)))
+	f = append(f, funcsToFile(pkg, disj, fmt.Sprintf("gen_pkg_%s_disjoint.go", lowerVocabName)))
+	f = append(f, funcsToFile(pkg, extBy, fmt.Sprintf("gen_pkg_%s_extendedby.go", lowerVocabName)))
 	return
 }
 
