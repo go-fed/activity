@@ -204,7 +204,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		Directory: pub.WriteDir(),
 	})
 	var files []*File
-	files, e = c.rootFiles(pub, v.Types)
+	files, e = c.rootFiles(pub, v.Manager, v.Types)
 	if e != nil {
 		return
 	}
@@ -560,14 +560,15 @@ func (c Converter) packageManager(s string) (pkg *props.PackageManager, e error)
 	return
 }
 
-func (c Converter) rootFiles(pkg props.Package, t map[string]*props.TypeGenerator) (f []*File, e error) {
+func (c Converter) rootFiles(pkg props.Package, m *props.ManagerGenerator, t map[string]*props.TypeGenerator) (f []*File, e error) {
 	tgs := make([]*props.TypeGenerator, 0, len(t))
 	for _, v := range t {
 		tgs = append(tgs, v)
 	}
 	pg := props.NewPackageGenerator()
-	ctors := pg.RootDefinitions(tgs)
+	ctors, globalVar, initFn := pg.RootDefinitions(m, tgs)
 	file := jen.NewFilePath(pkg.Path())
+	file.Add(globalVar).Line().Add(initFn.Definition()).Line()
 	for _, c := range ctors {
 		file.Add(c.Definition()).Line()
 	}

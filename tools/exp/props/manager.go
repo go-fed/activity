@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	managerName        = "ASManager"
+	managerName        = "Manager"
 	managerInitVarName = "mgr"
 )
 

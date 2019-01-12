@@ -114,26 +114,8 @@ func NewTypePackageGenerator() *TypePackageGenerator {
 }
 
 // RootDefinitions creates functions needed at the root level of the package declarations.
-func (t *TypePackageGenerator) RootDefinitions(tgs []*TypeGenerator) (ctors []*codegen.Function) {
-	// Type constructors
-	for _, tg := range tgs {
-		ctors = append(ctors, codegen.NewCommentedFunction(
-			tg.PublicPackage().Path(),
-			fmt.Sprintf("New%s%s", tg.PublicPackage().Name(), tg.TypeName()),
-			/*params=*/ nil,
-			[]jen.Code{jen.Qual(tg.PublicPackage().Path(), tg.InterfaceName())},
-			[]jen.Code{
-				jen.Return(
-					jen.Op("&").Qual(tg.PrivatePackage().Path(), tg.TypeName()).Values(
-						jen.Dict{
-							jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface(), jen.Lit(0)),
-						},
-					),
-				),
-			},
-			fmt.Sprintf("New%s%s creates a new %s", tg.PublicPackage().Name(), tg.TypeName(), tg.InterfaceName())))
-	}
-	return
+func (t *TypePackageGenerator) RootDefinitions(m *ManagerGenerator, tgs []*TypeGenerator) (ctors []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
+	return rootDefinitions(m, tgs)
 }
 
 // PublicDefinitions creates the public-facing code generated definitions needed
@@ -232,22 +214,8 @@ func NewPackageGenerator() *PackageGenerator {
 }
 
 // RootDefinitions creates functions needed at the root level of the package declarations.
-func (t *PackageGenerator) RootDefinitions(tgs []*TypeGenerator) (ctors []*codegen.Function) {
-	// Type constructors
-	for _, tg := range tgs {
-		ctors = append(ctors, codegen.NewCommentedFunction(
-			tg.PublicPackage().Path(),
-			fmt.Sprintf("New%s%s", tg.PublicPackage().Name(), tg.TypeName()),
-			/*params=*/ nil,
-			[]jen.Code{jen.Qual(tg.PublicPackage().Path(), tg.InterfaceName())},
-			[]jen.Code{
-				jen.Return(
-					tg.constructorFn().Call(),
-				),
-			},
-			fmt.Sprintf("New%s%s creates a new %s", tg.PublicPackage().Name(), tg.TypeName(), tg.InterfaceName())))
-	}
-	return
+func (t *PackageGenerator) RootDefinitions(m *ManagerGenerator, tgs []*TypeGenerator) (ctors []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
+	return rootDefinitions(m, tgs)
 }
 
 // PublicDefinitions creates the public-facing code generated definitions needed
@@ -297,4 +265,44 @@ func (t *PackageGenerator) PrivateDefinitions(tgs []*TypeGenerator, pgs []*Prope
 				jen.Id(managerInitName()).Op("=").Id("m"),
 			},
 			fmt.Sprintf("%s sets the manager package-global variable. For internal use only, do not use as part of Application behavior. Must be called at golang init time.", setManagerFunctionName))
+}
+
+// rootDefinitions creates common functions needed at the root level of the
+// package declarations.
+func rootDefinitions(m *ManagerGenerator, tgs []*TypeGenerator) (ctors []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
+	// Type constructors
+	for _, tg := range tgs {
+		ctors = append(ctors, codegen.NewCommentedFunction(
+			tg.PublicPackage().Path(),
+			fmt.Sprintf("New%s%s", tg.PublicPackage().Name(), tg.TypeName()),
+			/*params=*/ nil,
+			[]jen.Code{jen.Qual(tg.PublicPackage().Path(), tg.InterfaceName())},
+			[]jen.Code{
+				jen.Return(
+					tg.constructorFn().Call(),
+				),
+			},
+			fmt.Sprintf("New%s%s creates a new %s", tg.PublicPackage().Name(), tg.TypeName(), tg.InterfaceName())))
+	}
+	globalManager = jen.Var().Id(managerInitName()).Op("*").Qual(m.pkg.Path(), managerName)
+	callInitsMap := make(map[string]jen.Code, len(tgs))
+	for _, tg := range tgs {
+		callInitsMap[tg.PrivatePackage().Path()] = jen.Qual(tg.PrivatePackage().Path(), setManagerFunctionName).Call(
+			jen.Qual(m.pkg.Path(), managerInitName()),
+		)
+	}
+	callInits := make([]jen.Code, 0, len(callInitsMap))
+	for _, c := range callInitsMap {
+		callInits = append(callInits, c)
+	}
+	init = codegen.NewCommentedFunction(
+		m.pkg.Path(),
+		"init",
+		/*params=*/ nil,
+		/*ret=*/ nil,
+		append([]jen.Code{
+			jen.Qual(m.pkg.Path(), managerInitName()).Op("=").Op("&").Qual(m.pkg.Path(), managerName).Values(),
+		}, callInits...),
+		fmt.Sprintf("init handles the 'magic' of creating a %s and dependency-injecting it into every other code-generated package. This gives the implementations access to create any type needed to deserialize, without relying on the other specific concrete implementations. In order to replace a go-fed created type with your own, be sure to have the manager call your own implementation's deserialize functions instead of the built-in type. Finally, each implementation views the %s as an interface with only a subset of funcitons available. This means this %s implements the union of those interfaces.", managerName, managerName, managerName))
+	return
 }
