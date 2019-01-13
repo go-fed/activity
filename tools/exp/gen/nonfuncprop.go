@@ -143,6 +143,21 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					),
 				},
 				fmt.Sprintf("%s appends a %s value to the back of a list of the property %q", appendMethodName, kind.Name.LowerName, p.PropertyName())))
+		// Set Method
+		setMethodName := p.setFnName(i)
+		methods = append(methods,
+			codegen.NewCommentedPointerMethod(
+				p.GetPrivatePackage().Path(),
+				setMethodName,
+				p.StructName(),
+				[]jen.Code{jen.Id("idx").Int(), jen.Id("v").Add(kind.ConcreteKind)},
+				/*ret=*/ nil,
+				[]jen.Code{
+					jen.Parens(jen.Op("*").Id(codegen.This())).Index(jen.Id("idx")).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(
+						dict,
+					),
+				},
+				fmt.Sprintf("%s sets a %s value to be at the specified index for the property %q. Panics if the index is out of bounds.", setMethodName, kind.Name.LowerName, p.PropertyName())))
 		// Less logic
 		if i > 0 {
 			less.Else()
@@ -156,7 +171,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			jen.Return(lessCall),
 		)
 	}
-	// IRI Prepend, Append, and Less logic
+	// IRI Prepend, Append, Set, and Less logic
 	methods = append(methods,
 		codegen.NewCommentedPointerMethod(
 			p.GetPrivatePackage().Path(),
@@ -193,6 +208,21 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				),
 			},
 			fmt.Sprintf("%sIRI appends an IRI value to the back of a list of the property %q", appendMethod, p.PropertyName())))
+	methods = append(methods,
+		codegen.NewCommentedPointerMethod(
+			p.GetPrivatePackage().Path(),
+			fmt.Sprintf("%sIRI", setMethod),
+			p.StructName(),
+			[]jen.Code{jen.Id("idx").Int(), jen.Id("v").Op("*").Qual("net/url", "URL")},
+			/*ret=*/ nil,
+			[]jen.Code{
+				jen.Parens(jen.Op("*").Id(codegen.This())).Index(jen.Id("idx")).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(
+					jen.Dict{
+						jen.Id(iriMember): jen.Id("v"),
+					},
+				),
+			},
+			fmt.Sprintf("%sIRI sets an IRI value to be at the specified index for the property %q. Panics if the index is out of bounds.", setMethod, p.PropertyName())))
 	less = less.Else().If(
 		jen.Id("idx1").Op("==").Lit(iriKindIndex),
 	).Block(
