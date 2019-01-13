@@ -96,5 +96,5 @@ func main() {
 			panic(e)
 		}
 	}
-	fmt.Printf("done")
+	fmt.Printf("done\n")
 }
