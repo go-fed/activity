@@ -99,7 +99,7 @@ func (p Package) WriteDir() string {
 
 // Name returns the name of this package.
 func (p Package) Name() string {
-	return p.name
+	return strings.Replace(p.name, "_", "", -1)
 }
 
 // IsPublic returns whether this package is intended to house public files for

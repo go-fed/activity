@@ -723,6 +723,14 @@ func (c Converter) packageFiles(v vocabulary) (f []*File, e error) {
 			FileName:  "gen_pkg.go",
 			Directory: pub.WriteDir(),
 		})
+		// Public Package Documentation
+		docFile := jen.NewFilePath(pub.Path())
+		docFile.PackageComment(gen.VocabPackageComment(pub.Name(), c.VocabularyName))
+		f = append(f, &File{
+			F:         docFile,
+			FileName:  "gen_doc.go",
+			Directory: pub.WriteDir(),
+		})
 		// Private
 		s, i, fn := pg.PrivateDefinitions(v.typeArray(), v.propArray())
 		priv := v.typeArray()[0].PrivatePackage()
@@ -737,6 +745,14 @@ func (c Converter) packageFiles(v vocabulary) (f []*File, e error) {
 		f = append(f, &File{
 			F:         file,
 			FileName:  "gen_pkg.go",
+			Directory: priv.WriteDir(),
+		})
+		// Private Package Documentation
+		privDocFile := jen.NewFilePath(priv.Path())
+		privDocFile.PackageComment(gen.PrivateFlatPackageComment(priv.Name(), c.VocabularyName))
+		f = append(f, &File{
+			F:         privDocFile,
+			FileName:  "gen_doc.go",
 			Directory: priv.WriteDir(),
 		})
 	case IndividualUnderRoot:
@@ -785,6 +801,15 @@ func (c Converter) typePackageFiles(tg *gen.TypeGenerator) (f []*File, e error) 
 		FileName:  "gen_pkg.go",
 		Directory: pub.WriteDir(),
 	})
+	// Public Package Documentation -- this may collide, but it's all the
+	// same content.
+	docFile := jen.NewFilePath(pub.Path())
+	docFile.PackageComment(gen.VocabPackageComment(pub.Name(), c.VocabularyName))
+	f = append(f, &File{
+		F:         docFile,
+		FileName:  "gen_doc.go",
+		Directory: pub.WriteDir(),
+	})
 	// Private
 	s, i, fn := tpg.PrivateDefinitions([]*gen.TypeGenerator{tg})
 	priv := tg.PrivatePackage()
@@ -801,6 +826,14 @@ func (c Converter) typePackageFiles(tg *gen.TypeGenerator) (f []*File, e error) 
 		FileName:  "gen_pkg.go",
 		Directory: priv.WriteDir(),
 	})
+	// Private Package Documentation
+	privDocFile := jen.NewFilePath(priv.Path())
+	privDocFile.PackageComment(gen.PrivateIndividualTypePackageComment(priv.Name(), tg.TypeName()))
+	f = append(f, &File{
+		F:         privDocFile,
+		FileName:  "gen_doc.go",
+		Directory: priv.WriteDir(),
+	})
 	return
 }
 
@@ -809,6 +842,16 @@ func (c Converter) typePackageFiles(tg *gen.TypeGenerator) (f []*File, e error) 
 func (c Converter) propertyPackageFiles(pg *gen.PropertyGenerator) (f []*File, e error) {
 	// Only need one for all types.
 	ppg := gen.NewPropertyPackageGenerator()
+	// Public Package Documentation -- this may collide, but it's all the
+	// same content.
+	pub := pg.GetPublicPackage()
+	docFile := jen.NewFilePath(pub.Path())
+	docFile.PackageComment(gen.VocabPackageComment(pub.Name(), c.VocabularyName))
+	f = append(f, &File{
+		F:         docFile,
+		FileName:  "gen_doc.go",
+		Directory: pub.WriteDir(),
+	})
 	// Private
 	s, i, fn := ppg.PrivateDefinitions([]*gen.PropertyGenerator{pg})
 	priv := pg.GetPrivatePackage()
@@ -823,6 +866,14 @@ func (c Converter) propertyPackageFiles(pg *gen.PropertyGenerator) (f []*File, e
 	f = append(f, &File{
 		F:         file,
 		FileName:  "gen_pkg.go",
+		Directory: priv.WriteDir(),
+	})
+	// Private Package Documentation
+	privDocFile := jen.NewFilePath(priv.Path())
+	privDocFile.PackageComment(gen.PrivateIndividualPropertyPackageComment(priv.Name(), pg.PropertyName()))
+	f = append(f, &File{
+		F:         privDocFile,
+		FileName:  "gen_doc.go",
 		Directory: priv.WriteDir(),
 	})
 	return

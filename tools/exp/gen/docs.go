@@ -45,7 +45,11 @@ func GenRootPackageComment(pkgName string) string {
 		"locations where concrete types are instantiated. When "+
 		"supplying a different type in these two locations, the "+
 		"other generated code will propagate it throughout the "+
-		"rest of an application.\n\n"+
+		"rest of an application. The Manager is instantiated as a "+
+		"singleton at init time in this library. It is then injected "+
+		"into each implementation library so they can deserialize "+
+		"their needed types without relying on the underlying "+
+		"concrete type.\n\n"+
 		"Subdirectories of this package include implementation "+
 		"files and functions that are not intended to be directly "+
 		"linked to applications, but are used by this particular "+
@@ -60,4 +64,122 @@ func GenRootPackageComment(pkgName string) string {
 		"compatible with applications that use the concrete "+
 		"implementation types.",
 		pkgName))
+}
+
+func VocabPackageComment(pkgName, vocabName string) string {
+	return codegen.FormatPackageDocumentation(fmt.Sprintf("Package %s "+
+		"contains the interfaces for the %s vocabulary. All "+
+		"applications are strongly encouraged to use these interface "+
+		"types instead of the concrete definitions contained in the "+
+		"implementation subpackage. These interfaces allow "+
+		"applications to consume only the types and properties "+
+		"needed and be independent of the go-fed implementation if "+
+		"another alternative implementation is created. This package "+
+		"is code-generated and subject to the same license as the "+
+		"go-fed tool used to generate it.\n\n"+
+		"Type interfaces contain \"Get\" and \"Set\" methods for "+
+		"its properties. Types also have a \"Serialize\" method to "+
+		"convert the type into an interface map for use with the json "+
+		"package. There is a convenience \"IsExtending\" method on "+
+		"each types which helps with the ActivityStreams hierarchy, "+
+		"which is not the same as object oriented inheritance. While "+
+		"types also have a \"LessThan\" method, it is an arbitrary "+
+		"sort. Do not use it if needing to sort on specific "+
+		"properties, such as publish time. It is best used for "+
+		"normalizing the type. Lastly, do not use the "+
+		"\"GetUnknownProperties\" method in an application. Instead, "+
+		"use the go-fed tool to code generate the property needed. "+
+		"\n\n"+
+		"Properties come in two flavors: functional and "+
+		"non-functional. Functional means that a property can have at "+
+		"most one value, while non-functional means a property could "+
+		"have zero, one, or more values. Any property value may also "+
+		"be an IRI, in which case the application will need to make a "+
+		"HTTP request to fetch the property value.\n\n"+
+		"Functional properties have \"Get\", \"Is\", and \"Set\" "+
+		"methods for determining what kind of value the property is, "+
+		"fetching that value, or setting that value. There is also "+
+		"a \"Serialize\" method which converts the property into an "+
+		"interface type, but applications should not typically use "+
+		"a property's \"Serialize\" and instead should use a type's "+
+		"\"Serialize\" instead. Like types, properties have an "+
+		"arbitrary \"LessThan\" comparison function that should not "+
+		"be used if needing to sort on specific values. Finally, "+
+		"applications should not use the \"KindIndex\" method as it "+
+		"is a comparison mechanism only for those looking to write an "+
+		"alternate implementation.\n\n"+
+		"Non-functional properties can have more than one value, so "+
+		"it has  \"Len\" for getting its length, \"At\" for getting "+
+		"an iterator pointing to an element, \"Append\" and "+
+		"\"Prepend\" for adding values, \"Remove\" for removing a "+
+		"value, \"Set\" for overwriting a value, and \"Swap\" for "+
+		"swapping two values' indices. Note that a non-functional "+
+		"property satisfies the sort interface, but it results in an "+
+		"arbitrary but stable ordering best used as a normalized "+
+		"form. A non-functional property's iterator looks like a "+
+		"functional property with \"Next\" and \"Previous\" methods. "+
+		"Applications should not use the \"KindIndex\" methods as it "+
+		"is a comparison mechanism only for those looking to write an "+
+		"alternate implementation of this library.",
+		pkgName, vocabName))
+}
+
+func PrivateFlatPackageComment(pkgName, vocabName string) string {
+	return codegen.FormatPackageDocumentation(fmt.Sprintf("Package %s "+
+		"contains the implementations for the %s vocabulary. All "+
+		"applications are strongly encouraged to use the interface "+
+		"types instead of these concrete definitions. The interfaces "+
+		"allow applications to consume only the types and properties "+
+		"needed and be independent of the go-fed implementation if "+
+		"another alternative implementation is created. This package "+
+		"is code-generated and subject to the same license as the "+
+		"go-fed tool used to generate it.\n\n"+
+		"This package is independent of other vocabulary "+
+		"implementations by having a Manager injected into it to act "+
+		"as a factory for the concrete implementations of other "+
+		"types. The implementations have been generated together into "+
+		"a single implementation library.\n\n"+
+		"Strongly consider using the interfaces instead of this "+
+		"package.",
+		pkgName, vocabName))
+}
+
+func PrivateIndividualTypePackageComment(pkgName, typeName string) string {
+	return codegen.FormatPackageDocumentation(fmt.Sprintf("Package %s "+
+		"contains the implementation for the %s type. All "+
+		"applications are strongly encouraged to use the interface "+
+		"instead of this concrete definition. The interfaces "+
+		"allow applications to consume only the types and properties "+
+		"needed and be independent of the go-fed implementation if "+
+		"another alternative implementation is created. This package "+
+		"is code-generated and subject to the same license as the "+
+		"go-fed tool used to generate it.\n\n"+
+		"This package is independent of other types' and properties' "+
+		"implementations by having a Manager injected into it to act "+
+		"as a factory for the concrete implementations. The "+
+		"implementations have been generated into their own separate "+
+		"subpackages for each vocabulary.\n\n"+
+		"Strongly consider using the interfaces instead of this "+
+		"package.",
+		pkgName, typeName))
+}
+
+func PrivateIndividualPropertyPackageComment(pkgName, propertyName string) string {
+	return codegen.FormatPackageDocumentation(fmt.Sprintf("Package %s "+
+		"contains the implementation for the %s property. All "+
+		"applications are strongly encouraged to use the interface "+
+		"instead of this concrete definition. The interfaces "+
+		"allow applications to consume only the types and properties "+
+		"needed and be independent of the go-fed implementation if "+
+		"another alternative implementation is created. This package "+
+		"is code-generated and subject to the same license as the "+
+		"go-fed tool used to generate it.\n\n"+
+		"This package is independent of other types' and properties' "+
+		"implementations by having a Manager injected into it to act "+
+		"as a factory for the concrete implementations. The "+
+		"implementations have been generated into their own separate "+
+		"subpackages for each vocabulary.\n\n"+
+		"Strongly consider using the interfaces instead of this "+
+		"package.",
+		pkgName, propertyName))
 }
