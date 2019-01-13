@@ -1,6 +1,7 @@
 package convert
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/cjslep/activity/tools/exp/gen"
@@ -446,11 +447,19 @@ func (c Converter) convertType(t rdf.VocabularyType,
 			}
 		}
 	}
+	var examples []string
+	for _, ex := range t.Examples {
+		examples = append(examples, asComment(ex))
+	}
+	comment := t.Notes
+	if len(examples) > 0 {
+		comment = fmt.Sprintf("%s\n\n%s", comment, strings.Join(examples, "\n\n"))
+	}
 	tg, e = gen.NewTypeGenerator(
 		v.GetName(),
 		pm,
 		name,
-		t.Notes,
+		comment,
 		p,
 		wop,
 		rangeProps,
@@ -475,11 +484,19 @@ func (c Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 	if e != nil {
 		return
 	}
+	var examples []string
+	for _, ex := range p.Examples {
+		examples = append(examples, asComment(ex))
+	}
+	comment := p.Notes
+	if len(examples) > 0 {
+		comment = fmt.Sprintf("%s\n\n%s", comment, strings.Join(examples, "\n\n"))
+	}
 	fp = gen.NewFunctionalPropertyGenerator(
 		v.GetName(),
 		pm,
 		toIdentifier(p),
-		p.Notes,
+		comment,
 		k,
 		p.NaturalLanguageMap)
 	return
@@ -502,11 +519,19 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 	if e != nil {
 		return
 	}
+	var examples []string
+	for _, ex := range p.Examples {
+		examples = append(examples, asComment(ex))
+	}
+	comment := p.Notes
+	if len(examples) > 0 {
+		comment = fmt.Sprintf("%s\n\n%s", comment, strings.Join(examples, "\n\n"))
+	}
 	nfp = gen.NewNonFunctionalPropertyGenerator(
 		v.GetName(),
 		pm,
 		toIdentifier(p),
-		p.Notes,
+		comment,
 		k,
 		p.NaturalLanguageMap)
 	return
@@ -952,4 +977,22 @@ func funcsToFile(pkg gen.Package, fns []*codegen.Function, filename string) *Fil
 		FileName:  filename,
 		Directory: pkg.WriteDir(),
 	}
+}
+
+// AsComment creates a Go-comment-compatible string out of an Example.
+func asComment(v rdf.VocabularyExample) (s string) {
+	if len(v.Name) > 0 && v.URI != nil {
+		s = fmt.Sprintf("%s (%s):\n", v.Name, v.URI)
+	} else if len(v.Name) > 0 {
+		s = fmt.Sprintf("%s:\n", v.Name)
+	} else if v.URI != nil {
+		s = fmt.Sprintf("%s:\n", v.URI)
+	}
+	b, err := json.MarshalIndent(v.Example, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+	ex := string(b)
+	ex = strings.Replace(ex, "\n", "\n  ", -1)
+	return fmt.Sprintf("%s  %s", s, ex)
 }
