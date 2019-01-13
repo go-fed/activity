@@ -120,7 +120,13 @@ func VocabPackageComment(pkgName, vocabName string) string {
 		"functional property with \"Next\" and \"Previous\" methods. "+
 		"Applications should not use the \"KindIndex\" methods as it "+
 		"is a comparison mechanism only for those looking to write an "+
-		"alternate implementation of this library.",
+		"alternate implementation of this library.\n\n"+
+		"Types, functional properties, and non-functional properties "+
+		"are not designed for concurrent usage by two or more "+
+		"goroutines. Also, certain methods on a non-functional "+
+		"property will invalidate iterators and possibly cause "+
+		"unexpected behaviors. To avoid this, re-obtain an iterator "+
+		"after modifying a non-functional property.",
 		pkgName, vocabName))
 }
 

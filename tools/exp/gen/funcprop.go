@@ -305,7 +305,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			jen.Id(codegen.This()).Dot(unknownMemberName),
 			jen.Nil(),
 		)},
-		fmt.Sprintf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName()))
+		fmt.Sprintf("%s converts this into an interface representation suitable for marshalling into a text or binary format. Applications should not need this function as most typical use cases serialize types instead of individual properties. It is exposed for alternatives to go-fed implementations to use.", p.serializeFnName()))
 	valueDeserializeFns := jen.Empty()
 	typeDeserializeFns := jen.Empty()
 	foundValue := false
@@ -422,6 +422,10 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 	kindMembers = append(kindMembers, p.iriMemberDef())
 	if p.hasNaturalLanguageMap {
 		kindMembers = append(kindMembers, jen.Id(langMapMember).Map(jen.String()).String())
+	}
+	if p.asIterator {
+		kindMembers = append(kindMembers, jen.Id(myIndexMemberName).Int())
+		kindMembers = append(kindMembers, jen.Id(parentMemberName).Qual(p.GetPublicPackage().Path(), p.parentTypeInterfaceName()))
 	}
 	var methods []*codegen.Method
 	var funcs []*codegen.Function
@@ -633,7 +637,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 				jen.Return(lessCode),
 			),
 		},
-		fmt.Sprintf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
+		fmt.Sprintf("%s compares two instances of this property with an arbitrary but stable comparison. Applications should not use this because it is only meant to help alternative implementations to go-fed to be able to normalize nonfunctional properties.", compareLessMethod),
 	))
 	return methods
 }
@@ -668,6 +672,8 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
 			p.StructName(),
 			explanation,
 		)
+		kindMembers = append(kindMembers, jen.Id(myIndexMemberName).Int())
+		kindMembers = append(kindMembers, jen.Id(parentMemberName).Qual(p.GetPublicPackage().Path(), p.parentTypeInterfaceName()))
 	}
 	var methods []*codegen.Method
 	var funcs []*codegen.Function
@@ -894,7 +900,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			lessCode,
 			jen.Return(jen.False()),
 		},
-		fmt.Sprintf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
+		fmt.Sprintf("%s compares two instances of this property with an arbitrary but stable comparison. Applications should not use this because it is only meant to help alternative implementations to go-fed to be able to normalize nonfunctional properties.", compareLessMethod),
 	))
 	return methods
 }

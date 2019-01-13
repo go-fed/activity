@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
+	"strings"
 )
 
 const (
@@ -14,6 +15,7 @@ const (
 	clearMethod               = "Clear"
 	iteratorClearMethod       = "clear"
 	isMethod                  = "Is"
+	atMethodName              = "At"
 	isIRIMethod               = "IsIRI"
 	getIRIMethod              = "GetIRI"
 	setIRIMethod              = "SetIRI"
@@ -33,12 +35,20 @@ const (
 	hasLanguageMethod         = "HasLanguage"
 	getLanguageMethod         = "GetLanguage"
 	setLanguageMethod         = "SetLanguage"
+	nextMethod                = "Next"
+	prevMethod                = "Prev"
+	beginMethod               = "Begin"
+	endMethod                 = "End"
+	emptyMethod               = "Empty"
 	// Member names for generated code
 	unknownMemberName = "unknown"
 	langMapMember     = "langMap"
 	// Kind Index constants
 	iriKindIndex           = -2
 	noneOrUnknownKindIndex = -1
+	// iterator specific
+	myIndexMemberName = "myIdx"
+	parentMemberName  = "parent"
 )
 
 // join appends a bunch of Go Code together, each on their own line.
@@ -212,6 +222,12 @@ func (p *PropertyGenerator) InterfaceName() string {
 	return fmt.Sprintf("%sInterface", p.StructName())
 }
 
+// parentTypeInterfaceName is useful for iterators that need the base property
+// type's interface name.
+func (p *PropertyGenerator) parentTypeInterfaceName() string {
+	return fmt.Sprintf("%sInterface", strings.TrimSuffix(p.StructName(), "Iterator"))
+}
+
 // PropertyName returns the name of this property, as defined in
 // specifications. It is not suitable for use in generated code function
 // identifiers.
@@ -296,7 +312,7 @@ func (p *PropertyGenerator) clearMethodName() string {
 
 // commonMethods returns methods common to every property.
 func (p *PropertyGenerator) commonMethods() []*codegen.Method {
-	return []*codegen.Method{
+	m := []*codegen.Method{
 		codegen.NewCommentedValueMethod(
 			p.GetPrivatePackage().Path(),
 			nameMethod,
@@ -311,6 +327,45 @@ func (p *PropertyGenerator) commonMethods() []*codegen.Method {
 			fmt.Sprintf("%s returns the name of this property: %q.", nameMethod, p.PropertyName()),
 		),
 	}
+	if p.asIterator {
+		m = append(m, codegen.NewCommentedValueMethod(
+			p.GetPrivatePackage().Path(),
+			nextMethod,
+			p.StructName(),
+			/*params=*/ nil,
+			[]jen.Code{jen.Qual(p.GetPublicPackage().Path(), p.InterfaceName())},
+			[]jen.Code{
+				jen.If(
+					jen.Id(codegen.This()).Dot(myIndexMemberName).Op("+").Lit(1).Op(">=").Id(codegen.This()).Dot(parentMemberName).Dot(lenMethod).Call(),
+				).Block(
+					jen.Return(jen.Nil()),
+				).Else().Block(
+					jen.Return(
+						jen.Id(codegen.This()).Dot(parentMemberName).Dot(atMethodName).Call(jen.Id(codegen.This()).Dot(myIndexMemberName).Op("+").Lit(1)),
+					),
+				),
+			},
+			fmt.Sprintf("%s returns the next iterator, or nil if there is no next iterator.", nextMethod)))
+		m = append(m, codegen.NewCommentedValueMethod(
+			p.GetPrivatePackage().Path(),
+			prevMethod,
+			p.StructName(),
+			/*params=*/ nil,
+			[]jen.Code{jen.Qual(p.GetPublicPackage().Path(), p.InterfaceName())},
+			[]jen.Code{
+				jen.If(
+					jen.Id(codegen.This()).Dot(myIndexMemberName).Op("-").Lit(1).Op("<").Lit(0),
+				).Block(
+					jen.Return(jen.Nil()),
+				).Else().Block(
+					jen.Return(
+						jen.Id(codegen.This()).Dot(parentMemberName).Dot(atMethodName).Call(jen.Id(codegen.This()).Dot(myIndexMemberName).Op("-").Lit(1)),
+					),
+				),
+			},
+			fmt.Sprintf("%s returns the previous iterator, or nil if there is no previous iterator.", prevMethod)))
+	}
+	return m
 }
 
 // isMethodName returns the identifier to use for methods that determine if a

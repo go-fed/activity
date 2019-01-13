@@ -7,10 +7,6 @@ import (
 	"sync"
 )
 
-const (
-	atMethodName = "At"
-)
-
 // NonFunctionalPropertyGenerator produces Go code for properties that can have
 // more than one value. The resulting property is a type that is a list of
 // iterators; each iterator is a concrete struct type. The property can be
@@ -102,12 +98,18 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	less := jen.Empty()
 	for i, kind := range p.kinds {
 		dict := jen.Dict{
-			jen.Id(p.memberName(i)): jen.Id("v"),
+			jen.Id(parentMemberName): jen.Id(codegen.This()),
+			jen.Id(p.memberName(i)):  jen.Id("v"),
 		}
 		if !kind.Nilable {
 			dict[jen.Id(p.hasMemberName(i))] = jen.True()
 		}
 		// Prepend Method
+		prependDict := jen.Dict{}
+		for k, v := range dict {
+			prependDict[k] = v
+		}
+		prependDict[jen.Id(myIndexMemberName)] = jen.Lit(0)
 		prependMethodName := fmt.Sprintf("%s%s", prependMethod, p.kindCamelName(i))
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
@@ -119,13 +121,27 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				[]jen.Code{
 					jen.Op("*").Id(codegen.This()).Op("=").Append(
 						jen.Index().Op("*").Id(p.iteratorTypeName().CamelName).Values(
-							jen.Values(dict),
+							jen.Values(prependDict),
 						),
 						jen.Op("*").Id(codegen.This()).Op("..."),
 					),
+					jen.For(
+						jen.Id("i").Op(":=").Lit(1),
+						jen.Id("i").Op("<").Id(codegen.This()).Dot(lenMethod).Call(),
+						jen.Id("i").Op("++"),
+					).Block(
+						jen.Parens(
+							jen.Op("*").Id(codegen.This()),
+						).Index(jen.Id("i")).Dot(myIndexMemberName).Op("=").Id("i"),
+					),
 				},
-				fmt.Sprintf("%s prepends a %s value to the front of a list of the property %q.", prependMethodName, kind.Name.LowerName, p.PropertyName())))
+				fmt.Sprintf("%s prepends a %s value to the front of a list of the property %q. Invalidates all iterators.", prependMethodName, kind.Name.LowerName, p.PropertyName())))
 		// Append Method
+		appendDict := jen.Dict{}
+		for k, v := range dict {
+			appendDict[k] = v
+		}
+		appendDict[jen.Id(myIndexMemberName)] = jen.Id(codegen.This()).Dot(lenMethod).Call()
 		appendMethodName := fmt.Sprintf("%s%s", appendMethod, p.kindCamelName(i))
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
@@ -138,12 +154,17 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Op("*").Id(codegen.This()).Op("=").Append(
 						jen.Op("*").Id(codegen.This()),
 						jen.Op("&").Id(p.iteratorTypeName().CamelName).Values(
-							dict,
+							appendDict,
 						),
 					),
 				},
-				fmt.Sprintf("%s appends a %s value to the back of a list of the property %q", appendMethodName, kind.Name.LowerName, p.PropertyName())))
+				fmt.Sprintf("%s appends a %s value to the back of a list of the property %q. Invalidates iterators that are traversing using %s.", appendMethodName, kind.Name.LowerName, p.PropertyName(), prevMethod)))
 		// Set Method
+		setDict := jen.Dict{}
+		for k, v := range dict {
+			setDict[k] = v
+		}
+		setDict[jen.Id(myIndexMemberName)] = jen.Id("idx")
 		setMethodName := p.setFnName(i)
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
@@ -153,11 +174,12 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				[]jen.Code{jen.Id("idx").Int(), jen.Id("v").Add(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
+					jen.Parens(jen.Op("*").Id(codegen.This())).Index(jen.Id("idx")).Dot(parentMemberName).Op("=").Nil(),
 					jen.Parens(jen.Op("*").Id(codegen.This())).Index(jen.Id("idx")).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(
-						dict,
+						setDict,
 					),
 				},
-				fmt.Sprintf("%s sets a %s value to be at the specified index for the property %q. Panics if the index is out of bounds.", setMethodName, kind.Name.LowerName, p.PropertyName())))
+				fmt.Sprintf("%s sets a %s value to be at the specified index for the property %q. Panics if the index is out of bounds. Invalidates all iterators.", setMethodName, kind.Name.LowerName, p.PropertyName())))
 		// Less logic
 		if i > 0 {
 			less.Else()
@@ -183,10 +205,21 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				jen.Op("*").Id(codegen.This()).Op("=").Append(
 					jen.Index().Op("*").Id(p.iteratorTypeName().CamelName).Values(
 						jen.Values(jen.Dict{
-							jen.Id(iriMember): jen.Id("v"),
+							jen.Id(iriMember):         jen.Id("v"),
+							jen.Id(parentMemberName):  jen.Id(codegen.This()),
+							jen.Id(myIndexMemberName): jen.Lit(0),
 						}),
 					),
 					jen.Op("*").Id(codegen.This()).Op("..."),
+				),
+				jen.For(
+					jen.Id("i").Op(":=").Lit(1),
+					jen.Id("i").Op("<").Id(codegen.This()).Dot(lenMethod).Call(),
+					jen.Id("i").Op("++"),
+				).Block(
+					jen.Parens(
+						jen.Op("*").Id(codegen.This()),
+					).Index(jen.Id("i")).Dot(myIndexMemberName).Op("=").Id("i"),
 				),
 			},
 			fmt.Sprintf("%sIRI prepends an IRI value to the front of a list of the property %q.", prependMethod, p.PropertyName())))
@@ -202,7 +235,9 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Op("*").Id(codegen.This()),
 					jen.Op("&").Id(p.iteratorTypeName().CamelName).Values(
 						jen.Dict{
-							jen.Id(iriMember): jen.Id("v"),
+							jen.Id(iriMember):         jen.Id("v"),
+							jen.Id(parentMemberName):  jen.Id(codegen.This()),
+							jen.Id(myIndexMemberName): jen.Id(codegen.This()).Dot(lenMethod).Call(),
 						},
 					),
 				),
@@ -216,9 +251,12 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			[]jen.Code{jen.Id("idx").Int(), jen.Id("v").Op("*").Qual("net/url", "URL")},
 			/*ret=*/ nil,
 			[]jen.Code{
+				jen.Parens(jen.Op("*").Id(codegen.This())).Index(jen.Id("idx")).Dot(parentMemberName).Op("=").Nil(),
 				jen.Parens(jen.Op("*").Id(codegen.This())).Index(jen.Id("idx")).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(
 					jen.Dict{
-						jen.Id(iriMember): jen.Id("v"),
+						jen.Id(iriMember):         jen.Id("v"),
+						jen.Id(parentMemberName):  jen.Id(codegen.This()),
+						jen.Id(myIndexMemberName): jen.Id("idx"),
 					},
 				),
 			},
@@ -241,6 +279,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			[]jen.Code{jen.Id("idx").Int()},
 			/*ret=*/ nil,
 			[]jen.Code{
+				jen.Parens(jen.Op("*").Id(codegen.This())).Index(jen.Id("idx")).Dot(parentMemberName).Op("=").Nil(),
 				jen.Copy(
 					jen.Parens(
 						jen.Op("*").Id(codegen.This()),
@@ -266,8 +305,17 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Empty(),
 					jen.Len(jen.Op("*").Id(codegen.This())).Op("-").Lit(1),
 				),
+				jen.For(
+					jen.Id("i").Op(":=").Id("idx"),
+					jen.Id("i").Op("<").Id(codegen.This()).Dot(lenMethod).Call(),
+					jen.Id("i").Op("++"),
+				).Block(
+					jen.Parens(
+						jen.Op("*").Id(codegen.This()),
+					).Index(jen.Id("i")).Dot(myIndexMemberName).Op("=").Id("i"),
+				),
 			},
-			fmt.Sprintf("%s deletes an element at the specified index from a list of the property %q, regardless of its type.", removeMethod, p.PropertyName())))
+			fmt.Sprintf("%s deletes an element at the specified index from a list of the property %q, regardless of its type. Panics if the index is out of bounds. Invalidates all iterators.", removeMethod, p.PropertyName())))
 	// Len Method
 	methods = append(methods,
 		codegen.NewCommentedValueMethod(
@@ -340,7 +388,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Id(codegen.This()).Index(jen.Id("idx")).Dot(kindIndexMethod).Call(),
 				),
 			},
-			fmt.Sprintf("%s computes an arbitrary value for indexing this kind of value.", kindIndexMethod)))
+			fmt.Sprintf("%s computes an arbitrary value for indexing this kind of value. This is a leaky API method specifically needed only for alternate implementations for go-fed. Applications should not use this method. Panics if the index is out of bounds.", kindIndexMethod)))
 	// LessThan Method
 	lessCode := jen.Empty().Add(
 		jen.Id("l1").Op(":=").Id(codegen.This()).Dot(lenMethod).Call().Line(),
@@ -376,7 +424,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			),
 			jen.Return(jen.Id("l1").Op("<").Id("l2")),
 		},
-		fmt.Sprintf("%s compares two instances of this property with an arbitrary but stable comparison.", compareLessMethod),
+		fmt.Sprintf("%s compares two instances of this property with an arbitrary but stable comparison. Applications should not use this because it is only meant to help alternative implementations to go-fed to be able to normalize nonfunctional properties.", compareLessMethod),
 	))
 	// At Method
 	methods = append(methods, codegen.NewCommentedValueMethod(
@@ -390,7 +438,50 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				jen.Id(codegen.This()).Index(jen.Id("index")),
 			),
 		},
-		fmt.Sprintf("%s returns the property value for the specified index.", atMethodName)))
+		fmt.Sprintf("%s returns the property value for the specified index. Panics if the index is out of bounds.", atMethodName)))
+	// Empty Method
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		emptyMethod,
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{
+			jen.Return(
+				jen.Id(codegen.This()).Dot(lenMethod).Call().Op("==").Lit(0),
+			),
+		},
+		fmt.Sprintf("%s returns returns true if there are no elements.", emptyMethod)))
+	// Begin Method
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		beginMethod,
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Qual(p.GetPublicPackage().Path(), p.iteratorInterfaceName())},
+		[]jen.Code{
+			jen.If(
+				jen.Id(codegen.This()).Dot(emptyMethod).Call(),
+			).Block(
+				jen.Return(jen.Nil()),
+			).Else().Block(
+				jen.Return(
+					jen.Id(codegen.This()).Index(jen.Lit(0)),
+				),
+			),
+		},
+		fmt.Sprintf("%s returns the first iterator, or nil if empty. Can be used with the iterator's %s method and this property's %s method to iterate from front to back through all values.", beginMethod, nextMethod, endMethod)))
+	// End Method
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		endMethod,
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Qual(p.GetPublicPackage().Path(), p.iteratorInterfaceName())},
+		[]jen.Code{
+			jen.Return(jen.Nil()),
+		},
+		fmt.Sprintf("%s returns beyond-the-last iterator, which is nil. Can be used with the iterator's %s method and this property's %s method to iterate from front to back through all values.", endMethod, nextMethod, beginMethod)))
 	methods = append(methods, p.commonMethods()...)
 	return methods
 }
@@ -440,7 +531,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 				jen.Nil(),
 			),
 		},
-		fmt.Sprintf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", p.serializeFnName()))
+		fmt.Sprintf("%s converts this into an interface representation suitable for marshalling into a text or binary format. Applications should not need this function as most typical use cases serialize types instead of individual properties. It is exposed for alternatives to go-fed implementations to use.", p.serializeFnName()))
 	deserializeFn := func(variable string) jen.Code {
 		return jen.If(
 			jen.List(
@@ -503,8 +594,16 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 				),
 			),
 			jen.Id("ret").Op(":=").Id(p.StructName()).Call(jen.Id(codegen.This())),
+			jen.Id("pRet").Op(":=").Op("&").Id("ret"),
+			jen.Commentf("Set up the properties for iteration."),
+			jen.For(
+				jen.List(jen.Id("idx"), jen.Id("ele")).Op(":=").Range().Id("ret"),
+			).Block(
+				jen.Id("ele").Dot(parentMemberName).Op("=").Id("pRet"),
+				jen.Id("ele").Dot(myIndexMemberName).Op("=").Id("idx"),
+			),
 			jen.Return(
-				jen.Op("&").Id("ret"),
+				jen.Id("pRet"),
 				jen.Nil(),
 			),
 		},
