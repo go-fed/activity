@@ -46,6 +46,7 @@ func (p ParsedVocabulary) String() string {
 // ActivityStreams or extension vocabulary.
 type Vocabulary struct {
 	Name       string
+	URI        *url.URL
 	Types      map[string]VocabularyType
 	Properties map[string]VocabularyProperty
 	Values     map[string]VocabularyValue
@@ -54,6 +55,18 @@ type Vocabulary struct {
 // GetName returns the vocabulary's name.
 func (v Vocabulary) GetName() string {
 	return v.Name
+}
+
+// SetName sets the vocabulary's name.
+func (v *Vocabulary) SetName(s string) {
+	v.Name = s
+}
+
+// SetURI sets the value's URI.
+func (v *Vocabulary) SetURI(s string) error {
+	var e error
+	v.URI, e = url.Parse(s)
+	return e
 }
 
 // String returns a printable version of this Vocabulary for debugging.
@@ -110,6 +123,12 @@ func (v *Vocabulary) SetValue(name string, a *VocabularyValue) error {
 	v.Values[name] = *a
 	return nil
 }
+
+var (
+	_ NameSetter = &Vocabulary{}
+	_ NameGetter = &Vocabulary{}
+	_ URISetter  = &Vocabulary{}
+)
 
 // VocabularyValue represents a value type that properties can take on.
 type VocabularyValue struct {

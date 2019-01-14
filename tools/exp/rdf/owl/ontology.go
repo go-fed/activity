@@ -247,12 +247,15 @@ func (o *OWLOntology) GetByName(name string) (rdf.RDFNode, error) {
 var _ rdf.RDFNode = &members{}
 
 // members represents owl:members.
-type members struct{}
+type members struct {
+	pushed bool
+}
 
 // Enter does nothing but returns an error if the context is not reset.
 func (m *members) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	if !ctx.IsReset() {
-		return true, fmt.Errorf("owl members entered without reset context")
+		ctx.Push()
+		m.pushed = true
 	}
 	return true, nil
 }
@@ -279,7 +282,9 @@ func (m *members) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	default:
 		return true, fmt.Errorf("owl members exiting with unhandled type: %T", ctx.Current)
 	}
-	ctx.Reset()
+	if m.pushed {
+		ctx.Pop()
+	}
 	return true, nil
 }
 
@@ -439,6 +444,7 @@ func (o *ontology) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply does nothing.
 func (o *ontology) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
+	ctx.Current = &ctx.Result.Vocab
 	return true, nil
 }
 

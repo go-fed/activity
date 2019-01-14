@@ -92,7 +92,7 @@ func (p *ParsingContext) ResetOnlyAppliedThisNodeNextLevel() {
 // Push puts the Current onto the Stack.
 func (p *ParsingContext) Push() {
 	p.Stack = append([]interface{}{p.Current}, p.Stack...)
-	p.Current = nil
+	p.Reset()
 }
 
 // Pop puts the top item on the Stack into Current, and sets Name as
@@ -158,7 +158,7 @@ type RDFNode interface {
 
 // ParseVocabulary parses the specified input as an ActivityStreams context that
 // specifies a Core, Extended, or Extension vocabulary.
-func ParseVocabulary(name string, registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVocabulary, err error) {
+func ParseVocabulary(registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVocabulary, err error) {
 	var nodes []RDFNode
 	nodes, err = parseJSONLDContext(registry, input)
 	if err != nil {
@@ -190,8 +190,6 @@ func ParseVocabulary(name string, registry *RDFRegistry, input JSONLD) (vocabula
 	// Step 3: Populate VocabularyType's 'Properties' and
 	// 'WithoutProperties' fields
 	err = populatePropertiesOnTypes(ctx)
-	// Populate this parsed vocabulary's name
-	vocabulary.Vocab.Name = name
 	return
 }
 
