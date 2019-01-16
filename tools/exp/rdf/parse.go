@@ -164,7 +164,7 @@ func ParseVocabularies(registry *RDFRegistry, inputs []JSONLD) (vocabulary *Pars
 	}
 	for i, input := range inputs {
 		var v *ParsedVocabulary
-		v, err = parseVocabulary(registry, input, vocabulary)
+		v, err = parseVocabulary(registry, input, vocabulary.References)
 		if err != nil {
 			return
 		}
@@ -187,14 +187,14 @@ func ParseVocabularies(registry *RDFRegistry, inputs []JSONLD) (vocabulary *Pars
 
 // parseVocabulary parses the specified input as an ActivityStreams context that
 // specifies a Core, Extended, or Extension vocabulary.
-func parseVocabulary(registry *RDFRegistry, input JSONLD, references *ParsedVocabulary) (vocabulary *ParsedVocabulary, err error) {
+func parseVocabulary(registry *RDFRegistry, input JSONLD, references map[string]*Vocabulary) (vocabulary *ParsedVocabulary, err error) {
 	var nodes []RDFNode
 	nodes, err = parseJSONLDContext(registry, input)
 	if err != nil {
 		return
 	}
-	vocabulary = &ParsedVocabulary{References: make(map[string]*Vocabulary)}
-	for k, v := range references.References {
+	vocabulary = &ParsedVocabulary{References: make(map[string]*Vocabulary, len(references))}
+	for k, v := range references {
 		vocabulary.References[k] = v
 	}
 	ctx := &ParsingContext{
