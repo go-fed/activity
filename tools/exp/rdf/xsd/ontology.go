@@ -199,7 +199,10 @@ func (a *anyURI) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds the anyURI value Kind to the XML namespace.
 func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.Result.GetReference(xmlSpec)
+	if err != nil {
+		return true, err
+	}
 	if len(v.Values[anyURISpec].Name) == 0 {
 		u, err := url.Parse(xmlSpec + anyURISpec)
 		if err != nil {
@@ -296,7 +299,10 @@ func (d *dateTime) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds the xsd:dateTime value Kind to the XML namespace.
 func (d *dateTime) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.Result.GetReference(xmlSpec)
+	if err != nil {
+		return true, err
+	}
 	if len(v.Values[dateTimeSpec].Name) == 0 {
 		u, err := url.Parse(xmlSpec + dateTimeSpec)
 		if err != nil {
@@ -403,7 +409,10 @@ func (f *float) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds xsd:float value Kind to the XML namespace.
 func (f *float) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.Result.GetReference(xmlSpec)
+	if err != nil {
+		return true, err
+	}
 	if len(v.Values[floatSpec].Name) == 0 {
 		u, err := url.Parse(xmlSpec + floatSpec)
 		if err != nil {
@@ -487,7 +496,10 @@ func (*xmlString) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds xsd:xmlString value Kind to the XML namespace.
 func (s *xmlString) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.Result.GetReference(xmlSpec)
+	if err != nil {
+		return true, err
+	}
 	if len(v.Values[stringSpec].Name) == 0 {
 		u, err := url.Parse(xmlSpec + stringSpec)
 		if err != nil {
@@ -571,7 +583,10 @@ func (*boolean) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds boolean value Kind to the XML namespace.
 func (b *boolean) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.Result.GetReference(xmlSpec)
+	if err != nil {
+		return true, err
+	}
 	if len(v.Values[booleanSpec].Name) == 0 {
 		u, err := url.Parse(xmlSpec + booleanSpec)
 		if err != nil {
@@ -686,7 +701,10 @@ func (*nonNegativeInteger) Exit(key string, ctx *rdf.ParsingContext) (bool, erro
 
 // Apply adds xsd:nonNegativeInteger value Kind to the XML namespace.
 func (n *nonNegativeInteger) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.Result.GetReference(xmlSpec)
+	if err != nil {
+		return true, err
+	}
 	if len(v.Values[nonNegativeIntegerSpec].Name) == 0 {
 		u, err := url.Parse(xmlSpec + nonNegativeIntegerSpec)
 		if err != nil {
@@ -788,7 +806,10 @@ func (*duration) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 //
 // Avoid at all costs.
 func (d *duration) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.Result.GetReference(xmlSpec)
+	if err != nil {
+		return true, err
+	}
 	if len(v.Values[durationSpec].Name) == 0 {
 		u, err := url.Parse(xmlSpec + durationSpec)
 		if err != nil {

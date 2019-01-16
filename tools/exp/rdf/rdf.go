@@ -2,6 +2,7 @@ package rdf
 
 import (
 	"fmt"
+	"net/url"
 	"strings"
 )
 
@@ -39,6 +40,31 @@ func SplitAlias(s string) []string {
 	} else {
 		return strs
 	}
+}
+
+// toHttpAndHttps converts a URI to both its http and https versions.
+func toHttpAndHttps(s string) (http, https string, err error) {
+	// Trailing fragments are not preserved by url.Parse, so we
+	// need to do proper bookkeeping and preserve it if present.
+	hasFragment := s[len(s)-1] == '#'
+	var specUri *url.URL
+	specUri, err = url.Parse(s)
+	if err != nil {
+		return "", "", err
+	}
+	// HTTP
+	httpScheme := *specUri
+	httpScheme.Scheme = HTTP
+	http = httpScheme.String()
+	// HTTPS
+	httpsScheme := *specUri
+	httpsScheme.Scheme = HTTPS
+	https = httpsScheme.String()
+	if hasFragment {
+		http += "#"
+		https += "#"
+	}
+	return
 }
 
 // joinAlias combines a string and prepends an RDF alias to it.
@@ -140,12 +166,26 @@ func (r *RDFRegistry) AddOntology(o Ontology) error {
 	if r.ontologies == nil {
 		r.ontologies = make(map[string]Ontology, 1)
 	}
-	s := o.SpecURI()
-	if _, ok := r.ontologies[s]; ok {
-		return fmt.Errorf("ontology already registered for %q", s)
+	specString := o.SpecURI()
+	httpSpec, httpsSpec, err := toHttpAndHttps(specString)
+	if err != nil {
+		return err
 	}
-	r.ontologies[s] = o
+	if _, ok := r.ontologies[httpSpec]; ok {
+		return fmt.Errorf("ontology already registered for %q", httpSpec)
+	}
+	if _, ok := r.ontologies[httpsSpec]; ok {
+		return fmt.Errorf("ontology already registered for %q", httpsSpec)
+	}
+	r.ontologies[httpSpec] = o
+	r.ontologies[httpsSpec] = o
 	return nil
+}
+
+// reset clears the registry in preparation for loading another JSONLD context.
+func (r *RDFRegistry) reset() {
+	r.aliases = make(map[string]string)
+	r.aliasedNodes = make(map[string]aliasedNode)
 }
 
 // getFor gets RDFKeyers based on a context's string.

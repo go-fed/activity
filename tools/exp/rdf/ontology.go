@@ -169,7 +169,12 @@ func (l *langstring) Apply(key string, value interface{}, ctx *ParsingContext) (
 	if e != nil {
 		return true, e
 	}
-	e = ctx.Result.GetReference(rdfSpec).SetValue(langstringSpec, &VocabularyValue{
+	var vocab *Vocabulary
+	vocab, e = ctx.Result.GetReference(rdfSpec)
+	if e != nil {
+		return true, e
+	}
+	e = vocab.SetValue(langstringSpec, &VocabularyValue{
 		Name:           langstringSpec,
 		URI:            u,
 		DefinitionType: jen.Map(jen.String()).String(),

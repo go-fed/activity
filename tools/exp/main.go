@@ -37,13 +37,6 @@ func init() {
 	mustAddOntology(&rfc.RFCOntology{Package: "rfc"})
 }
 
-var (
-	input = flag.String("input", "spec.json", "Input JSON-LD specification used to generate Go code.")
-	// TODO: Be more rigorous when applying this. Also, clear the default value I am using for convenience.
-	prefix     = flag.String("prefix", "github.com/cjslep/activity/tools/exp/tmp", "Package prefix to use for all generated package paths. This should be the prefix in the GOPATH directory if generating in a subdirectory.")
-	individual = flag.Bool("individual", false, "Whether to generate types and properties in individual packages.")
-)
-
 type list []string
 
 func (l *list) String() string {
@@ -56,33 +49,61 @@ func (l *list) Set(v string) error {
 	return nil
 }
 
-func main() {
-	flag.Parse()
-	// TODO: Flag validation
+type CommandLineFlags struct {
+	specs      list
+	prefix     *string
+	individual *bool
+}
 
-	b, err := ioutil.ReadFile(*input)
-	if err != nil {
+func NewCommandLineFlags() *CommandLineFlags {
+	c := &CommandLineFlags{
+		// TODO: Be more rigorous when applying this. Also, clear the default value I am using for convenience.
+		prefix:     flag.String("prefix", "github.com/cjslep/activity/tools/exp/tmp", "Package prefix to use for all generated package paths. This should be the prefix in the GOPATH directory if generating in a subdirectory."),
+		individual: flag.Bool("individual", false, "Whether to generate types and properties in individual packages."),
+	}
+	flag.Var(&(c.specs), "spec", "Input JSON-LD specification used to generate Go code.")
+	flag.Parse()
+	if err := c.validate(); err != nil {
 		panic(err)
 	}
-	var inputJSON map[string]interface{}
-	err = json.Unmarshal(b, &inputJSON)
-	if err != nil {
-		panic(err)
+	return c
+}
+
+func (c *CommandLineFlags) validate() error {
+	if len(c.specs) == 0 {
+		return fmt.Errorf("specs must not be empty")
 	}
-	p, err := rdf.ParseVocabulary(registry, inputJSON)
+	return nil
+}
+
+func main() {
+	cmd := NewCommandLineFlags()
+
+	inputJSONs := make([]rdf.JSONLD, 0, len(cmd.specs))
+	for _, spec := range cmd.specs {
+		b, err := ioutil.ReadFile(spec)
+		if err != nil {
+			panic(err)
+		}
+		var inputJSON map[string]interface{}
+		err = json.Unmarshal(b, &inputJSON)
+		if err != nil {
+			panic(err)
+		}
+		inputJSONs = append(inputJSONs, inputJSON)
+	}
+	p, err := rdf.ParseVocabularies(registry, inputJSONs)
 	if err != nil {
 		panic(err)
 	}
 	policy := convert.FlatUnderRoot
-	if *individual {
+	if *cmd.individual {
 		policy = convert.IndividualUnderRoot
 	}
-	fmt.Printf("Vocab Name: %q\n", p.Vocab.Name)
 	c := &convert.Converter{
-		Registry:       registry,
-		GenRoot:        gen.NewPackageManager(*prefix, "gen"),
-		VocabularyName: p.Vocab.Name,
-		PackagePolicy:  policy,
+		Registry:      registry,
+		GenRoot:       gen.NewPackageManager(*cmd.prefix, "gen"),
+		PackagePolicy: policy,
 	}
 	f, err := c.Convert(p)
 	if err != nil {
@@ -96,5 +117,5 @@ func main() {
 			panic(e)
 		}
 	}
-	fmt.Printf("done\n")
+	fmt.Printf("Done\n")
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/cjslep/activity/tools/exp/gen"
 	"github.com/cjslep/activity/tools/exp/rdf"
 	"github.com/dave/jennifer/jen"
+	"net/url"
 	"strings"
 )
 
@@ -22,6 +23,8 @@ type File struct {
 
 // vocabulary is a set of code generators for the vocabulary.
 type vocabulary struct {
+	Name       string
+	URI        *url.URL
 	Values     map[string]*gen.Kind
 	FProps     map[string]*gen.FunctionalPropertyGenerator
 	NFProps    map[string]*gen.NonFunctionalPropertyGenerator
@@ -118,10 +121,9 @@ const (
 // implementations. Developers' applications should only rely on the interfaces,
 // which are used internally anyway.
 type Converter struct {
-	Registry       *rdf.RDFRegistry
-	GenRoot        *gen.PackageManager
-	VocabularyName string
-	PackagePolicy  PackagePolicy
+	Registry      *rdf.RDFRegistry
+	GenRoot       *gen.PackageManager
+	PackagePolicy PackagePolicy
 }
 
 // Convert turns a ParsedVocabulary into a set of code-generated files.
@@ -169,7 +171,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 	// Functional Properties
 	for _, i := range v.FProps {
 		var pm *gen.PackageManager
-		pm, e = c.propertyPackageManager(i)
+		pm, e = c.propertyPackageManager(i, v.Name)
 		if e != nil {
 			return
 		}
@@ -195,7 +197,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 	// Non-Functional Properties
 	for _, i := range v.NFProps {
 		var pm *gen.PackageManager
-		pm, e = c.propertyPackageManager(i)
+		pm, e = c.propertyPackageManager(i, v.Name)
 		if e != nil {
 			return
 		}
@@ -224,7 +226,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 	// Types
 	for _, i := range v.Types {
 		var pm *gen.PackageManager
-		pm, e = c.typePackageManager(i)
+		pm, e = c.typePackageManager(i, v.Name)
 		if e != nil {
 			return
 		}
@@ -263,7 +265,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		Directory: pub.WriteDir(),
 	})
 	var files []*File
-	files, e = c.rootFiles(pub, c.VocabularyName, v)
+	files, e = c.rootFiles(pub, v.Name, v)
 	if e != nil {
 		return
 	}
@@ -291,6 +293,8 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 // but since there is no need, it isn't addressed now.
 func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e error) {
 	v = newVocabulary()
+	v.Name = p.Vocab.Name
+	v.URI = p.Vocab.URI
 	for k, val := range p.Vocab.Values {
 		v.Values[k] = c.convertValue(val)
 	}
@@ -354,7 +358,7 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	existingTypes map[string]*gen.TypeGenerator) (tg *gen.TypeGenerator, e error) {
 	// Determine the gen package name
 	var pm *gen.PackageManager
-	pm, e = c.typePackageManager(t)
+	pm, e = c.typePackageManager(t, v.Name)
 	if e != nil {
 		return
 	}
@@ -480,7 +484,7 @@ func (c Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 		return
 	}
 	var pm *gen.PackageManager
-	pm, e = c.propertyPackageManager(p)
+	pm, e = c.propertyPackageManager(p, v.Name)
 	if e != nil {
 		return
 	}
@@ -515,7 +519,7 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 		return
 	}
 	var pm *gen.PackageManager
-	pm, e = c.propertyPackageManager(p)
+	pm, e = c.propertyPackageManager(p, v.Name)
 	if e != nil {
 		return
 	}
@@ -671,14 +675,14 @@ func (c Converter) vocabValuePackage(v rdf.VocabularyValue) gen.Package {
 
 // typePackageManager returns a package manager for an individual type. It may
 // be the same as other types depending on the code generation policy.
-func (c Converter) typePackageManager(v typeNamer) (pkg *gen.PackageManager, e error) {
-	return c.packageManager("type_" + v.TypeName())
+func (c Converter) typePackageManager(v typeNamer, vocabName string) (pkg *gen.PackageManager, e error) {
+	return c.packageManager("type_"+v.TypeName(), vocabName)
 }
 
 // propertyPackageManager returns a package manager for an individual property.
 // It may be the same as other types depending on the code generation policy.
-func (c Converter) propertyPackageManager(v propertyNamer) (pkg *gen.PackageManager, e error) {
-	return c.packageManager("property_" + v.PropertyName())
+func (c Converter) propertyPackageManager(v propertyNamer, vocabName string) (pkg *gen.PackageManager, e error) {
+	return c.packageManager("property_"+v.PropertyName(), vocabName)
 }
 
 // packageManager applies the code generation package policy and returns a
@@ -690,13 +694,13 @@ func (c Converter) propertyPackageManager(v propertyNamer) (pkg *gen.PackageMana
 // The IndividualUnderRoot policy puts each property and each type in their own
 // package, and each of those packages has their own public and private
 // subpackages.
-func (c Converter) packageManager(s string) (pkg *gen.PackageManager, e error) {
+func (c Converter) packageManager(s, vocabName string) (pkg *gen.PackageManager, e error) {
 	s = strings.ToLower(s)
 	switch c.PackagePolicy {
 	case FlatUnderRoot:
-		pkg = c.GenRoot.Sub(strings.ToLower(c.VocabularyName))
+		pkg = c.GenRoot.Sub(strings.ToLower(vocabName))
 	case IndividualUnderRoot:
-		pkg = c.GenRoot.Sub(strings.ToLower(c.VocabularyName)).SubPrivate(s)
+		pkg = c.GenRoot.Sub(strings.ToLower(vocabName)).SubPrivate(s)
 	default:
 		e = fmt.Errorf("unrecognized PackagePolicy: %v", c.PackagePolicy)
 	}
@@ -750,7 +754,7 @@ func (c Converter) packageFiles(v vocabulary) (f []*File, e error) {
 		})
 		// Public Package Documentation
 		docFile := jen.NewFilePath(pub.Path())
-		docFile.PackageComment(gen.VocabPackageComment(pub.Name(), c.VocabularyName))
+		docFile.PackageComment(gen.VocabPackageComment(pub.Name(), v.Name))
 		f = append(f, &File{
 			F:         docFile,
 			FileName:  "gen_doc.go",
@@ -774,7 +778,7 @@ func (c Converter) packageFiles(v vocabulary) (f []*File, e error) {
 		})
 		// Private Package Documentation
 		privDocFile := jen.NewFilePath(priv.Path())
-		privDocFile.PackageComment(gen.PrivateFlatPackageComment(priv.Name(), c.VocabularyName))
+		privDocFile.PackageComment(gen.PrivateFlatPackageComment(priv.Name(), v.Name))
 		f = append(f, &File{
 			F:         privDocFile,
 			FileName:  "gen_doc.go",
@@ -783,7 +787,7 @@ func (c Converter) packageFiles(v vocabulary) (f []*File, e error) {
 	case IndividualUnderRoot:
 		for _, tg := range v.Types {
 			var file []*File
-			file, e = c.typePackageFiles(tg)
+			file, e = c.typePackageFiles(tg, v.Name)
 			if e != nil {
 				return
 			}
@@ -791,7 +795,7 @@ func (c Converter) packageFiles(v vocabulary) (f []*File, e error) {
 		}
 		for _, pg := range v.FProps {
 			var file []*File
-			file, e = c.propertyPackageFiles(&pg.PropertyGenerator)
+			file, e = c.propertyPackageFiles(&pg.PropertyGenerator, v.Name)
 			if e != nil {
 				return
 			}
@@ -799,7 +803,7 @@ func (c Converter) packageFiles(v vocabulary) (f []*File, e error) {
 		}
 		for _, pg := range v.NFProps {
 			var file []*File
-			file, e = c.propertyPackageFiles(&pg.PropertyGenerator)
+			file, e = c.propertyPackageFiles(&pg.PropertyGenerator, v.Name)
 			if e != nil {
 				return
 			}
@@ -813,7 +817,7 @@ func (c Converter) packageFiles(v vocabulary) (f []*File, e error) {
 
 // typePackageFile creates the package-level files necessary for a type if it
 // is being generated in its own package.
-func (c Converter) typePackageFiles(tg *gen.TypeGenerator) (f []*File, e error) {
+func (c Converter) typePackageFiles(tg *gen.TypeGenerator, vocabName string) (f []*File, e error) {
 	// Only need one for all types.
 	tpg := gen.NewTypePackageGenerator()
 	pubI := tpg.PublicDefinitions([]*gen.TypeGenerator{tg})
@@ -829,7 +833,7 @@ func (c Converter) typePackageFiles(tg *gen.TypeGenerator) (f []*File, e error) 
 	// Public Package Documentation -- this may collide, but it's all the
 	// same content.
 	docFile := jen.NewFilePath(pub.Path())
-	docFile.PackageComment(gen.VocabPackageComment(pub.Name(), c.VocabularyName))
+	docFile.PackageComment(gen.VocabPackageComment(pub.Name(), vocabName))
 	f = append(f, &File{
 		F:         docFile,
 		FileName:  "gen_doc.go",
@@ -864,14 +868,14 @@ func (c Converter) typePackageFiles(tg *gen.TypeGenerator) (f []*File, e error) 
 
 // propertyPackageFiles creates the package-level files necessary for a property
 // if it is being generated in its own package.
-func (c Converter) propertyPackageFiles(pg *gen.PropertyGenerator) (f []*File, e error) {
+func (c Converter) propertyPackageFiles(pg *gen.PropertyGenerator, vocabName string) (f []*File, e error) {
 	// Only need one for all types.
 	ppg := gen.NewPropertyPackageGenerator()
 	// Public Package Documentation -- this may collide, but it's all the
 	// same content.
 	pub := pg.GetPublicPackage()
 	docFile := jen.NewFilePath(pub.Path())
-	docFile.PackageComment(gen.VocabPackageComment(pub.Name(), c.VocabularyName))
+	docFile.PackageComment(gen.VocabPackageComment(pub.Name(), vocabName))
 	f = append(f, &File{
 		F:         docFile,
 		FileName:  "gen_doc.go",

@@ -132,7 +132,10 @@ func (b *bcp47) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds BCP47 as a value Kind.
 func (b *bcp47) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v := ctx.Result.GetReference(rfcSpec)
+	v, err := ctx.Result.GetReference(rfcSpec)
+	if err != nil {
+		return true, err
+	}
 	if len(v.Values[bcp47Spec].Name) == 0 {
 		u, err := url.Parse(rfcSpec + bcp47Spec)
 		if err != nil {
@@ -216,7 +219,10 @@ func (*mime) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds MIME as a value Kind.
 func (m *mime) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v := ctx.Result.GetReference(rfcSpec)
+	v, err := ctx.Result.GetReference(rfcSpec)
+	if err != nil {
+		return true, err
+	}
 	if len(v.Values[mimeSpec].Name) == 0 {
 		u, err := url.Parse(rfcSpec + mimeSpec)
 		if err != nil {
@@ -300,7 +306,10 @@ func (*rel) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds rel as a supported value Kind.
 func (r *rel) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v := ctx.Result.GetReference(rfcSpec)
+	v, err := ctx.Result.GetReference(rfcSpec)
+	if err != nil {
+		return true, err
+	}
 	if len(v.Values[relSpec].Name) == 0 {
 		u, err := url.Parse(rfcSpec + relSpec)
 		if err != nil {

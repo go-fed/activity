@@ -22,14 +22,22 @@ type ParsedVocabulary struct {
 }
 
 // GetReference looks up a reference based on its URI.
-func (p *ParsedVocabulary) GetReference(uri string) *Vocabulary {
+func (p *ParsedVocabulary) GetReference(uri string) (*Vocabulary, error) {
+	httpSpec, httpsSpec, err := toHttpAndHttps(uri)
+	if err != nil {
+		return nil, err
+	}
 	if p.References == nil {
 		p.References = make(map[string]*Vocabulary, 0)
 	}
-	if _, ok := p.References[uri]; !ok {
+	if v, ok := p.References[httpSpec]; ok {
+		return v, nil
+	} else if v, ok := p.References[httpsSpec]; ok {
+		return v, nil
+	} else {
 		p.References[uri] = &Vocabulary{}
 	}
-	return p.References[uri]
+	return p.References[uri], nil
 }
 
 // String returns a printable version of this ParsedVocabulary for debugging.

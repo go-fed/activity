@@ -3,6 +3,7 @@ package schema
 import (
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/rdf"
+	neturl "net/url"
 	"strings"
 )
 
@@ -265,6 +266,40 @@ func (n *name) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bo
 	} else if ns, ok := ctx.Current.(rdf.NameSetter); !ok {
 		return true, fmt.Errorf("schema name not given NameSetter in context")
 	} else {
+		var vocab string
+		// Parse will interpret "ActivityStreams" as a valid URL without
+		// a scheme. It will also interpret "as:Object" as a valid URL
+		// with a scheme of "as".
+		if u, err := neturl.Parse(s); err == nil && len(u.Scheme) > 0 && len(u.Host) > 0 {
+			// If the name is a URL, use heuristics to determine the
+			// name versus vocabulary part.
+			//
+			// The vocabulary is usually the URI without the
+			// fragment or final path entry. The name is usually the
+			// fragment or final path entry.
+			if len(u.Fragment) > 0 {
+				// Attempt to parse the fragment
+				s = u.Fragment
+				u.Fragment = ""
+				vocab = u.String()
+			} else {
+				// Use the final path component
+				comp := strings.Split(s, "/")
+				s = comp[len(comp)-1]
+				vocab = strings.Join(comp[:len(comp)-1], "/")
+			}
+		} else if sp := rdf.SplitAlias(s); len(sp) == 2 {
+			// The name may be aliased.
+			vocab = sp[0]
+			s = sp[1]
+		} // Else the name has no vocabulary reference.
+		if len(vocab) > 0 {
+			if ref, ok := ctx.Current.(*rdf.VocabularyReference); !ok {
+				return true, fmt.Errorf("schema name not given *rdf.VocabularyReference in context")
+			} else {
+				ref.Vocab = vocab
+			}
+		}
 		ns.SetName(s)
 		ctx.Name = s
 		return true, nil
