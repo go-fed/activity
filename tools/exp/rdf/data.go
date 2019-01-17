@@ -10,20 +10,38 @@ import (
 
 // ParsedVocabulary is the internal data structure produced after parsing the
 // definition of an ActivityStream vocabulary. It is the intermediate
-// understanding of the specification in the context of certain ontologies. It
-// also contains additional scratch space for use by the parser.
+// understanding of the specification in the context of certain ontologies.
 //
 // At the end of parsing, the ParsedVocabulary is not guaranteed to be
 // semantically valid, just that the parser resolved all important ontological
 // details.
+//
+// Note that the Order field contains the order in which parsed specs were
+// understood and resolved. Kinds added as references (such as XML, Schema.org,
+// or rdfs types) are not included in Order. It is expected that the last
+// element of Order must be the vocabulary in Vocab.
 type ParsedVocabulary struct {
 	Vocab      Vocabulary
 	References map[string]*Vocabulary
+	Order      []string
+}
+
+func (p ParsedVocabulary) Clone() *ParsedVocabulary {
+	clone := &ParsedVocabulary{
+		Vocab:      p.Vocab,
+		References: make(map[string]*Vocabulary, len(p.References)),
+		Order:      make([]string, len(p.Order)),
+	}
+	for k, v := range p.References {
+		clone.References[k] = v
+	}
+	copy(clone.Order, p.Order)
+	return clone
 }
 
 // GetReference looks up a reference based on its URI.
 func (p *ParsedVocabulary) GetReference(uri string) (*Vocabulary, error) {
-	httpSpec, httpsSpec, err := toHttpAndHttps(uri)
+	httpSpec, httpsSpec, err := ToHttpAndHttps(uri)
 	if err != nil {
 		return nil, err
 	}
@@ -58,6 +76,7 @@ type Vocabulary struct {
 	Types      map[string]VocabularyType
 	Properties map[string]VocabularyProperty
 	Values     map[string]VocabularyValue
+	Registry   *RDFRegistry
 }
 
 // GetName returns the vocabulary's name.

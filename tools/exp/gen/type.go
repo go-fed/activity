@@ -102,10 +102,9 @@ func NewTypeGenerator(vocabName string, pm *PackageManager, typeName, comment st
 		disjoint:          disjoint,
 	}
 	for _, property := range properties {
-		if _, has := t.properties[property.PropertyName()]; has {
-			return nil, fmt.Errorf("type already has property with name %q", property.PropertyName())
+		if err := t.AddPropertyGenerator(property); err != nil {
+			return nil, err
 		}
-		t.properties[property.PropertyName()] = property
 	}
 	for _, wop := range withoutProperties {
 		if _, has := t.withoutProperties[wop.PropertyName()]; has {
@@ -122,6 +121,22 @@ func NewTypeGenerator(vocabName string, pm *PackageManager, typeName, comment st
 		disj.disjoint = append(disj.disjoint, t)
 	}
 	return t, nil
+}
+
+// AddPropertyGenerator adds a property generator to this type. It must be
+// called before Definition is called.
+func (t *TypeGenerator) AddPropertyGenerator(property Property) error {
+	if _, has := t.properties[property.PropertyName()]; has {
+		return fmt.Errorf("type already has property with name %q", property.PropertyName())
+	}
+	t.properties[property.PropertyName()] = property
+	return nil
+}
+
+// AddRangeProperty adds another property as having this type as a value. Must
+// be called before Definition is called.
+func (t *TypeGenerator) AddRangeProperty(property Property) {
+	t.rangeProperties = append(t.rangeProperties, property)
 }
 
 // apply propagates the manager's functions referring to this type's

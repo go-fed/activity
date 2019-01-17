@@ -101,7 +101,6 @@ func main() {
 		policy = convert.IndividualUnderRoot
 	}
 	c := &convert.Converter{
-		Registry:      registry,
 		GenRoot:       gen.NewPackageManager(*cmd.prefix, "gen"),
 		PackagePolicy: policy,
 	}

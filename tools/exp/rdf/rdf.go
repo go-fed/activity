@@ -42,8 +42,8 @@ func SplitAlias(s string) []string {
 	}
 }
 
-// toHttpAndHttps converts a URI to both its http and https versions.
-func toHttpAndHttps(s string) (http, https string, err error) {
+// ToHttpAndHttps converts a URI to both its http and https versions.
+func ToHttpAndHttps(s string) (http, https string, err error) {
 	// Trailing fragments are not preserved by url.Parse, so we
 	// need to do proper bookkeeping and preserve it if present.
 	hasFragment := s[len(s)-1] == '#'
@@ -129,6 +129,15 @@ func NewRDFRegistry() *RDFRegistry {
 	}
 }
 
+// clone creates a new RDFRegistry keeping only the ontologies.
+func (r *RDFRegistry) clone() *RDFRegistry {
+	c := NewRDFRegistry()
+	for k, v := range r.ontologies {
+		c.ontologies[k] = v
+	}
+	return c
+}
+
 // setAlias sets an alias for a string.
 func (r *RDFRegistry) setAlias(alias, s string) error {
 	if _, ok := r.aliases[alias]; ok {
@@ -167,7 +176,7 @@ func (r *RDFRegistry) AddOntology(o Ontology) error {
 		r.ontologies = make(map[string]Ontology, 1)
 	}
 	specString := o.SpecURI()
-	httpSpec, httpsSpec, err := toHttpAndHttps(specString)
+	httpSpec, httpsSpec, err := ToHttpAndHttps(specString)
 	if err != nil {
 		return err
 	}
@@ -302,7 +311,13 @@ func (r *RDFRegistry) getNode(s string) (n RDFNode, e error) {
 }
 
 // resolveAlias turns an alias into its full qualifier for the ontology.
+//
+// If passed in a valid URI, it returns what was passed in.
 func (r *RDFRegistry) ResolveAlias(alias string) (url string, e error) {
+	if _, ok := r.ontologies[alias]; ok {
+		url = alias
+		return
+	}
 	var ok bool
 	if url, ok = r.aliases[alias]; !ok {
 		e = fmt.Errorf("registry cannot resolve alias %q", alias)

@@ -83,6 +83,44 @@ func (v vocabulary) nonFuncPropArray() []*gen.NonFunctionalPropertyGenerator {
 	return nfp
 }
 
+// rdfReferences properly accounts for HTTP and HTTPS lookups of specification
+// URIs.
+type mapReferences map[string]*vocabulary
+
+// Get attempts to fetch a reference, returning an error if it cannot.
+func (r mapReferences) Get(uri string) (*vocabulary, error) {
+	http, https, err := rdf.ToHttpAndHttps(uri)
+	if err != nil {
+		return nil, err
+	}
+	if v, ok := r[http]; ok {
+		return v, nil
+	} else if v, ok := r[https]; ok {
+		return v, nil
+	} else {
+		return nil, fmt.Errorf("mapReferences does not have reference %s", uri)
+	}
+}
+
+// rdfReferences properly accounts for HTTP and HTTPS lookups of specification
+// URIs.
+type rdfReferences map[string]*rdf.Vocabulary
+
+// Get attempts to fetch a reference, returning an error if it cannot.
+func (r rdfReferences) Get(uri string) (*rdf.Vocabulary, error) {
+	http, https, err := rdf.ToHttpAndHttps(uri)
+	if err != nil {
+		return nil, err
+	}
+	if v, ok := r[http]; ok {
+		return v, nil
+	} else if v, ok := r[https]; ok {
+		return v, nil
+	} else {
+		return nil, fmt.Errorf("rdfReferences does not have reference %s", uri)
+	}
+}
+
 // PackagePolicy governs what file directory structure to generate files in.
 // Only affects types and properties in a vocabulary. Does not affect values.
 type PackagePolicy int
@@ -121,34 +159,41 @@ const (
 // implementations. Developers' applications should only rely on the interfaces,
 // which are used internally anyway.
 type Converter struct {
-	Registry      *rdf.RDFRegistry
 	GenRoot       *gen.PackageManager
 	PackagePolicy PackagePolicy
 }
 
 // Convert turns a ParsedVocabulary into a set of code-generated files.
 func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
-	var v vocabulary
-	v, e = c.convertVocabulary(p)
-	if e != nil {
-		return
-	}
-	// Step 1: Convert the rdf.ParsedVocabulary into the internal set of
-	// code generators.
-	for k, refVocab := range p.References {
-		// Create a copy, but with the Reference moved to Vocab.
-		refP := p
-		refP.Vocab = *refVocab
-		delete(refP.References, k)
+	v := newVocabulary()
+	// Step 1: Convert referenced specifications
+	for i, vocabURI := range p.Order {
+		refP := p.Clone()
+		if i < len(p.Order)-1 {
+			refP.Vocab = *refP.References[vocabURI]
+			delete(refP.References, vocabURI)
+		}
 
 		var refV vocabulary
-		refV, e = c.convertVocabulary(refP)
+		refV, e = c.convertVocabulary(refP, v.References)
 		if e != nil {
 			return
 		}
-		v.References[k] = &refV
+		// Order is full of references except the last, which is the
+		// Vocab on ParsedVocabulary.
+		if i < len(p.Order)-1 {
+			v.References[vocabURI] = &refV
+		} else {
+			refV.References = v.References
+			v = refV
+		}
 	}
-	// Step 2: Use the code generators to build the resulting code-generated
+	// Step 2: Create code-wide generators
+	e = c.convertGenRoot(&v)
+	if e != nil {
+		return
+	}
+	// Step 3: Use the code generators to build the resulting code-generated
 	// files.
 	f, e = c.convertToFiles(v)
 	return
@@ -157,6 +202,7 @@ func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 // convertToFiles takes the generators for a vocabulary and maps them into a
 // file structure.
 func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
+	// TODO: Types and properties of references?
 	// Values -- include all referenced values too.
 	for _, v := range v.Values {
 		pkg := c.valuePackage(v)
@@ -291,7 +337,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 //
 // This feels very hacky and could be decoupled using standard design patterns,
 // but since there is no need, it isn't addressed now.
-func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e error) {
+func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary, refs map[string]*vocabulary) (v vocabulary, e error) {
 	v = newVocabulary()
 	v.Name = p.Vocab.Name
 	v.URI = p.Vocab.URI
@@ -300,9 +346,9 @@ func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e e
 	}
 	for k, prop := range p.Vocab.Properties {
 		if prop.Functional {
-			v.FProps[k], e = c.convertFunctionalProperty(prop, v.Values, p.Vocab, p.References)
+			v.FProps[k], e = c.convertFunctionalProperty(prop, v.Values, p.Vocab, p.References, refs)
 		} else {
-			v.NFProps[k], e = c.convertNonFunctionalProperty(prop, v.Values, p.Vocab, p.References)
+			v.NFProps[k], e = c.convertNonFunctionalProperty(prop, v.Values, p.Vocab, p.References, refs)
 		}
 		if e != nil {
 			return
@@ -320,9 +366,9 @@ func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e e
 		}
 		stuck := true
 		for i, t := range allTypes {
-			if allExtendsAreIn(t, v.Types) {
+			if c.allExtendsAreIn(p.Vocab.Registry, t, v.Types, refs) {
 				var tg *gen.TypeGenerator
-				tg, e = c.convertType(t, p.Vocab, v.FProps, v.NFProps, v.Types)
+				tg, e = c.convertType(t, p.Vocab, v.FProps, v.NFProps, v.Types, refs)
 				if e != nil {
 					return
 				}
@@ -339,12 +385,62 @@ func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary) (v vocabulary, e e
 			return
 		}
 	}
+	return
+}
+
+// convertGenRoot creates code-wide code generators.
+func (c Converter) convertGenRoot(v *vocabulary) (e error) {
+	var typeArray []*gen.TypeGenerator
+	var funcPropArray []*gen.FunctionalPropertyGenerator
+	var nonFuncPropArray []*gen.NonFunctionalPropertyGenerator
+	for _, ref := range v.References {
+		typeArray = append(typeArray, ref.typeArray()...)
+		funcPropArray = append(funcPropArray, ref.funcPropArray()...)
+		nonFuncPropArray = append(nonFuncPropArray, ref.nonFuncPropArray()...)
+	}
+	typeArray = append(typeArray, v.typeArray()...)
+	funcPropArray = append(funcPropArray, v.funcPropArray()...)
+	nonFuncPropArray = append(nonFuncPropArray, v.nonFuncPropArray()...)
 	v.Manager, e = gen.NewManagerGenerator(
 		c.GenRoot.PublicPackage(),
-		v.typeArray(),
-		v.funcPropArray(),
-		v.nonFuncPropArray())
+		typeArray,
+		funcPropArray,
+		nonFuncPropArray)
 	return
+}
+
+// existingProperty attempts to find an existing Property in a referred
+// vocabulary.
+//
+// Returns all nils if the property has been defined in a later vocabulary.
+func (c Converter) existingProperty(registry *rdf.RDFRegistry, r rdf.VocabularyReference, genRefs map[string]*vocabulary) (g gen.Property, e error) {
+	var url string
+	url, e = registry.ResolveAlias(r.Vocab)
+	if e != nil {
+		return
+	}
+	mapRef := mapReferences(genRefs)
+	var refVocab *vocabulary
+	refVocab, e = mapRef.Get(url)
+	if e != nil {
+		// Forwarded property -- a later specification added this
+		// property to a type defined in an earlier specification.
+		e = nil
+		return
+	}
+	// Ugly.
+	if p, ok := refVocab.FProps[r.Name]; !ok {
+		if p, ok := refVocab.NFProps[r.Name]; !ok {
+			e = fmt.Errorf("refVocab %s cannot find %s", r.Vocab, r.Name)
+			return
+		} else {
+			g = p
+			return
+		}
+	} else {
+		g = p
+		return
+	}
 }
 
 // convertType turns the rdf.VocabularyType into a TypeGenerator.
@@ -355,7 +451,8 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	v rdf.Vocabulary,
 	existingFProps map[string]*gen.FunctionalPropertyGenerator,
 	existingNFProps map[string]*gen.NonFunctionalPropertyGenerator,
-	existingTypes map[string]*gen.TypeGenerator) (tg *gen.TypeGenerator, e error) {
+	existingTypes map[string]*gen.TypeGenerator,
+	genRefs map[string]*vocabulary) (tg *gen.TypeGenerator, e error) {
 	// Determine the gen package name
 	var pm *gen.PackageManager
 	pm, e = c.typePackageManager(t, v.Name)
@@ -366,8 +463,14 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	var p []gen.Property
 	for _, prop := range t.Properties {
 		if len(prop.Vocab) != 0 {
-			e = fmt.Errorf("unhandled use case: property domain outside its vocabulary")
-			return
+			var py gen.Property
+			py, e = c.existingProperty(v.Registry, prop, genRefs)
+			if e != nil {
+				return
+			}
+			if py != nil {
+				p = append(p, py)
+			}
 		} else {
 			var property gen.Property
 			var ok bool
@@ -386,8 +489,14 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	var wop []gen.Property
 	for _, prop := range t.WithoutProperties {
 		if len(prop.Vocab) != 0 {
-			e = fmt.Errorf("unhandled use case: withoutproperty domain outside its vocabulary")
-			return
+			var py gen.Property
+			py, e = c.existingProperty(v.Registry, prop, genRefs)
+			if e != nil {
+				return
+			}
+			if py != nil {
+				wop = append(wop, py)
+			}
 		} else {
 			var property gen.Property
 			var ok bool
@@ -406,9 +515,12 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	var ext []*gen.TypeGenerator
 	for _, ex := range t.Extends {
 		if len(ex.Vocab) != 0 {
-			// TODO: This should be fixed to handle references
-			e = fmt.Errorf("unhandled use case: type extends another type outside its vocabulary")
-			return
+			var t *gen.TypeGenerator
+			t, e = existingType(v.Registry, ex, genRefs)
+			if e != nil {
+				return
+			}
+			ext = append(ext, t)
 		} else {
 			ext = append(ext, existingTypes[ex.Name])
 		}
@@ -419,9 +531,12 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	var disjoint []*gen.TypeGenerator
 	for _, disj := range t.DisjointWith {
 		if len(disj.Vocab) != 0 {
-			// TODO: This should be fixed to handle references
-			e = fmt.Errorf("unhandled use case: type is disjoint with another type outside its vocabulary")
-			return
+			var t *gen.TypeGenerator
+			t, e = existingType(v.Registry, disj, genRefs)
+			if e != nil {
+				return
+			}
+			disjoint = append(disjoint, t)
 		} else if disjointType, ok := existingTypes[disj.Name]; ok {
 			disjoint = append(disjoint, disjointType)
 		}
@@ -431,8 +546,6 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	//
 	// Note that the Kinds container on properties contains both types and
 	// values.
-	//
-	// TODO: Enable this for referenced properties.
 	name := c.convertTypeToName(t)
 	var rangeProps []gen.Property
 	for _, prop := range existingFProps {
@@ -477,7 +590,8 @@ func (c Converter) convertType(t rdf.VocabularyType,
 func (c Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 	kinds map[string]*gen.Kind,
 	v rdf.Vocabulary,
-	refs map[string]*rdf.Vocabulary) (fp *gen.FunctionalPropertyGenerator, e error) {
+	refs map[string]*rdf.Vocabulary,
+	genRefs map[string]*vocabulary) (fp *gen.FunctionalPropertyGenerator, e error) {
 	var k []gen.Kind
 	k, e = c.propertyKinds(p, kinds, v, refs)
 	if e != nil {
@@ -503,6 +617,10 @@ func (c Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 		comment,
 		k,
 		p.NaturalLanguageMap)
+	e = backPopulateProperty(v.Registry, p, genRefs, fp)
+	if e != nil {
+		return
+	}
 	return
 }
 
@@ -512,7 +630,8 @@ func (c Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 	kinds map[string]*gen.Kind,
 	v rdf.Vocabulary,
-	refs map[string]*rdf.Vocabulary) (nfp *gen.NonFunctionalPropertyGenerator, e error) {
+	refs map[string]*rdf.Vocabulary,
+	genRefs map[string]*vocabulary) (nfp *gen.NonFunctionalPropertyGenerator, e error) {
 	var k []gen.Kind
 	k, e = c.propertyKinds(p, kinds, v, refs)
 	if e != nil {
@@ -538,6 +657,10 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 		comment,
 		k,
 		p.NaturalLanguageMap)
+	e = backPopulateProperty(v.Registry, p, genRefs, nfp)
+	if e != nil {
+		return
+	}
 	return
 }
 
@@ -621,13 +744,14 @@ func (c Converter) propertyKinds(v rdf.VocabularyProperty,
 			}
 		} else {
 			var url string
-			url, e = c.Registry.ResolveAlias(r.Vocab)
+			url, e = vocab.Registry.ResolveAlias(r.Vocab)
 			if e != nil {
 				return
 			}
-			refVocab, ok := refs[url]
-			if !ok {
-				e = fmt.Errorf("references do not contain %s", url)
+			rdfRef := rdfReferences(refs)
+			var refVocab *rdf.Vocabulary
+			refVocab, e = rdfRef.Get(url)
+			if e != nil {
 				return
 			}
 			if val, ok := refVocab.Values[r.Name]; !ok {
@@ -908,6 +1032,20 @@ func (c Converter) propertyPackageFiles(pg *gen.PropertyGenerator, vocabName str
 	return
 }
 
+// allExtendsAreIn determines if a VocabularyType's parents are all already
+// converted to a TypeGenerator.
+func (c Converter) allExtendsAreIn(registry *rdf.RDFRegistry, t rdf.VocabularyType, v map[string]*gen.TypeGenerator, genRefs map[string]*vocabulary) bool {
+	for _, e := range t.Extends {
+		if len(e.Vocab) != 0 {
+			_, err := existingType(registry, e, genRefs)
+			return err == nil
+		} else if _, ok := v[e.Name]; !ok {
+			return false
+		}
+	}
+	return true
+}
+
 // typeNamer bridges rdf.VocabularyType and gen.TypeGenerator.
 type typeNamer interface {
 	TypeName() string
@@ -939,20 +1077,6 @@ func toIdentifier(n rdf.NameGetter) gen.Identifier {
 	}
 }
 
-// allExtendsAreIn determines if a VocabularyType's parents are all already
-// converted to a TypeGenerator.
-func allExtendsAreIn(t rdf.VocabularyType, v map[string]*gen.TypeGenerator) bool {
-	for _, e := range t.Extends {
-		if len(e.Vocab) != 0 {
-			// TODO: This should be fixed to handle references
-			return false
-		} else if _, ok := v[e.Name]; !ok {
-			return false
-		}
-	}
-	return true
-}
-
 // convertValue converts a Kind value into a code-generated File.
 func convertValue(pkg gen.Package, v *gen.Kind) *File {
 	file := jen.NewFilePath(pkg.Path())
@@ -967,6 +1091,27 @@ func convertValue(pkg gen.Package, v *gen.Kind) *File {
 		FileName:  fmt.Sprintf("gen_%s.go", v.Name.LowerName),
 		Directory: pkg.WriteDir(),
 	}
+}
+
+// existingType attempts to find an existing Property in a referred vocabulary.
+func existingType(registry *rdf.RDFRegistry, r rdf.VocabularyReference, genRefs map[string]*vocabulary) (g *gen.TypeGenerator, e error) {
+	var url string
+	url, e = registry.ResolveAlias(r.Vocab)
+	if e != nil {
+		return
+	}
+	mapRef := mapReferences(genRefs)
+	var refVocab *vocabulary
+	refVocab, e = mapRef.Get(url)
+	if e != nil {
+		return
+	}
+	if t, ok := refVocab.Types[r.Name]; !ok {
+		e = fmt.Errorf("refVocab %s cannot find %s", r.Vocab, r.Name)
+	} else {
+		g = t
+	}
+	return
 }
 
 // funcsToFile is a helper converting an array of Functions into a single File
@@ -999,4 +1144,46 @@ func asComment(v rdf.VocabularyExample) (s string) {
 	ex := string(b)
 	ex = strings.Replace(ex, "\n", "\n  ", -1)
 	return fmt.Sprintf("%s  %s", s, ex)
+}
+
+// backPopulateProperty sets a new property generator onto existing types.
+func backPopulateProperty(r *rdf.RDFRegistry, p rdf.VocabularyProperty, genRefs map[string]*vocabulary, fp gen.Property) (e error) {
+	for _, dom := range p.Domain {
+		// Within our own vocabulary -- skip
+		if len(dom.Vocab) == 0 {
+			continue
+		}
+		var url string
+		url, e = r.ResolveAlias(dom.Vocab)
+		if e != nil {
+			return
+		}
+		mapRef := mapReferences(genRefs)
+		var refVocab *vocabulary
+		refVocab, e = mapRef.Get(url)
+		if e != nil {
+			// Continue -- this property should be added when the
+			// type is being created for this extension.
+			continue
+		}
+		if t, ok := refVocab.Types[dom.Name]; !ok {
+			e = fmt.Errorf("back populate property with vocab %s cannot find %s", dom.Vocab, dom.Name)
+			return
+		} else {
+			e = t.AddPropertyGenerator(fp)
+			if e != nil {
+				return
+			}
+		}
+	}
+	for _, ran := range p.Range {
+		t, e := existingType(r, ran, genRefs)
+		if e != nil {
+			// Ignore -- it is either a part of this vocabulary, or
+			// not a type (is a value instead).
+			continue
+		}
+		t.AddRangeProperty(fp)
+	}
+	return
 }

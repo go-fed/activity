@@ -162,18 +162,25 @@ func ParseVocabularies(registry *RDFRegistry, inputs []JSONLD) (vocabulary *Pars
 	vocabulary = &ParsedVocabulary{
 		References: make(map[string]*Vocabulary, len(inputs)-1),
 	}
+	currentRegistry := registry.clone()
 	for i, input := range inputs {
 		var v *ParsedVocabulary
-		v, err = parseVocabulary(registry, input, vocabulary.References)
+		v, err = parseVocabulary(currentRegistry, input, vocabulary.References)
 		if err != nil {
 			return
 		}
-		for k, v := range v.References {
-			vocabulary.References[k] = v
+		for k, ref := range v.References {
+			if ref.Registry != nil {
+				err = ref.Registry.AddOntology(&ReferenceOntology{v.Vocab})
+				if err != nil {
+					return
+				}
+			}
+			vocabulary.References[k] = ref
 		}
 		if i < len(inputs)-1 {
-			registry.reset()
-			err = registry.AddOntology(&ReferenceOntology{v.Vocab})
+			currentRegistry = v.Vocab.Registry.clone()
+			err = currentRegistry.AddOntology(&ReferenceOntology{v.Vocab})
 			if err != nil {
 				return
 			}
@@ -181,6 +188,7 @@ func ParseVocabularies(registry *RDFRegistry, inputs []JSONLD) (vocabulary *Pars
 		} else {
 			vocabulary.Vocab = v.Vocab
 		}
+		vocabulary.Order = append(vocabulary.Order, v.Vocab.URI.String())
 	}
 	return
 }
@@ -223,6 +231,7 @@ func parseVocabulary(registry *RDFRegistry, input JSONLD, references map[string]
 	// Step 3: Populate VocabularyType's 'Properties' and
 	// 'WithoutProperties' fields
 	err = populatePropertiesOnTypes(registry, ctx)
+	vocabulary.Vocab.Registry = registry
 	return
 }
 
@@ -230,7 +239,7 @@ func parseVocabulary(registry *RDFRegistry, input JSONLD, references map[string]
 // entries on a VocabularyType.
 func populatePropertiesOnTypes(registry *RDFRegistry, ctx *ParsingContext) error {
 	for _, p := range ctx.Result.Vocab.Properties {
-		if err := populatePropertyOnTypes(registry, p, "", ctx); err != nil {
+		if err := populatePropertyOnTypes(registry, p, ctx.Result.Vocab.URI.String(), ctx); err != nil {
 			return err
 		}
 	}
@@ -241,9 +250,10 @@ func populatePropertiesOnTypes(registry *RDFRegistry, ctx *ParsingContext) error
 // 'WithoutProperties' fields based on the 'Domain' and 'DoesNotApplyTo'.
 func populatePropertyOnTypes(registry *RDFRegistry, p VocabularyProperty, vocabName string, ctx *ParsingContext) error {
 	ref := VocabularyReference{
-		Name:  p.Name,
-		URI:   p.URI,
-		Vocab: vocabName,
+		Name: p.Name,
+		URI:  p.URI,
+		// Vocab will only be populated on types outside of its own
+		// vocabulary.
 	}
 	for _, d := range p.Domain {
 		if len(d.Vocab) == 0 {
@@ -266,7 +276,11 @@ func populatePropertyOnTypes(registry *RDFRegistry, p VocabularyProperty, vocabN
 			if !ok {
 				return fmt.Errorf("cannot populate property on type %q for vocab %q", d.Name, vocab)
 			}
-			t.Properties = append(t.Properties, ref)
+			// Since the type is outside this property's vocabulary,
+			// populate the Vocab field.
+			refCopy := ref
+			refCopy.Vocab = vocabName
+			t.Properties = append(t.Properties, refCopy)
 			v.Types[d.Name] = t
 		}
 	}
@@ -291,7 +305,11 @@ func populatePropertyOnTypes(registry *RDFRegistry, p VocabularyProperty, vocabN
 			if !ok {
 				return fmt.Errorf("cannot populate withoutproperty on type %q for vocab %q", dna.Name, vocab)
 			}
-			t.WithoutProperties = append(t.WithoutProperties, ref)
+			// Since the type is outside this property's vocabulary,
+			// populate the Vocab field.
+			refCopy := ref
+			refCopy.Vocab = vocabName
+			t.WithoutProperties = append(t.WithoutProperties, refCopy)
 			v.Types[dna.Name] = t
 		}
 	}
