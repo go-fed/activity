@@ -171,8 +171,12 @@ func NewPackageGenerator() *PackageGenerator {
 	return &PackageGenerator{}
 }
 
+func (t *PackageGenerator) InitDefinitions(pkg Package, tgs []*TypeGenerator, pgs []*PropertyGenerator) (globalManager *jen.Statement, init *codegen.Function) {
+	return genInit(pkg, tgs, pgs)
+}
+
 // RootDefinitions creates functions needed at the root level of the package declarations.
-func (t *PackageGenerator) RootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (ctors, ext, disj, extBy []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
+func (t *PackageGenerator) RootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (ctors, ext, disj, extBy []*codegen.Function) {
 	return rootDefinitions(vocabName, m, tgs, pgs)
 }
 
@@ -245,7 +249,7 @@ func publicTypeDefinitions(tgs []*TypeGenerator) (typeI *codegen.Interface) {
 
 // rootDefinitions creates common functions needed at the root level of the
 // package declarations.
-func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (ctors, ext, disj, extBy []*codegen.Function, globalManager *jen.Statement, init *codegen.Function) {
+func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (ctors, ext, disj, extBy []*codegen.Function) {
 	// Type constructors
 	for _, tg := range tgs {
 		ctors = append(ctors, codegen.NewCommentedFunction(
@@ -308,17 +312,23 @@ func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator
 			},
 			fmt.Sprintf("%s returns true if the other's type extends from %s.", name, tg.TypeName())))
 	}
+	return
+}
+
+// init generates the code that implements the init calls per-type and
+// per-property package, so that the Manager is injected at runtime.
+func genInit(pkg Package, tgs []*TypeGenerator, pgs []*PropertyGenerator) (globalManager *jen.Statement, init *codegen.Function) {
 	// init
-	globalManager = jen.Var().Id(managerInitName()).Op("*").Qual(m.pkg.Path(), managerName)
+	globalManager = jen.Var().Id(managerInitName()).Op("*").Qual(pkg.Path(), managerName)
 	callInitsMap := make(map[string]jen.Code, len(tgs))
 	for _, tg := range tgs {
 		callInitsMap[tg.PrivatePackage().Path()] = jen.Qual(tg.PrivatePackage().Path(), setManagerFunctionName).Call(
-			jen.Qual(m.pkg.Path(), managerInitName()),
+			jen.Qual(pkg.Path(), managerInitName()),
 		)
 	}
 	for _, pg := range pgs {
 		callInitsMap[pg.GetPrivatePackage().Path()] = jen.Qual(pg.GetPrivatePackage().Path(), setManagerFunctionName).Call(
-			jen.Qual(m.pkg.Path(), managerInitName()),
+			jen.Qual(pkg.Path(), managerInitName()),
 		)
 	}
 	callInits := make([]jen.Code, 0, len(callInitsMap))
@@ -326,12 +336,12 @@ func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator
 		callInits = append(callInits, c)
 	}
 	init = codegen.NewCommentedFunction(
-		m.pkg.Path(),
+		pkg.Path(),
 		"init",
 		/*params=*/ nil,
 		/*ret=*/ nil,
 		append([]jen.Code{
-			jen.Qual(m.pkg.Path(), managerInitName()).Op("=").Op("&").Qual(m.pkg.Path(), managerName).Values(),
+			jen.Qual(pkg.Path(), managerInitName()).Op("=").Op("&").Qual(pkg.Path(), managerName).Values(),
 		}, callInits...),
 		fmt.Sprintf("init handles the 'magic' of creating a %s and dependency-injecting it into every other code-generated package. This gives the implementations access to create any type needed to deserialize, without relying on the other specific concrete implementations. In order to replace a go-fed created type with your own, be sure to have the manager call your own implementation's deserialize functions instead of the built-in type. Finally, each implementation views the %s as an interface with only a subset of funcitons available. This means this %s implements the union of those interfaces.", managerName, managerName, managerName))
 	return

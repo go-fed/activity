@@ -44,6 +44,49 @@ func newVocabulary() vocabulary {
 	}
 }
 
+// allTypeArray converts all Types, including referenced Types, to an array.
+func (v vocabulary) allTypeArray() []*gen.TypeGenerator {
+	var typeArray []*gen.TypeGenerator
+	for _, ref := range v.References {
+		typeArray = append(typeArray, ref.typeArray()...)
+	}
+	typeArray = append(typeArray, v.typeArray()...)
+	return typeArray
+}
+
+// allPropArray converts all Properties, including referenced Properties, to an
+// array.
+func (v vocabulary) allPropArray() []*gen.PropertyGenerator {
+	var propArray []*gen.PropertyGenerator
+	for _, ref := range v.References {
+		propArray = append(propArray, ref.propArray()...)
+	}
+	propArray = append(propArray, v.propArray()...)
+	return propArray
+}
+
+// allFuncPropArray converts all FProps, including referenced Properties, to an
+// array.
+func (v vocabulary) allFuncPropArray() []*gen.FunctionalPropertyGenerator {
+	var funcPropArray []*gen.FunctionalPropertyGenerator
+	for _, ref := range v.References {
+		funcPropArray = append(funcPropArray, ref.funcPropArray()...)
+	}
+	funcPropArray = append(funcPropArray, v.funcPropArray()...)
+	return funcPropArray
+}
+
+// allNonFuncPropArray converts all NFProps, including referenced Properties, to
+// an array.
+func (v vocabulary) allNonFuncPropArray() []*gen.NonFunctionalPropertyGenerator {
+	var nonFuncPropArray []*gen.NonFunctionalPropertyGenerator
+	for _, ref := range v.References {
+		nonFuncPropArray = append(nonFuncPropArray, ref.nonFuncPropArray()...)
+	}
+	nonFuncPropArray = append(nonFuncPropArray, v.nonFuncPropArray()...)
+	return nonFuncPropArray
+}
+
 // typeArray converts Types to an array.
 func (v vocabulary) typeArray() []*gen.TypeGenerator {
 	tg := make([]*gen.TypeGenerator, 0, len(v.Types))
@@ -202,11 +245,8 @@ func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 // convertToFiles takes the generators for a vocabulary and maps them into a
 // file structure.
 func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
-	// Values -- include all referenced values too.
-	for _, v := range v.Values {
-		pkg := c.valuePackage(v)
-		f = append(f, convertValue(pkg, v))
-	}
+	pub := c.GenRoot.PublicPackage()
+	// References
 	for _, ref := range v.References {
 		for _, v := range ref.Values {
 			pkg := c.valuePackage(v)
@@ -218,9 +258,30 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			return
 		}
 		f = append(f, files...)
+		files, e = c.rootFiles(pub, ref.Name, *ref, v.Manager)
+		if e != nil {
+			return
+		}
+		f = append(f, files...)
+		pkgFiles, err := c.packageFiles(*ref)
+		if err != nil {
+			e = err
+			return
+		}
+		f = append(f, pkgFiles...)
+	}
+	// This vocabulary
+	for _, v := range v.Values {
+		pkg := c.valuePackage(v)
+		f = append(f, convertValue(pkg, v))
 	}
 	var files []*File
 	files, e = c.toFiles(v)
+	if e != nil {
+		return
+	}
+	f = append(f, files...)
+	files, e = c.rootFiles(pub, v.Name, v, v.Manager)
 	if e != nil {
 		return
 	}
@@ -231,20 +292,21 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		return
 	}
 	f = append(f, pkgFiles...)
-	// Manager
-	pub := c.GenRoot.PublicPackage()
-	file := jen.NewFilePath(pub.Path())
-	file.Add(v.Manager.Definition().Definition())
-	f = append(f, &File{
-		F:         file,
-		FileName:  "gen_manager.go",
-		Directory: pub.WriteDir(),
-	})
-	files, e = c.rootFiles(pub, v.Name, v)
+	// Init file
+	var file *File
+	file, e = c.initFile(pub, v)
 	if e != nil {
 		return
 	}
-	f = append(f, files...)
+	f = append(f, file)
+	// Manager
+	jenFile := jen.NewFilePath(pub.Path())
+	jenFile.Add(v.Manager.Definition().Definition())
+	f = append(f, &File{
+		F:         jenFile,
+		FileName:  "gen_manager.go",
+		Directory: pub.WriteDir(),
+	})
 	// Root Package Documentation
 	rootDocFile := jen.NewFilePath(pub.Path())
 	rootDocFile.PackageComment(gen.GenRootPackageComment(pub.Name()))
@@ -319,22 +381,11 @@ func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary, refs map[string]*v
 
 // convertGenRoot creates code-wide code generators.
 func (c Converter) convertGenRoot(v *vocabulary) (e error) {
-	var typeArray []*gen.TypeGenerator
-	var funcPropArray []*gen.FunctionalPropertyGenerator
-	var nonFuncPropArray []*gen.NonFunctionalPropertyGenerator
-	for _, ref := range v.References {
-		typeArray = append(typeArray, ref.typeArray()...)
-		funcPropArray = append(funcPropArray, ref.funcPropArray()...)
-		nonFuncPropArray = append(nonFuncPropArray, ref.nonFuncPropArray()...)
-	}
-	typeArray = append(typeArray, v.typeArray()...)
-	funcPropArray = append(funcPropArray, v.funcPropArray()...)
-	nonFuncPropArray = append(nonFuncPropArray, v.nonFuncPropArray()...)
 	v.Manager, e = gen.NewManagerGenerator(
 		c.GenRoot.PublicPackage(),
-		typeArray,
-		funcPropArray,
-		nonFuncPropArray)
+		v.allTypeArray(),
+		v.allFuncPropArray(),
+		v.allNonFuncPropArray())
 	return
 }
 
@@ -762,21 +813,29 @@ func (c Converter) packageManager(s, vocabName string) (pkg *gen.PackageManager,
 
 // rootFiles creates files that are applied for all vocabularies. These files
 // are the ones typically used by developers.
-func (c Converter) rootFiles(pkg gen.Package, vocabName string, v vocabulary) (f []*File, e error) {
+func (c Converter) rootFiles(pkg gen.Package, vocabName string, v vocabulary, m *gen.ManagerGenerator) (f []*File, e error) {
 	pg := gen.NewPackageGenerator()
-	ctors, ext, disj, extBy, globalVar, initFn := pg.RootDefinitions(vocabName, v.Manager, v.typeArray(), v.propArray())
-	initFile := jen.NewFilePath(pkg.Path())
-	initFile.Add(globalVar).Line().Add(initFn.Definition()).Line()
-	f = append(f, &File{
-		F:         initFile,
-		FileName:  "gen_init.go",
-		Directory: pkg.WriteDir(),
-	})
+	ctors, ext, disj, extBy := pg.RootDefinitions(vocabName, m, v.typeArray(), v.propArray())
 	lowerVocabName := strings.ToLower(vocabName)
 	f = append(f, funcsToFile(pkg, ctors, fmt.Sprintf("gen_pkg_%s_constructors.go", lowerVocabName)))
 	f = append(f, funcsToFile(pkg, ext, fmt.Sprintf("gen_pkg_%s_extends.go", lowerVocabName)))
 	f = append(f, funcsToFile(pkg, disj, fmt.Sprintf("gen_pkg_%s_disjoint.go", lowerVocabName)))
 	f = append(f, funcsToFile(pkg, extBy, fmt.Sprintf("gen_pkg_%s_extendedby.go", lowerVocabName)))
+	return
+}
+
+// initFile creates the file with the init function that hooks together the
+// runtime Manager.
+func (c Converter) initFile(pkg gen.Package, root vocabulary) (f *File, e error) {
+	pg := gen.NewPackageGenerator()
+	globalVar, initFn := pg.InitDefinitions(pkg, root.allTypeArray(), root.allPropArray())
+	initFile := jen.NewFilePath(pkg.Path())
+	initFile.Add(globalVar).Line().Add(initFn.Definition()).Line()
+	f = &File{
+		F:         initFile,
+		FileName:  "gen_init.go",
+		Directory: pkg.WriteDir(),
+	}
 	return
 }
 
