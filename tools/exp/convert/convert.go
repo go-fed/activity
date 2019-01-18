@@ -202,7 +202,6 @@ func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 // convertToFiles takes the generators for a vocabulary and maps them into a
 // file structure.
 func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
-	// TODO: Types and properties of references?
 	// Values -- include all referenced values too.
 	for _, v := range v.Values {
 		pkg := c.valuePackage(v)
@@ -213,88 +212,19 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 			pkg := c.valuePackage(v)
 			f = append(f, convertValue(pkg, v))
 		}
-	}
-	// Functional Properties
-	for _, i := range v.FProps {
-		var pm *gen.PackageManager
-		pm, e = c.propertyPackageManager(i, v.Name)
+		var files []*File
+		files, e = c.toFiles(*ref)
 		if e != nil {
 			return
 		}
-		// Implementation
-		priv := pm.PrivatePackage()
-		file := jen.NewFilePath(priv.Path())
-		file.Add(i.Definition().Definition())
-		f = append(f, &File{
-			F:         file,
-			FileName:  fmt.Sprintf("gen_property_%s.go", i.PropertyName()),
-			Directory: priv.WriteDir(),
-		})
-		// Interface
-		pub := pm.PublicPackage()
-		file = jen.NewFilePath(pub.Path())
-		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
-		f = append(f, &File{
-			F:         file,
-			FileName:  fmt.Sprintf("gen_property_%s_interface.go", i.PropertyName()),
-			Directory: pub.WriteDir(),
-		})
+		f = append(f, files...)
 	}
-	// Non-Functional Properties
-	for _, i := range v.NFProps {
-		var pm *gen.PackageManager
-		pm, e = c.propertyPackageManager(i, v.Name)
-		if e != nil {
-			return
-		}
-		// Implementation
-		priv := pm.PrivatePackage()
-		file := jen.NewFilePath(priv.Path())
-		s, t := i.Definitions()
-		file.Add(s.Definition()).Line().Add(t.Definition())
-		f = append(f, &File{
-			F:         file,
-			FileName:  fmt.Sprintf("gen_property_%s.go", i.PropertyName()),
-			Directory: priv.WriteDir(),
-		})
-		// Interface
-		pub := pm.PublicPackage()
-		file = jen.NewFilePath(pub.Path())
-		for _, intf := range i.InterfaceDefinitions(pm.PublicPackage()) {
-			file.Add(intf.Definition()).Line()
-		}
-		f = append(f, &File{
-			F:         file,
-			FileName:  fmt.Sprintf("gen_property_%s_interface.go", i.PropertyName()),
-			Directory: pub.WriteDir(),
-		})
+	var files []*File
+	files, e = c.toFiles(v)
+	if e != nil {
+		return
 	}
-	// Types
-	for _, i := range v.Types {
-		var pm *gen.PackageManager
-		pm, e = c.typePackageManager(i, v.Name)
-		if e != nil {
-			return
-		}
-		// Implementation
-		priv := pm.PrivatePackage()
-		file := jen.NewFilePath(priv.Path())
-		file.Add(i.Definition().Definition())
-		f = append(f, &File{
-			F:         file,
-			FileName:  fmt.Sprintf("gen_type_%s.go", strings.ToLower(i.TypeName())),
-			Directory: priv.WriteDir(),
-		})
-		// Interface
-		pub := pm.PublicPackage()
-		file = jen.NewFilePath(pub.Path())
-		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
-		f = append(f, &File{
-			F:         file,
-			FileName:  fmt.Sprintf("gen_type_%s_interface.go", strings.ToLower(i.TypeName())),
-			Directory: pub.WriteDir(),
-		})
-	}
+	f = append(f, files...)
 	pkgFiles, err := c.packageFiles(v)
 	if err != nil {
 		e = err
@@ -310,7 +240,6 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		FileName:  "gen_manager.go",
 		Directory: pub.WriteDir(),
 	})
-	var files []*File
 	files, e = c.rootFiles(pub, v.Name, v)
 	if e != nil {
 		return
@@ -1044,6 +973,91 @@ func (c Converter) allExtendsAreIn(registry *rdf.RDFRegistry, t rdf.VocabularyTy
 		}
 	}
 	return true
+}
+
+// toFiles converts a vocabulary's types and properties to files.
+func (c Converter) toFiles(v vocabulary) (f []*File, e error) {
+	for _, i := range v.FProps {
+		var pm *gen.PackageManager
+		pm, e = c.propertyPackageManager(i, v.Name)
+		if e != nil {
+			return
+		}
+		// Implementation
+		priv := pm.PrivatePackage()
+		file := jen.NewFilePath(priv.Path())
+		file.Add(i.Definition().Definition())
+		f = append(f, &File{
+			F:         file,
+			FileName:  fmt.Sprintf("gen_property_%s.go", i.PropertyName()),
+			Directory: priv.WriteDir(),
+		})
+		// Interface
+		pub := pm.PublicPackage()
+		file = jen.NewFilePath(pub.Path())
+		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
+		f = append(f, &File{
+			F:         file,
+			FileName:  fmt.Sprintf("gen_property_%s_interface.go", i.PropertyName()),
+			Directory: pub.WriteDir(),
+		})
+	}
+	// Non-Functional Properties
+	for _, i := range v.NFProps {
+		var pm *gen.PackageManager
+		pm, e = c.propertyPackageManager(i, v.Name)
+		if e != nil {
+			return
+		}
+		// Implementation
+		priv := pm.PrivatePackage()
+		file := jen.NewFilePath(priv.Path())
+		s, t := i.Definitions()
+		file.Add(s.Definition()).Line().Add(t.Definition())
+		f = append(f, &File{
+			F:         file,
+			FileName:  fmt.Sprintf("gen_property_%s.go", i.PropertyName()),
+			Directory: priv.WriteDir(),
+		})
+		// Interface
+		pub := pm.PublicPackage()
+		file = jen.NewFilePath(pub.Path())
+		for _, intf := range i.InterfaceDefinitions(pm.PublicPackage()) {
+			file.Add(intf.Definition()).Line()
+		}
+		f = append(f, &File{
+			F:         file,
+			FileName:  fmt.Sprintf("gen_property_%s_interface.go", i.PropertyName()),
+			Directory: pub.WriteDir(),
+		})
+	}
+	// Types
+	for _, i := range v.Types {
+		var pm *gen.PackageManager
+		pm, e = c.typePackageManager(i, v.Name)
+		if e != nil {
+			return
+		}
+		// Implementation
+		priv := pm.PrivatePackage()
+		file := jen.NewFilePath(priv.Path())
+		file.Add(i.Definition().Definition())
+		f = append(f, &File{
+			F:         file,
+			FileName:  fmt.Sprintf("gen_type_%s.go", strings.ToLower(i.TypeName())),
+			Directory: priv.WriteDir(),
+		})
+		// Interface
+		pub := pm.PublicPackage()
+		file = jen.NewFilePath(pub.Path())
+		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
+		f = append(f, &File{
+			F:         file,
+			FileName:  fmt.Sprintf("gen_type_%s_interface.go", strings.ToLower(i.TypeName())),
+			Directory: pub.WriteDir(),
+		})
+	}
+	return
 }
 
 // typeNamer bridges rdf.VocabularyType and gen.TypeGenerator.
