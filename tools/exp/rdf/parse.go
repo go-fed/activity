@@ -2,6 +2,7 @@ package rdf
 
 import (
 	"fmt"
+	"net/url"
 )
 
 const (
@@ -43,6 +44,23 @@ type ParsingContext struct {
 	//
 	// Do not touch, instead use the accessor methods.
 	OnlyApplyThisNode RDFNode
+}
+
+// GetResultReferenceWithDefaults will fetch the spec and set the Vocabulary
+// Name and URI values as well. Helper function when getting a reference in
+// order to populate known value types.
+func (p *ParsingContext) GetResultReferenceWithDefaults(spec, name string) (*Vocabulary, error) {
+	v, err := p.Result.GetReference(spec)
+	if err != nil {
+		return nil, err
+	}
+	u, err := url.Parse(spec)
+	if err != nil {
+		return nil, err
+	}
+	v.Name = name
+	v.URI = u
+	return v, nil
 }
 
 // SetOnlyApplyThisNode sets the provided node to be the only one applied until

@@ -9,6 +9,7 @@ import (
 )
 
 const (
+	rdfName        = "RDF"
 	rdfSpec        = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	langstringSpec = "langString"
 	propertySpec   = "Property"
@@ -170,7 +171,7 @@ func (l *langstring) Apply(key string, value interface{}, ctx *ParsingContext) (
 		return true, e
 	}
 	var vocab *Vocabulary
-	vocab, e = ctx.Result.GetReference(rdfSpec)
+	vocab, e = ctx.GetResultReferenceWithDefaults(rdfSpec, rdfName)
 	if e != nil {
 		return true, e
 	}

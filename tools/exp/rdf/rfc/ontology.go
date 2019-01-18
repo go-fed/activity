@@ -12,6 +12,7 @@ import (
 )
 
 const (
+	rfcName   = "RFC"
 	rfcSpec   = "https://tools.ietf.org/html/"
 	bcp47Spec = "bcp47"
 	mimeSpec  = "rfc2045" // See also: rfc2046 and rfc6838
@@ -132,7 +133,7 @@ func (b *bcp47) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds BCP47 as a value Kind.
 func (b *bcp47) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.Result.GetReference(rfcSpec)
+	v, err := ctx.GetResultReferenceWithDefaults(rfcSpec, rfcName)
 	if err != nil {
 		return true, err
 	}
@@ -219,7 +220,7 @@ func (*mime) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds MIME as a value Kind.
 func (m *mime) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.Result.GetReference(rfcSpec)
+	v, err := ctx.GetResultReferenceWithDefaults(rfcSpec, rfcName)
 	if err != nil {
 		return true, err
 	}
@@ -306,7 +307,7 @@ func (*rel) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds rel as a supported value Kind.
 func (r *rel) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.Result.GetReference(rfcSpec)
+	v, err := ctx.GetResultReferenceWithDefaults(rfcSpec, rfcName)
 	if err != nil {
 		return true, err
 	}

@@ -213,6 +213,7 @@ type Converter struct {
 // Convert turns a ParsedVocabulary into a set of code-generated files.
 func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 	v := newVocabulary()
+	done := make(map[string]bool)
 	// Step 1: Convert referenced specifications
 	for i, vocabURI := range p.Order {
 		refP := p.Clone()
@@ -234,15 +235,56 @@ func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 			refV.References = v.References
 			v = refV
 		}
+		done[vocabURI] = true
 	}
-	// Step 2: Create code-wide generators
+	// Step 2: Intrinsically-known vocabularies won't appear in p.Order
+	recurV, err := c.convertReferenceVocabularyRecursively(done, p, v.References)
+	if err != nil {
+		e = err
+		return
+	}
+	for k, rv := range recurV {
+		v.References[k] = rv
+	}
+	// Step 3: Create code-wide generators
 	e = c.convertGenRoot(&v)
 	if e != nil {
 		return
 	}
-	// Step 3: Use the code generators to build the resulting code-generated
+	// Step 4: Use the code generators to build the resulting code-generated
 	// files.
 	f, e = c.convertToFiles(v)
+	return
+}
+
+// convertReferenceVocabularyRecursively will convert all references nested in
+// all vocabularies and results in a flattened converted map.
+func (c Converter) convertReferenceVocabularyRecursively(skip map[string]bool, p *rdf.ParsedVocabulary, refs map[string]*vocabulary) (v map[string]*vocabulary, e error) {
+	v = make(map[string]*vocabulary)
+	for k, _ := range p.References {
+		if skip[k] {
+			continue
+		}
+		refP := p.Clone()
+		refP.Vocab = *refP.References[k]
+		delete(refP.References, k)
+		var refV vocabulary
+		refV, e = c.convertVocabulary(refP, refs)
+		if e != nil {
+			return
+		}
+		v[k] = &refV
+		// Recur
+		var recurVocab map[string]*vocabulary
+		recurVocab, e = c.convertReferenceVocabularyRecursively(skip, refP, refs)
+		if e != nil {
+			return
+		}
+		// Flatten
+		for k, refVocab := range recurVocab {
+			v[k] = refVocab
+		}
+	}
 	return
 }
 
@@ -856,50 +898,59 @@ func (c Converter) initFile(pkg gen.Package, root vocabulary) (f *File, e error)
 func (c Converter) packageFiles(v vocabulary) (f []*File, e error) {
 	switch c.PackagePolicy {
 	case FlatUnderRoot:
-		// Only need one for all types.
 		pg := gen.NewPackageGenerator()
-		pubI := pg.PublicDefinitions(v.typeArray())
-		// Public
-		pub := v.typeArray()[0].PublicPackage()
-		file := jen.NewFilePath(pub.Path())
-		file.Add(pubI.Definition())
-		f = append(f, &File{
-			F:         file,
-			FileName:  "gen_pkg.go",
-			Directory: pub.WriteDir(),
-		})
-		// Public Package Documentation
-		docFile := jen.NewFilePath(pub.Path())
-		docFile.PackageComment(gen.VocabPackageComment(pub.Name(), v.Name))
-		f = append(f, &File{
-			F:         docFile,
-			FileName:  "gen_doc.go",
-			Directory: pub.WriteDir(),
-		})
+		if tArr := v.typeArray(); len(tArr) > 0 {
+			// Only need one for all types.
+			pubI := pg.PublicDefinitions(tArr)
+			// Public
+			pub := v.typeArray()[0].PublicPackage()
+			file := jen.NewFilePath(pub.Path())
+			file.Add(pubI.Definition())
+			f = append(f, &File{
+				F:         file,
+				FileName:  "gen_pkg.go",
+				Directory: pub.WriteDir(),
+			})
+			// Public Package Documentation
+			docFile := jen.NewFilePath(pub.Path())
+			docFile.PackageComment(gen.VocabPackageComment(pub.Name(), v.Name))
+			f = append(f, &File{
+				F:         docFile,
+				FileName:  "gen_doc.go",
+				Directory: pub.WriteDir(),
+			})
+		}
 		// Private
-		s, i, fn := pg.PrivateDefinitions(v.typeArray(), v.propArray())
-		priv := v.typeArray()[0].PrivatePackage()
-		file = jen.NewFilePath(priv.Path())
-		file.Add(
-			s,
-		).Line().Add(
-			i.Definition(),
-		).Line().Add(
-			fn.Definition(),
-		).Line()
-		f = append(f, &File{
-			F:         file,
-			FileName:  "gen_pkg.go",
-			Directory: priv.WriteDir(),
-		})
-		// Private Package Documentation
-		privDocFile := jen.NewFilePath(priv.Path())
-		privDocFile.PackageComment(gen.PrivateFlatPackageComment(priv.Name(), v.Name))
-		f = append(f, &File{
-			F:         privDocFile,
-			FileName:  "gen_doc.go",
-			Directory: priv.WriteDir(),
-		})
+		if tArr, pArr := v.typeArray(), v.propArray(); len(tArr) > 0 || len(pArr) > 0 {
+			s, i, fn := pg.PrivateDefinitions(tArr, pArr)
+			var priv gen.Package
+			if len(tArr) > 0 {
+				priv = tArr[0].PrivatePackage()
+			} else {
+				priv = pArr[0].GetPrivatePackage()
+			}
+			file := jen.NewFilePath(priv.Path())
+			file.Add(
+				s,
+			).Line().Add(
+				i.Definition(),
+			).Line().Add(
+				fn.Definition(),
+			).Line()
+			f = append(f, &File{
+				F:         file,
+				FileName:  "gen_pkg.go",
+				Directory: priv.WriteDir(),
+			})
+			// Private Package Documentation
+			privDocFile := jen.NewFilePath(priv.Path())
+			privDocFile.PackageComment(gen.PrivateFlatPackageComment(priv.Name(), v.Name))
+			f = append(f, &File{
+				F:         privDocFile,
+				FileName:  "gen_doc.go",
+				Directory: priv.WriteDir(),
+			})
+		}
 	case IndividualUnderRoot:
 		for _, tg := range v.Types {
 			var file []*File

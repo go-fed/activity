@@ -153,7 +153,7 @@ func NewTypePackageGenerator() *TypePackageGenerator {
 // once per package.
 //
 // Precondition: The passed-in generators are the complete set of type
-// generators within a package.
+// generators within a package. Must satisfy: len(tgs) > 0.
 func (t *TypePackageGenerator) PublicDefinitions(tgs []*TypeGenerator) (typeI *codegen.Interface) {
 	return publicTypeDefinitions(tgs)
 }
@@ -266,6 +266,8 @@ func privateManagerHookDefinitions(tgs []*TypeGenerator, pgs []*PropertyGenerato
 
 // publicTypeDefinitions creates common types needed by types for their public
 // package.
+//
+// Requires tgs to not be empty.
 func publicTypeDefinitions(tgs []*TypeGenerator) (typeI *codegen.Interface) {
 	return TypeInterface(tgs[0].PublicPackage())
 }

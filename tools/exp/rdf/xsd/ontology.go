@@ -10,6 +10,7 @@ import (
 )
 
 const (
+	xmlName                = "XMLSchema"
 	xmlSpec                = "http://www.w3.org/2001/XMLSchema#"
 	anyURISpec             = "anyURI"
 	dateTimeSpec           = "dateTime"
@@ -199,7 +200,7 @@ func (a *anyURI) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds the anyURI value Kind to the XML namespace.
 func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
 	if err != nil {
 		return true, err
 	}
@@ -299,7 +300,7 @@ func (d *dateTime) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds the xsd:dateTime value Kind to the XML namespace.
 func (d *dateTime) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
 	if err != nil {
 		return true, err
 	}
@@ -409,7 +410,7 @@ func (f *float) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds xsd:float value Kind to the XML namespace.
 func (f *float) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
 	if err != nil {
 		return true, err
 	}
@@ -496,7 +497,7 @@ func (*xmlString) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds xsd:xmlString value Kind to the XML namespace.
 func (s *xmlString) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
 	if err != nil {
 		return true, err
 	}
@@ -583,7 +584,7 @@ func (*boolean) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds boolean value Kind to the XML namespace.
 func (b *boolean) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
 	if err != nil {
 		return true, err
 	}
@@ -701,7 +702,7 @@ func (*nonNegativeInteger) Exit(key string, ctx *rdf.ParsingContext) (bool, erro
 
 // Apply adds xsd:nonNegativeInteger value Kind to the XML namespace.
 func (n *nonNegativeInteger) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
 	if err != nil {
 		return true, err
 	}
@@ -806,7 +807,7 @@ func (*duration) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 //
 // Avoid at all costs.
 func (d *duration) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.Result.GetReference(xmlSpec)
+	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
 	if err != nil {
 		return true, err
 	}
