@@ -11,6 +11,10 @@ import (
 	"strings"
 )
 
+const (
+	interfacePkg = "vocab"
+)
+
 // File is a code-generated file.
 type File struct {
 	// F is the code-generated contents of this file.
@@ -802,9 +806,9 @@ func (c Converter) packageManager(s, vocabName string) (pkg *gen.PackageManager,
 	s = strings.ToLower(s)
 	switch c.PackagePolicy {
 	case FlatUnderRoot:
-		pkg = c.GenRoot.Sub(strings.ToLower(vocabName))
+		pkg = c.GenRoot.SubPublic(interfacePkg).SubPrivate(strings.ToLower(vocabName))
 	case IndividualUnderRoot:
-		pkg = c.GenRoot.Sub(strings.ToLower(vocabName)).SubPrivate(s)
+		pkg = c.GenRoot.SubPublic(interfacePkg).SubPrivate(strings.ToLower(vocabName)).SubPrivate(s)
 	default:
 		e = fmt.Errorf("unrecognized PackagePolicy: %v", c.PackagePolicy)
 	}

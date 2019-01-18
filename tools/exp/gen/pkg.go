@@ -39,9 +39,13 @@ func (p *PackageManager) PrivatePackage() Package {
 
 // Sub creates a PackageManager clone that manages a subdirectory.
 func (p *PackageManager) Sub(name string) *PackageManager {
+	s := name
+	if len(p.root) > 0 {
+		s = fmt.Sprintf("%s/%s", p.root, name)
+	}
 	return &PackageManager{
 		prefix:  p.prefix,
-		root:    fmt.Sprintf("%s/%s", p.root, name),
+		root:    s,
 		public:  p.public,
 		private: p.private,
 	}
@@ -50,11 +54,30 @@ func (p *PackageManager) Sub(name string) *PackageManager {
 // SubPrivate creates a PackageManager clone where the private package is one
 // subdirectory further.
 func (p *PackageManager) SubPrivate(name string) *PackageManager {
+	s := name
+	if len(p.private) > 0 {
+		s = fmt.Sprintf("%s/%s", p.private, name)
+	}
 	return &PackageManager{
 		prefix:  p.prefix,
 		root:    p.root,
 		public:  p.public,
-		private: fmt.Sprintf("%s/%s", p.private, name),
+		private: s,
+	}
+}
+
+// SubPublic creates a PackageManager clone where the public package is one
+// subdirectory further.
+func (p *PackageManager) SubPublic(name string) *PackageManager {
+	s := name
+	if len(p.public) > 0 {
+		s = fmt.Sprintf("%s/%s", p.public, name)
+	}
+	return &PackageManager{
+		prefix:  p.prefix,
+		root:    p.root,
+		public:  s,
+		private: p.private,
 	}
 }
 
