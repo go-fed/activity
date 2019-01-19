@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
+	"net/url"
 	"sync"
 )
 
@@ -24,6 +25,8 @@ type NonFunctionalPropertyGenerator struct {
 // PropertyGenerators shoulf be in the first pass to construct, before types and
 // other generators are constructed.
 func NewNonFunctionalPropertyGenerator(vocabName string,
+	vocabURI *url.URL,
+	vocabAlias string,
 	pm *PackageManager,
 	name Identifier,
 	comment string,
@@ -32,6 +35,8 @@ func NewNonFunctionalPropertyGenerator(vocabName string,
 	return &NonFunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
 			vocabName:             vocabName,
+			vocabURI:              vocabURI,
+			vocabAlias:            vocabAlias,
 			packageManager:        pm,
 			hasNaturalLanguageMap: hasNaturalLanguageMap,
 			name:                  name,
@@ -83,6 +88,9 @@ func (p *NonFunctionalPropertyGenerator) iteratorInterfaceName() string {
 func (p *NonFunctionalPropertyGenerator) elementTypeGenerator() *FunctionalPropertyGenerator {
 	return &FunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
+			vocabName:             p.vocabName,
+			vocabURI:              p.vocabURI,
+			vocabAlias:            p.vocabAlias,
 			packageManager:        p.PropertyGenerator.packageManager,
 			name:                  p.iteratorTypeName(),
 			kinds:                 p.kinds,
@@ -482,6 +490,39 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			jen.Return(jen.Nil()),
 		},
 		fmt.Sprintf("%s returns beyond-the-last iterator, which is nil. Can be used with the iterator's %s method and this property's %s method to iterate from front to back through all values.", endMethod, nextMethod, beginMethod)))
+	// Context Method
+	methods = append(methods, codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		contextMethod,
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Map(jen.String()).String()},
+		[]jen.Code{
+			jen.Id("m").Op(":=").Map(jen.String()).String().Values(
+				jen.Dict{
+					jen.Lit(p.vocabURI.String()): jen.Lit(p.vocabAlias),
+				},
+			),
+			jen.For(
+				jen.List(
+					jen.Id("_"),
+					jen.Id("elem"),
+				).Op(":=").Range().Id(codegen.This()),
+			).Block(
+				jen.Id("child").Op(":=").Id("elem").Dot(contextMethod).Call(),
+				jen.Commentf("Since the literal maps in this function are determined at\ncode-generation time, this loop should not overwrite an existing key with a\nnew value."),
+				jen.For(
+					jen.List(
+						jen.Id("k"),
+						jen.Id("v"),
+					).Op(":=").Range().Id("child"),
+				).Block(
+					jen.Id("m").Index(jen.Id("k")).Op("=").Id("v"),
+				),
+			),
+			jen.Return(jen.Id("m")),
+		},
+		fmt.Sprintf("%s returns the JSONLD URIs required in the context string for this property and the specific values that are set. The value in the map is the alias used to import the property's value or values.", contextMethod)))
 	methods = append(methods, p.commonMethods()...)
 	return methods
 }

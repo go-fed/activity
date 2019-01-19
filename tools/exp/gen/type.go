@@ -4,25 +4,27 @@ import (
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
+	"net/url"
 	"sort"
 	"strings"
 	"sync"
 )
 
 const (
-	typeInterfaceName   = "Type"
-	extendedByMethod    = "IsExtendedBy"
-	extendingMethod     = "IsExtending"
-	extendsMethod       = "Extends"
-	disjointWithMethod  = "IsDisjointWith"
-	typeNameMethod      = "GetName"
-	serializeMethodName = "Serialize"
-	deserializeFnName   = "Deserialize"
-	compareLessMethod   = "LessThan"
-	getUnknownMethod    = "GetUnknownProperties"
-	unknownMember       = "unknown"
-	getMethodFormat     = "Get%s"
-	constructorName     = "New"
+	typeInterfaceName          = "Type"
+	jsonLDContextInterfaceName = "jsonldContexter"
+	extendedByMethod           = "IsExtendedBy"
+	extendingMethod            = "IsExtending"
+	extendsMethod              = "Extends"
+	disjointWithMethod         = "IsDisjointWith"
+	typeNameMethod             = "GetName"
+	serializeMethodName        = "Serialize"
+	deserializeFnName          = "Deserialize"
+	compareLessMethod          = "LessThan"
+	getUnknownMethod           = "GetUnknownProperties"
+	unknownMember              = "unknown"
+	getMethodFormat            = "Get%s"
+	constructorName            = "New"
 )
 
 // TypeInterface returns the Type Interface that is needed for ActivityStream
@@ -41,6 +43,29 @@ func TypeInterface(pkg Package) *codegen.Interface {
 	return codegen.NewInterface(pkg.Path(), typeInterfaceName, funcs, comment)
 }
 
+// ContextInterface returns a jsonldContexter interface that is needed for
+// ActivityStream types to recursively determine what context strings need to
+// exist in a JSON-LD @context value for linked-data peers to parse.
+//
+// It is a private interface to make the implementation easier, not needed by
+// anything outside the package this implementation is in.
+func ContextInterface(pkg Package) *codegen.Interface {
+	comment := fmt.Sprintf("%s is a private interface to determine the JSON-LD contexts and aliases needed for functional and non-functional properties. It is a helper interface for this implementation.", jsonLDContextInterfaceName)
+	funcs := []codegen.FunctionSignature{
+		{
+			Name:    contextMethod,
+			Params:  nil,
+			Ret:     []jen.Code{jen.Map(jen.String()).String()},
+			Comment: fmt.Sprintf("%s returns the JSONLD URIs required in the context string for this property and the specific values that are set. The value in the map is the alias used to import the property's value or values.", contextMethod),
+		},
+	}
+	return codegen.NewInterface(
+		pkg.Path(),
+		jsonLDContextInterfaceName,
+		funcs,
+		comment)
+}
+
 // Property represents a property of an ActivityStreams type.
 type Property interface {
 	GetPublicPackage() Package
@@ -53,6 +78,8 @@ type Property interface {
 // TypeGenerator represents an ActivityStream type definition to generate in Go.
 type TypeGenerator struct {
 	vocabName         string
+	vocabURI          *url.URL
+	vocabAlias        string
 	pm                *PackageManager
 	typeName          string
 	comment           string
@@ -87,11 +114,17 @@ type TypeGenerator struct {
 //
 // A ManagerGenerator must be created with this type before Definition is
 // called, to ensure that the serialization functions are properly set up.
-func NewTypeGenerator(vocabName string, pm *PackageManager, typeName, comment string,
+func NewTypeGenerator(vocabName string,
+	vocabURI *url.URL,
+	vocabAlias string,
+	pm *PackageManager,
+	typeName, comment string,
 	properties, withoutProperties, rangeProperties []Property,
 	extends, disjoint []*TypeGenerator) (*TypeGenerator, error) {
 	t := &TypeGenerator{
 		vocabName:         vocabName,
+		vocabURI:          vocabURI,
+		vocabAlias:        vocabAlias,
 		pm:                pm,
 		typeName:          typeName,
 		comment:           comment,
@@ -261,10 +294,11 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 		getters := t.allGetters()
 		setters := t.allSetters()
 		constructor := t.constructorFn()
+		ctxMethods := t.contextMethods()
 		t.cachedStruct = codegen.NewStruct(
 			t.Comments(),
 			t.TypeName(),
-			append(append(
+			append(append(append(
 				[]*codegen.Method{
 					t.nameDefinition(),
 					extendsMethod,
@@ -272,6 +306,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 					less,
 					get,
 				},
+				ctxMethods...),
 				getters...),
 				setters...,
 			),
@@ -777,4 +812,56 @@ func (t *TypeGenerator) constructorFn() *codegen.Function {
 			),
 		},
 		fmt.Sprintf("%s%s creates a new %s type", constructorName, t.TypeName(), t.TypeName()))
+}
+
+// contextMethod returns a map of the context's vocabulary
+func (t *TypeGenerator) contextMethods() []*codegen.Method {
+	helperName := fmt.Sprintf("helper%s", contextMethod)
+	helper := codegen.NewCommentedValueMethod(
+		t.PrivatePackage().Path(),
+		helperName,
+		t.TypeName(),
+		[]jen.Code{jen.Id("i").Id(jsonLDContextInterfaceName), jen.Id("toMerge").Map(jen.String()).String()},
+		[]jen.Code{jen.Map(jen.String()).String()},
+		[]jen.Code{
+			jen.If(
+				jen.Id("i").Op("==").Nil(),
+			).Block(
+				jen.Return(jen.Id("toMerge")),
+			),
+			jen.For(
+				jen.List(
+					jen.Id("k"),
+					jen.Id("v"),
+				).Op(":=").Range().Id("i").Dot(contextMethod).Call(),
+			).Block(
+				jen.Commentf("Since the literal maps in this function are determined at\ncode-generation time, this loop should not overwrite an existing key with a\nnew value."),
+				jen.Id("toMerge").Index(jen.Id("k")).Op("=").Id("v"),
+			),
+			jen.Return(jen.Id("toMerge")),
+		},
+		fmt.Sprintf("%s obtains the context uris and their aliases from a property, if it is not nil.", helperName))
+	contextKind := jen.Id("m").Op(":=").Map(jen.String()).String().Values(
+		jen.Dict{
+			jen.Lit(t.vocabURI.String()): jen.Lit(t.vocabAlias),
+		},
+	).Line()
+	for _, property := range t.allProperties() {
+		contextKind.Add(
+			jen.Id("m").Op("=").Id(codegen.This()).Dot(helperName).Call(
+				jen.Id(codegen.This()).Dot(t.memberName(property)),
+				jen.Id("m")).Line())
+	}
+	ctxMethod := codegen.NewCommentedValueMethod(
+		t.PrivatePackage().Path(),
+		contextMethod,
+		t.TypeName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Map(jen.String()).String()},
+		[]jen.Code{
+			contextKind,
+			jen.Return(jen.Id("m")),
+		},
+		fmt.Sprintf("%s returns the JSONLD URIs required in the context string for this type and the specific properties that are set. The value in the map is the alias used to import the type and its properties.", contextMethod))
+	return []*codegen.Method{helper, ctxMethod}
 }

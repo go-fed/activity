@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
+	"net/url"
 	"sync"
 )
 
@@ -27,6 +28,8 @@ type FunctionalPropertyGenerator struct {
 // PropertyGenerators shoulf be in the first pass to construct, before types and
 // other generators are constructed.
 func NewFunctionalPropertyGenerator(vocabName string,
+	vocabURI *url.URL,
+	vocabAlias string,
 	pm *PackageManager,
 	name Identifier,
 	comment string,
@@ -35,6 +38,8 @@ func NewFunctionalPropertyGenerator(vocabName string,
 	return &FunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
 			vocabName:             vocabName,
+			vocabURI:              vocabURI,
+			vocabAlias:            vocabAlias,
 			packageManager:        pm,
 			hasNaturalLanguageMap: hasNaturalLanguageMap,
 			name:                  name,
@@ -129,6 +134,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 			jen.Return(jen.Lit(iriKindIndex)),
 		))
 	methods := []*codegen.Method{
+		p.contextMethod(),
 		codegen.NewCommentedValueMethod(
 			p.GetPrivatePackage().Path(),
 			kindIndexMethod,
@@ -995,6 +1001,54 @@ func (p *FunctionalPropertyGenerator) wrapDeserializeCode(valueExisting, typeExi
 		)
 	}
 	return iriCode
+}
+
+// contextMethod returns the Context method for this functional property.
+func (p *FunctionalPropertyGenerator) contextMethod() *codegen.Method {
+	contextKind := jen.Var().Id("child").Map(jen.String()).String().Line()
+	hasIfStarted := false
+	for i, kind := range p.kinds {
+		// Skip raw values, as only types and any of their properties
+		// will need to have LD context strings added.
+		if kind.isValue() {
+			continue
+		}
+		if hasIfStarted {
+			contextKind = contextKind.Else()
+		} else {
+			hasIfStarted = true
+		}
+		contextKind.Add(
+			jen.If(
+				jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
+			).Block(
+				jen.Id("child").Op("=").Id(codegen.This()).Dot(p.getFnName(i)).Call().Dot(contextMethod).Call()))
+	}
+	return codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		contextMethod,
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.Map(jen.String()).String()},
+		[]jen.Code{
+			jen.Id("m").Op(":=").Map(jen.String()).String().Values(
+				jen.Dict{
+					jen.Lit(p.vocabURI.String()): jen.Lit(p.vocabAlias),
+				},
+			),
+			contextKind,
+			jen.Commentf("Since the literal maps in this function are determined at\ncode-generation time, this loop should not overwrite an existing key with a\nnew value."),
+			jen.For(
+				jen.List(
+					jen.Id("k"),
+					jen.Id("v"),
+				).Op(":=").Range().Id("child"),
+			).Block(
+				jen.Id("m").Index(jen.Id("k")).Op("=").Id("v"),
+			),
+			jen.Return(jen.Id("m")),
+		},
+		fmt.Sprintf("%s returns the JSONLD URIs required in the context string for this property and the specific values that are set. The value in the map is the alias used to import the property's value or values.", contextMethod))
 }
 
 // hasURIKind returns true if this property already has a Kind that is a URI.

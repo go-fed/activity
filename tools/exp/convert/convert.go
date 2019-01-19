@@ -600,6 +600,8 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	}
 	tg, e = gen.NewTypeGenerator(
 		v.GetName(),
+		v.URI,
+		"", // TODO: Vocabulary alias
 		pm,
 		name,
 		comment,
@@ -638,6 +640,8 @@ func (c Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 	}
 	fp = gen.NewFunctionalPropertyGenerator(
 		v.GetName(),
+		v.URI,
+		"", // TODO: Auto-generate aliases
 		pm,
 		toIdentifier(p),
 		comment,
@@ -678,6 +682,8 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 	}
 	nfp = gen.NewNonFunctionalPropertyGenerator(
 		v.GetName(),
+		v.URI,
+		"", // TODO: Auto-generate aliases
 		pm,
 		toIdentifier(p),
 		comment,
@@ -930,13 +936,11 @@ func (c Converter) packageFiles(v vocabulary) (f []*File, e error) {
 				priv = pArr[0].GetPrivatePackage()
 			}
 			file := jen.NewFilePath(priv.Path())
-			file.Add(
-				s,
-			).Line().Add(
-				i.Definition(),
-			).Line().Add(
-				fn.Definition(),
-			).Line()
+			file.Add(s).Line()
+			for _, elem := range i {
+				file.Add(elem.Definition()).Line()
+			}
+			file.Add(fn.Definition()).Line()
 			f = append(f, &File{
 				F:         file,
 				FileName:  "gen_pkg.go",
@@ -1010,13 +1014,11 @@ func (c Converter) typePackageFiles(tg *gen.TypeGenerator, vocabName string) (f 
 	s, i, fn := tpg.PrivateDefinitions([]*gen.TypeGenerator{tg})
 	priv := tg.PrivatePackage()
 	file = jen.NewFilePath(priv.Path())
-	file.Add(
-		s,
-	).Line().Add(
-		i.Definition(),
-	).Line().Add(
-		fn.Definition(),
-	).Line()
+	file.Add(s).Line()
+	for _, elem := range i {
+		file.Add(elem.Definition()).Line()
+	}
+	file.Add(fn.Definition()).Line()
 	f = append(f, &File{
 		F:         file,
 		FileName:  "gen_pkg.go",

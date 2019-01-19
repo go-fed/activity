@@ -162,9 +162,12 @@ func (t *TypePackageGenerator) PublicDefinitions(tgs []*TypeGenerator) (typeI *c
 // per package.
 //
 // Precondition: The passed-in generators are the complete set of type
-// generators within a package.
-func (t *TypePackageGenerator) PrivateDefinitions(tgs []*TypeGenerator) (mgrVar *jen.Statement, mgrI *codegen.Interface, setMgrFn *codegen.Function) {
-	return privateManagerHookDefinitions(tgs, nil)
+// generators within a package. len(tgs) > 0
+func (t *TypePackageGenerator) PrivateDefinitions(tgs []*TypeGenerator) (mgrVar *jen.Statement, mgrI []*codegen.Interface, setMgrFn *codegen.Function) {
+	pkg := tgs[0].PrivatePackage()
+	s, i, f := privateManagerHookDefinitions(pkg, tgs, nil)
+	interfaces := []*codegen.Interface{i, ContextInterface(pkg)}
+	return s, interfaces, f
 }
 
 // PropertyPackageGenerator manages generating one-time files needed for
@@ -180,9 +183,9 @@ func NewPropertyPackageGenerator() *PropertyPackageGenerator {
 // per package.
 //
 // Precondition: The passed-in generators are the complete set of type
-// generators within a package.
+// generators within a package. len(pgs) > 0
 func (p *PropertyPackageGenerator) PrivateDefinitions(pgs []*PropertyGenerator) (*jen.Statement, *codegen.Interface, *codegen.Function) {
-	return privateManagerHookDefinitions(nil, pgs)
+	return privateManagerHookDefinitions(pgs[0].GetPrivatePackage(), nil, pgs)
 }
 
 // PackageGenerator maanges generating one-time files needed for both type and
@@ -216,14 +219,22 @@ func (t *PackageGenerator) PublicDefinitions(tgs []*TypeGenerator) *codegen.Inte
 // per package.
 //
 // Precondition: The passed-in generators are the complete set of type
-// generators within a package.
-func (t *PackageGenerator) PrivateDefinitions(tgs []*TypeGenerator, pgs []*PropertyGenerator) (*jen.Statement, *codegen.Interface, *codegen.Function) {
-	return privateManagerHookDefinitions(tgs, pgs)
+// generators within a package. One of tgs or pgs has at least one value.
+func (t *PackageGenerator) PrivateDefinitions(tgs []*TypeGenerator, pgs []*PropertyGenerator) (*jen.Statement, []*codegen.Interface, *codegen.Function) {
+	var pkg Package
+	if len(tgs) > 0 {
+		pkg = tgs[0].PrivatePackage()
+	} else {
+		pkg = pgs[0].GetPrivatePackage()
+	}
+	s, i, f := privateManagerHookDefinitions(pkg, tgs, pgs)
+	interfaces := []*codegen.Interface{i, ContextInterface(pkg)}
+	return s, interfaces, f
 }
 
 // privateManagerHookDefinitions creates common code needed by types and
 // properties to properly hook in the manager at initialization time.
-func privateManagerHookDefinitions(tgs []*TypeGenerator, pgs []*PropertyGenerator) (mgrVar *jen.Statement, mgrI *codegen.Interface, setMgrFn *codegen.Function) {
+func privateManagerHookDefinitions(pkg Package, tgs []*TypeGenerator, pgs []*PropertyGenerator) (mgrVar *jen.Statement, mgrI *codegen.Interface, setMgrFn *codegen.Function) {
 	fnsMap := make(map[string]codegen.FunctionSignature)
 	for _, tg := range tgs {
 		for _, m := range tg.getAllManagerMethods() {
@@ -241,12 +252,7 @@ func privateManagerHookDefinitions(tgs []*TypeGenerator, pgs []*PropertyGenerato
 	for _, v := range fnsMap {
 		fns = append(fns, v)
 	}
-	var path string
-	if tgs != nil {
-		path = tgs[0].PrivatePackage().Path()
-	} else {
-		path = pgs[0].GetPrivatePackage().Path()
-	}
+	path := pkg.Path()
 	return jen.Var().Id(managerInitName()).Id(managerInterfaceName),
 		codegen.NewInterface(path,
 			managerInterfaceName,

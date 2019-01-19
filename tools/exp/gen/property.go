@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/cjslep/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
+	"net/url"
 	"strings"
 )
 
@@ -40,6 +41,8 @@ const (
 	beginMethod               = "Begin"
 	endMethod                 = "End"
 	emptyMethod               = "Empty"
+	// Context string management
+	contextMethod = "JSONLDContext"
 	// Member names for generated code
 	unknownMemberName = "unknown"
 	langMapMember     = "langMap"
@@ -143,6 +146,8 @@ func (k Kind) isValue() bool {
 // iterators, which are needed for NonFunctional properties.
 type PropertyGenerator struct {
 	vocabName             string
+	vocabURI              *url.URL
+	vocabAlias            string
 	managerMethods        []*codegen.Method
 	packageManager        *PackageManager
 	name                  Identifier
@@ -312,6 +317,7 @@ func (p *PropertyGenerator) clearMethodName() string {
 
 // commonMethods returns methods common to every property.
 func (p *PropertyGenerator) commonMethods() []*codegen.Method {
+	// Name method
 	m := []*codegen.Method{
 		codegen.NewCommentedValueMethod(
 			p.GetPrivatePackage().Path(),
@@ -328,6 +334,7 @@ func (p *PropertyGenerator) commonMethods() []*codegen.Method {
 		),
 	}
 	if p.asIterator {
+		// Next & Prev methods
 		m = append(m, codegen.NewCommentedValueMethod(
 			p.GetPrivatePackage().Path(),
 			nextMethod,
