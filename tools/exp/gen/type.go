@@ -384,6 +384,7 @@ func (t *TypeGenerator) members() (members []jen.Code) {
 	for _, property := range p {
 		members = append(members, jen.Id(t.memberName(property)).Qual(property.GetPublicPackage().Path(), property.InterfaceName()))
 	}
+	// TODO: Normalize alias of properties when setting properties.
 	members = append(members, jen.Id(aliasMember).String())
 	members = append(members, jen.Id(unknownMember).Map(jen.String()).Interface())
 	return

@@ -458,6 +458,7 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 	}
 	kindMembers = append(kindMembers, p.unknownMemberDef())
 	kindMembers = append(kindMembers, p.iriMemberDef())
+	// TODO: Normalize alias of values when setting on this property.
 	kindMembers = append(kindMembers, jen.Id(aliasMember).String())
 	if p.hasNaturalLanguageMap {
 		kindMembers = append(kindMembers, jen.Id(langMapMember).Map(jen.String()).String())
