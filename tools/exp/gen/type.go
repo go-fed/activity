@@ -719,7 +719,7 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 		[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("context").Map(jen.String()).String()},
 		[]jen.Code{jen.Op("*").Id(t.TypeName()), jen.Error()},
 		[]jen.Code{
-			jen.Id("alias").Op(":=").Lit(t.vocabAlias),
+			jen.Id("alias").Op(":=").Lit(""),
 			jen.If(
 				jen.List(
 					jen.Id("a"),

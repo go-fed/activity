@@ -9,6 +9,7 @@ import (
 	"github.com/dave/jennifer/jen"
 	"net/url"
 	"strings"
+	"unicode"
 )
 
 const (
@@ -601,7 +602,7 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	tg, e = gen.NewTypeGenerator(
 		v.GetName(),
 		v.URI,
-		"", // TODO: Vocabulary alias
+		vocabNameToAlias(v.GetName()),
 		pm,
 		name,
 		comment,
@@ -641,7 +642,7 @@ func (c Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 	fp = gen.NewFunctionalPropertyGenerator(
 		v.GetName(),
 		v.URI,
-		"", // TODO: Auto-generate aliases
+		vocabNameToAlias(v.GetName()),
 		pm,
 		toIdentifier(p),
 		comment,
@@ -683,7 +684,7 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 	nfp = gen.NewNonFunctionalPropertyGenerator(
 		v.GetName(),
 		v.URI,
-		"", // TODO: Auto-generate aliases
+		vocabNameToAlias(v.GetName()),
 		pm,
 		toIdentifier(p),
 		comment,
@@ -1316,4 +1317,20 @@ func backPopulateProperty(r *rdf.RDFRegistry, p rdf.VocabularyProperty, genRefs 
 		t.AddRangeProperty(fp)
 	}
 	return
+}
+
+// vocabName turns a vocabulary name into an alias based on the capitalization
+// of the name. Note that "ActivityStreams" will not be aliased, it will return
+// an empty string.
+func vocabNameToAlias(name string) string {
+	if strings.ToLower(name) == "activitystreams" {
+		return ""
+	}
+	s := ""
+	for _, r := range name {
+		if unicode.IsUpper(r) {
+			s += string(r)
+		}
+	}
+	return strings.ToLower(s)
 }

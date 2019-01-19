@@ -365,7 +365,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			[]jen.Code{jen.Id("i").Interface(), jen.Id("context").Map(jen.String()).String()},
 			[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 			[]jen.Code{
-				jen.Id("alias").Op(":=").Lit(p.vocabAlias),
+				jen.Id("alias").Op(":=").Lit(""),
 				jen.If(
 					jen.List(
 						jen.Id("a"),
@@ -391,7 +391,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("context").Map(jen.String()).String()},
 			[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 			[]jen.Code{
-				jen.Id("alias").Op(":=").Lit(p.vocabAlias),
+				jen.Id("alias").Op(":=").Lit(""),
 				jen.If(
 					jen.List(
 						jen.Id("a"),
@@ -405,6 +405,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 				jen.If(
 					jen.Len(jen.Id("alias")).Op(">").Lit(0),
 				).Block(
+					jen.Commentf("Use alias both to find the property, and set within the property."),
 					jen.Id("propName").Op("=").Qual("fmt", "Sprintf").Call(
 						jen.Lit("%s:%s"),
 						jen.Id("alias"),

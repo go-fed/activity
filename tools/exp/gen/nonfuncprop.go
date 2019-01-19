@@ -614,7 +614,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 		[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("context").Map(jen.String()).String()},
 		[]jen.Code{jen.Qual(p.GetPublicPackage().Path(), p.InterfaceName()), jen.Error()},
 		[]jen.Code{
-			jen.Id("alias").Op(":=").Lit(p.vocabAlias),
+			jen.Id("alias").Op(":=").Lit(""),
 			jen.If(
 				jen.List(
 					jen.Id("a"),
