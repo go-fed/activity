@@ -319,6 +319,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 	for i, kind := range p.kinds {
 		values := jen.Dict{
 			jen.Id(p.memberName(i)): jen.Id("v"),
+			jen.Id(aliasMember):     jen.Id("alias"),
 		}
 		if !kind.Nilable {
 			values[jen.Id(p.hasMemberName(i))] = jen.True()
@@ -337,7 +338,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			jen.List(
 				jen.Id("v"),
 				jen.Err(),
-			).Op(":=").Add(kind.deserializeFnCode(variable)),
+			).Op(":=").Add(kind.deserializeFnCode(variable, jen.Id("context"))),
 			jen.Err().Op("!=").Nil(),
 		).Block(
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
@@ -361,9 +362,19 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 		deserialize = codegen.NewCommentedFunction(
 			p.GetPrivatePackage().Path(),
 			p.DeserializeFnName(),
-			[]jen.Code{jen.Id("i").Interface()},
+			[]jen.Code{jen.Id("i").Interface(), jen.Id("context").Map(jen.String()).String()},
 			[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 			[]jen.Code{
+				jen.Id("alias").Op(":=").Lit(p.vocabAlias),
+				jen.If(
+					jen.List(
+						jen.Id("a"),
+						jen.Id("ok"),
+					).Op(":=").Id("context").Index(jen.Lit(p.vocabURI.String())),
+					jen.Id("ok"),
+				).Block(
+					jen.Id("alias").Op("=").Id("a"),
+				),
 				p.wrapDeserializeCode(valueDeserializeFns, typeDeserializeFns, false).Line().Return(
 					jen.Nil(),
 					jen.Qual("fmt", "Errorf").Call(
@@ -377,15 +388,35 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 		deserialize = codegen.NewCommentedFunction(
 			p.GetPrivatePackage().Path(),
 			p.DeserializeFnName(),
-			[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
+			[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("context").Map(jen.String()).String()},
 			[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 			[]jen.Code{
+				jen.Id("alias").Op(":=").Lit(p.vocabAlias),
+				jen.If(
+					jen.List(
+						jen.Id("a"),
+						jen.Id("ok"),
+					).Op(":=").Id("context").Index(jen.Lit(p.vocabURI.String())),
+					jen.Id("ok"),
+				).Block(
+					jen.Id("alias").Op("=").Id("a"),
+				),
+				jen.Id("propName").Op(":=").Lit(p.PropertyName()),
+				jen.If(
+					jen.Len(jen.Id("alias")).Op(">").Lit(0),
+				).Block(
+					jen.Id("propName").Op("=").Qual("fmt", "Sprintf").Call(
+						jen.Lit("%s:%s"),
+						jen.Id("alias"),
+						jen.Lit(p.PropertyName()),
+					),
+				),
 				jen.If(
 					jen.List(
 						jen.Id("i"),
 						jen.Id("ok"),
 					).Op(":=").Id("m").Index(
-						jen.Lit(p.PropertyName()),
+						jen.Id("propName"),
 					),
 					jen.Id("ok"),
 				).Block(
@@ -426,6 +457,7 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 	}
 	kindMembers = append(kindMembers, p.unknownMemberDef())
 	kindMembers = append(kindMembers, p.iriMemberDef())
+	kindMembers = append(kindMembers, jen.Id(aliasMember).String())
 	if p.hasNaturalLanguageMap {
 		kindMembers = append(kindMembers, jen.Id(langMapMember).Map(jen.String()).String())
 	}
@@ -662,6 +694,7 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
 	}
 	kindMembers = append(kindMembers, p.unknownMemberDef())
 	kindMembers = append(kindMembers, p.iriMemberDef())
+	kindMembers = append(kindMembers, jen.Id(aliasMember).String())
 	if p.hasNaturalLanguageMap {
 		kindMembers = append(kindMembers, jen.Id(langMapMember).Map(jen.String()).String())
 	}
@@ -944,7 +977,8 @@ func (p *FunctionalPropertyGenerator) wrapDeserializeCode(valueExisting, typeExi
 			jen.If(jen.Err().Op("==").Nil()).Block(
 				jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
 					jen.Dict{
-						jen.Id(iriMember): jen.Id("u"),
+						jen.Id(iriMember):   jen.Id("u"),
+						jen.Id(aliasMember): jen.Id("alias"),
 					},
 				),
 				jen.Return(
@@ -981,6 +1015,7 @@ func (p *FunctionalPropertyGenerator) wrapDeserializeCode(valueExisting, typeExi
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
 				jen.Dict{
 					jen.Id(unknownMemberName): jen.Id("v"),
+					jen.Id(aliasMember):       jen.Id("alias"),
 				},
 			),
 			jen.Return(
@@ -1033,7 +1068,7 @@ func (p *FunctionalPropertyGenerator) contextMethod() *codegen.Method {
 		[]jen.Code{
 			jen.Id("m").Op(":=").Map(jen.String()).String().Values(
 				jen.Dict{
-					jen.Lit(p.vocabURI.String()): jen.Lit(p.vocabAlias),
+					jen.Lit(p.vocabURI.String()): jen.Id(codegen.This()).Dot(aliasMember),
 				},
 			),
 			contextKind,

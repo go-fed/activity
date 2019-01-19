@@ -23,6 +23,7 @@ const (
 	compareLessMethod          = "LessThan"
 	getUnknownMethod           = "GetUnknownProperties"
 	unknownMember              = "unknown"
+	aliasMember                = "alias"
 	getMethodFormat            = "Get%s"
 	constructorName            = "New"
 )
@@ -383,6 +384,7 @@ func (t *TypeGenerator) members() (members []jen.Code) {
 	for _, property := range p {
 		members = append(members, jen.Id(t.memberName(property)).Qual(property.GetPublicPackage().Path(), property.InterfaceName()))
 	}
+	members = append(members, jen.Id(aliasMember).String())
 	members = append(members, jen.Id(unknownMember).Map(jen.String()).Interface())
 	return
 }
@@ -681,7 +683,7 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 				jen.List(
 					jen.Id("p"),
 					jen.Err(),
-				).Op(":=").Add(deserMethod.On(managerInitName()).Call().Call(jen.Id("m"))),
+				).Op(":=").Add(deserMethod.On(managerInitName()).Call().Call(jen.Id("m"), jen.Id("context"))),
 				jen.Err().Op("!=").Nil(),
 			).Block(
 				jen.Return(jen.Nil(), jen.Err()),
@@ -714,10 +716,21 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 	deser = codegen.NewCommentedFunction(
 		t.PrivatePackage().Path(),
 		t.deserializationFnName(),
-		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
+		[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("context").Map(jen.String()).String()},
 		[]jen.Code{jen.Op("*").Id(t.TypeName()), jen.Error()},
 		[]jen.Code{
+			jen.Id("alias").Op(":=").Lit(t.vocabAlias),
+			jen.If(
+				jen.List(
+					jen.Id("a"),
+					jen.Id("ok"),
+				).Op(":=").Id("context").Index(jen.Lit(t.vocabURI.String())),
+				jen.Id("ok"),
+			).Block(
+				jen.Id("alias").Op("=").Id("a"),
+			),
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(t.TypeName()).Values(jen.Dict{
+				jen.Id(aliasMember):   jen.Id("alias"),
 				jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface()),
 			}),
 			deserCode,
@@ -806,6 +819,7 @@ func (t *TypeGenerator) constructorFn() *codegen.Function {
 			jen.Return(
 				jen.Op("&").Qual(t.PrivatePackage().Path(), t.TypeName()).Values(
 					jen.Dict{
+						jen.Id(aliasMember):   jen.Lit(t.vocabAlias),
 						jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface(), jen.Lit(0)),
 					},
 				),
@@ -843,7 +857,7 @@ func (t *TypeGenerator) contextMethods() []*codegen.Method {
 		fmt.Sprintf("%s obtains the context uris and their aliases from a property, if it is not nil.", helperName))
 	contextKind := jen.Id("m").Op(":=").Map(jen.String()).String().Values(
 		jen.Dict{
-			jen.Lit(t.vocabURI.String()): jen.Lit(t.vocabAlias),
+			jen.Lit(t.vocabURI.String()): jen.Id(codegen.This()).Dot(aliasMember),
 		},
 	).Line()
 	for _, property := range t.allProperties() {

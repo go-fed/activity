@@ -121,6 +121,12 @@ func VocabPackageComment(pkgName, vocabName string) string {
 		"Applications should not use the \"KindIndex\" methods as it "+
 		"is a comparison mechanism only for those looking to write an "+
 		"alternate implementation of this library.\n\n"+
+		"Types and properties have a \"JSONLDContext\" method that "+
+		"returns a mapping of vocabulary URIs to aliases that are "+
+		"required in the JSON-LD @context when serializing this "+
+		"value. The aliases used by this library when serializing "+
+		"objects is done at code-generation time, unless a different "+
+		"alias was used to deserialize the type or property.\n\n"+
 		"Types, functional properties, and non-functional properties "+
 		"are not designed for concurrent usage by two or more "+
 		"goroutines. Also, certain methods on a non-functional "+

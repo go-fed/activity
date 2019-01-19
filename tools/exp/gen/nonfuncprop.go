@@ -8,15 +8,19 @@ import (
 	"sync"
 )
 
+const (
+	propertiesName = "properties"
+)
+
 // NonFunctionalPropertyGenerator produces Go code for properties that can have
 // more than one value. The resulting property is a type that is a list of
 // iterators; each iterator is a concrete struct type. The property can be
 // sorted and iterated over so individual elements can be inspected.
 type NonFunctionalPropertyGenerator struct {
 	PropertyGenerator
-	cacheOnce     sync.Once
-	cachedStruct  *codegen.Struct
-	cachedTypedef *codegen.Typedef
+	cacheOnce    sync.Once
+	cachedIter   *codegen.Struct
+	cachedStruct *codegen.Struct
 }
 
 // NewNonFunctionalPropertyGenerator is a convenience constructor to create
@@ -58,7 +62,7 @@ func (p *NonFunctionalPropertyGenerator) InterfaceDefinitions(pkg Package) []*co
 // Definitions produces the Go code definitions, which can generate their Go
 // implementations. The struct is the iterator for various values of the
 // property, which is defined by the type definition.
-func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codegen.Typedef) {
+func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codegen.Struct) {
 	p.cacheOnce.Do(func() {
 		var methods []*codegen.Method
 		var funcs []*codegen.Function
@@ -66,16 +70,19 @@ func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codege
 		methods = append(methods, ser)
 		funcs = append(funcs, deser)
 		methods = append(methods, p.funcs()...)
-		property := codegen.NewTypedef(
+		property := codegen.NewStruct(
 			fmt.Sprintf("%s is the non-functional property %q. It is permitted to have one or more values, and of different value types.", p.StructName(), p.PropertyName()),
 			p.StructName(),
-			jen.Index().Op("*").Id(p.iteratorTypeName().CamelName),
 			methods,
-			funcs)
+			funcs,
+			[]jen.Code{
+				jen.Id(propertiesName).Index().Op("*").Id(p.iteratorTypeName().CamelName),
+				jen.Id(aliasMember).String(),
+			})
 		iterator := p.elementTypeGenerator().Definition()
-		p.cachedStruct, p.cachedTypedef = iterator, property
+		p.cachedIter, p.cachedStruct = iterator, property
 	})
-	return p.cachedStruct, p.cachedTypedef
+	return p.cachedIter, p.cachedStruct
 }
 
 // iteratorInterfaceName gets the interface name for the iterator.
@@ -108,6 +115,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		dict := jen.Dict{
 			jen.Id(parentMemberName): jen.Id(codegen.This()),
 			jen.Id(p.memberName(i)):  jen.Id("v"),
+			jen.Id(aliasMember):      jen.Id(codegen.This()).Dot(aliasMember),
 		}
 		if !kind.Nilable {
 			dict[jen.Id(p.hasMemberName(i))] = jen.True()
@@ -127,11 +135,11 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				[]jen.Code{jen.Id("v").Add(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
-					jen.Op("*").Id(codegen.This()).Op("=").Append(
+					jen.Id(codegen.This()).Dot(propertiesName).Op("=").Append(
 						jen.Index().Op("*").Id(p.iteratorTypeName().CamelName).Values(
 							jen.Values(prependDict),
 						),
-						jen.Op("*").Id(codegen.This()).Op("..."),
+						jen.Id(codegen.This()).Dot(propertiesName).Op("..."),
 					),
 					jen.For(
 						jen.Id("i").Op(":=").Lit(1),
@@ -139,7 +147,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 						jen.Id("i").Op("++"),
 					).Block(
 						jen.Parens(
-							jen.Op("*").Id(codegen.This()),
+							jen.Id(codegen.This()).Dot(propertiesName),
 						).Index(jen.Id("i")).Dot(myIndexMemberName).Op("=").Id("i"),
 					),
 				},
@@ -159,8 +167,8 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				[]jen.Code{jen.Id("v").Add(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
-					jen.Op("*").Id(codegen.This()).Op("=").Append(
-						jen.Op("*").Id(codegen.This()),
+					jen.Id(codegen.This()).Dot(propertiesName).Op("=").Append(
+						jen.Id(codegen.This()).Dot(propertiesName),
 						jen.Op("&").Id(p.iteratorTypeName().CamelName).Values(
 							appendDict,
 						),
@@ -182,8 +190,8 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				[]jen.Code{jen.Id("idx").Int(), jen.Id("v").Add(kind.ConcreteKind)},
 				/*ret=*/ nil,
 				[]jen.Code{
-					jen.Parens(jen.Op("*").Id(codegen.This())).Index(jen.Id("idx")).Dot(parentMemberName).Op("=").Nil(),
-					jen.Parens(jen.Op("*").Id(codegen.This())).Index(jen.Id("idx")).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(
+					jen.Parens(jen.Id(codegen.This()).Dot(propertiesName)).Index(jen.Id("idx")).Dot(parentMemberName).Op("=").Nil(),
+					jen.Parens(jen.Id(codegen.This()).Dot(propertiesName)).Index(jen.Id("idx")).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(
 						setDict,
 					),
 				},
@@ -196,8 +204,8 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		less.If(
 			jen.Id("idx1").Op("==").Lit(i),
 		).Block(
-			jen.Id("lhs").Op(":=").Id(codegen.This()).Index(jen.Id("i")).Dot(p.getFnName(i)).Call(),
-			jen.Id("rhs").Op(":=").Id(codegen.This()).Index(jen.Id("j")).Dot(p.getFnName(i)).Call(),
+			jen.Id("lhs").Op(":=").Id(codegen.This()).Dot(propertiesName).Index(jen.Id("i")).Dot(p.getFnName(i)).Call(),
+			jen.Id("rhs").Op(":=").Id(codegen.This()).Dot(propertiesName).Index(jen.Id("j")).Dot(p.getFnName(i)).Call(),
 			jen.Return(lessCall),
 		)
 	}
@@ -210,15 +218,16 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			[]jen.Code{jen.Id("v").Op("*").Qual("net/url", "URL")},
 			/*ret=*/ nil,
 			[]jen.Code{
-				jen.Op("*").Id(codegen.This()).Op("=").Append(
+				jen.Id(codegen.This()).Dot(propertiesName).Op("=").Append(
 					jen.Index().Op("*").Id(p.iteratorTypeName().CamelName).Values(
 						jen.Values(jen.Dict{
 							jen.Id(iriMember):         jen.Id("v"),
 							jen.Id(parentMemberName):  jen.Id(codegen.This()),
 							jen.Id(myIndexMemberName): jen.Lit(0),
+							jen.Id(aliasMember):       jen.Id(codegen.This()).Dot(aliasMember),
 						}),
 					),
-					jen.Op("*").Id(codegen.This()).Op("..."),
+					jen.Id(codegen.This()).Dot(propertiesName).Op("..."),
 				),
 				jen.For(
 					jen.Id("i").Op(":=").Lit(1),
@@ -226,7 +235,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Id("i").Op("++"),
 				).Block(
 					jen.Parens(
-						jen.Op("*").Id(codegen.This()),
+						jen.Id(codegen.This()).Dot(propertiesName),
 					).Index(jen.Id("i")).Dot(myIndexMemberName).Op("=").Id("i"),
 				),
 			},
@@ -239,13 +248,14 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			[]jen.Code{jen.Id("v").Op("*").Qual("net/url", "URL")},
 			/*ret=*/ nil,
 			[]jen.Code{
-				jen.Op("*").Id(codegen.This()).Op("=").Append(
-					jen.Op("*").Id(codegen.This()),
+				jen.Id(codegen.This()).Dot(propertiesName).Op("=").Append(
+					jen.Id(codegen.This()).Dot(propertiesName),
 					jen.Op("&").Id(p.iteratorTypeName().CamelName).Values(
 						jen.Dict{
 							jen.Id(iriMember):         jen.Id("v"),
 							jen.Id(parentMemberName):  jen.Id(codegen.This()),
 							jen.Id(myIndexMemberName): jen.Id(codegen.This()).Dot(lenMethod).Call(),
+							jen.Id(aliasMember):       jen.Id(codegen.This()).Dot(aliasMember),
 						},
 					),
 				),
@@ -259,12 +269,13 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			[]jen.Code{jen.Id("idx").Int(), jen.Id("v").Op("*").Qual("net/url", "URL")},
 			/*ret=*/ nil,
 			[]jen.Code{
-				jen.Parens(jen.Op("*").Id(codegen.This())).Index(jen.Id("idx")).Dot(parentMemberName).Op("=").Nil(),
-				jen.Parens(jen.Op("*").Id(codegen.This())).Index(jen.Id("idx")).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(
+				jen.Parens(jen.Id(codegen.This()).Dot(propertiesName)).Index(jen.Id("idx")).Dot(parentMemberName).Op("=").Nil(),
+				jen.Parens(jen.Id(codegen.This()).Dot(propertiesName)).Index(jen.Id("idx")).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(
 					jen.Dict{
 						jen.Id(iriMember):         jen.Id("v"),
 						jen.Id(parentMemberName):  jen.Id(codegen.This()),
 						jen.Id(myIndexMemberName): jen.Id("idx"),
+						jen.Id(aliasMember):       jen.Id(codegen.This()).Dot(aliasMember),
 					},
 				),
 			},
@@ -272,8 +283,8 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 	less = less.Else().If(
 		jen.Id("idx1").Op("==").Lit(iriKindIndex),
 	).Block(
-		jen.Id("lhs").Op(":=").Id(codegen.This()).Index(jen.Id("i")).Dot(getIRIMethod).Call(),
-		jen.Id("rhs").Op(":=").Id(codegen.This()).Index(jen.Id("j")).Dot(getIRIMethod).Call(),
+		jen.Id("lhs").Op(":=").Id(codegen.This()).Dot(propertiesName).Index(jen.Id("i")).Dot(getIRIMethod).Call(),
+		jen.Id("rhs").Op(":=").Id(codegen.This()).Dot(propertiesName).Index(jen.Id("j")).Dot(getIRIMethod).Call(),
 		jen.Return(
 			jen.Id("lhs").Dot("String").Call().Op("<").Id("rhs").Dot("String").Call(),
 		),
@@ -287,31 +298,31 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			[]jen.Code{jen.Id("idx").Int()},
 			/*ret=*/ nil,
 			[]jen.Code{
-				jen.Parens(jen.Op("*").Id(codegen.This())).Index(jen.Id("idx")).Dot(parentMemberName).Op("=").Nil(),
+				jen.Parens(jen.Id(codegen.This()).Dot(propertiesName)).Index(jen.Id("idx")).Dot(parentMemberName).Op("=").Nil(),
 				jen.Copy(
 					jen.Parens(
-						jen.Op("*").Id(codegen.This()),
+						jen.Id(codegen.This()).Dot(propertiesName),
 					).Index(
 						jen.Id("idx"),
 						jen.Empty(),
 					),
 					jen.Parens(
-						jen.Op("*").Id(codegen.This()),
+						jen.Id(codegen.This()).Dot(propertiesName),
 					).Index(
 						jen.Id("idx").Op("+").Lit(1),
 						jen.Empty(),
 					),
 				),
 				jen.Parens(
-					jen.Op("*").Id(codegen.This()),
+					jen.Id(codegen.This()).Dot(propertiesName),
 				).Index(
-					jen.Len(jen.Op("*").Id(codegen.This())).Op("-").Lit(1),
+					jen.Len(jen.Id(codegen.This()).Dot(propertiesName)).Op("-").Lit(1),
 				).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(),
-				jen.Op("*").Id(codegen.This()).Op("=").Parens(
-					jen.Op("*").Id(codegen.This()),
+				jen.Id(codegen.This()).Dot(propertiesName).Op("=").Parens(
+					jen.Id(codegen.This()).Dot(propertiesName),
 				).Index(
 					jen.Empty(),
-					jen.Len(jen.Op("*").Id(codegen.This())).Op("-").Lit(1),
+					jen.Len(jen.Id(codegen.This()).Dot(propertiesName)).Op("-").Lit(1),
 				),
 				jen.For(
 					jen.Id("i").Op(":=").Id("idx"),
@@ -319,7 +330,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Id("i").Op("++"),
 				).Block(
 					jen.Parens(
-						jen.Op("*").Id(codegen.This()),
+						jen.Id(codegen.This()).Dot(propertiesName),
 					).Index(jen.Id("i")).Dot(myIndexMemberName).Op("=").Id("i"),
 				),
 			},
@@ -335,7 +346,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			[]jen.Code{
 				jen.Return(
 					jen.Len(
-						jen.Id(codegen.This()),
+						jen.Id(codegen.This()).Dot(propertiesName),
 					),
 				),
 			},
@@ -353,11 +364,11 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			/*ret=*/ nil,
 			[]jen.Code{
 				jen.List(
-					jen.Id(codegen.This()).Index(jen.Id("i")),
-					jen.Id(codegen.This()).Index(jen.Id("j")),
+					jen.Id(codegen.This()).Dot(propertiesName).Index(jen.Id("i")),
+					jen.Id(codegen.This()).Dot(propertiesName).Index(jen.Id("j")),
 				).Op("=").List(
-					jen.Id(codegen.This()).Index(jen.Id("j")),
-					jen.Id(codegen.This()).Index(jen.Id("i")),
+					jen.Id(codegen.This()).Dot(propertiesName).Index(jen.Id("j")),
+					jen.Id(codegen.This()).Dot(propertiesName).Index(jen.Id("i")),
 				),
 			},
 			fmt.Sprintf("%s swaps the location of values at two indices for the %q property.", swapMethod, p.PropertyName())))
@@ -393,7 +404,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			[]jen.Code{jen.Int()},
 			[]jen.Code{
 				jen.Return(
-					jen.Id(codegen.This()).Index(jen.Id("idx")).Dot(kindIndexMethod).Call(),
+					jen.Id(codegen.This()).Dot(propertiesName).Index(jen.Id("idx")).Dot(kindIndexMethod).Call(),
 				),
 			},
 			fmt.Sprintf("%s computes an arbitrary value for indexing this kind of value. This is a leaky API method specifically needed only for alternate implementations for go-fed. Applications should not use this method. Panics if the index is out of bounds.", kindIndexMethod)))
@@ -421,11 +432,11 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				jen.Id("i").Op("++"),
 			).Block(
 				jen.If(
-					jen.Id(codegen.This()).Index(jen.Id("i")).Dot(compareLessMethod).Call(jen.Id("o").Dot(atMethodName).Call(jen.Id("i"))),
+					jen.Id(codegen.This()).Dot(propertiesName).Index(jen.Id("i")).Dot(compareLessMethod).Call(jen.Id("o").Dot(atMethodName).Call(jen.Id("i"))),
 				).Block(
 					jen.Return(jen.True()),
 				).Else().If(
-					jen.Id("o").Dot(atMethodName).Call(jen.Id("i")).Dot(compareLessMethod).Call(jen.Id(codegen.This()).Index(jen.Id("i"))),
+					jen.Id("o").Dot(atMethodName).Call(jen.Id("i")).Dot(compareLessMethod).Call(jen.Id(codegen.This()).Dot(propertiesName).Index(jen.Id("i"))),
 				).Block(
 					jen.Return(jen.False()),
 				),
@@ -443,7 +454,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		[]jen.Code{jen.Qual(p.GetPublicPackage().Path(), p.iteratorInterfaceName())},
 		[]jen.Code{
 			jen.Return(
-				jen.Id(codegen.This()).Index(jen.Id("index")),
+				jen.Id(codegen.This()).Dot(propertiesName).Index(jen.Id("index")),
 			),
 		},
 		fmt.Sprintf("%s returns the property value for the specified index. Panics if the index is out of bounds.", atMethodName)))
@@ -474,7 +485,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				jen.Return(jen.Nil()),
 			).Else().Block(
 				jen.Return(
-					jen.Id(codegen.This()).Index(jen.Lit(0)),
+					jen.Id(codegen.This()).Dot(propertiesName).Index(jen.Lit(0)),
 				),
 			),
 		},
@@ -500,14 +511,14 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		[]jen.Code{
 			jen.Id("m").Op(":=").Map(jen.String()).String().Values(
 				jen.Dict{
-					jen.Lit(p.vocabURI.String()): jen.Lit(p.vocabAlias),
+					jen.Lit(p.vocabURI.String()): jen.Id(codegen.This()).Dot(aliasMember),
 				},
 			),
 			jen.For(
 				jen.List(
 					jen.Id("_"),
 					jen.Id("elem"),
-				).Op(":=").Range().Id(codegen.This()),
+				).Op(":=").Range().Id(codegen.This()).Dot(propertiesName),
 			).Block(
 				jen.Id("child").Op(":=").Id("elem").Dot(contextMethod).Call(),
 				jen.Commentf("Since the literal maps in this function are determined at\ncode-generation time, this loop should not overwrite an existing key with a\nnew value."),
@@ -541,13 +552,13 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 			jen.Id("s").Op(":=").Make(
 				jen.Index().Interface(),
 				jen.Lit(0),
-				jen.Len(jen.Id(codegen.This())),
+				jen.Len(jen.Id(codegen.This()).Dot(propertiesName)),
 			),
 			jen.For(
 				jen.List(
 					jen.Id("_"),
 					jen.Id("iterator"),
-				).Op(":=").Range().Id(codegen.This()),
+				).Op(":=").Range().Id(codegen.This()).Dot(propertiesName),
 			).Block(
 				jen.If(
 					jen.List(
@@ -580,19 +591,19 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 				jen.Err(),
 			).Op(":=").Id(p.elementTypeGenerator().DeserializeFnName()).Call(
 				jen.Id(variable),
+				jen.Id("context"),
 			),
 			jen.Err().Op("!=").Nil(),
 		).Block(
-			jen.Id("ret").Op(":=").Id(p.StructName()).Call(jen.Id(codegen.This())),
 			jen.Return(
-				jen.Op("&").Id("ret"),
+				jen.Id(codegen.This()),
 				jen.Err(),
 			),
 		).Else().If(
 			jen.Id("p").Op("!=").Nil(),
 		).Block(
-			jen.Id(codegen.This()).Op("=").Append(
-				jen.Id(codegen.This()),
+			jen.Id(codegen.This()).Dot(propertiesName).Op("=").Append(
+				jen.Id(codegen.This()).Dot(propertiesName),
 				jen.Id("p"),
 			),
 		)
@@ -600,19 +611,45 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 	deserialize := codegen.NewCommentedFunction(
 		p.GetPrivatePackage().Path(),
 		p.DeserializeFnName(),
-		[]jen.Code{jen.Id("m").Map(jen.String()).Interface()},
+		[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("context").Map(jen.String()).String()},
 		[]jen.Code{jen.Qual(p.GetPublicPackage().Path(), p.InterfaceName()), jen.Error()},
 		[]jen.Code{
-			jen.Var().Id(codegen.This()).Index().Op("*").Id(p.iteratorTypeName().CamelName),
+			jen.Id("alias").Op(":=").Lit(p.vocabAlias),
+			jen.If(
+				jen.List(
+					jen.Id("a"),
+					jen.Id("ok"),
+				).Op(":=").Id("context").Index(jen.Lit(p.vocabURI.String())),
+				jen.Id("ok"),
+			).Block(
+				jen.Id("alias").Op("=").Id("a"),
+			),
+			jen.Var().Id(codegen.This()).Op("*").Id(p.StructName()),
+			jen.Id("propName").Op(":=").Lit(p.PropertyName()),
+			jen.If(
+				jen.Len(jen.Id("alias")).Op(">").Lit(0),
+			).Block(
+				jen.Id("propName").Op("=").Qual("fmt", "Sprintf").Call(
+					jen.Lit("%s:%s"),
+					jen.Id("alias"),
+					jen.Lit(p.PropertyName()),
+				),
+			),
 			jen.If(
 				jen.List(
 					jen.Id("i"),
 					jen.Id("ok"),
 				).Op(":=").Id("m").Index(
-					jen.Lit(p.PropertyName()),
+					jen.Id("propName"),
 				),
 				jen.Id("ok"),
 			).Block(
+				jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
+					jen.Dict{
+						jen.Id(propertiesName): jen.Index().Op("*").Id(p.iteratorTypeName().CamelName).Values(),
+						jen.Id(aliasMember):    jen.Id("alias"),
+					},
+				),
 				jen.If(
 					jen.List(
 						jen.Id("list"),
@@ -633,18 +670,16 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 				).Else().Block(
 					deserializeFn("i"),
 				),
-			),
-			jen.Id("ret").Op(":=").Id(p.StructName()).Call(jen.Id(codegen.This())),
-			jen.Id("pRet").Op(":=").Op("&").Id("ret"),
-			jen.Commentf("Set up the properties for iteration."),
-			jen.For(
-				jen.List(jen.Id("idx"), jen.Id("ele")).Op(":=").Range().Id("ret"),
-			).Block(
-				jen.Id("ele").Dot(parentMemberName).Op("=").Id("pRet"),
-				jen.Id("ele").Dot(myIndexMemberName).Op("=").Id("idx"),
+				jen.Commentf("Set up the properties for iteration."),
+				jen.For(
+					jen.List(jen.Id("idx"), jen.Id("ele")).Op(":=").Range().Id(codegen.This()).Dot(propertiesName),
+				).Block(
+					jen.Id("ele").Dot(parentMemberName).Op("=").Id(codegen.This()),
+					jen.Id("ele").Dot(myIndexMemberName).Op("=").Id("idx"),
+				),
 			),
 			jen.Return(
-				jen.Id("pRet"),
+				jen.Id(codegen.This()),
 				jen.Nil(),
 			),
 		},

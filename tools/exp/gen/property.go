@@ -120,13 +120,13 @@ func (k Kind) lessFnCode(this, other *jen.Statement) *jen.Statement {
 
 // lessFnCode creates the correct code calling this Kind's deserialize function
 // depending on whether the Kind is a value or a type.
-func (k Kind) deserializeFnCode(this *jen.Statement) *jen.Statement {
+func (k Kind) deserializeFnCode(m, ctx *jen.Statement) *jen.Statement {
 	if k.isValue() {
-		return k.DeserializeFn.Clone().Call(this)
+		return k.DeserializeFn.Clone().Call(m)
 	} else {
 		// If LessFn is nil, this means it is a type. Which requires an
-		// additional Call.
-		return k.DeserializeFn.Clone().Call().Call(this)
+		// additional Call and the context.
+		return k.DeserializeFn.Clone().Call().Call(m, ctx)
 	}
 }
 
