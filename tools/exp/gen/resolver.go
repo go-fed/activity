@@ -8,32 +8,37 @@ import (
 )
 
 const (
-	typeResolverStructName         = "TypeResolver"
-	predicateResolverStructName    = "PredicateResolver"
-	resolveMethod                  = "Resolve"
-	resolveMethodPrivate           = "resolve"
-	applyMethod                    = "Apply"
-	activityStreamInterface        = "ActivityStreamsInterface"
-	callbackMember                 = "callbacks"
-	predicateMember                = "predicate"
-	errorNoMatch                   = "ErrNoCallbackMatch"
-	errorUnhandled                 = "ErrUnknownType"
-	errorPredicateUnmatched        = "ErrPredicateUnmatched"
-	errorCannotTypeAssert          = "errCannotTypeAssertType"
-	errorCannotTypeAssertPredicate = "errCannotTypeAssertPredicate"
-	isUnFnName                     = "IsUnknownOrUnmatchedErr"
+	typeResolverStructName                = "TypeResolver"
+	interfaceResolverStructName           = "InterfaceResolver"
+	typePredicatedResolverStructName      = "TypePredicatedResolver"
+	interfacePredicatedResolverStructName = "InterfacePredicatedResolver"
+	resolveMethod                         = "Resolve"
+	applyMethod                           = "Apply"
+	activityStreamInterface               = "ActivityStreamsInterface"
+	resolverInterface                     = "Resolver"
+	callbackMember                        = "callbacks"
+	predicateMember                       = "predicate"
+	delegateMember                        = "delegate"
+	errorNoMatch                          = "ErrNoCallbackMatch"
+	errorUnhandled                        = "ErrUnknownType"
+	errorPredicateUnmatched               = "ErrPredicateUnmatched"
+	errorCannotTypeAssert                 = "errCannotTypeAssertType"
+	errorCannotTypeAssertPredicate        = "errCannotTypeAssertPredicate"
+	isUnFnName                            = "IsUnknownOrUnmatchedErr"
 )
 
 // TODO: Interface-driven resolvers. For hierarchy.
 
 // ResolverGenerator generates the code required for the TypeResolver and the
-// PredicateResolver.
+// PredicateTypeResolver.
 type ResolverGenerator struct {
 	pkg                                Package
 	types                              []*TypeGenerator
 	cacheOnce                          sync.Once
-	cachedPredicate                    *codegen.Struct
+	cachedTypePredicate                *codegen.Struct
+	cachedInterfacePredicate           *codegen.Struct
 	cachedType                         *codegen.Struct
+	cachedInterface                    *codegen.Struct
 	cachedErrNoMatch                   jen.Code
 	cachedErrUnhandled                 jen.Code
 	cachedErrPredicateUnmatched        jen.Code
@@ -41,6 +46,7 @@ type ResolverGenerator struct {
 	cachedErrCannotTypeAssertPredicate jen.Code
 	cachedIsUnFn                       *codegen.Function
 	cachedASInterface                  *codegen.Interface
+	cachedResolverInterface            *codegen.Interface
 }
 
 // Creates a new ResolverGenerator for generating all the methods, functions,
@@ -56,22 +62,36 @@ func NewResolverGenerator(
 	}
 }
 
-// Definition returns the TypeResolver and PredicateResolver.
-func (r *ResolverGenerator) Definition() (types, predicates *codegen.Struct, errs []jen.Code, isUnFn *codegen.Function, asInterface *codegen.Interface) {
+// Definition returns the TypeResolver and PredicateTypeResolver.
+func (r *ResolverGenerator) Definition() (typeRes, interfaceRes, typePredRes, interfacePredRes *codegen.Struct, errs []jen.Code, isUnFn *codegen.Function, iFaces []*codegen.Interface) {
 	r.cacheOnce.Do(func() {
 		r.cachedType = codegen.NewStruct(
 			// TODO: Comment
-			fmt.Sprintf("", typeResolverStructName),
+			fmt.Sprintf("%s", typeResolverStructName),
 			typeResolverStructName,
 			r.typeResolverMethods(),
-			r.typeResolverFunctions(),
-			r.typeResolverMembers())
-		r.cachedPredicate = codegen.NewStruct(
+			r.resolverFunctions(typeResolverStructName),
+			r.resolverMembers())
+		r.cachedInterface = codegen.NewStruct(
 			// TODO: Comment
-			fmt.Sprintf("", predicateResolverStructName),
-			predicateResolverStructName,
-			r.predicateResolverMethods(),
-			r.predicateResolverFunctions(),
+			fmt.Sprintf("%s", interfaceResolverStructName),
+			interfaceResolverStructName,
+			r.interfaceResolverMethods(),
+			r.resolverFunctions(interfaceResolverStructName),
+			r.resolverMembers())
+		r.cachedTypePredicate = codegen.NewStruct(
+			// TODO: Comment
+			fmt.Sprintf("%s", typePredicatedResolverStructName),
+			typePredicatedResolverStructName,
+			r.typePredicatedResolverMethods(),
+			r.predicateResolverFunctions(typePredicatedResolverStructName),
+			r.predicateResolverMembers())
+		r.cachedInterfacePredicate = codegen.NewStruct(
+			// TODO: Comment
+			fmt.Sprintf("%s", interfacePredicatedResolverStructName),
+			interfacePredicatedResolverStructName,
+			r.interfacePredicatedResolverMethods(),
+			r.predicateResolverFunctions(interfacePredicatedResolverStructName),
 			r.predicateResolverMembers())
 		r.cachedErrNoMatch = r.errorNoMatch()
 		r.cachedErrUnhandled = r.errorUnhandled()
@@ -80,14 +100,18 @@ func (r *ResolverGenerator) Definition() (types, predicates *codegen.Struct, err
 		r.cachedErrCannotTypeAssertPredicate = r.errorCannotTypeAssertPredicate()
 		r.cachedIsUnFn = r.isUnFn()
 		r.cachedASInterface = r.asInterface()
+		r.cachedResolverInterface = r.resolverInterface()
 	})
-	return r.cachedType, r.cachedPredicate, []jen.Code{
-		r.cachedErrNoMatch,
-		r.cachedErrUnhandled,
-		r.cachedErrPredicateUnmatched,
-		r.cachedErrCannotTypeAssert,
-		r.cachedErrCannotTypeAssertPredicate,
-	}, r.cachedIsUnFn, r.cachedASInterface
+	return r.cachedType, r.cachedInterface, r.cachedTypePredicate, r.cachedInterfacePredicate, []jen.Code{
+			r.cachedErrNoMatch,
+			r.cachedErrUnhandled,
+			r.cachedErrPredicateUnmatched,
+			r.cachedErrCannotTypeAssert,
+			r.cachedErrCannotTypeAssertPredicate,
+		}, r.cachedIsUnFn, []*codegen.Interface{
+			r.cachedASInterface,
+			r.cachedResolverInterface,
+		}
 }
 
 // errorNoMatch returns the declaration for the ErrNoMatch global value.
@@ -151,120 +175,6 @@ func (r *ResolverGenerator) isUnFn() *codegen.Function {
 
 // typeResolverMethods returns the methods for the TypeResolver.
 func (r *ResolverGenerator) typeResolverMethods() (m []*codegen.Method) {
-	m = append(m, r.resolveMethod(resolveMethod, typeResolverStructName))
-	return
-}
-
-// predicateResolverMethods returns the methods for the PredicateResolver.
-func (r *ResolverGenerator) predicateResolverMethods() (m []*codegen.Method) {
-	m = append(m, r.applyMethod())
-	m = append(m, r.resolveMethod(resolveMethodPrivate, predicateResolverStructName))
-	return
-}
-
-// typeResolverFunctions returns the functions for the TypeResolver.
-func (r *ResolverGenerator) typeResolverFunctions() (f []*codegen.Function) {
-	f = append(f, codegen.NewCommentedFunction(
-		r.pkg.Path(),
-		fmt.Sprintf("%s%s", constructorName, typeResolverStructName),
-		[]jen.Code{
-			jen.Id("callbacks").Index().Interface(),
-		},
-		[]jen.Code{
-			jen.Op("*").Id(typeResolverStructName),
-			jen.Error(),
-		},
-		[]jen.Code{
-			jen.For(
-				jen.List(
-					jen.Id("_"),
-					jen.Id("cb"),
-				).Op(":=").Range().Id("callbacks"),
-			).Block(
-				jen.Commentf("Each callback function must satisfy one known function signature, or else we will generate a runtime error instead of silently fail."),
-				jen.Switch(
-					jen.Id("cb").Assert(jen.Type()),
-				).Block(
-					r.mustAssertToKnownTypes("cb"),
-				),
-			),
-			jen.Return(
-				jen.Op("&").Id(typeResolverStructName).Values(
-					jen.Dict{
-						jen.Id(callbackMember): jen.Id("callbacks"),
-					},
-				),
-				jen.Nil(),
-			),
-		},
-		// TODO: Comment
-		fmt.Sprintf("%s%s", constructorName, typeResolverStructName)))
-	return
-}
-
-// predicateResolverFunctions returns the functions for the PredicateResolver.
-func (r *ResolverGenerator) predicateResolverFunctions() (f []*codegen.Function) {
-	f = append(f, codegen.NewCommentedFunction(
-		r.pkg.Path(),
-		fmt.Sprintf("%s%s", constructorName, predicateResolverStructName),
-		[]jen.Code{
-			jen.Id("callbacks").Index().Interface(),
-			jen.Id("predicate").Interface(),
-		},
-		[]jen.Code{
-			jen.Op("*").Id(predicateResolverStructName),
-			jen.Error(),
-		},
-		[]jen.Code{
-			jen.For(
-				jen.List(
-					jen.Id("_"),
-					jen.Id("cb"),
-				).Op(":=").Range().Id("callbacks"),
-			).Block(
-				jen.Commentf("Each callback function must satisfy one known function signature, or else we will generate a runtime error instead of silently fail."),
-				jen.Switch(
-					jen.Id("cb").Assert(jen.Type()),
-				).Block(
-					r.mustAssertToKnownTypes("cb"),
-				),
-			),
-			jen.Commentf("The predicate must satisfy one known predicate function signature, or else we will generate a runtime error instead of silently fail."),
-			jen.Switch(
-				jen.Id("predicate").Assert(jen.Type()),
-			).Block(
-				r.mustAssertToKnownPredicate("predicate"),
-			),
-			jen.Return(
-				jen.Op("&").Id(typeResolverStructName).Values(
-					jen.Dict{
-						jen.Id(callbackMember):  jen.Id("callbacks"),
-						jen.Id(predicateMember): jen.Id("predicate"),
-					},
-				),
-				jen.Nil(),
-			),
-		},
-		// TODO: Comment
-		fmt.Sprintf("%s%s", constructorName, predicateResolverStructName)))
-	return
-}
-
-// typeResolverMembers returns the members for the TypeResolver.
-func (r *ResolverGenerator) typeResolverMembers() (m []jen.Code) {
-	m = append(m, jen.Id(callbackMember).Index().Interface())
-	return
-}
-
-// predicateResolverMembers returns the members for the PredicateResolver.
-func (r *ResolverGenerator) predicateResolverMembers() (m []jen.Code) {
-	m = append(m, jen.Id(callbackMember).Index().Interface())
-	m = append(m, jen.Id(predicateMember).Interface())
-	return
-}
-
-// resolveMethod returns the Resolve method.
-func (r *ResolverGenerator) resolveMethod(name, structName string) *codegen.Method {
 	impl := jen.Empty()
 	for _, t := range r.types {
 		impl = impl.Case(
@@ -305,10 +215,10 @@ func (r *ResolverGenerator) resolveMethod(name, structName string) *codegen.Meth
 			),
 		).Line()
 	}
-	return codegen.NewCommentedValueMethod(
+	m = append(m, codegen.NewCommentedValueMethod(
 		r.pkg.Path(),
-		name,
-		structName,
+		resolveMethod,
+		typeResolverStructName,
 		[]jen.Code{
 			jen.Id("ctx").Qual("context", "Context"),
 			jen.Id("o").Id(activityStreamInterface),
@@ -321,7 +231,7 @@ func (r *ResolverGenerator) resolveMethod(name, structName string) *codegen.Meth
 				jen.List(
 					jen.Id("_"),
 					jen.Id("i"),
-				).Op(":=").Range().Id(codegen.This()).Id(callbackMember),
+				).Op(":=").Range().Id(codegen.This()).Dot(callbackMember),
 			).Block(
 				jen.Switch(jen.Id("o").Dot(typeNameMethod).Call()).Block(
 					impl.Default().Block(
@@ -336,37 +246,182 @@ func (r *ResolverGenerator) resolveMethod(name, structName string) *codegen.Meth
 			),
 		},
 		// TODO: Comment
-		fmt.Sprintf("", resolveMethod))
+		fmt.Sprintf("%s", resolveMethod)))
+	return
 }
 
-// mustAssertToKnownTypes creates the type assertion switch statement that will
-// return an error if the parameter named does not match any of the expected
-// function signatures.
-func (r *ResolverGenerator) mustAssertToKnownTypes(paramName string) jen.Code {
-	c := jen.Empty()
+// interfaceResolverMethods returns the methods for the TypeResolver.
+func (r *ResolverGenerator) interfaceResolverMethods() (m []*codegen.Method) {
+	impl := jen.Empty()
 	for _, t := range r.types {
-		c = c.Case(
-			jen.Func().Parens(
-				jen.List(
-					jen.Qual("context", "Context"),
-					jen.Qual(t.PublicPackage().Path(), t.InterfaceName()),
-				),
-			).Error(),
+		impl = impl.If(
+			jen.List(
+				jen.Id("v"),
+				jen.Id("ok"),
+			).Op(":=").Id("o").Assert(
+				jen.Qual(t.PublicPackage().Path(), t.InterfaceName()),
+			),
+			jen.Id("ok"),
 		).Block(
-			jen.Commentf("Do nothing, this callback has a correct signature."),
+			jen.If(
+				jen.List(
+					jen.Id("fn"),
+					jen.Id("ok"),
+				).Op(":=").Id("i").Assert(
+					jen.Func().Parens(
+						jen.List(
+							jen.Qual("context", "Context"),
+							jen.Qual(t.PublicPackage().Path(), t.InterfaceName()),
+						),
+					).Error(),
+				),
+				jen.Id("ok"),
+			).Block(
+				jen.Return(
+					jen.Id("fn").Call(jen.Id("ctx"), jen.Id("v")),
+				),
+			),
+			jen.Commentf("Else: this callback function doesn't support this duck-typed interface."),
 		).Line()
 	}
-	c = c.Default().Block(
-		jen.Return(
-			jen.Nil(),
-			jen.Qual("errors", "New").Call(jen.Lit("a callback function is of the wrong signature and would never be called")),
-		),
-	)
-	return c
+	m = append(m, codegen.NewCommentedValueMethod(
+		r.pkg.Path(),
+		resolveMethod,
+		interfaceResolverStructName,
+		[]jen.Code{
+			jen.Id("ctx").Qual("context", "Context"),
+			jen.Id("o").Id(activityStreamInterface),
+		},
+		[]jen.Code{
+			jen.Error(),
+		},
+		[]jen.Code{
+			jen.For(
+				jen.List(
+					jen.Id("_"),
+					jen.Id("i"),
+				).Op(":=").Range().Id(codegen.This()).Dot(callbackMember),
+			).Block(
+				impl,
+			),
+			jen.Return(
+				jen.Id(errorNoMatch),
+			),
+		},
+		// TODO: Comment
+		fmt.Sprintf("%s", resolveMethod)))
+	return
 }
 
-// applyMethod generates the code required for the Apply method.
-func (r *ResolverGenerator) applyMethod() *codegen.Method {
+// typePredicatedResolverMethods returns the methods for the TypePredicatedResolver.
+func (r *ResolverGenerator) typePredicatedResolverMethods() (m []*codegen.Method) {
+	impl := jen.Empty()
+	for _, t := range r.types {
+		impl = impl.Case(
+			jen.Lit(t.TypeName()),
+		).Block(
+			jen.If(
+				jen.List(
+					jen.Id("fn"),
+					jen.Id("ok"),
+				).Op(":=").Id(codegen.This()).Dot(predicateMember).Assert(
+					jen.Func().Parens(
+						jen.List(
+							jen.Qual("context", "Context"),
+							jen.Qual(t.PublicPackage().Path(), t.InterfaceName()),
+						),
+					).Parens(
+						jen.List(
+							jen.Bool(),
+							jen.Error(),
+						),
+					),
+				),
+				jen.Id("ok"),
+			).Block(
+				jen.If(
+					jen.List(
+						jen.Id("v"),
+						jen.Id("ok"),
+					).Op(":=").Id("o").Assert(
+						jen.Qual(t.PublicPackage().Path(), t.InterfaceName()),
+					),
+					jen.Id("ok"),
+				).Block(
+					jen.List(
+						jen.Id("predicatePasses"),
+						jen.Err(),
+					).Op("=").Id("fn").Call(jen.Id("ctx"), jen.Id("v")),
+				).Else().Block(
+					jen.Commentf("This occurs when the implementation is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code."),
+					jen.Return(
+						jen.False(),
+						jen.Id(errorCannotTypeAssert),
+					),
+				),
+			).Else().Block(
+				jen.Return(
+					jen.False(),
+					jen.Id(errorPredicateUnmatched),
+				),
+			),
+		).Line()
+	}
+	m = append(m, codegen.NewCommentedValueMethod(
+		r.pkg.Path(),
+		applyMethod,
+		typePredicatedResolverStructName,
+		[]jen.Code{
+			jen.Id("ctx").Qual("context", "Context"),
+			jen.Id("o").Id(activityStreamInterface),
+		},
+		[]jen.Code{
+			jen.Bool(),
+			jen.Error(),
+		},
+		[]jen.Code{
+			jen.Var().Id("predicatePasses").Bool(),
+			jen.Var().Err().Error(),
+			jen.Switch(jen.Id("o").Dot(typeNameMethod).Call()).Block(
+				impl.Default().Block(
+					jen.Return(
+						jen.False(),
+						jen.Id(errorUnhandled),
+					),
+				),
+			),
+			jen.If(
+				jen.Err().Op("!=").Nil(),
+			).Block(
+				jen.Return(
+					jen.Id("predicatePasses"),
+					jen.Err(),
+				),
+			),
+			jen.If(
+				jen.Id("predicatePasses"),
+			).Block(
+				jen.Return(
+					jen.True(),
+					jen.Id(codegen.This()).Dot(delegateMember).Dot(resolveMethod).Call(
+						jen.Id("ctx"),
+						jen.Id("o"),
+					),
+				),
+			).Else().Block(
+				jen.Return(
+					jen.False(),
+					jen.Nil(),
+				),
+			),
+		},
+		// TODO: Comment
+		fmt.Sprintf("%s", applyMethod)))
+	return
+}
+
+// interfacePredicatedResolverMethods returns the methods for the PredicateTypeResolver.
+func (r *ResolverGenerator) interfacePredicatedResolverMethods() (m []*codegen.Method) {
 	impl := jen.Empty()
 	for _, t := range r.types {
 		impl = impl.Case(
@@ -403,10 +458,10 @@ func (r *ResolverGenerator) applyMethod() *codegen.Method {
 			),
 		).Line()
 	}
-	return codegen.NewCommentedValueMethod(
+	m = append(m, codegen.NewCommentedValueMethod(
 		r.pkg.Path(),
 		applyMethod,
-		predicateResolverStructName,
+		interfacePredicatedResolverStructName,
 		[]jen.Code{
 			jen.Id("ctx").Qual("context", "Context"),
 			jen.Id("o").Id(activityStreamInterface),
@@ -428,11 +483,19 @@ func (r *ResolverGenerator) applyMethod() *codegen.Method {
 				),
 			),
 			jen.If(
+				jen.Err().Op("!=").Nil(),
+			).Block(
+				jen.Return(
+					jen.Id("predicatePasses"),
+					jen.Err(),
+				),
+			),
+			jen.If(
 				jen.Id("predicatePasses"),
 			).Block(
 				jen.Return(
 					jen.True(),
-					jen.Id(codegen.This()).Dot(resolveMethodPrivate).Call(
+					jen.Id(codegen.This()).Dot(delegateMember).Dot(resolveMethod).Call(
 						jen.Id("ctx"),
 						jen.Id("o"),
 					),
@@ -445,7 +508,122 @@ func (r *ResolverGenerator) applyMethod() *codegen.Method {
 			),
 		},
 		// TODO: Comment
-		fmt.Sprintf("%s", applyMethod))
+		fmt.Sprintf("%s", applyMethod)))
+	return
+}
+
+// resolverFunctions returns the functions for the TypeResolver.
+func (r *ResolverGenerator) resolverFunctions(name string) (f []*codegen.Function) {
+	f = append(f, codegen.NewCommentedFunction(
+		r.pkg.Path(),
+		fmt.Sprintf("%s%s", constructorName, name),
+		[]jen.Code{
+			jen.Id("callbacks").Index().Interface(),
+		},
+		[]jen.Code{
+			jen.Op("*").Id(name),
+			jen.Error(),
+		},
+		[]jen.Code{
+			jen.For(
+				jen.List(
+					jen.Id("_"),
+					jen.Id("cb"),
+				).Op(":=").Range().Id("callbacks"),
+			).Block(
+				jen.Commentf("Each callback function must satisfy one known function signature, or else we will generate a runtime error instead of silently fail."),
+				jen.Switch(
+					jen.Id("cb").Assert(jen.Type()),
+				).Block(
+					r.mustAssertToKnownTypes("cb"),
+				),
+			),
+			jen.Return(
+				jen.Op("&").Id(name).Values(
+					jen.Dict{
+						jen.Id(callbackMember): jen.Id("callbacks"),
+					},
+				),
+				jen.Nil(),
+			),
+		},
+		// TODO: Comment
+		fmt.Sprintf("%s%s", constructorName, name)))
+	return
+}
+
+// predicateResolverFunctions returns the functions for the PredicateTypeResolver.
+func (r *ResolverGenerator) predicateResolverFunctions(name string) (f []*codegen.Function) {
+	f = append(f, codegen.NewCommentedFunction(
+		r.pkg.Path(),
+		fmt.Sprintf("%s%s", constructorName, name),
+		[]jen.Code{
+			jen.Id("delegate").Id(resolverInterface),
+			jen.Id("predicate").Interface(),
+		},
+		[]jen.Code{
+			jen.Op("*").Id(name),
+			jen.Error(),
+		},
+		[]jen.Code{
+			jen.Commentf("The predicate must satisfy one known predicate function signature, or else we will generate a runtime error instead of silently fail."),
+			jen.Switch(
+				jen.Id("predicate").Assert(jen.Type()),
+			).Block(
+				r.mustAssertToKnownPredicate("predicate"),
+			),
+			jen.Return(
+				jen.Op("&").Id(name).Values(
+					jen.Dict{
+						jen.Id(delegateMember):  jen.Id("delegate"),
+						jen.Id(predicateMember): jen.Id("predicate"),
+					},
+				),
+				jen.Nil(),
+			),
+		},
+		// TODO: Comment
+		fmt.Sprintf("%s%s", constructorName, name)))
+	return
+}
+
+// resolverMembers returns the members for the TypeResolver.
+func (r *ResolverGenerator) resolverMembers() (m []jen.Code) {
+	m = append(m, jen.Id(callbackMember).Index().Interface())
+	return
+}
+
+// predicateResolverMembers returns the members for the PredicateTypResolver.
+func (r *ResolverGenerator) predicateResolverMembers() (m []jen.Code) {
+	m = append(m, jen.Id(delegateMember).Id(resolverInterface))
+	m = append(m, jen.Id(predicateMember).Interface())
+	return
+}
+
+// mustAssertToKnownTypes creates the type assertion switch statement that will
+// return an error if the parameter named does not match any of the expected
+// function signatures.
+func (r *ResolverGenerator) mustAssertToKnownTypes(paramName string) jen.Code {
+	c := jen.Empty()
+	for _, t := range r.types {
+		c = c.Case(
+			jen.Func().Parens(
+				jen.List(
+					jen.Qual("context", "Context"),
+					jen.Qual(t.PublicPackage().Path(), t.InterfaceName()),
+				),
+			).Error(),
+		).Block(
+			jen.Commentf("Do nothing, this callback has a correct signature."),
+		).Line()
+	}
+	c = c.Default().Block(
+		jen.Return(
+			jen.Nil(),
+			jen.Qual("errors", "New").Call(jen.Lit("a callback function is of the wrong signature and would never be called")),
+		),
+	)
+	return c
 }
 
 // mustAssertToKnownPredicate ensures the parameter name types-asserts to a
@@ -494,4 +672,27 @@ func (r *ResolverGenerator) asInterface() *codegen.Interface {
 		},
 		// TODO: Comment
 		fmt.Sprintf("%s", activityStreamInterface))
+}
+
+// resolverInterface returns the Resolver interface.
+func (r *ResolverGenerator) resolverInterface() *codegen.Interface {
+	return codegen.NewInterface(
+		r.pkg.Path(),
+		resolverInterface,
+		[]codegen.FunctionSignature{
+			{
+				Name: resolveMethod,
+				Params: []jen.Code{
+					jen.Id("ctx").Qual("context", "Context"),
+					jen.Id("o").Id(activityStreamInterface),
+				},
+				Ret: []jen.Code{
+					jen.Error(),
+				},
+				// TODO: Comment
+				Comment: fmt.Sprintf("%s", resolveMethod),
+			},
+		},
+		//TODO: Comment
+		fmt.Sprintf("%s", resolverInterface))
 }

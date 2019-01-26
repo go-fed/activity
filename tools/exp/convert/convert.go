@@ -14,6 +14,7 @@ import (
 
 const (
 	interfacePkg = "vocab"
+	resolverPkg  = "resolver"
 )
 
 // File is a code-generated file.
@@ -362,6 +363,12 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		FileName:  "gen_doc.go",
 		Directory: pub.WriteDir(),
 	})
+	// Resolvers
+	files, e = c.resolverFiles(c.GenRoot.Sub(resolverPkg).PublicPackage(), v)
+	if e != nil {
+		return
+	}
+	f = append(f, files...)
 	return
 }
 
@@ -1074,6 +1081,59 @@ func (c Converter) propertyPackageFiles(pg *gen.PropertyGenerator, vocabName str
 		F:         privDocFile,
 		FileName:  "gen_doc.go",
 		Directory: priv.WriteDir(),
+	})
+	return
+}
+
+// resolverFiles creates the files necessary for the resolvers.
+func (c Converter) resolverFiles(pkg gen.Package, root vocabulary) (files []*File, e error) {
+	rg := gen.NewResolverGenerator(root.allTypeArray(), pkg)
+	typeRes, intRes, typePredRes, intPredRes, errDefs, isUnFn, iFaces := rg.Definition()
+	// Utils
+	file := jen.NewFilePath(pkg.Path())
+	for _, errDef := range errDefs {
+		file.Add(errDef).Line()
+	}
+	for _, iFace := range iFaces {
+		file.Add(iFace.Definition()).Line()
+	}
+	file.Add(isUnFn.Definition())
+	files = append(files, &File{
+		F:         file,
+		FileName:  "gen_resolver_utils.go",
+		Directory: pkg.WriteDir(),
+	})
+	// Type, not predicated
+	file = jen.NewFilePath(pkg.Path())
+	file.Add(typeRes.Definition())
+	files = append(files, &File{
+		F:         file,
+		FileName:  "gen_type_resolver.go",
+		Directory: pkg.WriteDir(),
+	})
+	// Interface, not predicated
+	file = jen.NewFilePath(pkg.Path())
+	file.Add(intRes.Definition())
+	files = append(files, &File{
+		F:         file,
+		FileName:  "gen_interface_resolver.go",
+		Directory: pkg.WriteDir(),
+	})
+	// Type, Predicated
+	file = jen.NewFilePath(pkg.Path())
+	file.Add(typePredRes.Definition())
+	files = append(files, &File{
+		F:         file,
+		FileName:  "gen_type_predicated_resolver.go",
+		Directory: pkg.WriteDir(),
+	})
+	// Interface, Predicated
+	file = jen.NewFilePath(pkg.Path())
+	file.Add(intPredRes.Definition())
+	files = append(files, &File{
+		F:         file,
+		FileName:  "gen_interface_predicated_resolver.go",
+		Directory: pkg.WriteDir(),
 	})
 	return
 }
