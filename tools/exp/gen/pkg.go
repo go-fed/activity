@@ -202,7 +202,7 @@ func (t *PackageGenerator) InitDefinitions(pkg Package, tgs []*TypeGenerator, pg
 }
 
 // RootDefinitions creates functions needed at the root level of the package declarations.
-func (t *PackageGenerator) RootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (ctors, ext, disj, extBy []*codegen.Function) {
+func (t *PackageGenerator) RootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (typeCtors, propCtors, ext, disj, extBy []*codegen.Function) {
 	return rootDefinitions(vocabName, m, tgs, pgs)
 }
 
@@ -280,10 +280,10 @@ func publicTypeDefinitions(tgs []*TypeGenerator) (typeI *codegen.Interface) {
 
 // rootDefinitions creates common functions needed at the root level of the
 // package declarations.
-func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (ctors, ext, disj, extBy []*codegen.Function) {
+func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (typeCtors, propCtors, ext, disj, extBy []*codegen.Function) {
 	// Type constructors
 	for _, tg := range tgs {
-		ctors = append(ctors, codegen.NewCommentedFunction(
+		typeCtors = append(typeCtors, codegen.NewCommentedFunction(
 			m.pkg.Path(),
 			fmt.Sprintf("New%s%s", vocabName, tg.TypeName()),
 			/*params=*/ nil,
@@ -293,7 +293,21 @@ func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator
 					tg.constructorFn().Call(),
 				),
 			},
-			fmt.Sprintf("New%s%s creates a new %s", tg.PublicPackage().Name(), tg.TypeName(), tg.InterfaceName())))
+			fmt.Sprintf("New%s%s creates a new %s", vocabName, tg.TypeName(), tg.InterfaceName())))
+	}
+	// Property Constructors
+	for _, pg := range pgs {
+		propCtors = append(propCtors, codegen.NewCommentedFunction(
+			m.pkg.Path(),
+			fmt.Sprintf("New%s%s", vocabName, pg.StructName()),
+			/*params=*/ nil,
+			[]jen.Code{jen.Qual(pg.GetPublicPackage().Path(), pg.InterfaceName())},
+			[]jen.Code{
+				jen.Return(
+					pg.constructorFn().Call(),
+				),
+			},
+			fmt.Sprintf("New%s%s creates a new %s", vocabName, pg.StructName(), pg.InterfaceName())))
 	}
 	// Extends
 	for _, tg := range tgs {

@@ -875,9 +875,10 @@ func (c Converter) packageManager(s, vocabName string) (pkg *gen.PackageManager,
 // are the ones typically used by developers.
 func (c Converter) rootFiles(pkg gen.Package, vocabName string, v vocabulary, m *gen.ManagerGenerator) (f []*File, e error) {
 	pg := gen.NewPackageGenerator()
-	ctors, ext, disj, extBy := pg.RootDefinitions(vocabName, m, v.typeArray(), v.propArray())
+	typeCtors, propCtors, ext, disj, extBy := pg.RootDefinitions(vocabName, m, v.typeArray(), v.propArray())
 	lowerVocabName := strings.ToLower(vocabName)
-	f = append(f, funcsToFile(pkg, ctors, fmt.Sprintf("gen_pkg_%s_constructors.go", lowerVocabName)))
+	f = append(f, funcsToFile(pkg, typeCtors, fmt.Sprintf("gen_pkg_%s_type_constructors.go", lowerVocabName)))
+	f = append(f, funcsToFile(pkg, propCtors, fmt.Sprintf("gen_pkg_%s_property_constructors.go", lowerVocabName)))
 	f = append(f, funcsToFile(pkg, ext, fmt.Sprintf("gen_pkg_%s_extends.go", lowerVocabName)))
 	f = append(f, funcsToFile(pkg, disj, fmt.Sprintf("gen_pkg_%s_disjoint.go", lowerVocabName)))
 	f = append(f, funcsToFile(pkg, extBy, fmt.Sprintf("gen_pkg_%s_extendedby.go", lowerVocabName)))

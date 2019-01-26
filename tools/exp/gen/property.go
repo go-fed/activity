@@ -380,3 +380,25 @@ func (p *PropertyGenerator) commonMethods() []*codegen.Method {
 func (p *PropertyGenerator) isMethodName(i int) string {
 	return fmt.Sprintf("%s%s", isMethod, p.kindCamelName(i))
 }
+
+// constructorFn creates a constructor function with a default vocabulary
+// alias.
+func (p *PropertyGenerator) constructorFn() *codegen.Function {
+	return codegen.NewCommentedFunction(
+		p.GetPrivatePackage().Path(),
+		fmt.Sprintf("%s%s", constructorName, p.StructName()),
+		/*params=*/ nil,
+		[]jen.Code{
+			jen.Op("*").Qual(p.GetPrivatePackage().Path(), p.StructName()),
+		},
+		[]jen.Code{
+			jen.Return(
+				jen.Op("&").Qual(p.GetPrivatePackage().Path(), p.StructName()).Values(
+					jen.Dict{
+						jen.Id(aliasMember): jen.Lit(p.vocabAlias),
+					},
+				),
+			),
+		},
+		fmt.Sprintf("%s%s creates a new %s property.", constructorName, p.StructName(), p.PropertyName()))
+}
