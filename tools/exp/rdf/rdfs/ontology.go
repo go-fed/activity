@@ -2,7 +2,7 @@ package rdfs
 
 import (
 	"fmt"
-	"github.com/cjslep/activity/tools/exp/rdf"
+	"github.com/go-fed/activity/tools/exp/rdf"
 	"strings"
 )
 

@@ -2,8 +2,8 @@ package xsd
 
 import (
 	"fmt"
-	"github.com/cjslep/activity/tools/exp/codegen"
-	"github.com/cjslep/activity/tools/exp/rdf"
+	"github.com/go-fed/activity/tools/exp/codegen"
+	"github.com/go-fed/activity/tools/exp/rdf"
 	"github.com/dave/jennifer/jen"
 	"net/url"
 	"strings"

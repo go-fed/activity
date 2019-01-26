@@ -2,7 +2,7 @@ package gen
 
 import (
 	"fmt"
-	"github.com/cjslep/activity/tools/exp/codegen"
+	"github.com/go-fed/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
 	"net/url"
 	"sort"
