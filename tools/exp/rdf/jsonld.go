@@ -73,16 +73,20 @@ func jsonLDNodes(r *RDFRegistry) []RDFNode {
 
 var _ RDFNode = &idLD{}
 
+// idLD is an RDFNode for the 'id' property.
 type idLD struct{}
 
+// Enter returns an error.
 func (i *idLD) Enter(key string, ctx *ParsingContext) (bool, error) {
 	return true, fmt.Errorf("id cannot be entered")
 }
 
+// Exit returns an error.
 func (i *idLD) Exit(key string, ctx *ParsingContext) (bool, error) {
 	return true, fmt.Errorf("id cannot be exited")
 }
 
+// Apply sets the URI for the context's Current item.
 func (i *idLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
 	if ctx.Current == nil {
 		return true, nil
@@ -97,18 +101,22 @@ func (i *idLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool, 
 
 var _ RDFNode = &typeLD{}
 
+// typeLD is an RDFNode for the 'type' property.
 type typeLD struct {
 	r *RDFRegistry
 }
 
+// Enter does nothing.
 func (t *typeLD) Enter(key string, ctx *ParsingContext) (bool, error) {
 	return true, nil
 }
 
+// Exit does nothing.
 func (t *typeLD) Exit(key string, ctx *ParsingContext) (bool, error) {
 	return true, nil
 }
 
+// Apply attempts to get the RDFNode for the type and apply it.
 func (t *typeLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
 	vs, ok := value.(string)
 	if !ok {
@@ -123,10 +131,15 @@ func (t *typeLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool
 
 var _ RDFNode = &ContainerLD{}
 
+// ContainerLD is an RDFNode that delegates to an RDFNode but only at this
+// next level.
 type ContainerLD struct {
 	ContainsNode RDFNode
 }
 
+// Enter sets OnlyApplyThisNodeNextLevel on the ParsingContext.
+//
+// Returns an error if this is the second time Enter is called in a row.
 func (c *ContainerLD) Enter(key string, ctx *ParsingContext) (bool, error) {
 	if ctx.OnlyApplyThisNodeNextLevel != nil {
 		return true, fmt.Errorf("@container parsing context exit already has non-nil node")
@@ -135,6 +148,9 @@ func (c *ContainerLD) Enter(key string, ctx *ParsingContext) (bool, error) {
 	return true, nil
 }
 
+// Exit clears OnlyApplyThisNodeNextLevel on the ParsingContext.
+//
+// Returns an error if this is the second time Exit is called in a row.
 func (c *ContainerLD) Exit(key string, ctx *ParsingContext) (bool, error) {
 	if ctx.OnlyApplyThisNodeNextLevel == nil {
 		return true, fmt.Errorf("@container parsing context exit already has nil node")
@@ -143,36 +159,50 @@ func (c *ContainerLD) Exit(key string, ctx *ParsingContext) (bool, error) {
 	return true, nil
 }
 
+// Apply does nothing.
 func (c *ContainerLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
 	return true, nil
 }
 
 var _ RDFNode = &IndexLD{}
 
+// IndexLD does nothing.
+//
+// It could try to manage human-defined indices, but the machine doesn't care.
 type IndexLD struct{}
 
+// Enter does nothing.
 func (i *IndexLD) Enter(key string, ctx *ParsingContext) (bool, error) {
 	return true, nil
 }
 
+// Exit does nothing.
 func (i *IndexLD) Exit(key string, ctx *ParsingContext) (bool, error) {
 	return true, nil
 }
 
+// Apply does nothing.
 func (i *IndexLD) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
 	return true, nil
 }
 
 var _ RDFNode = &withoutProperty{}
 
+// withoutProperty is a hacky-as-hell way to manage ActivityStream's concept of
+// "WithoutProperty". It isn't a defined RDF relationship, so this is
+// non-standard but required of the ActivityStreams Core or Extended Types spec.
 type withoutProperty struct{}
 
+// Enter pushes a VocabularyReference. It is expected further nodes will
+// populate it with information before dxiting this node.
 func (w *withoutProperty) Enter(key string, ctx *ParsingContext) (bool, error) {
 	ctx.Push()
 	ctx.Current = &VocabularyReference{}
 	return true, nil
 }
 
+// Exit pops a VocabularyReferences and sets DoesNotApplyTo on the parent
+// VocabularyProperty on the stack.
 func (w *withoutProperty) Exit(key string, ctx *ParsingContext) (bool, error) {
 	i := ctx.Current
 	ctx.Pop()
@@ -188,6 +218,7 @@ func (w *withoutProperty) Exit(key string, ctx *ParsingContext) (bool, error) {
 	return true, nil
 }
 
+// Apply returns an error.
 func (w *withoutProperty) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
 	return true, fmt.Errorf("hacky withoutProperty cannot be applied")
 }

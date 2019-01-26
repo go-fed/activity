@@ -4,6 +4,7 @@ import (
 	"github.com/dave/jennifer/jen"
 )
 
+// memberType defines the way a method belongs to its struct.
 type memberType int
 
 const (
@@ -11,7 +12,9 @@ const (
 )
 
 const (
+	// A method is by value.
 	valueMember memberType = iota
+	// A method is by pointer.
 	pointerMember
 )
 
@@ -28,13 +31,13 @@ type Function struct {
 	params  []jen.Code
 	ret     []jen.Code
 	block   []jen.Code
-	comment jen.Code
+	comment string
 }
 
 // NewCommentedFunction creates a new function with a comment.
 func NewCommentedFunction(pkg, name string,
 	params, ret, block []jen.Code,
-	comment jen.Code) *Function {
+	comment string) *Function {
 	return &Function{
 		qual:    jen.Qual(pkg, name),
 		name:    name,
@@ -49,21 +52,28 @@ func NewCommentedFunction(pkg, name string,
 func NewFunction(pkg, name string,
 	params, ret, block []jen.Code) *Function {
 	return &Function{
-		qual:    jen.Qual(pkg, name),
-		name:    name,
-		params:  params,
-		ret:     ret,
-		block:   block,
-		comment: nil,
+		qual:   jen.Qual(pkg, name),
+		name:   name,
+		params: params,
+		ret:    ret,
+		block:  block,
 	}
+}
+
+// CloneToPackage copies this Function into a new one defined in the provided
+// package
+func (m Function) CloneToPackage(pkg string) *Function {
+	f := m
+	f.qual = jen.Qual(pkg, m.name)
+	return &f
 }
 
 // Definition generates the Go code required to define and implement this
 // function.
 func (m Function) Definition() jen.Code {
 	stmts := jen.Empty()
-	if m.comment != nil {
-		stmts = jen.Empty().Add(m.comment).Line()
+	if len(m.comment) > 0 {
+		stmts = jen.Commentf(insertNewlines(m.comment)).Line()
 	}
 	return stmts.Add(jen.Func().Id(m.name).Params(
 		m.params...,
@@ -85,6 +95,11 @@ func (m Function) Name() string {
 	return m.name
 }
 
+// QualifiedName returns the qualified identifier for this function.
+func (m Function) QualifiedName() *jen.Statement {
+	return m.qual.Clone()
+}
+
 // Method represents a method on a type, not a free function, for Go code to be
 // generated.
 type Method struct {
@@ -96,7 +111,7 @@ type Method struct {
 // NewCommentedValueMethod defines a commented method for the value of a type.
 func NewCommentedValueMethod(pkg, name, structName string,
 	params, ret, block []jen.Code,
-	comment jen.Code) *Method {
+	comment string) *Method {
 	return &Method{
 		member:     valueMember,
 		structName: structName,
@@ -118,12 +133,11 @@ func NewValueMethod(pkg, name, structName string,
 		member:     valueMember,
 		structName: structName,
 		function: &Function{
-			qual:    jen.Qual(pkg, name),
-			name:    name,
-			params:  params,
-			ret:     ret,
-			block:   block,
-			comment: nil,
+			qual:   jen.Qual(pkg, name),
+			name:   name,
+			params: params,
+			ret:    ret,
+			block:  block,
 		},
 	}
 }
@@ -132,7 +146,7 @@ func NewValueMethod(pkg, name, structName string,
 // type.
 func NewCommentedPointerMethod(pkg, name, structName string,
 	params, ret, block []jen.Code,
-	comment jen.Code) *Method {
+	comment string) *Method {
 	return &Method{
 		member:     pointerMember,
 		structName: structName,
@@ -155,12 +169,11 @@ func NewPointerMethod(pkg, name, structName string,
 		member:     pointerMember,
 		structName: structName,
 		function: &Function{
-			qual:    jen.Qual(pkg, name),
-			name:    name,
-			params:  params,
-			ret:     ret,
-			block:   block,
-			comment: nil,
+			qual:   jen.Qual(pkg, name),
+			name:   name,
+			params: params,
+			ret:    ret,
+			block:  block,
 		},
 	}
 }
@@ -169,8 +182,8 @@ func NewPointerMethod(pkg, name, structName string,
 // method.
 func (m Method) Definition() jen.Code {
 	comment := jen.Empty()
-	if m.function.comment != nil {
-		comment = jen.Empty().Add(m.function.comment).Line()
+	if len(m.function.comment) > 0 {
+		comment = jen.Commentf(insertNewlines(m.function.comment)).Line()
 	}
 	funcDef := jen.Empty()
 	switch m.member {
@@ -199,10 +212,26 @@ func (m Method) Definition() jen.Code {
 // Call generates the Go code required to call this method, with qualifier if
 // required.
 func (m Method) Call(on string, params ...jen.Code) jen.Code {
-	return jen.Id(on).Call(params...)
+	return jen.Id(on).Dot(m.function.name).Call(params...)
+}
+
+// On generates the Go code that determines the qualified method name on a
+// specific variable.
+func (m Method) On(on string) *jen.Statement {
+	return jen.Id(on).Dot(m.function.name)
 }
 
 // Name returns the identifier of this function.
 func (m Method) Name() string {
 	return m.function.name
+}
+
+// ToFunctionSignature obtains this method's FunctionSignature.
+func (m Method) ToFunctionSignature() FunctionSignature {
+	return FunctionSignature{
+		Name:    m.Name(),
+		Params:  m.function.params,
+		Ret:     m.function.ret,
+		Comment: m.function.comment,
+	}
 }

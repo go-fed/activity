@@ -2,6 +2,7 @@ package rdf
 
 import (
 	"fmt"
+	"net/url"
 	"strings"
 )
 
@@ -39,6 +40,31 @@ func SplitAlias(s string) []string {
 	} else {
 		return strs
 	}
+}
+
+// ToHttpAndHttps converts a URI to both its http and https versions.
+func ToHttpAndHttps(s string) (http, https string, err error) {
+	// Trailing fragments are not preserved by url.Parse, so we
+	// need to do proper bookkeeping and preserve it if present.
+	hasFragment := s[len(s)-1] == '#'
+	var specUri *url.URL
+	specUri, err = url.Parse(s)
+	if err != nil {
+		return "", "", err
+	}
+	// HTTP
+	httpScheme := *specUri
+	httpScheme.Scheme = HTTP
+	http = httpScheme.String()
+	// HTTPS
+	httpsScheme := *specUri
+	httpsScheme.Scheme = HTTPS
+	https = httpsScheme.String()
+	if hasFragment {
+		http += "#"
+		https += "#"
+	}
+	return
 }
 
 // joinAlias combines a string and prepends an RDF alias to it.
@@ -103,6 +129,15 @@ func NewRDFRegistry() *RDFRegistry {
 	}
 }
 
+// clone creates a new RDFRegistry keeping only the ontologies.
+func (r *RDFRegistry) clone() *RDFRegistry {
+	c := NewRDFRegistry()
+	for k, v := range r.ontologies {
+		c.ontologies[k] = v
+	}
+	return c
+}
+
 // setAlias sets an alias for a string.
 func (r *RDFRegistry) setAlias(alias, s string) error {
 	if _, ok := r.aliases[alias]; ok {
@@ -140,12 +175,26 @@ func (r *RDFRegistry) AddOntology(o Ontology) error {
 	if r.ontologies == nil {
 		r.ontologies = make(map[string]Ontology, 1)
 	}
-	s := o.SpecURI()
-	if _, ok := r.ontologies[s]; ok {
-		return fmt.Errorf("ontology already registered for %q", s)
+	specString := o.SpecURI()
+	httpSpec, httpsSpec, err := ToHttpAndHttps(specString)
+	if err != nil {
+		return err
 	}
-	r.ontologies[s] = o
+	if _, ok := r.ontologies[httpSpec]; ok {
+		return fmt.Errorf("ontology already registered for %q", httpSpec)
+	}
+	if _, ok := r.ontologies[httpsSpec]; ok {
+		return fmt.Errorf("ontology already registered for %q", httpsSpec)
+	}
+	r.ontologies[httpSpec] = o
+	r.ontologies[httpsSpec] = o
 	return nil
+}
+
+// reset clears the registry in preparation for loading another JSONLD context.
+func (r *RDFRegistry) reset() {
+	r.aliases = make(map[string]string)
+	r.aliasedNodes = make(map[string]aliasedNode)
 }
 
 // getFor gets RDFKeyers based on a context's string.
@@ -262,7 +311,13 @@ func (r *RDFRegistry) getNode(s string) (n RDFNode, e error) {
 }
 
 // resolveAlias turns an alias into its full qualifier for the ontology.
+//
+// If passed in a valid URI, it returns what was passed in.
 func (r *RDFRegistry) ResolveAlias(alias string) (url string, e error) {
+	if _, ok := r.ontologies[alias]; ok {
+		url = alias
+		return
+	}
 	var ok bool
 	if url, ok = r.aliases[alias]; !ok {
 		e = fmt.Errorf("registry cannot resolve alias %q", alias)

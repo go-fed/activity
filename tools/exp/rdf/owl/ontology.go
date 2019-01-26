@@ -18,18 +18,22 @@ const (
 	functionalPropertySpec = "FunctionalProperty"
 )
 
+// OWLOntology is an Ontology for OWL2.
 type OWLOntology struct {
 	alias string
 }
 
+// SpecURI returns the URI of the OWL specification.
 func (o *OWLOntology) SpecURI() string {
 	return owlSpec
 }
 
+// Load this ontology without an alias.
 func (o *OWLOntology) Load() ([]rdf.RDFNode, error) {
 	return o.LoadAsAlias("")
 }
 
+// LoadAsAlias loads the ontology with the alias.
 func (o *OWLOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	o.alias = s
 	return []rdf.RDFNode{
@@ -84,6 +88,7 @@ func (o *OWLOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	}, nil
 }
 
+// LoadSpecificAsAlias loads a specific ontology definition as an alias.
 func (o *OWLOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, error) {
 	switch name {
 	case membersSpec:
@@ -162,6 +167,8 @@ func (o *OWLOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, er
 	return nil, fmt.Errorf("owl ontology cannot find %q to alias to %q", name, alias)
 }
 
+// LoadElement allows loading nodes to enable contexts containing a container
+// with an index.
 func (o *OWLOntology) LoadElement(name string, payload map[string]interface{}) ([]rdf.RDFNode, error) {
 	// First, detect if an idValue exists
 	var idValue interface{}
@@ -213,6 +220,7 @@ func (o *OWLOntology) LoadElement(name string, payload map[string]interface{}) (
 	return []rdf.RDFNode{node}, nil
 }
 
+// GetByName returns a bare node.
 func (o *OWLOntology) GetByName(name string) (rdf.RDFNode, error) {
 	name = strings.TrimPrefix(name, o.SpecURI())
 	switch name {
@@ -238,15 +246,21 @@ func (o *OWLOntology) GetByName(name string) (rdf.RDFNode, error) {
 
 var _ rdf.RDFNode = &members{}
 
-type members struct{}
+// members represents owl:members.
+type members struct {
+	pushed bool
+}
 
+// Enter does nothing but returns an error if the context is not reset.
 func (m *members) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	if !ctx.IsReset() {
-		return true, fmt.Errorf("owl members entered without reset context")
+		ctx.Push()
+		m.pushed = true
 	}
 	return true, nil
 }
 
+// Exit adds a Vocabulary Type, Property or Value to Result.
 func (m *members) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	// Finish adding the Current item to the resulting vocabulary
 	if ctx.Current == nil {
@@ -268,18 +282,23 @@ func (m *members) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	default:
 		return true, fmt.Errorf("owl members exiting with unhandled type: %T", ctx.Current)
 	}
-	ctx.Reset()
+	if m.pushed {
+		ctx.Pop()
+	}
 	return true, nil
 }
 
+// Apply returns an error.
 func (m *members) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl members cannot be applied")
 }
 
 var _ rdf.RDFNode = &disjointWith{}
 
+// disjointWith represents owl:disjointWith.
 type disjointWith struct{}
 
+// Enter ensures the Current is a Type, then pushes a Reference.
 func (d *disjointWith) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	// Push the Current type aside, to build a Reference.
 	if ctx.Current == nil {
@@ -292,6 +311,7 @@ func (d *disjointWith) Enter(key string, ctx *rdf.ParsingContext) (bool, error) 
 	return true, nil
 }
 
+// Exit pops the Reference and adds it to the Type's DisjointWith.
 func (d *disjointWith) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	// Pop the Reference, put into the type.
 	ref, ok := ctx.Current.(*rdf.VocabularyReference)
@@ -307,16 +327,19 @@ func (d *disjointWith) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, nil
 }
 
+// Apply returns an error.
 func (d *disjointWith) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl disjointWith cannot be applied")
 }
 
 var _ rdf.RDFNode = &unionOf{}
 
+// unionOf represents owl:unionOf.
 type unionOf struct {
 	entered bool
 }
 
+// Enter pushes a single Reference.
 func (u *unionOf) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	u.entered = true
 	ctx.Push()
@@ -324,6 +347,8 @@ func (u *unionOf) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, nil
 }
 
+// Exit pops a Reference and appends it to Current, which is a slice of
+// References.
 func (u *unionOf) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	u.entered = false
 	if ctx.Current == nil {
@@ -343,6 +368,9 @@ func (u *unionOf) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, nil
 }
 
+// Apply will either apply a value onto a current Reference (if it was entered
+// due to being a JSON array), or will append a new reference to Current (which
+// is a slice of references).
 func (u *unionOf) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	s, ok := value.(string)
 	if !ok {
@@ -377,49 +405,66 @@ func (u *unionOf) Apply(key string, value interface{}, ctx *rdf.ParsingContext) 
 
 var _ rdf.RDFNode = &imports{}
 
+// imports does nothing but returns errors. It should instead be handled by
+// special cases in an Ontology's LoadElement.
+//
+// Overall, this is a pain to implement. If these errors are seen, then I am
+// about to have a really not-fun day.
 type imports struct{}
 
+// Enter returns an error.
 func (i *imports) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl imports cannot be entered")
 }
 
+// Exit returns an error.
 func (i *imports) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl imports cannot be entered")
 }
 
+// Apply returns an error.
 func (i *imports) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl imports cannot be entered")
 }
 
 var _ rdf.RDFNode = &ontology{}
 
+// ontology does nothing.
 type ontology struct{}
 
+// Enter returns an error.
 func (o *ontology) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl ontology cannot be entered")
 }
 
+// Exit returns an error.
 func (o *ontology) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl ontology cannot be exited")
 }
 
+// Apply does nothing.
 func (o *ontology) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	// Do nothing
+	ctx.Current = &ctx.Result.Vocab
 	return true, nil
 }
 
 var _ rdf.RDFNode = &class{}
 
+// class prepares a new Type on Current, unless Reference has already been
+// prepared.
 type class struct{}
 
+// Enter returns an error.
 func (c *class) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl class cannot be entered")
 }
 
+// Exit returns an error.
 func (c *class) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl class cannot be exited")
 }
 
+// Apply sets a Type on Current, unless a Reference is already set.
 func (c *class) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	// Prepare a new VocabularyType in the context, unless it is a
 	// reference already prepared.
@@ -437,16 +482,20 @@ func (c *class) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (b
 
 var _ rdf.RDFNode = &objectProperty{}
 
+// objectProperty is owl:objectProperty
 type objectProperty struct{}
 
+// Enter returns an error.
 func (o *objectProperty) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl objectProperty cannot be entered")
 }
 
+// Exit returns an error.
 func (o *objectProperty) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl objectProperty cannot be exited")
 }
 
+// Apply sets Current to be a Property, unless it is already a Property.
 func (o *objectProperty) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	// Prepare a new VocabularyProperty in the context. If one already
 	// exists, skip.
@@ -461,16 +510,22 @@ func (o *objectProperty) Apply(key string, value interface{}, ctx *rdf.ParsingCo
 
 var _ rdf.RDFNode = &functionalProperty{}
 
+// functionalProperty represents owl:functionalProperty
 type functionalProperty struct{}
 
+// Enter returns an error.
 func (f *functionalProperty) Enter(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl functionalProperty cannot be entered")
 }
 
+// Exit returns an error.
 func (f *functionalProperty) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 	return true, fmt.Errorf("owl functionalProperty cannot be exited")
 }
 
+// Apply sets the Current Property's Functional to true.
+//
+// Returns an error if Current is not a Property.
 func (f *functionalProperty) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
 	if ctx.Current == nil {
 		return true, fmt.Errorf("owl functionalProperty given nil Current in context")

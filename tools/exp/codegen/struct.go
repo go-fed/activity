@@ -2,6 +2,8 @@ package codegen
 
 import (
 	"github.com/dave/jennifer/jen"
+	"sort"
+	"unicode"
 )
 
 // join appends a bunch of Go Code together, each on their own line.
@@ -19,7 +21,7 @@ func join(s []jen.Code) *jen.Statement {
 // Struct defines a struct-based type, its functions, and its methods for Go
 // code generation.
 type Struct struct {
-	comment      jen.Code
+	comment      string
 	name         string
 	methods      map[string]*Method
 	constructors map[string]*Function
@@ -27,7 +29,7 @@ type Struct struct {
 }
 
 // NewStruct creates a new commented Struct type.
-func NewStruct(comment jen.Code,
+func NewStruct(comment string,
 	name string,
 	methods []*Method,
 	constructors []*Function,
@@ -52,17 +54,29 @@ func NewStruct(comment jen.Code,
 // struct, its methods, and its functions.
 func (s *Struct) Definition() jen.Code {
 	comment := jen.Empty()
-	if s.comment != nil {
-		comment = jen.Empty().Add(s.comment).Line()
+	if len(s.comment) > 0 {
+		comment = jen.Commentf(insertNewlines(s.comment)).Line()
 	}
 	def := comment.Type().Id(s.name).Struct(
 		join(s.members),
 	)
+	// Sort the functions and methods.
+	fs := make([]string, 0, len(s.constructors))
 	for _, c := range s.constructors {
-		def = def.Line().Line().Add(c.Definition())
+		fs = append(fs, c.Name())
 	}
+	ms := make([]string, 0, len(s.methods))
 	for _, m := range s.methods {
-		def = def.Line().Line().Add(m.Definition())
+		ms = append(ms, m.Name())
+	}
+	sort.Sort(sort.StringSlice(fs))
+	sort.Sort(sort.StringSlice(ms))
+	// Add the functions and methods in order.
+	for _, c := range fs {
+		def = def.Line().Line().Add(s.constructors[c].Definition())
+	}
+	for _, m := range ms {
+		def = def.Line().Line().Add(s.methods[m].Definition())
 	}
 	return def
 }
@@ -77,4 +91,15 @@ func (s *Struct) Method(name string) *Method {
 // specific name. Panics if no such function exists.
 func (s *Struct) Constructors(name string) *Function {
 	return s.constructors[name]
+}
+
+// ToInterface creates an interface version of this struct.
+func (s *Struct) ToInterface(pkg, name, comment string) *Interface {
+	fns := make([]FunctionSignature, 0, len(s.methods))
+	for _, m := range s.methods {
+		if unicode.IsUpper([]rune(m.Name())[0]) {
+			fns = append(fns, m.ToFunctionSignature())
+		}
+	}
+	return NewInterface(pkg, name, fns, comment)
 }

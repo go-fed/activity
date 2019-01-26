@@ -2,6 +2,7 @@ package rdf
 
 import (
 	"fmt"
+	"net/url"
 )
 
 const (
@@ -17,15 +18,26 @@ type JSONLD map[string]interface{}
 // ParsingContext contains the results of the parsing as well as scratch space
 // required for RDFNodes to be able to statefully apply changes.
 type ParsingContext struct {
-	Result  *ParsedVocabulary
+	// Result contains the final ParsedVocabulary from a file.
+	Result *ParsedVocabulary
+	// Current item to operate upon. A call to Push or Pop will overwrite
+	// this field.
 	Current interface{}
-	Name    string
-	Stack   []interface{}
+	// Name of the Current item. A call to Push or Pop will modify this
+	// field.
+	Name string
+	// The Stack of Types, Properties, References, Examples, and other
+	// items being analyzed. A call to Push or Pop will modify this field.
+	//
+	// Do not use directly, instead use Push and Pop.
+	Stack []interface{}
 	// Applies the node only for the next level of processing.
 	//
 	// Do not touch, instead use the accessor methods.
 	OnlyApplyThisNodeNextLevel RDFNode
-	OnlyApplied                bool
+	// OnlyApplied keeps track if OnlyApplyThisNodeNextLevel has applied
+	// once.
+	OnlyApplied bool
 	// Applies the node once, for the rest of the data. This skips the
 	// recursive parsing, and the node's Apply is given an empty string
 	// for a key.
@@ -34,19 +46,47 @@ type ParsingContext struct {
 	OnlyApplyThisNode RDFNode
 }
 
+// GetResultReferenceWithDefaults will fetch the spec and set the Vocabulary
+// Name and URI values as well. Helper function when getting a reference in
+// order to populate known value types.
+func (p *ParsingContext) GetResultReferenceWithDefaults(spec, name string) (*Vocabulary, error) {
+	v, err := p.Result.GetReference(spec)
+	if err != nil {
+		return nil, err
+	}
+	u, err := url.Parse(spec)
+	if err != nil {
+		return nil, err
+	}
+	v.Name = name
+	v.URI = u
+	return v, nil
+}
+
+// SetOnlyApplyThisNode sets the provided node to be the only one applied until
+// ResetOnlyApplyThisNode is called.
 func (p *ParsingContext) SetOnlyApplyThisNode(n RDFNode) {
 	p.OnlyApplyThisNode = n
 }
 
+// ResetOnlyApplyThisNode clears the only node to apply, if set.
 func (p *ParsingContext) ResetOnlyApplyThisNode() {
 	p.OnlyApplyThisNode = nil
 }
 
+// SetOnlyApplyThisNodeNExtLevel will apply the next node only for the next
+// level.
 func (p *ParsingContext) SetOnlyApplyThisNodeNextLevel(n RDFNode) {
 	p.OnlyApplyThisNodeNextLevel = n
 	p.OnlyApplied = false
 }
 
+// GetNextNodes is given the list of nodes a parent process believes should be
+// applied, and returns the list of nodes that actually should be used.
+//
+// If there is node that should only apply or should only apply at the next
+// level (and hasn't yet), then the passed in list will not match the resulting
+// list.
 func (p *ParsingContext) GetNextNodes(n []RDFNode) (r []RDFNode, clearFn func()) {
 	if p.OnlyApplyThisNodeNextLevel == nil {
 		return n, func() {}
@@ -60,16 +100,21 @@ func (p *ParsingContext) GetNextNodes(n []RDFNode) (r []RDFNode, clearFn func())
 	}
 }
 
+// ResetOnlyAppliedThisNodeNextLevel clears the node that should have been
+// applied for the next level of depth only.
 func (p *ParsingContext) ResetOnlyAppliedThisNodeNextLevel() {
 	p.OnlyApplyThisNodeNextLevel = nil
 	p.OnlyApplied = false
 }
 
+// Push puts the Current onto the Stack.
 func (p *ParsingContext) Push() {
 	p.Stack = append([]interface{}{p.Current}, p.Stack...)
-	p.Current = nil
+	p.Reset()
 }
 
+// Pop puts the top item on the Stack into Current, and sets Name as
+// appropriate.
 func (p *ParsingContext) Pop() {
 	p.Current = p.Stack[0]
 	p.Stack = p.Stack[1:]
@@ -78,32 +123,39 @@ func (p *ParsingContext) Pop() {
 	}
 }
 
+// IsReset determines if the Context's Current is nil and Name is empty. Note
 func (p *ParsingContext) IsReset() bool {
 	return p.Current == nil &&
 		p.Name == ""
 }
 
+// Reset sets Current to nil and Name to empty string.
 func (p *ParsingContext) Reset() {
 	p.Current = nil
 	p.Name = ""
 }
 
+// NameSetter is a utility interface for the rdf Vocabulary types.
 type NameSetter interface {
 	SetName(string)
 }
 
+// NameGetter is a utility interface for the rdf Vocabulary types.
 type NameGetter interface {
 	GetName() string
 }
 
+// URISetter is a utility interface for the rdf Vocabulary types.
 type URISetter interface {
 	SetURI(string) error
 }
 
+// NotesSetter is a utility interface for the rdf Vocabulary types.
 type NotesSetter interface {
 	SetNotes(string)
 }
 
+// ExampleAdder is a utility interface for the rdf Vocabulary types.
 type ExampleAdder interface {
 	AddExample(*VocabularyExample)
 }
@@ -112,20 +164,65 @@ type ExampleAdder interface {
 // ontology (determined at creation time). It applies the value in its own
 // specific implementation on the context.
 type RDFNode interface {
+	// Enter is called when the RDFNode is a label for an array of values or
+	// a key within a JSON object, and the parser is about to examine its
+	// value(s). Exit is guaranteed to be called afterwards.
 	Enter(key string, ctx *ParsingContext) (bool, error)
+	// Exit is called after the parser examines the node's value(s).
 	Exit(key string, ctx *ParsingContext) (bool, error)
+	// Apply is called by the parser on nodes when they appear as values.
 	Apply(key string, value interface{}, ctx *ParsingContext) (bool, error)
 }
 
-// ParseVocabulary parses the specified input as an ActivityStreams context that
+// ParseVocabularies parses the provided inputs in order as an ActivityStreams
+// context that specifies one or more extension vocabularies.
+func ParseVocabularies(registry *RDFRegistry, inputs []JSONLD) (vocabulary *ParsedVocabulary, err error) {
+	vocabulary = &ParsedVocabulary{
+		References: make(map[string]*Vocabulary, len(inputs)-1),
+	}
+	currentRegistry := registry.clone()
+	for i, input := range inputs {
+		var v *ParsedVocabulary
+		v, err = parseVocabulary(currentRegistry, input, vocabulary.References)
+		if err != nil {
+			return
+		}
+		for k, ref := range v.References {
+			if ref.Registry != nil {
+				err = ref.Registry.AddOntology(&ReferenceOntology{v.Vocab})
+				if err != nil {
+					return
+				}
+			}
+			vocabulary.References[k] = ref
+		}
+		if i < len(inputs)-1 {
+			currentRegistry = v.Vocab.Registry.clone()
+			err = currentRegistry.AddOntology(&ReferenceOntology{v.Vocab})
+			if err != nil {
+				return
+			}
+			vocabulary.References[v.Vocab.URI.String()] = &v.Vocab
+		} else {
+			vocabulary.Vocab = v.Vocab
+		}
+		vocabulary.Order = append(vocabulary.Order, v.Vocab.URI.String())
+	}
+	return
+}
+
+// parseVocabulary parses the specified input as an ActivityStreams context that
 // specifies a Core, Extended, or Extension vocabulary.
-func ParseVocabulary(registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVocabulary, err error) {
+func parseVocabulary(registry *RDFRegistry, input JSONLD, references map[string]*Vocabulary) (vocabulary *ParsedVocabulary, err error) {
 	var nodes []RDFNode
 	nodes, err = parseJSONLDContext(registry, input)
 	if err != nil {
 		return
 	}
-	vocabulary = &ParsedVocabulary{}
+	vocabulary = &ParsedVocabulary{References: make(map[string]*Vocabulary, len(references))}
+	for k, v := range references {
+		vocabulary.References[k] = v
+	}
 	ctx := &ParsingContext{
 		Result: vocabulary,
 	}
@@ -143,6 +240,7 @@ func ParseVocabulary(registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVoc
 	if err != nil {
 		return
 	}
+	ctx.Reset()
 	// Step 2: Populate value and referenced types.
 	err = resolveReferences(registry, ctx)
 	if err != nil {
@@ -150,23 +248,17 @@ func ParseVocabulary(registry *RDFRegistry, input JSONLD) (vocabulary *ParsedVoc
 	}
 	// Step 3: Populate VocabularyType's 'Properties' and
 	// 'WithoutProperties' fields
-	err = populatePropertiesOnTypes(ctx)
+	err = populatePropertiesOnTypes(registry, ctx)
+	vocabulary.Vocab.Registry = registry
 	return
 }
 
 // populatePropertiesOnTypes populates the 'Properties' and 'WithoutProperties'
 // entries on a VocabularyType.
-func populatePropertiesOnTypes(ctx *ParsingContext) error {
+func populatePropertiesOnTypes(registry *RDFRegistry, ctx *ParsingContext) error {
 	for _, p := range ctx.Result.Vocab.Properties {
-		if err := populatePropertyOnTypes(p, "", ctx); err != nil {
+		if err := populatePropertyOnTypes(registry, p, ctx.Result.Vocab.URI.String(), ctx); err != nil {
 			return err
-		}
-	}
-	for vName, ref := range ctx.Result.References {
-		for _, p := range ref.Properties {
-			if err := populatePropertyOnTypes(p, vName, ctx); err != nil {
-				return err
-			}
 		}
 	}
 	return nil
@@ -174,11 +266,12 @@ func populatePropertiesOnTypes(ctx *ParsingContext) error {
 
 // populatePropertyOnTypes populates the VocabularyType's 'Properties' and
 // 'WithoutProperties' fields based on the 'Domain' and 'DoesNotApplyTo'.
-func populatePropertyOnTypes(p VocabularyProperty, vocabName string, ctx *ParsingContext) error {
+func populatePropertyOnTypes(registry *RDFRegistry, p VocabularyProperty, vocabName string, ctx *ParsingContext) error {
 	ref := VocabularyReference{
-		Name:  p.Name,
-		URI:   p.URI,
-		Vocab: vocabName,
+		Name: p.Name,
+		URI:  p.URI,
+		// Vocab will only be populated on types outside of its own
+		// vocabulary.
 	}
 	for _, d := range p.Domain {
 		if len(d.Vocab) == 0 {
@@ -189,15 +282,23 @@ func populatePropertyOnTypes(p VocabularyProperty, vocabName string, ctx *Parsin
 			t.Properties = append(t.Properties, ref)
 			ctx.Result.Vocab.Types[d.Name] = t
 		} else {
-			v, ok := ctx.Result.References[d.Vocab]
-			if !ok {
-				return fmt.Errorf("cannot populate property on type for vocab %q", d.Vocab)
+			vocab := d.Vocab
+			if u, err := registry.ResolveAlias(d.Vocab); err == nil {
+				vocab = u
+			}
+			v, err := ctx.Result.GetReference(vocab)
+			if err != nil {
+				return err
 			}
 			t, ok := v.Types[d.Name]
 			if !ok {
-				return fmt.Errorf("cannot populate property on type %q for vocab %q", d.Name, d.Vocab)
+				return fmt.Errorf("cannot populate property on type %q for vocab %q", d.Name, vocab)
 			}
-			t.Properties = append(t.Properties, ref)
+			// Since the type is outside this property's vocabulary,
+			// populate the Vocab field.
+			refCopy := ref
+			refCopy.Vocab = vocabName
+			t.Properties = append(t.Properties, refCopy)
 			v.Types[d.Name] = t
 		}
 	}
@@ -210,15 +311,23 @@ func populatePropertyOnTypes(p VocabularyProperty, vocabName string, ctx *Parsin
 			t.WithoutProperties = append(t.WithoutProperties, ref)
 			ctx.Result.Vocab.Types[dna.Name] = t
 		} else {
-			v, ok := ctx.Result.References[dna.Vocab]
-			if !ok {
-				return fmt.Errorf("cannot populate withoutproperty on type for vocab %q", dna.Vocab)
+			vocab := dna.Vocab
+			if u, err := registry.ResolveAlias(dna.Vocab); err == nil {
+				vocab = u
+			}
+			v, err := ctx.Result.GetReference(vocab)
+			if err != nil {
+				return err
 			}
 			t, ok := v.Types[dna.Name]
 			if !ok {
-				return fmt.Errorf("cannot populate withoutproperty on type %q for vocab %q", dna.Name, dna.Vocab)
+				return fmt.Errorf("cannot populate withoutproperty on type %q for vocab %q", dna.Name, vocab)
 			}
-			t.WithoutProperties = append(t.WithoutProperties, ref)
+			// Since the type is outside this property's vocabulary,
+			// populate the Vocab field.
+			refCopy := ref
+			refCopy.Vocab = vocabName
+			t.WithoutProperties = append(t.WithoutProperties, refCopy)
 			v.Types[dna.Name] = t
 		}
 	}
@@ -282,7 +391,10 @@ func resolveReference(reference VocabularyReference, registry *RDFRegistry, ctx 
 		if e != nil {
 			return e
 		}
-		vocab = ctx.Result.GetReference(url)
+		vocab, e = ctx.Result.GetReference(url)
+		if e != nil {
+			return e
+		}
 	}
 	if _, ok := vocab.Types[reference.Name]; ok {
 		return nil
