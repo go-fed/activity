@@ -268,7 +268,7 @@ type VocabularyProperty struct {
 	Range          []VocabularyReference
 	DoesNotApplyTo []VocabularyReference
 	Examples       []VocabularyExample
-	// SubpropertyOf is ignorable as long as data is set up correctly TODO: Is this still correct?
+	// SubpropertyOf is ignorable as long as data is set up correctly
 	SubpropertyOf      VocabularyReference // Must be a VocabularyProperty
 	Functional         bool
 	NaturalLanguageMap bool

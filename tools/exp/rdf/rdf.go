@@ -77,7 +77,6 @@ func joinAlias(alias, s string) string {
 // for this ontology.
 type Ontology interface {
 	// SpecURI refers to the URI location of this ontology.
-	// TODO: Handle both http and https.
 	SpecURI() string
 
 	// The Load methods deal with determining how best to apply an ontology
