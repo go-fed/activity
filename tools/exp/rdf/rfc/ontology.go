@@ -4,9 +4,9 @@ package rfc
 
 import (
 	"fmt"
+	"github.com/dave/jennifer/jen"
 	"github.com/go-fed/activity/tools/exp/codegen"
 	"github.com/go-fed/activity/tools/exp/rdf"
-	"github.com/dave/jennifer/jen"
 	"net/url"
 	"strings"
 )

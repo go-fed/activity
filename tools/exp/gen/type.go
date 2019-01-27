@@ -2,8 +2,8 @@ package gen
 
 import (
 	"fmt"
-	"github.com/go-fed/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
+	"github.com/go-fed/activity/tools/exp/codegen"
 	"net/url"
 	"sort"
 	"strings"

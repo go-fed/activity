@@ -3,8 +3,8 @@ package rdf
 import (
 	"bytes"
 	"fmt"
-	"github.com/go-fed/activity/tools/exp/codegen"
 	"github.com/dave/jennifer/jen"
+	"github.com/go-fed/activity/tools/exp/codegen"
 	"net/url"
 )
 
@@ -26,6 +26,19 @@ type ParsedVocabulary struct {
 	Order      []string
 }
 
+// Size returns the number of types, properties, and values in the parsed
+// vocabulary.
+func (p ParsedVocabulary) Size() int {
+	s := p.Vocab.Size()
+	for _, v := range p.References {
+		s += v.Size()
+	}
+	return s
+}
+
+// Clone creates a copy of this ParsedVocabulary. Note that the cloned
+// vocabulary does not copy References, so the original and clone both have
+// pointers to the same referenced vocabularies.
 func (p ParsedVocabulary) Clone() *ParsedVocabulary {
 	clone := &ParsedVocabulary{
 		Vocab:      p.Vocab,
@@ -77,6 +90,11 @@ type Vocabulary struct {
 	Properties map[string]VocabularyProperty
 	Values     map[string]VocabularyValue
 	Registry   *RDFRegistry
+}
+
+// Size returns the number of types, properties, and values in this vocabulary.
+func (v Vocabulary) Size() int {
+	return len(v.Types) + len(v.Properties) + len(v.Values)
 }
 
 // GetName returns the vocabulary's name.
