@@ -17,6 +17,11 @@ import (
 	"strings"
 )
 
+const (
+	pathFlag = "path"
+	specFlag = "spec"
+)
+
 // Global registry of "known" RDF ontologies. This manages the built-in
 // knowledge of how to parse specific linked data documents. It may be cloned
 // in the course of processing a JSON-LD document, due to "@context" dictating
@@ -65,10 +70,37 @@ func (l *list) Set(v string) error {
 	return nil
 }
 
+// settableString is a flag-friendly string that distinguishes an empty string
+// due to not being set and explicitly being set as empty at the command line.
+type settableString struct {
+	set bool
+	str string
+}
+
+// String simply returns the string value of this settableString.
+func (s *settableString) String() string {
+	return s.str
+}
+
+// Set will mark this settableString's set as true and store the value.
+func (s *settableString) Set(v string) error {
+	s.set = true
+	s.str = v
+	return nil
+}
+
+// IsSet returns true if this value was explicitly set as a flag value.
+func (s settableString) IsSet() bool {
+	return s.set
+}
+
 // CommandLineFlags manages the flags defined by this tool.
 type CommandLineFlags struct {
-	specs  list
-	prefix string
+	// Flags
+	specs list
+	path  settableString
+	// Additional data
+	pathAutoDetected bool
 }
 
 // NewCommandLineFlags defines the flags expected to be used by this tool. Calls
@@ -76,22 +108,55 @@ type CommandLineFlags struct {
 // error if validation fails.
 func NewCommandLineFlags() (*CommandLineFlags, error) {
 	c := &CommandLineFlags{}
-	// TODO: Be more rigorous when applying this. Also, clear the default value I am using for convenience.
-	flag.StringVar(
-		&c.prefix,
-		"prefix",
-		"github.com/go-fed/activity/tools/exp/tmp",
-		"Package prefix to use for all generated package paths. This should be the prefix in the GOPATH directory if generating in a subdirectory.")
-	flag.Var(&(c.specs), "spec", "Input JSON-LD specification used to generate Go code.")
+	flag.Var(
+		&c.path,
+		pathFlag,
+		"Package path to use for all generated package paths. If using GOPATH, this is automatically detected as $GOPATH/<path>/ when generating in a subdirectory. Cannot be explicitly set to be empty.")
+	flag.Var(&(c.specs), specFlag, "Input JSON-LD specification used to generate Go code.")
 	flag.Parse()
 	return c, c.Validate()
+}
+
+// detectPath attempts to detect the path to use when generating the code. The
+// path is only detected if the tool is running in a subdirectory of GOPATH,
+// and will be set to $GOPATH/<path>/. After this method runs without errors,
+// c.path.IsSet will always return true.
+//
+// When auto-detecting, if GOPATH is not set then will return an error.
+//
+// If the path has already been set at the command line, does nothing.
+func (c *CommandLineFlags) detectPath() error {
+	if c.path.IsSet() {
+		return nil
+	}
+	gopath, isSet := os.LookupEnv("GOPATH")
+	if !isSet {
+		return fmt.Errorf("cannot detect %q because GOPATH environmental variable is not set and %q flag was not explicitly set", pathFlag, pathFlag)
+	}
+	pwd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+	if !strings.HasPrefix(pwd, gopath) {
+		return fmt.Errorf("cannot detect %q because current working directory is not under GOPATH and %q flag was not explicitly set", pathFlag, pathFlag)
+	}
+	c.pathAutoDetected = true
+	gopath = strings.Join([]string{gopath, "src", ""}, "/")
+	c.path.Set(strings.TrimPrefix(pwd, gopath))
+	return nil
 }
 
 // Validate applies custom validation logic to flags and returns an error if any
 // flags violate these rules.
 func (c *CommandLineFlags) Validate() error {
 	if len(c.specs) == 0 {
-		return fmt.Errorf("spec flag must not be empty")
+		return fmt.Errorf("%q flag must not be empty", specFlag)
+	}
+	if err := c.detectPath(); err != nil {
+		return err
+	}
+	if len(c.path.String()) == 0 {
+		return fmt.Errorf("%q flag must not be empty", pathFlag)
 	}
 	return nil
 }
@@ -115,12 +180,27 @@ func (c *CommandLineFlags) ReadSpecs() (j []rdf.JSONLD, err error) {
 	return
 }
 
+// AutoDetectedPath returns true if the path flag was auto-detected.
+func (c *CommandLineFlags) AutoDetectedPath() bool {
+	return c.pathAutoDetected
+}
+
+// Path returns the path flag.
+func (c *CommandLineFlags) Path() string {
+	return c.path.String()
+}
+
 func main() {
 	// Read, Parse, and Validate command line flags
 	cmd, err := NewCommandLineFlags()
 	if err != nil {
 		fmt.Println(err)
 		return
+	}
+
+	// Print auto-determined values
+	if cmd.AutoDetectedPath() {
+		fmt.Printf("Auto-detected path: %s\n", cmd.Path())
 	}
 
 	// Read input specification files
@@ -141,7 +221,7 @@ func main() {
 	// Convert to generated code
 	fmt.Printf("Converting %d types, properties, and values...\n", p.Size())
 	c := &convert.Converter{
-		GenRoot:       gen.NewPackageManager(cmd.prefix, "gen"),
+		GenRoot:       gen.NewPackageManager(cmd.Path(), ""),
 		PackagePolicy: convert.IndividualUnderRoot,
 	}
 	f, err := c.Convert(p)

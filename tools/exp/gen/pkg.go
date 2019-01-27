@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/dave/jennifer/jen"
 	"github.com/go-fed/activity/tools/exp/codegen"
+	"os"
 	"strings"
 )
 
@@ -19,9 +20,11 @@ type PackageManager struct {
 // NewPackageManager creates a package manager whose private implementation is
 // in an "impl" subdirectory.
 func NewPackageManager(prefix, root string) *PackageManager {
+	pathPrefix := strings.Replace(prefix, string(os.PathSeparator), "/", -1)
+	pathRoot := strings.Replace(root, string(os.PathSeparator), "/", -1)
 	return &PackageManager{
-		prefix:  prefix,
-		root:    root,
+		prefix:  pathPrefix,
+		root:    pathRoot,
 		public:  "",
 		private: "impl",
 	}
@@ -84,9 +87,13 @@ func (p *PackageManager) SubPublic(name string) *PackageManager {
 // toPackage returns the public or private Package managed by this
 // PackageManager.
 func (p *PackageManager) toPackage(suffix string, public bool) Package {
-	path := p.root
-	if len(suffix) > 0 {
+	var path string
+	if len(p.root) > 0 && len(suffix) > 0 {
 		path = strings.Join([]string{p.root, suffix}, "/")
+	} else if len(suffix) > 0 {
+		path = suffix
+	} else if len(p.root) > 0 {
+		path = p.root
 	}
 	s := strings.Split(path, "/")
 	name := s[len(s)-1]
@@ -110,7 +117,11 @@ type Package struct {
 
 // Path is the GOPATH or module path to this package.
 func (p Package) Path() string {
-	return p.prefix + "/" + p.path
+	path := p.prefix
+	if len(p.path) > 0 {
+		path += "/" + p.path
+	}
+	return path
 }
 
 // WriteDir obtains the relative directory this package should be written to,
