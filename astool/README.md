@@ -73,7 +73,7 @@ dependencies, in order of derivation:
 ```
 mkdir tmp
 cd tmp
-astool -spec activitystreams.jsonld -spec example\_custom\_spec.jsonld
+astool -spec activitystreams.jsonld -spec example_custom_spec.jsonld
 ```
 
 This automatically generates a number of files containing the functions,
