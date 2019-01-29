@@ -877,11 +877,21 @@ func (c Converter) rootFiles(pkg gen.Package, vocabName string, v vocabulary, m 
 	pg := gen.NewPackageGenerator()
 	typeCtors, propCtors, ext, disj, extBy := pg.RootDefinitions(vocabName, m, v.typeArray(), v.propArray())
 	lowerVocabName := strings.ToLower(vocabName)
-	f = append(f, funcsToFile(pkg, typeCtors, fmt.Sprintf("gen_pkg_%s_type_constructors.go", lowerVocabName)))
-	f = append(f, funcsToFile(pkg, propCtors, fmt.Sprintf("gen_pkg_%s_property_constructors.go", lowerVocabName)))
-	f = append(f, funcsToFile(pkg, ext, fmt.Sprintf("gen_pkg_%s_extends.go", lowerVocabName)))
-	f = append(f, funcsToFile(pkg, disj, fmt.Sprintf("gen_pkg_%s_disjoint.go", lowerVocabName)))
-	f = append(f, funcsToFile(pkg, extBy, fmt.Sprintf("gen_pkg_%s_extendedby.go", lowerVocabName)))
+	if file := funcsToFile(pkg, typeCtors, fmt.Sprintf("gen_pkg_%s_type_constructors.go", lowerVocabName)); file != nil {
+		f = append(f, file)
+	}
+	if file := funcsToFile(pkg, propCtors, fmt.Sprintf("gen_pkg_%s_property_constructors.go", lowerVocabName)); file != nil {
+		f = append(f, file)
+	}
+	if file := funcsToFile(pkg, ext, fmt.Sprintf("gen_pkg_%s_extends.go", lowerVocabName)); file != nil {
+		f = append(f, file)
+	}
+	if file := funcsToFile(pkg, disj, fmt.Sprintf("gen_pkg_%s_disjoint.go", lowerVocabName)); file != nil {
+		f = append(f, file)
+	}
+	if file := funcsToFile(pkg, extBy, fmt.Sprintf("gen_pkg_%s_extendedby.go", lowerVocabName)); file != nil {
+		f = append(f, file)
+	}
 	return
 }
 
@@ -1317,6 +1327,9 @@ func existingType(registry *rdf.RDFRegistry, r rdf.VocabularyReference, genRefs 
 // funcsToFile is a helper converting an array of Functions into a single File
 // in the specified Package.
 func funcsToFile(pkg gen.Package, fns []*codegen.Function, filename string) *File {
+	if len(fns) == 0 {
+		return nil
+	}
 	file := jen.NewFilePath(pkg.Path())
 	for _, fn := range fns {
 		file.Add(fn.Definition()).Line()
