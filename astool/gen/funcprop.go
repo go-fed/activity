@@ -338,7 +338,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			jen.List(
 				jen.Id("v"),
 				jen.Err(),
-			).Op(":=").Add(kind.deserializeFnCode(variable, jen.Id("context"))),
+			).Op(":=").Add(kind.deserializeFnCode(variable, jen.Id("aliasMap"))),
 			jen.Err().Op("!=").Nil(),
 		).Block(
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
@@ -362,7 +362,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 		deserialize = codegen.NewCommentedFunction(
 			p.GetPrivatePackage().Path(),
 			p.DeserializeFnName(),
-			[]jen.Code{jen.Id("i").Interface(), jen.Id("context").Map(jen.String()).String()},
+			[]jen.Code{jen.Id("i").Interface(), jen.Id("aliasMap").Map(jen.String()).String()},
 			[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 			[]jen.Code{
 				jen.Id("alias").Op(":=").Lit(""),
@@ -370,7 +370,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 					jen.List(
 						jen.Id("a"),
 						jen.Id("ok"),
-					).Op(":=").Id("context").Index(jen.Lit(p.vocabURI.String())),
+					).Op(":=").Id("aliasMap").Index(jen.Lit(p.vocabURI.String())),
 					jen.Id("ok"),
 				).Block(
 					jen.Id("alias").Op("=").Id("a"),
@@ -388,7 +388,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 		deserialize = codegen.NewCommentedFunction(
 			p.GetPrivatePackage().Path(),
 			p.DeserializeFnName(),
-			[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("context").Map(jen.String()).String()},
+			[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("aliasMap").Map(jen.String()).String()},
 			[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 			[]jen.Code{
 				jen.Id("alias").Op(":=").Lit(""),
@@ -396,7 +396,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 					jen.List(
 						jen.Id("a"),
 						jen.Id("ok"),
-					).Op(":=").Id("context").Index(jen.Lit(p.vocabURI.String())),
+					).Op(":=").Id("aliasMap").Index(jen.Lit(p.vocabURI.String())),
 					jen.Id("ok"),
 				).Block(
 					jen.Id("alias").Op("=").Id("a"),

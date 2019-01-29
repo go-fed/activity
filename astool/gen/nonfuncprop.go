@@ -592,7 +592,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 				jen.Err(),
 			).Op(":=").Id(p.elementTypeGenerator().DeserializeFnName()).Call(
 				jen.Id(variable),
-				jen.Id("context"),
+				jen.Id("aliasMap"),
 			),
 			jen.Err().Op("!=").Nil(),
 		).Block(
@@ -612,7 +612,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 	deserialize := codegen.NewCommentedFunction(
 		p.GetPrivatePackage().Path(),
 		p.DeserializeFnName(),
-		[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("context").Map(jen.String()).String()},
+		[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("aliasMap").Map(jen.String()).String()},
 		[]jen.Code{jen.Qual(p.GetPublicPackage().Path(), p.InterfaceName()), jen.Error()},
 		[]jen.Code{
 			jen.Id("alias").Op(":=").Lit(""),
@@ -620,7 +620,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 				jen.List(
 					jen.Id("a"),
 					jen.Id("ok"),
-				).Op(":=").Id("context").Index(jen.Lit(p.vocabURI.String())),
+				).Op(":=").Id("aliasMap").Index(jen.Lit(p.vocabURI.String())),
 				jen.Id("ok"),
 			).Block(
 				jen.Id("alias").Op("=").Id("a"),

@@ -364,7 +364,7 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		Directory: pub.WriteDir(),
 	})
 	// Resolvers
-	files, e = c.resolverFiles(c.GenRoot.Sub(resolverPkg).PublicPackage(), v)
+	files, e = c.resolverFiles(c.GenRoot.PublicPackage(), v.Manager, v)
 	if e != nil {
 		return
 	}
@@ -1087,9 +1087,9 @@ func (c Converter) propertyPackageFiles(pg *gen.PropertyGenerator, vocabName str
 }
 
 // resolverFiles creates the files necessary for the resolvers.
-func (c Converter) resolverFiles(pkg gen.Package, root vocabulary) (files []*File, e error) {
-	rg := gen.NewResolverGenerator(root.allTypeArray(), pkg)
-	typeRes, intRes, typePredRes, intPredRes, errDefs, isUnFn, iFaces := rg.Definition()
+func (c Converter) resolverFiles(pkg gen.Package, manGen *gen.ManagerGenerator, root vocabulary) (files []*File, e error) {
+	rg := gen.NewResolverGenerator(root.allTypeArray(), manGen, pkg)
+	jsonRes, typeRes, intRes, typePredRes, intPredRes, errDefs, isUnFn, iFaces := rg.Definition()
 	// Utils
 	file := jen.NewFilePath(pkg.Path())
 	for _, errDef := range errDefs {
@@ -1102,6 +1102,14 @@ func (c Converter) resolverFiles(pkg gen.Package, root vocabulary) (files []*Fil
 	files = append(files, &File{
 		F:         file,
 		FileName:  "gen_resolver_utils.go",
+		Directory: pkg.WriteDir(),
+	})
+	// JSON resolver
+	file = jen.NewFilePath(pkg.Path())
+	file.Add(jsonRes.Definition())
+	files = append(files, &File{
+		F:         file,
+		FileName:  "gen_json_resolver.go",
 		Directory: pkg.WriteDir(),
 	})
 	// Type, not predicated

@@ -684,7 +684,7 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 				jen.List(
 					jen.Id("p"),
 					jen.Err(),
-				).Op(":=").Add(deserMethod.On(managerInitName()).Call().Call(jen.Id("m"), jen.Id("context"))),
+				).Op(":=").Add(deserMethod.On(managerInitName()).Call().Call(jen.Id("m"), jen.Id("aliasMap"))),
 				jen.Err().Op("!=").Nil(),
 			).Block(
 				jen.Return(jen.Nil(), jen.Err()),
@@ -717,7 +717,7 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 	deser = codegen.NewCommentedFunction(
 		t.PrivatePackage().Path(),
 		t.deserializationFnName(),
-		[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("context").Map(jen.String()).String()},
+		[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("aliasMap").Map(jen.String()).String()},
 		[]jen.Code{jen.Op("*").Id(t.TypeName()), jen.Error()},
 		[]jen.Code{
 			jen.Id("alias").Op(":=").Lit(""),
@@ -725,7 +725,7 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 				jen.List(
 					jen.Id("a"),
 					jen.Id("ok"),
-				).Op(":=").Id("context").Index(jen.Lit(t.vocabURI.String())),
+				).Op(":=").Id("aliasMap").Index(jen.Lit(t.vocabURI.String())),
 				jen.Id("ok"),
 			).Block(
 				jen.Id("alias").Op("=").Id("a"),

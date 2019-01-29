@@ -8,6 +8,9 @@ import (
 )
 
 const (
+	contextJSONLDName                     = "@context"
+	typePropertyName                      = "type"
+	jsonResolverStructName                = "JSONResolver"
 	typeResolverStructName                = "TypeResolver"
 	interfaceResolverStructName           = "InterfaceResolver"
 	typePredicatedResolverStructName      = "TypePredicatedResolver"
@@ -25,6 +28,7 @@ const (
 	errorCannotTypeAssert                 = "errCannotTypeAssertType"
 	errorCannotTypeAssertPredicate        = "errCannotTypeAssertPredicate"
 	isUnFnName                            = "IsUnmatchedErr"
+	toAliasMapFnName                      = "toAliasMap"
 )
 
 // ResolverGenerator generates the code required for the TypeResolver and the
@@ -32,7 +36,9 @@ const (
 type ResolverGenerator struct {
 	pkg                                Package
 	types                              []*TypeGenerator
+	manGen                             *ManagerGenerator
 	cacheOnce                          sync.Once
+	cachedJSON                         *codegen.Struct
 	cachedTypePredicate                *codegen.Struct
 	cachedInterfacePredicate           *codegen.Struct
 	cachedType                         *codegen.Struct
@@ -53,16 +59,41 @@ type ResolverGenerator struct {
 // Must be constructed after all TypeGenerators.
 func NewResolverGenerator(
 	tgs []*TypeGenerator,
+	m *ManagerGenerator,
 	pkg Package) *ResolverGenerator {
 	return &ResolverGenerator{
-		pkg:   pkg,
-		types: tgs,
+		pkg:    pkg,
+		types:  tgs,
+		manGen: m,
 	}
 }
 
 // Definition returns the TypeResolver and PredicateTypeResolver.
-func (r *ResolverGenerator) Definition() (typeRes, interfaceRes, typePredRes, interfacePredRes *codegen.Struct, errs []jen.Code, isUnFn *codegen.Function, iFaces []*codegen.Interface) {
+//
+// This function signature is pure garbage and yet I keep heaping it on.
+func (r *ResolverGenerator) Definition() (jsonRes, typeRes, interfaceRes, typePredRes, interfacePredRes *codegen.Struct, errs []jen.Code, isUnFn *codegen.Function, iFaces []*codegen.Interface) {
 	r.cacheOnce.Do(func() {
+		r.cachedJSON = codegen.NewStruct(
+			fmt.Sprintf("%s resolves a JSON-deserialized map into "+
+				"its concrete ActivityStreams type", jsonResolverStructName),
+			jsonResolverStructName,
+			r.jsonResolverMethods(),
+			append(r.resolverFunctions(jsonResolverStructName,
+				"creates a new Resolver that takes a "+
+					"JSON-deserialized generic map and determines "+
+					"the correct concrete Go type. The callback "+
+					"function is guaranteed to receive a value "+
+					"whose underlying ActivityStreams type "+
+					"matches the concrete interface name in its "+
+					"signature. The callback functions must be of "+
+					"the form:\n\n"+
+					"  func(context.Context, <TypeInterface>) error\n\n"+
+					"where TypeInterface is the code-generated "+
+					"interface for an ActivityStream type. An "+
+					"error is returned if a callback function "+
+					"does not match this signature."),
+				r.toAliasFunction()),
+			r.resolverMembers())
 		r.cachedType = codegen.NewStruct(
 			fmt.Sprintf("%s resolves ActivityStreams values based "+
 				"on their type name.", typeResolverStructName),
@@ -165,7 +196,7 @@ func (r *ResolverGenerator) Definition() (typeRes, interfaceRes, typePredRes, in
 		r.cachedASInterface = r.asInterface()
 		r.cachedResolverInterface = r.resolverInterface()
 	})
-	return r.cachedType, r.cachedInterface, r.cachedTypePredicate, r.cachedInterfacePredicate, []jen.Code{
+	return r.cachedJSON, r.cachedType, r.cachedInterface, r.cachedTypePredicate, r.cachedInterfacePredicate, []jen.Code{
 			r.cachedErrNoMatch,
 			r.cachedErrUnhandled,
 			r.cachedErrPredicateUnmatched,
@@ -249,6 +280,106 @@ func (r *ResolverGenerator) isUnFn() *codegen.Function {
 			),
 		},
 		fmt.Sprintf("%s is true when the error indicates that a Resolver was unsuccessful due to the ActivityStreams value not matching its callbacks or predicates.", isUnFnName))
+}
+
+// jsonResolverMethods returns the methods for the TypeResolver.
+func (r *ResolverGenerator) jsonResolverMethods() (m []*codegen.Method) {
+	impl := jen.Empty()
+	for _, t := range r.types {
+		impl = impl.Case(
+			jen.Lit(t.TypeName()),
+		).Block(
+			jen.List(
+				jen.Id("v"),
+				jen.Err(),
+			).Op(":=").Add(r.manGen.getDeserializationMethodForType(t).On(managerInitVarName).Call().Call(
+				jen.Id("m"),
+				jen.Id("aliasMap"),
+			)),
+			jen.If(
+				jen.Err().Op("!=").Nil(),
+			).Block(
+				jen.Return(jen.Err()),
+			),
+			jen.For(
+				jen.List(
+					jen.Id("_"),
+					jen.Id("i"),
+				).Op(":=").Range().Id(codegen.This()).Dot(callbackMember),
+			).Block(
+				jen.If(
+					jen.List(
+						jen.Id("fn"),
+						jen.Id("ok"),
+					).Op(":=").Id("i").Assert(
+						jen.Func().Parens(
+							jen.List(
+								jen.Qual("context", "Context"),
+								jen.Qual(t.PublicPackage().Path(), t.InterfaceName()),
+							),
+						).Error(),
+					),
+					jen.Id("ok"),
+				).Block(
+					jen.Return(
+						jen.Id("fn").Call(jen.Id("ctx"), jen.Id("v")),
+					),
+				),
+			),
+			jen.Return(
+				jen.Id(errorNoMatch),
+			),
+		).Line()
+	}
+	m = append(m, codegen.NewCommentedValueMethod(
+		r.pkg.Path(),
+		resolveMethod,
+		jsonResolverStructName,
+		[]jen.Code{
+			jen.Id("ctx").Qual("context", "Context"),
+			jen.Id("m").Map(jen.String()).Interface(),
+		},
+		[]jen.Code{
+			jen.Error(),
+		},
+		[]jen.Code{
+			jen.List(
+				jen.Id("typeValue"),
+				jen.Id("ok"),
+			).Op(":=").Id("m").Index(jen.Lit(typePropertyName)),
+			jen.If(
+				jen.Op("!").Id("ok"),
+			).Block(
+				jen.Return(
+					jen.Qual("fmt", "Errorf").Call(
+						jen.Lit("cannot determine ActivityStreams type: 'type' property is missing"),
+					),
+				),
+			),
+			jen.List(
+				jen.Id("rawContext"),
+				jen.Id("ok"),
+			).Op(":=").Id("m").Index(jen.Lit(contextJSONLDName)),
+			jen.If(
+				jen.Op("!").Id("ok"),
+			).Block(
+				jen.Return(
+					jen.Qual("fmt", "Errorf").Call(
+						jen.Lit("cannot determine ActivityStreams type: '@context' is missing"),
+					),
+				),
+			),
+			jen.Id("aliasMap").Op(":=").Id(toAliasMapFnName).Call(jen.Id("rawContext")),
+			jen.Switch(jen.Id("typeValue")).Block(
+				impl.Default().Block(
+					jen.Return(
+						jen.Id(errorUnhandled),
+					),
+				),
+			),
+		},
+		fmt.Sprintf("%s determines the ActivityStreams type of the payload, then applies the first callback function whose signature accepts the ActivityStreams value's type. This strictly assures that the callback function will only be passed ActivityStream objects whose type matches its interface. Returns an error if the ActivityStreams type does not match callbackers or is not a type handled by the generated code.", resolveMethod)))
+	return
 }
 
 // typeResolverMethods returns the methods for the TypeResolver.
@@ -763,4 +894,122 @@ func (r *ResolverGenerator) resolverInterface() *codegen.Interface {
 			},
 		},
 		fmt.Sprintf("%s represents any %s or %s.", resolverInterface, typeResolverStructName, interfaceResolverStructName))
+}
+
+// toAliasFunction returns the toAliasMap function
+func (r *ResolverGenerator) toAliasFunction() *codegen.Function {
+	return codegen.NewCommentedFunction(
+		r.pkg.Path(),
+		toAliasMapFnName,
+		[]jen.Code{
+			jen.Id("i").Interface(),
+		},
+		[]jen.Code{
+			jen.Id("m").Map(jen.String()).String(),
+		},
+		[]jen.Code{
+			jen.Id("toHttpHttpsFn").Op(":=").Func().Parens(
+				jen.Id("s").String(),
+			).Parens(
+				jen.List(
+					jen.Id("ok").Bool(),
+					jen.Id("http"),
+					jen.Id("https").String(),
+				),
+			).Block(
+				jen.If(
+					jen.Qual("strings", "HasPrefix").Call(
+						jen.Id("s"),
+						jen.Lit("http://"),
+					),
+				).Block(
+					jen.Id("ok").Op("=").True(),
+					jen.Id("http").Op("=").Id("s"),
+					jen.Id("https").Op("=").Lit("https").Op("+").Qual("strings", "TrimPrefix").Call(
+						jen.Id("s"),
+						jen.Lit("http"),
+					),
+				).Else().If(
+					jen.Qual("strings", "HasPrefix").Call(
+						jen.Id("s"),
+						jen.Lit("https://"),
+					),
+				).Block(
+					jen.Id("ok").Op("=").True(),
+					jen.Id("https").Op("=").Id("s"),
+					jen.Id("http").Op("=").Lit("http").Op("+").Qual("strings", "TrimPrefix").Call(
+						jen.Id("s"),
+						jen.Lit("https"),
+					),
+				),
+				jen.Return(),
+			),
+			jen.Switch(jen.Id("v").Op(":=").Id("i").Assert(jen.Type())).Block(
+				jen.Case(jen.String()).Block(
+					jen.Commentf("Single entry, no alias."),
+					jen.If(
+						jen.List(
+							jen.Id("ok"),
+							jen.Id("http"),
+							jen.Id("https"),
+						).Op(":=").Id("toHttpHttpsFn").Call(jen.Id("v")),
+						jen.Id("ok"),
+					).Block(
+						jen.Id("m").Index(
+							jen.Id("http"),
+						).Op("=").Lit(""),
+						jen.Id("m").Index(
+							jen.Id("https"),
+						).Op("=").Lit(""),
+					).Else().Block(
+						jen.Id("m").Index(
+							jen.Id("v"),
+						).Op("=").Lit(""),
+					),
+				),
+				jen.Case(jen.Index().Interface()).Block(
+					jen.Commentf("Recursively apply."),
+					jen.For(
+						jen.List(
+							jen.Id("_"),
+							jen.Id("elem"),
+						).Op(":=").Range().Id("v"),
+					).Block(
+						jen.Id("r").Op(":=").Id(toAliasMapFnName).Call(
+							jen.Id("elem"),
+						),
+						jen.For(
+							jen.List(
+								jen.Id("k"),
+								jen.Id("val"),
+							).Op(":=").Range().Id("r"),
+						).Block(
+							jen.Id("m").Index(
+								jen.Id("k"),
+							).Op("=").Id("val"),
+						),
+					),
+				),
+				jen.Case(jen.Map(jen.String()).Interface()).Block(
+					jen.Commentf("Map any aliases."),
+					jen.For(
+						jen.List(
+							jen.Id("k"),
+							jen.Id("val"),
+						).Op(":=").Range().Id("v"),
+					).Block(
+						jen.Commentf("Only handle string aliases."),
+						jen.Switch(jen.Id("conc").Op(":=").Id("val").Assert(jen.Type())).Block(
+							jen.Case(jen.String()).Block(
+								jen.Id("m").Index(
+									jen.Id("k"),
+								).Op("=").Id("conc"),
+							),
+						),
+					),
+				),
+			),
+			jen.Return(),
+		},
+		fmt.Sprintf("%s converts a JSONLD context into a map of vocabulary name to alias.", toAliasMapFnName))
 }
