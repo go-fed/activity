@@ -176,7 +176,7 @@ implementation is very straightforward to make.
 
 Other interfaces such as `Typer` and `PubObject` are meant to limit modification
 scope or require minimal ActivityStream compatibility to be used by this
-library. As long as the `go-fed/activity/vocab` or `go-fed/activity/streams`
+library. As long as the `go-fed/activity/vocab` or `go-fed/activity/streams_old`
 packages are being used, these interfaces will be natively supported.
 
 ## Other Considerations

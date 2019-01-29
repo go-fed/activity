@@ -2,7 +2,7 @@ package pub
 
 import (
 	"context"
-	"github.com/go-fed/activity/streams"
+	"github.com/go-fed/activity/streams_old"
 )
 
 type callbackerAnnounce interface {

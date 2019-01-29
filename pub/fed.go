@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/go-fed/activity/streams"
+	"github.com/go-fed/activity/streams_old"
 	"github.com/go-fed/activity/vocab"
 	"github.com/go-fed/httpsig"
 	"io/ioutil"

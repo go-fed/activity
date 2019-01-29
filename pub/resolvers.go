@@ -2,7 +2,7 @@ package pub
 
 import (
 	"fmt"
-	"github.com/go-fed/activity/streams"
+	"github.com/go-fed/activity/streams_old"
 	"github.com/go-fed/activity/vocab"
 	"net/url"
 )
