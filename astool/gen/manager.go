@@ -218,10 +218,14 @@ func (m *ManagerGenerator) createDeserializationMethod(deserName string, pubPkg,
 					jen.Error(),
 				).Block(
 					jen.List(
-						// Note: this "i" must be the same as the "i" in the deserialization definition.
 						jen.Id("i"),
 						jen.Err(),
 					).Op(":=").Qual(privPkg.Path(), deserName).Call(jen.Id("m"), jen.Id("aliasMap")),
+					jen.If(
+						jen.Id("i").Op("==").Nil(),
+					).Block(
+						jen.Return(jen.Nil(), jen.Err()),
+					),
 					jen.Return(jen.List(
 						jen.Id("i"),
 						jen.Err(),

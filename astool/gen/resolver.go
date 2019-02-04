@@ -908,6 +908,9 @@ func (r *ResolverGenerator) toAliasFunction() *codegen.Function {
 			jen.Id("m").Map(jen.String()).String(),
 		},
 		[]jen.Code{
+			jen.Id("m").Op("=").Make(
+				jen.Map(jen.String()).String(),
+			),
 			jen.Id("toHttpHttpsFn").Op(":=").Func().Parens(
 				jen.Id("s").String(),
 			).Parens(

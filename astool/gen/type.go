@@ -72,7 +72,7 @@ type Property interface {
 	GetPublicPackage() Package
 	PropertyName() string
 	InterfaceName() string
-	SetKindFns(name string, kind *jen.Statement, deser *codegen.Method) error
+	SetKindFns(docName, idName string, kind *jen.Statement, deser *codegen.Method) error
 	DeserializeFnName() string
 }
 
@@ -177,17 +177,36 @@ func (t *TypeGenerator) AddRangeProperty(property Property) {
 // implementation as if this type were a Kind.
 //
 // Prepares to use the manager for the Definition generation.
+//
+// Must be called before Definition is called on the properties.
 func (t *TypeGenerator) apply(m *ManagerGenerator) error {
 	t.m = m
-	// Set up Kind functions
+	// Set up Kind functions for this type, on its range of properties as
+	// well as the range of properties of those it is extending from.
 	deser := m.getDeserializationMethodForType(t)
 	kind := jen.Qual(t.PublicPackage().Path(), t.InterfaceName())
-	for _, p := range t.rangeProperties {
-		if e := p.SetKindFns(t.TypeName(), kind, deser); e != nil {
-			return e
+	// Refursively-applying function.
+	var setKindsOnWhoseProps func(whichType *TypeGenerator) error
+	setKindsOnWhoseProps = func(whichType *TypeGenerator) error {
+		// Apply this TypeGenerator's kinds to whichType's range of
+		// properties.
+		for _, p := range whichType.rangeProperties {
+			// Kluge: convert.toIdentifier must match this!
+			if e := p.SetKindFns(t.TypeName(), strings.Title(t.TypeName()), kind, deser); e != nil {
+				return e
+			}
 		}
+		// Recursively apply this TypeGenerator's kinds to the parents
+		// of whichType.
+		for _, extendParent := range whichType.extends {
+			if e := setKindsOnWhoseProps(extendParent); e != nil {
+				return e
+			}
+		}
+		return nil
 	}
-	return nil
+	// Begin the recursing by applying to this type's range of properties.
+	return setKindsOnWhoseProps(t)
 }
 
 // VocabName returns this TypeGenerator's vocabulary name.
@@ -564,17 +583,21 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 		serCode.Add(
 			jen.Commentf("Maybe serialize property %q", prop.PropertyName()).Line(),
 			jen.If(
-				jen.List(
-					jen.Id("i"),
-					jen.Err(),
-				).Op(":=").Id(codegen.This()).Dot(t.memberName(prop)).Dot(serializeMethod).Call(),
-				jen.Err().Op("!=").Nil(),
+				jen.Id(codegen.This()).Dot(t.memberName(prop)).Op("!=").Nil(),
 			).Block(
-				jen.Return(jen.Nil(), jen.Err()),
-			).Else().If(
-				jen.Id("i").Op("!=").Nil(),
-			).Block(
-				jen.Id("m").Index(jen.Id(codegen.This()).Dot(t.memberName(prop)).Dot(nameMethod).Call()).Op("=").Id("i"),
+				jen.If(
+					jen.List(
+						jen.Id("i"),
+						jen.Err(),
+					).Op(":=").Id(codegen.This()).Dot(t.memberName(prop)).Dot(serializeMethod).Call(),
+					jen.Err().Op("!=").Nil(),
+				).Block(
+					jen.Return(jen.Nil(), jen.Err()),
+				).Else().If(
+					jen.Id("i").Op("!=").Nil(),
+				).Block(
+					jen.Id("m").Index(jen.Id(codegen.This()).Dot(t.memberName(prop)).Dot(nameMethod).Call()).Op("=").Id("i"),
+				),
 			).Line())
 	}
 	serCode = serCode.Commentf("End: Serialize known properties").Line()
@@ -600,7 +623,7 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 		serializeMethodName,
 		t.TypeName(),
 		/*params=*/ nil,
-		[]jen.Code{jen.Interface(), jen.Error()},
+		[]jen.Code{jen.Map(jen.String()).Interface(), jen.Error()},
 		[]jen.Code{
 			jen.Id("m").Op(":=").Make(
 				jen.Map(jen.String()).Interface(),
@@ -620,22 +643,43 @@ func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
 		lessCode = lessCode.Add(
 			jen.Commentf("Compare property %q", prop.PropertyName()).Line(),
 			jen.If(
-				jen.Id(codegen.This()).Dot(t.memberName(prop)).Dot(compareLessMethod).Call(
+				jen.List(
+					jen.Id("lhs"),
+					jen.Id("rhs"),
+				).Op(":=").List(
+					jen.Id(codegen.This()).Dot(t.memberName(prop)),
 					jen.Id("o").Dot(
 						fmt.Sprintf(getMethodFormat, t.memberName(prop)),
 					).Call(),
 				),
+				jen.Id("lhs").Op("!=").Nil().Op("&&").Id("rhs").Op("!=").Nil(),
 			).Block(
+				jen.If(
+					jen.Id("lhs").Dot(compareLessMethod).Call(
+						jen.Id("rhs"),
+					),
+				).Block(
+					jen.Return(jen.True()),
+				).Else().If(
+					jen.Id("rhs").Dot(compareLessMethod).Call(
+						jen.Id("lhs"),
+					),
+				).Block(
+					jen.Return(jen.False()),
+				),
+			).Else().If(
+				jen.Id("lhs").Op("==").Nil().Op("&&").Id("rhs").Op("!=").Nil(),
+			).Block(
+				jen.Commentf("Nil is less than anything else"),
 				jen.Return(jen.True()),
 			).Else().If(
-				jen.Id("o").Dot(
-					fmt.Sprintf(getMethodFormat, t.memberName(prop)),
-				).Call().Dot(compareLessMethod).Call(
-					jen.Id(codegen.This()).Dot(t.memberName(prop)),
-				),
+				jen.Id("rhs").Op("!=").Nil().Op("&&").Id("rhs").Op("==").Nil(),
 			).Block(
+				jen.Commentf("Anything else is greater than nil"),
 				jen.Return(jen.False()),
-			).Line())
+			),
+			jen.Commentf("Else: Both are nil"),
+			jen.Line())
 	}
 	lessCode = lessCode.Commentf("End: Compare known properties").Line()
 	unknownCode := jen.Commentf("Begin: Compare unknown properties (only by number of them)").Line().If(
@@ -688,7 +732,9 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 				jen.Err().Op("!=").Nil(),
 			).Block(
 				jen.Return(jen.Nil(), jen.Err()),
-			).Else().Block(
+			).Else().If(
+				jen.Id("p").Op("!=").Nil(),
+			).Block(
 				jen.Id(codegen.This()).Dot(t.memberName(prop)).Op("=").Id("p"),
 			).Line())
 	}

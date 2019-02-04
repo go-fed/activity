@@ -252,6 +252,13 @@ func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (
 								jen.Id(codegen.This()),
 								jen.Err(),
 							),
+						).Else().If(
+							jen.Len(jen.Id("u").Dot("Scheme")).Op("==").Lit(0),
+						).Block(
+							jen.Err().Op("=").Qual("fmt", "Errorf").Call(
+								jen.Lit("%v cannot be interpreted as a xsd:anyURI: no scheme"),
+								jen.Id(codegen.This()),
+							),
 						),
 					).Else().Block(
 						jen.Err().Op("=").Qual("fmt", "Errorf").Call(

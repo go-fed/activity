@@ -63,6 +63,9 @@ func (p *FunctionalPropertyGenerator) isSingleTypeDef() bool {
 
 // Definition produces the Go Struct code definition, which can generate its Go
 // implementations.
+//
+// The TypeGenerator apply must be called for all types before Definition is
+// called.
 func (p *FunctionalPropertyGenerator) Definition() *codegen.Struct {
 	p.cacheOnce.Do(func() {
 		if p.isSingleTypeDef() {
@@ -91,7 +94,9 @@ func (p *FunctionalPropertyGenerator) clearNonLanguageMapMembers() []jen.Code {
 func (p *FunctionalPropertyGenerator) singleTypeClearNonLanguageMapMembers() []jen.Code {
 	clearCode := []jen.Code{
 		jen.Id(codegen.This()).Dot(unknownMemberName).Op("=").Nil(),
-		jen.Id(codegen.This()).Dot(iriMember).Op("=").Nil(),
+	}
+	if !p.hasURIKind() {
+		clearCode = append(clearCode, jen.Id(codegen.This()).Dot(iriMember).Op("=").Nil())
 	}
 	if p.kinds[0].Nilable {
 		clearCode = append(clearCode, jen.Id(codegen.This()).Dot(p.memberName(0)).Op("=").Nil())
@@ -113,7 +118,9 @@ func (p *FunctionalPropertyGenerator) multiTypeClearNonLanguageMapMembers() []je
 		}
 	}
 	clearLine = append(clearLine, jen.Id(codegen.This()).Dot(unknownMemberName).Op("=").Nil())
-	clearLine = append(clearLine, jen.Id(codegen.This()).Dot(iriMember).Op("=").Nil())
+	if !p.hasURIKind() {
+		clearLine = append(clearLine, jen.Id(codegen.This()).Dot(iriMember).Op("=").Nil())
+	}
 	return clearLine
 }
 
@@ -293,14 +300,16 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			)
 		}
 	}
-	serializeFns = serializeFns.Else().If(
-		jen.Id(codegen.This()).Dot(isIRIMethod).Call(),
-	).Block(
-		jen.Return(
-			jen.Id(codegen.This()).Dot(iriMember).Dot("String").Call(),
-			jen.Nil(),
-		),
-	)
+	if !p.hasURIKind() {
+		serializeFns = serializeFns.Else().If(
+			jen.Id(codegen.This()).Dot(isIRIMethod).Call(),
+		).Block(
+			jen.Return(
+				jen.Id(codegen.This()).Dot(iriMember).Dot("String").Call(),
+				jen.Nil(),
+			),
+		)
+	}
 	serialize := codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		p.serializeFnName(),
@@ -308,7 +317,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 		/*params=*/ nil,
 		[]jen.Code{jen.Interface(), jen.Error()},
 		[]jen.Code{serializeFns, jen.Return(
-			jen.Id(codegen.This()).Dot(unknownMemberName),
+			jen.String().Parens(jen.Id(codegen.This()).Dot(unknownMemberName)),
 			jen.Nil(),
 		)},
 		fmt.Sprintf("%s converts this into an interface representation suitable for marshalling into a text or binary format. Applications should not need this function as most typical use cases serialize types instead of individual properties. It is exposed for alternatives to go-fed implementations to use.", p.serializeFnName()))
@@ -457,7 +466,9 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 		}
 	}
 	kindMembers = append(kindMembers, p.unknownMemberDef())
-	kindMembers = append(kindMembers, p.iriMemberDef())
+	if !p.hasURIKind() {
+		kindMembers = append(kindMembers, p.iriMemberDef())
+	}
 	// TODO: Normalize alias of values when setting on this property.
 	kindMembers = append(kindMembers, jen.Id(aliasMember).String())
 	if p.hasNaturalLanguageMap {
@@ -488,7 +499,10 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 	var methods []*codegen.Method
 	// HasAny Method
-	isLine := jen.Id(codegen.This()).Dot(p.isMethodName(0)).Call().Op("||").Id(codegen.This()).Dot(iriMember).Op("!=").Nil()
+	isLine := jen.Id(codegen.This()).Dot(p.isMethodName(0)).Call()
+	if !p.hasURIKind() {
+		isLine.Op("||").Id(codegen.This()).Dot(iriMember).Op("!=").Nil()
+	}
 	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		hasAnyMethod,
@@ -536,7 +550,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		p.StructName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.Bool()},
-		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(iriMember).Op("!=").Nil())},
+		[]jen.Code{jen.Return(p.thisIRI().Op("!=").Nil())},
 		fmt.Sprintf("%s returns true if this property is an IRI.", isIRIMethod),
 	))
 	// Get Method
@@ -556,7 +570,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		p.StructName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.Op("*").Qual("net/url", "URL")},
-		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(iriMember))},
+		[]jen.Code{jen.Return(p.thisIRI())},
 		fmt.Sprintf("%s returns the IRI of this property. When %s returns false, %s will return any arbitrary value.", getIRIMethod, isIRIMethod, getIRIMethod),
 	))
 	// Set Method
@@ -605,7 +619,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		/*ret=*/ nil,
 		[]jen.Code{
 			jen.Id(codegen.This()).Dot(p.clearMethodName()).Call(),
-			jen.Id(codegen.This()).Dot(iriMember).Op("=").Id("v"),
+			p.thisIRISetFn(),
 		},
 		fmt.Sprintf("%s sets the value of this property. Calling %s afterwards will return true.", setIRIMethod, isIRIMethod),
 	))
@@ -632,6 +646,18 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 	))
 	// LessThan Method
 	lessCode := p.kinds[0].lessFnCode(jen.Id(codegen.This()).Dot(p.getFnName(0)).Call(), jen.Id("o").Dot(p.getFnName(0)).Call())
+	iriCmp := jen.Empty()
+	if !p.hasURIKind() {
+		iriCmp = iriCmp.Add(
+			jen.Commentf("LessThan comparison for if either or both are IRIs.").Line(),
+			jen.If(
+				jen.Id(codegen.This()).Dot(isIRIMethod).Call().Op("&&").Id("o").Dot(isIRIMethod).Call(),
+			).Block(
+				jen.Return(
+					jen.Id(codegen.This()).Dot(iriMember).Dot("String").Call().Op("<").Id("o").Dot(getIRIMethod).Call().Dot("String").Call(),
+				),
+			).Else())
+	}
 	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		compareLessMethod,
@@ -639,14 +665,7 @@ func (p *FunctionalPropertyGenerator) singleTypeFuncs() []*codegen.Method {
 		[]jen.Code{jen.Id("o").Qual(p.GetPublicPackage().Path(), p.InterfaceName())},
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{
-			jen.Commentf("LessThan comparison for if either or both are IRIs."),
-			jen.If(
-				jen.Id(codegen.This()).Dot(isIRIMethod).Call().Op("&&").Id("o").Dot(isIRIMethod).Call(),
-			).Block(
-				jen.Return(
-					jen.Id(codegen.This()).Dot(iriMember).Dot("String").Call().Op("<").Id("o").Dot(getIRIMethod).Call().Dot("String").Call(),
-				),
-			).Else().If(
+			iriCmp.If(
 				jen.Id(codegen.This()).Dot(isIRIMethod).Call(),
 			).Block(
 				jen.Commentf("IRIs are always less than other values, none, or unknowns"),
@@ -696,7 +715,9 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
 		}
 	}
 	kindMembers = append(kindMembers, p.unknownMemberDef())
-	kindMembers = append(kindMembers, p.iriMemberDef())
+	if !p.hasURIKind() {
+		kindMembers = append(kindMembers, p.iriMemberDef())
+	}
 	kindMembers = append(kindMembers, jen.Id(aliasMember).String())
 	if p.hasNaturalLanguageMap {
 		kindMembers = append(kindMembers, jen.Id(langMapMember).Map(jen.String()).String())
@@ -738,11 +759,18 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
 func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 	var methods []*codegen.Method
 	// HasAny Method
-	isLine := make([]jen.Code, len(p.kinds)+1)
+	isLine := make([]jen.Code, 0, len(p.kinds)+1)
 	for i := range p.kinds {
-		isLine[i] = jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call().Op("||")
+		or := jen.Empty()
+		if i < len(p.kinds)-1 {
+			or = jen.Op("||")
+		}
+		isLine = append(isLine, jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call().Add(or))
 	}
-	isLine[len(isLine)-1] = jen.Id(codegen.This()).Dot(iriMember).Op("!=").Nil()
+	if !p.hasURIKind() {
+		isLine[len(isLine)-1] = jen.Add(isLine[len(isLine)-1], jen.Op("||"))
+		isLine = append(isLine, jen.Id(codegen.This()).Dot(iriMember).Op("!=").Nil())
+	}
 	hasAnyComment := fmt.Sprintf(
 		"%s returns true if any of the different values is set.", hasAnyMethod,
 	)
@@ -828,7 +856,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		p.StructName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.Bool()},
-		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(iriMember).Op("!=").Nil())},
+		[]jen.Code{jen.Return(p.thisIRI().Op("!=").Nil())},
 		fmt.Sprintf(
 			"%s returns true if this property is an IRI. When true, use %s and %s to access and set this property",
 			isIRIMethod,
@@ -883,7 +911,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		/*ret=*/ nil,
 		[]jen.Code{
 			jen.Id(codegen.This()).Dot(p.clearMethodName()).Call(),
-			jen.Id(codegen.This()).Dot(iriMember).Op("=").Id("v"),
+			p.thisIRISetFn(),
 		},
 		fmt.Sprintf("%s sets the value of this property. Calling %s afterwards returns true.", setIRIMethod, isIRIMethod),
 	))
@@ -906,7 +934,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 		p.StructName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.Op("*").Qual("net/url", "URL")},
-		[]jen.Code{jen.Return(jen.Id(codegen.This()).Dot(iriMember))},
+		[]jen.Code{jen.Return(p.thisIRI())},
 		fmt.Sprintf("%s returns the IRI of this property. When %s returns false, %s will return an arbitrary value.", getIRIMethod, isIRIMethod, getIRIMethod),
 	))
 	// LessThan Method
@@ -925,14 +953,16 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 			).Block(
 				jen.Return(kind.lessFnCode(jen.Id(codegen.This()).Dot(p.getFnName(i)).Call(), jen.Id("o").Dot(p.getFnName(i)).Call()))))
 	}
-	lessCode.Add(
-		jen.Else().If(
-			jen.Id(codegen.This()).Dot(isIRIMethod).Call(),
-		).Block(
-			jen.Return(
-				jen.Id(codegen.This()).Dot(iriMember).Dot("String").Call().Op("<").Id("o").Dot(getIRIMethod).Call().Dot("String").Call(),
-			),
-		))
+	if !p.hasURIKind() {
+		lessCode.Add(
+			jen.Else().If(
+				jen.Id(codegen.This()).Dot(isIRIMethod).Call(),
+			).Block(
+				jen.Return(
+					jen.Id(codegen.This()).Dot(iriMember).Dot("String").Call().Op("<").Id("o").Dot(getIRIMethod).Call().Dot("String").Call(),
+				),
+			))
+	}
 	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		compareLessMethod,
@@ -978,7 +1008,8 @@ func (p *FunctionalPropertyGenerator) wrapDeserializeCode(valueExisting, typeExi
 				jen.Err(),
 			).Op(":=").Qual("net/url", "Parse").Call(jen.Id("s")),
 			jen.Commentf("If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst"),
-			jen.If(jen.Err().Op("==").Nil()).Block(
+			jen.Commentf("Also, if no scheme exists, don't treat it as a URL -- net/url is greedy"),
+			jen.If(jen.Err().Op("==").Nil().Op("&&").Len(jen.Id("u").Dot("Scheme")).Op(">").Lit(0)).Block(
 				jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
 					jen.Dict{
 						jen.Id(iriMember):   jen.Id("u"),
@@ -1009,16 +1040,16 @@ func (p *FunctionalPropertyGenerator) wrapDeserializeCode(valueExisting, typeExi
 	iriCode = iriCode.Add(
 		jen.If(
 			jen.List(
-				jen.Id("v"),
+				jen.Id("str"),
 				jen.Id("ok"),
 			).Op(":=").Id("i").Assert(
-				jen.Index().Byte(),
+				jen.String(),
 			),
 			jen.Id("ok"),
 		).Block(
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
 				jen.Dict{
-					jen.Id(unknownMemberName): jen.Id("v"),
+					jen.Id(unknownMemberName): jen.Index().Byte().Parens(jen.Id("str")),
 					jen.Id(aliasMember):       jen.Id("alias"),
 				},
 			),
@@ -1090,14 +1121,34 @@ func (p *FunctionalPropertyGenerator) contextMethod() *codegen.Method {
 		fmt.Sprintf("%s returns the JSONLD URIs required in the context string for this property and the specific values that are set. The value in the map is the alias used to import the property's value or values.", contextMethod))
 }
 
-// hasURIKind returns true if this property already has a Kind that is a URI.
-func (p *FunctionalPropertyGenerator) hasURIKind() bool {
-	for _, k := range p.kinds {
-		if k.IsURI {
-			return true
+// thisIRI returns the statement to access this IRI -- it may be an xsd:anyURI
+// or another equivalent type.
+func (p *FunctionalPropertyGenerator) thisIRI() *jen.Statement {
+	if !p.hasURIKind() {
+		return jen.Id(codegen.This()).Dot(iriMember)
+	} else {
+		for i, k := range p.kinds {
+			if k.IsURI {
+				return jen.Id(codegen.This()).Dot(p.memberName(i))
+			}
 		}
 	}
-	return false
+	return nil
+}
+
+// thisIRI returns the statement to access this IRI -- it may be an xsd:anyURI
+// or another equivalent type.
+func (p *FunctionalPropertyGenerator) thisIRISetFn() *jen.Statement {
+	if !p.hasURIKind() {
+		return jen.Id(codegen.This()).Dot(iriMember).Op("=").Id("v")
+	} else {
+		for i, k := range p.kinds {
+			if k.IsURI {
+				return jen.Id(codegen.This()).Dot(p.setFnName(i)).Call(jen.Id("v"))
+			}
+		}
+	}
+	return nil
 }
 
 // hasTypeKind returns true if this property has a Kind that is a type.

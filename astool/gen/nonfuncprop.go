@@ -62,6 +62,9 @@ func (p *NonFunctionalPropertyGenerator) InterfaceDefinitions(pkg Package) []*co
 // Definitions produces the Go code definitions, which can generate their Go
 // implementations. The struct is the iterator for various values of the
 // property, which is defined by the type definition.
+//
+// The TypeGenerator apply must be called for all types before Definition is
+// called.
 func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codegen.Struct) {
 	p.cacheOnce.Do(func() {
 		var methods []*codegen.Method
@@ -222,7 +225,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				jen.Id(codegen.This()).Dot(propertiesName).Op("=").Append(
 					jen.Index().Op("*").Id(p.iteratorTypeName().CamelName).Values(
 						jen.Values(jen.Dict{
-							jen.Id(iriMember):         jen.Id("v"),
+							p.thisIRI():               jen.Id("v"),
 							jen.Id(parentMemberName):  jen.Id(codegen.This()),
 							jen.Id(myIndexMemberName): jen.Lit(0),
 							jen.Id(aliasMember):       jen.Id(codegen.This()).Dot(aliasMember),
@@ -253,7 +256,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Id(codegen.This()).Dot(propertiesName),
 					jen.Op("&").Id(p.iteratorTypeName().CamelName).Values(
 						jen.Dict{
-							jen.Id(iriMember):         jen.Id("v"),
+							p.thisIRI():               jen.Id("v"),
 							jen.Id(parentMemberName):  jen.Id(codegen.This()),
 							jen.Id(myIndexMemberName): jen.Id(codegen.This()).Dot(lenMethod).Call(),
 							jen.Id(aliasMember):       jen.Id(codegen.This()).Dot(aliasMember),
@@ -273,7 +276,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				jen.Parens(jen.Id(codegen.This()).Dot(propertiesName)).Index(jen.Id("idx")).Dot(parentMemberName).Op("=").Nil(),
 				jen.Parens(jen.Id(codegen.This()).Dot(propertiesName)).Index(jen.Id("idx")).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(
 					jen.Dict{
-						jen.Id(iriMember):         jen.Id("v"),
+						p.thisIRI():               jen.Id("v"),
 						jen.Id(parentMemberName):  jen.Id(codegen.This()),
 						jen.Id(myIndexMemberName): jen.Id("idx"),
 						jen.Id(aliasMember):       jen.Id(codegen.This()).Dot(aliasMember),
@@ -625,7 +628,6 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 			).Block(
 				jen.Id("alias").Op("=").Id("a"),
 			),
-			jen.Var().Id(codegen.This()).Op("*").Id(p.StructName()),
 			jen.Id("propName").Op(":=").Lit(p.PropertyName()),
 			jen.If(
 				jen.Len(jen.Id("alias")).Op(">").Lit(0),
@@ -678,12 +680,31 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 					jen.Id("ele").Dot(parentMemberName).Op("=").Id(codegen.This()),
 					jen.Id("ele").Dot(myIndexMemberName).Op("=").Id("idx"),
 				),
+				jen.Return(
+					jen.Id(codegen.This()),
+					jen.Nil(),
+				),
 			),
 			jen.Return(
-				jen.Id(codegen.This()),
+				jen.Nil(),
 				jen.Nil(),
 			),
 		},
 		fmt.Sprintf("%s creates a %q property from an interface representation that has been unmarshalled from a text or binary format.", p.DeserializeFnName(), p.PropertyName()))
 	return serialize, deserialize
+}
+
+// thisIRI returns the member to access this IRI -- it may be an xsd:anyURI
+// or another equivalent type.
+func (p *NonFunctionalPropertyGenerator) thisIRI() *jen.Statement {
+	if !p.hasURIKind() {
+		return jen.Id(iriMember)
+	} else {
+		for i, k := range p.kinds {
+			if k.IsURI {
+				return jen.Id(p.memberName(i))
+			}
+		}
+	}
+	return nil
 }

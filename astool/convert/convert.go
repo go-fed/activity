@@ -8,6 +8,7 @@ import (
 	"github.com/go-fed/activity/astool/gen"
 	"github.com/go-fed/activity/astool/rdf"
 	"net/url"
+	"sort"
 	"strings"
 	"unicode"
 )
@@ -57,6 +58,7 @@ func (v vocabulary) allTypeArray() []*gen.TypeGenerator {
 		typeArray = append(typeArray, ref.typeArray()...)
 	}
 	typeArray = append(typeArray, v.typeArray()...)
+	sort.Sort(sortableTypeGenerator(typeArray))
 	return typeArray
 }
 
@@ -68,6 +70,7 @@ func (v vocabulary) allPropArray() []*gen.PropertyGenerator {
 		propArray = append(propArray, ref.propArray()...)
 	}
 	propArray = append(propArray, v.propArray()...)
+	sort.Sort(sortablePropertyGenerator(propArray))
 	return propArray
 }
 
@@ -79,6 +82,7 @@ func (v vocabulary) allFuncPropArray() []*gen.FunctionalPropertyGenerator {
 		funcPropArray = append(funcPropArray, ref.funcPropArray()...)
 	}
 	funcPropArray = append(funcPropArray, v.funcPropArray()...)
+	sort.Sort(sortableFuncPropertyGenerator(funcPropArray))
 	return funcPropArray
 }
 
@@ -90,6 +94,7 @@ func (v vocabulary) allNonFuncPropArray() []*gen.NonFunctionalPropertyGenerator 
 		nonFuncPropArray = append(nonFuncPropArray, ref.nonFuncPropArray()...)
 	}
 	nonFuncPropArray = append(nonFuncPropArray, v.nonFuncPropArray()...)
+	sort.Sort(sortableNonFuncPropertyGenerator(nonFuncPropArray))
 	return nonFuncPropArray
 }
 
@@ -99,6 +104,7 @@ func (v vocabulary) typeArray() []*gen.TypeGenerator {
 	for _, t := range v.Types {
 		tg = append(tg, t)
 	}
+	sort.Sort(sortableTypeGenerator(tg))
 	return tg
 }
 
@@ -111,6 +117,7 @@ func (v vocabulary) propArray() []*gen.PropertyGenerator {
 	for _, f := range v.NFProps {
 		fp = append(fp, &f.PropertyGenerator)
 	}
+	sort.Sort(sortablePropertyGenerator(fp))
 	return fp
 }
 
@@ -120,6 +127,7 @@ func (v vocabulary) funcPropArray() []*gen.FunctionalPropertyGenerator {
 	for _, f := range v.FProps {
 		fp = append(fp, f)
 	}
+	sort.Sort(sortableFuncPropertyGenerator(fp))
 	return fp
 }
 
@@ -129,6 +137,7 @@ func (v vocabulary) nonFuncPropArray() []*gen.NonFunctionalPropertyGenerator {
 	for _, nf := range v.NFProps {
 		nfp = append(nfp, nf)
 	}
+	sort.Sort(sortableNonFuncPropertyGenerator(nfp))
 	return nfp
 }
 
@@ -705,50 +714,21 @@ func (c Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 }
 
 // convertValue turns a rdf.VocabularyValue into a Kind.
-//
-// TODO: Turn this into a Kind constructor in gen?
-func (c Converter) convertValue(v rdf.VocabularyValue) (k *gen.Kind) {
+func (c Converter) convertValue(v rdf.VocabularyValue) *gen.Kind {
 	s := v.SerializeFn.CloneToPackage(c.vocabValuePackage(v).Path())
 	d := v.DeserializeFn.CloneToPackage(c.vocabValuePackage(v).Path())
 	l := v.LessFn.CloneToPackage(c.vocabValuePackage(v).Path())
-	k = &gen.Kind{
-		// Name must use toIdentifier for vocabValuePackage and
-		// valuePackage to be the same.
-		Name:           toIdentifier(v),
-		ConcreteKind:   v.DefinitionType,
-		Nilable:        v.IsNilable,
-		IsURI:          v.IsURI,
-		SerializeFn:    s.QualifiedName(),
-		DeserializeFn:  d.QualifiedName(),
-		LessFn:         l.QualifiedName(),
-		SerializeDef:   s,
-		DeserializeDef: d,
-		LessDef:        l,
-	}
-	return
-}
-
-// convertTypeToKind turns a rdf.VocabularyType into a Kind.
-//
-// TODO: Turn this into a Kind constructor in gen?
-func (c Converter) convertTypeToKind(v rdf.VocabularyType) (k *gen.Kind, e error) {
-	k = &gen.Kind{
-		// Name must use toIdentifier for vocabValuePackage and
-		// valuePackage to be the same.
-		Name:    toIdentifier(v),
-		Nilable: true,
-		IsURI:   false,
-		// Instead of populating:
-		//   - ConcreteKind
-		//   - SerializeFn
-		//   - DeserializeFn
-		//   - LessFn
-		//
-		// The TypeGenerator is responsible for calling SetKindFns on
-		// the properties, to property wire a Property's Kind back to
-		// the Type's implementation.
-	}
-	return
+	// Name must use toIdentifier for vocabValuePackage and valuePackage to
+	// be the same.
+	id := toIdentifier(v)
+	return gen.NewKindForValue(id.LowerName,
+		id.CamelName,
+		v.DefinitionType,
+		v.IsNilable,
+		v.IsURI,
+		s,
+		d,
+		l)
 }
 
 // convertTypeToName makes a Titled version of the VocabularyType's name.
@@ -771,11 +751,8 @@ func (c Converter) propertyKinds(v rdf.VocabularyProperty,
 					e = fmt.Errorf("cannot find own kind with name %q", r.Name)
 					return
 				} else {
-					var kt *gen.Kind
-					kt, e = c.convertTypeToKind(t)
-					if e != nil {
-						return
-					}
+					id := toIdentifier(t)
+					kt := gen.NewKindForType(id.LowerName, id.CamelName)
 					k = append(k, *kt)
 				}
 			} else {
@@ -800,11 +777,8 @@ func (c Converter) propertyKinds(v rdf.VocabularyProperty,
 					e = fmt.Errorf("cannot find kind with name %q in %s", r.Name, url)
 					return
 				} else {
-					var kt *gen.Kind
-					kt, e = c.convertTypeToKind(t)
-					if e != nil {
-						return
-					}
+					id := toIdentifier(t)
+					kt := gen.NewKindForType(id.LowerName, id.CamelName)
 					k = append(k, *kt)
 				}
 			} else {

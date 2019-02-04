@@ -103,6 +103,51 @@ type Kind struct {
 	LessDef        *codegen.Function
 }
 
+// NewKindForValue creates a Kind for a value type.
+func NewKindForValue(docName, idName string,
+	defType *jen.Statement,
+	isNilable, isURI bool,
+	serializeFn, deserializeFn, lessFn *codegen.Function) *Kind {
+	return &Kind{
+		Name: Identifier{
+			LowerName: docName,
+			CamelName: idName,
+		},
+		ConcreteKind:   defType,
+		Nilable:        isNilable,
+		IsURI:          isURI,
+		SerializeFn:    serializeFn.QualifiedName(),
+		DeserializeFn:  deserializeFn.QualifiedName(),
+		LessFn:         lessFn.QualifiedName(),
+		SerializeDef:   serializeFn,
+		DeserializeDef: deserializeFn,
+		LessDef:        lessFn,
+	}
+}
+
+// NewKindForType creates a Kind for an ActivitySteams type.
+func NewKindForType(docName, idName string) *Kind {
+	return &Kind{
+		// Name must use toIdentifier for vocabValuePackage and
+		// valuePackage to be the same.
+		Name: Identifier{
+			LowerName: docName,
+			CamelName: idName,
+		},
+		Nilable: true,
+		IsURI:   false,
+		// Instead of populating:
+		//   - ConcreteKind
+		//   - DeserializeFn
+		//   - SerializeFn (Not populated for types)
+		//   - LessFn      (Not populated for types)
+		//
+		// The TypeGenerator is responsible for calling SetKindFns on
+		// the properties, to property wire a Property's Kind back to
+		// the Type's implementation.
+	}
+}
+
 // lessFnCode creates the correct code calling this Kind's less function
 // depending on whether the Kind is a value or a type.
 func (k Kind) lessFnCode(this, other *jen.Statement) *jen.Statement {
@@ -183,11 +228,11 @@ func (p *PropertyGenerator) GetPublicPackage() Package {
 // The name parameter must match the LowerName of an Identifier.
 //
 // This feels very hacky.
-func (p *PropertyGenerator) SetKindFns(name string, qualKind *jen.Statement, deser *codegen.Method) error {
+func (p *PropertyGenerator) SetKindFns(docName, idName string, qualKind *jen.Statement, deser *codegen.Method) error {
 	for i, kind := range p.kinds {
-		if kind.Name.LowerName == name {
+		if kind.Name.LowerName == docName {
 			if kind.SerializeFn != nil || kind.DeserializeFn != nil || kind.LessFn != nil {
-				return fmt.Errorf("property kind already has serialization functions set for %q", name)
+				return fmt.Errorf("property kind already has serialization functions set for %q", docName)
 			}
 			kind.ConcreteKind = qualKind
 			kind.DeserializeFn = deser.On(managerInitName())
@@ -196,7 +241,15 @@ func (p *PropertyGenerator) SetKindFns(name string, qualKind *jen.Statement, des
 			return nil
 		}
 	}
-	return fmt.Errorf("cannot find property kind %q", name)
+	// In the case of extended types applying themselves to their parents'
+	// range, they will be missing from the property's kinds list. Append a
+	// new kind to handle this use case.
+	k := NewKindForType(docName, idName)
+	k.ConcreteKind = qualKind
+	k.DeserializeFn = deser.On(managerInitName())
+	p.managerMethods = append(p.managerMethods, deser)
+	p.kinds = append(p.kinds, *k)
+	return nil
 }
 
 // getAllManagerMethods returns the list of manager methods used by this
@@ -401,4 +454,14 @@ func (p *PropertyGenerator) constructorFn() *codegen.Function {
 			),
 		},
 		fmt.Sprintf("%s%s creates a new %s property.", constructorName, p.StructName(), p.PropertyName()))
+}
+
+// hasURIKind returns true if this property already has a Kind that is a URI.
+func (p *PropertyGenerator) hasURIKind() bool {
+	for _, k := range p.kinds {
+		if k.IsURI {
+			return true
+		}
+	}
+	return false
 }
