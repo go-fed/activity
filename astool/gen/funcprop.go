@@ -348,7 +348,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 				jen.Id("v"),
 				jen.Err(),
 			).Op(":=").Add(kind.deserializeFnCode(variable, jen.Id("aliasMap"))),
-			jen.Err().Op("!=").Nil(),
+			jen.Err().Op("==").Nil(),
 		).Block(
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
 				values,

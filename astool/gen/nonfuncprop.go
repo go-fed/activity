@@ -582,6 +582,15 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 					),
 				),
 			),
+			jen.Commentf("Shortcut: if serializing one value, don't return an array -- pretty sure other Fediverse software would choke on a \"type\" value with array, for example."),
+			jen.If(
+				jen.Len(jen.Id("s")).Op("==").Lit(1),
+			).Block(
+				jen.Return(
+					jen.Id("s").Index(jen.Lit(0)),
+					jen.Nil(),
+				),
+			),
 			jen.Return(
 				jen.Id("s"),
 				jen.Nil(),
