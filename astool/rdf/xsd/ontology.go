@@ -429,13 +429,13 @@ func (f *float) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (b
 		val := &rdf.VocabularyValue{
 			Name:           floatSpec,
 			URI:            u,
-			DefinitionType: jen.Float32(),
+			DefinitionType: jen.Float64(),
 			Zero:           "0.0",
 			IsNilable:      false,
 			SerializeFn: rdf.SerializeValueFunction(
 				f.pkg,
 				floatSpec,
-				jen.Id("float32"),
+				jen.Id("float64"),
 				[]jen.Code{
 					jen.Return(
 						jen.Id(codegen.This()),
@@ -445,13 +445,13 @@ func (f *float) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (b
 			DeserializeFn: rdf.DeserializeValueFunction(
 				f.pkg,
 				floatSpec,
-				jen.Id("float32"),
+				jen.Id("float64"),
 				[]jen.Code{
 					jen.If(
 						jen.List(
 							jen.Id("f"),
 							jen.Id("ok"),
-						).Op(":=").Id(codegen.This()).Assert(jen.Float32()),
+						).Op(":=").Id(codegen.This()).Assert(jen.Float64()),
 						jen.Id("ok"),
 					).Block(
 						jen.Return(
@@ -462,7 +462,7 @@ func (f *float) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (b
 						jen.Return(
 							jen.Lit(0),
 							jen.Qual("fmt", "Errorf").Call(
-								jen.Lit("%v cannot be interpreted as a float32 for xsd:float"),
+								jen.Lit("%v cannot be interpreted as a float64 for xsd:float"),
 								jen.Id(codegen.This()),
 							),
 						),
@@ -471,7 +471,7 @@ func (f *float) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (b
 			LessFn: rdf.LessFunction(
 				f.pkg,
 				floatSpec,
-				jen.Id("float32"),
+				jen.Id("float64"),
 				[]jen.Code{
 					jen.Return(
 						jen.Id("lhs").Op("<").Id("rhs"),
