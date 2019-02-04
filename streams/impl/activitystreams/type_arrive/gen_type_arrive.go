@@ -64,7 +64,7 @@ type Arrive struct {
 
 // ArriveExtends returns true if the Arrive type extends from the other type.
 func ArriveExtends(other vocab.Type) bool {
-	extensions := []string{"IntransitiveActivity", "Activity", "Object"}
+	extensions := []string{"Activity", "IntransitiveActivity", "Object"}
 	for _, ext := range extensions {
 		if ext == other.GetName() {
 			return true

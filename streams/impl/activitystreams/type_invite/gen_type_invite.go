@@ -341,7 +341,7 @@ func DeserializeInvite(m map[string]interface{}, aliasMap map[string]string) (*I
 
 // InviteExtends returns true if the Invite type extends from the other type.
 func InviteExtends(other vocab.Type) bool {
-	extensions := []string{"Offer", "Activity", "Object"}
+	extensions := []string{"Activity", "Object", "Offer"}
 	for _, ext := range extensions {
 		if ext == other.GetName() {
 			return true

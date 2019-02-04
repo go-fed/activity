@@ -56,7 +56,7 @@ type Block struct {
 
 // BlockExtends returns true if the Block type extends from the other type.
 func BlockExtends(other vocab.Type) bool {
-	extensions := []string{"Object", "Ignore", "Activity"}
+	extensions := []string{"Activity", "Ignore", "Object"}
 	for _, ext := range extensions {
 		if ext == other.GetName() {
 			return true

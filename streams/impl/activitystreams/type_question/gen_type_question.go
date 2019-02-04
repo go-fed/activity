@@ -368,7 +368,7 @@ func NewQuestion() *Question {
 
 // QuestionExtends returns true if the Question type extends from the other type.
 func QuestionExtends(other vocab.Type) bool {
-	extensions := []string{"Object", "IntransitiveActivity", "Activity"}
+	extensions := []string{"Activity", "IntransitiveActivity", "Object"}
 	for _, ext := range extensions {
 		if ext == other.GetName() {
 			return true

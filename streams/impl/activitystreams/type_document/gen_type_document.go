@@ -307,7 +307,7 @@ func DocumentIsDisjointWith(other vocab.Type) bool {
 // DocumentIsExtendedBy returns true if the other provided type extends from the
 // Document type.
 func DocumentIsExtendedBy(other vocab.Type) bool {
-	extensions := []string{"Page", "Video", "Audio", "Image"}
+	extensions := []string{"Audio", "Image", "Page", "Video"}
 	for _, ext := range extensions {
 		if ext == other.GetName() {
 			return true

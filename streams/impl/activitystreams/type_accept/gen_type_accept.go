@@ -83,7 +83,7 @@ type Accept struct {
 
 // AcceptExtends returns true if the Accept type extends from the other type.
 func AcceptExtends(other vocab.Type) bool {
-	extensions := []string{"Object", "Activity"}
+	extensions := []string{"Activity", "Object"}
 	for _, ext := range extensions {
 		if ext == other.GetName() {
 			return true

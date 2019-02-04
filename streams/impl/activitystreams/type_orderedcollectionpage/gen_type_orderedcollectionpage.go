@@ -377,7 +377,7 @@ func NewOrderedCollectionPage() *OrderedCollectionPage {
 // OrderedCollectionPageExtends returns true if the OrderedCollectionPage type
 // extends from the other type.
 func OrderedCollectionPageExtends(other vocab.Type) bool {
-	extensions := []string{"CollectionPage", "Collection", "Object"}
+	extensions := []string{"Collection", "CollectionPage", "Object"}
 	for _, ext := range extensions {
 		if ext == other.GetName() {
 			return true

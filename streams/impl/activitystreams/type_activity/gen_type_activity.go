@@ -87,7 +87,7 @@ func ActivityIsDisjointWith(other vocab.Type) bool {
 // ActivityIsExtendedBy returns true if the other provided type extends from the
 // Activity type.
 func ActivityIsExtendedBy(other vocab.Type) bool {
-	extensions := []string{"Like", "Remove", "Listen", "Leave", "Delete", "Dislike", "Read", "View", "IntransitiveActivity", "Arrive", "Travel", "Question", "Update", "Flag", "Announce", "Undo", "Join", "Create", "Add", "Reject", "TentativeReject", "Move", "Ignore", "Block", "Accept", "TentativeAccept", "Offer", "Invite", "Follow"}
+	extensions := []string{"Accept", "Add", "Announce", "Arrive", "Block", "Create", "Delete", "Dislike", "Flag", "Follow", "Ignore", "IntransitiveActivity", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Offer", "Question", "Read", "Reject", "Remove", "TentativeAccept", "TentativeReject", "Travel", "Undo", "Update", "View"}
 	for _, ext := range extensions {
 		if ext == other.GetName() {
 			return true

@@ -333,7 +333,7 @@ func DeserializeIntransitiveActivity(m map[string]interface{}, aliasMap map[stri
 // IntransitiveActivityExtends returns true if the IntransitiveActivity type
 // extends from the other type.
 func IntransitiveActivityExtends(other vocab.Type) bool {
-	extensions := []string{"Object", "Activity"}
+	extensions := []string{"Activity", "Object"}
 	for _, ext := range extensions {
 		if ext == other.GetName() {
 			return true
@@ -357,7 +357,7 @@ func IntransitiveActivityIsDisjointWith(other vocab.Type) bool {
 // IntransitiveActivityIsExtendedBy returns true if the other provided type
 // extends from the IntransitiveActivity type.
 func IntransitiveActivityIsExtendedBy(other vocab.Type) bool {
-	extensions := []string{"Arrive", "Travel", "Question"}
+	extensions := []string{"Arrive", "Question", "Travel"}
 	for _, ext := range extensions {
 		if ext == other.GetName() {
 			return true

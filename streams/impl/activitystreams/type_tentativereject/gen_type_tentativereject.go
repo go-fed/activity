@@ -343,7 +343,7 @@ func NewTentativeReject() *TentativeReject {
 // TentativeRejectExtends returns true if the TentativeReject type extends from
 // the other type.
 func TentativeRejectExtends(other vocab.Type) bool {
-	extensions := []string{"Reject", "Activity", "Object"}
+	extensions := []string{"Activity", "Object", "Reject"}
 	for _, ext := range extensions {
 		if ext == other.GetName() {
 			return true

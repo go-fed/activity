@@ -370,15 +370,76 @@ func (r *ResolverGenerator) jsonResolverMethods() (m []*codegen.Method) {
 				),
 			),
 			jen.Id("aliasMap").Op(":=").Id(toAliasMapFnName).Call(jen.Id("rawContext")),
-			jen.Switch(jen.Id("typeValue")).Block(
-				impl.Default().Block(
-					jen.Return(
-						jen.Id(errorUnhandled),
+			jen.Commentf("Begin: Private lambda to handle a single string %q value. Makes code generation easier.", typePropertyName),
+			jen.Id("handleFn").Op(":=").Func().Parens(
+				jen.Id("typeString").String(),
+			).Error().Block(
+				jen.Switch(jen.Id("typeString")).Block(
+					impl.Default().Block(
+						jen.Return(
+							jen.Id(errorUnhandled),
+						),
 					),
 				),
 			),
+			jen.Commentf("End: Private lambda"),
+			jen.If(
+				jen.List(
+					jen.Id("typeStr"),
+					jen.Id("ok"),
+				).Op(":=").Id("typeValue").Assert(jen.String()),
+				jen.Id("ok"),
+			).Block(
+				jen.Return(
+					jen.Id("handleFn").Call(jen.Id("typeStr")),
+				),
+			).Else().If(
+				jen.List(
+					jen.Id("typeIArr"),
+					jen.Id("ok"),
+				).Op(":=").Id("typeValue").Assert(jen.Index().Interface()),
+				jen.Id("ok"),
+			).Block(
+				jen.For(
+					jen.List(
+						jen.Id("_"),
+						jen.Id("typeI"),
+					).Op(":=").Range().Id("typeIArr"),
+				).Block(
+					jen.If(
+						jen.List(
+							jen.Id("typeStr"),
+							jen.Id("ok"),
+						).Op(":=").Id("typeI").Assert(jen.String()),
+						jen.Id("ok"),
+					).Block(
+						jen.If(
+							jen.List(
+								jen.Err(),
+							).Op(":=").Id("handleFn").Call(jen.Id("typeStr")),
+							jen.Err().Op("==").Nil(),
+						).Block(
+							jen.Return(jen.Nil()),
+						).Else().If(
+							jen.Err().Op("==").Id(errorUnhandled),
+						).Block(
+							jen.Commentf("Keep trying other types: only if all fail do we return this error."),
+							jen.Continue(),
+						).Else().Block(
+							jen.Return(jen.Err()),
+						),
+					),
+				),
+				jen.Return(
+					jen.Id(errorUnhandled),
+				),
+			).Else().Block(
+				jen.Return(
+					jen.Id(errorUnhandled),
+				),
+			),
 		},
-		fmt.Sprintf("%s determines the ActivityStreams type of the payload, then applies the first callback function whose signature accepts the ActivityStreams value's type. This strictly assures that the callback function will only be passed ActivityStream objects whose type matches its interface. Returns an error if the ActivityStreams type does not match callbackers or is not a type handled by the generated code.", resolveMethod)))
+		fmt.Sprintf("%s determines the ActivityStreams type of the payload, then applies the first callback function whose signature accepts the ActivityStreams value's type. This strictly assures that the callback function will only be passed ActivityStream objects whose type matches its interface. Returns an error if the ActivityStreams type does not match callbackers or is not a type handled by the generated code. If multiple types are present, it will check each one in order and apply only the first one. It returns an unhandled error for a multi-typed object if none of the types were able to be handled.", resolveMethod)))
 	return
 }
 

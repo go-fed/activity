@@ -5,6 +5,7 @@ import (
 	"github.com/dave/jennifer/jen"
 	"github.com/go-fed/activity/astool/codegen"
 	"os"
+	"sort"
 	"strings"
 )
 
@@ -376,20 +377,26 @@ func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator
 func genInit(pkg Package, tgs []*TypeGenerator, pgs []*PropertyGenerator) (globalManager *jen.Statement, init *codegen.Function) {
 	// init
 	globalManager = jen.Var().Id(managerInitName()).Op("*").Qual(pkg.Path(), managerName)
-	callInitsMap := make(map[string]jen.Code, len(tgs))
+	callInitsMap := make(map[string]jen.Code, len(tgs)+len(pgs))
+	callInitsSlice := make([]string, 0, len(tgs)+len(pgs))
 	for _, tg := range tgs {
-		callInitsMap[tg.PrivatePackage().Path()] = jen.Qual(tg.PrivatePackage().Path(), setManagerFunctionName).Call(
+		key := tg.PrivatePackage().Path()
+		callInitsMap[key] = jen.Qual(tg.PrivatePackage().Path(), setManagerFunctionName).Call(
 			jen.Qual(pkg.Path(), managerInitName()),
 		)
+		callInitsSlice = append(callInitsSlice, key)
 	}
 	for _, pg := range pgs {
-		callInitsMap[pg.GetPrivatePackage().Path()] = jen.Qual(pg.GetPrivatePackage().Path(), setManagerFunctionName).Call(
+		key := pg.GetPrivatePackage().Path()
+		callInitsMap[key] = jen.Qual(pg.GetPrivatePackage().Path(), setManagerFunctionName).Call(
 			jen.Qual(pkg.Path(), managerInitName()),
 		)
+		callInitsSlice = append(callInitsSlice, key)
 	}
-	callInits := make([]jen.Code, 0, len(callInitsMap))
-	for _, c := range callInitsMap {
-		callInits = append(callInits, c)
+	sort.Sort(sort.StringSlice(callInitsSlice))
+	callInits := make([]jen.Code, 0, len(callInitsSlice))
+	for _, c := range callInitsSlice {
+		callInits = append(callInits, callInitsMap[c])
 	}
 	init = codegen.NewCommentedFunction(
 		pkg.Path(),

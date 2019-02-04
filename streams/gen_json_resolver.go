@@ -197,7 +197,9 @@ func toAliasMap(i interface{}) (m map[string]string) {
 // type. This strictly assures that the callback function will only be passed
 // ActivityStream objects whose type matches its interface. Returns an error
 // if the ActivityStreams type does not match callbackers or is not a type
-// handled by the generated code.
+// handled by the generated code. If multiple types are present, it will check
+// each one in order and apply only the first one. It returns an unhandled
+// error for a multi-typed object if none of the types were able to be handled.
 func (this JSONResolver) Resolve(ctx context.Context, m map[string]interface{}) error {
 	typeValue, ok := m["type"]
 	if !ok {
@@ -208,764 +210,787 @@ func (this JSONResolver) Resolve(ctx context.Context, m map[string]interface{}) 
 		return fmt.Errorf("cannot determine ActivityStreams type: '@context' is missing")
 	}
 	aliasMap := toAliasMap(rawContext)
-	switch typeValue {
-	case "Accept":
-		v, err := mgr.DeserializeAcceptActivityStreams()(m, aliasMap)
+	// Begin: Private lambda to handle a single string "type" value. Makes code generation easier.
+	handleFn := func(typeString string) error {
+		switch typeString {
+		case "Accept":
+			v, err := mgr.DeserializeAcceptActivityStreams()(m, aliasMap)
 
-		if err != nil {
-			return err
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.AcceptInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Activity":
+			v, err := mgr.DeserializeActivityActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.ActivityInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Add":
+			v, err := mgr.DeserializeAddActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.AddInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Announce":
+			v, err := mgr.DeserializeAnnounceActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.AnnounceInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Application":
+			v, err := mgr.DeserializeApplicationActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.ApplicationInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Arrive":
+			v, err := mgr.DeserializeArriveActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.ArriveInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Article":
+			v, err := mgr.DeserializeArticleActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.ArticleInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Audio":
+			v, err := mgr.DeserializeAudioActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.AudioInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Block":
+			v, err := mgr.DeserializeBlockActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.BlockInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Collection":
+			v, err := mgr.DeserializeCollectionActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.CollectionInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "CollectionPage":
+			v, err := mgr.DeserializeCollectionPageActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.CollectionPageInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Create":
+			v, err := mgr.DeserializeCreateActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.CreateInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Delete":
+			v, err := mgr.DeserializeDeleteActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.DeleteInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Dislike":
+			v, err := mgr.DeserializeDislikeActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.DislikeInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Document":
+			v, err := mgr.DeserializeDocumentActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.DocumentInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Event":
+			v, err := mgr.DeserializeEventActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.EventInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Flag":
+			v, err := mgr.DeserializeFlagActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.FlagInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Follow":
+			v, err := mgr.DeserializeFollowActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.FollowInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Group":
+			v, err := mgr.DeserializeGroupActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.GroupInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Ignore":
+			v, err := mgr.DeserializeIgnoreActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.IgnoreInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Image":
+			v, err := mgr.DeserializeImageActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.ImageInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "IntransitiveActivity":
+			v, err := mgr.DeserializeIntransitiveActivityActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.IntransitiveActivityInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Invite":
+			v, err := mgr.DeserializeInviteActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.InviteInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Join":
+			v, err := mgr.DeserializeJoinActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.JoinInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Leave":
+			v, err := mgr.DeserializeLeaveActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.LeaveInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Like":
+			v, err := mgr.DeserializeLikeActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.LikeInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Link":
+			v, err := mgr.DeserializeLinkActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.LinkInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Listen":
+			v, err := mgr.DeserializeListenActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.ListenInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Mention":
+			v, err := mgr.DeserializeMentionActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.MentionInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Move":
+			v, err := mgr.DeserializeMoveActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.MoveInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Note":
+			v, err := mgr.DeserializeNoteActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.NoteInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Object":
+			v, err := mgr.DeserializeObjectActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.ObjectInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Offer":
+			v, err := mgr.DeserializeOfferActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.OfferInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "OrderedCollection":
+			v, err := mgr.DeserializeOrderedCollectionActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.OrderedCollectionInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "OrderedCollectionPage":
+			v, err := mgr.DeserializeOrderedCollectionPageActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.OrderedCollectionPageInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Organization":
+			v, err := mgr.DeserializeOrganizationActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.OrganizationInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Page":
+			v, err := mgr.DeserializePageActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.PageInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Person":
+			v, err := mgr.DeserializePersonActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.PersonInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Place":
+			v, err := mgr.DeserializePlaceActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.PlaceInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Profile":
+			v, err := mgr.DeserializeProfileActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.ProfileInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Question":
+			v, err := mgr.DeserializeQuestionActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.QuestionInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Read":
+			v, err := mgr.DeserializeReadActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.ReadInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Reject":
+			v, err := mgr.DeserializeRejectActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.RejectInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Relationship":
+			v, err := mgr.DeserializeRelationshipActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.RelationshipInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Remove":
+			v, err := mgr.DeserializeRemoveActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.RemoveInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Service":
+			v, err := mgr.DeserializeServiceActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.ServiceInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "TentativeAccept":
+			v, err := mgr.DeserializeTentativeAcceptActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.TentativeAcceptInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "TentativeReject":
+			v, err := mgr.DeserializeTentativeRejectActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.TentativeRejectInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Tombstone":
+			v, err := mgr.DeserializeTombstoneActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.TombstoneInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Travel":
+			v, err := mgr.DeserializeTravelActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.TravelInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Undo":
+			v, err := mgr.DeserializeUndoActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.UndoInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Update":
+			v, err := mgr.DeserializeUpdateActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.UpdateInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "Video":
+			v, err := mgr.DeserializeVideoActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.VideoInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		case "View":
+			v, err := mgr.DeserializeViewActivityStreams()(m, aliasMap)
+
+			if err != nil {
+				return err
+			}
+
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.ViewInterface) error); ok {
+					return fn(ctx, v)
+				}
+			}
+
+			return ErrNoCallbackMatch
+		default:
+			return ErrUnhandledType
 		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.AcceptInterface) error); ok {
-				return fn(ctx, v)
+	}
+	// End: Private lambda
+	if typeStr, ok := typeValue.(string); ok {
+		return handleFn(typeStr)
+	} else if typeIArr, ok := typeValue.([]interface{}); ok {
+		for _, typeI := range typeIArr {
+			if typeStr, ok := typeI.(string); ok {
+				if err := handleFn(typeStr); err == nil {
+					return nil
+				} else if err == ErrUnhandledType {
+					// Keep trying other types: only if all fail do we return this error.
+					continue
+				} else {
+					return err
+				}
 			}
 		}
-
-		return ErrNoCallbackMatch
-	case "Activity":
-		v, err := mgr.DeserializeActivityActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.ActivityInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Add":
-		v, err := mgr.DeserializeAddActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.AddInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Announce":
-		v, err := mgr.DeserializeAnnounceActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.AnnounceInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Application":
-		v, err := mgr.DeserializeApplicationActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.ApplicationInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Arrive":
-		v, err := mgr.DeserializeArriveActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.ArriveInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Article":
-		v, err := mgr.DeserializeArticleActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.ArticleInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Audio":
-		v, err := mgr.DeserializeAudioActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.AudioInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Block":
-		v, err := mgr.DeserializeBlockActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.BlockInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Collection":
-		v, err := mgr.DeserializeCollectionActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.CollectionInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "CollectionPage":
-		v, err := mgr.DeserializeCollectionPageActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.CollectionPageInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Create":
-		v, err := mgr.DeserializeCreateActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.CreateInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Delete":
-		v, err := mgr.DeserializeDeleteActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.DeleteInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Dislike":
-		v, err := mgr.DeserializeDislikeActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.DislikeInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Document":
-		v, err := mgr.DeserializeDocumentActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.DocumentInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Event":
-		v, err := mgr.DeserializeEventActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.EventInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Flag":
-		v, err := mgr.DeserializeFlagActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.FlagInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Follow":
-		v, err := mgr.DeserializeFollowActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.FollowInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Group":
-		v, err := mgr.DeserializeGroupActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.GroupInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Ignore":
-		v, err := mgr.DeserializeIgnoreActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.IgnoreInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Image":
-		v, err := mgr.DeserializeImageActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.ImageInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "IntransitiveActivity":
-		v, err := mgr.DeserializeIntransitiveActivityActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.IntransitiveActivityInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Invite":
-		v, err := mgr.DeserializeInviteActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.InviteInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Join":
-		v, err := mgr.DeserializeJoinActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.JoinInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Leave":
-		v, err := mgr.DeserializeLeaveActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.LeaveInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Like":
-		v, err := mgr.DeserializeLikeActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.LikeInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Link":
-		v, err := mgr.DeserializeLinkActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.LinkInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Listen":
-		v, err := mgr.DeserializeListenActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.ListenInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Mention":
-		v, err := mgr.DeserializeMentionActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.MentionInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Move":
-		v, err := mgr.DeserializeMoveActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.MoveInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Note":
-		v, err := mgr.DeserializeNoteActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.NoteInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Object":
-		v, err := mgr.DeserializeObjectActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.ObjectInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Offer":
-		v, err := mgr.DeserializeOfferActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.OfferInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "OrderedCollection":
-		v, err := mgr.DeserializeOrderedCollectionActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.OrderedCollectionInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "OrderedCollectionPage":
-		v, err := mgr.DeserializeOrderedCollectionPageActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.OrderedCollectionPageInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Organization":
-		v, err := mgr.DeserializeOrganizationActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.OrganizationInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Page":
-		v, err := mgr.DeserializePageActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.PageInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Person":
-		v, err := mgr.DeserializePersonActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.PersonInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Place":
-		v, err := mgr.DeserializePlaceActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.PlaceInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Profile":
-		v, err := mgr.DeserializeProfileActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.ProfileInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Question":
-		v, err := mgr.DeserializeQuestionActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.QuestionInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Read":
-		v, err := mgr.DeserializeReadActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.ReadInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Reject":
-		v, err := mgr.DeserializeRejectActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.RejectInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Relationship":
-		v, err := mgr.DeserializeRelationshipActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.RelationshipInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Remove":
-		v, err := mgr.DeserializeRemoveActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.RemoveInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Service":
-		v, err := mgr.DeserializeServiceActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.ServiceInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "TentativeAccept":
-		v, err := mgr.DeserializeTentativeAcceptActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.TentativeAcceptInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "TentativeReject":
-		v, err := mgr.DeserializeTentativeRejectActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.TentativeRejectInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Tombstone":
-		v, err := mgr.DeserializeTombstoneActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.TombstoneInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Travel":
-		v, err := mgr.DeserializeTravelActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.TravelInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Undo":
-		v, err := mgr.DeserializeUndoActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.UndoInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Update":
-		v, err := mgr.DeserializeUpdateActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.UpdateInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "Video":
-		v, err := mgr.DeserializeVideoActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.VideoInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	case "View":
-		v, err := mgr.DeserializeViewActivityStreams()(m, aliasMap)
-
-		if err != nil {
-			return err
-		}
-
-		for _, i := range this.callbacks {
-			if fn, ok := i.(func(context.Context, vocab.ViewInterface) error); ok {
-				return fn(ctx, v)
-			}
-		}
-
-		return ErrNoCallbackMatch
-	default:
+		return ErrUnhandledType
+	} else {
 		return ErrUnhandledType
 	}
 }

@@ -89,7 +89,7 @@ func CollectionIsDisjointWith(other vocab.Type) bool {
 // CollectionIsExtendedBy returns true if the other provided type extends from the
 // Collection type.
 func CollectionIsExtendedBy(other vocab.Type) bool {
-	extensions := []string{"OrderedCollection", "CollectionPage", "OrderedCollectionPage"}
+	extensions := []string{"CollectionPage", "OrderedCollection", "OrderedCollectionPage"}
 	for _, ext := range extensions {
 		if ext == other.GetName() {
 			return true

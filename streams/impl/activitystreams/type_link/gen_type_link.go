@@ -146,7 +146,7 @@ func LinkExtends(other vocab.Type) bool {
 // LinkIsDisjointWith returns true if the other provided type is disjoint with the
 // Link type.
 func LinkIsDisjointWith(other vocab.Type) bool {
-	disjointWith := []string{"Object", "Person", "Group", "Note", "Activity", "Like", "Remove", "Listen", "Leave", "Delete", "Dislike", "Read", "View", "IntransitiveActivity", "Arrive", "Travel", "Question", "Update", "Flag", "Announce", "Undo", "Join", "Create", "Add", "Reject", "TentativeReject", "Move", "Ignore", "Block", "Accept", "TentativeAccept", "Offer", "Invite", "Follow", "Collection", "OrderedCollection", "CollectionPage", "OrderedCollectionPage", "Tombstone", "Organization", "Application", "Document", "Page", "Video", "Audio", "Image", "Relationship", "Event", "Place", "Profile", "Service", "Article"}
+	disjointWith := []string{"Accept", "Activity", "Add", "Announce", "Application", "Arrive", "Article", "Audio", "Block", "Collection", "CollectionPage", "Create", "Delete", "Dislike", "Document", "Event", "Flag", "Follow", "Group", "Ignore", "Image", "IntransitiveActivity", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Note", "Object", "Offer", "OrderedCollection", "OrderedCollectionPage", "Organization", "Page", "Person", "Place", "Profile", "Question", "Read", "Reject", "Relationship", "Remove", "Service", "TentativeAccept", "TentativeReject", "Tombstone", "Travel", "Undo", "Update", "Video", "View"}
 	for _, disjoint := range disjointWith {
 		if disjoint == other.GetName() {
 			return true

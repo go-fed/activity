@@ -442,8 +442,14 @@ func (t *TypeGenerator) getAllParentExtends(s map[*TypeGenerator]string, tg *Typ
 func (t *TypeGenerator) extendsDefinition() (*codegen.Function, *codegen.Method) {
 	var extends map[*TypeGenerator]string
 	extends = t.getAllParentExtends(extends, t)
-	extensions := make([]jen.Code, len(extends))
+	// Sort the rootin' tootin' thing, eliminating noise upon regeneration..
+	extendsStr := make([]string, 0, len(extends))
 	for _, name := range extends {
+		extendsStr = append(extendsStr, name)
+	}
+	sort.Sort(sort.StringSlice(extendsStr))
+	extensions := make([]jen.Code, 0, len(extendsStr))
+	for _, name := range extendsStr {
 		extensions = append(extensions, jen.Lit(name))
 	}
 	impl := []jen.Code{jen.Comment("Shortcut implementation: this does not extend anything."), jen.Return(jen.False())}
@@ -490,6 +496,7 @@ func (t *TypeGenerator) getAllChildrenExtendedBy(s []string, tg *TypeGenerator) 
 		s = append(s, e.TypeName())
 		s = t.getAllChildrenExtendedBy(s, e)
 	}
+	sort.Sort(sort.StringSlice(s))
 	return s
 }
 
