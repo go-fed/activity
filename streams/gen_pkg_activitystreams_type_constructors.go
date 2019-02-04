@@ -58,40 +58,39 @@ import (
 	vocab "github.com/go-fed/activity/streams/vocab"
 )
 
-// NewActivityStreamsLink creates a new LinkInterface
-func NewActivityStreamsLink() vocab.LinkInterface {
-	return typelink.NewLink()
+// NewActivityStreamsAccept creates a new AcceptInterface
+func NewActivityStreamsAccept() vocab.AcceptInterface {
+	return typeaccept.NewAccept()
 }
 
-// NewActivityStreamsObject creates a new ObjectInterface
-func NewActivityStreamsObject() vocab.ObjectInterface {
-	return typeobject.NewObject()
+// NewActivityStreamsActivity creates a new ActivityInterface
+func NewActivityStreamsActivity() vocab.ActivityInterface {
+	return typeactivity.NewActivity()
 }
 
-// NewActivityStreamsView creates a new ViewInterface
-func NewActivityStreamsView() vocab.ViewInterface {
-	return typeview.NewView()
+// NewActivityStreamsAdd creates a new AddInterface
+func NewActivityStreamsAdd() vocab.AddInterface {
+	return typeadd.NewAdd()
 }
 
-// NewActivityStreamsOrderedCollectionPage creates a new
-// OrderedCollectionPageInterface
-func NewActivityStreamsOrderedCollectionPage() vocab.OrderedCollectionPageInterface {
-	return typeorderedcollectionpage.NewOrderedCollectionPage()
+// NewActivityStreamsAnnounce creates a new AnnounceInterface
+func NewActivityStreamsAnnounce() vocab.AnnounceInterface {
+	return typeannounce.NewAnnounce()
 }
 
-// NewActivityStreamsPlace creates a new PlaceInterface
-func NewActivityStreamsPlace() vocab.PlaceInterface {
-	return typeplace.NewPlace()
+// NewActivityStreamsApplication creates a new ApplicationInterface
+func NewActivityStreamsApplication() vocab.ApplicationInterface {
+	return typeapplication.NewApplication()
 }
 
-// NewActivityStreamsGroup creates a new GroupInterface
-func NewActivityStreamsGroup() vocab.GroupInterface {
-	return typegroup.NewGroup()
+// NewActivityStreamsArrive creates a new ArriveInterface
+func NewActivityStreamsArrive() vocab.ArriveInterface {
+	return typearrive.NewArrive()
 }
 
-// NewActivityStreamsFlag creates a new FlagInterface
-func NewActivityStreamsFlag() vocab.FlagInterface {
-	return typeflag.NewFlag()
+// NewActivityStreamsArticle creates a new ArticleInterface
+func NewActivityStreamsArticle() vocab.ArticleInterface {
+	return typearticle.NewArticle()
 }
 
 // NewActivityStreamsAudio creates a new AudioInterface
@@ -99,19 +98,9 @@ func NewActivityStreamsAudio() vocab.AudioInterface {
 	return typeaudio.NewAudio()
 }
 
-// NewActivityStreamsJoin creates a new JoinInterface
-func NewActivityStreamsJoin() vocab.JoinInterface {
-	return typejoin.NewJoin()
-}
-
-// NewActivityStreamsIgnore creates a new IgnoreInterface
-func NewActivityStreamsIgnore() vocab.IgnoreInterface {
-	return typeignore.NewIgnore()
-}
-
-// NewActivityStreamsVideo creates a new VideoInterface
-func NewActivityStreamsVideo() vocab.VideoInterface {
-	return typevideo.NewVideo()
+// NewActivityStreamsBlock creates a new BlockInterface
+func NewActivityStreamsBlock() vocab.BlockInterface {
+	return typeblock.NewBlock()
 }
 
 // NewActivityStreamsCollection creates a new CollectionInterface
@@ -124,39 +113,9 @@ func NewActivityStreamsCollectionPage() vocab.CollectionPageInterface {
 	return typecollectionpage.NewCollectionPage()
 }
 
-// NewActivityStreamsApplication creates a new ApplicationInterface
-func NewActivityStreamsApplication() vocab.ApplicationInterface {
-	return typeapplication.NewApplication()
-}
-
-// NewActivityStreamsEvent creates a new EventInterface
-func NewActivityStreamsEvent() vocab.EventInterface {
-	return typeevent.NewEvent()
-}
-
-// NewActivityStreamsUndo creates a new UndoInterface
-func NewActivityStreamsUndo() vocab.UndoInterface {
-	return typeundo.NewUndo()
-}
-
-// NewActivityStreamsDislike creates a new DislikeInterface
-func NewActivityStreamsDislike() vocab.DislikeInterface {
-	return typedislike.NewDislike()
-}
-
-// NewActivityStreamsPerson creates a new PersonInterface
-func NewActivityStreamsPerson() vocab.PersonInterface {
-	return typeperson.NewPerson()
-}
-
-// NewActivityStreamsOrderedCollection creates a new OrderedCollectionInterface
-func NewActivityStreamsOrderedCollection() vocab.OrderedCollectionInterface {
-	return typeorderedcollection.NewOrderedCollection()
-}
-
-// NewActivityStreamsRead creates a new ReadInterface
-func NewActivityStreamsRead() vocab.ReadInterface {
-	return typeread.NewRead()
+// NewActivityStreamsCreate creates a new CreateInterface
+func NewActivityStreamsCreate() vocab.CreateInterface {
+	return typecreate.NewCreate()
 }
 
 // NewActivityStreamsDelete creates a new DeleteInterface
@@ -164,19 +123,9 @@ func NewActivityStreamsDelete() vocab.DeleteInterface {
 	return typedelete.NewDelete()
 }
 
-// NewActivityStreamsImage creates a new ImageInterface
-func NewActivityStreamsImage() vocab.ImageInterface {
-	return typeimage.NewImage()
-}
-
-// NewActivityStreamsFollow creates a new FollowInterface
-func NewActivityStreamsFollow() vocab.FollowInterface {
-	return typefollow.NewFollow()
-}
-
-// NewActivityStreamsTentativeReject creates a new TentativeRejectInterface
-func NewActivityStreamsTentativeReject() vocab.TentativeRejectInterface {
-	return typetentativereject.NewTentativeReject()
+// NewActivityStreamsDislike creates a new DislikeInterface
+func NewActivityStreamsDislike() vocab.DislikeInterface {
+	return typedislike.NewDislike()
 }
 
 // NewActivityStreamsDocument creates a new DocumentInterface
@@ -184,74 +133,34 @@ func NewActivityStreamsDocument() vocab.DocumentInterface {
 	return typedocument.NewDocument()
 }
 
-// NewActivityStreamsRelationship creates a new RelationshipInterface
-func NewActivityStreamsRelationship() vocab.RelationshipInterface {
-	return typerelationship.NewRelationship()
+// NewActivityStreamsEvent creates a new EventInterface
+func NewActivityStreamsEvent() vocab.EventInterface {
+	return typeevent.NewEvent()
 }
 
-// NewActivityStreamsPage creates a new PageInterface
-func NewActivityStreamsPage() vocab.PageInterface {
-	return typepage.NewPage()
+// NewActivityStreamsFlag creates a new FlagInterface
+func NewActivityStreamsFlag() vocab.FlagInterface {
+	return typeflag.NewFlag()
 }
 
-// NewActivityStreamsReject creates a new RejectInterface
-func NewActivityStreamsReject() vocab.RejectInterface {
-	return typereject.NewReject()
+// NewActivityStreamsFollow creates a new FollowInterface
+func NewActivityStreamsFollow() vocab.FollowInterface {
+	return typefollow.NewFollow()
 }
 
-// NewActivityStreamsAccept creates a new AcceptInterface
-func NewActivityStreamsAccept() vocab.AcceptInterface {
-	return typeaccept.NewAccept()
+// NewActivityStreamsGroup creates a new GroupInterface
+func NewActivityStreamsGroup() vocab.GroupInterface {
+	return typegroup.NewGroup()
 }
 
-// NewActivityStreamsListen creates a new ListenInterface
-func NewActivityStreamsListen() vocab.ListenInterface {
-	return typelisten.NewListen()
+// NewActivityStreamsIgnore creates a new IgnoreInterface
+func NewActivityStreamsIgnore() vocab.IgnoreInterface {
+	return typeignore.NewIgnore()
 }
 
-// NewActivityStreamsLike creates a new LikeInterface
-func NewActivityStreamsLike() vocab.LikeInterface {
-	return typelike.NewLike()
-}
-
-// NewActivityStreamsTombstone creates a new TombstoneInterface
-func NewActivityStreamsTombstone() vocab.TombstoneInterface {
-	return typetombstone.NewTombstone()
-}
-
-// NewActivityStreamsUpdate creates a new UpdateInterface
-func NewActivityStreamsUpdate() vocab.UpdateInterface {
-	return typeupdate.NewUpdate()
-}
-
-// NewActivityStreamsOrganization creates a new OrganizationInterface
-func NewActivityStreamsOrganization() vocab.OrganizationInterface {
-	return typeorganization.NewOrganization()
-}
-
-// NewActivityStreamsProfile creates a new ProfileInterface
-func NewActivityStreamsProfile() vocab.ProfileInterface {
-	return typeprofile.NewProfile()
-}
-
-// NewActivityStreamsMove creates a new MoveInterface
-func NewActivityStreamsMove() vocab.MoveInterface {
-	return typemove.NewMove()
-}
-
-// NewActivityStreamsQuestion creates a new QuestionInterface
-func NewActivityStreamsQuestion() vocab.QuestionInterface {
-	return typequestion.NewQuestion()
-}
-
-// NewActivityStreamsService creates a new ServiceInterface
-func NewActivityStreamsService() vocab.ServiceInterface {
-	return typeservice.NewService()
-}
-
-// NewActivityStreamsRemove creates a new RemoveInterface
-func NewActivityStreamsRemove() vocab.RemoveInterface {
-	return typeremove.NewRemove()
+// NewActivityStreamsImage creates a new ImageInterface
+func NewActivityStreamsImage() vocab.ImageInterface {
+	return typeimage.NewImage()
 }
 
 // NewActivityStreamsIntransitiveActivity creates a new
@@ -260,44 +169,34 @@ func NewActivityStreamsIntransitiveActivity() vocab.IntransitiveActivityInterfac
 	return typeintransitiveactivity.NewIntransitiveActivity()
 }
 
-// NewActivityStreamsTravel creates a new TravelInterface
-func NewActivityStreamsTravel() vocab.TravelInterface {
-	return typetravel.NewTravel()
-}
-
-// NewActivityStreamsAnnounce creates a new AnnounceInterface
-func NewActivityStreamsAnnounce() vocab.AnnounceInterface {
-	return typeannounce.NewAnnounce()
-}
-
-// NewActivityStreamsNote creates a new NoteInterface
-func NewActivityStreamsNote() vocab.NoteInterface {
-	return typenote.NewNote()
-}
-
 // NewActivityStreamsInvite creates a new InviteInterface
 func NewActivityStreamsInvite() vocab.InviteInterface {
 	return typeinvite.NewInvite()
 }
 
-// NewActivityStreamsBlock creates a new BlockInterface
-func NewActivityStreamsBlock() vocab.BlockInterface {
-	return typeblock.NewBlock()
+// NewActivityStreamsJoin creates a new JoinInterface
+func NewActivityStreamsJoin() vocab.JoinInterface {
+	return typejoin.NewJoin()
 }
 
-// NewActivityStreamsActivity creates a new ActivityInterface
-func NewActivityStreamsActivity() vocab.ActivityInterface {
-	return typeactivity.NewActivity()
+// NewActivityStreamsLeave creates a new LeaveInterface
+func NewActivityStreamsLeave() vocab.LeaveInterface {
+	return typeleave.NewLeave()
 }
 
-// NewActivityStreamsArticle creates a new ArticleInterface
-func NewActivityStreamsArticle() vocab.ArticleInterface {
-	return typearticle.NewArticle()
+// NewActivityStreamsLike creates a new LikeInterface
+func NewActivityStreamsLike() vocab.LikeInterface {
+	return typelike.NewLike()
 }
 
-// NewActivityStreamsArrive creates a new ArriveInterface
-func NewActivityStreamsArrive() vocab.ArriveInterface {
-	return typearrive.NewArrive()
+// NewActivityStreamsLink creates a new LinkInterface
+func NewActivityStreamsLink() vocab.LinkInterface {
+	return typelink.NewLink()
+}
+
+// NewActivityStreamsListen creates a new ListenInterface
+func NewActivityStreamsListen() vocab.ListenInterface {
+	return typelisten.NewListen()
 }
 
 // NewActivityStreamsMention creates a new MentionInterface
@@ -305,9 +204,19 @@ func NewActivityStreamsMention() vocab.MentionInterface {
 	return typemention.NewMention()
 }
 
-// NewActivityStreamsTentativeAccept creates a new TentativeAcceptInterface
-func NewActivityStreamsTentativeAccept() vocab.TentativeAcceptInterface {
-	return typetentativeaccept.NewTentativeAccept()
+// NewActivityStreamsMove creates a new MoveInterface
+func NewActivityStreamsMove() vocab.MoveInterface {
+	return typemove.NewMove()
+}
+
+// NewActivityStreamsNote creates a new NoteInterface
+func NewActivityStreamsNote() vocab.NoteInterface {
+	return typenote.NewNote()
+}
+
+// NewActivityStreamsObject creates a new ObjectInterface
+func NewActivityStreamsObject() vocab.ObjectInterface {
+	return typeobject.NewObject()
 }
 
 // NewActivityStreamsOffer creates a new OfferInterface
@@ -315,17 +224,108 @@ func NewActivityStreamsOffer() vocab.OfferInterface {
 	return typeoffer.NewOffer()
 }
 
-// NewActivityStreamsCreate creates a new CreateInterface
-func NewActivityStreamsCreate() vocab.CreateInterface {
-	return typecreate.NewCreate()
+// NewActivityStreamsOrderedCollection creates a new OrderedCollectionInterface
+func NewActivityStreamsOrderedCollection() vocab.OrderedCollectionInterface {
+	return typeorderedcollection.NewOrderedCollection()
 }
 
-// NewActivityStreamsAdd creates a new AddInterface
-func NewActivityStreamsAdd() vocab.AddInterface {
-	return typeadd.NewAdd()
+// NewActivityStreamsOrderedCollectionPage creates a new
+// OrderedCollectionPageInterface
+func NewActivityStreamsOrderedCollectionPage() vocab.OrderedCollectionPageInterface {
+	return typeorderedcollectionpage.NewOrderedCollectionPage()
 }
 
-// NewActivityStreamsLeave creates a new LeaveInterface
-func NewActivityStreamsLeave() vocab.LeaveInterface {
-	return typeleave.NewLeave()
+// NewActivityStreamsOrganization creates a new OrganizationInterface
+func NewActivityStreamsOrganization() vocab.OrganizationInterface {
+	return typeorganization.NewOrganization()
+}
+
+// NewActivityStreamsPage creates a new PageInterface
+func NewActivityStreamsPage() vocab.PageInterface {
+	return typepage.NewPage()
+}
+
+// NewActivityStreamsPerson creates a new PersonInterface
+func NewActivityStreamsPerson() vocab.PersonInterface {
+	return typeperson.NewPerson()
+}
+
+// NewActivityStreamsPlace creates a new PlaceInterface
+func NewActivityStreamsPlace() vocab.PlaceInterface {
+	return typeplace.NewPlace()
+}
+
+// NewActivityStreamsProfile creates a new ProfileInterface
+func NewActivityStreamsProfile() vocab.ProfileInterface {
+	return typeprofile.NewProfile()
+}
+
+// NewActivityStreamsQuestion creates a new QuestionInterface
+func NewActivityStreamsQuestion() vocab.QuestionInterface {
+	return typequestion.NewQuestion()
+}
+
+// NewActivityStreamsRead creates a new ReadInterface
+func NewActivityStreamsRead() vocab.ReadInterface {
+	return typeread.NewRead()
+}
+
+// NewActivityStreamsReject creates a new RejectInterface
+func NewActivityStreamsReject() vocab.RejectInterface {
+	return typereject.NewReject()
+}
+
+// NewActivityStreamsRelationship creates a new RelationshipInterface
+func NewActivityStreamsRelationship() vocab.RelationshipInterface {
+	return typerelationship.NewRelationship()
+}
+
+// NewActivityStreamsRemove creates a new RemoveInterface
+func NewActivityStreamsRemove() vocab.RemoveInterface {
+	return typeremove.NewRemove()
+}
+
+// NewActivityStreamsService creates a new ServiceInterface
+func NewActivityStreamsService() vocab.ServiceInterface {
+	return typeservice.NewService()
+}
+
+// NewActivityStreamsTentativeAccept creates a new TentativeAcceptInterface
+func NewActivityStreamsTentativeAccept() vocab.TentativeAcceptInterface {
+	return typetentativeaccept.NewTentativeAccept()
+}
+
+// NewActivityStreamsTentativeReject creates a new TentativeRejectInterface
+func NewActivityStreamsTentativeReject() vocab.TentativeRejectInterface {
+	return typetentativereject.NewTentativeReject()
+}
+
+// NewActivityStreamsTombstone creates a new TombstoneInterface
+func NewActivityStreamsTombstone() vocab.TombstoneInterface {
+	return typetombstone.NewTombstone()
+}
+
+// NewActivityStreamsTravel creates a new TravelInterface
+func NewActivityStreamsTravel() vocab.TravelInterface {
+	return typetravel.NewTravel()
+}
+
+// NewActivityStreamsUndo creates a new UndoInterface
+func NewActivityStreamsUndo() vocab.UndoInterface {
+	return typeundo.NewUndo()
+}
+
+// NewActivityStreamsUpdate creates a new UpdateInterface
+func NewActivityStreamsUpdate() vocab.UpdateInterface {
+	return typeupdate.NewUpdate()
+}
+
+// NewActivityStreamsVideo creates a new VideoInterface
+func NewActivityStreamsVideo() vocab.VideoInterface {
+	return typevideo.NewVideo()
+}
+
+// NewActivityStreamsView creates a new ViewInterface
+func NewActivityStreamsView() vocab.ViewInterface {
+	return typeview.NewView()
 }

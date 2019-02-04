@@ -12,11 +12,13 @@ import (
 // of the 'Is' methods will return true. It is possible to clear all values,
 // so that this property is empty.
 type LastProperty struct {
-	CollectionPageMember vocab.CollectionPageInterface
-	LinkMember           vocab.LinkInterface
-	unknown              []byte
-	iri                  *url.URL
-	alias                string
+	CollectionPageMember        vocab.CollectionPageInterface
+	LinkMember                  vocab.LinkInterface
+	MentionMember               vocab.MentionInterface
+	OrderedCollectionPageMember vocab.OrderedCollectionPageInterface
+	unknown                     []byte
+	iri                         *url.URL
+	alias                       string
 }
 
 // DeserializeLastProperty creates a "last" property from an interface
@@ -35,7 +37,8 @@ func DeserializeLastProperty(m map[string]interface{}, aliasMap map[string]strin
 		if s, ok := i.(string); ok {
 			u, err := url.Parse(s)
 			// If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst
-			if err == nil {
+			// Also, if no scheme exists, don't treat it as a URL -- net/url is greedy
+			if err == nil && len(u.Scheme) > 0 {
 				this := &LastProperty{
 					alias: alias,
 					iri:   u,
@@ -44,23 +47,35 @@ func DeserializeLastProperty(m map[string]interface{}, aliasMap map[string]strin
 			}
 		}
 		if m, ok := i.(map[string]interface{}); ok {
-			if v, err := mgr.DeserializeCollectionPageActivityStreams()(m, aliasMap); err != nil {
+			if v, err := mgr.DeserializeCollectionPageActivityStreams()(m, aliasMap); err == nil {
 				this := &LastProperty{
 					CollectionPageMember: v,
 					alias:                alias,
 				}
 				return this, nil
-			} else if v, err := mgr.DeserializeLinkActivityStreams()(m, aliasMap); err != nil {
+			} else if v, err := mgr.DeserializeLinkActivityStreams()(m, aliasMap); err == nil {
 				this := &LastProperty{
 					LinkMember: v,
 					alias:      alias,
 				}
 				return this, nil
+			} else if v, err := mgr.DeserializeMentionActivityStreams()(m, aliasMap); err == nil {
+				this := &LastProperty{
+					MentionMember: v,
+					alias:         alias,
+				}
+				return this, nil
+			} else if v, err := mgr.DeserializeOrderedCollectionPageActivityStreams()(m, aliasMap); err == nil {
+				this := &LastProperty{
+					OrderedCollectionPageMember: v,
+					alias:                       alias,
+				}
+				return this, nil
 			}
-		} else if v, ok := i.([]byte); ok {
+		} else if str, ok := i.(string); ok {
 			this := &LastProperty{
 				alias:   alias,
-				unknown: v,
+				unknown: []byte(str),
 			}
 			return this, nil
 		} else {
@@ -80,6 +95,8 @@ func NewLastProperty() *LastProperty {
 func (this *LastProperty) Clear() {
 	this.CollectionPageMember = nil
 	this.LinkMember = nil
+	this.MentionMember = nil
+	this.OrderedCollectionPageMember = nil
 	this.unknown = nil
 	this.iri = nil
 }
@@ -102,10 +119,25 @@ func (this LastProperty) GetLink() vocab.LinkInterface {
 	return this.LinkMember
 }
 
+// GetMention returns the value of this property. When IsMention returns false,
+// GetMention will return an arbitrary value.
+func (this LastProperty) GetMention() vocab.MentionInterface {
+	return this.MentionMember
+}
+
+// GetOrderedCollectionPage returns the value of this property. When
+// IsOrderedCollectionPage returns false, GetOrderedCollectionPage will return
+// an arbitrary value.
+func (this LastProperty) GetOrderedCollectionPage() vocab.OrderedCollectionPageInterface {
+	return this.OrderedCollectionPageMember
+}
+
 // HasAny returns true if any of the different values is set.
 func (this LastProperty) HasAny() bool {
 	return this.IsCollectionPage() ||
 		this.IsLink() ||
+		this.IsMention() ||
+		this.IsOrderedCollectionPage() ||
 		this.iri != nil
 }
 
@@ -128,6 +160,19 @@ func (this LastProperty) IsLink() bool {
 	return this.LinkMember != nil
 }
 
+// IsMention returns true if this property has a type of "Mention". When true, use
+// the GetMention and SetMention methods to access and set this property.
+func (this LastProperty) IsMention() bool {
+	return this.MentionMember != nil
+}
+
+// IsOrderedCollectionPage returns true if this property has a type of
+// "OrderedCollectionPage". When true, use the GetOrderedCollectionPage and
+// SetOrderedCollectionPage methods to access and set this property.
+func (this LastProperty) IsOrderedCollectionPage() bool {
+	return this.OrderedCollectionPageMember != nil
+}
+
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
@@ -138,6 +183,10 @@ func (this LastProperty) JSONLDContext() map[string]string {
 		child = this.GetCollectionPage().JSONLDContext()
 	} else if this.IsLink() {
 		child = this.GetLink().JSONLDContext()
+	} else if this.IsMention() {
+		child = this.GetMention().JSONLDContext()
+	} else if this.IsOrderedCollectionPage() {
+		child = this.GetOrderedCollectionPage().JSONLDContext()
 	}
 	/*
 	   Since the literal maps in this function are determined at
@@ -160,6 +209,12 @@ func (this LastProperty) KindIndex() int {
 	if this.IsLink() {
 		return 1
 	}
+	if this.IsMention() {
+		return 2
+	}
+	if this.IsOrderedCollectionPage() {
+		return 3
+	}
 	if this.IsIRI() {
 		return -2
 	}
@@ -181,6 +236,10 @@ func (this LastProperty) LessThan(o vocab.LastPropertyInterface) bool {
 		return this.GetCollectionPage().LessThan(o.GetCollectionPage())
 	} else if this.IsLink() {
 		return this.GetLink().LessThan(o.GetLink())
+	} else if this.IsMention() {
+		return this.GetMention().LessThan(o.GetMention())
+	} else if this.IsOrderedCollectionPage() {
+		return this.GetOrderedCollectionPage().LessThan(o.GetOrderedCollectionPage())
 	} else if this.IsIRI() {
 		return this.iri.String() < o.GetIRI().String()
 	}
@@ -201,10 +260,14 @@ func (this LastProperty) Serialize() (interface{}, error) {
 		return this.GetCollectionPage().Serialize()
 	} else if this.IsLink() {
 		return this.GetLink().Serialize()
+	} else if this.IsMention() {
+		return this.GetMention().Serialize()
+	} else if this.IsOrderedCollectionPage() {
+		return this.GetOrderedCollectionPage().Serialize()
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
 // SetCollectionPage sets the value of this property. Calling IsCollectionPage
@@ -224,4 +287,18 @@ func (this *LastProperty) SetIRI(v *url.URL) {
 func (this *LastProperty) SetLink(v vocab.LinkInterface) {
 	this.Clear()
 	this.LinkMember = v
+}
+
+// SetMention sets the value of this property. Calling IsMention afterwards
+// returns true.
+func (this *LastProperty) SetMention(v vocab.MentionInterface) {
+	this.Clear()
+	this.MentionMember = v
+}
+
+// SetOrderedCollectionPage sets the value of this property. Calling
+// IsOrderedCollectionPage afterwards returns true.
+func (this *LastProperty) SetOrderedCollectionPage(v vocab.OrderedCollectionPageInterface) {
+	this.Clear()
+	this.OrderedCollectionPageMember = v
 }

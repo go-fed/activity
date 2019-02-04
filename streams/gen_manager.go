@@ -132,6 +132,9 @@ type Manager struct {
 func (this Manager) DeserializeAcceptActivityStreams() func(map[string]interface{}, map[string]string) (vocab.AcceptInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.AcceptInterface, error) {
 		i, err := typeaccept.DeserializeAccept(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -142,6 +145,9 @@ func (this Manager) DeserializeAcceptActivityStreams() func(map[string]interface
 func (this Manager) DeserializeAccuracyPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.AccuracyPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.AccuracyPropertyInterface, error) {
 		i, err := propertyaccuracy.DeserializeAccuracyProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -152,6 +158,9 @@ func (this Manager) DeserializeAccuracyPropertyActivityStreams() func(map[string
 func (this Manager) DeserializeActivityActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityInterface, error) {
 		i, err := typeactivity.DeserializeActivity(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -162,6 +171,9 @@ func (this Manager) DeserializeActivityActivityStreams() func(map[string]interfa
 func (this Manager) DeserializeActorPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActorPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActorPropertyInterface, error) {
 		i, err := propertyactor.DeserializeActorProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -171,6 +183,9 @@ func (this Manager) DeserializeActorPropertyActivityStreams() func(map[string]in
 func (this Manager) DeserializeAddActivityStreams() func(map[string]interface{}, map[string]string) (vocab.AddInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.AddInterface, error) {
 		i, err := typeadd.DeserializeAdd(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -181,6 +196,9 @@ func (this Manager) DeserializeAddActivityStreams() func(map[string]interface{},
 func (this Manager) DeserializeAltitudePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.AltitudePropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.AltitudePropertyInterface, error) {
 		i, err := propertyaltitude.DeserializeAltitudeProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -191,6 +209,9 @@ func (this Manager) DeserializeAltitudePropertyActivityStreams() func(map[string
 func (this Manager) DeserializeAnnounceActivityStreams() func(map[string]interface{}, map[string]string) (vocab.AnnounceInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.AnnounceInterface, error) {
 		i, err := typeannounce.DeserializeAnnounce(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -201,6 +222,9 @@ func (this Manager) DeserializeAnnounceActivityStreams() func(map[string]interfa
 func (this Manager) DeserializeAnyOfPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.AnyOfPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.AnyOfPropertyInterface, error) {
 		i, err := propertyanyof.DeserializeAnyOfProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -211,6 +235,9 @@ func (this Manager) DeserializeAnyOfPropertyActivityStreams() func(map[string]in
 func (this Manager) DeserializeApplicationActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ApplicationInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ApplicationInterface, error) {
 		i, err := typeapplication.DeserializeApplication(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -221,6 +248,9 @@ func (this Manager) DeserializeApplicationActivityStreams() func(map[string]inte
 func (this Manager) DeserializeArriveActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ArriveInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ArriveInterface, error) {
 		i, err := typearrive.DeserializeArrive(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -231,6 +261,9 @@ func (this Manager) DeserializeArriveActivityStreams() func(map[string]interface
 func (this Manager) DeserializeArticleActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ArticleInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ArticleInterface, error) {
 		i, err := typearticle.DeserializeArticle(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -241,6 +274,9 @@ func (this Manager) DeserializeArticleActivityStreams() func(map[string]interfac
 func (this Manager) DeserializeAttachmentPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.AttachmentPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.AttachmentPropertyInterface, error) {
 		i, err := propertyattachment.DeserializeAttachmentProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -251,6 +287,9 @@ func (this Manager) DeserializeAttachmentPropertyActivityStreams() func(map[stri
 func (this Manager) DeserializeAttributedToPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.AttributedToPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.AttributedToPropertyInterface, error) {
 		i, err := propertyattributedto.DeserializeAttributedToProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -261,6 +300,9 @@ func (this Manager) DeserializeAttributedToPropertyActivityStreams() func(map[st
 func (this Manager) DeserializeAudiencePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.AudiencePropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.AudiencePropertyInterface, error) {
 		i, err := propertyaudience.DeserializeAudienceProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -270,6 +312,9 @@ func (this Manager) DeserializeAudiencePropertyActivityStreams() func(map[string
 func (this Manager) DeserializeAudioActivityStreams() func(map[string]interface{}, map[string]string) (vocab.AudioInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.AudioInterface, error) {
 		i, err := typeaudio.DeserializeAudio(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -280,6 +325,9 @@ func (this Manager) DeserializeAudioActivityStreams() func(map[string]interface{
 func (this Manager) DeserializeBccPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.BccPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.BccPropertyInterface, error) {
 		i, err := propertybcc.DeserializeBccProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -289,6 +337,9 @@ func (this Manager) DeserializeBccPropertyActivityStreams() func(map[string]inte
 func (this Manager) DeserializeBlockActivityStreams() func(map[string]interface{}, map[string]string) (vocab.BlockInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.BlockInterface, error) {
 		i, err := typeblock.DeserializeBlock(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -299,6 +350,9 @@ func (this Manager) DeserializeBlockActivityStreams() func(map[string]interface{
 func (this Manager) DeserializeBtoPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.BtoPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.BtoPropertyInterface, error) {
 		i, err := propertybto.DeserializeBtoProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -309,6 +363,9 @@ func (this Manager) DeserializeBtoPropertyActivityStreams() func(map[string]inte
 func (this Manager) DeserializeCcPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.CcPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.CcPropertyInterface, error) {
 		i, err := propertycc.DeserializeCcProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -319,6 +376,9 @@ func (this Manager) DeserializeCcPropertyActivityStreams() func(map[string]inter
 func (this Manager) DeserializeClosedPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ClosedPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ClosedPropertyInterface, error) {
 		i, err := propertyclosed.DeserializeClosedProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -329,6 +389,9 @@ func (this Manager) DeserializeClosedPropertyActivityStreams() func(map[string]i
 func (this Manager) DeserializeCollectionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.CollectionInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.CollectionInterface, error) {
 		i, err := typecollection.DeserializeCollection(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -339,6 +402,9 @@ func (this Manager) DeserializeCollectionActivityStreams() func(map[string]inter
 func (this Manager) DeserializeCollectionPageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.CollectionPageInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.CollectionPageInterface, error) {
 		i, err := typecollectionpage.DeserializeCollectionPage(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -349,6 +415,9 @@ func (this Manager) DeserializeCollectionPageActivityStreams() func(map[string]i
 func (this Manager) DeserializeContentPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ContentPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ContentPropertyInterface, error) {
 		i, err := propertycontent.DeserializeContentProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -359,6 +428,9 @@ func (this Manager) DeserializeContentPropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeContextPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ContextPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ContextPropertyInterface, error) {
 		i, err := propertycontext.DeserializeContextProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -369,6 +441,9 @@ func (this Manager) DeserializeContextPropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeCreateActivityStreams() func(map[string]interface{}, map[string]string) (vocab.CreateInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.CreateInterface, error) {
 		i, err := typecreate.DeserializeCreate(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -379,6 +454,9 @@ func (this Manager) DeserializeCreateActivityStreams() func(map[string]interface
 func (this Manager) DeserializeCurrentPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.CurrentPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.CurrentPropertyInterface, error) {
 		i, err := propertycurrent.DeserializeCurrentProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -389,6 +467,9 @@ func (this Manager) DeserializeCurrentPropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeDeleteActivityStreams() func(map[string]interface{}, map[string]string) (vocab.DeleteInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.DeleteInterface, error) {
 		i, err := typedelete.DeserializeDelete(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -399,6 +480,9 @@ func (this Manager) DeserializeDeleteActivityStreams() func(map[string]interface
 func (this Manager) DeserializeDeletedPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.DeletedPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.DeletedPropertyInterface, error) {
 		i, err := propertydeleted.DeserializeDeletedProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -409,6 +493,9 @@ func (this Manager) DeserializeDeletedPropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeDescribesPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.DescribesPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.DescribesPropertyInterface, error) {
 		i, err := propertydescribes.DeserializeDescribesProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -419,6 +506,9 @@ func (this Manager) DeserializeDescribesPropertyActivityStreams() func(map[strin
 func (this Manager) DeserializeDislikeActivityStreams() func(map[string]interface{}, map[string]string) (vocab.DislikeInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.DislikeInterface, error) {
 		i, err := typedislike.DeserializeDislike(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -429,6 +519,9 @@ func (this Manager) DeserializeDislikeActivityStreams() func(map[string]interfac
 func (this Manager) DeserializeDocumentActivityStreams() func(map[string]interface{}, map[string]string) (vocab.DocumentInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.DocumentInterface, error) {
 		i, err := typedocument.DeserializeDocument(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -439,6 +532,9 @@ func (this Manager) DeserializeDocumentActivityStreams() func(map[string]interfa
 func (this Manager) DeserializeDurationPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.DurationPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.DurationPropertyInterface, error) {
 		i, err := propertyduration.DeserializeDurationProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -449,6 +545,9 @@ func (this Manager) DeserializeDurationPropertyActivityStreams() func(map[string
 func (this Manager) DeserializeEndTimePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.EndTimePropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.EndTimePropertyInterface, error) {
 		i, err := propertyendtime.DeserializeEndTimeProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -458,6 +557,9 @@ func (this Manager) DeserializeEndTimePropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeEventActivityStreams() func(map[string]interface{}, map[string]string) (vocab.EventInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.EventInterface, error) {
 		i, err := typeevent.DeserializeEvent(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -468,6 +570,9 @@ func (this Manager) DeserializeEventActivityStreams() func(map[string]interface{
 func (this Manager) DeserializeFirstPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.FirstPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.FirstPropertyInterface, error) {
 		i, err := propertyfirst.DeserializeFirstProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -477,6 +582,9 @@ func (this Manager) DeserializeFirstPropertyActivityStreams() func(map[string]in
 func (this Manager) DeserializeFlagActivityStreams() func(map[string]interface{}, map[string]string) (vocab.FlagInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.FlagInterface, error) {
 		i, err := typeflag.DeserializeFlag(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -487,6 +595,9 @@ func (this Manager) DeserializeFlagActivityStreams() func(map[string]interface{}
 func (this Manager) DeserializeFollowActivityStreams() func(map[string]interface{}, map[string]string) (vocab.FollowInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.FollowInterface, error) {
 		i, err := typefollow.DeserializeFollow(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -497,6 +608,9 @@ func (this Manager) DeserializeFollowActivityStreams() func(map[string]interface
 func (this Manager) DeserializeFormerTypePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.FormerTypePropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.FormerTypePropertyInterface, error) {
 		i, err := propertyformertype.DeserializeFormerTypeProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -507,6 +621,9 @@ func (this Manager) DeserializeFormerTypePropertyActivityStreams() func(map[stri
 func (this Manager) DeserializeGeneratorPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.GeneratorPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.GeneratorPropertyInterface, error) {
 		i, err := propertygenerator.DeserializeGeneratorProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -516,6 +633,9 @@ func (this Manager) DeserializeGeneratorPropertyActivityStreams() func(map[strin
 func (this Manager) DeserializeGroupActivityStreams() func(map[string]interface{}, map[string]string) (vocab.GroupInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.GroupInterface, error) {
 		i, err := typegroup.DeserializeGroup(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -526,6 +646,9 @@ func (this Manager) DeserializeGroupActivityStreams() func(map[string]interface{
 func (this Manager) DeserializeHeightPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.HeightPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.HeightPropertyInterface, error) {
 		i, err := propertyheight.DeserializeHeightProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -536,6 +659,9 @@ func (this Manager) DeserializeHeightPropertyActivityStreams() func(map[string]i
 func (this Manager) DeserializeHrefPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.HrefPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.HrefPropertyInterface, error) {
 		i, err := propertyhref.DeserializeHrefProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -546,6 +672,9 @@ func (this Manager) DeserializeHrefPropertyActivityStreams() func(map[string]int
 func (this Manager) DeserializeHreflangPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.HreflangPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.HreflangPropertyInterface, error) {
 		i, err := propertyhreflang.DeserializeHreflangProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -556,6 +685,9 @@ func (this Manager) DeserializeHreflangPropertyActivityStreams() func(map[string
 func (this Manager) DeserializeIconPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.IconPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.IconPropertyInterface, error) {
 		i, err := propertyicon.DeserializeIconProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -566,6 +698,9 @@ func (this Manager) DeserializeIconPropertyActivityStreams() func(map[string]int
 func (this Manager) DeserializeIdPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.IdPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.IdPropertyInterface, error) {
 		i, err := propertyid.DeserializeIdProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -576,6 +711,9 @@ func (this Manager) DeserializeIdPropertyActivityStreams() func(map[string]inter
 func (this Manager) DeserializeIgnoreActivityStreams() func(map[string]interface{}, map[string]string) (vocab.IgnoreInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.IgnoreInterface, error) {
 		i, err := typeignore.DeserializeIgnore(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -585,6 +723,9 @@ func (this Manager) DeserializeIgnoreActivityStreams() func(map[string]interface
 func (this Manager) DeserializeImageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ImageInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ImageInterface, error) {
 		i, err := typeimage.DeserializeImage(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -595,6 +736,9 @@ func (this Manager) DeserializeImageActivityStreams() func(map[string]interface{
 func (this Manager) DeserializeImagePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ImagePropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ImagePropertyInterface, error) {
 		i, err := propertyimage.DeserializeImageProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -605,6 +749,9 @@ func (this Manager) DeserializeImagePropertyActivityStreams() func(map[string]in
 func (this Manager) DeserializeInReplyToPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.InReplyToPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.InReplyToPropertyInterface, error) {
 		i, err := propertyinreplyto.DeserializeInReplyToProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -615,6 +762,9 @@ func (this Manager) DeserializeInReplyToPropertyActivityStreams() func(map[strin
 func (this Manager) DeserializeInstrumentPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.InstrumentPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.InstrumentPropertyInterface, error) {
 		i, err := propertyinstrument.DeserializeInstrumentProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -625,6 +775,9 @@ func (this Manager) DeserializeInstrumentPropertyActivityStreams() func(map[stri
 func (this Manager) DeserializeIntransitiveActivityActivityStreams() func(map[string]interface{}, map[string]string) (vocab.IntransitiveActivityInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.IntransitiveActivityInterface, error) {
 		i, err := typeintransitiveactivity.DeserializeIntransitiveActivity(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -635,6 +788,9 @@ func (this Manager) DeserializeIntransitiveActivityActivityStreams() func(map[st
 func (this Manager) DeserializeInviteActivityStreams() func(map[string]interface{}, map[string]string) (vocab.InviteInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.InviteInterface, error) {
 		i, err := typeinvite.DeserializeInvite(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -645,6 +801,9 @@ func (this Manager) DeserializeInviteActivityStreams() func(map[string]interface
 func (this Manager) DeserializeItemsPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ItemsPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ItemsPropertyInterface, error) {
 		i, err := propertyitems.DeserializeItemsProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -654,6 +813,9 @@ func (this Manager) DeserializeItemsPropertyActivityStreams() func(map[string]in
 func (this Manager) DeserializeJoinActivityStreams() func(map[string]interface{}, map[string]string) (vocab.JoinInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.JoinInterface, error) {
 		i, err := typejoin.DeserializeJoin(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -664,6 +826,9 @@ func (this Manager) DeserializeJoinActivityStreams() func(map[string]interface{}
 func (this Manager) DeserializeLastPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LastPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.LastPropertyInterface, error) {
 		i, err := propertylast.DeserializeLastProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -674,6 +839,9 @@ func (this Manager) DeserializeLastPropertyActivityStreams() func(map[string]int
 func (this Manager) DeserializeLatitudePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LatitudePropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.LatitudePropertyInterface, error) {
 		i, err := propertylatitude.DeserializeLatitudeProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -683,6 +851,9 @@ func (this Manager) DeserializeLatitudePropertyActivityStreams() func(map[string
 func (this Manager) DeserializeLeaveActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LeaveInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.LeaveInterface, error) {
 		i, err := typeleave.DeserializeLeave(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -692,6 +863,9 @@ func (this Manager) DeserializeLeaveActivityStreams() func(map[string]interface{
 func (this Manager) DeserializeLikeActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LikeInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.LikeInterface, error) {
 		i, err := typelike.DeserializeLike(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -701,6 +875,9 @@ func (this Manager) DeserializeLikeActivityStreams() func(map[string]interface{}
 func (this Manager) DeserializeLinkActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LinkInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.LinkInterface, error) {
 		i, err := typelink.DeserializeLink(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -711,6 +888,9 @@ func (this Manager) DeserializeLinkActivityStreams() func(map[string]interface{}
 func (this Manager) DeserializeListenActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ListenInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ListenInterface, error) {
 		i, err := typelisten.DeserializeListen(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -721,6 +901,9 @@ func (this Manager) DeserializeListenActivityStreams() func(map[string]interface
 func (this Manager) DeserializeLocationPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LocationPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.LocationPropertyInterface, error) {
 		i, err := propertylocation.DeserializeLocationProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -731,6 +914,9 @@ func (this Manager) DeserializeLocationPropertyActivityStreams() func(map[string
 func (this Manager) DeserializeLongitudePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LongitudePropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.LongitudePropertyInterface, error) {
 		i, err := propertylongitude.DeserializeLongitudeProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -741,6 +927,9 @@ func (this Manager) DeserializeLongitudePropertyActivityStreams() func(map[strin
 func (this Manager) DeserializeMediaTypePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.MediaTypePropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.MediaTypePropertyInterface, error) {
 		i, err := propertymediatype.DeserializeMediaTypeProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -751,6 +940,9 @@ func (this Manager) DeserializeMediaTypePropertyActivityStreams() func(map[strin
 func (this Manager) DeserializeMentionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.MentionInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.MentionInterface, error) {
 		i, err := typemention.DeserializeMention(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -760,6 +952,9 @@ func (this Manager) DeserializeMentionActivityStreams() func(map[string]interfac
 func (this Manager) DeserializeMoveActivityStreams() func(map[string]interface{}, map[string]string) (vocab.MoveInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.MoveInterface, error) {
 		i, err := typemove.DeserializeMove(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -770,6 +965,9 @@ func (this Manager) DeserializeMoveActivityStreams() func(map[string]interface{}
 func (this Manager) DeserializeNamePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.NamePropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.NamePropertyInterface, error) {
 		i, err := propertyname.DeserializeNameProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -780,6 +978,9 @@ func (this Manager) DeserializeNamePropertyActivityStreams() func(map[string]int
 func (this Manager) DeserializeNextPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.NextPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.NextPropertyInterface, error) {
 		i, err := propertynext.DeserializeNextProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -789,6 +990,9 @@ func (this Manager) DeserializeNextPropertyActivityStreams() func(map[string]int
 func (this Manager) DeserializeNoteActivityStreams() func(map[string]interface{}, map[string]string) (vocab.NoteInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.NoteInterface, error) {
 		i, err := typenote.DeserializeNote(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -799,6 +1003,9 @@ func (this Manager) DeserializeNoteActivityStreams() func(map[string]interface{}
 func (this Manager) DeserializeObjectActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ObjectInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ObjectInterface, error) {
 		i, err := typeobject.DeserializeObject(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -809,6 +1016,9 @@ func (this Manager) DeserializeObjectActivityStreams() func(map[string]interface
 func (this Manager) DeserializeObjectPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ObjectPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ObjectPropertyInterface, error) {
 		i, err := propertyobject.DeserializeObjectProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -818,6 +1028,9 @@ func (this Manager) DeserializeObjectPropertyActivityStreams() func(map[string]i
 func (this Manager) DeserializeOfferActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OfferInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.OfferInterface, error) {
 		i, err := typeoffer.DeserializeOffer(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -828,6 +1041,9 @@ func (this Manager) DeserializeOfferActivityStreams() func(map[string]interface{
 func (this Manager) DeserializeOneOfPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OneOfPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.OneOfPropertyInterface, error) {
 		i, err := propertyoneof.DeserializeOneOfProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -838,6 +1054,9 @@ func (this Manager) DeserializeOneOfPropertyActivityStreams() func(map[string]in
 func (this Manager) DeserializeOrderedCollectionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OrderedCollectionInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.OrderedCollectionInterface, error) {
 		i, err := typeorderedcollection.DeserializeOrderedCollection(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -848,6 +1067,9 @@ func (this Manager) DeserializeOrderedCollectionActivityStreams() func(map[strin
 func (this Manager) DeserializeOrderedCollectionPageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OrderedCollectionPageInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.OrderedCollectionPageInterface, error) {
 		i, err := typeorderedcollectionpage.DeserializeOrderedCollectionPage(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -858,6 +1080,9 @@ func (this Manager) DeserializeOrderedCollectionPageActivityStreams() func(map[s
 func (this Manager) DeserializeOrganizationActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OrganizationInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.OrganizationInterface, error) {
 		i, err := typeorganization.DeserializeOrganization(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -868,6 +1093,9 @@ func (this Manager) DeserializeOrganizationActivityStreams() func(map[string]int
 func (this Manager) DeserializeOriginPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OriginPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.OriginPropertyInterface, error) {
 		i, err := propertyorigin.DeserializeOriginProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -877,6 +1105,9 @@ func (this Manager) DeserializeOriginPropertyActivityStreams() func(map[string]i
 func (this Manager) DeserializePageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.PageInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.PageInterface, error) {
 		i, err := typepage.DeserializePage(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -887,6 +1118,9 @@ func (this Manager) DeserializePageActivityStreams() func(map[string]interface{}
 func (this Manager) DeserializePartOfPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.PartOfPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.PartOfPropertyInterface, error) {
 		i, err := propertypartof.DeserializePartOfProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -897,6 +1131,9 @@ func (this Manager) DeserializePartOfPropertyActivityStreams() func(map[string]i
 func (this Manager) DeserializePersonActivityStreams() func(map[string]interface{}, map[string]string) (vocab.PersonInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.PersonInterface, error) {
 		i, err := typeperson.DeserializePerson(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -906,6 +1143,9 @@ func (this Manager) DeserializePersonActivityStreams() func(map[string]interface
 func (this Manager) DeserializePlaceActivityStreams() func(map[string]interface{}, map[string]string) (vocab.PlaceInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.PlaceInterface, error) {
 		i, err := typeplace.DeserializePlace(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -916,6 +1156,9 @@ func (this Manager) DeserializePlaceActivityStreams() func(map[string]interface{
 func (this Manager) DeserializePrevPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.PrevPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.PrevPropertyInterface, error) {
 		i, err := propertyprev.DeserializePrevProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -926,6 +1169,9 @@ func (this Manager) DeserializePrevPropertyActivityStreams() func(map[string]int
 func (this Manager) DeserializePreviewPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.PreviewPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.PreviewPropertyInterface, error) {
 		i, err := propertypreview.DeserializePreviewProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -936,6 +1182,9 @@ func (this Manager) DeserializePreviewPropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeProfileActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ProfileInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ProfileInterface, error) {
 		i, err := typeprofile.DeserializeProfile(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -946,6 +1195,9 @@ func (this Manager) DeserializeProfileActivityStreams() func(map[string]interfac
 func (this Manager) DeserializePublishedPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.PublishedPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.PublishedPropertyInterface, error) {
 		i, err := propertypublished.DeserializePublishedProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -956,6 +1208,9 @@ func (this Manager) DeserializePublishedPropertyActivityStreams() func(map[strin
 func (this Manager) DeserializeQuestionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.QuestionInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.QuestionInterface, error) {
 		i, err := typequestion.DeserializeQuestion(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -966,6 +1221,9 @@ func (this Manager) DeserializeQuestionActivityStreams() func(map[string]interfa
 func (this Manager) DeserializeRadiusPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.RadiusPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.RadiusPropertyInterface, error) {
 		i, err := propertyradius.DeserializeRadiusProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -975,6 +1233,9 @@ func (this Manager) DeserializeRadiusPropertyActivityStreams() func(map[string]i
 func (this Manager) DeserializeReadActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ReadInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ReadInterface, error) {
 		i, err := typeread.DeserializeRead(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -985,6 +1246,9 @@ func (this Manager) DeserializeReadActivityStreams() func(map[string]interface{}
 func (this Manager) DeserializeRejectActivityStreams() func(map[string]interface{}, map[string]string) (vocab.RejectInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.RejectInterface, error) {
 		i, err := typereject.DeserializeReject(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -995,6 +1259,9 @@ func (this Manager) DeserializeRejectActivityStreams() func(map[string]interface
 func (this Manager) DeserializeRelPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.RelPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.RelPropertyInterface, error) {
 		i, err := propertyrel.DeserializeRelProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1005,6 +1272,9 @@ func (this Manager) DeserializeRelPropertyActivityStreams() func(map[string]inte
 func (this Manager) DeserializeRelationshipActivityStreams() func(map[string]interface{}, map[string]string) (vocab.RelationshipInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.RelationshipInterface, error) {
 		i, err := typerelationship.DeserializeRelationship(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1015,6 +1285,9 @@ func (this Manager) DeserializeRelationshipActivityStreams() func(map[string]int
 func (this Manager) DeserializeRelationshipPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.RelationshipPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.RelationshipPropertyInterface, error) {
 		i, err := propertyrelationship.DeserializeRelationshipProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1025,6 +1298,9 @@ func (this Manager) DeserializeRelationshipPropertyActivityStreams() func(map[st
 func (this Manager) DeserializeRemoveActivityStreams() func(map[string]interface{}, map[string]string) (vocab.RemoveInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.RemoveInterface, error) {
 		i, err := typeremove.DeserializeRemove(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1035,6 +1311,9 @@ func (this Manager) DeserializeRemoveActivityStreams() func(map[string]interface
 func (this Manager) DeserializeRepliesPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.RepliesPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.RepliesPropertyInterface, error) {
 		i, err := propertyreplies.DeserializeRepliesProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1045,6 +1324,9 @@ func (this Manager) DeserializeRepliesPropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeResultPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ResultPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ResultPropertyInterface, error) {
 		i, err := propertyresult.DeserializeResultProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1055,6 +1337,9 @@ func (this Manager) DeserializeResultPropertyActivityStreams() func(map[string]i
 func (this Manager) DeserializeServiceActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ServiceInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ServiceInterface, error) {
 		i, err := typeservice.DeserializeService(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1065,6 +1350,9 @@ func (this Manager) DeserializeServiceActivityStreams() func(map[string]interfac
 func (this Manager) DeserializeStartIndexPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.StartIndexPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.StartIndexPropertyInterface, error) {
 		i, err := propertystartindex.DeserializeStartIndexProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1075,6 +1363,9 @@ func (this Manager) DeserializeStartIndexPropertyActivityStreams() func(map[stri
 func (this Manager) DeserializeStartTimePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.StartTimePropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.StartTimePropertyInterface, error) {
 		i, err := propertystarttime.DeserializeStartTimeProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1085,6 +1376,9 @@ func (this Manager) DeserializeStartTimePropertyActivityStreams() func(map[strin
 func (this Manager) DeserializeSubjectPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.SubjectPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.SubjectPropertyInterface, error) {
 		i, err := propertysubject.DeserializeSubjectProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1095,6 +1389,9 @@ func (this Manager) DeserializeSubjectPropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeSummaryPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.SummaryPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.SummaryPropertyInterface, error) {
 		i, err := propertysummary.DeserializeSummaryProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1105,6 +1402,9 @@ func (this Manager) DeserializeSummaryPropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeTagPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.TagPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TagPropertyInterface, error) {
 		i, err := propertytag.DeserializeTagProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1115,6 +1415,9 @@ func (this Manager) DeserializeTagPropertyActivityStreams() func(map[string]inte
 func (this Manager) DeserializeTargetPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.TargetPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TargetPropertyInterface, error) {
 		i, err := propertytarget.DeserializeTargetProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1125,6 +1428,9 @@ func (this Manager) DeserializeTargetPropertyActivityStreams() func(map[string]i
 func (this Manager) DeserializeTentativeAcceptActivityStreams() func(map[string]interface{}, map[string]string) (vocab.TentativeAcceptInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TentativeAcceptInterface, error) {
 		i, err := typetentativeaccept.DeserializeTentativeAccept(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1135,6 +1441,9 @@ func (this Manager) DeserializeTentativeAcceptActivityStreams() func(map[string]
 func (this Manager) DeserializeTentativeRejectActivityStreams() func(map[string]interface{}, map[string]string) (vocab.TentativeRejectInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TentativeRejectInterface, error) {
 		i, err := typetentativereject.DeserializeTentativeReject(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1145,6 +1454,9 @@ func (this Manager) DeserializeTentativeRejectActivityStreams() func(map[string]
 func (this Manager) DeserializeToPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ToPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ToPropertyInterface, error) {
 		i, err := propertyto.DeserializeToProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1155,6 +1467,9 @@ func (this Manager) DeserializeToPropertyActivityStreams() func(map[string]inter
 func (this Manager) DeserializeTombstoneActivityStreams() func(map[string]interface{}, map[string]string) (vocab.TombstoneInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TombstoneInterface, error) {
 		i, err := typetombstone.DeserializeTombstone(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1165,6 +1480,9 @@ func (this Manager) DeserializeTombstoneActivityStreams() func(map[string]interf
 func (this Manager) DeserializeTotalItemsPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.TotalItemsPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TotalItemsPropertyInterface, error) {
 		i, err := propertytotalitems.DeserializeTotalItemsProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1175,6 +1493,9 @@ func (this Manager) DeserializeTotalItemsPropertyActivityStreams() func(map[stri
 func (this Manager) DeserializeTravelActivityStreams() func(map[string]interface{}, map[string]string) (vocab.TravelInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TravelInterface, error) {
 		i, err := typetravel.DeserializeTravel(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1185,6 +1506,9 @@ func (this Manager) DeserializeTravelActivityStreams() func(map[string]interface
 func (this Manager) DeserializeTypePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.TypePropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TypePropertyInterface, error) {
 		i, err := propertytype.DeserializeTypeProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1194,6 +1518,9 @@ func (this Manager) DeserializeTypePropertyActivityStreams() func(map[string]int
 func (this Manager) DeserializeUndoActivityStreams() func(map[string]interface{}, map[string]string) (vocab.UndoInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.UndoInterface, error) {
 		i, err := typeundo.DeserializeUndo(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1204,6 +1531,9 @@ func (this Manager) DeserializeUndoActivityStreams() func(map[string]interface{}
 func (this Manager) DeserializeUnitsPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.UnitsPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.UnitsPropertyInterface, error) {
 		i, err := propertyunits.DeserializeUnitsProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1214,6 +1544,9 @@ func (this Manager) DeserializeUnitsPropertyActivityStreams() func(map[string]in
 func (this Manager) DeserializeUpdateActivityStreams() func(map[string]interface{}, map[string]string) (vocab.UpdateInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.UpdateInterface, error) {
 		i, err := typeupdate.DeserializeUpdate(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1224,6 +1557,9 @@ func (this Manager) DeserializeUpdateActivityStreams() func(map[string]interface
 func (this Manager) DeserializeUpdatedPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.UpdatedPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.UpdatedPropertyInterface, error) {
 		i, err := propertyupdated.DeserializeUpdatedProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1234,6 +1570,9 @@ func (this Manager) DeserializeUpdatedPropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeUrlPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.UrlPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.UrlPropertyInterface, error) {
 		i, err := propertyurl.DeserializeUrlProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1243,6 +1582,9 @@ func (this Manager) DeserializeUrlPropertyActivityStreams() func(map[string]inte
 func (this Manager) DeserializeVideoActivityStreams() func(map[string]interface{}, map[string]string) (vocab.VideoInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.VideoInterface, error) {
 		i, err := typevideo.DeserializeVideo(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1252,6 +1594,9 @@ func (this Manager) DeserializeVideoActivityStreams() func(map[string]interface{
 func (this Manager) DeserializeViewActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ViewInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ViewInterface, error) {
 		i, err := typeview.DeserializeView(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }
@@ -1262,6 +1607,9 @@ func (this Manager) DeserializeViewActivityStreams() func(map[string]interface{}
 func (this Manager) DeserializeWidthPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.WidthPropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.WidthPropertyInterface, error) {
 		i, err := propertywidth.DeserializeWidthProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
 		return i, err
 	}
 }

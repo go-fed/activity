@@ -14,6 +14,9 @@ type ImagePropertyIteratorInterface interface {
 	// GetLink returns the value of this property. When IsLink returns false,
 	// GetLink will return an arbitrary value.
 	GetLink() LinkInterface
+	// GetMention returns the value of this property. When IsMention returns
+	// false, GetMention will return an arbitrary value.
+	GetMention() MentionInterface
 	// HasAny returns true if any of the different values is set.
 	HasAny() bool
 	// IsIRI returns true if this property is an IRI. When true, use GetIRI
@@ -26,6 +29,10 @@ type ImagePropertyIteratorInterface interface {
 	// IsLink returns true if this property has a type of "Link". When true,
 	// use the GetLink and SetLink methods to access and set this property.
 	IsLink() bool
+	// IsMention returns true if this property has a type of "Mention". When
+	// true, use the GetMention and SetMention methods to access and set
+	// this property.
+	IsMention() bool
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or
@@ -56,6 +63,9 @@ type ImagePropertyIteratorInterface interface {
 	// SetLink sets the value of this property. Calling IsLink afterwards
 	// returns true.
 	SetLink(v LinkInterface)
+	// SetMention sets the value of this property. Calling IsMention
+	// afterwards returns true.
+	SetMention(v MentionInterface)
 }
 
 // Indicates an entity that describes an image for this object. Unlike the icon
@@ -101,6 +111,10 @@ type ImagePropertyInterface interface {
 	// AppendLink appends a Link value to the back of a list of the property
 	// "image". Invalidates iterators that are traversing using Prev.
 	AppendLink(v LinkInterface)
+	// AppendMention appends a Mention value to the back of a list of the
+	// property "image". Invalidates iterators that are traversing using
+	// Prev.
+	AppendMention(v MentionInterface)
 	// At returns the property value for the specified index. Panics if the
 	// index is out of bounds.
 	At(index int) ImagePropertyIteratorInterface
@@ -145,6 +159,9 @@ type ImagePropertyInterface interface {
 	// PrependLink prepends a Link value to the front of a list of the
 	// property "image". Invalidates all iterators.
 	PrependLink(v LinkInterface)
+	// PrependMention prepends a Mention value to the front of a list of the
+	// property "image". Invalidates all iterators.
+	PrependMention(v MentionInterface)
 	// Remove deletes an element at the specified index from a list of the
 	// property "image", regardless of its type. Panics if the index is
 	// out of bounds. Invalidates all iterators.
@@ -166,6 +183,10 @@ type ImagePropertyInterface interface {
 	// "image". Panics if the index is out of bounds. Invalidates all
 	// iterators.
 	SetLink(idx int, v LinkInterface)
+	// SetMention sets a Mention value to be at the specified index for the
+	// property "image". Panics if the index is out of bounds. Invalidates
+	// all iterators.
+	SetMention(idx int, v MentionInterface)
 	// Swap swaps the location of values at two indices for the "image"
 	// property.
 	Swap(i, j int)

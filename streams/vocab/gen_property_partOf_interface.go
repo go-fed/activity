@@ -28,24 +28,56 @@ type PartOfPropertyInterface interface {
 	// GetCollection returns the value of this property. When IsCollection
 	// returns false, GetCollection will return an arbitrary value.
 	GetCollection() CollectionInterface
+	// GetCollectionPage returns the value of this property. When
+	// IsCollectionPage returns false, GetCollectionPage will return an
+	// arbitrary value.
+	GetCollectionPage() CollectionPageInterface
 	// GetIRI returns the IRI of this property. When IsIRI returns false,
 	// GetIRI will return an arbitrary value.
 	GetIRI() *url.URL
 	// GetLink returns the value of this property. When IsLink returns false,
 	// GetLink will return an arbitrary value.
 	GetLink() LinkInterface
+	// GetMention returns the value of this property. When IsMention returns
+	// false, GetMention will return an arbitrary value.
+	GetMention() MentionInterface
+	// GetOrderedCollection returns the value of this property. When
+	// IsOrderedCollection returns false, GetOrderedCollection will return
+	// an arbitrary value.
+	GetOrderedCollection() OrderedCollectionInterface
+	// GetOrderedCollectionPage returns the value of this property. When
+	// IsOrderedCollectionPage returns false, GetOrderedCollectionPage
+	// will return an arbitrary value.
+	GetOrderedCollectionPage() OrderedCollectionPageInterface
 	// HasAny returns true if any of the different values is set.
 	HasAny() bool
 	// IsCollection returns true if this property has a type of "Collection".
 	// When true, use the GetCollection and SetCollection methods to
 	// access and set this property.
 	IsCollection() bool
+	// IsCollectionPage returns true if this property has a type of
+	// "CollectionPage". When true, use the GetCollectionPage and
+	// SetCollectionPage methods to access and set this property.
+	IsCollectionPage() bool
 	// IsIRI returns true if this property is an IRI. When true, use GetIRI
 	// and SetIRI to access and set this property
 	IsIRI() bool
 	// IsLink returns true if this property has a type of "Link". When true,
 	// use the GetLink and SetLink methods to access and set this property.
 	IsLink() bool
+	// IsMention returns true if this property has a type of "Mention". When
+	// true, use the GetMention and SetMention methods to access and set
+	// this property.
+	IsMention() bool
+	// IsOrderedCollection returns true if this property has a type of
+	// "OrderedCollection". When true, use the GetOrderedCollection and
+	// SetOrderedCollection methods to access and set this property.
+	IsOrderedCollection() bool
+	// IsOrderedCollectionPage returns true if this property has a type of
+	// "OrderedCollectionPage". When true, use the
+	// GetOrderedCollectionPage and SetOrderedCollectionPage methods to
+	// access and set this property.
+	IsOrderedCollectionPage() bool
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or
@@ -71,10 +103,22 @@ type PartOfPropertyInterface interface {
 	// SetCollection sets the value of this property. Calling IsCollection
 	// afterwards returns true.
 	SetCollection(v CollectionInterface)
+	// SetCollectionPage sets the value of this property. Calling
+	// IsCollectionPage afterwards returns true.
+	SetCollectionPage(v CollectionPageInterface)
 	// SetIRI sets the value of this property. Calling IsIRI afterwards
 	// returns true.
 	SetIRI(v *url.URL)
 	// SetLink sets the value of this property. Calling IsLink afterwards
 	// returns true.
 	SetLink(v LinkInterface)
+	// SetMention sets the value of this property. Calling IsMention
+	// afterwards returns true.
+	SetMention(v MentionInterface)
+	// SetOrderedCollection sets the value of this property. Calling
+	// IsOrderedCollection afterwards returns true.
+	SetOrderedCollection(v OrderedCollectionInterface)
+	// SetOrderedCollectionPage sets the value of this property. Calling
+	// IsOrderedCollectionPage afterwards returns true.
+	SetOrderedCollectionPage(v OrderedCollectionPageInterface)
 }

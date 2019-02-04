@@ -34,7 +34,8 @@ func DeserializeEndTimeProperty(m map[string]interface{}, aliasMap map[string]st
 		if s, ok := i.(string); ok {
 			u, err := url.Parse(s)
 			// If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst
-			if err == nil {
+			// Also, if no scheme exists, don't treat it as a URL -- net/url is greedy
+			if err == nil && len(u.Scheme) > 0 {
 				this := &EndTimeProperty{
 					alias: alias,
 					iri:   u,
@@ -42,17 +43,17 @@ func DeserializeEndTimeProperty(m map[string]interface{}, aliasMap map[string]st
 				return this, nil
 			}
 		}
-		if v, err := datetime.DeserializeDateTime(i); err != nil {
+		if v, err := datetime.DeserializeDateTime(i); err == nil {
 			this := &EndTimeProperty{
 				alias:             alias,
 				dateTimeMember:    v,
 				hasDateTimeMember: true,
 			}
 			return this, nil
-		} else if v, ok := i.([]byte); ok {
+		} else if str, ok := i.(string); ok {
 			this := &EndTimeProperty{
 				alias:   alias,
-				unknown: v,
+				unknown: []byte(str),
 			}
 			return this, nil
 		} else {
@@ -179,7 +180,7 @@ func (this EndTimeProperty) Serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
 // Set sets the value of this property. Calling IsDateTime afterwards will return

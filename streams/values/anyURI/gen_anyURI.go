@@ -20,6 +20,8 @@ func DeserializeAnyURI(this interface{}) (*url.URL, error) {
 		u, err = url.Parse(s)
 		if err != nil {
 			err = fmt.Errorf("%v cannot be interpreted as a xsd:anyURI: %s", this, err)
+		} else if len(u.Scheme) == 0 {
+			err = fmt.Errorf("%v cannot be interpreted as a xsd:anyURI: no scheme", this)
 		}
 	} else {
 		err = fmt.Errorf("%v cannot be interpreted as a string for xsd:anyURI", this)

@@ -129,7 +129,7 @@ type PlaceInterface interface {
 	LessThan(o PlaceInterface) bool
 	// Serialize converts this into an interface representation suitable for
 	// marshalling into a text or binary format.
-	Serialize() (interface{}, error)
+	Serialize() (map[string]interface{}, error)
 	// SetAccuracy returns the "accuracy" property if it exists, and nil
 	// otherwise.
 	SetAccuracy(i AccuracyPropertyInterface)

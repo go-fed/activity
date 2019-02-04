@@ -6,13 +6,19 @@ import (
 	"net/url"
 )
 
-// RepliesProperty is the functional property "replies". It is permitted to be a
-// single nilable value type.
+// RepliesProperty is the functional property "replies". It is permitted to be one
+// of multiple value types. At most, one type of value can be present, or none
+// at all. Setting a value will clear the other types of values so that only
+// one of the 'Is' methods will return true. It is possible to clear all
+// values, so that this property is empty.
 type RepliesProperty struct {
-	CollectionMember vocab.CollectionInterface
-	unknown          []byte
-	iri              *url.URL
-	alias            string
+	CollectionMember            vocab.CollectionInterface
+	CollectionPageMember        vocab.CollectionPageInterface
+	OrderedCollectionMember     vocab.OrderedCollectionInterface
+	OrderedCollectionPageMember vocab.OrderedCollectionPageInterface
+	unknown                     []byte
+	iri                         *url.URL
+	alias                       string
 }
 
 // DeserializeRepliesProperty creates a "replies" property from an interface
@@ -31,7 +37,8 @@ func DeserializeRepliesProperty(m map[string]interface{}, aliasMap map[string]st
 		if s, ok := i.(string); ok {
 			u, err := url.Parse(s)
 			// If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst
-			if err == nil {
+			// Also, if no scheme exists, don't treat it as a URL -- net/url is greedy
+			if err == nil && len(u.Scheme) > 0 {
 				this := &RepliesProperty{
 					alias: alias,
 					iri:   u,
@@ -40,17 +47,35 @@ func DeserializeRepliesProperty(m map[string]interface{}, aliasMap map[string]st
 			}
 		}
 		if m, ok := i.(map[string]interface{}); ok {
-			if v, err := mgr.DeserializeCollectionActivityStreams()(m, aliasMap); err != nil {
+			if v, err := mgr.DeserializeCollectionActivityStreams()(m, aliasMap); err == nil {
 				this := &RepliesProperty{
 					CollectionMember: v,
 					alias:            alias,
 				}
 				return this, nil
+			} else if v, err := mgr.DeserializeCollectionPageActivityStreams()(m, aliasMap); err == nil {
+				this := &RepliesProperty{
+					CollectionPageMember: v,
+					alias:                alias,
+				}
+				return this, nil
+			} else if v, err := mgr.DeserializeOrderedCollectionActivityStreams()(m, aliasMap); err == nil {
+				this := &RepliesProperty{
+					OrderedCollectionMember: v,
+					alias:                   alias,
+				}
+				return this, nil
+			} else if v, err := mgr.DeserializeOrderedCollectionPageActivityStreams()(m, aliasMap); err == nil {
+				this := &RepliesProperty{
+					OrderedCollectionPageMember: v,
+					alias:                       alias,
+				}
+				return this, nil
 			}
-		} else if v, ok := i.([]byte); ok {
+		} else if str, ok := i.(string); ok {
 			this := &RepliesProperty{
 				alias:   alias,
-				unknown: v,
+				unknown: []byte(str),
 			}
 			return this, nil
 		} else {
@@ -65,39 +90,90 @@ func NewRepliesProperty() *RepliesProperty {
 	return &RepliesProperty{alias: ""}
 }
 
-// Clear ensures no value of this property is set. Calling IsCollection afterwards
-// will return false.
+// Clear ensures no value of this property is set. Calling HasAny or any of the
+// 'Is' methods afterwards will return false.
 func (this *RepliesProperty) Clear() {
+	this.CollectionMember = nil
+	this.CollectionPageMember = nil
+	this.OrderedCollectionMember = nil
+	this.OrderedCollectionPageMember = nil
 	this.unknown = nil
 	this.iri = nil
-	this.CollectionMember = nil
 }
 
-// Get returns the value of this property. When IsCollection returns false, Get
-// will return any arbitrary value.
-func (this RepliesProperty) Get() vocab.CollectionInterface {
+// GetCollection returns the value of this property. When IsCollection returns
+// false, GetCollection will return an arbitrary value.
+func (this RepliesProperty) GetCollection() vocab.CollectionInterface {
 	return this.CollectionMember
 }
 
+// GetCollectionPage returns the value of this property. When IsCollectionPage
+// returns false, GetCollectionPage will return an arbitrary value.
+func (this RepliesProperty) GetCollectionPage() vocab.CollectionPageInterface {
+	return this.CollectionPageMember
+}
+
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
-// return any arbitrary value.
+// return an arbitrary value.
 func (this RepliesProperty) GetIRI() *url.URL {
 	return this.iri
 }
 
-// HasAny returns true if the value or IRI is set.
-func (this RepliesProperty) HasAny() bool {
-	return this.IsCollection() || this.iri != nil
+// GetOrderedCollection returns the value of this property. When
+// IsOrderedCollection returns false, GetOrderedCollection will return an
+// arbitrary value.
+func (this RepliesProperty) GetOrderedCollection() vocab.OrderedCollectionInterface {
+	return this.OrderedCollectionMember
 }
 
-// IsCollection returns true if this property is set and not an IRI.
+// GetOrderedCollectionPage returns the value of this property. When
+// IsOrderedCollectionPage returns false, GetOrderedCollectionPage will return
+// an arbitrary value.
+func (this RepliesProperty) GetOrderedCollectionPage() vocab.OrderedCollectionPageInterface {
+	return this.OrderedCollectionPageMember
+}
+
+// HasAny returns true if any of the different values is set.
+func (this RepliesProperty) HasAny() bool {
+	return this.IsCollection() ||
+		this.IsCollectionPage() ||
+		this.IsOrderedCollection() ||
+		this.IsOrderedCollectionPage() ||
+		this.iri != nil
+}
+
+// IsCollection returns true if this property has a type of "Collection". When
+// true, use the GetCollection and SetCollection methods to access and set
+// this property.
 func (this RepliesProperty) IsCollection() bool {
 	return this.CollectionMember != nil
 }
 
-// IsIRI returns true if this property is an IRI.
+// IsCollectionPage returns true if this property has a type of "CollectionPage".
+// When true, use the GetCollectionPage and SetCollectionPage methods to
+// access and set this property.
+func (this RepliesProperty) IsCollectionPage() bool {
+	return this.CollectionPageMember != nil
+}
+
+// IsIRI returns true if this property is an IRI. When true, use GetIRI and SetIRI
+// to access and set this property
 func (this RepliesProperty) IsIRI() bool {
 	return this.iri != nil
+}
+
+// IsOrderedCollection returns true if this property has a type of
+// "OrderedCollection". When true, use the GetOrderedCollection and
+// SetOrderedCollection methods to access and set this property.
+func (this RepliesProperty) IsOrderedCollection() bool {
+	return this.OrderedCollectionMember != nil
+}
+
+// IsOrderedCollectionPage returns true if this property has a type of
+// "OrderedCollectionPage". When true, use the GetOrderedCollectionPage and
+// SetOrderedCollectionPage methods to access and set this property.
+func (this RepliesProperty) IsOrderedCollectionPage() bool {
+	return this.OrderedCollectionPageMember != nil
 }
 
 // JSONLDContext returns the JSONLD URIs required in the context string for this
@@ -107,7 +183,13 @@ func (this RepliesProperty) JSONLDContext() map[string]string {
 	m := map[string]string{"https://www.w3.org/TR/activitystreams-vocabulary": this.alias}
 	var child map[string]string
 	if this.IsCollection() {
-		child = this.Get().JSONLDContext()
+		child = this.GetCollection().JSONLDContext()
+	} else if this.IsCollectionPage() {
+		child = this.GetCollectionPage().JSONLDContext()
+	} else if this.IsOrderedCollection() {
+		child = this.GetOrderedCollection().JSONLDContext()
+	} else if this.IsOrderedCollectionPage() {
+		child = this.GetOrderedCollectionPage().JSONLDContext()
 	}
 	/*
 	   Since the literal maps in this function are determined at
@@ -127,6 +209,15 @@ func (this RepliesProperty) KindIndex() int {
 	if this.IsCollection() {
 		return 0
 	}
+	if this.IsCollectionPage() {
+		return 1
+	}
+	if this.IsOrderedCollection() {
+		return 2
+	}
+	if this.IsOrderedCollectionPage() {
+		return 3
+	}
 	if this.IsIRI() {
 		return -2
 	}
@@ -138,30 +229,24 @@ func (this RepliesProperty) KindIndex() int {
 // help alternative implementations to go-fed to be able to normalize
 // nonfunctional properties.
 func (this RepliesProperty) LessThan(o vocab.RepliesPropertyInterface) bool {
-	// LessThan comparison for if either or both are IRIs.
-	if this.IsIRI() && o.IsIRI() {
-		return this.iri.String() < o.GetIRI().String()
+	idx1 := this.KindIndex()
+	idx2 := o.KindIndex()
+	if idx1 < idx2 {
+		return true
+	} else if idx1 > idx2 {
+		return false
+	} else if this.IsCollection() {
+		return this.GetCollection().LessThan(o.GetCollection())
+	} else if this.IsCollectionPage() {
+		return this.GetCollectionPage().LessThan(o.GetCollectionPage())
+	} else if this.IsOrderedCollection() {
+		return this.GetOrderedCollection().LessThan(o.GetOrderedCollection())
+	} else if this.IsOrderedCollectionPage() {
+		return this.GetOrderedCollectionPage().LessThan(o.GetOrderedCollectionPage())
 	} else if this.IsIRI() {
-		// IRIs are always less than other values, none, or unknowns
-		return true
-	} else if o.IsIRI() {
-		// This other, none, or unknown value is always greater than IRIs
-		return false
+		return this.iri.String() < o.GetIRI().String()
 	}
-	// LessThan comparison for the single value or unknown value.
-	if !this.IsCollection() && !o.IsCollection() {
-		// Both are unknowns.
-		return false
-	} else if this.IsCollection() && !o.IsCollection() {
-		// Values are always greater than unknown values.
-		return false
-	} else if !this.IsCollection() && o.IsCollection() {
-		// Unknowns are always less than known values.
-		return true
-	} else {
-		// Actual comparison.
-		return this.Get().LessThan(o.Get())
-	}
+	return false
 }
 
 // Name returns the name of this property: "replies".
@@ -175,23 +260,49 @@ func (this RepliesProperty) Name() string {
 // properties. It is exposed for alternatives to go-fed implementations to use.
 func (this RepliesProperty) Serialize() (interface{}, error) {
 	if this.IsCollection() {
-		return this.Get().Serialize()
+		return this.GetCollection().Serialize()
+	} else if this.IsCollectionPage() {
+		return this.GetCollectionPage().Serialize()
+	} else if this.IsOrderedCollection() {
+		return this.GetOrderedCollection().Serialize()
+	} else if this.IsOrderedCollectionPage() {
+		return this.GetOrderedCollectionPage().Serialize()
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
-// Set sets the value of this property. Calling IsCollection afterwards will
-// return true.
-func (this *RepliesProperty) Set(v vocab.CollectionInterface) {
+// SetCollection sets the value of this property. Calling IsCollection afterwards
+// returns true.
+func (this *RepliesProperty) SetCollection(v vocab.CollectionInterface) {
 	this.Clear()
 	this.CollectionMember = v
 }
 
-// SetIRI sets the value of this property. Calling IsIRI afterwards will return
-// true.
+// SetCollectionPage sets the value of this property. Calling IsCollectionPage
+// afterwards returns true.
+func (this *RepliesProperty) SetCollectionPage(v vocab.CollectionPageInterface) {
+	this.Clear()
+	this.CollectionPageMember = v
+}
+
+// SetIRI sets the value of this property. Calling IsIRI afterwards returns true.
 func (this *RepliesProperty) SetIRI(v *url.URL) {
 	this.Clear()
 	this.iri = v
+}
+
+// SetOrderedCollection sets the value of this property. Calling
+// IsOrderedCollection afterwards returns true.
+func (this *RepliesProperty) SetOrderedCollection(v vocab.OrderedCollectionInterface) {
+	this.Clear()
+	this.OrderedCollectionMember = v
+}
+
+// SetOrderedCollectionPage sets the value of this property. Calling
+// IsOrderedCollectionPage afterwards returns true.
+func (this *RepliesProperty) SetOrderedCollectionPage(v vocab.OrderedCollectionPageInterface) {
+	this.Clear()
+	this.OrderedCollectionPageMember = v
 }

@@ -21,7 +21,7 @@ type AltitudePropertyInterface interface {
 	Clear()
 	// Get returns the value of this property. When IsFloat returns false, Get
 	// will return any arbitrary value.
-	Get() float32
+	Get() float64
 	// GetIRI returns the IRI of this property. When IsIRI returns false,
 	// GetIRI will return any arbitrary value.
 	GetIRI() *url.URL
@@ -55,7 +55,7 @@ type AltitudePropertyInterface interface {
 	Serialize() (interface{}, error)
 	// Set sets the value of this property. Calling IsFloat afterwards will
 	// return true.
-	Set(v float32)
+	Set(v float64)
 	// SetIRI sets the value of this property. Calling IsIRI afterwards will
 	// return true.
 	SetIRI(v *url.URL)

@@ -138,7 +138,7 @@ type CollectionPageInterface interface {
 	LessThan(o CollectionPageInterface) bool
 	// Serialize converts this into an interface representation suitable for
 	// marshalling into a text or binary format.
-	Serialize() (interface{}, error)
+	Serialize() (map[string]interface{}, error)
 	// SetAltitude returns the "altitude" property if it exists, and nil
 	// otherwise.
 	SetAltitude(i AltitudePropertyInterface)

@@ -74,177 +74,177 @@ func DeserializeFollow(m map[string]interface{}, aliasMap map[string]string) (*F
 	// Begin: Known property deserialization
 	if p, err := mgr.DeserializeActorPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Actor = p
 	}
 	if p, err := mgr.DeserializeAltitudePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Altitude = p
 	}
 	if p, err := mgr.DeserializeAttachmentPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Attachment = p
 	}
 	if p, err := mgr.DeserializeAttributedToPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.AttributedTo = p
 	}
 	if p, err := mgr.DeserializeAudiencePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Audience = p
 	}
 	if p, err := mgr.DeserializeBccPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Bcc = p
 	}
 	if p, err := mgr.DeserializeBtoPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Bto = p
 	}
 	if p, err := mgr.DeserializeCcPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Cc = p
 	}
 	if p, err := mgr.DeserializeContentPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Content = p
 	}
 	if p, err := mgr.DeserializeContextPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Context = p
 	}
 	if p, err := mgr.DeserializeDurationPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Duration = p
 	}
 	if p, err := mgr.DeserializeEndTimePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.EndTime = p
 	}
 	if p, err := mgr.DeserializeGeneratorPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Generator = p
 	}
 	if p, err := mgr.DeserializeIconPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Icon = p
 	}
 	if p, err := mgr.DeserializeIdPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Id = p
 	}
 	if p, err := mgr.DeserializeImagePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Image = p
 	}
 	if p, err := mgr.DeserializeInReplyToPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.InReplyTo = p
 	}
 	if p, err := mgr.DeserializeInstrumentPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Instrument = p
 	}
 	if p, err := mgr.DeserializeLocationPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Location = p
 	}
 	if p, err := mgr.DeserializeMediaTypePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.MediaType = p
 	}
 	if p, err := mgr.DeserializeNamePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Name = p
 	}
 	if p, err := mgr.DeserializeObjectPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Object = p
 	}
 	if p, err := mgr.DeserializeOriginPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Origin = p
 	}
 	if p, err := mgr.DeserializePreviewPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Preview = p
 	}
 	if p, err := mgr.DeserializePublishedPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Published = p
 	}
 	if p, err := mgr.DeserializeRepliesPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Replies = p
 	}
 	if p, err := mgr.DeserializeResultPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Result = p
 	}
 	if p, err := mgr.DeserializeStartTimePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.StartTime = p
 	}
 	if p, err := mgr.DeserializeSummaryPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Summary = p
 	}
 	if p, err := mgr.DeserializeTagPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Tag = p
 	}
 	if p, err := mgr.DeserializeTargetPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Target = p
 	}
 	if p, err := mgr.DeserializeToPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.To = p
 	}
 	if p, err := mgr.DeserializeTypePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Type = p
 	}
 	if p, err := mgr.DeserializeUpdatedPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Updated = p
 	}
 	if p, err := mgr.DeserializeUrlPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Url = p
 	}
 	// End: Known property deserialization
@@ -609,215 +609,495 @@ func (this Follow) JSONLDContext() map[string]string {
 func (this Follow) LessThan(o vocab.FollowInterface) bool {
 	// Begin: Compare known properties
 	// Compare property "actor"
-	if this.Actor.LessThan(o.GetActor()) {
+	if lhs, rhs := this.Actor, o.GetActor(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetActor().LessThan(this.Actor) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "altitude"
-	if this.Altitude.LessThan(o.GetAltitude()) {
+	if lhs, rhs := this.Altitude, o.GetAltitude(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetAltitude().LessThan(this.Altitude) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "attachment"
-	if this.Attachment.LessThan(o.GetAttachment()) {
+	if lhs, rhs := this.Attachment, o.GetAttachment(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetAttachment().LessThan(this.Attachment) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "attributedTo"
-	if this.AttributedTo.LessThan(o.GetAttributedTo()) {
+	if lhs, rhs := this.AttributedTo, o.GetAttributedTo(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetAttributedTo().LessThan(this.AttributedTo) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "audience"
-	if this.Audience.LessThan(o.GetAudience()) {
+	if lhs, rhs := this.Audience, o.GetAudience(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetAudience().LessThan(this.Audience) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "bcc"
-	if this.Bcc.LessThan(o.GetBcc()) {
+	if lhs, rhs := this.Bcc, o.GetBcc(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetBcc().LessThan(this.Bcc) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "bto"
-	if this.Bto.LessThan(o.GetBto()) {
+	if lhs, rhs := this.Bto, o.GetBto(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetBto().LessThan(this.Bto) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "cc"
-	if this.Cc.LessThan(o.GetCc()) {
+	if lhs, rhs := this.Cc, o.GetCc(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetCc().LessThan(this.Cc) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "content"
-	if this.Content.LessThan(o.GetContent()) {
+	if lhs, rhs := this.Content, o.GetContent(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetContent().LessThan(this.Content) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "context"
-	if this.Context.LessThan(o.GetContext()) {
+	if lhs, rhs := this.Context, o.GetContext(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetContext().LessThan(this.Context) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "duration"
-	if this.Duration.LessThan(o.GetDuration()) {
+	if lhs, rhs := this.Duration, o.GetDuration(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetDuration().LessThan(this.Duration) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "endTime"
-	if this.EndTime.LessThan(o.GetEndTime()) {
+	if lhs, rhs := this.EndTime, o.GetEndTime(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetEndTime().LessThan(this.EndTime) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "generator"
-	if this.Generator.LessThan(o.GetGenerator()) {
+	if lhs, rhs := this.Generator, o.GetGenerator(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetGenerator().LessThan(this.Generator) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "icon"
-	if this.Icon.LessThan(o.GetIcon()) {
+	if lhs, rhs := this.Icon, o.GetIcon(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetIcon().LessThan(this.Icon) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "id"
-	if this.Id.LessThan(o.GetId()) {
+	if lhs, rhs := this.Id, o.GetId(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetId().LessThan(this.Id) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "image"
-	if this.Image.LessThan(o.GetImage()) {
+	if lhs, rhs := this.Image, o.GetImage(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetImage().LessThan(this.Image) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "inReplyTo"
-	if this.InReplyTo.LessThan(o.GetInReplyTo()) {
+	if lhs, rhs := this.InReplyTo, o.GetInReplyTo(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetInReplyTo().LessThan(this.InReplyTo) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "instrument"
-	if this.Instrument.LessThan(o.GetInstrument()) {
+	if lhs, rhs := this.Instrument, o.GetInstrument(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetInstrument().LessThan(this.Instrument) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "location"
-	if this.Location.LessThan(o.GetLocation()) {
+	if lhs, rhs := this.Location, o.GetLocation(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetLocation().LessThan(this.Location) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "mediaType"
-	if this.MediaType.LessThan(o.GetMediaType()) {
+	if lhs, rhs := this.MediaType, o.GetMediaType(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetMediaType().LessThan(this.MediaType) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "name"
-	if this.Name.LessThan(o.GetName()) {
+	if lhs, rhs := this.Name, o.GetName(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetName().LessThan(this.Name) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "object"
-	if this.Object.LessThan(o.GetObject()) {
+	if lhs, rhs := this.Object, o.GetObject(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetObject().LessThan(this.Object) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "origin"
-	if this.Origin.LessThan(o.GetOrigin()) {
+	if lhs, rhs := this.Origin, o.GetOrigin(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetOrigin().LessThan(this.Origin) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "preview"
-	if this.Preview.LessThan(o.GetPreview()) {
+	if lhs, rhs := this.Preview, o.GetPreview(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetPreview().LessThan(this.Preview) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "published"
-	if this.Published.LessThan(o.GetPublished()) {
+	if lhs, rhs := this.Published, o.GetPublished(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetPublished().LessThan(this.Published) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "replies"
-	if this.Replies.LessThan(o.GetReplies()) {
+	if lhs, rhs := this.Replies, o.GetReplies(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetReplies().LessThan(this.Replies) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "result"
-	if this.Result.LessThan(o.GetResult()) {
+	if lhs, rhs := this.Result, o.GetResult(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetResult().LessThan(this.Result) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "startTime"
-	if this.StartTime.LessThan(o.GetStartTime()) {
+	if lhs, rhs := this.StartTime, o.GetStartTime(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetStartTime().LessThan(this.StartTime) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "summary"
-	if this.Summary.LessThan(o.GetSummary()) {
+	if lhs, rhs := this.Summary, o.GetSummary(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetSummary().LessThan(this.Summary) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "tag"
-	if this.Tag.LessThan(o.GetTag()) {
+	if lhs, rhs := this.Tag, o.GetTag(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetTag().LessThan(this.Tag) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "target"
-	if this.Target.LessThan(o.GetTarget()) {
+	if lhs, rhs := this.Target, o.GetTarget(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetTarget().LessThan(this.Target) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "to"
-	if this.To.LessThan(o.GetTo()) {
+	if lhs, rhs := this.To, o.GetTo(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetTo().LessThan(this.To) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "type"
-	if this.Type.LessThan(o.GetType()) {
+	if lhs, rhs := this.Type, o.GetType(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetType().LessThan(this.Type) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "updated"
-	if this.Updated.LessThan(o.GetUpdated()) {
+	if lhs, rhs := this.Updated, o.GetUpdated(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetUpdated().LessThan(this.Updated) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "url"
-	if this.Url.LessThan(o.GetUrl()) {
+	if lhs, rhs := this.Url, o.GetUrl(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetUrl().LessThan(this.Url) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// End: Compare known properties
 
 	// Begin: Compare unknown properties (only by number of them)
@@ -833,218 +1113,288 @@ func (this Follow) LessThan(o vocab.FollowInterface) bool {
 
 // Serialize converts this into an interface representation suitable for
 // marshalling into a text or binary format.
-func (this Follow) Serialize() (interface{}, error) {
+func (this Follow) Serialize() (map[string]interface{}, error) {
 	m := make(map[string]interface{})
 	// Begin: Serialize known properties
 	// Maybe serialize property "actor"
-	if i, err := this.Actor.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Actor.Name()] = i
+	if this.Actor != nil {
+		if i, err := this.Actor.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Actor.Name()] = i
+		}
 	}
 	// Maybe serialize property "altitude"
-	if i, err := this.Altitude.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Altitude.Name()] = i
+	if this.Altitude != nil {
+		if i, err := this.Altitude.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Altitude.Name()] = i
+		}
 	}
 	// Maybe serialize property "attachment"
-	if i, err := this.Attachment.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Attachment.Name()] = i
+	if this.Attachment != nil {
+		if i, err := this.Attachment.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Attachment.Name()] = i
+		}
 	}
 	// Maybe serialize property "attributedTo"
-	if i, err := this.AttributedTo.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.AttributedTo.Name()] = i
+	if this.AttributedTo != nil {
+		if i, err := this.AttributedTo.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.AttributedTo.Name()] = i
+		}
 	}
 	// Maybe serialize property "audience"
-	if i, err := this.Audience.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Audience.Name()] = i
+	if this.Audience != nil {
+		if i, err := this.Audience.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Audience.Name()] = i
+		}
 	}
 	// Maybe serialize property "bcc"
-	if i, err := this.Bcc.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Bcc.Name()] = i
+	if this.Bcc != nil {
+		if i, err := this.Bcc.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Bcc.Name()] = i
+		}
 	}
 	// Maybe serialize property "bto"
-	if i, err := this.Bto.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Bto.Name()] = i
+	if this.Bto != nil {
+		if i, err := this.Bto.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Bto.Name()] = i
+		}
 	}
 	// Maybe serialize property "cc"
-	if i, err := this.Cc.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Cc.Name()] = i
+	if this.Cc != nil {
+		if i, err := this.Cc.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Cc.Name()] = i
+		}
 	}
 	// Maybe serialize property "content"
-	if i, err := this.Content.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Content.Name()] = i
+	if this.Content != nil {
+		if i, err := this.Content.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Content.Name()] = i
+		}
 	}
 	// Maybe serialize property "context"
-	if i, err := this.Context.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Context.Name()] = i
+	if this.Context != nil {
+		if i, err := this.Context.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Context.Name()] = i
+		}
 	}
 	// Maybe serialize property "duration"
-	if i, err := this.Duration.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Duration.Name()] = i
+	if this.Duration != nil {
+		if i, err := this.Duration.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Duration.Name()] = i
+		}
 	}
 	// Maybe serialize property "endTime"
-	if i, err := this.EndTime.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.EndTime.Name()] = i
+	if this.EndTime != nil {
+		if i, err := this.EndTime.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.EndTime.Name()] = i
+		}
 	}
 	// Maybe serialize property "generator"
-	if i, err := this.Generator.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Generator.Name()] = i
+	if this.Generator != nil {
+		if i, err := this.Generator.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Generator.Name()] = i
+		}
 	}
 	// Maybe serialize property "icon"
-	if i, err := this.Icon.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Icon.Name()] = i
+	if this.Icon != nil {
+		if i, err := this.Icon.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Icon.Name()] = i
+		}
 	}
 	// Maybe serialize property "id"
-	if i, err := this.Id.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Id.Name()] = i
+	if this.Id != nil {
+		if i, err := this.Id.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Id.Name()] = i
+		}
 	}
 	// Maybe serialize property "image"
-	if i, err := this.Image.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Image.Name()] = i
+	if this.Image != nil {
+		if i, err := this.Image.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Image.Name()] = i
+		}
 	}
 	// Maybe serialize property "inReplyTo"
-	if i, err := this.InReplyTo.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.InReplyTo.Name()] = i
+	if this.InReplyTo != nil {
+		if i, err := this.InReplyTo.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.InReplyTo.Name()] = i
+		}
 	}
 	// Maybe serialize property "instrument"
-	if i, err := this.Instrument.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Instrument.Name()] = i
+	if this.Instrument != nil {
+		if i, err := this.Instrument.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Instrument.Name()] = i
+		}
 	}
 	// Maybe serialize property "location"
-	if i, err := this.Location.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Location.Name()] = i
+	if this.Location != nil {
+		if i, err := this.Location.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Location.Name()] = i
+		}
 	}
 	// Maybe serialize property "mediaType"
-	if i, err := this.MediaType.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.MediaType.Name()] = i
+	if this.MediaType != nil {
+		if i, err := this.MediaType.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.MediaType.Name()] = i
+		}
 	}
 	// Maybe serialize property "name"
-	if i, err := this.Name.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Name.Name()] = i
+	if this.Name != nil {
+		if i, err := this.Name.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Name.Name()] = i
+		}
 	}
 	// Maybe serialize property "object"
-	if i, err := this.Object.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Object.Name()] = i
+	if this.Object != nil {
+		if i, err := this.Object.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Object.Name()] = i
+		}
 	}
 	// Maybe serialize property "origin"
-	if i, err := this.Origin.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Origin.Name()] = i
+	if this.Origin != nil {
+		if i, err := this.Origin.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Origin.Name()] = i
+		}
 	}
 	// Maybe serialize property "preview"
-	if i, err := this.Preview.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Preview.Name()] = i
+	if this.Preview != nil {
+		if i, err := this.Preview.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Preview.Name()] = i
+		}
 	}
 	// Maybe serialize property "published"
-	if i, err := this.Published.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Published.Name()] = i
+	if this.Published != nil {
+		if i, err := this.Published.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Published.Name()] = i
+		}
 	}
 	// Maybe serialize property "replies"
-	if i, err := this.Replies.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Replies.Name()] = i
+	if this.Replies != nil {
+		if i, err := this.Replies.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Replies.Name()] = i
+		}
 	}
 	// Maybe serialize property "result"
-	if i, err := this.Result.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Result.Name()] = i
+	if this.Result != nil {
+		if i, err := this.Result.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Result.Name()] = i
+		}
 	}
 	// Maybe serialize property "startTime"
-	if i, err := this.StartTime.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.StartTime.Name()] = i
+	if this.StartTime != nil {
+		if i, err := this.StartTime.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.StartTime.Name()] = i
+		}
 	}
 	// Maybe serialize property "summary"
-	if i, err := this.Summary.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Summary.Name()] = i
+	if this.Summary != nil {
+		if i, err := this.Summary.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Summary.Name()] = i
+		}
 	}
 	// Maybe serialize property "tag"
-	if i, err := this.Tag.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Tag.Name()] = i
+	if this.Tag != nil {
+		if i, err := this.Tag.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Tag.Name()] = i
+		}
 	}
 	// Maybe serialize property "target"
-	if i, err := this.Target.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Target.Name()] = i
+	if this.Target != nil {
+		if i, err := this.Target.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Target.Name()] = i
+		}
 	}
 	// Maybe serialize property "to"
-	if i, err := this.To.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.To.Name()] = i
+	if this.To != nil {
+		if i, err := this.To.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.To.Name()] = i
+		}
 	}
 	// Maybe serialize property "type"
-	if i, err := this.Type.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Type.Name()] = i
+	if this.Type != nil {
+		if i, err := this.Type.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Type.Name()] = i
+		}
 	}
 	// Maybe serialize property "updated"
-	if i, err := this.Updated.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Updated.Name()] = i
+	if this.Updated != nil {
+		if i, err := this.Updated.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Updated.Name()] = i
+		}
 	}
 	// Maybe serialize property "url"
-	if i, err := this.Url.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Url.Name()] = i
+	if this.Url != nil {
+		if i, err := this.Url.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Url.Name()] = i
+		}
 	}
 	// End: Serialize known properties
 

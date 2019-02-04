@@ -15,6 +15,14 @@ type privateManager interface {
 	// the "LinkInterface" non-functional property in the vocabulary
 	// "ActivityStreams"
 	DeserializeLinkActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LinkInterface, error)
+	// DeserializeMentionActivityStreams returns the deserialization method
+	// for the "MentionInterface" non-functional property in the
+	// vocabulary "ActivityStreams"
+	DeserializeMentionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.MentionInterface, error)
+	// DeserializeOrderedCollectionPageActivityStreams returns the
+	// deserialization method for the "OrderedCollectionPageInterface"
+	// non-functional property in the vocabulary "ActivityStreams"
+	DeserializeOrderedCollectionPageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OrderedCollectionPageInterface, error)
 }
 
 // SetManager sets the manager package-global variable. For internal use only, do

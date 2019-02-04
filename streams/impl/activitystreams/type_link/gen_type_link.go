@@ -48,57 +48,57 @@ func DeserializeLink(m map[string]interface{}, aliasMap map[string]string) (*Lin
 	// Begin: Known property deserialization
 	if p, err := mgr.DeserializeAttributedToPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.AttributedTo = p
 	}
 	if p, err := mgr.DeserializeHeightPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Height = p
 	}
 	if p, err := mgr.DeserializeHrefPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Href = p
 	}
 	if p, err := mgr.DeserializeHreflangPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Hreflang = p
 	}
 	if p, err := mgr.DeserializeIdPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Id = p
 	}
 	if p, err := mgr.DeserializeMediaTypePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.MediaType = p
 	}
 	if p, err := mgr.DeserializeNamePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Name = p
 	}
 	if p, err := mgr.DeserializePreviewPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Preview = p
 	}
 	if p, err := mgr.DeserializeRelPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Rel = p
 	}
 	if p, err := mgr.DeserializeTypePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Type = p
 	}
 	if p, err := mgr.DeserializeWidthPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
-	} else {
+	} else if p != nil {
 		this.Width = p
 	}
 	// End: Known property deserialization
@@ -146,7 +146,7 @@ func LinkExtends(other vocab.Type) bool {
 // LinkIsDisjointWith returns true if the other provided type is disjoint with the
 // Link type.
 func LinkIsDisjointWith(other vocab.Type) bool {
-	disjointWith := []string{"Object", "Note", "Tombstone", "Relationship", "Collection", "CollectionPage", "OrderedCollectionPage", "OrderedCollection", "Person", "Application", "Activity", "Reject", "TentativeReject", "Read", "View", "Flag", "Update", "Accept", "TentativeAccept", "Undo", "Offer", "Invite", "Follow", "Create", "Move", "Listen", "Remove", "Add", "Join", "Delete", "Dislike", "Ignore", "Block", "IntransitiveActivity", "Travel", "Arrive", "Question", "Leave", "Announce", "Like", "Group", "Event", "Service", "Profile", "Article", "Organization", "Document", "Audio", "Page", "Image", "Video", "Place"}
+	disjointWith := []string{"Object", "Person", "Group", "Note", "Activity", "Like", "Remove", "Listen", "Leave", "Delete", "Dislike", "Read", "View", "IntransitiveActivity", "Arrive", "Travel", "Question", "Update", "Flag", "Announce", "Undo", "Join", "Create", "Add", "Reject", "TentativeReject", "Move", "Ignore", "Block", "Accept", "TentativeAccept", "Offer", "Invite", "Follow", "Collection", "OrderedCollection", "CollectionPage", "OrderedCollectionPage", "Tombstone", "Organization", "Application", "Document", "Page", "Video", "Audio", "Image", "Relationship", "Event", "Place", "Profile", "Service", "Article"}
 	for _, disjoint := range disjointWith {
 		if disjoint == other.GetName() {
 			return true
@@ -271,71 +271,159 @@ func (this Link) JSONLDContext() map[string]string {
 func (this Link) LessThan(o vocab.LinkInterface) bool {
 	// Begin: Compare known properties
 	// Compare property "attributedTo"
-	if this.AttributedTo.LessThan(o.GetAttributedTo()) {
+	if lhs, rhs := this.AttributedTo, o.GetAttributedTo(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetAttributedTo().LessThan(this.AttributedTo) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "height"
-	if this.Height.LessThan(o.GetHeight()) {
+	if lhs, rhs := this.Height, o.GetHeight(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetHeight().LessThan(this.Height) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "href"
-	if this.Href.LessThan(o.GetHref()) {
+	if lhs, rhs := this.Href, o.GetHref(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetHref().LessThan(this.Href) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "hreflang"
-	if this.Hreflang.LessThan(o.GetHreflang()) {
+	if lhs, rhs := this.Hreflang, o.GetHreflang(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetHreflang().LessThan(this.Hreflang) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "id"
-	if this.Id.LessThan(o.GetId()) {
+	if lhs, rhs := this.Id, o.GetId(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetId().LessThan(this.Id) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "mediaType"
-	if this.MediaType.LessThan(o.GetMediaType()) {
+	if lhs, rhs := this.MediaType, o.GetMediaType(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetMediaType().LessThan(this.MediaType) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "name"
-	if this.Name.LessThan(o.GetName()) {
+	if lhs, rhs := this.Name, o.GetName(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetName().LessThan(this.Name) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "preview"
-	if this.Preview.LessThan(o.GetPreview()) {
+	if lhs, rhs := this.Preview, o.GetPreview(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetPreview().LessThan(this.Preview) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "rel"
-	if this.Rel.LessThan(o.GetRel()) {
+	if lhs, rhs := this.Rel, o.GetRel(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetRel().LessThan(this.Rel) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "type"
-	if this.Type.LessThan(o.GetType()) {
+	if lhs, rhs := this.Type, o.GetType(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetType().LessThan(this.Type) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// Compare property "width"
-	if this.Width.LessThan(o.GetWidth()) {
+	if lhs, rhs := this.Width, o.GetWidth(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
 		return true
-	} else if o.GetWidth().LessThan(this.Width) {
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
 		return false
-	}
+	} // Else: Both are nil
 	// End: Compare known properties
 
 	// Begin: Compare unknown properties (only by number of them)
@@ -351,74 +439,96 @@ func (this Link) LessThan(o vocab.LinkInterface) bool {
 
 // Serialize converts this into an interface representation suitable for
 // marshalling into a text or binary format.
-func (this Link) Serialize() (interface{}, error) {
+func (this Link) Serialize() (map[string]interface{}, error) {
 	m := make(map[string]interface{})
 	// Begin: Serialize known properties
 	// Maybe serialize property "attributedTo"
-	if i, err := this.AttributedTo.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.AttributedTo.Name()] = i
+	if this.AttributedTo != nil {
+		if i, err := this.AttributedTo.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.AttributedTo.Name()] = i
+		}
 	}
 	// Maybe serialize property "height"
-	if i, err := this.Height.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Height.Name()] = i
+	if this.Height != nil {
+		if i, err := this.Height.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Height.Name()] = i
+		}
 	}
 	// Maybe serialize property "href"
-	if i, err := this.Href.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Href.Name()] = i
+	if this.Href != nil {
+		if i, err := this.Href.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Href.Name()] = i
+		}
 	}
 	// Maybe serialize property "hreflang"
-	if i, err := this.Hreflang.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Hreflang.Name()] = i
+	if this.Hreflang != nil {
+		if i, err := this.Hreflang.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Hreflang.Name()] = i
+		}
 	}
 	// Maybe serialize property "id"
-	if i, err := this.Id.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Id.Name()] = i
+	if this.Id != nil {
+		if i, err := this.Id.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Id.Name()] = i
+		}
 	}
 	// Maybe serialize property "mediaType"
-	if i, err := this.MediaType.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.MediaType.Name()] = i
+	if this.MediaType != nil {
+		if i, err := this.MediaType.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.MediaType.Name()] = i
+		}
 	}
 	// Maybe serialize property "name"
-	if i, err := this.Name.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Name.Name()] = i
+	if this.Name != nil {
+		if i, err := this.Name.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Name.Name()] = i
+		}
 	}
 	// Maybe serialize property "preview"
-	if i, err := this.Preview.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Preview.Name()] = i
+	if this.Preview != nil {
+		if i, err := this.Preview.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Preview.Name()] = i
+		}
 	}
 	// Maybe serialize property "rel"
-	if i, err := this.Rel.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Rel.Name()] = i
+	if this.Rel != nil {
+		if i, err := this.Rel.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Rel.Name()] = i
+		}
 	}
 	// Maybe serialize property "type"
-	if i, err := this.Type.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Type.Name()] = i
+	if this.Type != nil {
+		if i, err := this.Type.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Type.Name()] = i
+		}
 	}
 	// Maybe serialize property "width"
-	if i, err := this.Width.Serialize(); err != nil {
-		return nil, err
-	} else if i != nil {
-		m[this.Width.Name()] = i
+	if this.Width != nil {
+		if i, err := this.Width.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Width.Name()] = i
+		}
 	}
 	// End: Serialize known properties
 

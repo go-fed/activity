@@ -45,6 +45,13 @@ type PrevPropertyInterface interface {
 	// GetLink returns the value of this property. When IsLink returns false,
 	// GetLink will return an arbitrary value.
 	GetLink() LinkInterface
+	// GetMention returns the value of this property. When IsMention returns
+	// false, GetMention will return an arbitrary value.
+	GetMention() MentionInterface
+	// GetOrderedCollectionPage returns the value of this property. When
+	// IsOrderedCollectionPage returns false, GetOrderedCollectionPage
+	// will return an arbitrary value.
+	GetOrderedCollectionPage() OrderedCollectionPageInterface
 	// HasAny returns true if any of the different values is set.
 	HasAny() bool
 	// IsCollectionPage returns true if this property has a type of
@@ -57,6 +64,15 @@ type PrevPropertyInterface interface {
 	// IsLink returns true if this property has a type of "Link". When true,
 	// use the GetLink and SetLink methods to access and set this property.
 	IsLink() bool
+	// IsMention returns true if this property has a type of "Mention". When
+	// true, use the GetMention and SetMention methods to access and set
+	// this property.
+	IsMention() bool
+	// IsOrderedCollectionPage returns true if this property has a type of
+	// "OrderedCollectionPage". When true, use the
+	// GetOrderedCollectionPage and SetOrderedCollectionPage methods to
+	// access and set this property.
+	IsOrderedCollectionPage() bool
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or
@@ -88,4 +104,10 @@ type PrevPropertyInterface interface {
 	// SetLink sets the value of this property. Calling IsLink afterwards
 	// returns true.
 	SetLink(v LinkInterface)
+	// SetMention sets the value of this property. Calling IsMention
+	// afterwards returns true.
+	SetMention(v MentionInterface)
+	// SetOrderedCollectionPage sets the value of this property. Calling
+	// IsOrderedCollectionPage afterwards returns true.
+	SetOrderedCollectionPage(v OrderedCollectionPageInterface)
 }

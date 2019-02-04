@@ -12,13 +12,14 @@ import (
 // one of the 'Is' methods will return true. It is possible to clear all
 // values, so that this property is empty.
 type IconPropertyIterator struct {
-	ImageMember vocab.ImageInterface
-	LinkMember  vocab.LinkInterface
-	unknown     []byte
-	iri         *url.URL
-	alias       string
-	myIdx       int
-	parent      vocab.IconPropertyInterface
+	ImageMember   vocab.ImageInterface
+	LinkMember    vocab.LinkInterface
+	MentionMember vocab.MentionInterface
+	unknown       []byte
+	iri           *url.URL
+	alias         string
+	myIdx         int
+	parent        vocab.IconPropertyInterface
 }
 
 // NewIconPropertyIterator creates a new icon property.
@@ -36,7 +37,8 @@ func deserializeIconPropertyIterator(i interface{}, aliasMap map[string]string) 
 	if s, ok := i.(string); ok {
 		u, err := url.Parse(s)
 		// If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst
-		if err == nil {
+		// Also, if no scheme exists, don't treat it as a URL -- net/url is greedy
+		if err == nil && len(u.Scheme) > 0 {
 			this := &IconPropertyIterator{
 				alias: alias,
 				iri:   u,
@@ -45,23 +47,29 @@ func deserializeIconPropertyIterator(i interface{}, aliasMap map[string]string) 
 		}
 	}
 	if m, ok := i.(map[string]interface{}); ok {
-		if v, err := mgr.DeserializeImageActivityStreams()(m, aliasMap); err != nil {
+		if v, err := mgr.DeserializeImageActivityStreams()(m, aliasMap); err == nil {
 			this := &IconPropertyIterator{
 				ImageMember: v,
 				alias:       alias,
 			}
 			return this, nil
-		} else if v, err := mgr.DeserializeLinkActivityStreams()(m, aliasMap); err != nil {
+		} else if v, err := mgr.DeserializeLinkActivityStreams()(m, aliasMap); err == nil {
 			this := &IconPropertyIterator{
 				LinkMember: v,
 				alias:      alias,
 			}
 			return this, nil
+		} else if v, err := mgr.DeserializeMentionActivityStreams()(m, aliasMap); err == nil {
+			this := &IconPropertyIterator{
+				MentionMember: v,
+				alias:         alias,
+			}
+			return this, nil
 		}
-	} else if v, ok := i.([]byte); ok {
+	} else if str, ok := i.(string); ok {
 		this := &IconPropertyIterator{
 			alias:   alias,
-			unknown: v,
+			unknown: []byte(str),
 		}
 		return this, nil
 	}
@@ -86,10 +94,17 @@ func (this IconPropertyIterator) GetLink() vocab.LinkInterface {
 	return this.LinkMember
 }
 
+// GetMention returns the value of this property. When IsMention returns false,
+// GetMention will return an arbitrary value.
+func (this IconPropertyIterator) GetMention() vocab.MentionInterface {
+	return this.MentionMember
+}
+
 // HasAny returns true if any of the different values is set.
 func (this IconPropertyIterator) HasAny() bool {
 	return this.IsImage() ||
 		this.IsLink() ||
+		this.IsMention() ||
 		this.iri != nil
 }
 
@@ -111,6 +126,12 @@ func (this IconPropertyIterator) IsLink() bool {
 	return this.LinkMember != nil
 }
 
+// IsMention returns true if this property has a type of "Mention". When true, use
+// the GetMention and SetMention methods to access and set this property.
+func (this IconPropertyIterator) IsMention() bool {
+	return this.MentionMember != nil
+}
+
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
@@ -121,6 +142,8 @@ func (this IconPropertyIterator) JSONLDContext() map[string]string {
 		child = this.GetImage().JSONLDContext()
 	} else if this.IsLink() {
 		child = this.GetLink().JSONLDContext()
+	} else if this.IsMention() {
+		child = this.GetMention().JSONLDContext()
 	}
 	/*
 	   Since the literal maps in this function are determined at
@@ -143,6 +166,9 @@ func (this IconPropertyIterator) KindIndex() int {
 	if this.IsLink() {
 		return 1
 	}
+	if this.IsMention() {
+		return 2
+	}
 	if this.IsIRI() {
 		return -2
 	}
@@ -164,6 +190,8 @@ func (this IconPropertyIterator) LessThan(o vocab.IconPropertyIteratorInterface)
 		return this.GetImage().LessThan(o.GetImage())
 	} else if this.IsLink() {
 		return this.GetLink().LessThan(o.GetLink())
+	} else if this.IsMention() {
+		return this.GetMention().LessThan(o.GetMention())
 	} else if this.IsIRI() {
 		return this.iri.String() < o.GetIRI().String()
 	}
@@ -212,11 +240,19 @@ func (this *IconPropertyIterator) SetLink(v vocab.LinkInterface) {
 	this.LinkMember = v
 }
 
+// SetMention sets the value of this property. Calling IsMention afterwards
+// returns true.
+func (this *IconPropertyIterator) SetMention(v vocab.MentionInterface) {
+	this.clear()
+	this.MentionMember = v
+}
+
 // clear ensures no value of this property is set. Calling HasAny or any of the
 // 'Is' methods afterwards will return false.
 func (this *IconPropertyIterator) clear() {
 	this.ImageMember = nil
 	this.LinkMember = nil
+	this.MentionMember = nil
 	this.unknown = nil
 	this.iri = nil
 }
@@ -230,10 +266,12 @@ func (this IconPropertyIterator) serialize() (interface{}, error) {
 		return this.GetImage().Serialize()
 	} else if this.IsLink() {
 		return this.GetLink().Serialize()
+	} else if this.IsMention() {
+		return this.GetMention().Serialize()
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
 // IconProperty is the non-functional property "icon". It is permitted to have one
@@ -250,7 +288,6 @@ func DeserializeIconProperty(m map[string]interface{}, aliasMap map[string]strin
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
 	}
-	var this *IconProperty
 	propName := "icon"
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "icon")
@@ -280,8 +317,9 @@ func DeserializeIconProperty(m map[string]interface{}, aliasMap map[string]strin
 			ele.parent = this
 			ele.myIdx = idx
 		}
+		return this, nil
 	}
-	return this, nil
+	return nil, nil
 }
 
 // NewIconProperty creates a new icon property.
@@ -318,6 +356,17 @@ func (this *IconProperty) AppendLink(v vocab.LinkInterface) {
 		alias:      this.alias,
 		myIdx:      this.Len(),
 		parent:     this,
+	})
+}
+
+// AppendMention appends a Mention value to the back of a list of the property
+// "icon". Invalidates iterators that are traversing using Prev.
+func (this *IconProperty) AppendMention(v vocab.MentionInterface) {
+	this.properties = append(this.properties, &IconPropertyIterator{
+		MentionMember: v,
+		alias:         this.alias,
+		myIdx:         this.Len(),
+		parent:        this,
 	})
 }
 
@@ -398,6 +447,10 @@ func (this IconProperty) Less(i, j int) bool {
 			lhs := this.properties[i].GetLink()
 			rhs := this.properties[j].GetLink()
 			return lhs.LessThan(rhs)
+		} else if idx1 == 2 {
+			lhs := this.properties[i].GetMention()
+			rhs := this.properties[j].GetMention()
+			return lhs.LessThan(rhs)
 		} else if idx1 == -2 {
 			lhs := this.properties[i].GetIRI()
 			rhs := this.properties[j].GetIRI()
@@ -474,6 +527,20 @@ func (this *IconProperty) PrependLink(v vocab.LinkInterface) {
 	}
 }
 
+// PrependMention prepends a Mention value to the front of a list of the property
+// "icon". Invalidates all iterators.
+func (this *IconProperty) PrependMention(v vocab.MentionInterface) {
+	this.properties = append([]*IconPropertyIterator{{
+		MentionMember: v,
+		alias:         this.alias,
+		myIdx:         0,
+		parent:        this,
+	}}, this.properties...)
+	for i := 1; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
 // Remove deletes an element at the specified index from a list of the property
 // "icon", regardless of its type. Panics if the index is out of bounds.
 // Invalidates all iterators.
@@ -499,6 +566,10 @@ func (this IconProperty) Serialize() (interface{}, error) {
 		} else {
 			s = append(s, b)
 		}
+	}
+	// Shortcut: if serializing one value, don't return an array -- pretty sure other Fediverse software would choke on a "type" value with array, for example.
+	if len(s) == 1 {
+		return s[0], nil
 	}
 	return s, nil
 }
@@ -536,6 +607,18 @@ func (this *IconProperty) SetLink(idx int, v vocab.LinkInterface) {
 		alias:      this.alias,
 		myIdx:      idx,
 		parent:     this,
+	}
+}
+
+// SetMention sets a Mention value to be at the specified index for the property
+// "icon". Panics if the index is out of bounds. Invalidates all iterators.
+func (this *IconProperty) SetMention(idx int, v vocab.MentionInterface) {
+	(this.properties)[idx].parent = nil
+	(this.properties)[idx] = &IconPropertyIterator{
+		MentionMember: v,
+		alias:         this.alias,
+		myIdx:         idx,
+		parent:        this,
 	}
 }
 

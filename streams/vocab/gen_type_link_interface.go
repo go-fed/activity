@@ -62,7 +62,7 @@ type LinkInterface interface {
 	LessThan(o LinkInterface) bool
 	// Serialize converts this into an interface representation suitable for
 	// marshalling into a text or binary format.
-	Serialize() (interface{}, error)
+	Serialize() (map[string]interface{}, error)
 	// SetAttributedTo returns the "attributedTo" property if it exists, and
 	// nil otherwise.
 	SetAttributedTo(i AttributedToPropertyInterface)

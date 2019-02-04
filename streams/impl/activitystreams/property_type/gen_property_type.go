@@ -12,7 +12,6 @@ import (
 type TypePropertyIterator struct {
 	anyURIMember *url.URL
 	unknown      []byte
-	iri          *url.URL
 	alias        string
 	myIdx        int
 	parent       vocab.TypePropertyInterface
@@ -30,16 +29,16 @@ func deserializeTypePropertyIterator(i interface{}, aliasMap map[string]string) 
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
 	}
-	if v, err := anyuri.DeserializeAnyURI(i); err != nil {
+	if v, err := anyuri.DeserializeAnyURI(i); err == nil {
 		this := &TypePropertyIterator{
 			alias:        alias,
 			anyURIMember: v,
 		}
 		return this, nil
-	} else if v, ok := i.([]byte); ok {
+	} else if str, ok := i.(string); ok {
 		this := &TypePropertyIterator{
 			alias:   alias,
-			unknown: v,
+			unknown: []byte(str),
 		}
 		return this, nil
 	}
@@ -55,12 +54,12 @@ func (this TypePropertyIterator) Get() *url.URL {
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
 // return any arbitrary value.
 func (this TypePropertyIterator) GetIRI() *url.URL {
-	return this.iri
+	return this.anyURIMember
 }
 
 // HasAny returns true if the value or IRI is set.
 func (this TypePropertyIterator) HasAny() bool {
-	return this.IsAnyURI() || this.iri != nil
+	return this.IsAnyURI()
 }
 
 // IsAnyURI returns true if this property is set and not an IRI.
@@ -70,7 +69,7 @@ func (this TypePropertyIterator) IsAnyURI() bool {
 
 // IsIRI returns true if this property is an IRI.
 func (this TypePropertyIterator) IsIRI() bool {
-	return this.iri != nil
+	return this.anyURIMember != nil
 }
 
 // JSONLDContext returns the JSONLD URIs required in the context string for this
@@ -109,10 +108,7 @@ func (this TypePropertyIterator) KindIndex() int {
 // help alternative implementations to go-fed to be able to normalize
 // nonfunctional properties.
 func (this TypePropertyIterator) LessThan(o vocab.TypePropertyIteratorInterface) bool {
-	// LessThan comparison for if either or both are IRIs.
-	if this.IsIRI() && o.IsIRI() {
-		return this.iri.String() < o.GetIRI().String()
-	} else if this.IsIRI() {
+	if this.IsIRI() {
 		// IRIs are always less than other values, none, or unknowns
 		return true
 	} else if o.IsIRI() {
@@ -169,14 +165,13 @@ func (this *TypePropertyIterator) Set(v *url.URL) {
 // true.
 func (this *TypePropertyIterator) SetIRI(v *url.URL) {
 	this.clear()
-	this.iri = v
+	this.Set(v)
 }
 
 // clear ensures no value of this property is set. Calling IsAnyURI afterwards
 // will return false.
 func (this *TypePropertyIterator) clear() {
 	this.unknown = nil
-	this.iri = nil
 	this.anyURIMember = nil
 }
 
@@ -187,10 +182,8 @@ func (this *TypePropertyIterator) clear() {
 func (this TypePropertyIterator) serialize() (interface{}, error) {
 	if this.IsAnyURI() {
 		return anyuri.SerializeAnyURI(this.Get())
-	} else if this.IsIRI() {
-		return this.iri.String(), nil
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
 // TypeProperty is the non-functional property "type". It is permitted to have one
@@ -207,7 +200,6 @@ func DeserializeTypeProperty(m map[string]interface{}, aliasMap map[string]strin
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
 	}
-	var this *TypeProperty
 	propName := "type"
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "type")
@@ -237,8 +229,9 @@ func DeserializeTypeProperty(m map[string]interface{}, aliasMap map[string]strin
 			ele.parent = this
 			ele.myIdx = idx
 		}
+		return this, nil
 	}
-	return this, nil
+	return nil, nil
 }
 
 // NewTypeProperty creates a new type property.
@@ -260,10 +253,10 @@ func (this *TypeProperty) AppendAnyURI(v *url.URL) {
 // AppendIRI appends an IRI value to the back of a list of the property "type"
 func (this *TypeProperty) AppendIRI(v *url.URL) {
 	this.properties = append(this.properties, &TypePropertyIterator{
-		alias:  this.alias,
-		iri:    v,
-		myIdx:  this.Len(),
-		parent: this,
+		alias:        this.alias,
+		anyURIMember: v,
+		myIdx:        this.Len(),
+		parent:       this,
 	})
 }
 
@@ -392,10 +385,10 @@ func (this *TypeProperty) PrependAnyURI(v *url.URL) {
 // PrependIRI prepends an IRI value to the front of a list of the property "type".
 func (this *TypeProperty) PrependIRI(v *url.URL) {
 	this.properties = append([]*TypePropertyIterator{{
-		alias:  this.alias,
-		iri:    v,
-		myIdx:  0,
-		parent: this,
+		alias:        this.alias,
+		anyURIMember: v,
+		myIdx:        0,
+		parent:       this,
 	}}, this.properties...)
 	for i := 1; i < this.Len(); i++ {
 		(this.properties)[i].myIdx = i
@@ -428,6 +421,10 @@ func (this TypeProperty) Serialize() (interface{}, error) {
 			s = append(s, b)
 		}
 	}
+	// Shortcut: if serializing one value, don't return an array -- pretty sure other Fediverse software would choke on a "type" value with array, for example.
+	if len(s) == 1 {
+		return s[0], nil
+	}
 	return s, nil
 }
 
@@ -448,10 +445,10 @@ func (this *TypeProperty) Set(idx int, v *url.URL) {
 func (this *TypeProperty) SetIRI(idx int, v *url.URL) {
 	(this.properties)[idx].parent = nil
 	(this.properties)[idx] = &TypePropertyIterator{
-		alias:  this.alias,
-		iri:    v,
-		myIdx:  idx,
-		parent: this,
+		alias:        this.alias,
+		anyURIMember: v,
+		myIdx:        idx,
+		parent:       this,
 	}
 }
 

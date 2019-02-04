@@ -23,21 +23,49 @@ import "net/url"
 //     "type": "Note"
 //   }
 type RepliesPropertyInterface interface {
-	// Clear ensures no value of this property is set. Calling IsCollection
-	// afterwards will return false.
+	// Clear ensures no value of this property is set. Calling HasAny or any
+	// of the 'Is' methods afterwards will return false.
 	Clear()
-	// Get returns the value of this property. When IsCollection returns
-	// false, Get will return any arbitrary value.
-	Get() CollectionInterface
+	// GetCollection returns the value of this property. When IsCollection
+	// returns false, GetCollection will return an arbitrary value.
+	GetCollection() CollectionInterface
+	// GetCollectionPage returns the value of this property. When
+	// IsCollectionPage returns false, GetCollectionPage will return an
+	// arbitrary value.
+	GetCollectionPage() CollectionPageInterface
 	// GetIRI returns the IRI of this property. When IsIRI returns false,
-	// GetIRI will return any arbitrary value.
+	// GetIRI will return an arbitrary value.
 	GetIRI() *url.URL
-	// HasAny returns true if the value or IRI is set.
+	// GetOrderedCollection returns the value of this property. When
+	// IsOrderedCollection returns false, GetOrderedCollection will return
+	// an arbitrary value.
+	GetOrderedCollection() OrderedCollectionInterface
+	// GetOrderedCollectionPage returns the value of this property. When
+	// IsOrderedCollectionPage returns false, GetOrderedCollectionPage
+	// will return an arbitrary value.
+	GetOrderedCollectionPage() OrderedCollectionPageInterface
+	// HasAny returns true if any of the different values is set.
 	HasAny() bool
-	// IsCollection returns true if this property is set and not an IRI.
+	// IsCollection returns true if this property has a type of "Collection".
+	// When true, use the GetCollection and SetCollection methods to
+	// access and set this property.
 	IsCollection() bool
-	// IsIRI returns true if this property is an IRI.
+	// IsCollectionPage returns true if this property has a type of
+	// "CollectionPage". When true, use the GetCollectionPage and
+	// SetCollectionPage methods to access and set this property.
+	IsCollectionPage() bool
+	// IsIRI returns true if this property is an IRI. When true, use GetIRI
+	// and SetIRI to access and set this property
 	IsIRI() bool
+	// IsOrderedCollection returns true if this property has a type of
+	// "OrderedCollection". When true, use the GetOrderedCollection and
+	// SetOrderedCollection methods to access and set this property.
+	IsOrderedCollection() bool
+	// IsOrderedCollectionPage returns true if this property has a type of
+	// "OrderedCollectionPage". When true, use the
+	// GetOrderedCollectionPage and SetOrderedCollectionPage methods to
+	// access and set this property.
+	IsOrderedCollectionPage() bool
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or
@@ -60,10 +88,19 @@ type RepliesPropertyInterface interface {
 	// instead of individual properties. It is exposed for alternatives to
 	// go-fed implementations to use.
 	Serialize() (interface{}, error)
-	// Set sets the value of this property. Calling IsCollection afterwards
-	// will return true.
-	Set(v CollectionInterface)
-	// SetIRI sets the value of this property. Calling IsIRI afterwards will
-	// return true.
+	// SetCollection sets the value of this property. Calling IsCollection
+	// afterwards returns true.
+	SetCollection(v CollectionInterface)
+	// SetCollectionPage sets the value of this property. Calling
+	// IsCollectionPage afterwards returns true.
+	SetCollectionPage(v CollectionPageInterface)
+	// SetIRI sets the value of this property. Calling IsIRI afterwards
+	// returns true.
 	SetIRI(v *url.URL)
+	// SetOrderedCollection sets the value of this property. Calling
+	// IsOrderedCollection afterwards returns true.
+	SetOrderedCollection(v OrderedCollectionInterface)
+	// SetOrderedCollectionPage sets the value of this property. Calling
+	// IsOrderedCollectionPage afterwards returns true.
+	SetOrderedCollectionPage(v OrderedCollectionPageInterface)
 }

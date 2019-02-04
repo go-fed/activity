@@ -40,7 +40,8 @@ func deserializeNamePropertyIterator(i interface{}, aliasMap map[string]string) 
 	if s, ok := i.(string); ok {
 		u, err := url.Parse(s)
 		// If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst
-		if err == nil {
+		// Also, if no scheme exists, don't treat it as a URL -- net/url is greedy
+		if err == nil && len(u.Scheme) > 0 {
 			this := &NamePropertyIterator{
 				alias: alias,
 				iri:   u,
@@ -48,23 +49,23 @@ func deserializeNamePropertyIterator(i interface{}, aliasMap map[string]string) 
 			return this, nil
 		}
 	}
-	if v, err := string1.DeserializeString(i); err != nil {
+	if v, err := string1.DeserializeString(i); err == nil {
 		this := &NamePropertyIterator{
 			alias:           alias,
 			hasStringMember: true,
 			stringMember:    v,
 		}
 		return this, nil
-	} else if v, err := langstring.DeserializeLangString(i); err != nil {
+	} else if v, err := langstring.DeserializeLangString(i); err == nil {
 		this := &NamePropertyIterator{
 			alias:            alias,
 			langStringMember: v,
 		}
 		return this, nil
-	} else if v, ok := i.([]byte); ok {
+	} else if str, ok := i.(string); ok {
 		this := &NamePropertyIterator{
 			alias:   alias,
-			unknown: v,
+			unknown: []byte(str),
 		}
 		return this, nil
 	}
@@ -290,7 +291,7 @@ func (this NamePropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
 // NameProperty is the non-functional property "name". It is permitted to have one
@@ -307,7 +308,6 @@ func DeserializeNameProperty(m map[string]interface{}, aliasMap map[string]strin
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
 	}
-	var this *NameProperty
 	propName := "name"
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "name")
@@ -337,8 +337,9 @@ func DeserializeNameProperty(m map[string]interface{}, aliasMap map[string]strin
 			ele.parent = this
 			ele.myIdx = idx
 		}
+		return this, nil
 	}
-	return this, nil
+	return nil, nil
 }
 
 // NewNameProperty creates a new name property.
@@ -558,6 +559,10 @@ func (this NameProperty) Serialize() (interface{}, error) {
 		} else {
 			s = append(s, b)
 		}
+	}
+	// Shortcut: if serializing one value, don't return an array -- pretty sure other Fediverse software would choke on a "type" value with array, for example.
+	if len(s) == 1 {
+		return s[0], nil
 	}
 	return s, nil
 }

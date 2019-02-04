@@ -34,7 +34,8 @@ func deserializeRelPropertyIterator(i interface{}, aliasMap map[string]string) (
 	if s, ok := i.(string); ok {
 		u, err := url.Parse(s)
 		// If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst
-		if err == nil {
+		// Also, if no scheme exists, don't treat it as a URL -- net/url is greedy
+		if err == nil && len(u.Scheme) > 0 {
 			this := &RelPropertyIterator{
 				alias: alias,
 				iri:   u,
@@ -42,17 +43,17 @@ func deserializeRelPropertyIterator(i interface{}, aliasMap map[string]string) (
 			return this, nil
 		}
 	}
-	if v, err := rfc5988.DeserializeRfc5988(i); err != nil {
+	if v, err := rfc5988.DeserializeRfc5988(i); err == nil {
 		this := &RelPropertyIterator{
 			alias:            alias,
 			hasRfc5988Member: true,
 			rfc5988Member:    v,
 		}
 		return this, nil
-	} else if v, ok := i.([]byte); ok {
+	} else if str, ok := i.(string); ok {
 		this := &RelPropertyIterator{
 			alias:   alias,
-			unknown: v,
+			unknown: []byte(str),
 		}
 		return this, nil
 	}
@@ -204,7 +205,7 @@ func (this RelPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
 // RelProperty is the non-functional property "rel". It is permitted to have one
@@ -221,7 +222,6 @@ func DeserializeRelProperty(m map[string]interface{}, aliasMap map[string]string
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
 	}
-	var this *RelProperty
 	propName := "rel"
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "rel")
@@ -251,8 +251,9 @@ func DeserializeRelProperty(m map[string]interface{}, aliasMap map[string]string
 			ele.parent = this
 			ele.myIdx = idx
 		}
+		return this, nil
 	}
-	return this, nil
+	return nil, nil
 }
 
 // NewRelProperty creates a new rel property.
@@ -443,6 +444,10 @@ func (this RelProperty) Serialize() (interface{}, error) {
 		} else {
 			s = append(s, b)
 		}
+	}
+	// Shortcut: if serializing one value, don't return an array -- pretty sure other Fediverse software would choke on a "type" value with array, for example.
+	if len(s) == 1 {
+		return s[0], nil
 	}
 	return s, nil
 }

@@ -13,13 +13,13 @@ import (
 // of the 'Is' methods will return true. It is possible to clear all values,
 // so that this property is empty.
 type UrlPropertyIterator struct {
-	anyURIMember *url.URL
-	LinkMember   vocab.LinkInterface
-	unknown      []byte
-	iri          *url.URL
-	alias        string
-	myIdx        int
-	parent       vocab.UrlPropertyInterface
+	anyURIMember  *url.URL
+	LinkMember    vocab.LinkInterface
+	MentionMember vocab.MentionInterface
+	unknown       []byte
+	alias         string
+	myIdx         int
+	parent        vocab.UrlPropertyInterface
 }
 
 // NewUrlPropertyIterator creates a new url property.
@@ -35,23 +35,29 @@ func deserializeUrlPropertyIterator(i interface{}, aliasMap map[string]string) (
 		alias = a
 	}
 	if m, ok := i.(map[string]interface{}); ok {
-		if v, err := mgr.DeserializeLinkActivityStreams()(m, aliasMap); err != nil {
+		if v, err := mgr.DeserializeLinkActivityStreams()(m, aliasMap); err == nil {
 			this := &UrlPropertyIterator{
 				LinkMember: v,
 				alias:      alias,
 			}
 			return this, nil
+		} else if v, err := mgr.DeserializeMentionActivityStreams()(m, aliasMap); err == nil {
+			this := &UrlPropertyIterator{
+				MentionMember: v,
+				alias:         alias,
+			}
+			return this, nil
 		}
-	} else if v, err := anyuri.DeserializeAnyURI(i); err != nil {
+	} else if v, err := anyuri.DeserializeAnyURI(i); err == nil {
 		this := &UrlPropertyIterator{
 			alias:        alias,
 			anyURIMember: v,
 		}
 		return this, nil
-	} else if v, ok := i.([]byte); ok {
+	} else if str, ok := i.(string); ok {
 		this := &UrlPropertyIterator{
 			alias:   alias,
-			unknown: v,
+			unknown: []byte(str),
 		}
 		return this, nil
 	}
@@ -67,7 +73,7 @@ func (this UrlPropertyIterator) GetAnyURI() *url.URL {
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
 // return an arbitrary value.
 func (this UrlPropertyIterator) GetIRI() *url.URL {
-	return this.iri
+	return this.anyURIMember
 }
 
 // GetLink returns the value of this property. When IsLink returns false, GetLink
@@ -76,11 +82,17 @@ func (this UrlPropertyIterator) GetLink() vocab.LinkInterface {
 	return this.LinkMember
 }
 
+// GetMention returns the value of this property. When IsMention returns false,
+// GetMention will return an arbitrary value.
+func (this UrlPropertyIterator) GetMention() vocab.MentionInterface {
+	return this.MentionMember
+}
+
 // HasAny returns true if any of the different values is set.
 func (this UrlPropertyIterator) HasAny() bool {
 	return this.IsAnyURI() ||
 		this.IsLink() ||
-		this.iri != nil
+		this.IsMention()
 }
 
 // IsAnyURI returns true if this property has a type of "anyURI". When true, use
@@ -92,13 +104,19 @@ func (this UrlPropertyIterator) IsAnyURI() bool {
 // IsIRI returns true if this property is an IRI. When true, use GetIRI and SetIRI
 // to access and set this property
 func (this UrlPropertyIterator) IsIRI() bool {
-	return this.iri != nil
+	return this.anyURIMember != nil
 }
 
 // IsLink returns true if this property has a type of "Link". When true, use the
 // GetLink and SetLink methods to access and set this property.
 func (this UrlPropertyIterator) IsLink() bool {
 	return this.LinkMember != nil
+}
+
+// IsMention returns true if this property has a type of "Mention". When true, use
+// the GetMention and SetMention methods to access and set this property.
+func (this UrlPropertyIterator) IsMention() bool {
+	return this.MentionMember != nil
 }
 
 // JSONLDContext returns the JSONLD URIs required in the context string for this
@@ -109,6 +127,8 @@ func (this UrlPropertyIterator) JSONLDContext() map[string]string {
 	var child map[string]string
 	if this.IsLink() {
 		child = this.GetLink().JSONLDContext()
+	} else if this.IsMention() {
+		child = this.GetMention().JSONLDContext()
 	}
 	/*
 	   Since the literal maps in this function are determined at
@@ -131,6 +151,9 @@ func (this UrlPropertyIterator) KindIndex() int {
 	if this.IsLink() {
 		return 1
 	}
+	if this.IsMention() {
+		return 2
+	}
 	if this.IsIRI() {
 		return -2
 	}
@@ -152,8 +175,8 @@ func (this UrlPropertyIterator) LessThan(o vocab.UrlPropertyIteratorInterface) b
 		return anyuri.LessAnyURI(this.GetAnyURI(), o.GetAnyURI())
 	} else if this.IsLink() {
 		return this.GetLink().LessThan(o.GetLink())
-	} else if this.IsIRI() {
-		return this.iri.String() < o.GetIRI().String()
+	} else if this.IsMention() {
+		return this.GetMention().LessThan(o.GetMention())
 	}
 	return false
 }
@@ -191,7 +214,7 @@ func (this *UrlPropertyIterator) SetAnyURI(v *url.URL) {
 // SetIRI sets the value of this property. Calling IsIRI afterwards returns true.
 func (this *UrlPropertyIterator) SetIRI(v *url.URL) {
 	this.clear()
-	this.iri = v
+	this.SetAnyURI(v)
 }
 
 // SetLink sets the value of this property. Calling IsLink afterwards returns true.
@@ -200,13 +223,20 @@ func (this *UrlPropertyIterator) SetLink(v vocab.LinkInterface) {
 	this.LinkMember = v
 }
 
+// SetMention sets the value of this property. Calling IsMention afterwards
+// returns true.
+func (this *UrlPropertyIterator) SetMention(v vocab.MentionInterface) {
+	this.clear()
+	this.MentionMember = v
+}
+
 // clear ensures no value of this property is set. Calling HasAny or any of the
 // 'Is' methods afterwards will return false.
 func (this *UrlPropertyIterator) clear() {
 	this.anyURIMember = nil
 	this.LinkMember = nil
+	this.MentionMember = nil
 	this.unknown = nil
-	this.iri = nil
 }
 
 // serialize converts this into an interface representation suitable for
@@ -218,10 +248,10 @@ func (this UrlPropertyIterator) serialize() (interface{}, error) {
 		return anyuri.SerializeAnyURI(this.GetAnyURI())
 	} else if this.IsLink() {
 		return this.GetLink().Serialize()
-	} else if this.IsIRI() {
-		return this.iri.String(), nil
+	} else if this.IsMention() {
+		return this.GetMention().Serialize()
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
 // UrlProperty is the non-functional property "url". It is permitted to have one
@@ -238,7 +268,6 @@ func DeserializeUrlProperty(m map[string]interface{}, aliasMap map[string]string
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
 	}
-	var this *UrlProperty
 	propName := "url"
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "url")
@@ -268,8 +297,9 @@ func DeserializeUrlProperty(m map[string]interface{}, aliasMap map[string]string
 			ele.parent = this
 			ele.myIdx = idx
 		}
+		return this, nil
 	}
-	return this, nil
+	return nil, nil
 }
 
 // NewUrlProperty creates a new url property.
@@ -291,10 +321,10 @@ func (this *UrlProperty) AppendAnyURI(v *url.URL) {
 // AppendIRI appends an IRI value to the back of a list of the property "url"
 func (this *UrlProperty) AppendIRI(v *url.URL) {
 	this.properties = append(this.properties, &UrlPropertyIterator{
-		alias:  this.alias,
-		iri:    v,
-		myIdx:  this.Len(),
-		parent: this,
+		alias:        this.alias,
+		anyURIMember: v,
+		myIdx:        this.Len(),
+		parent:       this,
 	})
 }
 
@@ -306,6 +336,17 @@ func (this *UrlProperty) AppendLink(v vocab.LinkInterface) {
 		alias:      this.alias,
 		myIdx:      this.Len(),
 		parent:     this,
+	})
+}
+
+// AppendMention appends a Mention value to the back of a list of the property
+// "url". Invalidates iterators that are traversing using Prev.
+func (this *UrlProperty) AppendMention(v vocab.MentionInterface) {
+	this.properties = append(this.properties, &UrlPropertyIterator{
+		MentionMember: v,
+		alias:         this.alias,
+		myIdx:         this.Len(),
+		parent:        this,
 	})
 }
 
@@ -386,6 +427,10 @@ func (this UrlProperty) Less(i, j int) bool {
 			lhs := this.properties[i].GetLink()
 			rhs := this.properties[j].GetLink()
 			return lhs.LessThan(rhs)
+		} else if idx1 == 2 {
+			lhs := this.properties[i].GetMention()
+			rhs := this.properties[j].GetMention()
+			return lhs.LessThan(rhs)
 		} else if idx1 == -2 {
 			lhs := this.properties[i].GetIRI()
 			rhs := this.properties[j].GetIRI()
@@ -438,10 +483,10 @@ func (this *UrlProperty) PrependAnyURI(v *url.URL) {
 // PrependIRI prepends an IRI value to the front of a list of the property "url".
 func (this *UrlProperty) PrependIRI(v *url.URL) {
 	this.properties = append([]*UrlPropertyIterator{{
-		alias:  this.alias,
-		iri:    v,
-		myIdx:  0,
-		parent: this,
+		alias:        this.alias,
+		anyURIMember: v,
+		myIdx:        0,
+		parent:       this,
 	}}, this.properties...)
 	for i := 1; i < this.Len(); i++ {
 		(this.properties)[i].myIdx = i
@@ -456,6 +501,20 @@ func (this *UrlProperty) PrependLink(v vocab.LinkInterface) {
 		alias:      this.alias,
 		myIdx:      0,
 		parent:     this,
+	}}, this.properties...)
+	for i := 1; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// PrependMention prepends a Mention value to the front of a list of the property
+// "url". Invalidates all iterators.
+func (this *UrlProperty) PrependMention(v vocab.MentionInterface) {
+	this.properties = append([]*UrlPropertyIterator{{
+		MentionMember: v,
+		alias:         this.alias,
+		myIdx:         0,
+		parent:        this,
 	}}, this.properties...)
 	for i := 1; i < this.Len(); i++ {
 		(this.properties)[i].myIdx = i
@@ -488,6 +547,10 @@ func (this UrlProperty) Serialize() (interface{}, error) {
 			s = append(s, b)
 		}
 	}
+	// Shortcut: if serializing one value, don't return an array -- pretty sure other Fediverse software would choke on a "type" value with array, for example.
+	if len(s) == 1 {
+		return s[0], nil
+	}
 	return s, nil
 }
 
@@ -508,10 +571,10 @@ func (this *UrlProperty) SetAnyURI(idx int, v *url.URL) {
 func (this *UrlProperty) SetIRI(idx int, v *url.URL) {
 	(this.properties)[idx].parent = nil
 	(this.properties)[idx] = &UrlPropertyIterator{
-		alias:  this.alias,
-		iri:    v,
-		myIdx:  idx,
-		parent: this,
+		alias:        this.alias,
+		anyURIMember: v,
+		myIdx:        idx,
+		parent:       this,
 	}
 }
 
@@ -524,6 +587,18 @@ func (this *UrlProperty) SetLink(idx int, v vocab.LinkInterface) {
 		alias:      this.alias,
 		myIdx:      idx,
 		parent:     this,
+	}
+}
+
+// SetMention sets a Mention value to be at the specified index for the property
+// "url". Panics if the index is out of bounds. Invalidates all iterators.
+func (this *UrlProperty) SetMention(idx int, v vocab.MentionInterface) {
+	(this.properties)[idx].parent = nil
+	(this.properties)[idx] = &UrlPropertyIterator{
+		MentionMember: v,
+		alias:         this.alias,
+		myIdx:         idx,
+		parent:        this,
 	}
 }
 

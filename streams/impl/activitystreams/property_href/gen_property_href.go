@@ -12,7 +12,6 @@ import (
 type HrefProperty struct {
 	anyURIMember *url.URL
 	unknown      []byte
-	iri          *url.URL
 	alias        string
 }
 
@@ -29,16 +28,16 @@ func DeserializeHrefProperty(m map[string]interface{}, aliasMap map[string]strin
 		propName = fmt.Sprintf("%s:%s", alias, "href")
 	}
 	if i, ok := m[propName]; ok {
-		if v, err := anyuri.DeserializeAnyURI(i); err != nil {
+		if v, err := anyuri.DeserializeAnyURI(i); err == nil {
 			this := &HrefProperty{
 				alias:        alias,
 				anyURIMember: v,
 			}
 			return this, nil
-		} else if v, ok := i.([]byte); ok {
+		} else if str, ok := i.(string); ok {
 			this := &HrefProperty{
 				alias:   alias,
-				unknown: v,
+				unknown: []byte(str),
 			}
 			return this, nil
 		} else {
@@ -57,7 +56,6 @@ func NewHrefProperty() *HrefProperty {
 // will return false.
 func (this *HrefProperty) Clear() {
 	this.unknown = nil
-	this.iri = nil
 	this.anyURIMember = nil
 }
 
@@ -70,12 +68,12 @@ func (this HrefProperty) Get() *url.URL {
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
 // return any arbitrary value.
 func (this HrefProperty) GetIRI() *url.URL {
-	return this.iri
+	return this.anyURIMember
 }
 
 // HasAny returns true if the value or IRI is set.
 func (this HrefProperty) HasAny() bool {
-	return this.IsAnyURI() || this.iri != nil
+	return this.IsAnyURI()
 }
 
 // IsAnyURI returns true if this property is set and not an IRI.
@@ -85,7 +83,7 @@ func (this HrefProperty) IsAnyURI() bool {
 
 // IsIRI returns true if this property is an IRI.
 func (this HrefProperty) IsIRI() bool {
-	return this.iri != nil
+	return this.anyURIMember != nil
 }
 
 // JSONLDContext returns the JSONLD URIs required in the context string for this
@@ -124,10 +122,7 @@ func (this HrefProperty) KindIndex() int {
 // help alternative implementations to go-fed to be able to normalize
 // nonfunctional properties.
 func (this HrefProperty) LessThan(o vocab.HrefPropertyInterface) bool {
-	// LessThan comparison for if either or both are IRIs.
-	if this.IsIRI() && o.IsIRI() {
-		return this.iri.String() < o.GetIRI().String()
-	} else if this.IsIRI() {
+	if this.IsIRI() {
 		// IRIs are always less than other values, none, or unknowns
 		return true
 	} else if o.IsIRI() {
@@ -162,10 +157,8 @@ func (this HrefProperty) Name() string {
 func (this HrefProperty) Serialize() (interface{}, error) {
 	if this.IsAnyURI() {
 		return anyuri.SerializeAnyURI(this.Get())
-	} else if this.IsIRI() {
-		return this.iri.String(), nil
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
 // Set sets the value of this property. Calling IsAnyURI afterwards will return
@@ -179,5 +172,5 @@ func (this *HrefProperty) Set(v *url.URL) {
 // true.
 func (this *HrefProperty) SetIRI(v *url.URL) {
 	this.Clear()
-	this.iri = v
+	this.Set(v)
 }

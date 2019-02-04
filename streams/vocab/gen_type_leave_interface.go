@@ -139,7 +139,7 @@ type LeaveInterface interface {
 	LessThan(o LeaveInterface) bool
 	// Serialize converts this into an interface representation suitable for
 	// marshalling into a text or binary format.
-	Serialize() (interface{}, error)
+	Serialize() (map[string]interface{}, error)
 	// SetActor returns the "actor" property if it exists, and nil otherwise.
 	SetActor(i ActorPropertyInterface)
 	// SetAltitude returns the "altitude" property if it exists, and nil

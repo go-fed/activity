@@ -33,7 +33,8 @@ func DeserializeMediaTypeProperty(m map[string]interface{}, aliasMap map[string]
 		if s, ok := i.(string); ok {
 			u, err := url.Parse(s)
 			// If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst
-			if err == nil {
+			// Also, if no scheme exists, don't treat it as a URL -- net/url is greedy
+			if err == nil && len(u.Scheme) > 0 {
 				this := &MediaTypeProperty{
 					alias: alias,
 					iri:   u,
@@ -41,17 +42,17 @@ func DeserializeMediaTypeProperty(m map[string]interface{}, aliasMap map[string]
 				return this, nil
 			}
 		}
-		if v, err := rfc2045.DeserializeRfc2045(i); err != nil {
+		if v, err := rfc2045.DeserializeRfc2045(i); err == nil {
 			this := &MediaTypeProperty{
 				alias:            alias,
 				hasRfc2045Member: true,
 				rfc2045Member:    v,
 			}
 			return this, nil
-		} else if v, ok := i.([]byte); ok {
+		} else if str, ok := i.(string); ok {
 			this := &MediaTypeProperty{
 				alias:   alias,
-				unknown: v,
+				unknown: []byte(str),
 			}
 			return this, nil
 		} else {
@@ -178,7 +179,7 @@ func (this MediaTypeProperty) Serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
 // Set sets the value of this property. Calling IsRfc2045 afterwards will return

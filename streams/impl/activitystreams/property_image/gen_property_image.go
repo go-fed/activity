@@ -12,13 +12,14 @@ import (
 // one of the 'Is' methods will return true. It is possible to clear all
 // values, so that this property is empty.
 type ImagePropertyIterator struct {
-	ImageMember vocab.ImageInterface
-	LinkMember  vocab.LinkInterface
-	unknown     []byte
-	iri         *url.URL
-	alias       string
-	myIdx       int
-	parent      vocab.ImagePropertyInterface
+	ImageMember   vocab.ImageInterface
+	LinkMember    vocab.LinkInterface
+	MentionMember vocab.MentionInterface
+	unknown       []byte
+	iri           *url.URL
+	alias         string
+	myIdx         int
+	parent        vocab.ImagePropertyInterface
 }
 
 // NewImagePropertyIterator creates a new image property.
@@ -36,7 +37,8 @@ func deserializeImagePropertyIterator(i interface{}, aliasMap map[string]string)
 	if s, ok := i.(string); ok {
 		u, err := url.Parse(s)
 		// If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst
-		if err == nil {
+		// Also, if no scheme exists, don't treat it as a URL -- net/url is greedy
+		if err == nil && len(u.Scheme) > 0 {
 			this := &ImagePropertyIterator{
 				alias: alias,
 				iri:   u,
@@ -45,23 +47,29 @@ func deserializeImagePropertyIterator(i interface{}, aliasMap map[string]string)
 		}
 	}
 	if m, ok := i.(map[string]interface{}); ok {
-		if v, err := mgr.DeserializeImageActivityStreams()(m, aliasMap); err != nil {
+		if v, err := mgr.DeserializeImageActivityStreams()(m, aliasMap); err == nil {
 			this := &ImagePropertyIterator{
 				ImageMember: v,
 				alias:       alias,
 			}
 			return this, nil
-		} else if v, err := mgr.DeserializeLinkActivityStreams()(m, aliasMap); err != nil {
+		} else if v, err := mgr.DeserializeLinkActivityStreams()(m, aliasMap); err == nil {
 			this := &ImagePropertyIterator{
 				LinkMember: v,
 				alias:      alias,
 			}
 			return this, nil
+		} else if v, err := mgr.DeserializeMentionActivityStreams()(m, aliasMap); err == nil {
+			this := &ImagePropertyIterator{
+				MentionMember: v,
+				alias:         alias,
+			}
+			return this, nil
 		}
-	} else if v, ok := i.([]byte); ok {
+	} else if str, ok := i.(string); ok {
 		this := &ImagePropertyIterator{
 			alias:   alias,
-			unknown: v,
+			unknown: []byte(str),
 		}
 		return this, nil
 	}
@@ -86,10 +94,17 @@ func (this ImagePropertyIterator) GetLink() vocab.LinkInterface {
 	return this.LinkMember
 }
 
+// GetMention returns the value of this property. When IsMention returns false,
+// GetMention will return an arbitrary value.
+func (this ImagePropertyIterator) GetMention() vocab.MentionInterface {
+	return this.MentionMember
+}
+
 // HasAny returns true if any of the different values is set.
 func (this ImagePropertyIterator) HasAny() bool {
 	return this.IsImage() ||
 		this.IsLink() ||
+		this.IsMention() ||
 		this.iri != nil
 }
 
@@ -111,6 +126,12 @@ func (this ImagePropertyIterator) IsLink() bool {
 	return this.LinkMember != nil
 }
 
+// IsMention returns true if this property has a type of "Mention". When true, use
+// the GetMention and SetMention methods to access and set this property.
+func (this ImagePropertyIterator) IsMention() bool {
+	return this.MentionMember != nil
+}
+
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
@@ -121,6 +142,8 @@ func (this ImagePropertyIterator) JSONLDContext() map[string]string {
 		child = this.GetImage().JSONLDContext()
 	} else if this.IsLink() {
 		child = this.GetLink().JSONLDContext()
+	} else if this.IsMention() {
+		child = this.GetMention().JSONLDContext()
 	}
 	/*
 	   Since the literal maps in this function are determined at
@@ -143,6 +166,9 @@ func (this ImagePropertyIterator) KindIndex() int {
 	if this.IsLink() {
 		return 1
 	}
+	if this.IsMention() {
+		return 2
+	}
 	if this.IsIRI() {
 		return -2
 	}
@@ -164,6 +190,8 @@ func (this ImagePropertyIterator) LessThan(o vocab.ImagePropertyIteratorInterfac
 		return this.GetImage().LessThan(o.GetImage())
 	} else if this.IsLink() {
 		return this.GetLink().LessThan(o.GetLink())
+	} else if this.IsMention() {
+		return this.GetMention().LessThan(o.GetMention())
 	} else if this.IsIRI() {
 		return this.iri.String() < o.GetIRI().String()
 	}
@@ -212,11 +240,19 @@ func (this *ImagePropertyIterator) SetLink(v vocab.LinkInterface) {
 	this.LinkMember = v
 }
 
+// SetMention sets the value of this property. Calling IsMention afterwards
+// returns true.
+func (this *ImagePropertyIterator) SetMention(v vocab.MentionInterface) {
+	this.clear()
+	this.MentionMember = v
+}
+
 // clear ensures no value of this property is set. Calling HasAny or any of the
 // 'Is' methods afterwards will return false.
 func (this *ImagePropertyIterator) clear() {
 	this.ImageMember = nil
 	this.LinkMember = nil
+	this.MentionMember = nil
 	this.unknown = nil
 	this.iri = nil
 }
@@ -230,10 +266,12 @@ func (this ImagePropertyIterator) serialize() (interface{}, error) {
 		return this.GetImage().Serialize()
 	} else if this.IsLink() {
 		return this.GetLink().Serialize()
+	} else if this.IsMention() {
+		return this.GetMention().Serialize()
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
 // ImageProperty is the non-functional property "image". It is permitted to have
@@ -250,7 +288,6 @@ func DeserializeImageProperty(m map[string]interface{}, aliasMap map[string]stri
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
 	}
-	var this *ImageProperty
 	propName := "image"
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "image")
@@ -280,8 +317,9 @@ func DeserializeImageProperty(m map[string]interface{}, aliasMap map[string]stri
 			ele.parent = this
 			ele.myIdx = idx
 		}
+		return this, nil
 	}
-	return this, nil
+	return nil, nil
 }
 
 // NewImageProperty creates a new image property.
@@ -318,6 +356,17 @@ func (this *ImageProperty) AppendLink(v vocab.LinkInterface) {
 		alias:      this.alias,
 		myIdx:      this.Len(),
 		parent:     this,
+	})
+}
+
+// AppendMention appends a Mention value to the back of a list of the property
+// "image". Invalidates iterators that are traversing using Prev.
+func (this *ImageProperty) AppendMention(v vocab.MentionInterface) {
+	this.properties = append(this.properties, &ImagePropertyIterator{
+		MentionMember: v,
+		alias:         this.alias,
+		myIdx:         this.Len(),
+		parent:        this,
 	})
 }
 
@@ -398,6 +447,10 @@ func (this ImageProperty) Less(i, j int) bool {
 			lhs := this.properties[i].GetLink()
 			rhs := this.properties[j].GetLink()
 			return lhs.LessThan(rhs)
+		} else if idx1 == 2 {
+			lhs := this.properties[i].GetMention()
+			rhs := this.properties[j].GetMention()
+			return lhs.LessThan(rhs)
 		} else if idx1 == -2 {
 			lhs := this.properties[i].GetIRI()
 			rhs := this.properties[j].GetIRI()
@@ -474,6 +527,20 @@ func (this *ImageProperty) PrependLink(v vocab.LinkInterface) {
 	}
 }
 
+// PrependMention prepends a Mention value to the front of a list of the property
+// "image". Invalidates all iterators.
+func (this *ImageProperty) PrependMention(v vocab.MentionInterface) {
+	this.properties = append([]*ImagePropertyIterator{{
+		MentionMember: v,
+		alias:         this.alias,
+		myIdx:         0,
+		parent:        this,
+	}}, this.properties...)
+	for i := 1; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
 // Remove deletes an element at the specified index from a list of the property
 // "image", regardless of its type. Panics if the index is out of bounds.
 // Invalidates all iterators.
@@ -499,6 +566,10 @@ func (this ImageProperty) Serialize() (interface{}, error) {
 		} else {
 			s = append(s, b)
 		}
+	}
+	// Shortcut: if serializing one value, don't return an array -- pretty sure other Fediverse software would choke on a "type" value with array, for example.
+	if len(s) == 1 {
+		return s[0], nil
 	}
 	return s, nil
 }
@@ -536,6 +607,18 @@ func (this *ImageProperty) SetLink(idx int, v vocab.LinkInterface) {
 		alias:      this.alias,
 		myIdx:      idx,
 		parent:     this,
+	}
+}
+
+// SetMention sets a Mention value to be at the specified index for the property
+// "image". Panics if the index is out of bounds. Invalidates all iterators.
+func (this *ImageProperty) SetMention(idx int, v vocab.MentionInterface) {
+	(this.properties)[idx].parent = nil
+	(this.properties)[idx] = &ImagePropertyIterator{
+		MentionMember: v,
+		alias:         this.alias,
+		myIdx:         idx,
+		parent:        this,
 	}
 }
 

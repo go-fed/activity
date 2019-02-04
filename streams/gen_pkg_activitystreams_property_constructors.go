@@ -66,49 +66,75 @@ import (
 	vocab "github.com/go-fed/activity/streams/vocab"
 )
 
-// NewActivityStreamsHreflangProperty creates a new HreflangPropertyInterface
-func NewActivityStreamsHreflangProperty() vocab.HreflangPropertyInterface {
-	return propertyhreflang.NewHreflangProperty()
+// NewActivityStreamsAccuracyProperty creates a new AccuracyPropertyInterface
+func NewActivityStreamsAccuracyProperty() vocab.AccuracyPropertyInterface {
+	return propertyaccuracy.NewAccuracyProperty()
 }
 
-// NewActivityStreamsIdProperty creates a new IdPropertyInterface
-func NewActivityStreamsIdProperty() vocab.IdPropertyInterface {
-	return propertyid.NewIdProperty()
+// NewActivityStreamsActorProperty creates a new ActorPropertyInterface
+func NewActivityStreamsActorProperty() vocab.ActorPropertyInterface {
+	return propertyactor.NewActorProperty()
 }
 
-// NewActivityStreamsEndTimeProperty creates a new EndTimePropertyInterface
-func NewActivityStreamsEndTimeProperty() vocab.EndTimePropertyInterface {
-	return propertyendtime.NewEndTimeProperty()
+// NewActivityStreamsAltitudeProperty creates a new AltitudePropertyInterface
+func NewActivityStreamsAltitudeProperty() vocab.AltitudePropertyInterface {
+	return propertyaltitude.NewAltitudeProperty()
 }
 
-// NewActivityStreamsHrefProperty creates a new HrefPropertyInterface
-func NewActivityStreamsHrefProperty() vocab.HrefPropertyInterface {
-	return propertyhref.NewHrefProperty()
+// NewActivityStreamsAnyOfProperty creates a new AnyOfPropertyInterface
+func NewActivityStreamsAnyOfProperty() vocab.AnyOfPropertyInterface {
+	return propertyanyof.NewAnyOfProperty()
 }
 
-// NewActivityStreamsUpdatedProperty creates a new UpdatedPropertyInterface
-func NewActivityStreamsUpdatedProperty() vocab.UpdatedPropertyInterface {
-	return propertyupdated.NewUpdatedProperty()
+// NewActivityStreamsAttachmentProperty creates a new AttachmentPropertyInterface
+func NewActivityStreamsAttachmentProperty() vocab.AttachmentPropertyInterface {
+	return propertyattachment.NewAttachmentProperty()
 }
 
-// NewActivityStreamsNextProperty creates a new NextPropertyInterface
-func NewActivityStreamsNextProperty() vocab.NextPropertyInterface {
-	return propertynext.NewNextProperty()
+// NewActivityStreamsAttributedToProperty creates a new
+// AttributedToPropertyInterface
+func NewActivityStreamsAttributedToProperty() vocab.AttributedToPropertyInterface {
+	return propertyattributedto.NewAttributedToProperty()
 }
 
-// NewActivityStreamsSubjectProperty creates a new SubjectPropertyInterface
-func NewActivityStreamsSubjectProperty() vocab.SubjectPropertyInterface {
-	return propertysubject.NewSubjectProperty()
+// NewActivityStreamsAudienceProperty creates a new AudiencePropertyInterface
+func NewActivityStreamsAudienceProperty() vocab.AudiencePropertyInterface {
+	return propertyaudience.NewAudienceProperty()
 }
 
-// NewActivityStreamsDurationProperty creates a new DurationPropertyInterface
-func NewActivityStreamsDurationProperty() vocab.DurationPropertyInterface {
-	return propertyduration.NewDurationProperty()
+// NewActivityStreamsBccProperty creates a new BccPropertyInterface
+func NewActivityStreamsBccProperty() vocab.BccPropertyInterface {
+	return propertybcc.NewBccProperty()
 }
 
-// NewActivityStreamsFirstProperty creates a new FirstPropertyInterface
-func NewActivityStreamsFirstProperty() vocab.FirstPropertyInterface {
-	return propertyfirst.NewFirstProperty()
+// NewActivityStreamsBtoProperty creates a new BtoPropertyInterface
+func NewActivityStreamsBtoProperty() vocab.BtoPropertyInterface {
+	return propertybto.NewBtoProperty()
+}
+
+// NewActivityStreamsCcProperty creates a new CcPropertyInterface
+func NewActivityStreamsCcProperty() vocab.CcPropertyInterface {
+	return propertycc.NewCcProperty()
+}
+
+// NewActivityStreamsClosedProperty creates a new ClosedPropertyInterface
+func NewActivityStreamsClosedProperty() vocab.ClosedPropertyInterface {
+	return propertyclosed.NewClosedProperty()
+}
+
+// NewActivityStreamsContentProperty creates a new ContentPropertyInterface
+func NewActivityStreamsContentProperty() vocab.ContentPropertyInterface {
+	return propertycontent.NewContentProperty()
+}
+
+// NewActivityStreamsContextProperty creates a new ContextPropertyInterface
+func NewActivityStreamsContextProperty() vocab.ContextPropertyInterface {
+	return propertycontext.NewContextProperty()
+}
+
+// NewActivityStreamsCurrentProperty creates a new CurrentPropertyInterface
+func NewActivityStreamsCurrentProperty() vocab.CurrentPropertyInterface {
+	return propertycurrent.NewCurrentProperty()
 }
 
 // NewActivityStreamsDeletedProperty creates a new DeletedPropertyInterface
@@ -116,14 +142,84 @@ func NewActivityStreamsDeletedProperty() vocab.DeletedPropertyInterface {
 	return propertydeleted.NewDeletedProperty()
 }
 
-// NewActivityStreamsUnitsProperty creates a new UnitsPropertyInterface
-func NewActivityStreamsUnitsProperty() vocab.UnitsPropertyInterface {
-	return propertyunits.NewUnitsProperty()
+// NewActivityStreamsDescribesProperty creates a new DescribesPropertyInterface
+func NewActivityStreamsDescribesProperty() vocab.DescribesPropertyInterface {
+	return propertydescribes.NewDescribesProperty()
 }
 
-// NewActivityStreamsTotalItemsProperty creates a new TotalItemsPropertyInterface
-func NewActivityStreamsTotalItemsProperty() vocab.TotalItemsPropertyInterface {
-	return propertytotalitems.NewTotalItemsProperty()
+// NewActivityStreamsDurationProperty creates a new DurationPropertyInterface
+func NewActivityStreamsDurationProperty() vocab.DurationPropertyInterface {
+	return propertyduration.NewDurationProperty()
+}
+
+// NewActivityStreamsEndTimeProperty creates a new EndTimePropertyInterface
+func NewActivityStreamsEndTimeProperty() vocab.EndTimePropertyInterface {
+	return propertyendtime.NewEndTimeProperty()
+}
+
+// NewActivityStreamsFirstProperty creates a new FirstPropertyInterface
+func NewActivityStreamsFirstProperty() vocab.FirstPropertyInterface {
+	return propertyfirst.NewFirstProperty()
+}
+
+// NewActivityStreamsFormerTypeProperty creates a new FormerTypePropertyInterface
+func NewActivityStreamsFormerTypeProperty() vocab.FormerTypePropertyInterface {
+	return propertyformertype.NewFormerTypeProperty()
+}
+
+// NewActivityStreamsGeneratorProperty creates a new GeneratorPropertyInterface
+func NewActivityStreamsGeneratorProperty() vocab.GeneratorPropertyInterface {
+	return propertygenerator.NewGeneratorProperty()
+}
+
+// NewActivityStreamsHeightProperty creates a new HeightPropertyInterface
+func NewActivityStreamsHeightProperty() vocab.HeightPropertyInterface {
+	return propertyheight.NewHeightProperty()
+}
+
+// NewActivityStreamsHrefProperty creates a new HrefPropertyInterface
+func NewActivityStreamsHrefProperty() vocab.HrefPropertyInterface {
+	return propertyhref.NewHrefProperty()
+}
+
+// NewActivityStreamsHreflangProperty creates a new HreflangPropertyInterface
+func NewActivityStreamsHreflangProperty() vocab.HreflangPropertyInterface {
+	return propertyhreflang.NewHreflangProperty()
+}
+
+// NewActivityStreamsIconProperty creates a new IconPropertyInterface
+func NewActivityStreamsIconProperty() vocab.IconPropertyInterface {
+	return propertyicon.NewIconProperty()
+}
+
+// NewActivityStreamsIdProperty creates a new IdPropertyInterface
+func NewActivityStreamsIdProperty() vocab.IdPropertyInterface {
+	return propertyid.NewIdProperty()
+}
+
+// NewActivityStreamsImageProperty creates a new ImagePropertyInterface
+func NewActivityStreamsImageProperty() vocab.ImagePropertyInterface {
+	return propertyimage.NewImageProperty()
+}
+
+// NewActivityStreamsInReplyToProperty creates a new InReplyToPropertyInterface
+func NewActivityStreamsInReplyToProperty() vocab.InReplyToPropertyInterface {
+	return propertyinreplyto.NewInReplyToProperty()
+}
+
+// NewActivityStreamsInstrumentProperty creates a new InstrumentPropertyInterface
+func NewActivityStreamsInstrumentProperty() vocab.InstrumentPropertyInterface {
+	return propertyinstrument.NewInstrumentProperty()
+}
+
+// NewActivityStreamsItemsProperty creates a new ItemsPropertyInterface
+func NewActivityStreamsItemsProperty() vocab.ItemsPropertyInterface {
+	return propertyitems.NewItemsProperty()
+}
+
+// NewActivityStreamsLastProperty creates a new LastPropertyInterface
+func NewActivityStreamsLastProperty() vocab.LastPropertyInterface {
+	return propertylast.NewLastProperty()
 }
 
 // NewActivityStreamsLatitudeProperty creates a new LatitudePropertyInterface
@@ -131,9 +227,9 @@ func NewActivityStreamsLatitudeProperty() vocab.LatitudePropertyInterface {
 	return propertylatitude.NewLatitudeProperty()
 }
 
-// NewActivityStreamsRepliesProperty creates a new RepliesPropertyInterface
-func NewActivityStreamsRepliesProperty() vocab.RepliesPropertyInterface {
-	return propertyreplies.NewRepliesProperty()
+// NewActivityStreamsLocationProperty creates a new LocationPropertyInterface
+func NewActivityStreamsLocationProperty() vocab.LocationPropertyInterface {
+	return propertylocation.NewLocationProperty()
 }
 
 // NewActivityStreamsLongitudeProperty creates a new LongitudePropertyInterface
@@ -146,79 +242,14 @@ func NewActivityStreamsMediaTypeProperty() vocab.MediaTypePropertyInterface {
 	return propertymediatype.NewMediaTypeProperty()
 }
 
-// NewActivityStreamsAccuracyProperty creates a new AccuracyPropertyInterface
-func NewActivityStreamsAccuracyProperty() vocab.AccuracyPropertyInterface {
-	return propertyaccuracy.NewAccuracyProperty()
+// NewActivityStreamsNameProperty creates a new NamePropertyInterface
+func NewActivityStreamsNameProperty() vocab.NamePropertyInterface {
+	return propertyname.NewNameProperty()
 }
 
-// NewActivityStreamsWidthProperty creates a new WidthPropertyInterface
-func NewActivityStreamsWidthProperty() vocab.WidthPropertyInterface {
-	return propertywidth.NewWidthProperty()
-}
-
-// NewActivityStreamsDescribesProperty creates a new DescribesPropertyInterface
-func NewActivityStreamsDescribesProperty() vocab.DescribesPropertyInterface {
-	return propertydescribes.NewDescribesProperty()
-}
-
-// NewActivityStreamsPartOfProperty creates a new PartOfPropertyInterface
-func NewActivityStreamsPartOfProperty() vocab.PartOfPropertyInterface {
-	return propertypartof.NewPartOfProperty()
-}
-
-// NewActivityStreamsRadiusProperty creates a new RadiusPropertyInterface
-func NewActivityStreamsRadiusProperty() vocab.RadiusPropertyInterface {
-	return propertyradius.NewRadiusProperty()
-}
-
-// NewActivityStreamsStartIndexProperty creates a new StartIndexPropertyInterface
-func NewActivityStreamsStartIndexProperty() vocab.StartIndexPropertyInterface {
-	return propertystartindex.NewStartIndexProperty()
-}
-
-// NewActivityStreamsPrevProperty creates a new PrevPropertyInterface
-func NewActivityStreamsPrevProperty() vocab.PrevPropertyInterface {
-	return propertyprev.NewPrevProperty()
-}
-
-// NewActivityStreamsCurrentProperty creates a new CurrentPropertyInterface
-func NewActivityStreamsCurrentProperty() vocab.CurrentPropertyInterface {
-	return propertycurrent.NewCurrentProperty()
-}
-
-// NewActivityStreamsStartTimeProperty creates a new StartTimePropertyInterface
-func NewActivityStreamsStartTimeProperty() vocab.StartTimePropertyInterface {
-	return propertystarttime.NewStartTimeProperty()
-}
-
-// NewActivityStreamsLastProperty creates a new LastPropertyInterface
-func NewActivityStreamsLastProperty() vocab.LastPropertyInterface {
-	return propertylast.NewLastProperty()
-}
-
-// NewActivityStreamsAltitudeProperty creates a new AltitudePropertyInterface
-func NewActivityStreamsAltitudeProperty() vocab.AltitudePropertyInterface {
-	return propertyaltitude.NewAltitudeProperty()
-}
-
-// NewActivityStreamsHeightProperty creates a new HeightPropertyInterface
-func NewActivityStreamsHeightProperty() vocab.HeightPropertyInterface {
-	return propertyheight.NewHeightProperty()
-}
-
-// NewActivityStreamsPublishedProperty creates a new PublishedPropertyInterface
-func NewActivityStreamsPublishedProperty() vocab.PublishedPropertyInterface {
-	return propertypublished.NewPublishedProperty()
-}
-
-// NewActivityStreamsInstrumentProperty creates a new InstrumentPropertyInterface
-func NewActivityStreamsInstrumentProperty() vocab.InstrumentPropertyInterface {
-	return propertyinstrument.NewInstrumentProperty()
-}
-
-// NewActivityStreamsImageProperty creates a new ImagePropertyInterface
-func NewActivityStreamsImageProperty() vocab.ImagePropertyInterface {
-	return propertyimage.NewImageProperty()
+// NewActivityStreamsNextProperty creates a new NextPropertyInterface
+func NewActivityStreamsNextProperty() vocab.NextPropertyInterface {
+	return propertynext.NewNextProperty()
 }
 
 // NewActivityStreamsObjectProperty creates a new ObjectPropertyInterface
@@ -226,39 +257,44 @@ func NewActivityStreamsObjectProperty() vocab.ObjectPropertyInterface {
 	return propertyobject.NewObjectProperty()
 }
 
-// NewActivityStreamsContentProperty creates a new ContentPropertyInterface
-func NewActivityStreamsContentProperty() vocab.ContentPropertyInterface {
-	return propertycontent.NewContentProperty()
+// NewActivityStreamsOneOfProperty creates a new OneOfPropertyInterface
+func NewActivityStreamsOneOfProperty() vocab.OneOfPropertyInterface {
+	return propertyoneof.NewOneOfProperty()
 }
 
-// NewActivityStreamsGeneratorProperty creates a new GeneratorPropertyInterface
-func NewActivityStreamsGeneratorProperty() vocab.GeneratorPropertyInterface {
-	return propertygenerator.NewGeneratorProperty()
+// NewActivityStreamsOriginProperty creates a new OriginPropertyInterface
+func NewActivityStreamsOriginProperty() vocab.OriginPropertyInterface {
+	return propertyorigin.NewOriginProperty()
 }
 
-// NewActivityStreamsBtoProperty creates a new BtoPropertyInterface
-func NewActivityStreamsBtoProperty() vocab.BtoPropertyInterface {
-	return propertybto.NewBtoProperty()
+// NewActivityStreamsPartOfProperty creates a new PartOfPropertyInterface
+func NewActivityStreamsPartOfProperty() vocab.PartOfPropertyInterface {
+	return propertypartof.NewPartOfProperty()
 }
 
-// NewActivityStreamsActorProperty creates a new ActorPropertyInterface
-func NewActivityStreamsActorProperty() vocab.ActorPropertyInterface {
-	return propertyactor.NewActorProperty()
+// NewActivityStreamsPrevProperty creates a new PrevPropertyInterface
+func NewActivityStreamsPrevProperty() vocab.PrevPropertyInterface {
+	return propertyprev.NewPrevProperty()
 }
 
-// NewActivityStreamsLocationProperty creates a new LocationPropertyInterface
-func NewActivityStreamsLocationProperty() vocab.LocationPropertyInterface {
-	return propertylocation.NewLocationProperty()
+// NewActivityStreamsPreviewProperty creates a new PreviewPropertyInterface
+func NewActivityStreamsPreviewProperty() vocab.PreviewPropertyInterface {
+	return propertypreview.NewPreviewProperty()
 }
 
-// NewActivityStreamsAudienceProperty creates a new AudiencePropertyInterface
-func NewActivityStreamsAudienceProperty() vocab.AudiencePropertyInterface {
-	return propertyaudience.NewAudienceProperty()
+// NewActivityStreamsPublishedProperty creates a new PublishedPropertyInterface
+func NewActivityStreamsPublishedProperty() vocab.PublishedPropertyInterface {
+	return propertypublished.NewPublishedProperty()
 }
 
-// NewActivityStreamsResultProperty creates a new ResultPropertyInterface
-func NewActivityStreamsResultProperty() vocab.ResultPropertyInterface {
-	return propertyresult.NewResultProperty()
+// NewActivityStreamsRadiusProperty creates a new RadiusPropertyInterface
+func NewActivityStreamsRadiusProperty() vocab.RadiusPropertyInterface {
+	return propertyradius.NewRadiusProperty()
+}
+
+// NewActivityStreamsRelProperty creates a new RelPropertyInterface
+func NewActivityStreamsRelProperty() vocab.RelPropertyInterface {
+	return propertyrel.NewRelProperty()
 }
 
 // NewActivityStreamsRelationshipProperty creates a new
@@ -267,34 +303,29 @@ func NewActivityStreamsRelationshipProperty() vocab.RelationshipPropertyInterfac
 	return propertyrelationship.NewRelationshipProperty()
 }
 
-// NewActivityStreamsInReplyToProperty creates a new InReplyToPropertyInterface
-func NewActivityStreamsInReplyToProperty() vocab.InReplyToPropertyInterface {
-	return propertyinreplyto.NewInReplyToProperty()
+// NewActivityStreamsRepliesProperty creates a new RepliesPropertyInterface
+func NewActivityStreamsRepliesProperty() vocab.RepliesPropertyInterface {
+	return propertyreplies.NewRepliesProperty()
 }
 
-// NewActivityStreamsOriginProperty creates a new OriginPropertyInterface
-func NewActivityStreamsOriginProperty() vocab.OriginPropertyInterface {
-	return propertyorigin.NewOriginProperty()
+// NewActivityStreamsResultProperty creates a new ResultPropertyInterface
+func NewActivityStreamsResultProperty() vocab.ResultPropertyInterface {
+	return propertyresult.NewResultProperty()
 }
 
-// NewActivityStreamsAnyOfProperty creates a new AnyOfPropertyInterface
-func NewActivityStreamsAnyOfProperty() vocab.AnyOfPropertyInterface {
-	return propertyanyof.NewAnyOfProperty()
+// NewActivityStreamsStartIndexProperty creates a new StartIndexPropertyInterface
+func NewActivityStreamsStartIndexProperty() vocab.StartIndexPropertyInterface {
+	return propertystartindex.NewStartIndexProperty()
 }
 
-// NewActivityStreamsTagProperty creates a new TagPropertyInterface
-func NewActivityStreamsTagProperty() vocab.TagPropertyInterface {
-	return propertytag.NewTagProperty()
+// NewActivityStreamsStartTimeProperty creates a new StartTimePropertyInterface
+func NewActivityStreamsStartTimeProperty() vocab.StartTimePropertyInterface {
+	return propertystarttime.NewStartTimeProperty()
 }
 
-// NewActivityStreamsNameProperty creates a new NamePropertyInterface
-func NewActivityStreamsNameProperty() vocab.NamePropertyInterface {
-	return propertyname.NewNameProperty()
-}
-
-// NewActivityStreamsContextProperty creates a new ContextPropertyInterface
-func NewActivityStreamsContextProperty() vocab.ContextPropertyInterface {
-	return propertycontext.NewContextProperty()
+// NewActivityStreamsSubjectProperty creates a new SubjectPropertyInterface
+func NewActivityStreamsSubjectProperty() vocab.SubjectPropertyInterface {
+	return propertysubject.NewSubjectProperty()
 }
 
 // NewActivityStreamsSummaryProperty creates a new SummaryPropertyInterface
@@ -302,35 +333,9 @@ func NewActivityStreamsSummaryProperty() vocab.SummaryPropertyInterface {
 	return propertysummary.NewSummaryProperty()
 }
 
-// NewActivityStreamsUrlProperty creates a new UrlPropertyInterface
-func NewActivityStreamsUrlProperty() vocab.UrlPropertyInterface {
-	return propertyurl.NewUrlProperty()
-}
-
-// NewActivityStreamsAttributedToProperty creates a new
-// AttributedToPropertyInterface
-func NewActivityStreamsAttributedToProperty() vocab.AttributedToPropertyInterface {
-	return propertyattributedto.NewAttributedToProperty()
-}
-
-// NewActivityStreamsOneOfProperty creates a new OneOfPropertyInterface
-func NewActivityStreamsOneOfProperty() vocab.OneOfPropertyInterface {
-	return propertyoneof.NewOneOfProperty()
-}
-
-// NewActivityStreamsItemsProperty creates a new ItemsPropertyInterface
-func NewActivityStreamsItemsProperty() vocab.ItemsPropertyInterface {
-	return propertyitems.NewItemsProperty()
-}
-
-// NewActivityStreamsTypeProperty creates a new TypePropertyInterface
-func NewActivityStreamsTypeProperty() vocab.TypePropertyInterface {
-	return propertytype.NewTypeProperty()
-}
-
-// NewActivityStreamsAttachmentProperty creates a new AttachmentPropertyInterface
-func NewActivityStreamsAttachmentProperty() vocab.AttachmentPropertyInterface {
-	return propertyattachment.NewAttachmentProperty()
+// NewActivityStreamsTagProperty creates a new TagPropertyInterface
+func NewActivityStreamsTagProperty() vocab.TagPropertyInterface {
+	return propertytag.NewTagProperty()
 }
 
 // NewActivityStreamsTargetProperty creates a new TargetPropertyInterface
@@ -338,42 +343,37 @@ func NewActivityStreamsTargetProperty() vocab.TargetPropertyInterface {
 	return propertytarget.NewTargetProperty()
 }
 
-// NewActivityStreamsFormerTypeProperty creates a new FormerTypePropertyInterface
-func NewActivityStreamsFormerTypeProperty() vocab.FormerTypePropertyInterface {
-	return propertyformertype.NewFormerTypeProperty()
-}
-
-// NewActivityStreamsPreviewProperty creates a new PreviewPropertyInterface
-func NewActivityStreamsPreviewProperty() vocab.PreviewPropertyInterface {
-	return propertypreview.NewPreviewProperty()
-}
-
-// NewActivityStreamsClosedProperty creates a new ClosedPropertyInterface
-func NewActivityStreamsClosedProperty() vocab.ClosedPropertyInterface {
-	return propertyclosed.NewClosedProperty()
-}
-
 // NewActivityStreamsToProperty creates a new ToPropertyInterface
 func NewActivityStreamsToProperty() vocab.ToPropertyInterface {
 	return propertyto.NewToProperty()
 }
 
-// NewActivityStreamsIconProperty creates a new IconPropertyInterface
-func NewActivityStreamsIconProperty() vocab.IconPropertyInterface {
-	return propertyicon.NewIconProperty()
+// NewActivityStreamsTotalItemsProperty creates a new TotalItemsPropertyInterface
+func NewActivityStreamsTotalItemsProperty() vocab.TotalItemsPropertyInterface {
+	return propertytotalitems.NewTotalItemsProperty()
 }
 
-// NewActivityStreamsRelProperty creates a new RelPropertyInterface
-func NewActivityStreamsRelProperty() vocab.RelPropertyInterface {
-	return propertyrel.NewRelProperty()
+// NewActivityStreamsTypeProperty creates a new TypePropertyInterface
+func NewActivityStreamsTypeProperty() vocab.TypePropertyInterface {
+	return propertytype.NewTypeProperty()
 }
 
-// NewActivityStreamsBccProperty creates a new BccPropertyInterface
-func NewActivityStreamsBccProperty() vocab.BccPropertyInterface {
-	return propertybcc.NewBccProperty()
+// NewActivityStreamsUnitsProperty creates a new UnitsPropertyInterface
+func NewActivityStreamsUnitsProperty() vocab.UnitsPropertyInterface {
+	return propertyunits.NewUnitsProperty()
 }
 
-// NewActivityStreamsCcProperty creates a new CcPropertyInterface
-func NewActivityStreamsCcProperty() vocab.CcPropertyInterface {
-	return propertycc.NewCcProperty()
+// NewActivityStreamsUpdatedProperty creates a new UpdatedPropertyInterface
+func NewActivityStreamsUpdatedProperty() vocab.UpdatedPropertyInterface {
+	return propertyupdated.NewUpdatedProperty()
+}
+
+// NewActivityStreamsUrlProperty creates a new UrlPropertyInterface
+func NewActivityStreamsUrlProperty() vocab.UrlPropertyInterface {
+	return propertyurl.NewUrlProperty()
+}
+
+// NewActivityStreamsWidthProperty creates a new WidthPropertyInterface
+func NewActivityStreamsWidthProperty() vocab.WidthPropertyInterface {
+	return propertywidth.NewWidthProperty()
 }

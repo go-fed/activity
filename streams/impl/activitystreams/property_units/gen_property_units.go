@@ -18,7 +18,6 @@ type UnitsProperty struct {
 	hasStringMember bool
 	anyURIMember    *url.URL
 	unknown         []byte
-	iri             *url.URL
 	alias           string
 }
 
@@ -35,23 +34,23 @@ func DeserializeUnitsProperty(m map[string]interface{}, aliasMap map[string]stri
 		propName = fmt.Sprintf("%s:%s", alias, "units")
 	}
 	if i, ok := m[propName]; ok {
-		if v, err := string1.DeserializeString(i); err != nil {
+		if v, err := string1.DeserializeString(i); err == nil {
 			this := &UnitsProperty{
 				alias:           alias,
 				hasStringMember: true,
 				stringMember:    v,
 			}
 			return this, nil
-		} else if v, err := anyuri.DeserializeAnyURI(i); err != nil {
+		} else if v, err := anyuri.DeserializeAnyURI(i); err == nil {
 			this := &UnitsProperty{
 				alias:        alias,
 				anyURIMember: v,
 			}
 			return this, nil
-		} else if v, ok := i.([]byte); ok {
+		} else if str, ok := i.(string); ok {
 			this := &UnitsProperty{
 				alias:   alias,
-				unknown: v,
+				unknown: []byte(str),
 			}
 			return this, nil
 		} else {
@@ -72,7 +71,6 @@ func (this *UnitsProperty) Clear() {
 	this.hasStringMember = false
 	this.anyURIMember = nil
 	this.unknown = nil
-	this.iri = nil
 }
 
 // GetAnyURI returns the value of this property. When IsAnyURI returns false,
@@ -84,7 +82,7 @@ func (this UnitsProperty) GetAnyURI() *url.URL {
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
 // return an arbitrary value.
 func (this UnitsProperty) GetIRI() *url.URL {
-	return this.iri
+	return this.anyURIMember
 }
 
 // GetString returns the value of this property. When IsString returns false,
@@ -96,8 +94,7 @@ func (this UnitsProperty) GetString() string {
 // HasAny returns true if any of the different values is set.
 func (this UnitsProperty) HasAny() bool {
 	return this.IsString() ||
-		this.IsAnyURI() ||
-		this.iri != nil
+		this.IsAnyURI()
 }
 
 // IsAnyURI returns true if this property has a type of "anyURI". When true, use
@@ -109,7 +106,7 @@ func (this UnitsProperty) IsAnyURI() bool {
 // IsIRI returns true if this property is an IRI. When true, use GetIRI and SetIRI
 // to access and set this property
 func (this UnitsProperty) IsIRI() bool {
-	return this.iri != nil
+	return this.anyURIMember != nil
 }
 
 // IsString returns true if this property has a type of "string". When true, use
@@ -167,8 +164,6 @@ func (this UnitsProperty) LessThan(o vocab.UnitsPropertyInterface) bool {
 		return string1.LessString(this.GetString(), o.GetString())
 	} else if this.IsAnyURI() {
 		return anyuri.LessAnyURI(this.GetAnyURI(), o.GetAnyURI())
-	} else if this.IsIRI() {
-		return this.iri.String() < o.GetIRI().String()
 	}
 	return false
 }
@@ -187,10 +182,8 @@ func (this UnitsProperty) Serialize() (interface{}, error) {
 		return string1.SerializeString(this.GetString())
 	} else if this.IsAnyURI() {
 		return anyuri.SerializeAnyURI(this.GetAnyURI())
-	} else if this.IsIRI() {
-		return this.iri.String(), nil
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
 // SetAnyURI sets the value of this property. Calling IsAnyURI afterwards returns
@@ -203,7 +196,7 @@ func (this *UnitsProperty) SetAnyURI(v *url.URL) {
 // SetIRI sets the value of this property. Calling IsIRI afterwards returns true.
 func (this *UnitsProperty) SetIRI(v *url.URL) {
 	this.Clear()
-	this.iri = v
+	this.SetAnyURI(v)
 }
 
 // SetString sets the value of this property. Calling IsString afterwards returns

@@ -10,7 +10,7 @@ import (
 // LongitudeProperty is the functional property "longitude". It is permitted to be
 // a single default-valued value type.
 type LongitudeProperty struct {
-	floatMember    float32
+	floatMember    float64
 	hasFloatMember bool
 	unknown        []byte
 	iri            *url.URL
@@ -33,7 +33,8 @@ func DeserializeLongitudeProperty(m map[string]interface{}, aliasMap map[string]
 		if s, ok := i.(string); ok {
 			u, err := url.Parse(s)
 			// If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst
-			if err == nil {
+			// Also, if no scheme exists, don't treat it as a URL -- net/url is greedy
+			if err == nil && len(u.Scheme) > 0 {
 				this := &LongitudeProperty{
 					alias: alias,
 					iri:   u,
@@ -41,17 +42,17 @@ func DeserializeLongitudeProperty(m map[string]interface{}, aliasMap map[string]
 				return this, nil
 			}
 		}
-		if v, err := float.DeserializeFloat(i); err != nil {
+		if v, err := float.DeserializeFloat(i); err == nil {
 			this := &LongitudeProperty{
 				alias:          alias,
 				floatMember:    v,
 				hasFloatMember: true,
 			}
 			return this, nil
-		} else if v, ok := i.([]byte); ok {
+		} else if str, ok := i.(string); ok {
 			this := &LongitudeProperty{
 				alias:   alias,
-				unknown: v,
+				unknown: []byte(str),
 			}
 			return this, nil
 		} else {
@@ -76,7 +77,7 @@ func (this *LongitudeProperty) Clear() {
 
 // Get returns the value of this property. When IsFloat returns false, Get will
 // return any arbitrary value.
-func (this LongitudeProperty) Get() float32 {
+func (this LongitudeProperty) Get() float64 {
 	return this.floatMember
 }
 
@@ -178,12 +179,12 @@ func (this LongitudeProperty) Serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return this.unknown, nil
+	return string(this.unknown), nil
 }
 
 // Set sets the value of this property. Calling IsFloat afterwards will return
 // true.
-func (this *LongitudeProperty) Set(v float32) {
+func (this *LongitudeProperty) Set(v float64) {
 	this.Clear()
 	this.floatMember = v
 	this.hasFloatMember = true
