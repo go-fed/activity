@@ -66,7 +66,7 @@ type InReplyToPropertyIterator struct {
 	UpdateMember                vocab.UpdateInterface
 	VideoMember                 vocab.VideoInterface
 	ViewMember                  vocab.ViewInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 	myIdx                       int
@@ -423,13 +423,12 @@ func deserializeInReplyToPropertyIterator(i interface{}, aliasMap map[string]str
 			}
 			return this, nil
 		}
-	} else if str, ok := i.(string); ok {
-		this := &InReplyToPropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &InReplyToPropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "inReplyTo")
 }
 
@@ -2162,7 +2161,7 @@ func (this InReplyToPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // InReplyToProperty is the non-functional property "inReplyTo". It is permitted

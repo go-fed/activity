@@ -22,7 +22,7 @@ type TypeResolver struct {
 // where TypeInterface is the code-generated interface for an ActivityStream
 // type. An error is returned if a callback function does not match this
 // signature.
-func NewTypeResolver(callbacks []interface{}) (*TypeResolver, error) {
+func NewTypeResolver(callbacks ...interface{}) (*TypeResolver, error) {
 	for _, cb := range callbacks {
 		// Each callback function must satisfy one known function signature, or else we will generate a runtime error instead of silently fail.
 		switch cb.(type) {

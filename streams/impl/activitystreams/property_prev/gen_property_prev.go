@@ -16,7 +16,7 @@ type PrevProperty struct {
 	LinkMember                  vocab.LinkInterface
 	MentionMember               vocab.MentionInterface
 	OrderedCollectionPageMember vocab.OrderedCollectionPageInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 }
@@ -72,15 +72,12 @@ func DeserializePrevProperty(m map[string]interface{}, aliasMap map[string]strin
 				}
 				return this, nil
 			}
-		} else if str, ok := i.(string); ok {
-			this := &PrevProperty{
-				alias:   alias,
-				unknown: []byte(str),
-			}
-			return this, nil
-		} else {
-			return nil, fmt.Errorf("could not deserialize %q property", "prev")
 		}
+		this := &PrevProperty{
+			alias:   alias,
+			unknown: i,
+		}
+		return this, nil
 	}
 	return nil, nil
 }
@@ -267,7 +264,7 @@ func (this PrevProperty) Serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // SetCollectionPage sets the value of this property. Calling IsCollectionPage

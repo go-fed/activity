@@ -73,6 +73,8 @@ type OrderedCollectionPageInterface interface {
 	GetItems() ItemsPropertyInterface
 	// GetLast returns the "last" property if it exists, and nil otherwise.
 	GetLast() LastPropertyInterface
+	// GetLikes returns the "likes" property if it exists, and nil otherwise.
+	GetLikes() LikesPropertyInterface
 	// GetLocation returns the "location" property if it exists, and nil
 	// otherwise.
 	GetLocation() LocationPropertyInterface
@@ -98,6 +100,8 @@ type OrderedCollectionPageInterface interface {
 	// GetReplies returns the "replies" property if it exists, and nil
 	// otherwise.
 	GetReplies() RepliesPropertyInterface
+	// GetShares returns the "shares" property if it exists, and nil otherwise.
+	GetShares() SharesPropertyInterface
 	// GetStartIndex returns the "startIndex" property if it exists, and nil
 	// otherwise.
 	GetStartIndex() StartIndexPropertyInterface
@@ -193,6 +197,8 @@ type OrderedCollectionPageInterface interface {
 	SetItems(i ItemsPropertyInterface)
 	// SetLast returns the "last" property if it exists, and nil otherwise.
 	SetLast(i LastPropertyInterface)
+	// SetLikes returns the "likes" property if it exists, and nil otherwise.
+	SetLikes(i LikesPropertyInterface)
 	// SetLocation returns the "location" property if it exists, and nil
 	// otherwise.
 	SetLocation(i LocationPropertyInterface)
@@ -218,6 +224,8 @@ type OrderedCollectionPageInterface interface {
 	// SetReplies returns the "replies" property if it exists, and nil
 	// otherwise.
 	SetReplies(i RepliesPropertyInterface)
+	// SetShares returns the "shares" property if it exists, and nil otherwise.
+	SetShares(i SharesPropertyInterface)
 	// SetStartIndex returns the "startIndex" property if it exists, and nil
 	// otherwise.
 	SetStartIndex(i StartIndexPropertyInterface)

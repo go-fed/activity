@@ -66,7 +66,7 @@ type ItemsPropertyIterator struct {
 	UpdateMember                vocab.UpdateInterface
 	VideoMember                 vocab.VideoInterface
 	ViewMember                  vocab.ViewInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 	myIdx                       int
@@ -423,13 +423,12 @@ func deserializeItemsPropertyIterator(i interface{}, aliasMap map[string]string)
 			}
 			return this, nil
 		}
-	} else if str, ok := i.(string); ok {
-		this := &ItemsPropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &ItemsPropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "items")
 }
 
@@ -2162,7 +2161,7 @@ func (this ItemsPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // ItemsProperty is the non-functional property "items". It is permitted to have

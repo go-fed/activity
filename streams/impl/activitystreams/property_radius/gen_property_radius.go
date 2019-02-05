@@ -12,7 +12,7 @@ import (
 type RadiusProperty struct {
 	floatMember    float64
 	hasFloatMember bool
-	unknown        []byte
+	unknown        interface{}
 	iri            *url.URL
 	alias          string
 }
@@ -49,15 +49,12 @@ func DeserializeRadiusProperty(m map[string]interface{}, aliasMap map[string]str
 				hasFloatMember: true,
 			}
 			return this, nil
-		} else if str, ok := i.(string); ok {
-			this := &RadiusProperty{
-				alias:   alias,
-				unknown: []byte(str),
-			}
-			return this, nil
-		} else {
-			return nil, fmt.Errorf("could not deserialize %q property", "radius")
 		}
+		this := &RadiusProperty{
+			alias:   alias,
+			unknown: i,
+		}
+		return this, nil
 	}
 	return nil, nil
 }
@@ -179,7 +176,7 @@ func (this RadiusProperty) Serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // Set sets the value of this property. Calling IsFloat afterwards will return

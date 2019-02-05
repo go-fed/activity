@@ -1,6 +1,10 @@
 package typetombstone
 
-import vocab "github.com/go-fed/activity/streams/vocab"
+import (
+	"fmt"
+	vocab "github.com/go-fed/activity/streams/vocab"
+	"strings"
+)
 
 // A Tombstone represents a content object that has been deleted. It can be used
 // in Collections to signify that there used to be an object at this position,
@@ -47,6 +51,7 @@ type Tombstone struct {
 	Id           vocab.IdPropertyInterface
 	Image        vocab.ImagePropertyInterface
 	InReplyTo    vocab.InReplyToPropertyInterface
+	Likes        vocab.LikesPropertyInterface
 	Location     vocab.LocationPropertyInterface
 	MediaType    vocab.MediaTypePropertyInterface
 	Name         vocab.NamePropertyInterface
@@ -54,6 +59,7 @@ type Tombstone struct {
 	Preview      vocab.PreviewPropertyInterface
 	Published    vocab.PublishedPropertyInterface
 	Replies      vocab.RepliesPropertyInterface
+	Shares       vocab.SharesPropertyInterface
 	StartTime    vocab.StartTimePropertyInterface
 	Summary      vocab.SummaryPropertyInterface
 	Tag          vocab.TagPropertyInterface
@@ -69,12 +75,37 @@ type Tombstone struct {
 // been unmarshalled from a text or binary format.
 func DeserializeTombstone(m map[string]interface{}, aliasMap map[string]string) (*Tombstone, error) {
 	alias := ""
+	aliasPrefix := ""
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
+		aliasPrefix = a + ":"
 	}
 	this := &Tombstone{
 		alias:   alias,
 		unknown: make(map[string]interface{}),
+	}
+	if typeValue, ok := m["type"]; !ok {
+		return nil, fmt.Errorf("no \"type\" property in map")
+	} else if typeString, ok := typeValue.(string); ok {
+		typeName := strings.TrimPrefix(typeString, aliasPrefix)
+		if typeName != "Tombstone" {
+			return nil, fmt.Errorf("\"type\" property is not of %q type: %s", "Tombstone", typeName)
+		}
+		// Fall through, success in finding a proper Type
+	} else if arrType, ok := typeValue.([]interface{}); ok {
+		found := false
+		for _, elemVal := range arrType {
+			if typeString, ok := elemVal.(string); ok && strings.TrimPrefix(typeString, aliasPrefix) == "Tombstone" {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil, fmt.Errorf("could not find a \"type\" property of value %q", "Tombstone")
+		}
+		// Fall through, success in finding a proper Type
+	} else {
+		return nil, fmt.Errorf("\"type\" property is unrecognized type: %T", typeValue)
 	}
 	// Begin: Known property deserialization
 	if p, err := mgr.DeserializeAltitudePropertyActivityStreams()(m, aliasMap); err != nil {
@@ -167,6 +198,11 @@ func DeserializeTombstone(m map[string]interface{}, aliasMap map[string]string) 
 	} else if p != nil {
 		this.InReplyTo = p
 	}
+	if p, err := mgr.DeserializeLikesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Likes = p
+	}
 	if p, err := mgr.DeserializeLocationPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -201,6 +237,11 @@ func DeserializeTombstone(m map[string]interface{}, aliasMap map[string]string) 
 		return nil, err
 	} else if p != nil {
 		this.Replies = p
+	}
+	if p, err := mgr.DeserializeSharesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Shares = p
 	}
 	if p, err := mgr.DeserializeStartTimePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -278,6 +319,8 @@ func DeserializeTombstone(m map[string]interface{}, aliasMap map[string]string) 
 			continue
 		} else if k == "inReplyTo" {
 			continue
+		} else if k == "likes" {
+			continue
 		} else if k == "location" {
 			continue
 		} else if k == "mediaType" {
@@ -291,6 +334,8 @@ func DeserializeTombstone(m map[string]interface{}, aliasMap map[string]string) 
 		} else if k == "published" {
 			continue
 		} else if k == "replies" {
+			continue
+		} else if k == "shares" {
 			continue
 		} else if k == "startTime" {
 			continue
@@ -444,6 +489,11 @@ func (this Tombstone) GetInReplyTo() vocab.InReplyToPropertyInterface {
 	return this.InReplyTo
 }
 
+// GetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this Tombstone) GetLikes() vocab.LikesPropertyInterface {
+	return this.Likes
+}
+
 // GetLocation returns the "location" property if it exists, and nil otherwise.
 func (this Tombstone) GetLocation() vocab.LocationPropertyInterface {
 	return this.Location
@@ -477,6 +527,11 @@ func (this Tombstone) GetPublished() vocab.PublishedPropertyInterface {
 // GetReplies returns the "replies" property if it exists, and nil otherwise.
 func (this Tombstone) GetReplies() vocab.RepliesPropertyInterface {
 	return this.Replies
+}
+
+// GetShares returns the "shares" property if it exists, and nil otherwise.
+func (this Tombstone) GetShares() vocab.SharesPropertyInterface {
+	return this.Shares
 }
 
 // GetStartTime returns the "startTime" property if it exists, and nil otherwise.
@@ -552,6 +607,7 @@ func (this Tombstone) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Id, m)
 	m = this.helperJSONLDContext(this.Image, m)
 	m = this.helperJSONLDContext(this.InReplyTo, m)
+	m = this.helperJSONLDContext(this.Likes, m)
 	m = this.helperJSONLDContext(this.Location, m)
 	m = this.helperJSONLDContext(this.MediaType, m)
 	m = this.helperJSONLDContext(this.Name, m)
@@ -559,6 +615,7 @@ func (this Tombstone) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Preview, m)
 	m = this.helperJSONLDContext(this.Published, m)
 	m = this.helperJSONLDContext(this.Replies, m)
+	m = this.helperJSONLDContext(this.Shares, m)
 	m = this.helperJSONLDContext(this.StartTime, m)
 	m = this.helperJSONLDContext(this.Summary, m)
 	m = this.helperJSONLDContext(this.Tag, m)
@@ -826,6 +883,20 @@ func (this Tombstone) LessThan(o vocab.TombstoneInterface) bool {
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "likes"
+	if lhs, rhs := this.Likes, o.GetLikes(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "location"
 	if lhs, rhs := this.Location, o.GetLocation(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -912,6 +983,20 @@ func (this Tombstone) LessThan(o vocab.TombstoneInterface) bool {
 	} // Else: Both are nil
 	// Compare property "replies"
 	if lhs, rhs := this.Replies, o.GetReplies(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "shares"
+	if lhs, rhs := this.Shares, o.GetShares(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1039,6 +1124,11 @@ func (this Tombstone) LessThan(o vocab.TombstoneInterface) bool {
 // marshalling into a text or binary format.
 func (this Tombstone) Serialize() (map[string]interface{}, error) {
 	m := make(map[string]interface{})
+	typeName := "Tombstone"
+	if len(this.alias) > 0 {
+		typeName = this.alias + ":" + "Tombstone"
+	}
+	m["type"] = typeName
 	// Begin: Serialize known properties
 	// Maybe serialize property "altitude"
 	if this.Altitude != nil {
@@ -1184,6 +1274,14 @@ func (this Tombstone) Serialize() (map[string]interface{}, error) {
 			m[this.InReplyTo.Name()] = i
 		}
 	}
+	// Maybe serialize property "likes"
+	if this.Likes != nil {
+		if i, err := this.Likes.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Likes.Name()] = i
+		}
+	}
 	// Maybe serialize property "location"
 	if this.Location != nil {
 		if i, err := this.Location.Serialize(); err != nil {
@@ -1238,6 +1336,14 @@ func (this Tombstone) Serialize() (map[string]interface{}, error) {
 			return nil, err
 		} else if i != nil {
 			m[this.Replies.Name()] = i
+		}
+	}
+	// Maybe serialize property "shares"
+	if this.Shares != nil {
+		if i, err := this.Shares.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Shares.Name()] = i
 		}
 	}
 	// Maybe serialize property "startTime"
@@ -1311,163 +1417,173 @@ func (this Tombstone) Serialize() (map[string]interface{}, error) {
 }
 
 // SetAltitude returns the "altitude" property if it exists, and nil otherwise.
-func (this Tombstone) SetAltitude(i vocab.AltitudePropertyInterface) {
+func (this *Tombstone) SetAltitude(i vocab.AltitudePropertyInterface) {
 	this.Altitude = i
 }
 
 // SetAttachment returns the "attachment" property if it exists, and nil otherwise.
-func (this Tombstone) SetAttachment(i vocab.AttachmentPropertyInterface) {
+func (this *Tombstone) SetAttachment(i vocab.AttachmentPropertyInterface) {
 	this.Attachment = i
 }
 
 // SetAttributedTo returns the "attributedTo" property if it exists, and nil
 // otherwise.
-func (this Tombstone) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
+func (this *Tombstone) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
 	this.AttributedTo = i
 }
 
 // SetAudience returns the "audience" property if it exists, and nil otherwise.
-func (this Tombstone) SetAudience(i vocab.AudiencePropertyInterface) {
+func (this *Tombstone) SetAudience(i vocab.AudiencePropertyInterface) {
 	this.Audience = i
 }
 
 // SetBcc returns the "bcc" property if it exists, and nil otherwise.
-func (this Tombstone) SetBcc(i vocab.BccPropertyInterface) {
+func (this *Tombstone) SetBcc(i vocab.BccPropertyInterface) {
 	this.Bcc = i
 }
 
 // SetBto returns the "bto" property if it exists, and nil otherwise.
-func (this Tombstone) SetBto(i vocab.BtoPropertyInterface) {
+func (this *Tombstone) SetBto(i vocab.BtoPropertyInterface) {
 	this.Bto = i
 }
 
 // SetCc returns the "cc" property if it exists, and nil otherwise.
-func (this Tombstone) SetCc(i vocab.CcPropertyInterface) {
+func (this *Tombstone) SetCc(i vocab.CcPropertyInterface) {
 	this.Cc = i
 }
 
 // SetContent returns the "content" property if it exists, and nil otherwise.
-func (this Tombstone) SetContent(i vocab.ContentPropertyInterface) {
+func (this *Tombstone) SetContent(i vocab.ContentPropertyInterface) {
 	this.Content = i
 }
 
 // SetContext returns the "context" property if it exists, and nil otherwise.
-func (this Tombstone) SetContext(i vocab.ContextPropertyInterface) {
+func (this *Tombstone) SetContext(i vocab.ContextPropertyInterface) {
 	this.Context = i
 }
 
 // SetDeleted returns the "deleted" property if it exists, and nil otherwise.
-func (this Tombstone) SetDeleted(i vocab.DeletedPropertyInterface) {
+func (this *Tombstone) SetDeleted(i vocab.DeletedPropertyInterface) {
 	this.Deleted = i
 }
 
 // SetDuration returns the "duration" property if it exists, and nil otherwise.
-func (this Tombstone) SetDuration(i vocab.DurationPropertyInterface) {
+func (this *Tombstone) SetDuration(i vocab.DurationPropertyInterface) {
 	this.Duration = i
 }
 
 // SetEndTime returns the "endTime" property if it exists, and nil otherwise.
-func (this Tombstone) SetEndTime(i vocab.EndTimePropertyInterface) {
+func (this *Tombstone) SetEndTime(i vocab.EndTimePropertyInterface) {
 	this.EndTime = i
 }
 
 // SetFormerType returns the "formerType" property if it exists, and nil otherwise.
-func (this Tombstone) SetFormerType(i vocab.FormerTypePropertyInterface) {
+func (this *Tombstone) SetFormerType(i vocab.FormerTypePropertyInterface) {
 	this.FormerType = i
 }
 
 // SetGenerator returns the "generator" property if it exists, and nil otherwise.
-func (this Tombstone) SetGenerator(i vocab.GeneratorPropertyInterface) {
+func (this *Tombstone) SetGenerator(i vocab.GeneratorPropertyInterface) {
 	this.Generator = i
 }
 
 // SetIcon returns the "icon" property if it exists, and nil otherwise.
-func (this Tombstone) SetIcon(i vocab.IconPropertyInterface) {
+func (this *Tombstone) SetIcon(i vocab.IconPropertyInterface) {
 	this.Icon = i
 }
 
 // SetId returns the "id" property if it exists, and nil otherwise.
-func (this Tombstone) SetId(i vocab.IdPropertyInterface) {
+func (this *Tombstone) SetId(i vocab.IdPropertyInterface) {
 	this.Id = i
 }
 
 // SetImage returns the "image" property if it exists, and nil otherwise.
-func (this Tombstone) SetImage(i vocab.ImagePropertyInterface) {
+func (this *Tombstone) SetImage(i vocab.ImagePropertyInterface) {
 	this.Image = i
 }
 
 // SetInReplyTo returns the "inReplyTo" property if it exists, and nil otherwise.
-func (this Tombstone) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
+func (this *Tombstone) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
 	this.InReplyTo = i
 }
 
+// SetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this *Tombstone) SetLikes(i vocab.LikesPropertyInterface) {
+	this.Likes = i
+}
+
 // SetLocation returns the "location" property if it exists, and nil otherwise.
-func (this Tombstone) SetLocation(i vocab.LocationPropertyInterface) {
+func (this *Tombstone) SetLocation(i vocab.LocationPropertyInterface) {
 	this.Location = i
 }
 
 // SetMediaType returns the "mediaType" property if it exists, and nil otherwise.
-func (this Tombstone) SetMediaType(i vocab.MediaTypePropertyInterface) {
+func (this *Tombstone) SetMediaType(i vocab.MediaTypePropertyInterface) {
 	this.MediaType = i
 }
 
 // SetName returns the "name" property if it exists, and nil otherwise.
-func (this Tombstone) SetName(i vocab.NamePropertyInterface) {
+func (this *Tombstone) SetName(i vocab.NamePropertyInterface) {
 	this.Name = i
 }
 
 // SetObject returns the "object" property if it exists, and nil otherwise.
-func (this Tombstone) SetObject(i vocab.ObjectPropertyInterface) {
+func (this *Tombstone) SetObject(i vocab.ObjectPropertyInterface) {
 	this.Object = i
 }
 
 // SetPreview returns the "preview" property if it exists, and nil otherwise.
-func (this Tombstone) SetPreview(i vocab.PreviewPropertyInterface) {
+func (this *Tombstone) SetPreview(i vocab.PreviewPropertyInterface) {
 	this.Preview = i
 }
 
 // SetPublished returns the "published" property if it exists, and nil otherwise.
-func (this Tombstone) SetPublished(i vocab.PublishedPropertyInterface) {
+func (this *Tombstone) SetPublished(i vocab.PublishedPropertyInterface) {
 	this.Published = i
 }
 
 // SetReplies returns the "replies" property if it exists, and nil otherwise.
-func (this Tombstone) SetReplies(i vocab.RepliesPropertyInterface) {
+func (this *Tombstone) SetReplies(i vocab.RepliesPropertyInterface) {
 	this.Replies = i
 }
 
+// SetShares returns the "shares" property if it exists, and nil otherwise.
+func (this *Tombstone) SetShares(i vocab.SharesPropertyInterface) {
+	this.Shares = i
+}
+
 // SetStartTime returns the "startTime" property if it exists, and nil otherwise.
-func (this Tombstone) SetStartTime(i vocab.StartTimePropertyInterface) {
+func (this *Tombstone) SetStartTime(i vocab.StartTimePropertyInterface) {
 	this.StartTime = i
 }
 
 // SetSummary returns the "summary" property if it exists, and nil otherwise.
-func (this Tombstone) SetSummary(i vocab.SummaryPropertyInterface) {
+func (this *Tombstone) SetSummary(i vocab.SummaryPropertyInterface) {
 	this.Summary = i
 }
 
 // SetTag returns the "tag" property if it exists, and nil otherwise.
-func (this Tombstone) SetTag(i vocab.TagPropertyInterface) {
+func (this *Tombstone) SetTag(i vocab.TagPropertyInterface) {
 	this.Tag = i
 }
 
 // SetTo returns the "to" property if it exists, and nil otherwise.
-func (this Tombstone) SetTo(i vocab.ToPropertyInterface) {
+func (this *Tombstone) SetTo(i vocab.ToPropertyInterface) {
 	this.To = i
 }
 
 // SetType returns the "type" property if it exists, and nil otherwise.
-func (this Tombstone) SetType(i vocab.TypePropertyInterface) {
+func (this *Tombstone) SetType(i vocab.TypePropertyInterface) {
 	this.Type = i
 }
 
 // SetUpdated returns the "updated" property if it exists, and nil otherwise.
-func (this Tombstone) SetUpdated(i vocab.UpdatedPropertyInterface) {
+func (this *Tombstone) SetUpdated(i vocab.UpdatedPropertyInterface) {
 	this.Updated = i
 }
 
 // SetUrl returns the "url" property if it exists, and nil otherwise.
-func (this Tombstone) SetUrl(i vocab.UrlPropertyInterface) {
+func (this *Tombstone) SetUrl(i vocab.UrlPropertyInterface) {
 	this.Url = i
 }
 

@@ -17,7 +17,7 @@ type NamePropertyIterator struct {
 	stringMember     string
 	hasStringMember  bool
 	langStringMember map[string]string
-	unknown          []byte
+	unknown          interface{}
 	iri              *url.URL
 	alias            string
 	langMap          map[string]string
@@ -62,13 +62,12 @@ func deserializeNamePropertyIterator(i interface{}, aliasMap map[string]string) 
 			langStringMember: v,
 		}
 		return this, nil
-	} else if str, ok := i.(string); ok {
-		this := &NamePropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &NamePropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "name")
 }
 
@@ -291,7 +290,7 @@ func (this NamePropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // NameProperty is the non-functional property "name". It is permitted to have one

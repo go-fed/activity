@@ -1,6 +1,10 @@
 package typemention
 
-import vocab "github.com/go-fed/activity/streams/vocab"
+import (
+	"fmt"
+	vocab "github.com/go-fed/activity/streams/vocab"
+	"strings"
+)
 
 // A specialized Link that represents an @mention.
 //
@@ -31,12 +35,37 @@ type Mention struct {
 // unmarshalled from a text or binary format.
 func DeserializeMention(m map[string]interface{}, aliasMap map[string]string) (*Mention, error) {
 	alias := ""
+	aliasPrefix := ""
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
+		aliasPrefix = a + ":"
 	}
 	this := &Mention{
 		alias:   alias,
 		unknown: make(map[string]interface{}),
+	}
+	if typeValue, ok := m["type"]; !ok {
+		return nil, fmt.Errorf("no \"type\" property in map")
+	} else if typeString, ok := typeValue.(string); ok {
+		typeName := strings.TrimPrefix(typeString, aliasPrefix)
+		if typeName != "Mention" {
+			return nil, fmt.Errorf("\"type\" property is not of %q type: %s", "Mention", typeName)
+		}
+		// Fall through, success in finding a proper Type
+	} else if arrType, ok := typeValue.([]interface{}); ok {
+		found := false
+		for _, elemVal := range arrType {
+			if typeString, ok := elemVal.(string); ok && strings.TrimPrefix(typeString, aliasPrefix) == "Mention" {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil, fmt.Errorf("could not find a \"type\" property of value %q", "Mention")
+		}
+		// Fall through, success in finding a proper Type
+	} else {
+		return nil, fmt.Errorf("\"type\" property is unrecognized type: %T", typeValue)
 	}
 	// Begin: Known property deserialization
 	if p, err := mgr.DeserializeAttributedToPropertyActivityStreams()(m, aliasMap); err != nil {
@@ -434,6 +463,11 @@ func (this Mention) LessThan(o vocab.MentionInterface) bool {
 // marshalling into a text or binary format.
 func (this Mention) Serialize() (map[string]interface{}, error) {
 	m := make(map[string]interface{})
+	typeName := "Mention"
+	if len(this.alias) > 0 {
+		typeName = this.alias + ":" + "Mention"
+	}
+	m["type"] = typeName
 	// Begin: Serialize known properties
 	// Maybe serialize property "attributedTo"
 	if this.AttributedTo != nil {
@@ -539,57 +573,57 @@ func (this Mention) Serialize() (map[string]interface{}, error) {
 
 // SetAttributedTo returns the "attributedTo" property if it exists, and nil
 // otherwise.
-func (this Mention) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
+func (this *Mention) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
 	this.AttributedTo = i
 }
 
 // SetHeight returns the "height" property if it exists, and nil otherwise.
-func (this Mention) SetHeight(i vocab.HeightPropertyInterface) {
+func (this *Mention) SetHeight(i vocab.HeightPropertyInterface) {
 	this.Height = i
 }
 
 // SetHref returns the "href" property if it exists, and nil otherwise.
-func (this Mention) SetHref(i vocab.HrefPropertyInterface) {
+func (this *Mention) SetHref(i vocab.HrefPropertyInterface) {
 	this.Href = i
 }
 
 // SetHreflang returns the "hreflang" property if it exists, and nil otherwise.
-func (this Mention) SetHreflang(i vocab.HreflangPropertyInterface) {
+func (this *Mention) SetHreflang(i vocab.HreflangPropertyInterface) {
 	this.Hreflang = i
 }
 
 // SetId returns the "id" property if it exists, and nil otherwise.
-func (this Mention) SetId(i vocab.IdPropertyInterface) {
+func (this *Mention) SetId(i vocab.IdPropertyInterface) {
 	this.Id = i
 }
 
 // SetMediaType returns the "mediaType" property if it exists, and nil otherwise.
-func (this Mention) SetMediaType(i vocab.MediaTypePropertyInterface) {
+func (this *Mention) SetMediaType(i vocab.MediaTypePropertyInterface) {
 	this.MediaType = i
 }
 
 // SetName returns the "name" property if it exists, and nil otherwise.
-func (this Mention) SetName(i vocab.NamePropertyInterface) {
+func (this *Mention) SetName(i vocab.NamePropertyInterface) {
 	this.Name = i
 }
 
 // SetPreview returns the "preview" property if it exists, and nil otherwise.
-func (this Mention) SetPreview(i vocab.PreviewPropertyInterface) {
+func (this *Mention) SetPreview(i vocab.PreviewPropertyInterface) {
 	this.Preview = i
 }
 
 // SetRel returns the "rel" property if it exists, and nil otherwise.
-func (this Mention) SetRel(i vocab.RelPropertyInterface) {
+func (this *Mention) SetRel(i vocab.RelPropertyInterface) {
 	this.Rel = i
 }
 
 // SetType returns the "type" property if it exists, and nil otherwise.
-func (this Mention) SetType(i vocab.TypePropertyInterface) {
+func (this *Mention) SetType(i vocab.TypePropertyInterface) {
 	this.Type = i
 }
 
 // SetWidth returns the "width" property if it exists, and nil otherwise.
-func (this Mention) SetWidth(i vocab.WidthPropertyInterface) {
+func (this *Mention) SetWidth(i vocab.WidthPropertyInterface) {
 	this.Width = i
 }
 

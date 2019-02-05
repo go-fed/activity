@@ -12,7 +12,7 @@ import (
 type StartIndexProperty struct {
 	nonNegativeIntegerMember    int
 	hasNonNegativeIntegerMember bool
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 }
@@ -49,15 +49,12 @@ func DeserializeStartIndexProperty(m map[string]interface{}, aliasMap map[string
 				nonNegativeIntegerMember:    v,
 			}
 			return this, nil
-		} else if str, ok := i.(string); ok {
-			this := &StartIndexProperty{
-				alias:   alias,
-				unknown: []byte(str),
-			}
-			return this, nil
-		} else {
-			return nil, fmt.Errorf("could not deserialize %q property", "startIndex")
 		}
+		this := &StartIndexProperty{
+			alias:   alias,
+			unknown: i,
+		}
+		return this, nil
 	}
 	return nil, nil
 }
@@ -179,7 +176,7 @@ func (this StartIndexProperty) Serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // Set sets the value of this property. Calling IsNonNegativeInteger afterwards

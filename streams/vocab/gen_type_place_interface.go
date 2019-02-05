@@ -67,6 +67,8 @@ type PlaceInterface interface {
 	// GetLatitude returns the "latitude" property if it exists, and nil
 	// otherwise.
 	GetLatitude() LatitudePropertyInterface
+	// GetLikes returns the "likes" property if it exists, and nil otherwise.
+	GetLikes() LikesPropertyInterface
 	// GetLocation returns the "location" property if it exists, and nil
 	// otherwise.
 	GetLocation() LocationPropertyInterface
@@ -91,6 +93,8 @@ type PlaceInterface interface {
 	// GetReplies returns the "replies" property if it exists, and nil
 	// otherwise.
 	GetReplies() RepliesPropertyInterface
+	// GetShares returns the "shares" property if it exists, and nil otherwise.
+	GetShares() SharesPropertyInterface
 	// GetStartTime returns the "startTime" property if it exists, and nil
 	// otherwise.
 	GetStartTime() StartTimePropertyInterface
@@ -178,6 +182,8 @@ type PlaceInterface interface {
 	// SetLatitude returns the "latitude" property if it exists, and nil
 	// otherwise.
 	SetLatitude(i LatitudePropertyInterface)
+	// SetLikes returns the "likes" property if it exists, and nil otherwise.
+	SetLikes(i LikesPropertyInterface)
 	// SetLocation returns the "location" property if it exists, and nil
 	// otherwise.
 	SetLocation(i LocationPropertyInterface)
@@ -202,6 +208,8 @@ type PlaceInterface interface {
 	// SetReplies returns the "replies" property if it exists, and nil
 	// otherwise.
 	SetReplies(i RepliesPropertyInterface)
+	// SetShares returns the "shares" property if it exists, and nil otherwise.
+	SetShares(i SharesPropertyInterface)
 	// SetStartTime returns the "startTime" property if it exists, and nil
 	// otherwise.
 	SetStartTime(i StartTimePropertyInterface)

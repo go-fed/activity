@@ -1,6 +1,10 @@
 package typerelationship
 
-import vocab "github.com/go-fed/activity/streams/vocab"
+import (
+	"fmt"
+	vocab "github.com/go-fed/activity/streams/vocab"
+	"strings"
+)
 
 // Describes a relationship between two individuals. The subject and object
 // properties are used to identify the connected individuals. See 5.2
@@ -37,6 +41,7 @@ type Relationship struct {
 	Id           vocab.IdPropertyInterface
 	Image        vocab.ImagePropertyInterface
 	InReplyTo    vocab.InReplyToPropertyInterface
+	Likes        vocab.LikesPropertyInterface
 	Location     vocab.LocationPropertyInterface
 	MediaType    vocab.MediaTypePropertyInterface
 	Name         vocab.NamePropertyInterface
@@ -45,6 +50,7 @@ type Relationship struct {
 	Published    vocab.PublishedPropertyInterface
 	Relationship vocab.RelationshipPropertyInterface
 	Replies      vocab.RepliesPropertyInterface
+	Shares       vocab.SharesPropertyInterface
 	StartTime    vocab.StartTimePropertyInterface
 	Subject      vocab.SubjectPropertyInterface
 	Summary      vocab.SummaryPropertyInterface
@@ -61,12 +67,37 @@ type Relationship struct {
 // has been unmarshalled from a text or binary format.
 func DeserializeRelationship(m map[string]interface{}, aliasMap map[string]string) (*Relationship, error) {
 	alias := ""
+	aliasPrefix := ""
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
+		aliasPrefix = a + ":"
 	}
 	this := &Relationship{
 		alias:   alias,
 		unknown: make(map[string]interface{}),
+	}
+	if typeValue, ok := m["type"]; !ok {
+		return nil, fmt.Errorf("no \"type\" property in map")
+	} else if typeString, ok := typeValue.(string); ok {
+		typeName := strings.TrimPrefix(typeString, aliasPrefix)
+		if typeName != "Relationship" {
+			return nil, fmt.Errorf("\"type\" property is not of %q type: %s", "Relationship", typeName)
+		}
+		// Fall through, success in finding a proper Type
+	} else if arrType, ok := typeValue.([]interface{}); ok {
+		found := false
+		for _, elemVal := range arrType {
+			if typeString, ok := elemVal.(string); ok && strings.TrimPrefix(typeString, aliasPrefix) == "Relationship" {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil, fmt.Errorf("could not find a \"type\" property of value %q", "Relationship")
+		}
+		// Fall through, success in finding a proper Type
+	} else {
+		return nil, fmt.Errorf("\"type\" property is unrecognized type: %T", typeValue)
 	}
 	// Begin: Known property deserialization
 	if p, err := mgr.DeserializeAltitudePropertyActivityStreams()(m, aliasMap); err != nil {
@@ -149,6 +180,11 @@ func DeserializeRelationship(m map[string]interface{}, aliasMap map[string]strin
 	} else if p != nil {
 		this.InReplyTo = p
 	}
+	if p, err := mgr.DeserializeLikesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Likes = p
+	}
 	if p, err := mgr.DeserializeLocationPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -188,6 +224,11 @@ func DeserializeRelationship(m map[string]interface{}, aliasMap map[string]strin
 		return nil, err
 	} else if p != nil {
 		this.Replies = p
+	}
+	if p, err := mgr.DeserializeSharesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Shares = p
 	}
 	if p, err := mgr.DeserializeStartTimePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -266,6 +307,8 @@ func DeserializeRelationship(m map[string]interface{}, aliasMap map[string]strin
 			continue
 		} else if k == "inReplyTo" {
 			continue
+		} else if k == "likes" {
+			continue
 		} else if k == "location" {
 			continue
 		} else if k == "mediaType" {
@@ -281,6 +324,8 @@ func DeserializeRelationship(m map[string]interface{}, aliasMap map[string]strin
 		} else if k == "relationship" {
 			continue
 		} else if k == "replies" {
+			continue
+		} else if k == "shares" {
 			continue
 		} else if k == "startTime" {
 			continue
@@ -427,6 +472,11 @@ func (this Relationship) GetInReplyTo() vocab.InReplyToPropertyInterface {
 	return this.InReplyTo
 }
 
+// GetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this Relationship) GetLikes() vocab.LikesPropertyInterface {
+	return this.Likes
+}
+
 // GetLocation returns the "location" property if it exists, and nil otherwise.
 func (this Relationship) GetLocation() vocab.LocationPropertyInterface {
 	return this.Location
@@ -466,6 +516,11 @@ func (this Relationship) GetRelationship() vocab.RelationshipPropertyInterface {
 // GetReplies returns the "replies" property if it exists, and nil otherwise.
 func (this Relationship) GetReplies() vocab.RepliesPropertyInterface {
 	return this.Replies
+}
+
+// GetShares returns the "shares" property if it exists, and nil otherwise.
+func (this Relationship) GetShares() vocab.SharesPropertyInterface {
+	return this.Shares
 }
 
 // GetStartTime returns the "startTime" property if it exists, and nil otherwise.
@@ -544,6 +599,7 @@ func (this Relationship) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Id, m)
 	m = this.helperJSONLDContext(this.Image, m)
 	m = this.helperJSONLDContext(this.InReplyTo, m)
+	m = this.helperJSONLDContext(this.Likes, m)
 	m = this.helperJSONLDContext(this.Location, m)
 	m = this.helperJSONLDContext(this.MediaType, m)
 	m = this.helperJSONLDContext(this.Name, m)
@@ -552,6 +608,7 @@ func (this Relationship) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Published, m)
 	m = this.helperJSONLDContext(this.Relationship, m)
 	m = this.helperJSONLDContext(this.Replies, m)
+	m = this.helperJSONLDContext(this.Shares, m)
 	m = this.helperJSONLDContext(this.StartTime, m)
 	m = this.helperJSONLDContext(this.Subject, m)
 	m = this.helperJSONLDContext(this.Summary, m)
@@ -792,6 +849,20 @@ func (this Relationship) LessThan(o vocab.RelationshipInterface) bool {
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "likes"
+	if lhs, rhs := this.Likes, o.GetLikes(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "location"
 	if lhs, rhs := this.Location, o.GetLocation(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -892,6 +963,20 @@ func (this Relationship) LessThan(o vocab.RelationshipInterface) bool {
 	} // Else: Both are nil
 	// Compare property "replies"
 	if lhs, rhs := this.Replies, o.GetReplies(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "shares"
+	if lhs, rhs := this.Shares, o.GetShares(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1033,6 +1118,11 @@ func (this Relationship) LessThan(o vocab.RelationshipInterface) bool {
 // marshalling into a text or binary format.
 func (this Relationship) Serialize() (map[string]interface{}, error) {
 	m := make(map[string]interface{})
+	typeName := "Relationship"
+	if len(this.alias) > 0 {
+		typeName = this.alias + ":" + "Relationship"
+	}
+	m["type"] = typeName
 	// Begin: Serialize known properties
 	// Maybe serialize property "altitude"
 	if this.Altitude != nil {
@@ -1162,6 +1252,14 @@ func (this Relationship) Serialize() (map[string]interface{}, error) {
 			m[this.InReplyTo.Name()] = i
 		}
 	}
+	// Maybe serialize property "likes"
+	if this.Likes != nil {
+		if i, err := this.Likes.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Likes.Name()] = i
+		}
+	}
 	// Maybe serialize property "location"
 	if this.Location != nil {
 		if i, err := this.Location.Serialize(); err != nil {
@@ -1224,6 +1322,14 @@ func (this Relationship) Serialize() (map[string]interface{}, error) {
 			return nil, err
 		} else if i != nil {
 			m[this.Replies.Name()] = i
+		}
+	}
+	// Maybe serialize property "shares"
+	if this.Shares != nil {
+		if i, err := this.Shares.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Shares.Name()] = i
 		}
 	}
 	// Maybe serialize property "startTime"
@@ -1305,164 +1411,174 @@ func (this Relationship) Serialize() (map[string]interface{}, error) {
 }
 
 // SetAltitude returns the "altitude" property if it exists, and nil otherwise.
-func (this Relationship) SetAltitude(i vocab.AltitudePropertyInterface) {
+func (this *Relationship) SetAltitude(i vocab.AltitudePropertyInterface) {
 	this.Altitude = i
 }
 
 // SetAttachment returns the "attachment" property if it exists, and nil otherwise.
-func (this Relationship) SetAttachment(i vocab.AttachmentPropertyInterface) {
+func (this *Relationship) SetAttachment(i vocab.AttachmentPropertyInterface) {
 	this.Attachment = i
 }
 
 // SetAttributedTo returns the "attributedTo" property if it exists, and nil
 // otherwise.
-func (this Relationship) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
+func (this *Relationship) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
 	this.AttributedTo = i
 }
 
 // SetAudience returns the "audience" property if it exists, and nil otherwise.
-func (this Relationship) SetAudience(i vocab.AudiencePropertyInterface) {
+func (this *Relationship) SetAudience(i vocab.AudiencePropertyInterface) {
 	this.Audience = i
 }
 
 // SetBcc returns the "bcc" property if it exists, and nil otherwise.
-func (this Relationship) SetBcc(i vocab.BccPropertyInterface) {
+func (this *Relationship) SetBcc(i vocab.BccPropertyInterface) {
 	this.Bcc = i
 }
 
 // SetBto returns the "bto" property if it exists, and nil otherwise.
-func (this Relationship) SetBto(i vocab.BtoPropertyInterface) {
+func (this *Relationship) SetBto(i vocab.BtoPropertyInterface) {
 	this.Bto = i
 }
 
 // SetCc returns the "cc" property if it exists, and nil otherwise.
-func (this Relationship) SetCc(i vocab.CcPropertyInterface) {
+func (this *Relationship) SetCc(i vocab.CcPropertyInterface) {
 	this.Cc = i
 }
 
 // SetContent returns the "content" property if it exists, and nil otherwise.
-func (this Relationship) SetContent(i vocab.ContentPropertyInterface) {
+func (this *Relationship) SetContent(i vocab.ContentPropertyInterface) {
 	this.Content = i
 }
 
 // SetContext returns the "context" property if it exists, and nil otherwise.
-func (this Relationship) SetContext(i vocab.ContextPropertyInterface) {
+func (this *Relationship) SetContext(i vocab.ContextPropertyInterface) {
 	this.Context = i
 }
 
 // SetDuration returns the "duration" property if it exists, and nil otherwise.
-func (this Relationship) SetDuration(i vocab.DurationPropertyInterface) {
+func (this *Relationship) SetDuration(i vocab.DurationPropertyInterface) {
 	this.Duration = i
 }
 
 // SetEndTime returns the "endTime" property if it exists, and nil otherwise.
-func (this Relationship) SetEndTime(i vocab.EndTimePropertyInterface) {
+func (this *Relationship) SetEndTime(i vocab.EndTimePropertyInterface) {
 	this.EndTime = i
 }
 
 // SetGenerator returns the "generator" property if it exists, and nil otherwise.
-func (this Relationship) SetGenerator(i vocab.GeneratorPropertyInterface) {
+func (this *Relationship) SetGenerator(i vocab.GeneratorPropertyInterface) {
 	this.Generator = i
 }
 
 // SetIcon returns the "icon" property if it exists, and nil otherwise.
-func (this Relationship) SetIcon(i vocab.IconPropertyInterface) {
+func (this *Relationship) SetIcon(i vocab.IconPropertyInterface) {
 	this.Icon = i
 }
 
 // SetId returns the "id" property if it exists, and nil otherwise.
-func (this Relationship) SetId(i vocab.IdPropertyInterface) {
+func (this *Relationship) SetId(i vocab.IdPropertyInterface) {
 	this.Id = i
 }
 
 // SetImage returns the "image" property if it exists, and nil otherwise.
-func (this Relationship) SetImage(i vocab.ImagePropertyInterface) {
+func (this *Relationship) SetImage(i vocab.ImagePropertyInterface) {
 	this.Image = i
 }
 
 // SetInReplyTo returns the "inReplyTo" property if it exists, and nil otherwise.
-func (this Relationship) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
+func (this *Relationship) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
 	this.InReplyTo = i
 }
 
+// SetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this *Relationship) SetLikes(i vocab.LikesPropertyInterface) {
+	this.Likes = i
+}
+
 // SetLocation returns the "location" property if it exists, and nil otherwise.
-func (this Relationship) SetLocation(i vocab.LocationPropertyInterface) {
+func (this *Relationship) SetLocation(i vocab.LocationPropertyInterface) {
 	this.Location = i
 }
 
 // SetMediaType returns the "mediaType" property if it exists, and nil otherwise.
-func (this Relationship) SetMediaType(i vocab.MediaTypePropertyInterface) {
+func (this *Relationship) SetMediaType(i vocab.MediaTypePropertyInterface) {
 	this.MediaType = i
 }
 
 // SetName returns the "name" property if it exists, and nil otherwise.
-func (this Relationship) SetName(i vocab.NamePropertyInterface) {
+func (this *Relationship) SetName(i vocab.NamePropertyInterface) {
 	this.Name = i
 }
 
 // SetObject returns the "object" property if it exists, and nil otherwise.
-func (this Relationship) SetObject(i vocab.ObjectPropertyInterface) {
+func (this *Relationship) SetObject(i vocab.ObjectPropertyInterface) {
 	this.Object = i
 }
 
 // SetPreview returns the "preview" property if it exists, and nil otherwise.
-func (this Relationship) SetPreview(i vocab.PreviewPropertyInterface) {
+func (this *Relationship) SetPreview(i vocab.PreviewPropertyInterface) {
 	this.Preview = i
 }
 
 // SetPublished returns the "published" property if it exists, and nil otherwise.
-func (this Relationship) SetPublished(i vocab.PublishedPropertyInterface) {
+func (this *Relationship) SetPublished(i vocab.PublishedPropertyInterface) {
 	this.Published = i
 }
 
 // SetRelationship returns the "relationship" property if it exists, and nil
 // otherwise.
-func (this Relationship) SetRelationship(i vocab.RelationshipPropertyInterface) {
+func (this *Relationship) SetRelationship(i vocab.RelationshipPropertyInterface) {
 	this.Relationship = i
 }
 
 // SetReplies returns the "replies" property if it exists, and nil otherwise.
-func (this Relationship) SetReplies(i vocab.RepliesPropertyInterface) {
+func (this *Relationship) SetReplies(i vocab.RepliesPropertyInterface) {
 	this.Replies = i
 }
 
+// SetShares returns the "shares" property if it exists, and nil otherwise.
+func (this *Relationship) SetShares(i vocab.SharesPropertyInterface) {
+	this.Shares = i
+}
+
 // SetStartTime returns the "startTime" property if it exists, and nil otherwise.
-func (this Relationship) SetStartTime(i vocab.StartTimePropertyInterface) {
+func (this *Relationship) SetStartTime(i vocab.StartTimePropertyInterface) {
 	this.StartTime = i
 }
 
 // SetSubject returns the "subject" property if it exists, and nil otherwise.
-func (this Relationship) SetSubject(i vocab.SubjectPropertyInterface) {
+func (this *Relationship) SetSubject(i vocab.SubjectPropertyInterface) {
 	this.Subject = i
 }
 
 // SetSummary returns the "summary" property if it exists, and nil otherwise.
-func (this Relationship) SetSummary(i vocab.SummaryPropertyInterface) {
+func (this *Relationship) SetSummary(i vocab.SummaryPropertyInterface) {
 	this.Summary = i
 }
 
 // SetTag returns the "tag" property if it exists, and nil otherwise.
-func (this Relationship) SetTag(i vocab.TagPropertyInterface) {
+func (this *Relationship) SetTag(i vocab.TagPropertyInterface) {
 	this.Tag = i
 }
 
 // SetTo returns the "to" property if it exists, and nil otherwise.
-func (this Relationship) SetTo(i vocab.ToPropertyInterface) {
+func (this *Relationship) SetTo(i vocab.ToPropertyInterface) {
 	this.To = i
 }
 
 // SetType returns the "type" property if it exists, and nil otherwise.
-func (this Relationship) SetType(i vocab.TypePropertyInterface) {
+func (this *Relationship) SetType(i vocab.TypePropertyInterface) {
 	this.Type = i
 }
 
 // SetUpdated returns the "updated" property if it exists, and nil otherwise.
-func (this Relationship) SetUpdated(i vocab.UpdatedPropertyInterface) {
+func (this *Relationship) SetUpdated(i vocab.UpdatedPropertyInterface) {
 	this.Updated = i
 }
 
 // SetUrl returns the "url" property if it exists, and nil otherwise.
-func (this Relationship) SetUrl(i vocab.UrlPropertyInterface) {
+func (this *Relationship) SetUrl(i vocab.UrlPropertyInterface) {
 	this.Url = i
 }
 

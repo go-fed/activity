@@ -11,7 +11,7 @@ import (
 // nilable value type.
 type HrefProperty struct {
 	anyURIMember *url.URL
-	unknown      []byte
+	unknown      interface{}
 	alias        string
 }
 
@@ -34,15 +34,12 @@ func DeserializeHrefProperty(m map[string]interface{}, aliasMap map[string]strin
 				anyURIMember: v,
 			}
 			return this, nil
-		} else if str, ok := i.(string); ok {
-			this := &HrefProperty{
-				alias:   alias,
-				unknown: []byte(str),
-			}
-			return this, nil
-		} else {
-			return nil, fmt.Errorf("could not deserialize %q property", "href")
 		}
+		this := &HrefProperty{
+			alias:   alias,
+			unknown: i,
+		}
+		return this, nil
 	}
 	return nil, nil
 }
@@ -158,7 +155,7 @@ func (this HrefProperty) Serialize() (interface{}, error) {
 	if this.IsAnyURI() {
 		return anyuri.SerializeAnyURI(this.Get())
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // Set sets the value of this property. Calling IsAnyURI afterwards will return

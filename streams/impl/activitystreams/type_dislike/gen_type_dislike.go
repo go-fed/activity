@@ -1,6 +1,10 @@
 package typedislike
 
-import vocab "github.com/go-fed/activity/streams/vocab"
+import (
+	"fmt"
+	vocab "github.com/go-fed/activity/streams/vocab"
+	"strings"
+)
 
 // Indicates that the actor dislikes the object.
 //
@@ -30,6 +34,7 @@ type Dislike struct {
 	Image        vocab.ImagePropertyInterface
 	InReplyTo    vocab.InReplyToPropertyInterface
 	Instrument   vocab.InstrumentPropertyInterface
+	Likes        vocab.LikesPropertyInterface
 	Location     vocab.LocationPropertyInterface
 	MediaType    vocab.MediaTypePropertyInterface
 	Name         vocab.NamePropertyInterface
@@ -39,6 +44,7 @@ type Dislike struct {
 	Published    vocab.PublishedPropertyInterface
 	Replies      vocab.RepliesPropertyInterface
 	Result       vocab.ResultPropertyInterface
+	Shares       vocab.SharesPropertyInterface
 	StartTime    vocab.StartTimePropertyInterface
 	Summary      vocab.SummaryPropertyInterface
 	Tag          vocab.TagPropertyInterface
@@ -55,12 +61,37 @@ type Dislike struct {
 // unmarshalled from a text or binary format.
 func DeserializeDislike(m map[string]interface{}, aliasMap map[string]string) (*Dislike, error) {
 	alias := ""
+	aliasPrefix := ""
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
+		aliasPrefix = a + ":"
 	}
 	this := &Dislike{
 		alias:   alias,
 		unknown: make(map[string]interface{}),
+	}
+	if typeValue, ok := m["type"]; !ok {
+		return nil, fmt.Errorf("no \"type\" property in map")
+	} else if typeString, ok := typeValue.(string); ok {
+		typeName := strings.TrimPrefix(typeString, aliasPrefix)
+		if typeName != "Dislike" {
+			return nil, fmt.Errorf("\"type\" property is not of %q type: %s", "Dislike", typeName)
+		}
+		// Fall through, success in finding a proper Type
+	} else if arrType, ok := typeValue.([]interface{}); ok {
+		found := false
+		for _, elemVal := range arrType {
+			if typeString, ok := elemVal.(string); ok && strings.TrimPrefix(typeString, aliasPrefix) == "Dislike" {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil, fmt.Errorf("could not find a \"type\" property of value %q", "Dislike")
+		}
+		// Fall through, success in finding a proper Type
+	} else {
+		return nil, fmt.Errorf("\"type\" property is unrecognized type: %T", typeValue)
 	}
 	// Begin: Known property deserialization
 	if p, err := mgr.DeserializeActorPropertyActivityStreams()(m, aliasMap); err != nil {
@@ -153,6 +184,11 @@ func DeserializeDislike(m map[string]interface{}, aliasMap map[string]string) (*
 	} else if p != nil {
 		this.Instrument = p
 	}
+	if p, err := mgr.DeserializeLikesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Likes = p
+	}
 	if p, err := mgr.DeserializeLocationPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -197,6 +233,11 @@ func DeserializeDislike(m map[string]interface{}, aliasMap map[string]string) (*
 		return nil, err
 	} else if p != nil {
 		this.Result = p
+	}
+	if p, err := mgr.DeserializeSharesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Shares = p
 	}
 	if p, err := mgr.DeserializeStartTimePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -279,6 +320,8 @@ func DeserializeDislike(m map[string]interface{}, aliasMap map[string]string) (*
 			continue
 		} else if k == "instrument" {
 			continue
+		} else if k == "likes" {
+			continue
 		} else if k == "location" {
 			continue
 		} else if k == "mediaType" {
@@ -296,6 +339,8 @@ func DeserializeDislike(m map[string]interface{}, aliasMap map[string]string) (*
 		} else if k == "replies" {
 			continue
 		} else if k == "result" {
+			continue
+		} else if k == "shares" {
 			continue
 		} else if k == "startTime" {
 			continue
@@ -451,6 +496,11 @@ func (this Dislike) GetInstrument() vocab.InstrumentPropertyInterface {
 	return this.Instrument
 }
 
+// GetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this Dislike) GetLikes() vocab.LikesPropertyInterface {
+	return this.Likes
+}
+
 // GetLocation returns the "location" property if it exists, and nil otherwise.
 func (this Dislike) GetLocation() vocab.LocationPropertyInterface {
 	return this.Location
@@ -494,6 +544,11 @@ func (this Dislike) GetReplies() vocab.RepliesPropertyInterface {
 // GetResult returns the "result" property if it exists, and nil otherwise.
 func (this Dislike) GetResult() vocab.ResultPropertyInterface {
 	return this.Result
+}
+
+// GetShares returns the "shares" property if it exists, and nil otherwise.
+func (this Dislike) GetShares() vocab.SharesPropertyInterface {
+	return this.Shares
 }
 
 // GetStartTime returns the "startTime" property if it exists, and nil otherwise.
@@ -574,6 +629,7 @@ func (this Dislike) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Image, m)
 	m = this.helperJSONLDContext(this.InReplyTo, m)
 	m = this.helperJSONLDContext(this.Instrument, m)
+	m = this.helperJSONLDContext(this.Likes, m)
 	m = this.helperJSONLDContext(this.Location, m)
 	m = this.helperJSONLDContext(this.MediaType, m)
 	m = this.helperJSONLDContext(this.Name, m)
@@ -583,6 +639,7 @@ func (this Dislike) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Published, m)
 	m = this.helperJSONLDContext(this.Replies, m)
 	m = this.helperJSONLDContext(this.Result, m)
+	m = this.helperJSONLDContext(this.Shares, m)
 	m = this.helperJSONLDContext(this.StartTime, m)
 	m = this.helperJSONLDContext(this.Summary, m)
 	m = this.helperJSONLDContext(this.Tag, m)
@@ -851,6 +908,20 @@ func (this Dislike) LessThan(o vocab.DislikeInterface) bool {
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "likes"
+	if lhs, rhs := this.Likes, o.GetLikes(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "location"
 	if lhs, rhs := this.Location, o.GetLocation(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -965,6 +1036,20 @@ func (this Dislike) LessThan(o vocab.DislikeInterface) bool {
 	} // Else: Both are nil
 	// Compare property "result"
 	if lhs, rhs := this.Result, o.GetResult(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "shares"
+	if lhs, rhs := this.Shares, o.GetShares(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1106,6 +1191,11 @@ func (this Dislike) LessThan(o vocab.DislikeInterface) bool {
 // marshalling into a text or binary format.
 func (this Dislike) Serialize() (map[string]interface{}, error) {
 	m := make(map[string]interface{})
+	typeName := "Dislike"
+	if len(this.alias) > 0 {
+		typeName = this.alias + ":" + "Dislike"
+	}
+	m["type"] = typeName
 	// Begin: Serialize known properties
 	// Maybe serialize property "actor"
 	if this.Actor != nil {
@@ -1251,6 +1341,14 @@ func (this Dislike) Serialize() (map[string]interface{}, error) {
 			m[this.Instrument.Name()] = i
 		}
 	}
+	// Maybe serialize property "likes"
+	if this.Likes != nil {
+		if i, err := this.Likes.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Likes.Name()] = i
+		}
+	}
 	// Maybe serialize property "location"
 	if this.Location != nil {
 		if i, err := this.Location.Serialize(); err != nil {
@@ -1321,6 +1419,14 @@ func (this Dislike) Serialize() (map[string]interface{}, error) {
 			return nil, err
 		} else if i != nil {
 			m[this.Result.Name()] = i
+		}
+	}
+	// Maybe serialize property "shares"
+	if this.Shares != nil {
+		if i, err := this.Shares.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Shares.Name()] = i
 		}
 	}
 	// Maybe serialize property "startTime"
@@ -1402,178 +1508,188 @@ func (this Dislike) Serialize() (map[string]interface{}, error) {
 }
 
 // SetActor returns the "actor" property if it exists, and nil otherwise.
-func (this Dislike) SetActor(i vocab.ActorPropertyInterface) {
+func (this *Dislike) SetActor(i vocab.ActorPropertyInterface) {
 	this.Actor = i
 }
 
 // SetAltitude returns the "altitude" property if it exists, and nil otherwise.
-func (this Dislike) SetAltitude(i vocab.AltitudePropertyInterface) {
+func (this *Dislike) SetAltitude(i vocab.AltitudePropertyInterface) {
 	this.Altitude = i
 }
 
 // SetAttachment returns the "attachment" property if it exists, and nil otherwise.
-func (this Dislike) SetAttachment(i vocab.AttachmentPropertyInterface) {
+func (this *Dislike) SetAttachment(i vocab.AttachmentPropertyInterface) {
 	this.Attachment = i
 }
 
 // SetAttributedTo returns the "attributedTo" property if it exists, and nil
 // otherwise.
-func (this Dislike) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
+func (this *Dislike) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
 	this.AttributedTo = i
 }
 
 // SetAudience returns the "audience" property if it exists, and nil otherwise.
-func (this Dislike) SetAudience(i vocab.AudiencePropertyInterface) {
+func (this *Dislike) SetAudience(i vocab.AudiencePropertyInterface) {
 	this.Audience = i
 }
 
 // SetBcc returns the "bcc" property if it exists, and nil otherwise.
-func (this Dislike) SetBcc(i vocab.BccPropertyInterface) {
+func (this *Dislike) SetBcc(i vocab.BccPropertyInterface) {
 	this.Bcc = i
 }
 
 // SetBto returns the "bto" property if it exists, and nil otherwise.
-func (this Dislike) SetBto(i vocab.BtoPropertyInterface) {
+func (this *Dislike) SetBto(i vocab.BtoPropertyInterface) {
 	this.Bto = i
 }
 
 // SetCc returns the "cc" property if it exists, and nil otherwise.
-func (this Dislike) SetCc(i vocab.CcPropertyInterface) {
+func (this *Dislike) SetCc(i vocab.CcPropertyInterface) {
 	this.Cc = i
 }
 
 // SetContent returns the "content" property if it exists, and nil otherwise.
-func (this Dislike) SetContent(i vocab.ContentPropertyInterface) {
+func (this *Dislike) SetContent(i vocab.ContentPropertyInterface) {
 	this.Content = i
 }
 
 // SetContext returns the "context" property if it exists, and nil otherwise.
-func (this Dislike) SetContext(i vocab.ContextPropertyInterface) {
+func (this *Dislike) SetContext(i vocab.ContextPropertyInterface) {
 	this.Context = i
 }
 
 // SetDuration returns the "duration" property if it exists, and nil otherwise.
-func (this Dislike) SetDuration(i vocab.DurationPropertyInterface) {
+func (this *Dislike) SetDuration(i vocab.DurationPropertyInterface) {
 	this.Duration = i
 }
 
 // SetEndTime returns the "endTime" property if it exists, and nil otherwise.
-func (this Dislike) SetEndTime(i vocab.EndTimePropertyInterface) {
+func (this *Dislike) SetEndTime(i vocab.EndTimePropertyInterface) {
 	this.EndTime = i
 }
 
 // SetGenerator returns the "generator" property if it exists, and nil otherwise.
-func (this Dislike) SetGenerator(i vocab.GeneratorPropertyInterface) {
+func (this *Dislike) SetGenerator(i vocab.GeneratorPropertyInterface) {
 	this.Generator = i
 }
 
 // SetIcon returns the "icon" property if it exists, and nil otherwise.
-func (this Dislike) SetIcon(i vocab.IconPropertyInterface) {
+func (this *Dislike) SetIcon(i vocab.IconPropertyInterface) {
 	this.Icon = i
 }
 
 // SetId returns the "id" property if it exists, and nil otherwise.
-func (this Dislike) SetId(i vocab.IdPropertyInterface) {
+func (this *Dislike) SetId(i vocab.IdPropertyInterface) {
 	this.Id = i
 }
 
 // SetImage returns the "image" property if it exists, and nil otherwise.
-func (this Dislike) SetImage(i vocab.ImagePropertyInterface) {
+func (this *Dislike) SetImage(i vocab.ImagePropertyInterface) {
 	this.Image = i
 }
 
 // SetInReplyTo returns the "inReplyTo" property if it exists, and nil otherwise.
-func (this Dislike) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
+func (this *Dislike) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
 	this.InReplyTo = i
 }
 
 // SetInstrument returns the "instrument" property if it exists, and nil otherwise.
-func (this Dislike) SetInstrument(i vocab.InstrumentPropertyInterface) {
+func (this *Dislike) SetInstrument(i vocab.InstrumentPropertyInterface) {
 	this.Instrument = i
 }
 
+// SetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this *Dislike) SetLikes(i vocab.LikesPropertyInterface) {
+	this.Likes = i
+}
+
 // SetLocation returns the "location" property if it exists, and nil otherwise.
-func (this Dislike) SetLocation(i vocab.LocationPropertyInterface) {
+func (this *Dislike) SetLocation(i vocab.LocationPropertyInterface) {
 	this.Location = i
 }
 
 // SetMediaType returns the "mediaType" property if it exists, and nil otherwise.
-func (this Dislike) SetMediaType(i vocab.MediaTypePropertyInterface) {
+func (this *Dislike) SetMediaType(i vocab.MediaTypePropertyInterface) {
 	this.MediaType = i
 }
 
 // SetName returns the "name" property if it exists, and nil otherwise.
-func (this Dislike) SetName(i vocab.NamePropertyInterface) {
+func (this *Dislike) SetName(i vocab.NamePropertyInterface) {
 	this.Name = i
 }
 
 // SetObject returns the "object" property if it exists, and nil otherwise.
-func (this Dislike) SetObject(i vocab.ObjectPropertyInterface) {
+func (this *Dislike) SetObject(i vocab.ObjectPropertyInterface) {
 	this.Object = i
 }
 
 // SetOrigin returns the "origin" property if it exists, and nil otherwise.
-func (this Dislike) SetOrigin(i vocab.OriginPropertyInterface) {
+func (this *Dislike) SetOrigin(i vocab.OriginPropertyInterface) {
 	this.Origin = i
 }
 
 // SetPreview returns the "preview" property if it exists, and nil otherwise.
-func (this Dislike) SetPreview(i vocab.PreviewPropertyInterface) {
+func (this *Dislike) SetPreview(i vocab.PreviewPropertyInterface) {
 	this.Preview = i
 }
 
 // SetPublished returns the "published" property if it exists, and nil otherwise.
-func (this Dislike) SetPublished(i vocab.PublishedPropertyInterface) {
+func (this *Dislike) SetPublished(i vocab.PublishedPropertyInterface) {
 	this.Published = i
 }
 
 // SetReplies returns the "replies" property if it exists, and nil otherwise.
-func (this Dislike) SetReplies(i vocab.RepliesPropertyInterface) {
+func (this *Dislike) SetReplies(i vocab.RepliesPropertyInterface) {
 	this.Replies = i
 }
 
 // SetResult returns the "result" property if it exists, and nil otherwise.
-func (this Dislike) SetResult(i vocab.ResultPropertyInterface) {
+func (this *Dislike) SetResult(i vocab.ResultPropertyInterface) {
 	this.Result = i
 }
 
+// SetShares returns the "shares" property if it exists, and nil otherwise.
+func (this *Dislike) SetShares(i vocab.SharesPropertyInterface) {
+	this.Shares = i
+}
+
 // SetStartTime returns the "startTime" property if it exists, and nil otherwise.
-func (this Dislike) SetStartTime(i vocab.StartTimePropertyInterface) {
+func (this *Dislike) SetStartTime(i vocab.StartTimePropertyInterface) {
 	this.StartTime = i
 }
 
 // SetSummary returns the "summary" property if it exists, and nil otherwise.
-func (this Dislike) SetSummary(i vocab.SummaryPropertyInterface) {
+func (this *Dislike) SetSummary(i vocab.SummaryPropertyInterface) {
 	this.Summary = i
 }
 
 // SetTag returns the "tag" property if it exists, and nil otherwise.
-func (this Dislike) SetTag(i vocab.TagPropertyInterface) {
+func (this *Dislike) SetTag(i vocab.TagPropertyInterface) {
 	this.Tag = i
 }
 
 // SetTarget returns the "target" property if it exists, and nil otherwise.
-func (this Dislike) SetTarget(i vocab.TargetPropertyInterface) {
+func (this *Dislike) SetTarget(i vocab.TargetPropertyInterface) {
 	this.Target = i
 }
 
 // SetTo returns the "to" property if it exists, and nil otherwise.
-func (this Dislike) SetTo(i vocab.ToPropertyInterface) {
+func (this *Dislike) SetTo(i vocab.ToPropertyInterface) {
 	this.To = i
 }
 
 // SetType returns the "type" property if it exists, and nil otherwise.
-func (this Dislike) SetType(i vocab.TypePropertyInterface) {
+func (this *Dislike) SetType(i vocab.TypePropertyInterface) {
 	this.Type = i
 }
 
 // SetUpdated returns the "updated" property if it exists, and nil otherwise.
-func (this Dislike) SetUpdated(i vocab.UpdatedPropertyInterface) {
+func (this *Dislike) SetUpdated(i vocab.UpdatedPropertyInterface) {
 	this.Updated = i
 }
 
 // SetUrl returns the "url" property if it exists, and nil otherwise.
-func (this Dislike) SetUrl(i vocab.UrlPropertyInterface) {
+func (this *Dislike) SetUrl(i vocab.UrlPropertyInterface) {
 	this.Url = i
 }
 

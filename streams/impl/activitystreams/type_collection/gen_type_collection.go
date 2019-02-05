@@ -1,6 +1,10 @@
 package typecollection
 
-import vocab "github.com/go-fed/activity/streams/vocab"
+import (
+	"fmt"
+	vocab "github.com/go-fed/activity/streams/vocab"
+	"strings"
+)
 
 // A Collection is a subtype of Object that represents ordered or unordered sets
 // of Object or Link instances. Refer to the Activity Streams 2.0 Core
@@ -43,6 +47,7 @@ type Collection struct {
 	InReplyTo    vocab.InReplyToPropertyInterface
 	Items        vocab.ItemsPropertyInterface
 	Last         vocab.LastPropertyInterface
+	Likes        vocab.LikesPropertyInterface
 	Location     vocab.LocationPropertyInterface
 	MediaType    vocab.MediaTypePropertyInterface
 	Name         vocab.NamePropertyInterface
@@ -50,6 +55,7 @@ type Collection struct {
 	Preview      vocab.PreviewPropertyInterface
 	Published    vocab.PublishedPropertyInterface
 	Replies      vocab.RepliesPropertyInterface
+	Shares       vocab.SharesPropertyInterface
 	StartTime    vocab.StartTimePropertyInterface
 	Summary      vocab.SummaryPropertyInterface
 	Tag          vocab.TagPropertyInterface
@@ -102,12 +108,37 @@ func CollectionIsExtendedBy(other vocab.Type) bool {
 // been unmarshalled from a text or binary format.
 func DeserializeCollection(m map[string]interface{}, aliasMap map[string]string) (*Collection, error) {
 	alias := ""
+	aliasPrefix := ""
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
+		aliasPrefix = a + ":"
 	}
 	this := &Collection{
 		alias:   alias,
 		unknown: make(map[string]interface{}),
+	}
+	if typeValue, ok := m["type"]; !ok {
+		return nil, fmt.Errorf("no \"type\" property in map")
+	} else if typeString, ok := typeValue.(string); ok {
+		typeName := strings.TrimPrefix(typeString, aliasPrefix)
+		if typeName != "Collection" {
+			return nil, fmt.Errorf("\"type\" property is not of %q type: %s", "Collection", typeName)
+		}
+		// Fall through, success in finding a proper Type
+	} else if arrType, ok := typeValue.([]interface{}); ok {
+		found := false
+		for _, elemVal := range arrType {
+			if typeString, ok := elemVal.(string); ok && strings.TrimPrefix(typeString, aliasPrefix) == "Collection" {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil, fmt.Errorf("could not find a \"type\" property of value %q", "Collection")
+		}
+		// Fall through, success in finding a proper Type
+	} else {
+		return nil, fmt.Errorf("\"type\" property is unrecognized type: %T", typeValue)
 	}
 	// Begin: Known property deserialization
 	if p, err := mgr.DeserializeAltitudePropertyActivityStreams()(m, aliasMap); err != nil {
@@ -210,6 +241,11 @@ func DeserializeCollection(m map[string]interface{}, aliasMap map[string]string)
 	} else if p != nil {
 		this.Last = p
 	}
+	if p, err := mgr.DeserializeLikesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Likes = p
+	}
 	if p, err := mgr.DeserializeLocationPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -244,6 +280,11 @@ func DeserializeCollection(m map[string]interface{}, aliasMap map[string]string)
 		return nil, err
 	} else if p != nil {
 		this.Replies = p
+	}
+	if p, err := mgr.DeserializeSharesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Shares = p
 	}
 	if p, err := mgr.DeserializeStartTimePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -330,6 +371,8 @@ func DeserializeCollection(m map[string]interface{}, aliasMap map[string]string)
 			continue
 		} else if k == "last" {
 			continue
+		} else if k == "likes" {
+			continue
 		} else if k == "location" {
 			continue
 		} else if k == "mediaType" {
@@ -343,6 +386,8 @@ func DeserializeCollection(m map[string]interface{}, aliasMap map[string]string)
 		} else if k == "published" {
 			continue
 		} else if k == "replies" {
+			continue
+		} else if k == "shares" {
 			continue
 		} else if k == "startTime" {
 			continue
@@ -478,6 +523,11 @@ func (this Collection) GetLast() vocab.LastPropertyInterface {
 	return this.Last
 }
 
+// GetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this Collection) GetLikes() vocab.LikesPropertyInterface {
+	return this.Likes
+}
+
 // GetLocation returns the "location" property if it exists, and nil otherwise.
 func (this Collection) GetLocation() vocab.LocationPropertyInterface {
 	return this.Location
@@ -511,6 +561,11 @@ func (this Collection) GetPublished() vocab.PublishedPropertyInterface {
 // GetReplies returns the "replies" property if it exists, and nil otherwise.
 func (this Collection) GetReplies() vocab.RepliesPropertyInterface {
 	return this.Replies
+}
+
+// GetShares returns the "shares" property if it exists, and nil otherwise.
+func (this Collection) GetShares() vocab.SharesPropertyInterface {
+	return this.Shares
 }
 
 // GetStartTime returns the "startTime" property if it exists, and nil otherwise.
@@ -593,6 +648,7 @@ func (this Collection) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.InReplyTo, m)
 	m = this.helperJSONLDContext(this.Items, m)
 	m = this.helperJSONLDContext(this.Last, m)
+	m = this.helperJSONLDContext(this.Likes, m)
 	m = this.helperJSONLDContext(this.Location, m)
 	m = this.helperJSONLDContext(this.MediaType, m)
 	m = this.helperJSONLDContext(this.Name, m)
@@ -600,6 +656,7 @@ func (this Collection) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Preview, m)
 	m = this.helperJSONLDContext(this.Published, m)
 	m = this.helperJSONLDContext(this.Replies, m)
+	m = this.helperJSONLDContext(this.Shares, m)
 	m = this.helperJSONLDContext(this.StartTime, m)
 	m = this.helperJSONLDContext(this.Summary, m)
 	m = this.helperJSONLDContext(this.Tag, m)
@@ -896,6 +953,20 @@ func (this Collection) LessThan(o vocab.CollectionInterface) bool {
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "likes"
+	if lhs, rhs := this.Likes, o.GetLikes(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "location"
 	if lhs, rhs := this.Location, o.GetLocation(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -982,6 +1053,20 @@ func (this Collection) LessThan(o vocab.CollectionInterface) bool {
 	} // Else: Both are nil
 	// Compare property "replies"
 	if lhs, rhs := this.Replies, o.GetReplies(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "shares"
+	if lhs, rhs := this.Shares, o.GetShares(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1123,6 +1208,11 @@ func (this Collection) LessThan(o vocab.CollectionInterface) bool {
 // marshalling into a text or binary format.
 func (this Collection) Serialize() (map[string]interface{}, error) {
 	m := make(map[string]interface{})
+	typeName := "Collection"
+	if len(this.alias) > 0 {
+		typeName = this.alias + ":" + "Collection"
+	}
+	m["type"] = typeName
 	// Begin: Serialize known properties
 	// Maybe serialize property "altitude"
 	if this.Altitude != nil {
@@ -1284,6 +1374,14 @@ func (this Collection) Serialize() (map[string]interface{}, error) {
 			m[this.Last.Name()] = i
 		}
 	}
+	// Maybe serialize property "likes"
+	if this.Likes != nil {
+		if i, err := this.Likes.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Likes.Name()] = i
+		}
+	}
 	// Maybe serialize property "location"
 	if this.Location != nil {
 		if i, err := this.Location.Serialize(); err != nil {
@@ -1338,6 +1436,14 @@ func (this Collection) Serialize() (map[string]interface{}, error) {
 			return nil, err
 		} else if i != nil {
 			m[this.Replies.Name()] = i
+		}
+	}
+	// Maybe serialize property "shares"
+	if this.Shares != nil {
+		if i, err := this.Shares.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Shares.Name()] = i
 		}
 	}
 	// Maybe serialize property "startTime"
@@ -1419,178 +1525,188 @@ func (this Collection) Serialize() (map[string]interface{}, error) {
 }
 
 // SetAltitude returns the "altitude" property if it exists, and nil otherwise.
-func (this Collection) SetAltitude(i vocab.AltitudePropertyInterface) {
+func (this *Collection) SetAltitude(i vocab.AltitudePropertyInterface) {
 	this.Altitude = i
 }
 
 // SetAttachment returns the "attachment" property if it exists, and nil otherwise.
-func (this Collection) SetAttachment(i vocab.AttachmentPropertyInterface) {
+func (this *Collection) SetAttachment(i vocab.AttachmentPropertyInterface) {
 	this.Attachment = i
 }
 
 // SetAttributedTo returns the "attributedTo" property if it exists, and nil
 // otherwise.
-func (this Collection) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
+func (this *Collection) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
 	this.AttributedTo = i
 }
 
 // SetAudience returns the "audience" property if it exists, and nil otherwise.
-func (this Collection) SetAudience(i vocab.AudiencePropertyInterface) {
+func (this *Collection) SetAudience(i vocab.AudiencePropertyInterface) {
 	this.Audience = i
 }
 
 // SetBcc returns the "bcc" property if it exists, and nil otherwise.
-func (this Collection) SetBcc(i vocab.BccPropertyInterface) {
+func (this *Collection) SetBcc(i vocab.BccPropertyInterface) {
 	this.Bcc = i
 }
 
 // SetBto returns the "bto" property if it exists, and nil otherwise.
-func (this Collection) SetBto(i vocab.BtoPropertyInterface) {
+func (this *Collection) SetBto(i vocab.BtoPropertyInterface) {
 	this.Bto = i
 }
 
 // SetCc returns the "cc" property if it exists, and nil otherwise.
-func (this Collection) SetCc(i vocab.CcPropertyInterface) {
+func (this *Collection) SetCc(i vocab.CcPropertyInterface) {
 	this.Cc = i
 }
 
 // SetContent returns the "content" property if it exists, and nil otherwise.
-func (this Collection) SetContent(i vocab.ContentPropertyInterface) {
+func (this *Collection) SetContent(i vocab.ContentPropertyInterface) {
 	this.Content = i
 }
 
 // SetContext returns the "context" property if it exists, and nil otherwise.
-func (this Collection) SetContext(i vocab.ContextPropertyInterface) {
+func (this *Collection) SetContext(i vocab.ContextPropertyInterface) {
 	this.Context = i
 }
 
 // SetCurrent returns the "current" property if it exists, and nil otherwise.
-func (this Collection) SetCurrent(i vocab.CurrentPropertyInterface) {
+func (this *Collection) SetCurrent(i vocab.CurrentPropertyInterface) {
 	this.Current = i
 }
 
 // SetDuration returns the "duration" property if it exists, and nil otherwise.
-func (this Collection) SetDuration(i vocab.DurationPropertyInterface) {
+func (this *Collection) SetDuration(i vocab.DurationPropertyInterface) {
 	this.Duration = i
 }
 
 // SetEndTime returns the "endTime" property if it exists, and nil otherwise.
-func (this Collection) SetEndTime(i vocab.EndTimePropertyInterface) {
+func (this *Collection) SetEndTime(i vocab.EndTimePropertyInterface) {
 	this.EndTime = i
 }
 
 // SetFirst returns the "first" property if it exists, and nil otherwise.
-func (this Collection) SetFirst(i vocab.FirstPropertyInterface) {
+func (this *Collection) SetFirst(i vocab.FirstPropertyInterface) {
 	this.First = i
 }
 
 // SetGenerator returns the "generator" property if it exists, and nil otherwise.
-func (this Collection) SetGenerator(i vocab.GeneratorPropertyInterface) {
+func (this *Collection) SetGenerator(i vocab.GeneratorPropertyInterface) {
 	this.Generator = i
 }
 
 // SetIcon returns the "icon" property if it exists, and nil otherwise.
-func (this Collection) SetIcon(i vocab.IconPropertyInterface) {
+func (this *Collection) SetIcon(i vocab.IconPropertyInterface) {
 	this.Icon = i
 }
 
 // SetId returns the "id" property if it exists, and nil otherwise.
-func (this Collection) SetId(i vocab.IdPropertyInterface) {
+func (this *Collection) SetId(i vocab.IdPropertyInterface) {
 	this.Id = i
 }
 
 // SetImage returns the "image" property if it exists, and nil otherwise.
-func (this Collection) SetImage(i vocab.ImagePropertyInterface) {
+func (this *Collection) SetImage(i vocab.ImagePropertyInterface) {
 	this.Image = i
 }
 
 // SetInReplyTo returns the "inReplyTo" property if it exists, and nil otherwise.
-func (this Collection) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
+func (this *Collection) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
 	this.InReplyTo = i
 }
 
 // SetItems returns the "items" property if it exists, and nil otherwise.
-func (this Collection) SetItems(i vocab.ItemsPropertyInterface) {
+func (this *Collection) SetItems(i vocab.ItemsPropertyInterface) {
 	this.Items = i
 }
 
 // SetLast returns the "last" property if it exists, and nil otherwise.
-func (this Collection) SetLast(i vocab.LastPropertyInterface) {
+func (this *Collection) SetLast(i vocab.LastPropertyInterface) {
 	this.Last = i
 }
 
+// SetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this *Collection) SetLikes(i vocab.LikesPropertyInterface) {
+	this.Likes = i
+}
+
 // SetLocation returns the "location" property if it exists, and nil otherwise.
-func (this Collection) SetLocation(i vocab.LocationPropertyInterface) {
+func (this *Collection) SetLocation(i vocab.LocationPropertyInterface) {
 	this.Location = i
 }
 
 // SetMediaType returns the "mediaType" property if it exists, and nil otherwise.
-func (this Collection) SetMediaType(i vocab.MediaTypePropertyInterface) {
+func (this *Collection) SetMediaType(i vocab.MediaTypePropertyInterface) {
 	this.MediaType = i
 }
 
 // SetName returns the "name" property if it exists, and nil otherwise.
-func (this Collection) SetName(i vocab.NamePropertyInterface) {
+func (this *Collection) SetName(i vocab.NamePropertyInterface) {
 	this.Name = i
 }
 
 // SetObject returns the "object" property if it exists, and nil otherwise.
-func (this Collection) SetObject(i vocab.ObjectPropertyInterface) {
+func (this *Collection) SetObject(i vocab.ObjectPropertyInterface) {
 	this.Object = i
 }
 
 // SetPreview returns the "preview" property if it exists, and nil otherwise.
-func (this Collection) SetPreview(i vocab.PreviewPropertyInterface) {
+func (this *Collection) SetPreview(i vocab.PreviewPropertyInterface) {
 	this.Preview = i
 }
 
 // SetPublished returns the "published" property if it exists, and nil otherwise.
-func (this Collection) SetPublished(i vocab.PublishedPropertyInterface) {
+func (this *Collection) SetPublished(i vocab.PublishedPropertyInterface) {
 	this.Published = i
 }
 
 // SetReplies returns the "replies" property if it exists, and nil otherwise.
-func (this Collection) SetReplies(i vocab.RepliesPropertyInterface) {
+func (this *Collection) SetReplies(i vocab.RepliesPropertyInterface) {
 	this.Replies = i
 }
 
+// SetShares returns the "shares" property if it exists, and nil otherwise.
+func (this *Collection) SetShares(i vocab.SharesPropertyInterface) {
+	this.Shares = i
+}
+
 // SetStartTime returns the "startTime" property if it exists, and nil otherwise.
-func (this Collection) SetStartTime(i vocab.StartTimePropertyInterface) {
+func (this *Collection) SetStartTime(i vocab.StartTimePropertyInterface) {
 	this.StartTime = i
 }
 
 // SetSummary returns the "summary" property if it exists, and nil otherwise.
-func (this Collection) SetSummary(i vocab.SummaryPropertyInterface) {
+func (this *Collection) SetSummary(i vocab.SummaryPropertyInterface) {
 	this.Summary = i
 }
 
 // SetTag returns the "tag" property if it exists, and nil otherwise.
-func (this Collection) SetTag(i vocab.TagPropertyInterface) {
+func (this *Collection) SetTag(i vocab.TagPropertyInterface) {
 	this.Tag = i
 }
 
 // SetTo returns the "to" property if it exists, and nil otherwise.
-func (this Collection) SetTo(i vocab.ToPropertyInterface) {
+func (this *Collection) SetTo(i vocab.ToPropertyInterface) {
 	this.To = i
 }
 
 // SetTotalItems returns the "totalItems" property if it exists, and nil otherwise.
-func (this Collection) SetTotalItems(i vocab.TotalItemsPropertyInterface) {
+func (this *Collection) SetTotalItems(i vocab.TotalItemsPropertyInterface) {
 	this.TotalItems = i
 }
 
 // SetType returns the "type" property if it exists, and nil otherwise.
-func (this Collection) SetType(i vocab.TypePropertyInterface) {
+func (this *Collection) SetType(i vocab.TypePropertyInterface) {
 	this.Type = i
 }
 
 // SetUpdated returns the "updated" property if it exists, and nil otherwise.
-func (this Collection) SetUpdated(i vocab.UpdatedPropertyInterface) {
+func (this *Collection) SetUpdated(i vocab.UpdatedPropertyInterface) {
 	this.Updated = i
 }
 
 // SetUrl returns the "url" property if it exists, and nil otherwise.
-func (this Collection) SetUrl(i vocab.UrlPropertyInterface) {
+func (this *Collection) SetUrl(i vocab.UrlPropertyInterface) {
 	this.Url = i
 }
 

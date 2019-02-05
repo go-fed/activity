@@ -66,7 +66,7 @@ type ActorPropertyIterator struct {
 	UpdateMember                vocab.UpdateInterface
 	VideoMember                 vocab.VideoInterface
 	ViewMember                  vocab.ViewInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 	myIdx                       int
@@ -423,13 +423,12 @@ func deserializeActorPropertyIterator(i interface{}, aliasMap map[string]string)
 			}
 			return this, nil
 		}
-	} else if str, ok := i.(string); ok {
-		this := &ActorPropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &ActorPropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "actor")
 }
 
@@ -2162,7 +2161,7 @@ func (this ActorPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // ActorProperty is the non-functional property "actor". It is permitted to have

@@ -1,6 +1,10 @@
 package typeevent
 
-import vocab "github.com/go-fed/activity/streams/vocab"
+import (
+	"fmt"
+	vocab "github.com/go-fed/activity/streams/vocab"
+	"strings"
+)
 
 // Represents any kind of event.
 //
@@ -28,6 +32,7 @@ type Event struct {
 	Id           vocab.IdPropertyInterface
 	Image        vocab.ImagePropertyInterface
 	InReplyTo    vocab.InReplyToPropertyInterface
+	Likes        vocab.LikesPropertyInterface
 	Location     vocab.LocationPropertyInterface
 	MediaType    vocab.MediaTypePropertyInterface
 	Name         vocab.NamePropertyInterface
@@ -35,6 +40,7 @@ type Event struct {
 	Preview      vocab.PreviewPropertyInterface
 	Published    vocab.PublishedPropertyInterface
 	Replies      vocab.RepliesPropertyInterface
+	Shares       vocab.SharesPropertyInterface
 	StartTime    vocab.StartTimePropertyInterface
 	Summary      vocab.SummaryPropertyInterface
 	Tag          vocab.TagPropertyInterface
@@ -50,12 +56,37 @@ type Event struct {
 // unmarshalled from a text or binary format.
 func DeserializeEvent(m map[string]interface{}, aliasMap map[string]string) (*Event, error) {
 	alias := ""
+	aliasPrefix := ""
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
+		aliasPrefix = a + ":"
 	}
 	this := &Event{
 		alias:   alias,
 		unknown: make(map[string]interface{}),
+	}
+	if typeValue, ok := m["type"]; !ok {
+		return nil, fmt.Errorf("no \"type\" property in map")
+	} else if typeString, ok := typeValue.(string); ok {
+		typeName := strings.TrimPrefix(typeString, aliasPrefix)
+		if typeName != "Event" {
+			return nil, fmt.Errorf("\"type\" property is not of %q type: %s", "Event", typeName)
+		}
+		// Fall through, success in finding a proper Type
+	} else if arrType, ok := typeValue.([]interface{}); ok {
+		found := false
+		for _, elemVal := range arrType {
+			if typeString, ok := elemVal.(string); ok && strings.TrimPrefix(typeString, aliasPrefix) == "Event" {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil, fmt.Errorf("could not find a \"type\" property of value %q", "Event")
+		}
+		// Fall through, success in finding a proper Type
+	} else {
+		return nil, fmt.Errorf("\"type\" property is unrecognized type: %T", typeValue)
 	}
 	// Begin: Known property deserialization
 	if p, err := mgr.DeserializeAltitudePropertyActivityStreams()(m, aliasMap); err != nil {
@@ -138,6 +169,11 @@ func DeserializeEvent(m map[string]interface{}, aliasMap map[string]string) (*Ev
 	} else if p != nil {
 		this.InReplyTo = p
 	}
+	if p, err := mgr.DeserializeLikesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Likes = p
+	}
 	if p, err := mgr.DeserializeLocationPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -172,6 +208,11 @@ func DeserializeEvent(m map[string]interface{}, aliasMap map[string]string) (*Ev
 		return nil, err
 	} else if p != nil {
 		this.Replies = p
+	}
+	if p, err := mgr.DeserializeSharesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Shares = p
 	}
 	if p, err := mgr.DeserializeStartTimePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -245,6 +286,8 @@ func DeserializeEvent(m map[string]interface{}, aliasMap map[string]string) (*Ev
 			continue
 		} else if k == "inReplyTo" {
 			continue
+		} else if k == "likes" {
+			continue
 		} else if k == "location" {
 			continue
 		} else if k == "mediaType" {
@@ -258,6 +301,8 @@ func DeserializeEvent(m map[string]interface{}, aliasMap map[string]string) (*Ev
 		} else if k == "published" {
 			continue
 		} else if k == "replies" {
+			continue
+		} else if k == "shares" {
 			continue
 		} else if k == "startTime" {
 			continue
@@ -401,6 +446,11 @@ func (this Event) GetInReplyTo() vocab.InReplyToPropertyInterface {
 	return this.InReplyTo
 }
 
+// GetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this Event) GetLikes() vocab.LikesPropertyInterface {
+	return this.Likes
+}
+
 // GetLocation returns the "location" property if it exists, and nil otherwise.
 func (this Event) GetLocation() vocab.LocationPropertyInterface {
 	return this.Location
@@ -434,6 +484,11 @@ func (this Event) GetPublished() vocab.PublishedPropertyInterface {
 // GetReplies returns the "replies" property if it exists, and nil otherwise.
 func (this Event) GetReplies() vocab.RepliesPropertyInterface {
 	return this.Replies
+}
+
+// GetShares returns the "shares" property if it exists, and nil otherwise.
+func (this Event) GetShares() vocab.SharesPropertyInterface {
+	return this.Shares
 }
 
 // GetStartTime returns the "startTime" property if it exists, and nil otherwise.
@@ -507,6 +562,7 @@ func (this Event) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Id, m)
 	m = this.helperJSONLDContext(this.Image, m)
 	m = this.helperJSONLDContext(this.InReplyTo, m)
+	m = this.helperJSONLDContext(this.Likes, m)
 	m = this.helperJSONLDContext(this.Location, m)
 	m = this.helperJSONLDContext(this.MediaType, m)
 	m = this.helperJSONLDContext(this.Name, m)
@@ -514,6 +570,7 @@ func (this Event) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Preview, m)
 	m = this.helperJSONLDContext(this.Published, m)
 	m = this.helperJSONLDContext(this.Replies, m)
+	m = this.helperJSONLDContext(this.Shares, m)
 	m = this.helperJSONLDContext(this.StartTime, m)
 	m = this.helperJSONLDContext(this.Summary, m)
 	m = this.helperJSONLDContext(this.Tag, m)
@@ -753,6 +810,20 @@ func (this Event) LessThan(o vocab.EventInterface) bool {
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "likes"
+	if lhs, rhs := this.Likes, o.GetLikes(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "location"
 	if lhs, rhs := this.Location, o.GetLocation(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -839,6 +910,20 @@ func (this Event) LessThan(o vocab.EventInterface) bool {
 	} // Else: Both are nil
 	// Compare property "replies"
 	if lhs, rhs := this.Replies, o.GetReplies(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "shares"
+	if lhs, rhs := this.Shares, o.GetShares(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -966,6 +1051,11 @@ func (this Event) LessThan(o vocab.EventInterface) bool {
 // marshalling into a text or binary format.
 func (this Event) Serialize() (map[string]interface{}, error) {
 	m := make(map[string]interface{})
+	typeName := "Event"
+	if len(this.alias) > 0 {
+		typeName = this.alias + ":" + "Event"
+	}
+	m["type"] = typeName
 	// Begin: Serialize known properties
 	// Maybe serialize property "altitude"
 	if this.Altitude != nil {
@@ -1095,6 +1185,14 @@ func (this Event) Serialize() (map[string]interface{}, error) {
 			m[this.InReplyTo.Name()] = i
 		}
 	}
+	// Maybe serialize property "likes"
+	if this.Likes != nil {
+		if i, err := this.Likes.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Likes.Name()] = i
+		}
+	}
 	// Maybe serialize property "location"
 	if this.Location != nil {
 		if i, err := this.Location.Serialize(); err != nil {
@@ -1149,6 +1247,14 @@ func (this Event) Serialize() (map[string]interface{}, error) {
 			return nil, err
 		} else if i != nil {
 			m[this.Replies.Name()] = i
+		}
+	}
+	// Maybe serialize property "shares"
+	if this.Shares != nil {
+		if i, err := this.Shares.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Shares.Name()] = i
 		}
 	}
 	// Maybe serialize property "startTime"
@@ -1222,153 +1328,163 @@ func (this Event) Serialize() (map[string]interface{}, error) {
 }
 
 // SetAltitude returns the "altitude" property if it exists, and nil otherwise.
-func (this Event) SetAltitude(i vocab.AltitudePropertyInterface) {
+func (this *Event) SetAltitude(i vocab.AltitudePropertyInterface) {
 	this.Altitude = i
 }
 
 // SetAttachment returns the "attachment" property if it exists, and nil otherwise.
-func (this Event) SetAttachment(i vocab.AttachmentPropertyInterface) {
+func (this *Event) SetAttachment(i vocab.AttachmentPropertyInterface) {
 	this.Attachment = i
 }
 
 // SetAttributedTo returns the "attributedTo" property if it exists, and nil
 // otherwise.
-func (this Event) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
+func (this *Event) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
 	this.AttributedTo = i
 }
 
 // SetAudience returns the "audience" property if it exists, and nil otherwise.
-func (this Event) SetAudience(i vocab.AudiencePropertyInterface) {
+func (this *Event) SetAudience(i vocab.AudiencePropertyInterface) {
 	this.Audience = i
 }
 
 // SetBcc returns the "bcc" property if it exists, and nil otherwise.
-func (this Event) SetBcc(i vocab.BccPropertyInterface) {
+func (this *Event) SetBcc(i vocab.BccPropertyInterface) {
 	this.Bcc = i
 }
 
 // SetBto returns the "bto" property if it exists, and nil otherwise.
-func (this Event) SetBto(i vocab.BtoPropertyInterface) {
+func (this *Event) SetBto(i vocab.BtoPropertyInterface) {
 	this.Bto = i
 }
 
 // SetCc returns the "cc" property if it exists, and nil otherwise.
-func (this Event) SetCc(i vocab.CcPropertyInterface) {
+func (this *Event) SetCc(i vocab.CcPropertyInterface) {
 	this.Cc = i
 }
 
 // SetContent returns the "content" property if it exists, and nil otherwise.
-func (this Event) SetContent(i vocab.ContentPropertyInterface) {
+func (this *Event) SetContent(i vocab.ContentPropertyInterface) {
 	this.Content = i
 }
 
 // SetContext returns the "context" property if it exists, and nil otherwise.
-func (this Event) SetContext(i vocab.ContextPropertyInterface) {
+func (this *Event) SetContext(i vocab.ContextPropertyInterface) {
 	this.Context = i
 }
 
 // SetDuration returns the "duration" property if it exists, and nil otherwise.
-func (this Event) SetDuration(i vocab.DurationPropertyInterface) {
+func (this *Event) SetDuration(i vocab.DurationPropertyInterface) {
 	this.Duration = i
 }
 
 // SetEndTime returns the "endTime" property if it exists, and nil otherwise.
-func (this Event) SetEndTime(i vocab.EndTimePropertyInterface) {
+func (this *Event) SetEndTime(i vocab.EndTimePropertyInterface) {
 	this.EndTime = i
 }
 
 // SetGenerator returns the "generator" property if it exists, and nil otherwise.
-func (this Event) SetGenerator(i vocab.GeneratorPropertyInterface) {
+func (this *Event) SetGenerator(i vocab.GeneratorPropertyInterface) {
 	this.Generator = i
 }
 
 // SetIcon returns the "icon" property if it exists, and nil otherwise.
-func (this Event) SetIcon(i vocab.IconPropertyInterface) {
+func (this *Event) SetIcon(i vocab.IconPropertyInterface) {
 	this.Icon = i
 }
 
 // SetId returns the "id" property if it exists, and nil otherwise.
-func (this Event) SetId(i vocab.IdPropertyInterface) {
+func (this *Event) SetId(i vocab.IdPropertyInterface) {
 	this.Id = i
 }
 
 // SetImage returns the "image" property if it exists, and nil otherwise.
-func (this Event) SetImage(i vocab.ImagePropertyInterface) {
+func (this *Event) SetImage(i vocab.ImagePropertyInterface) {
 	this.Image = i
 }
 
 // SetInReplyTo returns the "inReplyTo" property if it exists, and nil otherwise.
-func (this Event) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
+func (this *Event) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
 	this.InReplyTo = i
 }
 
+// SetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this *Event) SetLikes(i vocab.LikesPropertyInterface) {
+	this.Likes = i
+}
+
 // SetLocation returns the "location" property if it exists, and nil otherwise.
-func (this Event) SetLocation(i vocab.LocationPropertyInterface) {
+func (this *Event) SetLocation(i vocab.LocationPropertyInterface) {
 	this.Location = i
 }
 
 // SetMediaType returns the "mediaType" property if it exists, and nil otherwise.
-func (this Event) SetMediaType(i vocab.MediaTypePropertyInterface) {
+func (this *Event) SetMediaType(i vocab.MediaTypePropertyInterface) {
 	this.MediaType = i
 }
 
 // SetName returns the "name" property if it exists, and nil otherwise.
-func (this Event) SetName(i vocab.NamePropertyInterface) {
+func (this *Event) SetName(i vocab.NamePropertyInterface) {
 	this.Name = i
 }
 
 // SetObject returns the "object" property if it exists, and nil otherwise.
-func (this Event) SetObject(i vocab.ObjectPropertyInterface) {
+func (this *Event) SetObject(i vocab.ObjectPropertyInterface) {
 	this.Object = i
 }
 
 // SetPreview returns the "preview" property if it exists, and nil otherwise.
-func (this Event) SetPreview(i vocab.PreviewPropertyInterface) {
+func (this *Event) SetPreview(i vocab.PreviewPropertyInterface) {
 	this.Preview = i
 }
 
 // SetPublished returns the "published" property if it exists, and nil otherwise.
-func (this Event) SetPublished(i vocab.PublishedPropertyInterface) {
+func (this *Event) SetPublished(i vocab.PublishedPropertyInterface) {
 	this.Published = i
 }
 
 // SetReplies returns the "replies" property if it exists, and nil otherwise.
-func (this Event) SetReplies(i vocab.RepliesPropertyInterface) {
+func (this *Event) SetReplies(i vocab.RepliesPropertyInterface) {
 	this.Replies = i
 }
 
+// SetShares returns the "shares" property if it exists, and nil otherwise.
+func (this *Event) SetShares(i vocab.SharesPropertyInterface) {
+	this.Shares = i
+}
+
 // SetStartTime returns the "startTime" property if it exists, and nil otherwise.
-func (this Event) SetStartTime(i vocab.StartTimePropertyInterface) {
+func (this *Event) SetStartTime(i vocab.StartTimePropertyInterface) {
 	this.StartTime = i
 }
 
 // SetSummary returns the "summary" property if it exists, and nil otherwise.
-func (this Event) SetSummary(i vocab.SummaryPropertyInterface) {
+func (this *Event) SetSummary(i vocab.SummaryPropertyInterface) {
 	this.Summary = i
 }
 
 // SetTag returns the "tag" property if it exists, and nil otherwise.
-func (this Event) SetTag(i vocab.TagPropertyInterface) {
+func (this *Event) SetTag(i vocab.TagPropertyInterface) {
 	this.Tag = i
 }
 
 // SetTo returns the "to" property if it exists, and nil otherwise.
-func (this Event) SetTo(i vocab.ToPropertyInterface) {
+func (this *Event) SetTo(i vocab.ToPropertyInterface) {
 	this.To = i
 }
 
 // SetType returns the "type" property if it exists, and nil otherwise.
-func (this Event) SetType(i vocab.TypePropertyInterface) {
+func (this *Event) SetType(i vocab.TypePropertyInterface) {
 	this.Type = i
 }
 
 // SetUpdated returns the "updated" property if it exists, and nil otherwise.
-func (this Event) SetUpdated(i vocab.UpdatedPropertyInterface) {
+func (this *Event) SetUpdated(i vocab.UpdatedPropertyInterface) {
 	this.Updated = i
 }
 
 // SetUrl returns the "url" property if it exists, and nil otherwise.
-func (this Event) SetUrl(i vocab.UrlPropertyInterface) {
+func (this *Event) SetUrl(i vocab.UrlPropertyInterface) {
 	this.Url = i
 }
 

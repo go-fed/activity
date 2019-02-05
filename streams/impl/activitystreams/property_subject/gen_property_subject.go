@@ -66,7 +66,7 @@ type SubjectProperty struct {
 	UpdateMember                vocab.UpdateInterface
 	VideoMember                 vocab.VideoInterface
 	ViewMember                  vocab.ViewInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 }
@@ -422,15 +422,12 @@ func DeserializeSubjectProperty(m map[string]interface{}, aliasMap map[string]st
 				}
 				return this, nil
 			}
-		} else if str, ok := i.(string); ok {
-			this := &SubjectProperty{
-				alias:   alias,
-				unknown: []byte(str),
-			}
-			return this, nil
-		} else {
-			return nil, fmt.Errorf("could not deserialize %q property", "subject")
 		}
+		this := &SubjectProperty{
+			alias:   alias,
+			unknown: i,
+		}
+		return this, nil
 	}
 	return nil, nil
 }
@@ -1778,7 +1775,7 @@ func (this SubjectProperty) Serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // SetAccept sets the value of this property. Calling IsAccept afterwards returns

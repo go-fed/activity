@@ -1,6 +1,10 @@
 package typelink
 
-import vocab "github.com/go-fed/activity/streams/vocab"
+import (
+	"fmt"
+	vocab "github.com/go-fed/activity/streams/vocab"
+	"strings"
+)
 
 // A Link is an indirect, qualified reference to a resource identified by a URL.
 // The fundamental model for links is established by [ RFC5988]. Many of the
@@ -38,12 +42,37 @@ type Link struct {
 // unmarshalled from a text or binary format.
 func DeserializeLink(m map[string]interface{}, aliasMap map[string]string) (*Link, error) {
 	alias := ""
+	aliasPrefix := ""
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
+		aliasPrefix = a + ":"
 	}
 	this := &Link{
 		alias:   alias,
 		unknown: make(map[string]interface{}),
+	}
+	if typeValue, ok := m["type"]; !ok {
+		return nil, fmt.Errorf("no \"type\" property in map")
+	} else if typeString, ok := typeValue.(string); ok {
+		typeName := strings.TrimPrefix(typeString, aliasPrefix)
+		if typeName != "Link" {
+			return nil, fmt.Errorf("\"type\" property is not of %q type: %s", "Link", typeName)
+		}
+		// Fall through, success in finding a proper Type
+	} else if arrType, ok := typeValue.([]interface{}); ok {
+		found := false
+		for _, elemVal := range arrType {
+			if typeString, ok := elemVal.(string); ok && strings.TrimPrefix(typeString, aliasPrefix) == "Link" {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil, fmt.Errorf("could not find a \"type\" property of value %q", "Link")
+		}
+		// Fall through, success in finding a proper Type
+	} else {
+		return nil, fmt.Errorf("\"type\" property is unrecognized type: %T", typeValue)
 	}
 	// Begin: Known property deserialization
 	if p, err := mgr.DeserializeAttributedToPropertyActivityStreams()(m, aliasMap); err != nil {
@@ -441,6 +470,11 @@ func (this Link) LessThan(o vocab.LinkInterface) bool {
 // marshalling into a text or binary format.
 func (this Link) Serialize() (map[string]interface{}, error) {
 	m := make(map[string]interface{})
+	typeName := "Link"
+	if len(this.alias) > 0 {
+		typeName = this.alias + ":" + "Link"
+	}
+	m["type"] = typeName
 	// Begin: Serialize known properties
 	// Maybe serialize property "attributedTo"
 	if this.AttributedTo != nil {
@@ -546,57 +580,57 @@ func (this Link) Serialize() (map[string]interface{}, error) {
 
 // SetAttributedTo returns the "attributedTo" property if it exists, and nil
 // otherwise.
-func (this Link) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
+func (this *Link) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
 	this.AttributedTo = i
 }
 
 // SetHeight returns the "height" property if it exists, and nil otherwise.
-func (this Link) SetHeight(i vocab.HeightPropertyInterface) {
+func (this *Link) SetHeight(i vocab.HeightPropertyInterface) {
 	this.Height = i
 }
 
 // SetHref returns the "href" property if it exists, and nil otherwise.
-func (this Link) SetHref(i vocab.HrefPropertyInterface) {
+func (this *Link) SetHref(i vocab.HrefPropertyInterface) {
 	this.Href = i
 }
 
 // SetHreflang returns the "hreflang" property if it exists, and nil otherwise.
-func (this Link) SetHreflang(i vocab.HreflangPropertyInterface) {
+func (this *Link) SetHreflang(i vocab.HreflangPropertyInterface) {
 	this.Hreflang = i
 }
 
 // SetId returns the "id" property if it exists, and nil otherwise.
-func (this Link) SetId(i vocab.IdPropertyInterface) {
+func (this *Link) SetId(i vocab.IdPropertyInterface) {
 	this.Id = i
 }
 
 // SetMediaType returns the "mediaType" property if it exists, and nil otherwise.
-func (this Link) SetMediaType(i vocab.MediaTypePropertyInterface) {
+func (this *Link) SetMediaType(i vocab.MediaTypePropertyInterface) {
 	this.MediaType = i
 }
 
 // SetName returns the "name" property if it exists, and nil otherwise.
-func (this Link) SetName(i vocab.NamePropertyInterface) {
+func (this *Link) SetName(i vocab.NamePropertyInterface) {
 	this.Name = i
 }
 
 // SetPreview returns the "preview" property if it exists, and nil otherwise.
-func (this Link) SetPreview(i vocab.PreviewPropertyInterface) {
+func (this *Link) SetPreview(i vocab.PreviewPropertyInterface) {
 	this.Preview = i
 }
 
 // SetRel returns the "rel" property if it exists, and nil otherwise.
-func (this Link) SetRel(i vocab.RelPropertyInterface) {
+func (this *Link) SetRel(i vocab.RelPropertyInterface) {
 	this.Rel = i
 }
 
 // SetType returns the "type" property if it exists, and nil otherwise.
-func (this Link) SetType(i vocab.TypePropertyInterface) {
+func (this *Link) SetType(i vocab.TypePropertyInterface) {
 	this.Type = i
 }
 
 // SetWidth returns the "width" property if it exists, and nil otherwise.
-func (this Link) SetWidth(i vocab.WidthPropertyInterface) {
+func (this *Link) SetWidth(i vocab.WidthPropertyInterface) {
 	this.Width = i
 }
 

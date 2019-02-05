@@ -12,7 +12,7 @@ import (
 type RelPropertyIterator struct {
 	rfc5988Member    string
 	hasRfc5988Member bool
-	unknown          []byte
+	unknown          interface{}
 	iri              *url.URL
 	alias            string
 	myIdx            int
@@ -50,13 +50,12 @@ func deserializeRelPropertyIterator(i interface{}, aliasMap map[string]string) (
 			rfc5988Member:    v,
 		}
 		return this, nil
-	} else if str, ok := i.(string); ok {
-		this := &RelPropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &RelPropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "rel")
 }
 
@@ -205,7 +204,7 @@ func (this RelPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // RelProperty is the non-functional property "rel". It is permitted to have one

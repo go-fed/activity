@@ -66,7 +66,7 @@ type AnyOfPropertyIterator struct {
 	UpdateMember                vocab.UpdateInterface
 	VideoMember                 vocab.VideoInterface
 	ViewMember                  vocab.ViewInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 	myIdx                       int
@@ -423,13 +423,12 @@ func deserializeAnyOfPropertyIterator(i interface{}, aliasMap map[string]string)
 			}
 			return this, nil
 		}
-	} else if str, ok := i.(string); ok {
-		this := &AnyOfPropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &AnyOfPropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "anyOf")
 }
 
@@ -2162,7 +2161,7 @@ func (this AnyOfPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // AnyOfProperty is the non-functional property "anyOf". It is permitted to have

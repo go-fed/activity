@@ -1,6 +1,10 @@
 package typeflag
 
-import vocab "github.com/go-fed/activity/streams/vocab"
+import (
+	"fmt"
+	vocab "github.com/go-fed/activity/streams/vocab"
+	"strings"
+)
 
 // Indicates that the actor is "flagging" the object. Flagging is defined in the
 // sense common to many social platforms as reporting content as being
@@ -35,6 +39,7 @@ type Flag struct {
 	Image        vocab.ImagePropertyInterface
 	InReplyTo    vocab.InReplyToPropertyInterface
 	Instrument   vocab.InstrumentPropertyInterface
+	Likes        vocab.LikesPropertyInterface
 	Location     vocab.LocationPropertyInterface
 	MediaType    vocab.MediaTypePropertyInterface
 	Name         vocab.NamePropertyInterface
@@ -44,6 +49,7 @@ type Flag struct {
 	Published    vocab.PublishedPropertyInterface
 	Replies      vocab.RepliesPropertyInterface
 	Result       vocab.ResultPropertyInterface
+	Shares       vocab.SharesPropertyInterface
 	StartTime    vocab.StartTimePropertyInterface
 	Summary      vocab.SummaryPropertyInterface
 	Tag          vocab.TagPropertyInterface
@@ -60,12 +66,37 @@ type Flag struct {
 // unmarshalled from a text or binary format.
 func DeserializeFlag(m map[string]interface{}, aliasMap map[string]string) (*Flag, error) {
 	alias := ""
+	aliasPrefix := ""
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
+		aliasPrefix = a + ":"
 	}
 	this := &Flag{
 		alias:   alias,
 		unknown: make(map[string]interface{}),
+	}
+	if typeValue, ok := m["type"]; !ok {
+		return nil, fmt.Errorf("no \"type\" property in map")
+	} else if typeString, ok := typeValue.(string); ok {
+		typeName := strings.TrimPrefix(typeString, aliasPrefix)
+		if typeName != "Flag" {
+			return nil, fmt.Errorf("\"type\" property is not of %q type: %s", "Flag", typeName)
+		}
+		// Fall through, success in finding a proper Type
+	} else if arrType, ok := typeValue.([]interface{}); ok {
+		found := false
+		for _, elemVal := range arrType {
+			if typeString, ok := elemVal.(string); ok && strings.TrimPrefix(typeString, aliasPrefix) == "Flag" {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil, fmt.Errorf("could not find a \"type\" property of value %q", "Flag")
+		}
+		// Fall through, success in finding a proper Type
+	} else {
+		return nil, fmt.Errorf("\"type\" property is unrecognized type: %T", typeValue)
 	}
 	// Begin: Known property deserialization
 	if p, err := mgr.DeserializeActorPropertyActivityStreams()(m, aliasMap); err != nil {
@@ -158,6 +189,11 @@ func DeserializeFlag(m map[string]interface{}, aliasMap map[string]string) (*Fla
 	} else if p != nil {
 		this.Instrument = p
 	}
+	if p, err := mgr.DeserializeLikesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Likes = p
+	}
 	if p, err := mgr.DeserializeLocationPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -202,6 +238,11 @@ func DeserializeFlag(m map[string]interface{}, aliasMap map[string]string) (*Fla
 		return nil, err
 	} else if p != nil {
 		this.Result = p
+	}
+	if p, err := mgr.DeserializeSharesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Shares = p
 	}
 	if p, err := mgr.DeserializeStartTimePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -284,6 +325,8 @@ func DeserializeFlag(m map[string]interface{}, aliasMap map[string]string) (*Fla
 			continue
 		} else if k == "instrument" {
 			continue
+		} else if k == "likes" {
+			continue
 		} else if k == "location" {
 			continue
 		} else if k == "mediaType" {
@@ -301,6 +344,8 @@ func DeserializeFlag(m map[string]interface{}, aliasMap map[string]string) (*Fla
 		} else if k == "replies" {
 			continue
 		} else if k == "result" {
+			continue
+		} else if k == "shares" {
 			continue
 		} else if k == "startTime" {
 			continue
@@ -456,6 +501,11 @@ func (this Flag) GetInstrument() vocab.InstrumentPropertyInterface {
 	return this.Instrument
 }
 
+// GetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this Flag) GetLikes() vocab.LikesPropertyInterface {
+	return this.Likes
+}
+
 // GetLocation returns the "location" property if it exists, and nil otherwise.
 func (this Flag) GetLocation() vocab.LocationPropertyInterface {
 	return this.Location
@@ -499,6 +549,11 @@ func (this Flag) GetReplies() vocab.RepliesPropertyInterface {
 // GetResult returns the "result" property if it exists, and nil otherwise.
 func (this Flag) GetResult() vocab.ResultPropertyInterface {
 	return this.Result
+}
+
+// GetShares returns the "shares" property if it exists, and nil otherwise.
+func (this Flag) GetShares() vocab.SharesPropertyInterface {
+	return this.Shares
 }
 
 // GetStartTime returns the "startTime" property if it exists, and nil otherwise.
@@ -579,6 +634,7 @@ func (this Flag) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Image, m)
 	m = this.helperJSONLDContext(this.InReplyTo, m)
 	m = this.helperJSONLDContext(this.Instrument, m)
+	m = this.helperJSONLDContext(this.Likes, m)
 	m = this.helperJSONLDContext(this.Location, m)
 	m = this.helperJSONLDContext(this.MediaType, m)
 	m = this.helperJSONLDContext(this.Name, m)
@@ -588,6 +644,7 @@ func (this Flag) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Published, m)
 	m = this.helperJSONLDContext(this.Replies, m)
 	m = this.helperJSONLDContext(this.Result, m)
+	m = this.helperJSONLDContext(this.Shares, m)
 	m = this.helperJSONLDContext(this.StartTime, m)
 	m = this.helperJSONLDContext(this.Summary, m)
 	m = this.helperJSONLDContext(this.Tag, m)
@@ -856,6 +913,20 @@ func (this Flag) LessThan(o vocab.FlagInterface) bool {
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "likes"
+	if lhs, rhs := this.Likes, o.GetLikes(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "location"
 	if lhs, rhs := this.Location, o.GetLocation(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -970,6 +1041,20 @@ func (this Flag) LessThan(o vocab.FlagInterface) bool {
 	} // Else: Both are nil
 	// Compare property "result"
 	if lhs, rhs := this.Result, o.GetResult(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "shares"
+	if lhs, rhs := this.Shares, o.GetShares(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1111,6 +1196,11 @@ func (this Flag) LessThan(o vocab.FlagInterface) bool {
 // marshalling into a text or binary format.
 func (this Flag) Serialize() (map[string]interface{}, error) {
 	m := make(map[string]interface{})
+	typeName := "Flag"
+	if len(this.alias) > 0 {
+		typeName = this.alias + ":" + "Flag"
+	}
+	m["type"] = typeName
 	// Begin: Serialize known properties
 	// Maybe serialize property "actor"
 	if this.Actor != nil {
@@ -1256,6 +1346,14 @@ func (this Flag) Serialize() (map[string]interface{}, error) {
 			m[this.Instrument.Name()] = i
 		}
 	}
+	// Maybe serialize property "likes"
+	if this.Likes != nil {
+		if i, err := this.Likes.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Likes.Name()] = i
+		}
+	}
 	// Maybe serialize property "location"
 	if this.Location != nil {
 		if i, err := this.Location.Serialize(); err != nil {
@@ -1326,6 +1424,14 @@ func (this Flag) Serialize() (map[string]interface{}, error) {
 			return nil, err
 		} else if i != nil {
 			m[this.Result.Name()] = i
+		}
+	}
+	// Maybe serialize property "shares"
+	if this.Shares != nil {
+		if i, err := this.Shares.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Shares.Name()] = i
 		}
 	}
 	// Maybe serialize property "startTime"
@@ -1407,178 +1513,188 @@ func (this Flag) Serialize() (map[string]interface{}, error) {
 }
 
 // SetActor returns the "actor" property if it exists, and nil otherwise.
-func (this Flag) SetActor(i vocab.ActorPropertyInterface) {
+func (this *Flag) SetActor(i vocab.ActorPropertyInterface) {
 	this.Actor = i
 }
 
 // SetAltitude returns the "altitude" property if it exists, and nil otherwise.
-func (this Flag) SetAltitude(i vocab.AltitudePropertyInterface) {
+func (this *Flag) SetAltitude(i vocab.AltitudePropertyInterface) {
 	this.Altitude = i
 }
 
 // SetAttachment returns the "attachment" property if it exists, and nil otherwise.
-func (this Flag) SetAttachment(i vocab.AttachmentPropertyInterface) {
+func (this *Flag) SetAttachment(i vocab.AttachmentPropertyInterface) {
 	this.Attachment = i
 }
 
 // SetAttributedTo returns the "attributedTo" property if it exists, and nil
 // otherwise.
-func (this Flag) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
+func (this *Flag) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
 	this.AttributedTo = i
 }
 
 // SetAudience returns the "audience" property if it exists, and nil otherwise.
-func (this Flag) SetAudience(i vocab.AudiencePropertyInterface) {
+func (this *Flag) SetAudience(i vocab.AudiencePropertyInterface) {
 	this.Audience = i
 }
 
 // SetBcc returns the "bcc" property if it exists, and nil otherwise.
-func (this Flag) SetBcc(i vocab.BccPropertyInterface) {
+func (this *Flag) SetBcc(i vocab.BccPropertyInterface) {
 	this.Bcc = i
 }
 
 // SetBto returns the "bto" property if it exists, and nil otherwise.
-func (this Flag) SetBto(i vocab.BtoPropertyInterface) {
+func (this *Flag) SetBto(i vocab.BtoPropertyInterface) {
 	this.Bto = i
 }
 
 // SetCc returns the "cc" property if it exists, and nil otherwise.
-func (this Flag) SetCc(i vocab.CcPropertyInterface) {
+func (this *Flag) SetCc(i vocab.CcPropertyInterface) {
 	this.Cc = i
 }
 
 // SetContent returns the "content" property if it exists, and nil otherwise.
-func (this Flag) SetContent(i vocab.ContentPropertyInterface) {
+func (this *Flag) SetContent(i vocab.ContentPropertyInterface) {
 	this.Content = i
 }
 
 // SetContext returns the "context" property if it exists, and nil otherwise.
-func (this Flag) SetContext(i vocab.ContextPropertyInterface) {
+func (this *Flag) SetContext(i vocab.ContextPropertyInterface) {
 	this.Context = i
 }
 
 // SetDuration returns the "duration" property if it exists, and nil otherwise.
-func (this Flag) SetDuration(i vocab.DurationPropertyInterface) {
+func (this *Flag) SetDuration(i vocab.DurationPropertyInterface) {
 	this.Duration = i
 }
 
 // SetEndTime returns the "endTime" property if it exists, and nil otherwise.
-func (this Flag) SetEndTime(i vocab.EndTimePropertyInterface) {
+func (this *Flag) SetEndTime(i vocab.EndTimePropertyInterface) {
 	this.EndTime = i
 }
 
 // SetGenerator returns the "generator" property if it exists, and nil otherwise.
-func (this Flag) SetGenerator(i vocab.GeneratorPropertyInterface) {
+func (this *Flag) SetGenerator(i vocab.GeneratorPropertyInterface) {
 	this.Generator = i
 }
 
 // SetIcon returns the "icon" property if it exists, and nil otherwise.
-func (this Flag) SetIcon(i vocab.IconPropertyInterface) {
+func (this *Flag) SetIcon(i vocab.IconPropertyInterface) {
 	this.Icon = i
 }
 
 // SetId returns the "id" property if it exists, and nil otherwise.
-func (this Flag) SetId(i vocab.IdPropertyInterface) {
+func (this *Flag) SetId(i vocab.IdPropertyInterface) {
 	this.Id = i
 }
 
 // SetImage returns the "image" property if it exists, and nil otherwise.
-func (this Flag) SetImage(i vocab.ImagePropertyInterface) {
+func (this *Flag) SetImage(i vocab.ImagePropertyInterface) {
 	this.Image = i
 }
 
 // SetInReplyTo returns the "inReplyTo" property if it exists, and nil otherwise.
-func (this Flag) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
+func (this *Flag) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
 	this.InReplyTo = i
 }
 
 // SetInstrument returns the "instrument" property if it exists, and nil otherwise.
-func (this Flag) SetInstrument(i vocab.InstrumentPropertyInterface) {
+func (this *Flag) SetInstrument(i vocab.InstrumentPropertyInterface) {
 	this.Instrument = i
 }
 
+// SetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this *Flag) SetLikes(i vocab.LikesPropertyInterface) {
+	this.Likes = i
+}
+
 // SetLocation returns the "location" property if it exists, and nil otherwise.
-func (this Flag) SetLocation(i vocab.LocationPropertyInterface) {
+func (this *Flag) SetLocation(i vocab.LocationPropertyInterface) {
 	this.Location = i
 }
 
 // SetMediaType returns the "mediaType" property if it exists, and nil otherwise.
-func (this Flag) SetMediaType(i vocab.MediaTypePropertyInterface) {
+func (this *Flag) SetMediaType(i vocab.MediaTypePropertyInterface) {
 	this.MediaType = i
 }
 
 // SetName returns the "name" property if it exists, and nil otherwise.
-func (this Flag) SetName(i vocab.NamePropertyInterface) {
+func (this *Flag) SetName(i vocab.NamePropertyInterface) {
 	this.Name = i
 }
 
 // SetObject returns the "object" property if it exists, and nil otherwise.
-func (this Flag) SetObject(i vocab.ObjectPropertyInterface) {
+func (this *Flag) SetObject(i vocab.ObjectPropertyInterface) {
 	this.Object = i
 }
 
 // SetOrigin returns the "origin" property if it exists, and nil otherwise.
-func (this Flag) SetOrigin(i vocab.OriginPropertyInterface) {
+func (this *Flag) SetOrigin(i vocab.OriginPropertyInterface) {
 	this.Origin = i
 }
 
 // SetPreview returns the "preview" property if it exists, and nil otherwise.
-func (this Flag) SetPreview(i vocab.PreviewPropertyInterface) {
+func (this *Flag) SetPreview(i vocab.PreviewPropertyInterface) {
 	this.Preview = i
 }
 
 // SetPublished returns the "published" property if it exists, and nil otherwise.
-func (this Flag) SetPublished(i vocab.PublishedPropertyInterface) {
+func (this *Flag) SetPublished(i vocab.PublishedPropertyInterface) {
 	this.Published = i
 }
 
 // SetReplies returns the "replies" property if it exists, and nil otherwise.
-func (this Flag) SetReplies(i vocab.RepliesPropertyInterface) {
+func (this *Flag) SetReplies(i vocab.RepliesPropertyInterface) {
 	this.Replies = i
 }
 
 // SetResult returns the "result" property if it exists, and nil otherwise.
-func (this Flag) SetResult(i vocab.ResultPropertyInterface) {
+func (this *Flag) SetResult(i vocab.ResultPropertyInterface) {
 	this.Result = i
 }
 
+// SetShares returns the "shares" property if it exists, and nil otherwise.
+func (this *Flag) SetShares(i vocab.SharesPropertyInterface) {
+	this.Shares = i
+}
+
 // SetStartTime returns the "startTime" property if it exists, and nil otherwise.
-func (this Flag) SetStartTime(i vocab.StartTimePropertyInterface) {
+func (this *Flag) SetStartTime(i vocab.StartTimePropertyInterface) {
 	this.StartTime = i
 }
 
 // SetSummary returns the "summary" property if it exists, and nil otherwise.
-func (this Flag) SetSummary(i vocab.SummaryPropertyInterface) {
+func (this *Flag) SetSummary(i vocab.SummaryPropertyInterface) {
 	this.Summary = i
 }
 
 // SetTag returns the "tag" property if it exists, and nil otherwise.
-func (this Flag) SetTag(i vocab.TagPropertyInterface) {
+func (this *Flag) SetTag(i vocab.TagPropertyInterface) {
 	this.Tag = i
 }
 
 // SetTarget returns the "target" property if it exists, and nil otherwise.
-func (this Flag) SetTarget(i vocab.TargetPropertyInterface) {
+func (this *Flag) SetTarget(i vocab.TargetPropertyInterface) {
 	this.Target = i
 }
 
 // SetTo returns the "to" property if it exists, and nil otherwise.
-func (this Flag) SetTo(i vocab.ToPropertyInterface) {
+func (this *Flag) SetTo(i vocab.ToPropertyInterface) {
 	this.To = i
 }
 
 // SetType returns the "type" property if it exists, and nil otherwise.
-func (this Flag) SetType(i vocab.TypePropertyInterface) {
+func (this *Flag) SetType(i vocab.TypePropertyInterface) {
 	this.Type = i
 }
 
 // SetUpdated returns the "updated" property if it exists, and nil otherwise.
-func (this Flag) SetUpdated(i vocab.UpdatedPropertyInterface) {
+func (this *Flag) SetUpdated(i vocab.UpdatedPropertyInterface) {
 	this.Updated = i
 }
 
 // SetUrl returns the "url" property if it exists, and nil otherwise.
-func (this Flag) SetUrl(i vocab.UrlPropertyInterface) {
+func (this *Flag) SetUrl(i vocab.UrlPropertyInterface) {
 	this.Url = i
 }
 

@@ -16,7 +16,7 @@ type UrlPropertyIterator struct {
 	anyURIMember  *url.URL
 	LinkMember    vocab.LinkInterface
 	MentionMember vocab.MentionInterface
-	unknown       []byte
+	unknown       interface{}
 	alias         string
 	myIdx         int
 	parent        vocab.UrlPropertyInterface
@@ -48,19 +48,19 @@ func deserializeUrlPropertyIterator(i interface{}, aliasMap map[string]string) (
 			}
 			return this, nil
 		}
-	} else if v, err := anyuri.DeserializeAnyURI(i); err == nil {
+	}
+	if v, err := anyuri.DeserializeAnyURI(i); err == nil {
 		this := &UrlPropertyIterator{
 			alias:        alias,
 			anyURIMember: v,
 		}
 		return this, nil
-	} else if str, ok := i.(string); ok {
-		this := &UrlPropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &UrlPropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "url")
 }
 
@@ -251,7 +251,7 @@ func (this UrlPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsMention() {
 		return this.GetMention().Serialize()
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // UrlProperty is the non-functional property "url". It is permitted to have one

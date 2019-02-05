@@ -12,7 +12,7 @@ import (
 type AccuracyProperty struct {
 	floatMember    float64
 	hasFloatMember bool
-	unknown        []byte
+	unknown        interface{}
 	iri            *url.URL
 	alias          string
 }
@@ -49,15 +49,12 @@ func DeserializeAccuracyProperty(m map[string]interface{}, aliasMap map[string]s
 				hasFloatMember: true,
 			}
 			return this, nil
-		} else if str, ok := i.(string); ok {
-			this := &AccuracyProperty{
-				alias:   alias,
-				unknown: []byte(str),
-			}
-			return this, nil
-		} else {
-			return nil, fmt.Errorf("could not deserialize %q property", "accuracy")
 		}
+		this := &AccuracyProperty{
+			alias:   alias,
+			unknown: i,
+		}
+		return this, nil
 	}
 	return nil, nil
 }
@@ -179,7 +176,7 @@ func (this AccuracyProperty) Serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // Set sets the value of this property. Calling IsFloat afterwards will return

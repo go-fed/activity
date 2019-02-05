@@ -66,7 +66,7 @@ type LocationPropertyIterator struct {
 	UpdateMember                vocab.UpdateInterface
 	VideoMember                 vocab.VideoInterface
 	ViewMember                  vocab.ViewInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 	myIdx                       int
@@ -423,13 +423,12 @@ func deserializeLocationPropertyIterator(i interface{}, aliasMap map[string]stri
 			}
 			return this, nil
 		}
-	} else if str, ok := i.(string); ok {
-		this := &LocationPropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &LocationPropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "location")
 }
 
@@ -2162,7 +2161,7 @@ func (this LocationPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // LocationProperty is the non-functional property "location". It is permitted to

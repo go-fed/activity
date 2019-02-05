@@ -1,6 +1,10 @@
 package typegroup
 
-import vocab "github.com/go-fed/activity/streams/vocab"
+import (
+	"fmt"
+	vocab "github.com/go-fed/activity/streams/vocab"
+	"strings"
+)
 
 // Represents a formal or informal collective of Actors.
 //
@@ -10,50 +14,84 @@ import vocab "github.com/go-fed/activity/streams/vocab"
 //     "type": "Group"
 //   }
 type Group struct {
-	Altitude     vocab.AltitudePropertyInterface
-	Attachment   vocab.AttachmentPropertyInterface
-	AttributedTo vocab.AttributedToPropertyInterface
-	Audience     vocab.AudiencePropertyInterface
-	Bcc          vocab.BccPropertyInterface
-	Bto          vocab.BtoPropertyInterface
-	Cc           vocab.CcPropertyInterface
-	Content      vocab.ContentPropertyInterface
-	Context      vocab.ContextPropertyInterface
-	Duration     vocab.DurationPropertyInterface
-	EndTime      vocab.EndTimePropertyInterface
-	Generator    vocab.GeneratorPropertyInterface
-	Icon         vocab.IconPropertyInterface
-	Id           vocab.IdPropertyInterface
-	Image        vocab.ImagePropertyInterface
-	InReplyTo    vocab.InReplyToPropertyInterface
-	Location     vocab.LocationPropertyInterface
-	MediaType    vocab.MediaTypePropertyInterface
-	Name         vocab.NamePropertyInterface
-	Object       vocab.ObjectPropertyInterface
-	Preview      vocab.PreviewPropertyInterface
-	Published    vocab.PublishedPropertyInterface
-	Replies      vocab.RepliesPropertyInterface
-	StartTime    vocab.StartTimePropertyInterface
-	Summary      vocab.SummaryPropertyInterface
-	Tag          vocab.TagPropertyInterface
-	To           vocab.ToPropertyInterface
-	Type         vocab.TypePropertyInterface
-	Updated      vocab.UpdatedPropertyInterface
-	Url          vocab.UrlPropertyInterface
-	alias        string
-	unknown      map[string]interface{}
+	Altitude          vocab.AltitudePropertyInterface
+	Attachment        vocab.AttachmentPropertyInterface
+	AttributedTo      vocab.AttributedToPropertyInterface
+	Audience          vocab.AudiencePropertyInterface
+	Bcc               vocab.BccPropertyInterface
+	Bto               vocab.BtoPropertyInterface
+	Cc                vocab.CcPropertyInterface
+	Content           vocab.ContentPropertyInterface
+	Context           vocab.ContextPropertyInterface
+	Duration          vocab.DurationPropertyInterface
+	EndTime           vocab.EndTimePropertyInterface
+	Followers         vocab.FollowersPropertyInterface
+	Following         vocab.FollowingPropertyInterface
+	Generator         vocab.GeneratorPropertyInterface
+	Icon              vocab.IconPropertyInterface
+	Id                vocab.IdPropertyInterface
+	Image             vocab.ImagePropertyInterface
+	InReplyTo         vocab.InReplyToPropertyInterface
+	Inbox             vocab.InboxPropertyInterface
+	Liked             vocab.LikedPropertyInterface
+	Likes             vocab.LikesPropertyInterface
+	Location          vocab.LocationPropertyInterface
+	MediaType         vocab.MediaTypePropertyInterface
+	Name              vocab.NamePropertyInterface
+	Object            vocab.ObjectPropertyInterface
+	Outbox            vocab.OutboxPropertyInterface
+	PreferredUsername vocab.PreferredUsernamePropertyInterface
+	Preview           vocab.PreviewPropertyInterface
+	Published         vocab.PublishedPropertyInterface
+	Replies           vocab.RepliesPropertyInterface
+	Shares            vocab.SharesPropertyInterface
+	StartTime         vocab.StartTimePropertyInterface
+	Streams           vocab.StreamsPropertyInterface
+	Summary           vocab.SummaryPropertyInterface
+	Tag               vocab.TagPropertyInterface
+	To                vocab.ToPropertyInterface
+	Type              vocab.TypePropertyInterface
+	Updated           vocab.UpdatedPropertyInterface
+	Url               vocab.UrlPropertyInterface
+	alias             string
+	unknown           map[string]interface{}
 }
 
 // DeserializeGroup creates a Group from a map representation that has been
 // unmarshalled from a text or binary format.
 func DeserializeGroup(m map[string]interface{}, aliasMap map[string]string) (*Group, error) {
 	alias := ""
+	aliasPrefix := ""
 	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
 		alias = a
+		aliasPrefix = a + ":"
 	}
 	this := &Group{
 		alias:   alias,
 		unknown: make(map[string]interface{}),
+	}
+	if typeValue, ok := m["type"]; !ok {
+		return nil, fmt.Errorf("no \"type\" property in map")
+	} else if typeString, ok := typeValue.(string); ok {
+		typeName := strings.TrimPrefix(typeString, aliasPrefix)
+		if typeName != "Group" {
+			return nil, fmt.Errorf("\"type\" property is not of %q type: %s", "Group", typeName)
+		}
+		// Fall through, success in finding a proper Type
+	} else if arrType, ok := typeValue.([]interface{}); ok {
+		found := false
+		for _, elemVal := range arrType {
+			if typeString, ok := elemVal.(string); ok && strings.TrimPrefix(typeString, aliasPrefix) == "Group" {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil, fmt.Errorf("could not find a \"type\" property of value %q", "Group")
+		}
+		// Fall through, success in finding a proper Type
+	} else {
+		return nil, fmt.Errorf("\"type\" property is unrecognized type: %T", typeValue)
 	}
 	// Begin: Known property deserialization
 	if p, err := mgr.DeserializeAltitudePropertyActivityStreams()(m, aliasMap); err != nil {
@@ -111,6 +149,16 @@ func DeserializeGroup(m map[string]interface{}, aliasMap map[string]string) (*Gr
 	} else if p != nil {
 		this.EndTime = p
 	}
+	if p, err := mgr.DeserializeFollowersPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Followers = p
+	}
+	if p, err := mgr.DeserializeFollowingPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Following = p
+	}
 	if p, err := mgr.DeserializeGeneratorPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -136,6 +184,21 @@ func DeserializeGroup(m map[string]interface{}, aliasMap map[string]string) (*Gr
 	} else if p != nil {
 		this.InReplyTo = p
 	}
+	if p, err := mgr.DeserializeInboxPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Inbox = p
+	}
+	if p, err := mgr.DeserializeLikedPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Liked = p
+	}
+	if p, err := mgr.DeserializeLikesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Likes = p
+	}
 	if p, err := mgr.DeserializeLocationPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -156,6 +219,16 @@ func DeserializeGroup(m map[string]interface{}, aliasMap map[string]string) (*Gr
 	} else if p != nil {
 		this.Object = p
 	}
+	if p, err := mgr.DeserializeOutboxPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Outbox = p
+	}
+	if p, err := mgr.DeserializePreferredUsernamePropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.PreferredUsername = p
+	}
 	if p, err := mgr.DeserializePreviewPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -171,10 +244,20 @@ func DeserializeGroup(m map[string]interface{}, aliasMap map[string]string) (*Gr
 	} else if p != nil {
 		this.Replies = p
 	}
+	if p, err := mgr.DeserializeSharesPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Shares = p
+	}
 	if p, err := mgr.DeserializeStartTimePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
 		this.StartTime = p
+	}
+	if p, err := mgr.DeserializeStreamsPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Streams = p
 	}
 	if p, err := mgr.DeserializeSummaryPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -233,6 +316,10 @@ func DeserializeGroup(m map[string]interface{}, aliasMap map[string]string) (*Gr
 			continue
 		} else if k == "endTime" {
 			continue
+		} else if k == "followers" {
+			continue
+		} else if k == "following" {
+			continue
 		} else if k == "generator" {
 			continue
 		} else if k == "icon" {
@@ -243,6 +330,12 @@ func DeserializeGroup(m map[string]interface{}, aliasMap map[string]string) (*Gr
 			continue
 		} else if k == "inReplyTo" {
 			continue
+		} else if k == "inbox" {
+			continue
+		} else if k == "liked" {
+			continue
+		} else if k == "likes" {
+			continue
 		} else if k == "location" {
 			continue
 		} else if k == "mediaType" {
@@ -251,13 +344,21 @@ func DeserializeGroup(m map[string]interface{}, aliasMap map[string]string) (*Gr
 			continue
 		} else if k == "object" {
 			continue
+		} else if k == "outbox" {
+			continue
+		} else if k == "preferredUsername" {
+			continue
 		} else if k == "preview" {
 			continue
 		} else if k == "published" {
 			continue
 		} else if k == "replies" {
 			continue
+		} else if k == "shares" {
+			continue
 		} else if k == "startTime" {
+			continue
+		} else if k == "streams" {
 			continue
 		} else if k == "summary" {
 			continue
@@ -374,6 +475,16 @@ func (this Group) GetEndTime() vocab.EndTimePropertyInterface {
 	return this.EndTime
 }
 
+// GetFollowers returns the "followers" property if it exists, and nil otherwise.
+func (this Group) GetFollowers() vocab.FollowersPropertyInterface {
+	return this.Followers
+}
+
+// GetFollowing returns the "following" property if it exists, and nil otherwise.
+func (this Group) GetFollowing() vocab.FollowingPropertyInterface {
+	return this.Following
+}
+
 // GetGenerator returns the "generator" property if it exists, and nil otherwise.
 func (this Group) GetGenerator() vocab.GeneratorPropertyInterface {
 	return this.Generator
@@ -399,6 +510,21 @@ func (this Group) GetInReplyTo() vocab.InReplyToPropertyInterface {
 	return this.InReplyTo
 }
 
+// GetInbox returns the "inbox" property if it exists, and nil otherwise.
+func (this Group) GetInbox() vocab.InboxPropertyInterface {
+	return this.Inbox
+}
+
+// GetLiked returns the "liked" property if it exists, and nil otherwise.
+func (this Group) GetLiked() vocab.LikedPropertyInterface {
+	return this.Liked
+}
+
+// GetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this Group) GetLikes() vocab.LikesPropertyInterface {
+	return this.Likes
+}
+
 // GetLocation returns the "location" property if it exists, and nil otherwise.
 func (this Group) GetLocation() vocab.LocationPropertyInterface {
 	return this.Location
@@ -419,6 +545,17 @@ func (this Group) GetObject() vocab.ObjectPropertyInterface {
 	return this.Object
 }
 
+// GetOutbox returns the "outbox" property if it exists, and nil otherwise.
+func (this Group) GetOutbox() vocab.OutboxPropertyInterface {
+	return this.Outbox
+}
+
+// GetPreferredUsername returns the "preferredUsername" property if it exists, and
+// nil otherwise.
+func (this Group) GetPreferredUsername() vocab.PreferredUsernamePropertyInterface {
+	return this.PreferredUsername
+}
+
 // GetPreview returns the "preview" property if it exists, and nil otherwise.
 func (this Group) GetPreview() vocab.PreviewPropertyInterface {
 	return this.Preview
@@ -434,9 +571,19 @@ func (this Group) GetReplies() vocab.RepliesPropertyInterface {
 	return this.Replies
 }
 
+// GetShares returns the "shares" property if it exists, and nil otherwise.
+func (this Group) GetShares() vocab.SharesPropertyInterface {
+	return this.Shares
+}
+
 // GetStartTime returns the "startTime" property if it exists, and nil otherwise.
 func (this Group) GetStartTime() vocab.StartTimePropertyInterface {
 	return this.StartTime
+}
+
+// GetStreams returns the "streams" property if it exists, and nil otherwise.
+func (this Group) GetStreams() vocab.StreamsPropertyInterface {
+	return this.Streams
 }
 
 // GetSummary returns the "summary" property if it exists, and nil otherwise.
@@ -500,19 +647,28 @@ func (this Group) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Context, m)
 	m = this.helperJSONLDContext(this.Duration, m)
 	m = this.helperJSONLDContext(this.EndTime, m)
+	m = this.helperJSONLDContext(this.Followers, m)
+	m = this.helperJSONLDContext(this.Following, m)
 	m = this.helperJSONLDContext(this.Generator, m)
 	m = this.helperJSONLDContext(this.Icon, m)
 	m = this.helperJSONLDContext(this.Id, m)
 	m = this.helperJSONLDContext(this.Image, m)
 	m = this.helperJSONLDContext(this.InReplyTo, m)
+	m = this.helperJSONLDContext(this.Inbox, m)
+	m = this.helperJSONLDContext(this.Liked, m)
+	m = this.helperJSONLDContext(this.Likes, m)
 	m = this.helperJSONLDContext(this.Location, m)
 	m = this.helperJSONLDContext(this.MediaType, m)
 	m = this.helperJSONLDContext(this.Name, m)
 	m = this.helperJSONLDContext(this.Object, m)
+	m = this.helperJSONLDContext(this.Outbox, m)
+	m = this.helperJSONLDContext(this.PreferredUsername, m)
 	m = this.helperJSONLDContext(this.Preview, m)
 	m = this.helperJSONLDContext(this.Published, m)
 	m = this.helperJSONLDContext(this.Replies, m)
+	m = this.helperJSONLDContext(this.Shares, m)
 	m = this.helperJSONLDContext(this.StartTime, m)
+	m = this.helperJSONLDContext(this.Streams, m)
 	m = this.helperJSONLDContext(this.Summary, m)
 	m = this.helperJSONLDContext(this.Tag, m)
 	m = this.helperJSONLDContext(this.To, m)
@@ -681,6 +837,34 @@ func (this Group) LessThan(o vocab.GroupInterface) bool {
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "followers"
+	if lhs, rhs := this.Followers, o.GetFollowers(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "following"
+	if lhs, rhs := this.Following, o.GetFollowing(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "generator"
 	if lhs, rhs := this.Generator, o.GetGenerator(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -751,6 +935,48 @@ func (this Group) LessThan(o vocab.GroupInterface) bool {
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "inbox"
+	if lhs, rhs := this.Inbox, o.GetInbox(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "liked"
+	if lhs, rhs := this.Liked, o.GetLiked(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "likes"
+	if lhs, rhs := this.Likes, o.GetLikes(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "location"
 	if lhs, rhs := this.Location, o.GetLocation(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -807,6 +1033,34 @@ func (this Group) LessThan(o vocab.GroupInterface) bool {
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "outbox"
+	if lhs, rhs := this.Outbox, o.GetOutbox(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "preferredUsername"
+	if lhs, rhs := this.PreferredUsername, o.GetPreferredUsername(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "preview"
 	if lhs, rhs := this.Preview, o.GetPreview(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -849,8 +1103,36 @@ func (this Group) LessThan(o vocab.GroupInterface) bool {
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "shares"
+	if lhs, rhs := this.Shares, o.GetShares(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "startTime"
 	if lhs, rhs := this.StartTime, o.GetStartTime(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "streams"
+	if lhs, rhs := this.Streams, o.GetStreams(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -964,6 +1246,11 @@ func (this Group) LessThan(o vocab.GroupInterface) bool {
 // marshalling into a text or binary format.
 func (this Group) Serialize() (map[string]interface{}, error) {
 	m := make(map[string]interface{})
+	typeName := "Group"
+	if len(this.alias) > 0 {
+		typeName = this.alias + ":" + "Group"
+	}
+	m["type"] = typeName
 	// Begin: Serialize known properties
 	// Maybe serialize property "altitude"
 	if this.Altitude != nil {
@@ -1053,6 +1340,22 @@ func (this Group) Serialize() (map[string]interface{}, error) {
 			m[this.EndTime.Name()] = i
 		}
 	}
+	// Maybe serialize property "followers"
+	if this.Followers != nil {
+		if i, err := this.Followers.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Followers.Name()] = i
+		}
+	}
+	// Maybe serialize property "following"
+	if this.Following != nil {
+		if i, err := this.Following.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Following.Name()] = i
+		}
+	}
 	// Maybe serialize property "generator"
 	if this.Generator != nil {
 		if i, err := this.Generator.Serialize(); err != nil {
@@ -1093,6 +1396,30 @@ func (this Group) Serialize() (map[string]interface{}, error) {
 			m[this.InReplyTo.Name()] = i
 		}
 	}
+	// Maybe serialize property "inbox"
+	if this.Inbox != nil {
+		if i, err := this.Inbox.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Inbox.Name()] = i
+		}
+	}
+	// Maybe serialize property "liked"
+	if this.Liked != nil {
+		if i, err := this.Liked.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Liked.Name()] = i
+		}
+	}
+	// Maybe serialize property "likes"
+	if this.Likes != nil {
+		if i, err := this.Likes.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Likes.Name()] = i
+		}
+	}
 	// Maybe serialize property "location"
 	if this.Location != nil {
 		if i, err := this.Location.Serialize(); err != nil {
@@ -1125,6 +1452,22 @@ func (this Group) Serialize() (map[string]interface{}, error) {
 			m[this.Object.Name()] = i
 		}
 	}
+	// Maybe serialize property "outbox"
+	if this.Outbox != nil {
+		if i, err := this.Outbox.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Outbox.Name()] = i
+		}
+	}
+	// Maybe serialize property "preferredUsername"
+	if this.PreferredUsername != nil {
+		if i, err := this.PreferredUsername.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.PreferredUsername.Name()] = i
+		}
+	}
 	// Maybe serialize property "preview"
 	if this.Preview != nil {
 		if i, err := this.Preview.Serialize(); err != nil {
@@ -1149,12 +1492,28 @@ func (this Group) Serialize() (map[string]interface{}, error) {
 			m[this.Replies.Name()] = i
 		}
 	}
+	// Maybe serialize property "shares"
+	if this.Shares != nil {
+		if i, err := this.Shares.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Shares.Name()] = i
+		}
+	}
 	// Maybe serialize property "startTime"
 	if this.StartTime != nil {
 		if i, err := this.StartTime.Serialize(); err != nil {
 			return nil, err
 		} else if i != nil {
 			m[this.StartTime.Name()] = i
+		}
+	}
+	// Maybe serialize property "streams"
+	if this.Streams != nil {
+		if i, err := this.Streams.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Streams.Name()] = i
 		}
 	}
 	// Maybe serialize property "summary"
@@ -1220,153 +1579,199 @@ func (this Group) Serialize() (map[string]interface{}, error) {
 }
 
 // SetAltitude returns the "altitude" property if it exists, and nil otherwise.
-func (this Group) SetAltitude(i vocab.AltitudePropertyInterface) {
+func (this *Group) SetAltitude(i vocab.AltitudePropertyInterface) {
 	this.Altitude = i
 }
 
 // SetAttachment returns the "attachment" property if it exists, and nil otherwise.
-func (this Group) SetAttachment(i vocab.AttachmentPropertyInterface) {
+func (this *Group) SetAttachment(i vocab.AttachmentPropertyInterface) {
 	this.Attachment = i
 }
 
 // SetAttributedTo returns the "attributedTo" property if it exists, and nil
 // otherwise.
-func (this Group) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
+func (this *Group) SetAttributedTo(i vocab.AttributedToPropertyInterface) {
 	this.AttributedTo = i
 }
 
 // SetAudience returns the "audience" property if it exists, and nil otherwise.
-func (this Group) SetAudience(i vocab.AudiencePropertyInterface) {
+func (this *Group) SetAudience(i vocab.AudiencePropertyInterface) {
 	this.Audience = i
 }
 
 // SetBcc returns the "bcc" property if it exists, and nil otherwise.
-func (this Group) SetBcc(i vocab.BccPropertyInterface) {
+func (this *Group) SetBcc(i vocab.BccPropertyInterface) {
 	this.Bcc = i
 }
 
 // SetBto returns the "bto" property if it exists, and nil otherwise.
-func (this Group) SetBto(i vocab.BtoPropertyInterface) {
+func (this *Group) SetBto(i vocab.BtoPropertyInterface) {
 	this.Bto = i
 }
 
 // SetCc returns the "cc" property if it exists, and nil otherwise.
-func (this Group) SetCc(i vocab.CcPropertyInterface) {
+func (this *Group) SetCc(i vocab.CcPropertyInterface) {
 	this.Cc = i
 }
 
 // SetContent returns the "content" property if it exists, and nil otherwise.
-func (this Group) SetContent(i vocab.ContentPropertyInterface) {
+func (this *Group) SetContent(i vocab.ContentPropertyInterface) {
 	this.Content = i
 }
 
 // SetContext returns the "context" property if it exists, and nil otherwise.
-func (this Group) SetContext(i vocab.ContextPropertyInterface) {
+func (this *Group) SetContext(i vocab.ContextPropertyInterface) {
 	this.Context = i
 }
 
 // SetDuration returns the "duration" property if it exists, and nil otherwise.
-func (this Group) SetDuration(i vocab.DurationPropertyInterface) {
+func (this *Group) SetDuration(i vocab.DurationPropertyInterface) {
 	this.Duration = i
 }
 
 // SetEndTime returns the "endTime" property if it exists, and nil otherwise.
-func (this Group) SetEndTime(i vocab.EndTimePropertyInterface) {
+func (this *Group) SetEndTime(i vocab.EndTimePropertyInterface) {
 	this.EndTime = i
 }
 
+// SetFollowers returns the "followers" property if it exists, and nil otherwise.
+func (this *Group) SetFollowers(i vocab.FollowersPropertyInterface) {
+	this.Followers = i
+}
+
+// SetFollowing returns the "following" property if it exists, and nil otherwise.
+func (this *Group) SetFollowing(i vocab.FollowingPropertyInterface) {
+	this.Following = i
+}
+
 // SetGenerator returns the "generator" property if it exists, and nil otherwise.
-func (this Group) SetGenerator(i vocab.GeneratorPropertyInterface) {
+func (this *Group) SetGenerator(i vocab.GeneratorPropertyInterface) {
 	this.Generator = i
 }
 
 // SetIcon returns the "icon" property if it exists, and nil otherwise.
-func (this Group) SetIcon(i vocab.IconPropertyInterface) {
+func (this *Group) SetIcon(i vocab.IconPropertyInterface) {
 	this.Icon = i
 }
 
 // SetId returns the "id" property if it exists, and nil otherwise.
-func (this Group) SetId(i vocab.IdPropertyInterface) {
+func (this *Group) SetId(i vocab.IdPropertyInterface) {
 	this.Id = i
 }
 
 // SetImage returns the "image" property if it exists, and nil otherwise.
-func (this Group) SetImage(i vocab.ImagePropertyInterface) {
+func (this *Group) SetImage(i vocab.ImagePropertyInterface) {
 	this.Image = i
 }
 
 // SetInReplyTo returns the "inReplyTo" property if it exists, and nil otherwise.
-func (this Group) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
+func (this *Group) SetInReplyTo(i vocab.InReplyToPropertyInterface) {
 	this.InReplyTo = i
 }
 
+// SetInbox returns the "inbox" property if it exists, and nil otherwise.
+func (this *Group) SetInbox(i vocab.InboxPropertyInterface) {
+	this.Inbox = i
+}
+
+// SetLiked returns the "liked" property if it exists, and nil otherwise.
+func (this *Group) SetLiked(i vocab.LikedPropertyInterface) {
+	this.Liked = i
+}
+
+// SetLikes returns the "likes" property if it exists, and nil otherwise.
+func (this *Group) SetLikes(i vocab.LikesPropertyInterface) {
+	this.Likes = i
+}
+
 // SetLocation returns the "location" property if it exists, and nil otherwise.
-func (this Group) SetLocation(i vocab.LocationPropertyInterface) {
+func (this *Group) SetLocation(i vocab.LocationPropertyInterface) {
 	this.Location = i
 }
 
 // SetMediaType returns the "mediaType" property if it exists, and nil otherwise.
-func (this Group) SetMediaType(i vocab.MediaTypePropertyInterface) {
+func (this *Group) SetMediaType(i vocab.MediaTypePropertyInterface) {
 	this.MediaType = i
 }
 
 // SetName returns the "name" property if it exists, and nil otherwise.
-func (this Group) SetName(i vocab.NamePropertyInterface) {
+func (this *Group) SetName(i vocab.NamePropertyInterface) {
 	this.Name = i
 }
 
 // SetObject returns the "object" property if it exists, and nil otherwise.
-func (this Group) SetObject(i vocab.ObjectPropertyInterface) {
+func (this *Group) SetObject(i vocab.ObjectPropertyInterface) {
 	this.Object = i
 }
 
+// SetOutbox returns the "outbox" property if it exists, and nil otherwise.
+func (this *Group) SetOutbox(i vocab.OutboxPropertyInterface) {
+	this.Outbox = i
+}
+
+// SetPreferredUsername returns the "preferredUsername" property if it exists, and
+// nil otherwise.
+func (this *Group) SetPreferredUsername(i vocab.PreferredUsernamePropertyInterface) {
+	this.PreferredUsername = i
+}
+
 // SetPreview returns the "preview" property if it exists, and nil otherwise.
-func (this Group) SetPreview(i vocab.PreviewPropertyInterface) {
+func (this *Group) SetPreview(i vocab.PreviewPropertyInterface) {
 	this.Preview = i
 }
 
 // SetPublished returns the "published" property if it exists, and nil otherwise.
-func (this Group) SetPublished(i vocab.PublishedPropertyInterface) {
+func (this *Group) SetPublished(i vocab.PublishedPropertyInterface) {
 	this.Published = i
 }
 
 // SetReplies returns the "replies" property if it exists, and nil otherwise.
-func (this Group) SetReplies(i vocab.RepliesPropertyInterface) {
+func (this *Group) SetReplies(i vocab.RepliesPropertyInterface) {
 	this.Replies = i
 }
 
+// SetShares returns the "shares" property if it exists, and nil otherwise.
+func (this *Group) SetShares(i vocab.SharesPropertyInterface) {
+	this.Shares = i
+}
+
 // SetStartTime returns the "startTime" property if it exists, and nil otherwise.
-func (this Group) SetStartTime(i vocab.StartTimePropertyInterface) {
+func (this *Group) SetStartTime(i vocab.StartTimePropertyInterface) {
 	this.StartTime = i
 }
 
+// SetStreams returns the "streams" property if it exists, and nil otherwise.
+func (this *Group) SetStreams(i vocab.StreamsPropertyInterface) {
+	this.Streams = i
+}
+
 // SetSummary returns the "summary" property if it exists, and nil otherwise.
-func (this Group) SetSummary(i vocab.SummaryPropertyInterface) {
+func (this *Group) SetSummary(i vocab.SummaryPropertyInterface) {
 	this.Summary = i
 }
 
 // SetTag returns the "tag" property if it exists, and nil otherwise.
-func (this Group) SetTag(i vocab.TagPropertyInterface) {
+func (this *Group) SetTag(i vocab.TagPropertyInterface) {
 	this.Tag = i
 }
 
 // SetTo returns the "to" property if it exists, and nil otherwise.
-func (this Group) SetTo(i vocab.ToPropertyInterface) {
+func (this *Group) SetTo(i vocab.ToPropertyInterface) {
 	this.To = i
 }
 
 // SetType returns the "type" property if it exists, and nil otherwise.
-func (this Group) SetType(i vocab.TypePropertyInterface) {
+func (this *Group) SetType(i vocab.TypePropertyInterface) {
 	this.Type = i
 }
 
 // SetUpdated returns the "updated" property if it exists, and nil otherwise.
-func (this Group) SetUpdated(i vocab.UpdatedPropertyInterface) {
+func (this *Group) SetUpdated(i vocab.UpdatedPropertyInterface) {
 	this.Updated = i
 }
 
 // SetUrl returns the "url" property if it exists, and nil otherwise.
-func (this Group) SetUrl(i vocab.UrlPropertyInterface) {
+func (this *Group) SetUrl(i vocab.UrlPropertyInterface) {
 	this.Url = i
 }
 

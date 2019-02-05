@@ -20,6 +20,8 @@ import (
 	propertyduration "github.com/go-fed/activity/streams/impl/activitystreams/property_duration"
 	propertyendtime "github.com/go-fed/activity/streams/impl/activitystreams/property_endtime"
 	propertyfirst "github.com/go-fed/activity/streams/impl/activitystreams/property_first"
+	propertyfollowers "github.com/go-fed/activity/streams/impl/activitystreams/property_followers"
+	propertyfollowing "github.com/go-fed/activity/streams/impl/activitystreams/property_following"
 	propertyformertype "github.com/go-fed/activity/streams/impl/activitystreams/property_formertype"
 	propertygenerator "github.com/go-fed/activity/streams/impl/activitystreams/property_generator"
 	propertyheight "github.com/go-fed/activity/streams/impl/activitystreams/property_height"
@@ -28,11 +30,14 @@ import (
 	propertyicon "github.com/go-fed/activity/streams/impl/activitystreams/property_icon"
 	propertyid "github.com/go-fed/activity/streams/impl/activitystreams/property_id"
 	propertyimage "github.com/go-fed/activity/streams/impl/activitystreams/property_image"
+	propertyinbox "github.com/go-fed/activity/streams/impl/activitystreams/property_inbox"
 	propertyinreplyto "github.com/go-fed/activity/streams/impl/activitystreams/property_inreplyto"
 	propertyinstrument "github.com/go-fed/activity/streams/impl/activitystreams/property_instrument"
 	propertyitems "github.com/go-fed/activity/streams/impl/activitystreams/property_items"
 	propertylast "github.com/go-fed/activity/streams/impl/activitystreams/property_last"
 	propertylatitude "github.com/go-fed/activity/streams/impl/activitystreams/property_latitude"
+	propertyliked "github.com/go-fed/activity/streams/impl/activitystreams/property_liked"
+	propertylikes "github.com/go-fed/activity/streams/impl/activitystreams/property_likes"
 	propertylocation "github.com/go-fed/activity/streams/impl/activitystreams/property_location"
 	propertylongitude "github.com/go-fed/activity/streams/impl/activitystreams/property_longitude"
 	propertymediatype "github.com/go-fed/activity/streams/impl/activitystreams/property_mediatype"
@@ -41,7 +46,9 @@ import (
 	propertyobject "github.com/go-fed/activity/streams/impl/activitystreams/property_object"
 	propertyoneof "github.com/go-fed/activity/streams/impl/activitystreams/property_oneof"
 	propertyorigin "github.com/go-fed/activity/streams/impl/activitystreams/property_origin"
+	propertyoutbox "github.com/go-fed/activity/streams/impl/activitystreams/property_outbox"
 	propertypartof "github.com/go-fed/activity/streams/impl/activitystreams/property_partof"
+	propertypreferredusername "github.com/go-fed/activity/streams/impl/activitystreams/property_preferredusername"
 	propertyprev "github.com/go-fed/activity/streams/impl/activitystreams/property_prev"
 	propertypreview "github.com/go-fed/activity/streams/impl/activitystreams/property_preview"
 	propertypublished "github.com/go-fed/activity/streams/impl/activitystreams/property_published"
@@ -50,8 +57,10 @@ import (
 	propertyrelationship "github.com/go-fed/activity/streams/impl/activitystreams/property_relationship"
 	propertyreplies "github.com/go-fed/activity/streams/impl/activitystreams/property_replies"
 	propertyresult "github.com/go-fed/activity/streams/impl/activitystreams/property_result"
+	propertyshares "github.com/go-fed/activity/streams/impl/activitystreams/property_shares"
 	propertystartindex "github.com/go-fed/activity/streams/impl/activitystreams/property_startindex"
 	propertystarttime "github.com/go-fed/activity/streams/impl/activitystreams/property_starttime"
+	propertystreams "github.com/go-fed/activity/streams/impl/activitystreams/property_streams"
 	propertysubject "github.com/go-fed/activity/streams/impl/activitystreams/property_subject"
 	propertysummary "github.com/go-fed/activity/streams/impl/activitystreams/property_summary"
 	propertytag "github.com/go-fed/activity/streams/impl/activitystreams/property_tag"
@@ -151,6 +160,8 @@ func init() {
 	propertyduration.SetManager(mgr)
 	propertyendtime.SetManager(mgr)
 	propertyfirst.SetManager(mgr)
+	propertyfollowers.SetManager(mgr)
+	propertyfollowing.SetManager(mgr)
 	propertyformertype.SetManager(mgr)
 	propertygenerator.SetManager(mgr)
 	propertyheight.SetManager(mgr)
@@ -159,11 +170,14 @@ func init() {
 	propertyicon.SetManager(mgr)
 	propertyid.SetManager(mgr)
 	propertyimage.SetManager(mgr)
+	propertyinbox.SetManager(mgr)
 	propertyinreplyto.SetManager(mgr)
 	propertyinstrument.SetManager(mgr)
 	propertyitems.SetManager(mgr)
 	propertylast.SetManager(mgr)
 	propertylatitude.SetManager(mgr)
+	propertyliked.SetManager(mgr)
+	propertylikes.SetManager(mgr)
 	propertylocation.SetManager(mgr)
 	propertylongitude.SetManager(mgr)
 	propertymediatype.SetManager(mgr)
@@ -172,7 +186,9 @@ func init() {
 	propertyobject.SetManager(mgr)
 	propertyoneof.SetManager(mgr)
 	propertyorigin.SetManager(mgr)
+	propertyoutbox.SetManager(mgr)
 	propertypartof.SetManager(mgr)
+	propertypreferredusername.SetManager(mgr)
 	propertyprev.SetManager(mgr)
 	propertypreview.SetManager(mgr)
 	propertypublished.SetManager(mgr)
@@ -181,8 +197,10 @@ func init() {
 	propertyrelationship.SetManager(mgr)
 	propertyreplies.SetManager(mgr)
 	propertyresult.SetManager(mgr)
+	propertyshares.SetManager(mgr)
 	propertystartindex.SetManager(mgr)
 	propertystarttime.SetManager(mgr)
+	propertystreams.SetManager(mgr)
 	propertysubject.SetManager(mgr)
 	propertysummary.SetManager(mgr)
 	propertytag.SetManager(mgr)

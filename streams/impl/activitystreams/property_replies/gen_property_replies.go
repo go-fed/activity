@@ -16,7 +16,7 @@ type RepliesProperty struct {
 	CollectionPageMember        vocab.CollectionPageInterface
 	OrderedCollectionMember     vocab.OrderedCollectionInterface
 	OrderedCollectionPageMember vocab.OrderedCollectionPageInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 }
@@ -72,15 +72,12 @@ func DeserializeRepliesProperty(m map[string]interface{}, aliasMap map[string]st
 				}
 				return this, nil
 			}
-		} else if str, ok := i.(string); ok {
-			this := &RepliesProperty{
-				alias:   alias,
-				unknown: []byte(str),
-			}
-			return this, nil
-		} else {
-			return nil, fmt.Errorf("could not deserialize %q property", "replies")
 		}
+		this := &RepliesProperty{
+			alias:   alias,
+			unknown: i,
+		}
+		return this, nil
 	}
 	return nil, nil
 }
@@ -270,7 +267,7 @@ func (this RepliesProperty) Serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // SetCollection sets the value of this property. Calling IsCollection afterwards

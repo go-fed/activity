@@ -20,6 +20,8 @@ import (
 	propertyduration "github.com/go-fed/activity/streams/impl/activitystreams/property_duration"
 	propertyendtime "github.com/go-fed/activity/streams/impl/activitystreams/property_endtime"
 	propertyfirst "github.com/go-fed/activity/streams/impl/activitystreams/property_first"
+	propertyfollowers "github.com/go-fed/activity/streams/impl/activitystreams/property_followers"
+	propertyfollowing "github.com/go-fed/activity/streams/impl/activitystreams/property_following"
 	propertyformertype "github.com/go-fed/activity/streams/impl/activitystreams/property_formertype"
 	propertygenerator "github.com/go-fed/activity/streams/impl/activitystreams/property_generator"
 	propertyheight "github.com/go-fed/activity/streams/impl/activitystreams/property_height"
@@ -28,11 +30,14 @@ import (
 	propertyicon "github.com/go-fed/activity/streams/impl/activitystreams/property_icon"
 	propertyid "github.com/go-fed/activity/streams/impl/activitystreams/property_id"
 	propertyimage "github.com/go-fed/activity/streams/impl/activitystreams/property_image"
+	propertyinbox "github.com/go-fed/activity/streams/impl/activitystreams/property_inbox"
 	propertyinreplyto "github.com/go-fed/activity/streams/impl/activitystreams/property_inreplyto"
 	propertyinstrument "github.com/go-fed/activity/streams/impl/activitystreams/property_instrument"
 	propertyitems "github.com/go-fed/activity/streams/impl/activitystreams/property_items"
 	propertylast "github.com/go-fed/activity/streams/impl/activitystreams/property_last"
 	propertylatitude "github.com/go-fed/activity/streams/impl/activitystreams/property_latitude"
+	propertyliked "github.com/go-fed/activity/streams/impl/activitystreams/property_liked"
+	propertylikes "github.com/go-fed/activity/streams/impl/activitystreams/property_likes"
 	propertylocation "github.com/go-fed/activity/streams/impl/activitystreams/property_location"
 	propertylongitude "github.com/go-fed/activity/streams/impl/activitystreams/property_longitude"
 	propertymediatype "github.com/go-fed/activity/streams/impl/activitystreams/property_mediatype"
@@ -41,7 +46,9 @@ import (
 	propertyobject "github.com/go-fed/activity/streams/impl/activitystreams/property_object"
 	propertyoneof "github.com/go-fed/activity/streams/impl/activitystreams/property_oneof"
 	propertyorigin "github.com/go-fed/activity/streams/impl/activitystreams/property_origin"
+	propertyoutbox "github.com/go-fed/activity/streams/impl/activitystreams/property_outbox"
 	propertypartof "github.com/go-fed/activity/streams/impl/activitystreams/property_partof"
+	propertypreferredusername "github.com/go-fed/activity/streams/impl/activitystreams/property_preferredusername"
 	propertyprev "github.com/go-fed/activity/streams/impl/activitystreams/property_prev"
 	propertypreview "github.com/go-fed/activity/streams/impl/activitystreams/property_preview"
 	propertypublished "github.com/go-fed/activity/streams/impl/activitystreams/property_published"
@@ -50,8 +57,10 @@ import (
 	propertyrelationship "github.com/go-fed/activity/streams/impl/activitystreams/property_relationship"
 	propertyreplies "github.com/go-fed/activity/streams/impl/activitystreams/property_replies"
 	propertyresult "github.com/go-fed/activity/streams/impl/activitystreams/property_result"
+	propertyshares "github.com/go-fed/activity/streams/impl/activitystreams/property_shares"
 	propertystartindex "github.com/go-fed/activity/streams/impl/activitystreams/property_startindex"
 	propertystarttime "github.com/go-fed/activity/streams/impl/activitystreams/property_starttime"
+	propertystreams "github.com/go-fed/activity/streams/impl/activitystreams/property_streams"
 	propertysubject "github.com/go-fed/activity/streams/impl/activitystreams/property_subject"
 	propertysummary "github.com/go-fed/activity/streams/impl/activitystreams/property_summary"
 	propertytag "github.com/go-fed/activity/streams/impl/activitystreams/property_tag"
@@ -602,6 +611,32 @@ func (this Manager) DeserializeFollowActivityStreams() func(map[string]interface
 	}
 }
 
+// DeserializeFollowersPropertyActivityStreams returns the deserialization method
+// for the "FollowersPropertyInterface" non-functional property in the
+// vocabulary "ActivityStreams"
+func (this Manager) DeserializeFollowersPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.FollowersPropertyInterface, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.FollowersPropertyInterface, error) {
+		i, err := propertyfollowers.DeserializeFollowersProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializeFollowingPropertyActivityStreams returns the deserialization method
+// for the "FollowingPropertyInterface" non-functional property in the
+// vocabulary "ActivityStreams"
+func (this Manager) DeserializeFollowingPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.FollowingPropertyInterface, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.FollowingPropertyInterface, error) {
+		i, err := propertyfollowing.DeserializeFollowingProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
 // DeserializeFormerTypePropertyActivityStreams returns the deserialization method
 // for the "FormerTypePropertyInterface" non-functional property in the
 // vocabulary "ActivityStreams"
@@ -756,6 +791,19 @@ func (this Manager) DeserializeInReplyToPropertyActivityStreams() func(map[strin
 	}
 }
 
+// DeserializeInboxPropertyActivityStreams returns the deserialization method for
+// the "InboxPropertyInterface" non-functional property in the vocabulary
+// "ActivityStreams"
+func (this Manager) DeserializeInboxPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.InboxPropertyInterface, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.InboxPropertyInterface, error) {
+		i, err := propertyinbox.DeserializeInboxProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
 // DeserializeInstrumentPropertyActivityStreams returns the deserialization method
 // for the "InstrumentPropertyInterface" non-functional property in the
 // vocabulary "ActivityStreams"
@@ -863,6 +911,32 @@ func (this Manager) DeserializeLeaveActivityStreams() func(map[string]interface{
 func (this Manager) DeserializeLikeActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LikeInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.LikeInterface, error) {
 		i, err := typelike.DeserializeLike(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializeLikedPropertyActivityStreams returns the deserialization method for
+// the "LikedPropertyInterface" non-functional property in the vocabulary
+// "ActivityStreams"
+func (this Manager) DeserializeLikedPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LikedPropertyInterface, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.LikedPropertyInterface, error) {
+		i, err := propertyliked.DeserializeLikedProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializeLikesPropertyActivityStreams returns the deserialization method for
+// the "LikesPropertyInterface" non-functional property in the vocabulary
+// "ActivityStreams"
+func (this Manager) DeserializeLikesPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LikesPropertyInterface, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.LikesPropertyInterface, error) {
+		i, err := propertylikes.DeserializeLikesProperty(m, aliasMap)
 		if i == nil {
 			return nil, err
 		}
@@ -1100,6 +1174,19 @@ func (this Manager) DeserializeOriginPropertyActivityStreams() func(map[string]i
 	}
 }
 
+// DeserializeOutboxPropertyActivityStreams returns the deserialization method for
+// the "OutboxPropertyInterface" non-functional property in the vocabulary
+// "ActivityStreams"
+func (this Manager) DeserializeOutboxPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OutboxPropertyInterface, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.OutboxPropertyInterface, error) {
+		i, err := propertyoutbox.DeserializeOutboxProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
 // DeserializePageActivityStreams returns the deserialization method for the
 // "PageInterface" non-functional property in the vocabulary "ActivityStreams"
 func (this Manager) DeserializePageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.PageInterface, error) {
@@ -1143,6 +1230,19 @@ func (this Manager) DeserializePersonActivityStreams() func(map[string]interface
 func (this Manager) DeserializePlaceActivityStreams() func(map[string]interface{}, map[string]string) (vocab.PlaceInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.PlaceInterface, error) {
 		i, err := typeplace.DeserializePlace(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializePreferredUsernamePropertyActivityStreams returns the deserialization
+// method for the "PreferredUsernamePropertyInterface" non-functional property
+// in the vocabulary "ActivityStreams"
+func (this Manager) DeserializePreferredUsernamePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.PreferredUsernamePropertyInterface, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.PreferredUsernamePropertyInterface, error) {
+		i, err := propertypreferredusername.DeserializePreferredUsernameProperty(m, aliasMap)
 		if i == nil {
 			return nil, err
 		}
@@ -1344,6 +1444,19 @@ func (this Manager) DeserializeServiceActivityStreams() func(map[string]interfac
 	}
 }
 
+// DeserializeSharesPropertyActivityStreams returns the deserialization method for
+// the "SharesPropertyInterface" non-functional property in the vocabulary
+// "ActivityStreams"
+func (this Manager) DeserializeSharesPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.SharesPropertyInterface, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.SharesPropertyInterface, error) {
+		i, err := propertyshares.DeserializeSharesProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
 // DeserializeStartIndexPropertyActivityStreams returns the deserialization method
 // for the "StartIndexPropertyInterface" non-functional property in the
 // vocabulary "ActivityStreams"
@@ -1363,6 +1476,19 @@ func (this Manager) DeserializeStartIndexPropertyActivityStreams() func(map[stri
 func (this Manager) DeserializeStartTimePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.StartTimePropertyInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.StartTimePropertyInterface, error) {
 		i, err := propertystarttime.DeserializeStartTimeProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializeStreamsPropertyActivityStreams returns the deserialization method
+// for the "StreamsPropertyInterface" non-functional property in the
+// vocabulary "ActivityStreams"
+func (this Manager) DeserializeStreamsPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.StreamsPropertyInterface, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.StreamsPropertyInterface, error) {
+		i, err := propertystreams.DeserializeStreamsProperty(m, aliasMap)
 		if i == nil {
 			return nil, err
 		}

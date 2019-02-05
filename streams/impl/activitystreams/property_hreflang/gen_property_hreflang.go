@@ -12,7 +12,7 @@ import (
 type HreflangProperty struct {
 	bcp47Member    string
 	hasBcp47Member bool
-	unknown        []byte
+	unknown        interface{}
 	iri            *url.URL
 	alias          string
 }
@@ -49,15 +49,12 @@ func DeserializeHreflangProperty(m map[string]interface{}, aliasMap map[string]s
 				hasBcp47Member: true,
 			}
 			return this, nil
-		} else if str, ok := i.(string); ok {
-			this := &HreflangProperty{
-				alias:   alias,
-				unknown: []byte(str),
-			}
-			return this, nil
-		} else {
-			return nil, fmt.Errorf("could not deserialize %q property", "hreflang")
 		}
+		this := &HreflangProperty{
+			alias:   alias,
+			unknown: i,
+		}
+		return this, nil
 	}
 	return nil, nil
 }
@@ -179,7 +176,7 @@ func (this HreflangProperty) Serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // Set sets the value of this property. Calling IsBcp47 afterwards will return

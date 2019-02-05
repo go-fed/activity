@@ -66,7 +66,7 @@ type AttributedToPropertyIterator struct {
 	UpdateMember                vocab.UpdateInterface
 	VideoMember                 vocab.VideoInterface
 	ViewMember                  vocab.ViewInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 	myIdx                       int
@@ -423,13 +423,12 @@ func deserializeAttributedToPropertyIterator(i interface{}, aliasMap map[string]
 			}
 			return this, nil
 		}
-	} else if str, ok := i.(string); ok {
-		this := &AttributedToPropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &AttributedToPropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "attributedTo")
 }
 
@@ -2162,7 +2161,7 @@ func (this AttributedToPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // AttributedToProperty is the non-functional property "attributedTo". It is

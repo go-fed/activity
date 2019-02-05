@@ -11,7 +11,7 @@ import (
 // single nilable value type.
 type TypePropertyIterator struct {
 	anyURIMember *url.URL
-	unknown      []byte
+	unknown      interface{}
 	alias        string
 	myIdx        int
 	parent       vocab.TypePropertyInterface
@@ -35,13 +35,12 @@ func deserializeTypePropertyIterator(i interface{}, aliasMap map[string]string) 
 			anyURIMember: v,
 		}
 		return this, nil
-	} else if str, ok := i.(string); ok {
-		this := &TypePropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &TypePropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "type")
 }
 
@@ -183,7 +182,7 @@ func (this TypePropertyIterator) serialize() (interface{}, error) {
 	if this.IsAnyURI() {
 		return anyuri.SerializeAnyURI(this.Get())
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // TypeProperty is the non-functional property "type". It is permitted to have one

@@ -60,6 +60,8 @@ type BlockInterface interface {
 	// GetInstrument returns the "instrument" property if it exists, and nil
 	// otherwise.
 	GetInstrument() InstrumentPropertyInterface
+	// GetLikes returns the "likes" property if it exists, and nil otherwise.
+	GetLikes() LikesPropertyInterface
 	// GetLocation returns the "location" property if it exists, and nil
 	// otherwise.
 	GetLocation() LocationPropertyInterface
@@ -83,6 +85,8 @@ type BlockInterface interface {
 	GetReplies() RepliesPropertyInterface
 	// GetResult returns the "result" property if it exists, and nil otherwise.
 	GetResult() ResultPropertyInterface
+	// GetShares returns the "shares" property if it exists, and nil otherwise.
+	GetShares() SharesPropertyInterface
 	// GetStartTime returns the "startTime" property if it exists, and nil
 	// otherwise.
 	GetStartTime() StartTimePropertyInterface
@@ -169,6 +173,8 @@ type BlockInterface interface {
 	// SetInstrument returns the "instrument" property if it exists, and nil
 	// otherwise.
 	SetInstrument(i InstrumentPropertyInterface)
+	// SetLikes returns the "likes" property if it exists, and nil otherwise.
+	SetLikes(i LikesPropertyInterface)
 	// SetLocation returns the "location" property if it exists, and nil
 	// otherwise.
 	SetLocation(i LocationPropertyInterface)
@@ -192,6 +198,8 @@ type BlockInterface interface {
 	SetReplies(i RepliesPropertyInterface)
 	// SetResult returns the "result" property if it exists, and nil otherwise.
 	SetResult(i ResultPropertyInterface)
+	// SetShares returns the "shares" property if it exists, and nil otherwise.
+	SetShares(i SharesPropertyInterface)
 	// SetStartTime returns the "startTime" property if it exists, and nil
 	// otherwise.
 	SetStartTime(i StartTimePropertyInterface)

@@ -17,7 +17,7 @@ type UnitsProperty struct {
 	stringMember    string
 	hasStringMember bool
 	anyURIMember    *url.URL
-	unknown         []byte
+	unknown         interface{}
 	alias           string
 }
 
@@ -47,15 +47,12 @@ func DeserializeUnitsProperty(m map[string]interface{}, aliasMap map[string]stri
 				anyURIMember: v,
 			}
 			return this, nil
-		} else if str, ok := i.(string); ok {
-			this := &UnitsProperty{
-				alias:   alias,
-				unknown: []byte(str),
-			}
-			return this, nil
-		} else {
-			return nil, fmt.Errorf("could not deserialize %q property", "units")
 		}
+		this := &UnitsProperty{
+			alias:   alias,
+			unknown: i,
+		}
+		return this, nil
 	}
 	return nil, nil
 }
@@ -183,7 +180,7 @@ func (this UnitsProperty) Serialize() (interface{}, error) {
 	} else if this.IsAnyURI() {
 		return anyuri.SerializeAnyURI(this.GetAnyURI())
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // SetAnyURI sets the value of this property. Calling IsAnyURI afterwards returns

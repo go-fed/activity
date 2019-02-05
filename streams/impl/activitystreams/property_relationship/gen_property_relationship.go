@@ -64,7 +64,7 @@ type RelationshipPropertyIterator struct {
 	UpdateMember                vocab.UpdateInterface
 	VideoMember                 vocab.VideoInterface
 	ViewMember                  vocab.ViewInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 	myIdx                       int
@@ -409,13 +409,12 @@ func deserializeRelationshipPropertyIterator(i interface{}, aliasMap map[string]
 			}
 			return this, nil
 		}
-	} else if str, ok := i.(string); ok {
-		this := &RelationshipPropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &RelationshipPropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "relationship")
 }
 
@@ -2089,7 +2088,7 @@ func (this RelationshipPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // RelationshipProperty is the non-functional property "relationship". It is

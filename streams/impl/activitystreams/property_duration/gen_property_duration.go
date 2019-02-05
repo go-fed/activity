@@ -13,7 +13,7 @@ import (
 type DurationProperty struct {
 	durationMember    time.Duration
 	hasDurationMember bool
-	unknown           []byte
+	unknown           interface{}
 	iri               *url.URL
 	alias             string
 }
@@ -50,15 +50,12 @@ func DeserializeDurationProperty(m map[string]interface{}, aliasMap map[string]s
 				hasDurationMember: true,
 			}
 			return this, nil
-		} else if str, ok := i.(string); ok {
-			this := &DurationProperty{
-				alias:   alias,
-				unknown: []byte(str),
-			}
-			return this, nil
-		} else {
-			return nil, fmt.Errorf("could not deserialize %q property", "duration")
 		}
+		this := &DurationProperty{
+			alias:   alias,
+			unknown: i,
+		}
+		return this, nil
 	}
 	return nil, nil
 }
@@ -180,7 +177,7 @@ func (this DurationProperty) Serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // Set sets the value of this property. Calling IsDuration afterwards will return

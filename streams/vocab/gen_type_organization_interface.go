@@ -38,6 +38,12 @@ type OrganizationInterface interface {
 	// GetEndTime returns the "endTime" property if it exists, and nil
 	// otherwise.
 	GetEndTime() EndTimePropertyInterface
+	// GetFollowers returns the "followers" property if it exists, and nil
+	// otherwise.
+	GetFollowers() FollowersPropertyInterface
+	// GetFollowing returns the "following" property if it exists, and nil
+	// otherwise.
+	GetFollowing() FollowingPropertyInterface
 	// GetGenerator returns the "generator" property if it exists, and nil
 	// otherwise.
 	GetGenerator() GeneratorPropertyInterface
@@ -50,6 +56,12 @@ type OrganizationInterface interface {
 	// GetInReplyTo returns the "inReplyTo" property if it exists, and nil
 	// otherwise.
 	GetInReplyTo() InReplyToPropertyInterface
+	// GetInbox returns the "inbox" property if it exists, and nil otherwise.
+	GetInbox() InboxPropertyInterface
+	// GetLiked returns the "liked" property if it exists, and nil otherwise.
+	GetLiked() LikedPropertyInterface
+	// GetLikes returns the "likes" property if it exists, and nil otherwise.
+	GetLikes() LikesPropertyInterface
 	// GetLocation returns the "location" property if it exists, and nil
 	// otherwise.
 	GetLocation() LocationPropertyInterface
@@ -60,6 +72,11 @@ type OrganizationInterface interface {
 	GetName() NamePropertyInterface
 	// GetObject returns the "object" property if it exists, and nil otherwise.
 	GetObject() ObjectPropertyInterface
+	// GetOutbox returns the "outbox" property if it exists, and nil otherwise.
+	GetOutbox() OutboxPropertyInterface
+	// GetPreferredUsername returns the "preferredUsername" property if it
+	// exists, and nil otherwise.
+	GetPreferredUsername() PreferredUsernamePropertyInterface
 	// GetPreview returns the "preview" property if it exists, and nil
 	// otherwise.
 	GetPreview() PreviewPropertyInterface
@@ -69,9 +86,14 @@ type OrganizationInterface interface {
 	// GetReplies returns the "replies" property if it exists, and nil
 	// otherwise.
 	GetReplies() RepliesPropertyInterface
+	// GetShares returns the "shares" property if it exists, and nil otherwise.
+	GetShares() SharesPropertyInterface
 	// GetStartTime returns the "startTime" property if it exists, and nil
 	// otherwise.
 	GetStartTime() StartTimePropertyInterface
+	// GetStreams returns the "streams" property if it exists, and nil
+	// otherwise.
+	GetStreams() StreamsPropertyInterface
 	// GetSummary returns the "summary" property if it exists, and nil
 	// otherwise.
 	GetSummary() SummaryPropertyInterface
@@ -137,6 +159,12 @@ type OrganizationInterface interface {
 	// SetEndTime returns the "endTime" property if it exists, and nil
 	// otherwise.
 	SetEndTime(i EndTimePropertyInterface)
+	// SetFollowers returns the "followers" property if it exists, and nil
+	// otherwise.
+	SetFollowers(i FollowersPropertyInterface)
+	// SetFollowing returns the "following" property if it exists, and nil
+	// otherwise.
+	SetFollowing(i FollowingPropertyInterface)
 	// SetGenerator returns the "generator" property if it exists, and nil
 	// otherwise.
 	SetGenerator(i GeneratorPropertyInterface)
@@ -149,6 +177,12 @@ type OrganizationInterface interface {
 	// SetInReplyTo returns the "inReplyTo" property if it exists, and nil
 	// otherwise.
 	SetInReplyTo(i InReplyToPropertyInterface)
+	// SetInbox returns the "inbox" property if it exists, and nil otherwise.
+	SetInbox(i InboxPropertyInterface)
+	// SetLiked returns the "liked" property if it exists, and nil otherwise.
+	SetLiked(i LikedPropertyInterface)
+	// SetLikes returns the "likes" property if it exists, and nil otherwise.
+	SetLikes(i LikesPropertyInterface)
 	// SetLocation returns the "location" property if it exists, and nil
 	// otherwise.
 	SetLocation(i LocationPropertyInterface)
@@ -159,6 +193,11 @@ type OrganizationInterface interface {
 	SetName(i NamePropertyInterface)
 	// SetObject returns the "object" property if it exists, and nil otherwise.
 	SetObject(i ObjectPropertyInterface)
+	// SetOutbox returns the "outbox" property if it exists, and nil otherwise.
+	SetOutbox(i OutboxPropertyInterface)
+	// SetPreferredUsername returns the "preferredUsername" property if it
+	// exists, and nil otherwise.
+	SetPreferredUsername(i PreferredUsernamePropertyInterface)
 	// SetPreview returns the "preview" property if it exists, and nil
 	// otherwise.
 	SetPreview(i PreviewPropertyInterface)
@@ -168,9 +207,14 @@ type OrganizationInterface interface {
 	// SetReplies returns the "replies" property if it exists, and nil
 	// otherwise.
 	SetReplies(i RepliesPropertyInterface)
+	// SetShares returns the "shares" property if it exists, and nil otherwise.
+	SetShares(i SharesPropertyInterface)
 	// SetStartTime returns the "startTime" property if it exists, and nil
 	// otherwise.
 	SetStartTime(i StartTimePropertyInterface)
+	// SetStreams returns the "streams" property if it exists, and nil
+	// otherwise.
+	SetStreams(i StreamsPropertyInterface)
 	// SetSummary returns the "summary" property if it exists, and nil
 	// otherwise.
 	SetSummary(i SummaryPropertyInterface)

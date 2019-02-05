@@ -66,7 +66,7 @@ type AttachmentPropertyIterator struct {
 	UpdateMember                vocab.UpdateInterface
 	VideoMember                 vocab.VideoInterface
 	ViewMember                  vocab.ViewInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 	myIdx                       int
@@ -423,13 +423,12 @@ func deserializeAttachmentPropertyIterator(i interface{}, aliasMap map[string]st
 			}
 			return this, nil
 		}
-	} else if str, ok := i.(string); ok {
-		this := &AttachmentPropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &AttachmentPropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "attachment")
 }
 
@@ -2162,7 +2161,7 @@ func (this AttachmentPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // AttachmentProperty is the non-functional property "attachment". It is permitted

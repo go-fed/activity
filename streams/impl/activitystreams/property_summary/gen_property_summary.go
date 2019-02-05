@@ -17,7 +17,7 @@ type SummaryPropertyIterator struct {
 	stringMember     string
 	hasStringMember  bool
 	langStringMember map[string]string
-	unknown          []byte
+	unknown          interface{}
 	iri              *url.URL
 	alias            string
 	langMap          map[string]string
@@ -62,13 +62,12 @@ func deserializeSummaryPropertyIterator(i interface{}, aliasMap map[string]strin
 			langStringMember: v,
 		}
 		return this, nil
-	} else if str, ok := i.(string); ok {
-		this := &SummaryPropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &SummaryPropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "summary")
 }
 
@@ -291,7 +290,7 @@ func (this SummaryPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // SummaryProperty is the non-functional property "summary". It is permitted to

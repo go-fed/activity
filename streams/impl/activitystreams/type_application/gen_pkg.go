@@ -51,6 +51,14 @@ type privateManager interface {
 	// method for the "EndTimePropertyInterface" non-functional property
 	// in the vocabulary "ActivityStreams"
 	DeserializeEndTimePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.EndTimePropertyInterface, error)
+	// DeserializeFollowersPropertyActivityStreams returns the deserialization
+	// method for the "FollowersPropertyInterface" non-functional property
+	// in the vocabulary "ActivityStreams"
+	DeserializeFollowersPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.FollowersPropertyInterface, error)
+	// DeserializeFollowingPropertyActivityStreams returns the deserialization
+	// method for the "FollowingPropertyInterface" non-functional property
+	// in the vocabulary "ActivityStreams"
+	DeserializeFollowingPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.FollowingPropertyInterface, error)
 	// DeserializeGeneratorPropertyActivityStreams returns the deserialization
 	// method for the "GeneratorPropertyInterface" non-functional property
 	// in the vocabulary "ActivityStreams"
@@ -71,6 +79,18 @@ type privateManager interface {
 	// method for the "InReplyToPropertyInterface" non-functional property
 	// in the vocabulary "ActivityStreams"
 	DeserializeInReplyToPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.InReplyToPropertyInterface, error)
+	// DeserializeInboxPropertyActivityStreams returns the deserialization
+	// method for the "InboxPropertyInterface" non-functional property in
+	// the vocabulary "ActivityStreams"
+	DeserializeInboxPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.InboxPropertyInterface, error)
+	// DeserializeLikedPropertyActivityStreams returns the deserialization
+	// method for the "LikedPropertyInterface" non-functional property in
+	// the vocabulary "ActivityStreams"
+	DeserializeLikedPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LikedPropertyInterface, error)
+	// DeserializeLikesPropertyActivityStreams returns the deserialization
+	// method for the "LikesPropertyInterface" non-functional property in
+	// the vocabulary "ActivityStreams"
+	DeserializeLikesPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LikesPropertyInterface, error)
 	// DeserializeLocationPropertyActivityStreams returns the deserialization
 	// method for the "LocationPropertyInterface" non-functional property
 	// in the vocabulary "ActivityStreams"
@@ -87,6 +107,14 @@ type privateManager interface {
 	// method for the "ObjectPropertyInterface" non-functional property in
 	// the vocabulary "ActivityStreams"
 	DeserializeObjectPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ObjectPropertyInterface, error)
+	// DeserializeOutboxPropertyActivityStreams returns the deserialization
+	// method for the "OutboxPropertyInterface" non-functional property in
+	// the vocabulary "ActivityStreams"
+	DeserializeOutboxPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OutboxPropertyInterface, error)
+	// DeserializePreferredUsernamePropertyActivityStreams returns the
+	// deserialization method for the "PreferredUsernamePropertyInterface"
+	// non-functional property in the vocabulary "ActivityStreams"
+	DeserializePreferredUsernamePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.PreferredUsernamePropertyInterface, error)
 	// DeserializePreviewPropertyActivityStreams returns the deserialization
 	// method for the "PreviewPropertyInterface" non-functional property
 	// in the vocabulary "ActivityStreams"
@@ -99,10 +127,18 @@ type privateManager interface {
 	// method for the "RepliesPropertyInterface" non-functional property
 	// in the vocabulary "ActivityStreams"
 	DeserializeRepliesPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.RepliesPropertyInterface, error)
+	// DeserializeSharesPropertyActivityStreams returns the deserialization
+	// method for the "SharesPropertyInterface" non-functional property in
+	// the vocabulary "ActivityStreams"
+	DeserializeSharesPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.SharesPropertyInterface, error)
 	// DeserializeStartTimePropertyActivityStreams returns the deserialization
 	// method for the "StartTimePropertyInterface" non-functional property
 	// in the vocabulary "ActivityStreams"
 	DeserializeStartTimePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.StartTimePropertyInterface, error)
+	// DeserializeStreamsPropertyActivityStreams returns the deserialization
+	// method for the "StreamsPropertyInterface" non-functional property
+	// in the vocabulary "ActivityStreams"
+	DeserializeStreamsPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.StreamsPropertyInterface, error)
 	// DeserializeSummaryPropertyActivityStreams returns the deserialization
 	// method for the "SummaryPropertyInterface" non-functional property
 	// in the vocabulary "ActivityStreams"

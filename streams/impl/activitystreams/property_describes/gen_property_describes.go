@@ -64,7 +64,7 @@ type DescribesProperty struct {
 	UpdateMember                vocab.UpdateInterface
 	VideoMember                 vocab.VideoInterface
 	ViewMember                  vocab.ViewInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 }
@@ -408,15 +408,12 @@ func DeserializeDescribesProperty(m map[string]interface{}, aliasMap map[string]
 				}
 				return this, nil
 			}
-		} else if str, ok := i.(string); ok {
-			this := &DescribesProperty{
-				alias:   alias,
-				unknown: []byte(str),
-			}
-			return this, nil
-		} else {
-			return nil, fmt.Errorf("could not deserialize %q property", "describes")
 		}
+		this := &DescribesProperty{
+			alias:   alias,
+			unknown: i,
+		}
+		return this, nil
 	}
 	return nil, nil
 }
@@ -1718,7 +1715,7 @@ func (this DescribesProperty) Serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // SetAccept sets the value of this property. Calling IsAccept afterwards returns

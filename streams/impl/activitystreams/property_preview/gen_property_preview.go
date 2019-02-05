@@ -66,7 +66,7 @@ type PreviewPropertyIterator struct {
 	UpdateMember                vocab.UpdateInterface
 	VideoMember                 vocab.VideoInterface
 	ViewMember                  vocab.ViewInterface
-	unknown                     []byte
+	unknown                     interface{}
 	iri                         *url.URL
 	alias                       string
 	myIdx                       int
@@ -423,13 +423,12 @@ func deserializePreviewPropertyIterator(i interface{}, aliasMap map[string]strin
 			}
 			return this, nil
 		}
-	} else if str, ok := i.(string); ok {
-		this := &PreviewPropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &PreviewPropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "preview")
 }
 
@@ -2162,7 +2161,7 @@ func (this PreviewPropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // PreviewProperty is the non-functional property "preview". It is permitted to

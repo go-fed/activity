@@ -55,6 +55,8 @@ type AudioInterface interface {
 	// GetInReplyTo returns the "inReplyTo" property if it exists, and nil
 	// otherwise.
 	GetInReplyTo() InReplyToPropertyInterface
+	// GetLikes returns the "likes" property if it exists, and nil otherwise.
+	GetLikes() LikesPropertyInterface
 	// GetLocation returns the "location" property if it exists, and nil
 	// otherwise.
 	GetLocation() LocationPropertyInterface
@@ -74,6 +76,8 @@ type AudioInterface interface {
 	// GetReplies returns the "replies" property if it exists, and nil
 	// otherwise.
 	GetReplies() RepliesPropertyInterface
+	// GetShares returns the "shares" property if it exists, and nil otherwise.
+	GetShares() SharesPropertyInterface
 	// GetStartTime returns the "startTime" property if it exists, and nil
 	// otherwise.
 	GetStartTime() StartTimePropertyInterface
@@ -153,6 +157,8 @@ type AudioInterface interface {
 	// SetInReplyTo returns the "inReplyTo" property if it exists, and nil
 	// otherwise.
 	SetInReplyTo(i InReplyToPropertyInterface)
+	// SetLikes returns the "likes" property if it exists, and nil otherwise.
+	SetLikes(i LikesPropertyInterface)
 	// SetLocation returns the "location" property if it exists, and nil
 	// otherwise.
 	SetLocation(i LocationPropertyInterface)
@@ -172,6 +178,8 @@ type AudioInterface interface {
 	// SetReplies returns the "replies" property if it exists, and nil
 	// otherwise.
 	SetReplies(i RepliesPropertyInterface)
+	// SetShares returns the "shares" property if it exists, and nil otherwise.
+	SetShares(i SharesPropertyInterface)
 	// SetStartTime returns the "startTime" property if it exists, and nil
 	// otherwise.
 	SetStartTime(i StartTimePropertyInterface)

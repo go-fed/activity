@@ -20,6 +20,8 @@ import (
 	propertyduration "github.com/go-fed/activity/streams/impl/activitystreams/property_duration"
 	propertyendtime "github.com/go-fed/activity/streams/impl/activitystreams/property_endtime"
 	propertyfirst "github.com/go-fed/activity/streams/impl/activitystreams/property_first"
+	propertyfollowers "github.com/go-fed/activity/streams/impl/activitystreams/property_followers"
+	propertyfollowing "github.com/go-fed/activity/streams/impl/activitystreams/property_following"
 	propertyformertype "github.com/go-fed/activity/streams/impl/activitystreams/property_formertype"
 	propertygenerator "github.com/go-fed/activity/streams/impl/activitystreams/property_generator"
 	propertyheight "github.com/go-fed/activity/streams/impl/activitystreams/property_height"
@@ -28,11 +30,14 @@ import (
 	propertyicon "github.com/go-fed/activity/streams/impl/activitystreams/property_icon"
 	propertyid "github.com/go-fed/activity/streams/impl/activitystreams/property_id"
 	propertyimage "github.com/go-fed/activity/streams/impl/activitystreams/property_image"
+	propertyinbox "github.com/go-fed/activity/streams/impl/activitystreams/property_inbox"
 	propertyinreplyto "github.com/go-fed/activity/streams/impl/activitystreams/property_inreplyto"
 	propertyinstrument "github.com/go-fed/activity/streams/impl/activitystreams/property_instrument"
 	propertyitems "github.com/go-fed/activity/streams/impl/activitystreams/property_items"
 	propertylast "github.com/go-fed/activity/streams/impl/activitystreams/property_last"
 	propertylatitude "github.com/go-fed/activity/streams/impl/activitystreams/property_latitude"
+	propertyliked "github.com/go-fed/activity/streams/impl/activitystreams/property_liked"
+	propertylikes "github.com/go-fed/activity/streams/impl/activitystreams/property_likes"
 	propertylocation "github.com/go-fed/activity/streams/impl/activitystreams/property_location"
 	propertylongitude "github.com/go-fed/activity/streams/impl/activitystreams/property_longitude"
 	propertymediatype "github.com/go-fed/activity/streams/impl/activitystreams/property_mediatype"
@@ -41,7 +46,9 @@ import (
 	propertyobject "github.com/go-fed/activity/streams/impl/activitystreams/property_object"
 	propertyoneof "github.com/go-fed/activity/streams/impl/activitystreams/property_oneof"
 	propertyorigin "github.com/go-fed/activity/streams/impl/activitystreams/property_origin"
+	propertyoutbox "github.com/go-fed/activity/streams/impl/activitystreams/property_outbox"
 	propertypartof "github.com/go-fed/activity/streams/impl/activitystreams/property_partof"
+	propertypreferredusername "github.com/go-fed/activity/streams/impl/activitystreams/property_preferredusername"
 	propertyprev "github.com/go-fed/activity/streams/impl/activitystreams/property_prev"
 	propertypreview "github.com/go-fed/activity/streams/impl/activitystreams/property_preview"
 	propertypublished "github.com/go-fed/activity/streams/impl/activitystreams/property_published"
@@ -50,8 +57,10 @@ import (
 	propertyrelationship "github.com/go-fed/activity/streams/impl/activitystreams/property_relationship"
 	propertyreplies "github.com/go-fed/activity/streams/impl/activitystreams/property_replies"
 	propertyresult "github.com/go-fed/activity/streams/impl/activitystreams/property_result"
+	propertyshares "github.com/go-fed/activity/streams/impl/activitystreams/property_shares"
 	propertystartindex "github.com/go-fed/activity/streams/impl/activitystreams/property_startindex"
 	propertystarttime "github.com/go-fed/activity/streams/impl/activitystreams/property_starttime"
+	propertystreams "github.com/go-fed/activity/streams/impl/activitystreams/property_streams"
 	propertysubject "github.com/go-fed/activity/streams/impl/activitystreams/property_subject"
 	propertysummary "github.com/go-fed/activity/streams/impl/activitystreams/property_summary"
 	propertytag "github.com/go-fed/activity/streams/impl/activitystreams/property_tag"
@@ -162,6 +171,16 @@ func NewActivityStreamsFirstProperty() vocab.FirstPropertyInterface {
 	return propertyfirst.NewFirstProperty()
 }
 
+// NewActivityStreamsFollowersProperty creates a new FollowersPropertyInterface
+func NewActivityStreamsFollowersProperty() vocab.FollowersPropertyInterface {
+	return propertyfollowers.NewFollowersProperty()
+}
+
+// NewActivityStreamsFollowingProperty creates a new FollowingPropertyInterface
+func NewActivityStreamsFollowingProperty() vocab.FollowingPropertyInterface {
+	return propertyfollowing.NewFollowingProperty()
+}
+
 // NewActivityStreamsFormerTypeProperty creates a new FormerTypePropertyInterface
 func NewActivityStreamsFormerTypeProperty() vocab.FormerTypePropertyInterface {
 	return propertyformertype.NewFormerTypeProperty()
@@ -207,6 +226,11 @@ func NewActivityStreamsInReplyToProperty() vocab.InReplyToPropertyInterface {
 	return propertyinreplyto.NewInReplyToProperty()
 }
 
+// NewActivityStreamsInboxProperty creates a new InboxPropertyInterface
+func NewActivityStreamsInboxProperty() vocab.InboxPropertyInterface {
+	return propertyinbox.NewInboxProperty()
+}
+
 // NewActivityStreamsInstrumentProperty creates a new InstrumentPropertyInterface
 func NewActivityStreamsInstrumentProperty() vocab.InstrumentPropertyInterface {
 	return propertyinstrument.NewInstrumentProperty()
@@ -225,6 +249,16 @@ func NewActivityStreamsLastProperty() vocab.LastPropertyInterface {
 // NewActivityStreamsLatitudeProperty creates a new LatitudePropertyInterface
 func NewActivityStreamsLatitudeProperty() vocab.LatitudePropertyInterface {
 	return propertylatitude.NewLatitudeProperty()
+}
+
+// NewActivityStreamsLikedProperty creates a new LikedPropertyInterface
+func NewActivityStreamsLikedProperty() vocab.LikedPropertyInterface {
+	return propertyliked.NewLikedProperty()
+}
+
+// NewActivityStreamsLikesProperty creates a new LikesPropertyInterface
+func NewActivityStreamsLikesProperty() vocab.LikesPropertyInterface {
+	return propertylikes.NewLikesProperty()
 }
 
 // NewActivityStreamsLocationProperty creates a new LocationPropertyInterface
@@ -267,9 +301,20 @@ func NewActivityStreamsOriginProperty() vocab.OriginPropertyInterface {
 	return propertyorigin.NewOriginProperty()
 }
 
+// NewActivityStreamsOutboxProperty creates a new OutboxPropertyInterface
+func NewActivityStreamsOutboxProperty() vocab.OutboxPropertyInterface {
+	return propertyoutbox.NewOutboxProperty()
+}
+
 // NewActivityStreamsPartOfProperty creates a new PartOfPropertyInterface
 func NewActivityStreamsPartOfProperty() vocab.PartOfPropertyInterface {
 	return propertypartof.NewPartOfProperty()
+}
+
+// NewActivityStreamsPreferredUsernameProperty creates a new
+// PreferredUsernamePropertyInterface
+func NewActivityStreamsPreferredUsernameProperty() vocab.PreferredUsernamePropertyInterface {
+	return propertypreferredusername.NewPreferredUsernameProperty()
 }
 
 // NewActivityStreamsPrevProperty creates a new PrevPropertyInterface
@@ -313,6 +358,11 @@ func NewActivityStreamsResultProperty() vocab.ResultPropertyInterface {
 	return propertyresult.NewResultProperty()
 }
 
+// NewActivityStreamsSharesProperty creates a new SharesPropertyInterface
+func NewActivityStreamsSharesProperty() vocab.SharesPropertyInterface {
+	return propertyshares.NewSharesProperty()
+}
+
 // NewActivityStreamsStartIndexProperty creates a new StartIndexPropertyInterface
 func NewActivityStreamsStartIndexProperty() vocab.StartIndexPropertyInterface {
 	return propertystartindex.NewStartIndexProperty()
@@ -321,6 +371,11 @@ func NewActivityStreamsStartIndexProperty() vocab.StartIndexPropertyInterface {
 // NewActivityStreamsStartTimeProperty creates a new StartTimePropertyInterface
 func NewActivityStreamsStartTimeProperty() vocab.StartTimePropertyInterface {
 	return propertystarttime.NewStartTimeProperty()
+}
+
+// NewActivityStreamsStreamsProperty creates a new StreamsPropertyInterface
+func NewActivityStreamsStreamsProperty() vocab.StreamsPropertyInterface {
+	return propertystreams.NewStreamsProperty()
 }
 
 // NewActivityStreamsSubjectProperty creates a new SubjectPropertyInterface

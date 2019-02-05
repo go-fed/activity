@@ -15,7 +15,7 @@ type ImagePropertyIterator struct {
 	ImageMember   vocab.ImageInterface
 	LinkMember    vocab.LinkInterface
 	MentionMember vocab.MentionInterface
-	unknown       []byte
+	unknown       interface{}
 	iri           *url.URL
 	alias         string
 	myIdx         int
@@ -66,13 +66,12 @@ func deserializeImagePropertyIterator(i interface{}, aliasMap map[string]string)
 			}
 			return this, nil
 		}
-	} else if str, ok := i.(string); ok {
-		this := &ImagePropertyIterator{
-			alias:   alias,
-			unknown: []byte(str),
-		}
-		return this, nil
 	}
+	this := &ImagePropertyIterator{
+		alias:   alias,
+		unknown: i,
+	}
+	return this, nil
 	return nil, fmt.Errorf("could not deserialize %q property", "image")
 }
 
@@ -271,7 +270,7 @@ func (this ImagePropertyIterator) serialize() (interface{}, error) {
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
-	return string(this.unknown), nil
+	return this.unknown, nil
 }
 
 // ImageProperty is the non-functional property "image". It is permitted to have

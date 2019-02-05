@@ -87,6 +87,10 @@ type privateManager interface {
 	// method for the "LastPropertyInterface" non-functional property in
 	// the vocabulary "ActivityStreams"
 	DeserializeLastPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LastPropertyInterface, error)
+	// DeserializeLikesPropertyActivityStreams returns the deserialization
+	// method for the "LikesPropertyInterface" non-functional property in
+	// the vocabulary "ActivityStreams"
+	DeserializeLikesPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LikesPropertyInterface, error)
 	// DeserializeLocationPropertyActivityStreams returns the deserialization
 	// method for the "LocationPropertyInterface" non-functional property
 	// in the vocabulary "ActivityStreams"
@@ -127,6 +131,10 @@ type privateManager interface {
 	// method for the "RepliesPropertyInterface" non-functional property
 	// in the vocabulary "ActivityStreams"
 	DeserializeRepliesPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.RepliesPropertyInterface, error)
+	// DeserializeSharesPropertyActivityStreams returns the deserialization
+	// method for the "SharesPropertyInterface" non-functional property in
+	// the vocabulary "ActivityStreams"
+	DeserializeSharesPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.SharesPropertyInterface, error)
 	// DeserializeStartIndexPropertyActivityStreams returns the
 	// deserialization method for the "StartIndexPropertyInterface"
 	// non-functional property in the vocabulary "ActivityStreams"
