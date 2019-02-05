@@ -317,7 +317,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 		/*params=*/ nil,
 		[]jen.Code{jen.Interface(), jen.Error()},
 		[]jen.Code{serializeFns, jen.Return(
-			jen.String().Parens(jen.Id(codegen.This()).Dot(unknownMemberName)),
+			jen.Id(codegen.This()).Dot(unknownMemberName),
 			jen.Nil(),
 		)},
 		fmt.Sprintf("%s converts this into an interface representation suitable for marshalling into a text or binary format. Applications should not need this function as most typical use cases serialize types instead of individual properties. It is exposed for alternatives to go-fed implementations to use.", p.serializeFnName()))
@@ -384,7 +384,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 				).Block(
 					jen.Id("alias").Op("=").Id("a"),
 				),
-				p.wrapDeserializeCode(valueDeserializeFns, typeDeserializeFns, false).Line().Return(
+				p.wrapDeserializeCode(valueDeserializeFns, typeDeserializeFns).Line().Return(
 					jen.Nil(),
 					jen.Qual("fmt", "Errorf").Call(
 						jen.Lit("could not deserialize %q property"),
@@ -430,7 +430,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 					),
 					jen.Id("ok"),
 				).Block(
-					p.wrapDeserializeCode(valueDeserializeFns, typeDeserializeFns, true),
+					p.wrapDeserializeCode(valueDeserializeFns, typeDeserializeFns),
 				),
 				jen.Return(
 					jen.Nil(),
@@ -981,7 +981,7 @@ func (p *FunctionalPropertyGenerator) multiTypeFuncs() []*codegen.Method {
 // unknownMemberDef returns the definition of a struct member that handles
 // a property whose type is unknown.
 func (p *FunctionalPropertyGenerator) unknownMemberDef() jen.Code {
-	return jen.Id(unknownMemberName).Index().Byte()
+	return jen.Id(unknownMemberName).Interface()
 }
 
 // iriMemberDef returns the definition of a struct member that handles
@@ -992,7 +992,7 @@ func (p *FunctionalPropertyGenerator) iriMemberDef() jen.Code {
 
 // wrapDeserializeCode generates the "else if it's a []byte" code and IRI code
 // used for deserializing unknown values.
-func (p *FunctionalPropertyGenerator) wrapDeserializeCode(valueExisting, typeExisting jen.Code, errorAtEnd bool) *jen.Statement {
+func (p *FunctionalPropertyGenerator) wrapDeserializeCode(valueExisting, typeExisting jen.Code) *jen.Statement {
 	iriCode := jen.Empty()
 	if !p.hasURIKind() {
 		iriCode = jen.If(
@@ -1032,44 +1032,24 @@ func (p *FunctionalPropertyGenerator) wrapDeserializeCode(valueExisting, typeExi
 			jen.Id("ok"),
 		).Block(
 			typeExisting,
-		).Else()
+		).Line()
 	}
 	if p.hasValueKind() {
-		iriCode = iriCode.Add(valueExisting).Else()
+		iriCode = iriCode.Add(valueExisting).Line()
 	}
 	iriCode = iriCode.Add(
-		jen.If(
-			jen.List(
-				jen.Id("str"),
-				jen.Id("ok"),
-			).Op(":=").Id("i").Assert(
-				jen.String(),
-			),
-			jen.Id("ok"),
-		).Block(
-			jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
-				jen.Dict{
-					jen.Id(unknownMemberName): jen.Index().Byte().Parens(jen.Id("str")),
-					jen.Id(aliasMember):       jen.Id("alias"),
-				},
-			),
-			jen.Return(
-				jen.Id(codegen.This()),
-				jen.Nil(),
-			),
+		jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
+			jen.Dict{
+				jen.Id(unknownMemberName): jen.Id("i"),
+				jen.Id(aliasMember):       jen.Id("alias"),
+			},
+		),
+		jen.Line(),
+		jen.Return(
+			jen.Id(codegen.This()),
+			jen.Nil(),
 		),
 	)
-	if errorAtEnd {
-		iriCode = iriCode.Else().Block(
-			jen.Return(
-				jen.Nil(),
-				jen.Qual("fmt", "Errorf").Call(
-					jen.Lit("could not deserialize %q property"),
-					jen.Lit(p.PropertyName()),
-				),
-			),
-		)
-	}
 	return iriCode
 }
 

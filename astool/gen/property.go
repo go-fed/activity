@@ -232,7 +232,7 @@ func (p *PropertyGenerator) SetKindFns(docName, idName string, qualKind *jen.Sta
 	for i, kind := range p.kinds {
 		if kind.Name.LowerName == docName {
 			if kind.SerializeFn != nil || kind.DeserializeFn != nil || kind.LessFn != nil {
-				return fmt.Errorf("property kind already has serialization functions set for %q", docName)
+				return fmt.Errorf("property kind already has serialization functions set for %q: %s", docName, p.PropertyName())
 			}
 			kind.ConcreteKind = qualKind
 			kind.DeserializeFn = deser.On(managerInitName())

@@ -784,7 +784,7 @@ func (r *ResolverGenerator) resolverFunctions(name, comment string) (f []*codege
 		r.pkg.Path(),
 		fmt.Sprintf("%s%s", constructorName, name),
 		[]jen.Code{
-			jen.Id("callbacks").Index().Interface(),
+			jen.Id("callbacks").Op("...").Interface(),
 		},
 		[]jen.Code{
 			jen.Op("*").Id(name),

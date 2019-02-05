@@ -4823,6 +4823,536 @@
           },
           "name": "deleted",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-deleted"
+        },
+        {
+          "id": "https://www.w3.org/TR/activitypub/#inbox",
+          "type": [
+            "rdf:Property",
+            "owl:FunctionalProperty"
+          ],
+          "example": {
+            "id": "https://www.w3.org/TR/activitypub/#example9",
+            "type": "http://schema.org/CreativeWork",
+            "mainEntity": {
+              "@context": ["https://www.w3.org/ns/activitystreams", {"@language": "ja"}],
+              "type": "Person",
+              "id": "https://kenzoishii.example.com/",
+              "following": "https://kenzoishii.example.com/following.json",
+              "followers": "https://kenzoishii.example.com/followers.json",
+              "liked": "https://kenzoishii.example.com/liked.json",
+              "inbox": "https://kenzoishii.example.com/inbox.json",
+              "outbox": "https://kenzoishii.example.com/feed.json",
+              "preferredUsername": "kenzoishii",
+              "name": "石井健蔵",
+              "summary": "この方はただの例です",
+              "icon": ["https://kenzoishii.example.com/image/165987aklre4"]
+            },
+            "name": "Example 9"
+          },
+          "notes": "A reference to an ActivityStreams OrderedCollection comprised of all the messages received by the actor.",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Application",
+                "name": "Application"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Group",
+                "name": "Group"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Organization",
+                "name": "Organization"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Person",
+                "name": "Person"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Service",
+                "name": "Service"
+              }
+            ]
+          },
+          "isDefinedBy": "https://www.w3.org/TR/activitypub/#inbox",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": {
+              "type": "owl:Class",
+              "url": "https://www.w3.org/ns/activitystreams#OrderedCollection",
+              "name": "OrderedCollection"
+            }
+          },
+          "name": "inbox",
+          "url": "https://www.w3.org/TR/activitypub/#inbox"
+        },
+        {
+          "id": "https://www.w3.org/TR/activitypub/#outbox",
+          "type": [
+            "rdf:Property",
+            "owl:FunctionalProperty"
+          ],
+          "example": {
+            "id": "https://www.w3.org/TR/activitypub/#example9",
+            "type": "http://schema.org/CreativeWork",
+            "mainEntity": {
+              "@context": ["https://www.w3.org/ns/activitystreams", {"@language": "ja"}],
+              "type": "Person",
+              "id": "https://kenzoishii.example.com/",
+              "following": "https://kenzoishii.example.com/following.json",
+              "followers": "https://kenzoishii.example.com/followers.json",
+              "liked": "https://kenzoishii.example.com/liked.json",
+              "inbox": "https://kenzoishii.example.com/inbox.json",
+              "outbox": "https://kenzoishii.example.com/feed.json",
+              "preferredUsername": "kenzoishii",
+              "name": "石井健蔵",
+              "summary": "この方はただの例です",
+              "icon": ["https://kenzoishii.example.com/image/165987aklre4"]
+            },
+            "name": "Example 9"
+          },
+          "notes": "An ActivityStreams OrderedCollection comprised of all the messages produced by the actor",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Application",
+                "name": "Application"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Group",
+                "name": "Group"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Organization",
+                "name": "Organization"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Person",
+                "name": "Person"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Service",
+                "name": "Service"
+              }
+            ]
+          },
+          "isDefinedBy": "https://www.w3.org/TR/activitypub/#outbox",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": {
+              "type": "owl:Class",
+              "url": "https://www.w3.org/ns/activitystreams#OrderedCollection",
+              "name": "OrderedCollection"
+            }
+          },
+          "name": "outbox",
+          "url": "https://www.w3.org/TR/activitypub/#outbox"
+        },
+        {
+          "id": "https://www.w3.org/TR/activitypub/#following",
+          "type": [
+            "rdf:Property",
+            "owl:FunctionalProperty"
+          ],
+          "example": {
+            "id": "https://www.w3.org/TR/activitypub/#example9",
+            "type": "http://schema.org/CreativeWork",
+            "mainEntity": {
+              "@context": ["https://www.w3.org/ns/activitystreams", {"@language": "ja"}],
+              "type": "Person",
+              "id": "https://kenzoishii.example.com/",
+              "following": "https://kenzoishii.example.com/following.json",
+              "followers": "https://kenzoishii.example.com/followers.json",
+              "liked": "https://kenzoishii.example.com/liked.json",
+              "inbox": "https://kenzoishii.example.com/inbox.json",
+              "outbox": "https://kenzoishii.example.com/feed.json",
+              "preferredUsername": "kenzoishii",
+              "name": "石井健蔵",
+              "summary": "この方はただの例です",
+              "icon": ["https://kenzoishii.example.com/image/165987aklre4"]
+            },
+            "name": "Example 9"
+          },
+          "notes": "A link to an ActivityStreams collection of the actors that this actor is following",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Application",
+                "name": "Application"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Group",
+                "name": "Group"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Organization",
+                "name": "Organization"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Person",
+                "name": "Person"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Service",
+                "name": "Service"
+              }
+            ]
+          },
+          "isDefinedBy": "https://www.w3.org/TR/activitypub/#following",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#OrderedCollection",
+                "name": "OrderedCollection"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Collection",
+                "name": "Collection"
+              }
+            ]
+          },
+          "name": "following",
+          "url": "https://www.w3.org/TR/activitypub/#following"
+        },
+        {
+          "id": "https://www.w3.org/TR/activitypub/#followers",
+          "type": [
+            "rdf:Property",
+            "owl:FunctionalProperty"
+          ],
+          "example": {
+            "id": "https://www.w3.org/TR/activitypub/#example9",
+            "type": "http://schema.org/CreativeWork",
+            "mainEntity": {
+              "@context": ["https://www.w3.org/ns/activitystreams", {"@language": "ja"}],
+              "type": "Person",
+              "id": "https://kenzoishii.example.com/",
+              "following": "https://kenzoishii.example.com/following.json",
+              "followers": "https://kenzoishii.example.com/followers.json",
+              "liked": "https://kenzoishii.example.com/liked.json",
+              "inbox": "https://kenzoishii.example.com/inbox.json",
+              "outbox": "https://kenzoishii.example.com/feed.json",
+              "preferredUsername": "kenzoishii",
+              "name": "石井健蔵",
+              "summary": "この方はただの例です",
+              "icon": ["https://kenzoishii.example.com/image/165987aklre4"]
+            },
+            "name": "Example 9"
+          },
+          "notes": "A link to an ActivityStreams collection of the actors that follow this actor",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Application",
+                "name": "Application"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Group",
+                "name": "Group"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Organization",
+                "name": "Organization"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Person",
+                "name": "Person"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Service",
+                "name": "Service"
+              }
+            ]
+          },
+          "isDefinedBy": "https://www.w3.org/TR/activitypub/#followers",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#OrderedCollection",
+                "name": "OrderedCollection"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Collection",
+                "name": "Collection"
+              }
+            ]
+          },
+          "name": "followers",
+          "url": "https://www.w3.org/TR/activitypub/#followers"
+        },
+        {
+          "id": "https://www.w3.org/TR/activitypub/#liked",
+          "type": [
+            "rdf:Property",
+            "owl:FunctionalProperty"
+          ],
+          "example": {
+            "id": "https://www.w3.org/TR/activitypub/#example9",
+            "type": "http://schema.org/CreativeWork",
+            "mainEntity": {
+              "@context": ["https://www.w3.org/ns/activitystreams", {"@language": "ja"}],
+              "type": "Person",
+              "id": "https://kenzoishii.example.com/",
+              "following": "https://kenzoishii.example.com/following.json",
+              "followers": "https://kenzoishii.example.com/followers.json",
+              "liked": "https://kenzoishii.example.com/liked.json",
+              "inbox": "https://kenzoishii.example.com/inbox.json",
+              "outbox": "https://kenzoishii.example.com/feed.json",
+              "preferredUsername": "kenzoishii",
+              "name": "石井健蔵",
+              "summary": "この方はただの例です",
+              "icon": ["https://kenzoishii.example.com/image/165987aklre4"]
+            },
+            "name": "Example 9"
+          },
+          "notes": "A link to an ActivityStreams collection of objects this actor has liked",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Application",
+                "name": "Application"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Group",
+                "name": "Group"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Organization",
+                "name": "Organization"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Person",
+                "name": "Person"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Service",
+                "name": "Service"
+              }
+            ]
+          },
+          "isDefinedBy": "https://www.w3.org/TR/activitypub/#liked",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#OrderedCollection",
+                "name": "OrderedCollection"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Collection",
+                "name": "Collection"
+              }
+            ]
+          },
+          "name": "liked",
+          "url": "https://www.w3.org/TR/activitypub/#liked"
+        },
+        {
+          "id": "https://www.w3.org/TR/activitypub/#likes",
+          "type": [
+            "rdf:Property",
+            "owl:FunctionalProperty"
+          ],
+          "notes": "This is a list of all Like activities with this object as the object property",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": {
+              "type": "owl:Class",
+              "url": "https://www.w3.org/ns/activitystreams#Object",
+              "name": "Object"
+            }
+          },
+          "isDefinedBy": "https://www.w3.org/TR/activitypub/#likes",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#OrderedCollection",
+                "name": "OrderedCollection"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Collection",
+                "name": "Collection"
+              }
+            ]
+          },
+          "name": "likes",
+          "url": "https://www.w3.org/TR/activitypub/#likes"
+        },
+        {
+          "id": "https://www.w3.org/TR/activitypub/#shares",
+          "type": [
+            "rdf:Property",
+            "owl:FunctionalProperty"
+          ],
+          "notes": "This is a list of all Announce activities with this object as the object property",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": {
+              "type": "owl:Class",
+              "url": "https://www.w3.org/ns/activitystreams#Object",
+              "name": "Object"
+            }
+          },
+          "isDefinedBy": "https://www.w3.org/TR/activitypub/#shares",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#OrderedCollection",
+                "name": "OrderedCollection"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Collection",
+                "name": "Collection"
+              }
+            ]
+          },
+          "name": "shares",
+          "url": "https://www.w3.org/TR/activitypub/#shares"
+        },
+        {
+          "id": "https://www.w3.org/TR/activitypub/#streams",
+          "type": "rdf:Property",
+          "notes": "A list of supplementary Collections which may be of interest",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Application",
+                "name": "Application"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Group",
+                "name": "Group"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Organization",
+                "name": "Organization"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Person",
+                "name": "Person"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Service",
+                "name": "Service"
+              }
+            ]
+          },
+          "isDefinedBy": "https://www.w3.org/TR/activitypub/#streams",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#OrderedCollection",
+                "name": "OrderedCollection"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Collection",
+                "name": "Collection"
+              }
+            ]
+          },
+          "name": "streams",
+          "url": "https://www.w3.org/TR/activitypub/#streams"
+        },
+        {
+          "id": "https://www.w3.org/TR/activitypub/#preferredUsername",
+          "type": [
+            "rdf:Property",
+            "owl:FunctionalProperty"
+          ],
+          "notes": "A short username which may be used to refer to the actor, with no uniqueness guarantees",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Application",
+                "name": "Application"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Group",
+                "name": "Group"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Organization",
+                "name": "Organization"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Person",
+                "name": "Person"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Service",
+                "name": "Service"
+              }
+            ]
+          },
+          "isDefinedBy": "https://www.w3.org/TR/activitypub/#preferredUsername",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": [
+              "xsd:string",
+              "rdf:langString"
+            ]
+          },
+          "name": "preferredUsername",
+          "url": "https://www.w3.org/TR/activitypub/#preferredUsername"
         }
       ]
     }

@@ -187,14 +187,20 @@ func (t *TypeGenerator) apply(m *ManagerGenerator) error {
 	kind := jen.Qual(t.PublicPackage().Path(), t.InterfaceName())
 	// Refursively-applying function.
 	var setKindsOnWhoseProps func(whichType *TypeGenerator) error
+	// Map to ensure we only call each property once.
+	propsSet := make(map[Property]bool)
 	setKindsOnWhoseProps = func(whichType *TypeGenerator) error {
 		// Apply this TypeGenerator's kinds to whichType's range of
 		// properties.
 		for _, p := range whichType.rangeProperties {
+			if propsSet[p] {
+				continue
+			}
 			// Kluge: convert.toIdentifier must match this!
 			if e := p.SetKindFns(t.TypeName(), strings.Title(t.TypeName()), kind, deser); e != nil {
 				return e
 			}
+			propsSet[p] = true
 		}
 		// Recursively apply this TypeGenerator's kinds to the parents
 		// of whichType.
@@ -635,6 +641,13 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 			jen.Id("m").Op(":=").Make(
 				jen.Map(jen.String()).Interface(),
 			),
+			jen.Id("typeName").Op(":=").Lit(t.TypeName()),
+			jen.If(
+				jen.Len(jen.Id(codegen.This()).Dot(aliasMember)).Op(">").Lit(0),
+			).Block(
+				jen.Id("typeName").Op("=").Id(codegen.This()).Dot(aliasMember).Op("+").Lit(":").Op("+").Lit(t.TypeName()),
+			),
+			jen.Id("m").Index(jen.Lit("type")).Op("=").Id("typeName"),
 			serCode,
 			unknownCode,
 			jen.Return(jen.Id("m"), jen.Nil()),
@@ -774,6 +787,7 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 		[]jen.Code{jen.Op("*").Id(t.TypeName()), jen.Error()},
 		[]jen.Code{
 			jen.Id("alias").Op(":=").Lit(""),
+			jen.Id("aliasPrefix").Op(":=").Lit(""),
 			jen.If(
 				jen.List(
 					jen.Id("a"),
@@ -782,11 +796,86 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 				jen.Id("ok"),
 			).Block(
 				jen.Id("alias").Op("=").Id("a"),
+				jen.Id("aliasPrefix").Op("=").Id("a").Op("+").Lit(":"),
 			),
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(t.TypeName()).Values(jen.Dict{
 				jen.Id(aliasMember):   jen.Id("alias"),
 				jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface()),
 			}),
+			jen.If(
+				jen.List(
+					jen.Id("typeValue"),
+					jen.Id("ok"),
+				).Op(":=").Id("m").Index(jen.Lit("type")),
+				jen.Op("!").Id("ok"),
+			).Block(
+				jen.Return(
+					jen.Nil(),
+					jen.Qual("fmt", "Errorf").Call(jen.Lit("no \"type\" property in map")),
+				),
+			).Else().If(
+				jen.List(
+					jen.Id("typeString"),
+					jen.Id("ok"),
+				).Op(":=").Id("typeValue").Assert(jen.String()),
+				jen.Id("ok"),
+			).Block(
+				jen.Id("typeName").Op(":=").Qual("strings", "TrimPrefix").Call(
+					jen.Id("typeString"),
+					jen.Id("aliasPrefix"),
+				),
+				jen.If(
+					jen.Id("typeName").Op("!=").Lit(t.TypeName()),
+				).Block(
+					jen.Return(
+						jen.Nil(),
+						jen.Qual("fmt", "Errorf").Call(jen.Lit("\"type\" property is not of %q type: %s"), jen.Lit(t.TypeName()), jen.Id("typeName")),
+					),
+				),
+				jen.Commentf("Fall through, success in finding a proper Type"),
+			).Else().If(
+				jen.List(
+					jen.Id("arrType"),
+					jen.Id("ok"),
+				).Op(":=").Id("typeValue").Assert(jen.Index().Interface()),
+				jen.Id("ok"),
+			).Block(
+				jen.Id("found").Op(":=").False(),
+				jen.For(
+					jen.List(
+						jen.Id("_"),
+						jen.Id("elemVal"),
+					).Op(":=").Range().Id("arrType"),
+				).Block(
+					jen.If(
+						jen.List(
+							jen.Id("typeString"),
+							jen.Id("ok"),
+						).Op(":=").Id("elemVal").Assert(jen.String()),
+						jen.Id("ok").Op("&&").Qual("strings", "TrimPrefix").Call(
+							jen.Id("typeString"),
+							jen.Id("aliasPrefix"),
+						).Op("==").Lit(t.TypeName()),
+					).Block(
+						jen.Id("found").Op("=").True(),
+						jen.Break(),
+					),
+				),
+				jen.If(
+					jen.Op("!").Id("found"),
+				).Block(
+					jen.Return(
+						jen.Nil(),
+						jen.Qual("fmt", "Errorf").Call(jen.Lit("could not find a \"type\" property of value %q"), jen.Lit(t.TypeName())),
+					),
+				),
+				jen.Commentf("Fall through, success in finding a proper Type"),
+			).Else().Block(
+				jen.Return(
+					jen.Nil(),
+					jen.Qual("fmt", "Errorf").Call(jen.Lit("\"type\" property is unrecognized type: %T"), jen.Id("typeValue")),
+				),
+			),
 			deserCode,
 			unknownCode,
 			jen.Return(jen.Id(codegen.This()), jen.Nil()),
@@ -837,7 +926,7 @@ func (t *TypeGenerator) allGetters() (m []*codegen.Method) {
 // allSetters returns all property Setters for this type.
 func (t *TypeGenerator) allSetters() (m []*codegen.Method) {
 	for _, property := range t.allProperties() {
-		m = append(m, codegen.NewCommentedValueMethod(
+		m = append(m, codegen.NewCommentedPointerMethod(
 			t.PrivatePackage().Path(),
 			fmt.Sprintf("Set%s", t.memberName(property)),
 			t.TypeName(),
