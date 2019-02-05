@@ -296,9 +296,10 @@ func TestNulls(t *testing.T) {
 		expected serializer
 		callback interface{}
 		input    string
+		inputWithoutNulls    string
 	}{
 		{
-			name:     "JSON with null",
+			name:     "JSON nulls are not preserved",
 			expected: expectedUpdate,
 			callback: func(c context.Context, v vocab.UpdateInterface) error {
 				actual = v
@@ -319,6 +320,24 @@ func TestNulls(t *testing.T) {
                               "inbox": "https://example.com/sam/inbox",
 	                      "type": "Person",
 	                      "name": null
+                            }
+	                  }
+                        }
+			`,
+			inputWithoutNulls: `
+                        {
+                          "@context": "https://www.w3.org/ns/activitystreams",
+                          "summary": "Sally updated her note",
+                          "type": "Update",
+                          "actor": "https://example.com/sally",
+	                  "id": "https://example.com/test/new/iri",
+                          "object": {
+                            "id": "https://example.com/note/123",
+	                    "type": "Note",
+                            "to": {
+                              "id": "https://example.com/sam",
+                              "inbox": "https://example.com/sam/inbox",
+	                      "type": "Person"
                             }
 	                  }
                         }
@@ -357,7 +376,7 @@ func TestNulls(t *testing.T) {
 			t.Errorf("%s: Cannot json.Marshal: %s", r.name, err)
 			continue
 		}
-		if diff, err := GetJSONDiff(reser, []byte(r.input)); err == nil && diff != nil {
+		if diff, err := GetJSONDiff(reser, []byte(r.inputWithoutNulls)); err == nil && diff != nil {
 			t.Errorf("%s: Serialize JSON equality is false:\n%s", r.name, diff)
 		} else if err != nil {
 			t.Errorf("%s: GetJSONDiff returned error: %s", r.name, err)

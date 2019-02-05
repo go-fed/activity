@@ -2,6 +2,7 @@ package typereject
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -380,7 +381,10 @@ func DeserializeReject(m map[string]interface{}, aliasMap map[string]string) (*R
 
 // NewReject creates a new Reject type
 func NewReject() *Reject {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Reject")
 	return &Reject{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

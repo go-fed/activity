@@ -2,6 +2,7 @@ package typeprofile
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -341,7 +342,10 @@ func DeserializeProfile(m map[string]interface{}, aliasMap map[string]string) (*
 
 // NewProfile creates a new Profile type
 func NewProfile() *Profile {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Profile")
 	return &Profile{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

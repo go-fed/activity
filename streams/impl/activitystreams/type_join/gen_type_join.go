@@ -2,6 +2,7 @@ package typejoin
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -406,7 +407,10 @@ func JoinIsExtendedBy(other vocab.Type) bool {
 
 // NewJoin creates a new Join type
 func NewJoin() *Join {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Join")
 	return &Join{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

@@ -2,6 +2,7 @@ package typeorderedcollection
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -379,7 +380,10 @@ func DeserializeOrderedCollection(m map[string]interface{}, aliasMap map[string]
 
 // NewOrderedCollection creates a new OrderedCollection type
 func NewOrderedCollection() *OrderedCollection {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("OrderedCollection")
 	return &OrderedCollection{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

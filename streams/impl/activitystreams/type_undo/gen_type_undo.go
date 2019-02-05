@@ -2,6 +2,7 @@ package typeundo
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -378,7 +379,10 @@ func DeserializeUndo(m map[string]interface{}, aliasMap map[string]string) (*Und
 
 // NewUndo creates a new Undo type
 func NewUndo() *Undo {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Undo")
 	return &Undo{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

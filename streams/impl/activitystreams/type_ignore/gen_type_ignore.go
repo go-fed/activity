@@ -2,6 +2,7 @@ package typeignore
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -408,7 +409,10 @@ func IgnoreIsExtendedBy(other vocab.Type) bool {
 
 // NewIgnore creates a new Ignore type
 func NewIgnore() *Ignore {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Ignore")
 	return &Ignore{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

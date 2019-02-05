@@ -2,6 +2,7 @@ package typerelationship
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -354,7 +355,10 @@ func DeserializeRelationship(m map[string]interface{}, aliasMap map[string]strin
 
 // NewRelationship creates a new Relationship type
 func NewRelationship() *Relationship {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Relationship")
 	return &Relationship{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

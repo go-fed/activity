@@ -2,6 +2,7 @@ package typeupdate
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -375,7 +376,10 @@ func DeserializeUpdate(m map[string]interface{}, aliasMap map[string]string) (*U
 
 // NewUpdate creates a new Update type
 func NewUpdate() *Update {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Update")
 	return &Update{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

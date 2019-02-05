@@ -2,6 +2,7 @@ package typeannounce
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -411,7 +412,10 @@ func DeserializeAnnounce(m map[string]interface{}, aliasMap map[string]string) (
 
 // NewAnnounce creates a new Announce type
 func NewAnnounce() *Announce {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Announce")
 	return &Announce{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

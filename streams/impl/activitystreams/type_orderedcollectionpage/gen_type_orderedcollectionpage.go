@@ -2,6 +2,7 @@ package typeorderedcollectionpage
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -413,7 +414,10 @@ func DeserializeOrderedCollectionPage(m map[string]interface{}, aliasMap map[str
 
 // NewOrderedCollectionPage creates a new OrderedCollectionPage type
 func NewOrderedCollectionPage() *OrderedCollectionPage {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("OrderedCollectionPage")
 	return &OrderedCollectionPage{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

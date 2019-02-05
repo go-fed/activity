@@ -2,6 +2,7 @@ package typemove
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -411,7 +412,10 @@ func MoveIsExtendedBy(other vocab.Type) bool {
 
 // NewMove creates a new Move type
 func NewMove() *Move {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Move")
 	return &Move{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

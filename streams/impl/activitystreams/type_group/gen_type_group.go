@@ -2,6 +2,7 @@ package typegroup
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -413,7 +414,10 @@ func GroupIsExtendedBy(other vocab.Type) bool {
 
 // NewGroup creates a new Group type
 func NewGroup() *Group {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Group")
 	return &Group{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

@@ -2,6 +2,7 @@ package typeorganization
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -383,7 +384,10 @@ func DeserializeOrganization(m map[string]interface{}, aliasMap map[string]strin
 
 // NewOrganization creates a new Organization type
 func NewOrganization() *Organization {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Organization")
 	return &Organization{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

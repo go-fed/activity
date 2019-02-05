@@ -2,6 +2,7 @@ package typeblock
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -402,7 +403,10 @@ func DeserializeBlock(m map[string]interface{}, aliasMap map[string]string) (*Bl
 
 // NewBlock creates a new Block type
 func NewBlock() *Block {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Block")
 	return &Block{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}

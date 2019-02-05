@@ -3,18 +3,24 @@ package propertytype
 import (
 	"fmt"
 	anyuri "github.com/go-fed/activity/streams/values/anyURI"
+	string1 "github.com/go-fed/activity/streams/values/string"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"net/url"
 )
 
-// TypePropertyIterator is an iterator for a property. It is permitted to be a
-// single nilable value type.
+// TypePropertyIterator is an iterator for a property. It is permitted to be one
+// of multiple value types. At most, one type of value can be present, or none
+// at all. Setting a value will clear the other types of values so that only
+// one of the 'Is' methods will return true. It is possible to clear all
+// values, so that this property is empty.
 type TypePropertyIterator struct {
-	anyURIMember *url.URL
-	unknown      interface{}
-	alias        string
-	myIdx        int
-	parent       vocab.TypePropertyInterface
+	anyURIMember    *url.URL
+	stringMember    string
+	hasStringMember bool
+	unknown         interface{}
+	alias           string
+	myIdx           int
+	parent          vocab.TypePropertyInterface
 }
 
 // NewTypePropertyIterator creates a new type property.
@@ -35,6 +41,13 @@ func deserializeTypePropertyIterator(i interface{}, aliasMap map[string]string) 
 			anyURIMember: v,
 		}
 		return this, nil
+	} else if v, err := string1.DeserializeString(i); err == nil {
+		this := &TypePropertyIterator{
+			alias:           alias,
+			hasStringMember: true,
+			stringMember:    v,
+		}
+		return this, nil
 	}
 	this := &TypePropertyIterator{
 		alias:   alias,
@@ -44,31 +57,46 @@ func deserializeTypePropertyIterator(i interface{}, aliasMap map[string]string) 
 	return nil, fmt.Errorf("could not deserialize %q property", "type")
 }
 
-// Get returns the value of this property. When IsAnyURI returns false, Get will
-// return any arbitrary value.
-func (this TypePropertyIterator) Get() *url.URL {
+// GetAnyURI returns the value of this property. When IsAnyURI returns false,
+// GetAnyURI will return an arbitrary value.
+func (this TypePropertyIterator) GetAnyURI() *url.URL {
 	return this.anyURIMember
 }
 
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
-// return any arbitrary value.
+// return an arbitrary value.
 func (this TypePropertyIterator) GetIRI() *url.URL {
 	return this.anyURIMember
 }
 
-// HasAny returns true if the value or IRI is set.
-func (this TypePropertyIterator) HasAny() bool {
-	return this.IsAnyURI()
+// GetString returns the value of this property. When IsString returns false,
+// GetString will return an arbitrary value.
+func (this TypePropertyIterator) GetString() string {
+	return this.stringMember
 }
 
-// IsAnyURI returns true if this property is set and not an IRI.
+// HasAny returns true if any of the different values is set.
+func (this TypePropertyIterator) HasAny() bool {
+	return this.IsAnyURI() ||
+		this.IsString()
+}
+
+// IsAnyURI returns true if this property has a type of "anyURI". When true, use
+// the GetAnyURI and SetAnyURI methods to access and set this property.
 func (this TypePropertyIterator) IsAnyURI() bool {
 	return this.anyURIMember != nil
 }
 
-// IsIRI returns true if this property is an IRI.
+// IsIRI returns true if this property is an IRI. When true, use GetIRI and SetIRI
+// to access and set this property
 func (this TypePropertyIterator) IsIRI() bool {
 	return this.anyURIMember != nil
+}
+
+// IsString returns true if this property has a type of "string". When true, use
+// the GetString and SetString methods to access and set this property.
+func (this TypePropertyIterator) IsString() bool {
+	return this.hasStringMember
 }
 
 // JSONLDContext returns the JSONLD URIs required in the context string for this
@@ -96,6 +124,9 @@ func (this TypePropertyIterator) KindIndex() int {
 	if this.IsAnyURI() {
 		return 0
 	}
+	if this.IsString() {
+		return 1
+	}
 	if this.IsIRI() {
 		return -2
 	}
@@ -107,27 +138,18 @@ func (this TypePropertyIterator) KindIndex() int {
 // help alternative implementations to go-fed to be able to normalize
 // nonfunctional properties.
 func (this TypePropertyIterator) LessThan(o vocab.TypePropertyIteratorInterface) bool {
-	if this.IsIRI() {
-		// IRIs are always less than other values, none, or unknowns
+	idx1 := this.KindIndex()
+	idx2 := o.KindIndex()
+	if idx1 < idx2 {
 		return true
-	} else if o.IsIRI() {
-		// This other, none, or unknown value is always greater than IRIs
+	} else if idx1 > idx2 {
 		return false
+	} else if this.IsAnyURI() {
+		return anyuri.LessAnyURI(this.GetAnyURI(), o.GetAnyURI())
+	} else if this.IsString() {
+		return string1.LessString(this.GetString(), o.GetString())
 	}
-	// LessThan comparison for the single value or unknown value.
-	if !this.IsAnyURI() && !o.IsAnyURI() {
-		// Both are unknowns.
-		return false
-	} else if this.IsAnyURI() && !o.IsAnyURI() {
-		// Values are always greater than unknown values.
-		return false
-	} else if !this.IsAnyURI() && o.IsAnyURI() {
-		// Unknowns are always less than known values.
-		return true
-	} else {
-		// Actual comparison.
-		return anyuri.LessAnyURI(this.Get(), o.Get())
-	}
+	return false
 }
 
 // Name returns the name of this property: "type".
@@ -153,25 +175,33 @@ func (this TypePropertyIterator) Prev() vocab.TypePropertyIteratorInterface {
 	}
 }
 
-// Set sets the value of this property. Calling IsAnyURI afterwards will return
+// SetAnyURI sets the value of this property. Calling IsAnyURI afterwards returns
 // true.
-func (this *TypePropertyIterator) Set(v *url.URL) {
+func (this *TypePropertyIterator) SetAnyURI(v *url.URL) {
 	this.clear()
 	this.anyURIMember = v
 }
 
-// SetIRI sets the value of this property. Calling IsIRI afterwards will return
-// true.
+// SetIRI sets the value of this property. Calling IsIRI afterwards returns true.
 func (this *TypePropertyIterator) SetIRI(v *url.URL) {
 	this.clear()
-	this.Set(v)
+	this.SetAnyURI(v)
 }
 
-// clear ensures no value of this property is set. Calling IsAnyURI afterwards
-// will return false.
+// SetString sets the value of this property. Calling IsString afterwards returns
+// true.
+func (this *TypePropertyIterator) SetString(v string) {
+	this.clear()
+	this.stringMember = v
+	this.hasStringMember = true
+}
+
+// clear ensures no value of this property is set. Calling HasAny or any of the
+// 'Is' methods afterwards will return false.
 func (this *TypePropertyIterator) clear() {
-	this.unknown = nil
 	this.anyURIMember = nil
+	this.hasStringMember = false
+	this.unknown = nil
 }
 
 // serialize converts this into an interface representation suitable for
@@ -180,7 +210,9 @@ func (this *TypePropertyIterator) clear() {
 // properties. It is exposed for alternatives to go-fed implementations to use.
 func (this TypePropertyIterator) serialize() (interface{}, error) {
 	if this.IsAnyURI() {
-		return anyuri.SerializeAnyURI(this.Get())
+		return anyuri.SerializeAnyURI(this.GetAnyURI())
+	} else if this.IsString() {
+		return string1.SerializeString(this.GetString())
 	}
 	return this.unknown, nil
 }
@@ -259,6 +291,18 @@ func (this *TypeProperty) AppendIRI(v *url.URL) {
 	})
 }
 
+// AppendString appends a string value to the back of a list of the property
+// "type". Invalidates iterators that are traversing using Prev.
+func (this *TypeProperty) AppendString(v string) {
+	this.properties = append(this.properties, &TypePropertyIterator{
+		alias:           this.alias,
+		hasStringMember: true,
+		myIdx:           this.Len(),
+		parent:          this,
+		stringMember:    v,
+	})
+}
+
 // At returns the property value for the specified index. Panics if the index is
 // out of bounds.
 func (this TypeProperty) At(index int) vocab.TypePropertyIteratorInterface {
@@ -329,9 +373,13 @@ func (this TypeProperty) Less(i, j int) bool {
 		return true
 	} else if idx1 == idx2 {
 		if idx1 == 0 {
-			lhs := this.properties[i].Get()
-			rhs := this.properties[j].Get()
+			lhs := this.properties[i].GetAnyURI()
+			rhs := this.properties[j].GetAnyURI()
 			return anyuri.LessAnyURI(lhs, rhs)
+		} else if idx1 == 1 {
+			lhs := this.properties[i].GetString()
+			rhs := this.properties[j].GetString()
+			return string1.LessString(lhs, rhs)
 		} else if idx1 == -2 {
 			lhs := this.properties[i].GetIRI()
 			rhs := this.properties[j].GetIRI()
@@ -394,6 +442,21 @@ func (this *TypeProperty) PrependIRI(v *url.URL) {
 	}
 }
 
+// PrependString prepends a string value to the front of a list of the property
+// "type". Invalidates all iterators.
+func (this *TypeProperty) PrependString(v string) {
+	this.properties = append([]*TypePropertyIterator{{
+		alias:           this.alias,
+		hasStringMember: true,
+		myIdx:           0,
+		parent:          this,
+		stringMember:    v,
+	}}, this.properties...)
+	for i := 1; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
 // Remove deletes an element at the specified index from a list of the property
 // "type", regardless of its type. Panics if the index is out of bounds.
 // Invalidates all iterators.
@@ -427,9 +490,9 @@ func (this TypeProperty) Serialize() (interface{}, error) {
 	return s, nil
 }
 
-// Set sets a anyURI value to be at the specified index for the property "type".
-// Panics if the index is out of bounds. Invalidates all iterators.
-func (this *TypeProperty) Set(idx int, v *url.URL) {
+// SetAnyURI sets a anyURI value to be at the specified index for the property
+// "type". Panics if the index is out of bounds. Invalidates all iterators.
+func (this *TypeProperty) SetAnyURI(idx int, v *url.URL) {
 	(this.properties)[idx].parent = nil
 	(this.properties)[idx] = &TypePropertyIterator{
 		alias:        this.alias,
@@ -448,6 +511,19 @@ func (this *TypeProperty) SetIRI(idx int, v *url.URL) {
 		anyURIMember: v,
 		myIdx:        idx,
 		parent:       this,
+	}
+}
+
+// SetString sets a string value to be at the specified index for the property
+// "type". Panics if the index is out of bounds. Invalidates all iterators.
+func (this *TypeProperty) SetString(idx int, v string) {
+	(this.properties)[idx].parent = nil
+	(this.properties)[idx] = &TypePropertyIterator{
+		alias:           this.alias,
+		hasStringMember: true,
+		myIdx:           idx,
+		parent:          this,
+		stringMember:    v,
 	}
 }
 

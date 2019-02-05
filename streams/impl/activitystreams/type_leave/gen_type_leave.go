@@ -2,6 +2,7 @@ package typeleave
 
 import (
 	"fmt"
+	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -420,7 +421,10 @@ func LeaveIsExtendedBy(other vocab.Type) bool {
 
 // NewLeave creates a new Leave type
 func NewLeave() *Leave {
+	typeProp := propertytype.NewTypeProperty()
+	typeProp.AppendString("Leave")
 	return &Leave{
+		Type:    typeProp,
 		alias:   "",
 		unknown: make(map[string]interface{}, 0),
 	}
