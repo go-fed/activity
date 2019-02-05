@@ -434,9 +434,9 @@ func (p *PropertyGenerator) isMethodName(i int) string {
 	return fmt.Sprintf("%s%s", isMethod, p.kindCamelName(i))
 }
 
-// constructorFn creates a constructor function with a default vocabulary
+// ConstructorFn creates a constructor function with a default vocabulary
 // alias.
-func (p *PropertyGenerator) constructorFn() *codegen.Function {
+func (p *PropertyGenerator) ConstructorFn() *codegen.Function {
 	return codegen.NewCommentedFunction(
 		p.GetPrivatePackage().Path(),
 		fmt.Sprintf("%s%s", constructorName, p.StructName()),

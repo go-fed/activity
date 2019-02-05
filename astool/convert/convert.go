@@ -14,8 +14,9 @@ import (
 )
 
 const (
-	interfacePkg = "vocab"
-	resolverPkg  = "resolver"
+	interfacePkg     = "vocab"
+	resolverPkg      = "resolver"
+	typePropertyName = "type"
 )
 
 // File is a code-generated file.
@@ -225,6 +226,9 @@ type Converter struct {
 func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 	v := newVocabulary()
 	done := make(map[string]bool)
+	// We keep a reference of the type property constructor for convenience
+	// when constructing types, to auto-populate the property.
+	var typePropertyConstructor *codegen.Function = nil
 	// Step 1: Convert referenced specifications
 	for i, vocabURI := range p.Order {
 		refP := p.Clone()
@@ -234,7 +238,7 @@ func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 		}
 
 		var refV vocabulary
-		refV, e = c.convertVocabulary(refP, v.References)
+		refV, typePropertyConstructor, e = c.convertVocabulary(refP, v.References, typePropertyConstructor)
 		if e != nil {
 			return
 		}
@@ -249,7 +253,7 @@ func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 		done[vocabURI] = true
 	}
 	// Step 2: Intrinsically-known vocabularies won't appear in p.Order
-	recurV, err := c.convertReferenceVocabularyRecursively(done, p, v.References)
+	recurV, err := c.convertReferenceVocabularyRecursively(done, p, v.References, typePropertyConstructor)
 	if err != nil {
 		e = err
 		return
@@ -270,7 +274,7 @@ func (c Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 
 // convertReferenceVocabularyRecursively will convert all references nested in
 // all vocabularies and results in a flattened converted map.
-func (c Converter) convertReferenceVocabularyRecursively(skip map[string]bool, p *rdf.ParsedVocabulary, refs map[string]*vocabulary) (v map[string]*vocabulary, e error) {
+func (c Converter) convertReferenceVocabularyRecursively(skip map[string]bool, p *rdf.ParsedVocabulary, refs map[string]*vocabulary, typePropertyConstructor *codegen.Function) (v map[string]*vocabulary, e error) {
 	v = make(map[string]*vocabulary)
 	for k, _ := range p.References {
 		if skip[k] {
@@ -280,14 +284,14 @@ func (c Converter) convertReferenceVocabularyRecursively(skip map[string]bool, p
 		refP.Vocab = *refP.References[k]
 		delete(refP.References, k)
 		var refV vocabulary
-		refV, e = c.convertVocabulary(refP, refs)
+		refV, typePropertyConstructor, e = c.convertVocabulary(refP, refs, typePropertyConstructor)
 		if e != nil {
 			return
 		}
 		v[k] = &refV
 		// Recur
 		var recurVocab map[string]*vocabulary
-		recurVocab, e = c.convertReferenceVocabularyRecursively(skip, refP, refs)
+		recurVocab, e = c.convertReferenceVocabularyRecursively(skip, refP, refs, typePropertyConstructor)
 		if e != nil {
 			return
 		}
@@ -391,7 +395,8 @@ func (c Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 //
 // This feels very hacky and could be decoupled using standard design patterns,
 // but since there is no need, it isn't addressed now.
-func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary, refs map[string]*vocabulary) (v vocabulary, e error) {
+func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary, refs map[string]*vocabulary, typePropertyCstr *codegen.Function) (v vocabulary, typePropertyConstructor *codegen.Function, e error) {
+	typePropertyConstructor = typePropertyCstr
 	v = newVocabulary()
 	v.Name = p.Vocab.Name
 	v.URI = p.Vocab.URI
@@ -401,12 +406,22 @@ func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary, refs map[string]*v
 	for k, prop := range p.Vocab.Properties {
 		if prop.Functional {
 			v.FProps[k], e = c.convertFunctionalProperty(prop, v.Values, p.Vocab, p.References, refs)
+			if typePropertyConstructor == nil && prop.Name == typePropertyName {
+				typePropertyConstructor = v.FProps[k].ConstructorFn()
+			}
 		} else {
 			v.NFProps[k], e = c.convertNonFunctionalProperty(prop, v.Values, p.Vocab, p.References, refs)
+			if typePropertyConstructor == nil && prop.Name == typePropertyName {
+				typePropertyConstructor = v.NFProps[k].ConstructorFn()
+			}
 		}
 		if e != nil {
 			return
 		}
+	}
+	if typePropertyConstructor == nil {
+		e = fmt.Errorf("convertVocabulary: either passed in or could not find \"type\" property and its constructor")
+		return
 	}
 	// Instead of building a dependency tree, naively keep iterating through
 	// 'allTypes' until it is empty (good) or we get stuck (return error).
@@ -422,7 +437,7 @@ func (c Converter) convertVocabulary(p *rdf.ParsedVocabulary, refs map[string]*v
 		for i, t := range allTypes {
 			if c.allExtendsAreIn(p.Vocab.Registry, t, v.Types, refs) {
 				var tg *gen.TypeGenerator
-				tg, e = c.convertType(t, p.Vocab, v.FProps, v.NFProps, v.Types, refs)
+				tg, e = c.convertType(t, p.Vocab, v.FProps, v.NFProps, v.Types, refs, typePropertyConstructor)
 				if e != nil {
 					return
 				}
@@ -495,7 +510,8 @@ func (c Converter) convertType(t rdf.VocabularyType,
 	existingFProps map[string]*gen.FunctionalPropertyGenerator,
 	existingNFProps map[string]*gen.NonFunctionalPropertyGenerator,
 	existingTypes map[string]*gen.TypeGenerator,
-	genRefs map[string]*vocabulary) (tg *gen.TypeGenerator, e error) {
+	genRefs map[string]*vocabulary,
+	typePropertyConstructor *codegen.Function) (tg *gen.TypeGenerator, e error) {
 	// Determine the gen package name
 	var pm *gen.PackageManager
 	pm, e = c.typePackageManager(t, v.Name)
@@ -626,7 +642,8 @@ func (c Converter) convertType(t rdf.VocabularyType,
 		wop,
 		rangeProps,
 		ext,
-		disjoint)
+		disjoint,
+		typePropertyConstructor)
 	return
 }
 

@@ -316,7 +316,7 @@ func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator
 			[]jen.Code{jen.Qual(pg.GetPublicPackage().Path(), pg.InterfaceName())},
 			[]jen.Code{
 				jen.Return(
-					pg.constructorFn().Call(),
+					pg.ConstructorFn().Call(),
 				),
 			},
 			fmt.Sprintf("New%s%s creates a new %s", vocabName, pg.StructName(), pg.InterfaceName())))

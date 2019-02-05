@@ -12,6 +12,7 @@ import (
 
 const (
 	typeInterfaceName          = "Type"
+	typeMember                 = "Type" // This specifically must match the "type" property member generated! Kludge that this happens to just work.
 	jsonLDContextInterfaceName = "jsonldContexter"
 	extendedByMethod           = "IsExtendedBy"
 	extendingMethod            = "IsExtending"
@@ -78,21 +79,22 @@ type Property interface {
 
 // TypeGenerator represents an ActivityStream type definition to generate in Go.
 type TypeGenerator struct {
-	vocabName         string
-	vocabURI          *url.URL
-	vocabAlias        string
-	pm                *PackageManager
-	typeName          string
-	comment           string
-	properties        map[string]Property
-	withoutProperties map[string]Property
-	rangeProperties   []Property
-	extends           []*TypeGenerator
-	disjoint          []*TypeGenerator
-	extendedBy        []*TypeGenerator
-	m                 *ManagerGenerator
-	cacheOnce         sync.Once
-	cachedStruct      *codegen.Struct
+	vocabName               string
+	vocabURI                *url.URL
+	vocabAlias              string
+	pm                      *PackageManager
+	typeName                string
+	comment                 string
+	properties              map[string]Property
+	withoutProperties       map[string]Property
+	rangeProperties         []Property
+	extends                 []*TypeGenerator
+	disjoint                []*TypeGenerator
+	extendedBy              []*TypeGenerator
+	m                       *ManagerGenerator
+	typePropertyConstructor *codegen.Function
+	cacheOnce               sync.Once
+	cachedStruct            *codegen.Struct
 }
 
 // NewTypeGenerator creates a new generator for a specific ActivityStreams Core
@@ -121,19 +123,21 @@ func NewTypeGenerator(vocabName string,
 	pm *PackageManager,
 	typeName, comment string,
 	properties, withoutProperties, rangeProperties []Property,
-	extends, disjoint []*TypeGenerator) (*TypeGenerator, error) {
+	extends, disjoint []*TypeGenerator,
+	typePropertyConstructor *codegen.Function) (*TypeGenerator, error) {
 	t := &TypeGenerator{
-		vocabName:         vocabName,
-		vocabURI:          vocabURI,
-		vocabAlias:        vocabAlias,
-		pm:                pm,
-		typeName:          typeName,
-		comment:           comment,
-		properties:        make(map[string]Property, len(properties)),
-		withoutProperties: make(map[string]Property, len(withoutProperties)),
-		rangeProperties:   rangeProperties,
-		extends:           extends,
-		disjoint:          disjoint,
+		vocabName:               vocabName,
+		vocabURI:                vocabURI,
+		vocabAlias:              vocabAlias,
+		pm:                      pm,
+		typeName:                typeName,
+		comment:                 comment,
+		properties:              make(map[string]Property, len(properties)),
+		withoutProperties:       make(map[string]Property, len(withoutProperties)),
+		rangeProperties:         rangeProperties,
+		extends:                 extends,
+		disjoint:                disjoint,
+		typePropertyConstructor: typePropertyConstructor,
 	}
 	for _, property := range properties {
 		if err := t.AddPropertyGenerator(property); err != nil {
@@ -959,11 +963,14 @@ func (t *TypeGenerator) constructorFn() *codegen.Function {
 			jen.Op("*").Qual(t.PrivatePackage().Path(), t.TypeName()),
 		},
 		[]jen.Code{
+			jen.Id("typeProp").Op(":=").Add(t.typePropertyConstructor.Call()),
+			jen.Id("typeProp").Dot("AppendString").Call(jen.Lit(t.TypeName())),
 			jen.Return(
 				jen.Op("&").Qual(t.PrivatePackage().Path(), t.TypeName()).Values(
 					jen.Dict{
 						jen.Id(aliasMember):   jen.Lit(t.vocabAlias),
 						jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface(), jen.Lit(0)),
+						jen.Id(typeMember):    jen.Id("typeProp"),
 					},
 				),
 			),

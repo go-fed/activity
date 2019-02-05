@@ -72,7 +72,7 @@ func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codege
 		ser, deser := p.serializationFuncs()
 		methods = append(methods, ser)
 		funcs = append(funcs, deser)
-		funcs = append(funcs, p.constructorFn())
+		funcs = append(funcs, p.ConstructorFn())
 		methods = append(methods, p.funcs()...)
 		property := codegen.NewStruct(
 			fmt.Sprintf("%s is the non-functional property %q. It is permitted to have one or more values, and of different value types.", p.StructName(), p.PropertyName()),

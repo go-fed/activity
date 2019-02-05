@@ -1804,7 +1804,10 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-type",
           "range": {
             "type": "owl:Class",
-            "unionOf": "xsd:anyURI"
+            "unionOf": [
+              "xsd:anyURI",
+              "xsd:string"
+            ]
           },
           "name": "type",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-type"
