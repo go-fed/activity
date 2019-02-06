@@ -27,7 +27,7 @@ type ActivityStreamsInterface interface {
 	GetName() string
 }
 
-// Resolver represents any TypeResolver or InterfaceResolver.
+// Resolver represents any TypeResolver.
 type Resolver interface {
 	// Resolve will attempt to resolve an untyped ActivityStreams value into a
 	// Go concrete type.

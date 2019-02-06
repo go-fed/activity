@@ -1096,7 +1096,7 @@ func (c *Converter) propertyPackageFiles(pg *gen.PropertyGenerator, vocabName st
 // resolverFiles creates the files necessary for the resolvers.
 func (c *Converter) resolverFiles(pkg gen.Package, manGen *gen.ManagerGenerator, root vocabulary) (files []*File, e error) {
 	rg := gen.NewResolverGenerator(root.allTypeArray(), manGen, pkg)
-	jsonRes, typeRes, intRes, typePredRes, intPredRes, errDefs, isUnFn, iFaces := rg.Definition()
+	jsonRes, typeRes, typePredRes, errDefs, isUnFn, iFaces := rg.Definition()
 	// Utils
 	file := jen.NewFilePath(pkg.Path())
 	for _, errDef := range errDefs {
@@ -1127,28 +1127,12 @@ func (c *Converter) resolverFiles(pkg gen.Package, manGen *gen.ManagerGenerator,
 		FileName:  "gen_type_resolver.go",
 		Directory: pkg.WriteDir(),
 	})
-	// Interface, not predicated
-	file = jen.NewFilePath(pkg.Path())
-	file.Add(intRes.Definition())
-	files = append(files, &File{
-		F:         file,
-		FileName:  "gen_interface_resolver.go",
-		Directory: pkg.WriteDir(),
-	})
 	// Type, Predicated
 	file = jen.NewFilePath(pkg.Path())
 	file.Add(typePredRes.Definition())
 	files = append(files, &File{
 		F:         file,
 		FileName:  "gen_type_predicated_resolver.go",
-		Directory: pkg.WriteDir(),
-	})
-	// Interface, Predicated
-	file = jen.NewFilePath(pkg.Path())
-	file.Add(intPredRes.Definition())
-	files = append(files, &File{
-		F:         file,
-		FileName:  "gen_interface_predicated_resolver.go",
 		Directory: pkg.WriteDir(),
 	})
 	return

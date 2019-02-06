@@ -8,27 +8,25 @@ import (
 )
 
 const (
-	contextJSONLDName                     = "@context"
-	typePropertyName                      = "type"
-	jsonResolverStructName                = "JSONResolver"
-	typeResolverStructName                = "TypeResolver"
-	interfaceResolverStructName           = "InterfaceResolver"
-	typePredicatedResolverStructName      = "TypePredicatedResolver"
-	interfacePredicatedResolverStructName = "InterfacePredicatedResolver"
-	resolveMethod                         = "Resolve"
-	applyMethod                           = "Apply"
-	activityStreamInterface               = "ActivityStreamsInterface"
-	resolverInterface                     = "Resolver"
-	callbackMember                        = "callbacks"
-	predicateMember                       = "predicate"
-	delegateMember                        = "delegate"
-	errorNoMatch                          = "ErrNoCallbackMatch"
-	errorUnhandled                        = "ErrUnhandledType"
-	errorPredicateUnmatched               = "ErrPredicateUnmatched"
-	errorCannotTypeAssert                 = "errCannotTypeAssertType"
-	errorCannotTypeAssertPredicate        = "errCannotTypeAssertPredicate"
-	isUnFnName                            = "IsUnmatchedErr"
-	toAliasMapFnName                      = "toAliasMap"
+	contextJSONLDName                = "@context"
+	typePropertyName                 = "type"
+	jsonResolverStructName           = "JSONResolver"
+	typeResolverStructName           = "TypeResolver"
+	typePredicatedResolverStructName = "TypePredicatedResolver"
+	resolveMethod                    = "Resolve"
+	applyMethod                      = "Apply"
+	activityStreamInterface          = "ActivityStreamsInterface"
+	resolverInterface                = "Resolver"
+	callbackMember                   = "callbacks"
+	predicateMember                  = "predicate"
+	delegateMember                   = "delegate"
+	errorNoMatch                     = "ErrNoCallbackMatch"
+	errorUnhandled                   = "ErrUnhandledType"
+	errorPredicateUnmatched          = "ErrPredicateUnmatched"
+	errorCannotTypeAssert            = "errCannotTypeAssertType"
+	errorCannotTypeAssertPredicate   = "errCannotTypeAssertPredicate"
+	isUnFnName                       = "IsUnmatchedErr"
+	toAliasMapFnName                 = "toAliasMap"
 )
 
 // ResolverGenerator generates the code required for the TypeResolver and the
@@ -40,9 +38,7 @@ type ResolverGenerator struct {
 	cacheOnce                          sync.Once
 	cachedJSON                         *codegen.Struct
 	cachedTypePredicate                *codegen.Struct
-	cachedInterfacePredicate           *codegen.Struct
 	cachedType                         *codegen.Struct
-	cachedInterface                    *codegen.Struct
 	cachedErrNoMatch                   jen.Code
 	cachedErrUnhandled                 jen.Code
 	cachedErrPredicateUnmatched        jen.Code
@@ -71,7 +67,7 @@ func NewResolverGenerator(
 // Definition returns the TypeResolver and PredicateTypeResolver.
 //
 // This function signature is pure garbage and yet I keep heaping it on.
-func (r *ResolverGenerator) Definition() (jsonRes, typeRes, interfaceRes, typePredRes, interfacePredRes *codegen.Struct, errs []jen.Code, isUnFn *codegen.Function, iFaces []*codegen.Interface) {
+func (r *ResolverGenerator) Definition() (jsonRes, typeRes, typePredRes *codegen.Struct, errs []jen.Code, isUnFn *codegen.Function, iFaces []*codegen.Interface) {
 	r.cacheOnce.Do(func() {
 		r.cachedJSON = codegen.NewStruct(
 			fmt.Sprintf("%s resolves a JSON-deserialized map into "+
@@ -115,28 +111,6 @@ func (r *ResolverGenerator) Definition() (jsonRes, typeRes, interfaceRes, typePr
 					"error is returned if a callback function "+
 					"does not match this signature."),
 			r.resolverMembers())
-		r.cachedInterface = codegen.NewStruct(
-			fmt.Sprintf("%s resolves ActivityStreams values based "+
-				"on the interface or interfaces they satisfy.", interfaceResolverStructName),
-			interfaceResolverStructName,
-			r.interfaceResolverMethods(),
-			r.resolverFunctions(interfaceResolverStructName,
-				"creates a new Resolver that examines the "+
-					"interface assertions on an ActivityStreams "+
-					"value to determine "+
-					"what callback function to pass a concretely "+
-					"typed value. The callback may receive a "+
-					"value whose underlying ActivityStreams type "+
-					"does not match the concrete interface name "+
-					"in its signature. "+
-					"The callback functions must be "+
-					"of the form:\n\n"+
-					"  func(context.Context, <TypeInterface>) error\n\n"+
-					"where TypeInterface is the code-generated "+
-					"interface for an ActivityStream type. An "+
-					"error is returned if a callback function "+
-					"does not match this signature."),
-			r.resolverMembers())
 		r.cachedTypePredicate = codegen.NewStruct(
 			fmt.Sprintf("%s resolves ActivityStreams values if "+
 				"the value satisfies a predicate condition "+
@@ -160,33 +134,6 @@ func (r *ResolverGenerator) Definition() (jsonRes, typeRes, interfaceRes, typePr
 					"error is returned if the predicate does "+
 					"not match this signature."),
 			r.predicateResolverMembers())
-		r.cachedInterfacePredicate = codegen.NewStruct(
-			fmt.Sprintf("%s resolves ActivityStreams values if "+
-				"the value satisfies a predicate condition "+
-				"based on the interface or interfaces they "+
-				"satisfy.", interfacePredicatedResolverStructName),
-			interfacePredicatedResolverStructName,
-			r.interfacePredicatedResolverMethods(),
-			r.predicateResolverFunctions(interfacePredicatedResolverStructName,
-				"creates a new Resolver that applies a "+
-					"predicate to an ActivityStreams value to "+
-					"determine whether to Resolve or not. The "+
-					"ActivityStreams value's interface assertions "+
-					"are examined "+
-					"to determine if the predicate can apply "+
-					"itself to the value. The predicate will "+
-					"will receive a concrete value "+
-					"whose underlying ActivityStreams type "+
-					"may not match the concrete interface name, "+
-					"and could be completely unrelated "+
-					"ActivityStreams types."+
-					"The predicate function must be of the form: \n\n"+
-					"  func(context.Context, <TypeInterface>) (bool, error)\n\n"+
-					"where TypeInterface is the code-generated "+
-					"interface for an ActivityStreams type. An "+
-					"error is returned if the predicate does "+
-					"not match this signature."),
-			r.predicateResolverMembers())
 		r.cachedErrNoMatch = r.errorNoMatch()
 		r.cachedErrUnhandled = r.errorUnhandled()
 		r.cachedErrPredicateUnmatched = r.errorPredicateUnmatched()
@@ -196,7 +143,7 @@ func (r *ResolverGenerator) Definition() (jsonRes, typeRes, interfaceRes, typePr
 		r.cachedASInterface = r.asInterface()
 		r.cachedResolverInterface = r.resolverInterface()
 	})
-	return r.cachedJSON, r.cachedType, r.cachedInterface, r.cachedTypePredicate, r.cachedInterfacePredicate, []jen.Code{
+	return r.cachedJSON, r.cachedType, r.cachedTypePredicate, []jen.Code{
 			r.cachedErrNoMatch,
 			r.cachedErrUnhandled,
 			r.cachedErrPredicateUnmatched,
@@ -519,68 +466,6 @@ func (r *ResolverGenerator) typeResolverMethods() (m []*codegen.Method) {
 	return
 }
 
-// interfaceResolverMethods returns the methods for the TypeResolver.
-func (r *ResolverGenerator) interfaceResolverMethods() (m []*codegen.Method) {
-	impl := jen.Empty()
-	for _, t := range r.types {
-		impl = impl.If(
-			jen.List(
-				jen.Id("v"),
-				jen.Id("ok"),
-			).Op(":=").Id("o").Assert(
-				jen.Qual(t.PublicPackage().Path(), t.InterfaceName()),
-			),
-			jen.Id("ok"),
-		).Block(
-			jen.If(
-				jen.List(
-					jen.Id("fn"),
-					jen.Id("ok"),
-				).Op(":=").Id("i").Assert(
-					jen.Func().Parens(
-						jen.List(
-							jen.Qual("context", "Context"),
-							jen.Qual(t.PublicPackage().Path(), t.InterfaceName()),
-						),
-					).Error(),
-				),
-				jen.Id("ok"),
-			).Block(
-				jen.Return(
-					jen.Id("fn").Call(jen.Id("ctx"), jen.Id("v")),
-				),
-			),
-			jen.Commentf("Else: this callback function doesn't support this duck-typed interface."),
-		).Line()
-	}
-	m = append(m, codegen.NewCommentedValueMethod(
-		r.pkg.Path(),
-		resolveMethod,
-		interfaceResolverStructName,
-		[]jen.Code{
-			jen.Id("ctx").Qual("context", "Context"),
-			jen.Id("o").Id(activityStreamInterface),
-		},
-		[]jen.Code{
-			jen.Error(),
-		},
-		[]jen.Code{
-			jen.For(
-				jen.List(
-					jen.Id("_"),
-					jen.Id("i"),
-				).Op(":=").Range().Id(codegen.This()).Dot(callbackMember),
-			).Block(
-				impl,
-			),
-			jen.Return(
-				jen.Id(errorNoMatch),
-			),
-		},
-		fmt.Sprintf("%s applies the first callback function whose signature accepts an interface interpretation of the ActivityStreams value. Note that the Go interface rules mean that this can result in multiple unrelated ActivityStreams types to be passed into a single callback function and potentially causing unintended behaviors. It is best to assume nothing about the ActivityStreams' type in the callback function, and instead only reason about an ActivityStreams' properties. Returns an error if the ActivityStreams interface does not match callbackers or the value passed in is not go-fed compatible.", resolveMethod)))
-	return
-}
-
 // typePredicatedResolverMethods returns the methods for the TypePredicatedResolver.
 func (r *ResolverGenerator) typePredicatedResolverMethods() (m []*codegen.Method) {
 	impl := jen.Empty()
@@ -684,97 +569,6 @@ func (r *ResolverGenerator) typePredicatedResolverMethods() (m []*codegen.Method
 			),
 		},
 		fmt.Sprintf("%s uses a predicate to determine whether to resolve the ActivityStreams value. The predicate's signature is matched with the ActivityStreams value's type. This strictly assures that the predicate will only be passed ActivityStream objects whose type matches its interface. Returns an error if the ActivityStreams type does not match the predicate, is not a type handled by the generated code, or the resolver returns an error. Returns true if the predicate returned true.", applyMethod)))
-	return
-}
-
-// interfacePredicatedResolverMethods returns the methods for the PredicateTypeResolver.
-func (r *ResolverGenerator) interfacePredicatedResolverMethods() (m []*codegen.Method) {
-	impl := jen.Empty()
-	for _, t := range r.types {
-		impl = impl.Case(
-			jen.Func().Parens(
-				jen.List(
-					jen.Qual("context", "Context"),
-					jen.Qual(t.PublicPackage().Path(), t.InterfaceName()),
-				),
-			).Parens(
-				jen.List(
-					jen.Bool(),
-					jen.Error(),
-				),
-			),
-		).Block(
-			jen.If(
-				jen.List(
-					jen.Id("v"),
-					jen.Id("ok"),
-				).Op(":=").Id("o").Assert(
-					jen.Qual(t.PublicPackage().Path(), t.InterfaceName()),
-				),
-				jen.Id("ok"),
-			).Block(
-				jen.List(
-					jen.Id("predicatePasses"),
-					jen.Err(),
-				).Op("=").Id("fn").Call(jen.Id("ctx"), jen.Id("v")),
-			).Else().Block(
-				jen.Return(
-					jen.False(),
-					jen.Id(errorPredicateUnmatched),
-				),
-			),
-		).Line()
-	}
-	m = append(m, codegen.NewCommentedValueMethod(
-		r.pkg.Path(),
-		applyMethod,
-		interfacePredicatedResolverStructName,
-		[]jen.Code{
-			jen.Id("ctx").Qual("context", "Context"),
-			jen.Id("o").Id(activityStreamInterface),
-		},
-		[]jen.Code{
-			jen.Bool(),
-			jen.Error(),
-		},
-		[]jen.Code{
-			jen.Var().Id("predicatePasses").Bool(),
-			jen.Var().Err().Error(),
-			jen.Switch(jen.Id("fn").Op(":=").Id(codegen.This()).Dot(predicateMember).Assert(jen.Type())).Block(
-				impl.Default().Block(
-					jen.Commentf("The constructor should guard against this error. If it is encountered, then there is a bug in the code generator."),
-					jen.Return(
-						jen.False(),
-						jen.Id(errorCannotTypeAssertPredicate),
-					),
-				),
-			),
-			jen.If(
-				jen.Err().Op("!=").Nil(),
-			).Block(
-				jen.Return(
-					jen.Id("predicatePasses"),
-					jen.Err(),
-				),
-			),
-			jen.If(
-				jen.Id("predicatePasses"),
-			).Block(
-				jen.Return(
-					jen.True(),
-					jen.Id(codegen.This()).Dot(delegateMember).Dot(resolveMethod).Call(
-						jen.Id("ctx"),
-						jen.Id("o"),
-					),
-				),
-			).Else().Block(
-				jen.Return(
-					jen.False(),
-					jen.Nil(),
-				),
-			),
-		},
-		fmt.Sprintf("%s uses a predicate to determine whether to resolve the ActivityStreams value. The predicate function is applied if its signature accepts an interface interpretation of the ActivityStreams value. Note that the Go interface rules mean that this can result in multiple unrelated ActivityStreams types to be passed into the predicate and potentially cause unintended behaviors. It is best to assume nothing about the ActivityStreams' type in the predicate function, and instead only reason about an ActivityStreams' properties. Returns an error if the ActivityStreams interface does not match the predicate or the resolver returns an error.", applyMethod)))
 	return
 }
 
@@ -954,7 +748,7 @@ func (r *ResolverGenerator) resolverInterface() *codegen.Interface {
 				Comment: fmt.Sprintf("%s will attempt to resolve an untyped ActivityStreams value into a Go concrete type.", resolveMethod),
 			},
 		},
-		fmt.Sprintf("%s represents any %s or %s.", resolverInterface, typeResolverStructName, interfaceResolverStructName))
+		fmt.Sprintf("%s represents any %s.", resolverInterface, typeResolverStructName))
 }
 
 // toAliasFunction returns the toAliasMap function
