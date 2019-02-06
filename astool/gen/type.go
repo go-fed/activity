@@ -391,6 +391,9 @@ func (t *TypeGenerator) allProperties() []Property {
 			delete(p, k)
 		}
 	}
+	for k, _ := range t.WithoutProperties() {
+		delete(p, k)
+	}
 	// Sort the properties into a stable order -- this is important for
 	// stability in comparisons such as LessThan in order to be able to
 	// easily explain the "in property lexicographical" order.

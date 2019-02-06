@@ -45,6 +45,7 @@ import (
 	propertynext "github.com/go-fed/activity/streams/impl/activitystreams/property_next"
 	propertyobject "github.com/go-fed/activity/streams/impl/activitystreams/property_object"
 	propertyoneof "github.com/go-fed/activity/streams/impl/activitystreams/property_oneof"
+	propertyordereditems "github.com/go-fed/activity/streams/impl/activitystreams/property_ordereditems"
 	propertyorigin "github.com/go-fed/activity/streams/impl/activitystreams/property_origin"
 	propertyoutbox "github.com/go-fed/activity/streams/impl/activitystreams/property_outbox"
 	propertypartof "github.com/go-fed/activity/streams/impl/activitystreams/property_partof"
@@ -1141,6 +1142,19 @@ func (this Manager) DeserializeOrderedCollectionActivityStreams() func(map[strin
 func (this Manager) DeserializeOrderedCollectionPageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OrderedCollectionPageInterface, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.OrderedCollectionPageInterface, error) {
 		i, err := typeorderedcollectionpage.DeserializeOrderedCollectionPage(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializeOrderedItemsPropertyActivityStreams returns the deserialization
+// method for the "OrderedItemsPropertyInterface" non-functional property in
+// the vocabulary "ActivityStreams"
+func (this Manager) DeserializeOrderedItemsPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OrderedItemsPropertyInterface, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.OrderedItemsPropertyInterface, error) {
+		i, err := propertyordereditems.DeserializeOrderedItemsProperty(m, aliasMap)
 		if i == nil {
 			return nil, err
 		}

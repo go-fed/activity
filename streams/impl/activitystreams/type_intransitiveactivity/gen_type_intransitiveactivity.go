@@ -46,7 +46,6 @@ type IntransitiveActivity struct {
 	Location     vocab.LocationPropertyInterface
 	MediaType    vocab.MediaTypePropertyInterface
 	Name         vocab.NamePropertyInterface
-	Object       vocab.ObjectPropertyInterface
 	Origin       vocab.OriginPropertyInterface
 	Preview      vocab.PreviewPropertyInterface
 	Published    vocab.PublishedPropertyInterface
@@ -212,11 +211,6 @@ func DeserializeIntransitiveActivity(m map[string]interface{}, aliasMap map[stri
 	} else if p != nil {
 		this.Name = p
 	}
-	if p, err := mgr.DeserializeObjectPropertyActivityStreams()(m, aliasMap); err != nil {
-		return nil, err
-	} else if p != nil {
-		this.Object = p
-	}
 	if p, err := mgr.DeserializeOriginPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -335,8 +329,6 @@ func DeserializeIntransitiveActivity(m map[string]interface{}, aliasMap map[stri
 		} else if k == "mediaType" {
 			continue
 		} else if k == "name" {
-			continue
-		} else if k == "object" {
 			continue
 		} else if k == "origin" {
 			continue
@@ -533,11 +525,6 @@ func (this IntransitiveActivity) GetName() vocab.NamePropertyInterface {
 	return this.Name
 }
 
-// GetObject returns the "object" property if it exists, and nil otherwise.
-func (this IntransitiveActivity) GetObject() vocab.ObjectPropertyInterface {
-	return this.Object
-}
-
 // GetOrigin returns the "origin" property if it exists, and nil otherwise.
 func (this IntransitiveActivity) GetOrigin() vocab.OriginPropertyInterface {
 	return this.Origin
@@ -652,7 +639,6 @@ func (this IntransitiveActivity) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Location, m)
 	m = this.helperJSONLDContext(this.MediaType, m)
 	m = this.helperJSONLDContext(this.Name, m)
-	m = this.helperJSONLDContext(this.Object, m)
 	m = this.helperJSONLDContext(this.Origin, m)
 	m = this.helperJSONLDContext(this.Preview, m)
 	m = this.helperJSONLDContext(this.Published, m)
@@ -971,20 +957,6 @@ func (this IntransitiveActivity) LessThan(o vocab.IntransitiveActivityInterface)
 	} // Else: Both are nil
 	// Compare property "name"
 	if lhs, rhs := this.Name, o.GetName(); lhs != nil && rhs != nil {
-		if lhs.LessThan(rhs) {
-			return true
-		} else if rhs.LessThan(lhs) {
-			return false
-		}
-	} else if lhs == nil && rhs != nil {
-		// Nil is less than anything else
-		return true
-	} else if rhs != nil && rhs == nil {
-		// Anything else is greater than nil
-		return false
-	} // Else: Both are nil
-	// Compare property "object"
-	if lhs, rhs := this.Object, o.GetObject(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1392,14 +1364,6 @@ func (this IntransitiveActivity) Serialize() (map[string]interface{}, error) {
 			m[this.Name.Name()] = i
 		}
 	}
-	// Maybe serialize property "object"
-	if this.Object != nil {
-		if i, err := this.Object.Serialize(); err != nil {
-			return nil, err
-		} else if i != nil {
-			m[this.Object.Name()] = i
-		}
-	}
 	// Maybe serialize property "origin"
 	if this.Origin != nil {
 		if i, err := this.Origin.Serialize(); err != nil {
@@ -1635,11 +1599,6 @@ func (this *IntransitiveActivity) SetMediaType(i vocab.MediaTypePropertyInterfac
 // SetName returns the "name" property if it exists, and nil otherwise.
 func (this *IntransitiveActivity) SetName(i vocab.NamePropertyInterface) {
 	this.Name = i
-}
-
-// SetObject returns the "object" property if it exists, and nil otherwise.
-func (this *IntransitiveActivity) SetObject(i vocab.ObjectPropertyInterface) {
-	this.Object = i
 }
 
 // SetOrigin returns the "origin" property if it exists, and nil otherwise.

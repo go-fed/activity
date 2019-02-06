@@ -75,8 +75,6 @@ type IntransitiveActivityInterface interface {
 	GetMediaType() MediaTypePropertyInterface
 	// GetName returns the "name" property if it exists, and nil otherwise.
 	GetName() NamePropertyInterface
-	// GetObject returns the "object" property if it exists, and nil otherwise.
-	GetObject() ObjectPropertyInterface
 	// GetOrigin returns the "origin" property if it exists, and nil otherwise.
 	GetOrigin() OriginPropertyInterface
 	// GetPreview returns the "preview" property if it exists, and nil
@@ -189,8 +187,6 @@ type IntransitiveActivityInterface interface {
 	SetMediaType(i MediaTypePropertyInterface)
 	// SetName returns the "name" property if it exists, and nil otherwise.
 	SetName(i NamePropertyInterface)
-	// SetObject returns the "object" property if it exists, and nil otherwise.
-	SetObject(i ObjectPropertyInterface)
 	// SetOrigin returns the "origin" property if it exists, and nil otherwise.
 	SetOrigin(i OriginPropertyInterface)
 	// SetPreview returns the "preview" property if it exists, and nil

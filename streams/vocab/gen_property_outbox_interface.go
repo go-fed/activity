@@ -28,21 +28,34 @@ import "net/url"
 //     "type": "Person"
 //   }
 type OutboxPropertyInterface interface {
-	// Clear ensures no value of this property is set. Calling
-	// IsOrderedCollection afterwards will return false.
+	// Clear ensures no value of this property is set. Calling HasAny or any
+	// of the 'Is' methods afterwards will return false.
 	Clear()
-	// Get returns the value of this property. When IsOrderedCollection
-	// returns false, Get will return any arbitrary value.
-	Get() OrderedCollectionInterface
 	// GetIRI returns the IRI of this property. When IsIRI returns false,
-	// GetIRI will return any arbitrary value.
+	// GetIRI will return an arbitrary value.
 	GetIRI() *url.URL
-	// HasAny returns true if the value or IRI is set.
+	// GetOrderedCollection returns the value of this property. When
+	// IsOrderedCollection returns false, GetOrderedCollection will return
+	// an arbitrary value.
+	GetOrderedCollection() OrderedCollectionInterface
+	// GetOrderedCollectionPage returns the value of this property. When
+	// IsOrderedCollectionPage returns false, GetOrderedCollectionPage
+	// will return an arbitrary value.
+	GetOrderedCollectionPage() OrderedCollectionPageInterface
+	// HasAny returns true if any of the different values is set.
 	HasAny() bool
-	// IsIRI returns true if this property is an IRI.
+	// IsIRI returns true if this property is an IRI. When true, use GetIRI
+	// and SetIRI to access and set this property
 	IsIRI() bool
-	// IsOrderedCollection returns true if this property is set and not an IRI.
+	// IsOrderedCollection returns true if this property has a type of
+	// "OrderedCollection". When true, use the GetOrderedCollection and
+	// SetOrderedCollection methods to access and set this property.
 	IsOrderedCollection() bool
+	// IsOrderedCollectionPage returns true if this property has a type of
+	// "OrderedCollectionPage". When true, use the
+	// GetOrderedCollectionPage and SetOrderedCollectionPage methods to
+	// access and set this property.
+	IsOrderedCollectionPage() bool
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or
@@ -65,10 +78,13 @@ type OutboxPropertyInterface interface {
 	// instead of individual properties. It is exposed for alternatives to
 	// go-fed implementations to use.
 	Serialize() (interface{}, error)
-	// Set sets the value of this property. Calling IsOrderedCollection
-	// afterwards will return true.
-	Set(v OrderedCollectionInterface)
-	// SetIRI sets the value of this property. Calling IsIRI afterwards will
-	// return true.
+	// SetIRI sets the value of this property. Calling IsIRI afterwards
+	// returns true.
 	SetIRI(v *url.URL)
+	// SetOrderedCollection sets the value of this property. Calling
+	// IsOrderedCollection afterwards returns true.
+	SetOrderedCollection(v OrderedCollectionInterface)
+	// SetOrderedCollectionPage sets the value of this property. Calling
+	// IsOrderedCollectionPage afterwards returns true.
+	SetOrderedCollectionPage(v OrderedCollectionPageInterface)
 }

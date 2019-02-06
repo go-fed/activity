@@ -2,9 +2,9 @@ package vocab
 
 import "net/url"
 
-// ItemsPropertyIteratorInterface represents a single value for the "items"
-// property.
-type ItemsPropertyIteratorInterface interface {
+// OrderedItemsPropertyIteratorInterface represents a single value for the
+// "orderedItems" property.
+type OrderedItemsPropertyIteratorInterface interface {
 	// GetAccept returns the value of this property. When IsAccept returns
 	// false, GetAccept will return an arbitrary value.
 	GetAccept() AcceptInterface
@@ -400,14 +400,14 @@ type ItemsPropertyIteratorInterface interface {
 	// stable comparison. Applications should not use this because it is
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
-	LessThan(o ItemsPropertyIteratorInterface) bool
-	// Name returns the name of this property: "items".
+	LessThan(o OrderedItemsPropertyIteratorInterface) bool
+	// Name returns the name of this property: "orderedItems".
 	Name() string
 	// Next returns the next iterator, or nil if there is no next iterator.
-	Next() ItemsPropertyIteratorInterface
+	Next() OrderedItemsPropertyIteratorInterface
 	// Prev returns the previous iterator, or nil if there is no previous
 	// iterator.
-	Prev() ItemsPropertyIteratorInterface
+	Prev() OrderedItemsPropertyIteratorInterface
 	// SetAccept sets the value of this property. Calling IsAccept afterwards
 	// returns true.
 	SetAccept(v AcceptInterface)
@@ -575,238 +575,257 @@ type ItemsPropertyIteratorInterface interface {
 	SetView(v ViewInterface)
 }
 
-// Identifies the items contained in a collection. The items might be ordered or
-// unordered.
+// Identifies the items contained in an ordered collection. The items are ordered.
 //
-// Example 89 (https://www.w3.org/TR/activitystreams-vocabulary/#ex91-jsonld):
+// Example 90 (https://www.w3.org/TR/activitystreams-vocabulary/#ex92-jsonld):
 //   {
-//     "items": [
+//     "orderedItems": [
 //       {
-//         "name": "Reminder for Going-Away Party",
+//         "name": "Meeting 2016-11-17",
 //         "type": "Note"
 //       },
 //       {
-//         "name": "Meeting 2016-11-17",
+//         "name": "Reminder for Going-Away Party",
 //         "type": "Note"
 //       }
 //     ],
 //     "summary": "Sally's notes",
 //     "totalItems": 2,
-//     "type": "Collection"
+//     "type": "OrderedCollection"
 //   }
-type ItemsPropertyInterface interface {
+type OrderedItemsPropertyInterface interface {
 	// AppendAccept appends a Accept value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendAccept(v AcceptInterface)
 	// AppendActivity appends a Activity value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendActivity(v ActivityInterface)
 	// AppendAdd appends a Add value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendAdd(v AddInterface)
 	// AppendAnnounce appends a Announce value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendAnnounce(v AnnounceInterface)
 	// AppendApplication appends a Application value to the back of a list of
-	// the property "items". Invalidates iterators that are traversing
-	// using Prev.
+	// the property "orderedItems". Invalidates iterators that are
+	// traversing using Prev.
 	AppendApplication(v ApplicationInterface)
 	// AppendArrive appends a Arrive value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendArrive(v ArriveInterface)
 	// AppendArticle appends a Article value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendArticle(v ArticleInterface)
 	// AppendAudio appends a Audio value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendAudio(v AudioInterface)
 	// AppendBlock appends a Block value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendBlock(v BlockInterface)
 	// AppendCollection appends a Collection value to the back of a list of
-	// the property "items". Invalidates iterators that are traversing
-	// using Prev.
+	// the property "orderedItems". Invalidates iterators that are
+	// traversing using Prev.
 	AppendCollection(v CollectionInterface)
 	// AppendCollectionPage appends a CollectionPage value to the back of a
-	// list of the property "items". Invalidates iterators that are
+	// list of the property "orderedItems". Invalidates iterators that are
 	// traversing using Prev.
 	AppendCollectionPage(v CollectionPageInterface)
 	// AppendCreate appends a Create value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendCreate(v CreateInterface)
 	// AppendDelete appends a Delete value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendDelete(v DeleteInterface)
 	// AppendDislike appends a Dislike value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendDislike(v DislikeInterface)
 	// AppendDocument appends a Document value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendDocument(v DocumentInterface)
 	// AppendEvent appends a Event value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendEvent(v EventInterface)
 	// AppendFlag appends a Flag value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendFlag(v FlagInterface)
 	// AppendFollow appends a Follow value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendFollow(v FollowInterface)
 	// AppendGroup appends a Group value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendGroup(v GroupInterface)
 	// AppendIRI appends an IRI value to the back of a list of the property
-	// "items"
+	// "orderedItems"
 	AppendIRI(v *url.URL)
 	// AppendIgnore appends a Ignore value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendIgnore(v IgnoreInterface)
 	// AppendImage appends a Image value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendImage(v ImageInterface)
 	// AppendIntransitiveActivity appends a IntransitiveActivity value to the
-	// back of a list of the property "items". Invalidates iterators that
-	// are traversing using Prev.
+	// back of a list of the property "orderedItems". Invalidates
+	// iterators that are traversing using Prev.
 	AppendIntransitiveActivity(v IntransitiveActivityInterface)
 	// AppendInvite appends a Invite value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendInvite(v InviteInterface)
 	// AppendJoin appends a Join value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendJoin(v JoinInterface)
 	// AppendLeave appends a Leave value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendLeave(v LeaveInterface)
 	// AppendLike appends a Like value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendLike(v LikeInterface)
 	// AppendLink appends a Link value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendLink(v LinkInterface)
 	// AppendListen appends a Listen value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendListen(v ListenInterface)
 	// AppendMention appends a Mention value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendMention(v MentionInterface)
 	// AppendMove appends a Move value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendMove(v MoveInterface)
 	// AppendNote appends a Note value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendNote(v NoteInterface)
 	// AppendObject appends a Object value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendObject(v ObjectInterface)
 	// AppendOffer appends a Offer value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendOffer(v OfferInterface)
 	// AppendOrderedCollection appends a OrderedCollection value to the back
-	// of a list of the property "items". Invalidates iterators that are
-	// traversing using Prev.
+	// of a list of the property "orderedItems". Invalidates iterators
+	// that are traversing using Prev.
 	AppendOrderedCollection(v OrderedCollectionInterface)
 	// AppendOrderedCollectionPage appends a OrderedCollectionPage value to
-	// the back of a list of the property "items". Invalidates iterators
-	// that are traversing using Prev.
+	// the back of a list of the property "orderedItems". Invalidates
+	// iterators that are traversing using Prev.
 	AppendOrderedCollectionPage(v OrderedCollectionPageInterface)
 	// AppendOrganization appends a Organization value to the back of a list
-	// of the property "items". Invalidates iterators that are traversing
-	// using Prev.
+	// of the property "orderedItems". Invalidates iterators that are
+	// traversing using Prev.
 	AppendOrganization(v OrganizationInterface)
 	// AppendPage appends a Page value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendPage(v PageInterface)
 	// AppendPerson appends a Person value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendPerson(v PersonInterface)
 	// AppendPlace appends a Place value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendPlace(v PlaceInterface)
 	// AppendProfile appends a Profile value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendProfile(v ProfileInterface)
 	// AppendQuestion appends a Question value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendQuestion(v QuestionInterface)
 	// AppendRead appends a Read value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendRead(v ReadInterface)
 	// AppendReject appends a Reject value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendReject(v RejectInterface)
 	// AppendRelationship appends a Relationship value to the back of a list
-	// of the property "items". Invalidates iterators that are traversing
-	// using Prev.
+	// of the property "orderedItems". Invalidates iterators that are
+	// traversing using Prev.
 	AppendRelationship(v RelationshipInterface)
 	// AppendRemove appends a Remove value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendRemove(v RemoveInterface)
 	// AppendService appends a Service value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendService(v ServiceInterface)
 	// AppendTentativeAccept appends a TentativeAccept value to the back of a
-	// list of the property "items". Invalidates iterators that are
+	// list of the property "orderedItems". Invalidates iterators that are
 	// traversing using Prev.
 	AppendTentativeAccept(v TentativeAcceptInterface)
 	// AppendTentativeReject appends a TentativeReject value to the back of a
-	// list of the property "items". Invalidates iterators that are
+	// list of the property "orderedItems". Invalidates iterators that are
 	// traversing using Prev.
 	AppendTentativeReject(v TentativeRejectInterface)
 	// AppendTombstone appends a Tombstone value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendTombstone(v TombstoneInterface)
 	// AppendTravel appends a Travel value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendTravel(v TravelInterface)
 	// AppendUndo appends a Undo value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendUndo(v UndoInterface)
 	// AppendUpdate appends a Update value to the back of a list of the
-	// property "items". Invalidates iterators that are traversing using
-	// Prev.
+	// property "orderedItems". Invalidates iterators that are traversing
+	// using Prev.
 	AppendUpdate(v UpdateInterface)
 	// AppendVideo appends a Video value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendVideo(v VideoInterface)
 	// AppendView appends a View value to the back of a list of the property
-	// "items". Invalidates iterators that are traversing using Prev.
+	// "orderedItems". Invalidates iterators that are traversing using
+	// Prev.
 	AppendView(v ViewInterface)
 	// At returns the property value for the specified index. Panics if the
 	// index is out of bounds.
-	At(index int) ItemsPropertyIteratorInterface
+	At(index int) OrderedItemsPropertyIteratorInterface
 	// Begin returns the first iterator, or nil if empty. Can be used with the
 	// iterator's Next method and this property's End method to iterate
 	// from front to back through all values.
-	Begin() ItemsPropertyIteratorInterface
+	Begin() OrderedItemsPropertyIteratorInterface
 	// Empty returns returns true if there are no elements.
 	Empty() bool
 	// End returns beyond-the-last iterator, which is nil. Can be used with
 	// the iterator's Next method and this property's Begin method to
 	// iterate from front to back through all values.
-	End() ItemsPropertyIteratorInterface
+	End() OrderedItemsPropertyIteratorInterface
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or
@@ -817,7 +836,8 @@ type ItemsPropertyInterface interface {
 	// implementations for go-fed. Applications should not use this
 	// method. Panics if the index is out of bounds.
 	KindIndex(idx int) int
-	// Len returns the number of values that exist for the "items" property.
+	// Len returns the number of values that exist for the "orderedItems"
+	// property.
 	Len() (length int)
 	// Less computes whether another property is less than this one. Mixing
 	// types results in a consistent but arbitrary ordering
@@ -826,179 +846,180 @@ type ItemsPropertyInterface interface {
 	// stable comparison. Applications should not use this because it is
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
-	LessThan(o ItemsPropertyInterface) bool
-	// Name returns the name of this property: "items".
+	LessThan(o OrderedItemsPropertyInterface) bool
+	// Name returns the name of this property: "orderedItems".
 	Name() string
 	// PrependAccept prepends a Accept value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependAccept(v AcceptInterface)
 	// PrependActivity prepends a Activity value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependActivity(v ActivityInterface)
 	// PrependAdd prepends a Add value to the front of a list of the property
-	// "items". Invalidates all iterators.
+	// "orderedItems". Invalidates all iterators.
 	PrependAdd(v AddInterface)
 	// PrependAnnounce prepends a Announce value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependAnnounce(v AnnounceInterface)
 	// PrependApplication prepends a Application value to the front of a list
-	// of the property "items". Invalidates all iterators.
+	// of the property "orderedItems". Invalidates all iterators.
 	PrependApplication(v ApplicationInterface)
 	// PrependArrive prepends a Arrive value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependArrive(v ArriveInterface)
 	// PrependArticle prepends a Article value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependArticle(v ArticleInterface)
 	// PrependAudio prepends a Audio value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependAudio(v AudioInterface)
 	// PrependBlock prepends a Block value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependBlock(v BlockInterface)
 	// PrependCollection prepends a Collection value to the front of a list of
-	// the property "items". Invalidates all iterators.
+	// the property "orderedItems". Invalidates all iterators.
 	PrependCollection(v CollectionInterface)
 	// PrependCollectionPage prepends a CollectionPage value to the front of a
-	// list of the property "items". Invalidates all iterators.
+	// list of the property "orderedItems". Invalidates all iterators.
 	PrependCollectionPage(v CollectionPageInterface)
 	// PrependCreate prepends a Create value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependCreate(v CreateInterface)
 	// PrependDelete prepends a Delete value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependDelete(v DeleteInterface)
 	// PrependDislike prepends a Dislike value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependDislike(v DislikeInterface)
 	// PrependDocument prepends a Document value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependDocument(v DocumentInterface)
 	// PrependEvent prepends a Event value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependEvent(v EventInterface)
 	// PrependFlag prepends a Flag value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependFlag(v FlagInterface)
 	// PrependFollow prepends a Follow value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependFollow(v FollowInterface)
 	// PrependGroup prepends a Group value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependGroup(v GroupInterface)
 	// PrependIRI prepends an IRI value to the front of a list of the property
-	// "items".
+	// "orderedItems".
 	PrependIRI(v *url.URL)
 	// PrependIgnore prepends a Ignore value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependIgnore(v IgnoreInterface)
 	// PrependImage prepends a Image value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependImage(v ImageInterface)
 	// PrependIntransitiveActivity prepends a IntransitiveActivity value to
-	// the front of a list of the property "items". Invalidates all
+	// the front of a list of the property "orderedItems". Invalidates all
 	// iterators.
 	PrependIntransitiveActivity(v IntransitiveActivityInterface)
 	// PrependInvite prepends a Invite value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependInvite(v InviteInterface)
 	// PrependJoin prepends a Join value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependJoin(v JoinInterface)
 	// PrependLeave prepends a Leave value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependLeave(v LeaveInterface)
 	// PrependLike prepends a Like value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependLike(v LikeInterface)
 	// PrependLink prepends a Link value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependLink(v LinkInterface)
 	// PrependListen prepends a Listen value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependListen(v ListenInterface)
 	// PrependMention prepends a Mention value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependMention(v MentionInterface)
 	// PrependMove prepends a Move value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependMove(v MoveInterface)
 	// PrependNote prepends a Note value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependNote(v NoteInterface)
 	// PrependObject prepends a Object value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependObject(v ObjectInterface)
 	// PrependOffer prepends a Offer value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependOffer(v OfferInterface)
 	// PrependOrderedCollection prepends a OrderedCollection value to the
-	// front of a list of the property "items". Invalidates all iterators.
+	// front of a list of the property "orderedItems". Invalidates all
+	// iterators.
 	PrependOrderedCollection(v OrderedCollectionInterface)
 	// PrependOrderedCollectionPage prepends a OrderedCollectionPage value to
-	// the front of a list of the property "items". Invalidates all
+	// the front of a list of the property "orderedItems". Invalidates all
 	// iterators.
 	PrependOrderedCollectionPage(v OrderedCollectionPageInterface)
 	// PrependOrganization prepends a Organization value to the front of a
-	// list of the property "items". Invalidates all iterators.
+	// list of the property "orderedItems". Invalidates all iterators.
 	PrependOrganization(v OrganizationInterface)
 	// PrependPage prepends a Page value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependPage(v PageInterface)
 	// PrependPerson prepends a Person value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependPerson(v PersonInterface)
 	// PrependPlace prepends a Place value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependPlace(v PlaceInterface)
 	// PrependProfile prepends a Profile value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependProfile(v ProfileInterface)
 	// PrependQuestion prepends a Question value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependQuestion(v QuestionInterface)
 	// PrependRead prepends a Read value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependRead(v ReadInterface)
 	// PrependReject prepends a Reject value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependReject(v RejectInterface)
 	// PrependRelationship prepends a Relationship value to the front of a
-	// list of the property "items". Invalidates all iterators.
+	// list of the property "orderedItems". Invalidates all iterators.
 	PrependRelationship(v RelationshipInterface)
 	// PrependRemove prepends a Remove value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependRemove(v RemoveInterface)
 	// PrependService prepends a Service value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependService(v ServiceInterface)
 	// PrependTentativeAccept prepends a TentativeAccept value to the front of
-	// a list of the property "items". Invalidates all iterators.
+	// a list of the property "orderedItems". Invalidates all iterators.
 	PrependTentativeAccept(v TentativeAcceptInterface)
 	// PrependTentativeReject prepends a TentativeReject value to the front of
-	// a list of the property "items". Invalidates all iterators.
+	// a list of the property "orderedItems". Invalidates all iterators.
 	PrependTentativeReject(v TentativeRejectInterface)
 	// PrependTombstone prepends a Tombstone value to the front of a list of
-	// the property "items". Invalidates all iterators.
+	// the property "orderedItems". Invalidates all iterators.
 	PrependTombstone(v TombstoneInterface)
 	// PrependTravel prepends a Travel value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependTravel(v TravelInterface)
 	// PrependUndo prepends a Undo value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependUndo(v UndoInterface)
 	// PrependUpdate prepends a Update value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependUpdate(v UpdateInterface)
 	// PrependVideo prepends a Video value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependVideo(v VideoInterface)
 	// PrependView prepends a View value to the front of a list of the
-	// property "items". Invalidates all iterators.
+	// property "orderedItems". Invalidates all iterators.
 	PrependView(v ViewInterface)
 	// Remove deletes an element at the specified index from a list of the
-	// property "items", regardless of its type. Panics if the index is
-	// out of bounds. Invalidates all iterators.
+	// property "orderedItems", regardless of its type. Panics if the
+	// index is out of bounds. Invalidates all iterators.
 	Remove(idx int)
 	// Serialize converts this into an interface representation suitable for
 	// marshalling into a text or binary format. Applications should not
@@ -1007,225 +1028,225 @@ type ItemsPropertyInterface interface {
 	// go-fed implementations to use.
 	Serialize() (interface{}, error)
 	// SetAccept sets a Accept value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetAccept(idx int, v AcceptInterface)
 	// SetActivity sets a Activity value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetActivity(idx int, v ActivityInterface)
 	// SetAdd sets a Add value to be at the specified index for the property
-	// "items". Panics if the index is out of bounds. Invalidates all
-	// iterators.
+	// "orderedItems". Panics if the index is out of bounds. Invalidates
+	// all iterators.
 	SetAdd(idx int, v AddInterface)
 	// SetAnnounce sets a Announce value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetAnnounce(idx int, v AnnounceInterface)
 	// SetApplication sets a Application value to be at the specified index
-	// for the property "items". Panics if the index is out of bounds.
-	// Invalidates all iterators.
+	// for the property "orderedItems". Panics if the index is out of
+	// bounds. Invalidates all iterators.
 	SetApplication(idx int, v ApplicationInterface)
 	// SetArrive sets a Arrive value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetArrive(idx int, v ArriveInterface)
 	// SetArticle sets a Article value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetArticle(idx int, v ArticleInterface)
 	// SetAudio sets a Audio value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetAudio(idx int, v AudioInterface)
 	// SetBlock sets a Block value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetBlock(idx int, v BlockInterface)
 	// SetCollection sets a Collection value to be at the specified index for
-	// the property "items". Panics if the index is out of bounds.
+	// the property "orderedItems". Panics if the index is out of bounds.
 	// Invalidates all iterators.
 	SetCollection(idx int, v CollectionInterface)
 	// SetCollectionPage sets a CollectionPage value to be at the specified
-	// index for the property "items". Panics if the index is out of
-	// bounds. Invalidates all iterators.
+	// index for the property "orderedItems". Panics if the index is out
+	// of bounds. Invalidates all iterators.
 	SetCollectionPage(idx int, v CollectionPageInterface)
 	// SetCreate sets a Create value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetCreate(idx int, v CreateInterface)
 	// SetDelete sets a Delete value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetDelete(idx int, v DeleteInterface)
 	// SetDislike sets a Dislike value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetDislike(idx int, v DislikeInterface)
 	// SetDocument sets a Document value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetDocument(idx int, v DocumentInterface)
 	// SetEvent sets a Event value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetEvent(idx int, v EventInterface)
 	// SetFlag sets a Flag value to be at the specified index for the property
-	// "items". Panics if the index is out of bounds. Invalidates all
-	// iterators.
+	// "orderedItems". Panics if the index is out of bounds. Invalidates
+	// all iterators.
 	SetFlag(idx int, v FlagInterface)
 	// SetFollow sets a Follow value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetFollow(idx int, v FollowInterface)
 	// SetGroup sets a Group value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetGroup(idx int, v GroupInterface)
 	// SetIRI sets an IRI value to be at the specified index for the property
-	// "items". Panics if the index is out of bounds.
+	// "orderedItems". Panics if the index is out of bounds.
 	SetIRI(idx int, v *url.URL)
 	// SetIgnore sets a Ignore value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetIgnore(idx int, v IgnoreInterface)
 	// SetImage sets a Image value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetImage(idx int, v ImageInterface)
 	// SetIntransitiveActivity sets a IntransitiveActivity value to be at the
-	// specified index for the property "items". Panics if the index is
-	// out of bounds. Invalidates all iterators.
+	// specified index for the property "orderedItems". Panics if the
+	// index is out of bounds. Invalidates all iterators.
 	SetIntransitiveActivity(idx int, v IntransitiveActivityInterface)
 	// SetInvite sets a Invite value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetInvite(idx int, v InviteInterface)
 	// SetJoin sets a Join value to be at the specified index for the property
-	// "items". Panics if the index is out of bounds. Invalidates all
-	// iterators.
+	// "orderedItems". Panics if the index is out of bounds. Invalidates
+	// all iterators.
 	SetJoin(idx int, v JoinInterface)
 	// SetLeave sets a Leave value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetLeave(idx int, v LeaveInterface)
 	// SetLike sets a Like value to be at the specified index for the property
-	// "items". Panics if the index is out of bounds. Invalidates all
-	// iterators.
+	// "orderedItems". Panics if the index is out of bounds. Invalidates
+	// all iterators.
 	SetLike(idx int, v LikeInterface)
 	// SetLink sets a Link value to be at the specified index for the property
-	// "items". Panics if the index is out of bounds. Invalidates all
-	// iterators.
+	// "orderedItems". Panics if the index is out of bounds. Invalidates
+	// all iterators.
 	SetLink(idx int, v LinkInterface)
 	// SetListen sets a Listen value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetListen(idx int, v ListenInterface)
 	// SetMention sets a Mention value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetMention(idx int, v MentionInterface)
 	// SetMove sets a Move value to be at the specified index for the property
-	// "items". Panics if the index is out of bounds. Invalidates all
-	// iterators.
+	// "orderedItems". Panics if the index is out of bounds. Invalidates
+	// all iterators.
 	SetMove(idx int, v MoveInterface)
 	// SetNote sets a Note value to be at the specified index for the property
-	// "items". Panics if the index is out of bounds. Invalidates all
-	// iterators.
+	// "orderedItems". Panics if the index is out of bounds. Invalidates
+	// all iterators.
 	SetNote(idx int, v NoteInterface)
 	// SetObject sets a Object value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetObject(idx int, v ObjectInterface)
 	// SetOffer sets a Offer value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetOffer(idx int, v OfferInterface)
 	// SetOrderedCollection sets a OrderedCollection value to be at the
-	// specified index for the property "items". Panics if the index is
-	// out of bounds. Invalidates all iterators.
+	// specified index for the property "orderedItems". Panics if the
+	// index is out of bounds. Invalidates all iterators.
 	SetOrderedCollection(idx int, v OrderedCollectionInterface)
 	// SetOrderedCollectionPage sets a OrderedCollectionPage value to be at
-	// the specified index for the property "items". Panics if the index
-	// is out of bounds. Invalidates all iterators.
+	// the specified index for the property "orderedItems". Panics if the
+	// index is out of bounds. Invalidates all iterators.
 	SetOrderedCollectionPage(idx int, v OrderedCollectionPageInterface)
 	// SetOrganization sets a Organization value to be at the specified index
-	// for the property "items". Panics if the index is out of bounds.
-	// Invalidates all iterators.
+	// for the property "orderedItems". Panics if the index is out of
+	// bounds. Invalidates all iterators.
 	SetOrganization(idx int, v OrganizationInterface)
 	// SetPage sets a Page value to be at the specified index for the property
-	// "items". Panics if the index is out of bounds. Invalidates all
-	// iterators.
+	// "orderedItems". Panics if the index is out of bounds. Invalidates
+	// all iterators.
 	SetPage(idx int, v PageInterface)
 	// SetPerson sets a Person value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetPerson(idx int, v PersonInterface)
 	// SetPlace sets a Place value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetPlace(idx int, v PlaceInterface)
 	// SetProfile sets a Profile value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetProfile(idx int, v ProfileInterface)
 	// SetQuestion sets a Question value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetQuestion(idx int, v QuestionInterface)
 	// SetRead sets a Read value to be at the specified index for the property
-	// "items". Panics if the index is out of bounds. Invalidates all
-	// iterators.
+	// "orderedItems". Panics if the index is out of bounds. Invalidates
+	// all iterators.
 	SetRead(idx int, v ReadInterface)
 	// SetReject sets a Reject value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetReject(idx int, v RejectInterface)
 	// SetRelationship sets a Relationship value to be at the specified index
-	// for the property "items". Panics if the index is out of bounds.
-	// Invalidates all iterators.
+	// for the property "orderedItems". Panics if the index is out of
+	// bounds. Invalidates all iterators.
 	SetRelationship(idx int, v RelationshipInterface)
 	// SetRemove sets a Remove value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetRemove(idx int, v RemoveInterface)
 	// SetService sets a Service value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetService(idx int, v ServiceInterface)
 	// SetTentativeAccept sets a TentativeAccept value to be at the specified
-	// index for the property "items". Panics if the index is out of
-	// bounds. Invalidates all iterators.
+	// index for the property "orderedItems". Panics if the index is out
+	// of bounds. Invalidates all iterators.
 	SetTentativeAccept(idx int, v TentativeAcceptInterface)
 	// SetTentativeReject sets a TentativeReject value to be at the specified
-	// index for the property "items". Panics if the index is out of
-	// bounds. Invalidates all iterators.
+	// index for the property "orderedItems". Panics if the index is out
+	// of bounds. Invalidates all iterators.
 	SetTentativeReject(idx int, v TentativeRejectInterface)
 	// SetTombstone sets a Tombstone value to be at the specified index for
-	// the property "items". Panics if the index is out of bounds.
+	// the property "orderedItems". Panics if the index is out of bounds.
 	// Invalidates all iterators.
 	SetTombstone(idx int, v TombstoneInterface)
 	// SetTravel sets a Travel value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetTravel(idx int, v TravelInterface)
 	// SetUndo sets a Undo value to be at the specified index for the property
-	// "items". Panics if the index is out of bounds. Invalidates all
-	// iterators.
+	// "orderedItems". Panics if the index is out of bounds. Invalidates
+	// all iterators.
 	SetUndo(idx int, v UndoInterface)
 	// SetUpdate sets a Update value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetUpdate(idx int, v UpdateInterface)
 	// SetVideo sets a Video value to be at the specified index for the
-	// property "items". Panics if the index is out of bounds. Invalidates
-	// all iterators.
+	// property "orderedItems". Panics if the index is out of bounds.
+	// Invalidates all iterators.
 	SetVideo(idx int, v VideoInterface)
 	// SetView sets a View value to be at the specified index for the property
-	// "items". Panics if the index is out of bounds. Invalidates all
-	// iterators.
+	// "orderedItems". Panics if the index is out of bounds. Invalidates
+	// all iterators.
 	SetView(idx int, v ViewInterface)
-	// Swap swaps the location of values at two indices for the "items"
+	// Swap swaps the location of values at two indices for the "orderedItems"
 	// property.
 	Swap(i, j int)
 }

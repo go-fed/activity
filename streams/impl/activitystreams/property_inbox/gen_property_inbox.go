@@ -6,13 +6,17 @@ import (
 	"net/url"
 )
 
-// InboxProperty is the functional property "inbox". It is permitted to be a
-// single nilable value type.
+// InboxProperty is the functional property "inbox". It is permitted to be one of
+// multiple value types. At most, one type of value can be present, or none at
+// all. Setting a value will clear the other types of values so that only one
+// of the 'Is' methods will return true. It is possible to clear all values,
+// so that this property is empty.
 type InboxProperty struct {
-	OrderedCollectionMember vocab.OrderedCollectionInterface
-	unknown                 interface{}
-	iri                     *url.URL
-	alias                   string
+	OrderedCollectionMember     vocab.OrderedCollectionInterface
+	OrderedCollectionPageMember vocab.OrderedCollectionPageInterface
+	unknown                     interface{}
+	iri                         *url.URL
+	alias                       string
 }
 
 // DeserializeInboxProperty creates a "inbox" property from an interface
@@ -47,6 +51,12 @@ func DeserializeInboxProperty(m map[string]interface{}, aliasMap map[string]stri
 					alias:                   alias,
 				}
 				return this, nil
+			} else if v, err := mgr.DeserializeOrderedCollectionPageActivityStreams()(m, aliasMap); err == nil {
+				this := &InboxProperty{
+					OrderedCollectionPageMember: v,
+					alias:                       alias,
+				}
+				return this, nil
 			}
 		}
 		this := &InboxProperty{
@@ -63,39 +73,60 @@ func NewInboxProperty() *InboxProperty {
 	return &InboxProperty{alias: ""}
 }
 
-// Clear ensures no value of this property is set. Calling IsOrderedCollection
-// afterwards will return false.
+// Clear ensures no value of this property is set. Calling HasAny or any of the
+// 'Is' methods afterwards will return false.
 func (this *InboxProperty) Clear() {
+	this.OrderedCollectionMember = nil
+	this.OrderedCollectionPageMember = nil
 	this.unknown = nil
 	this.iri = nil
-	this.OrderedCollectionMember = nil
-}
-
-// Get returns the value of this property. When IsOrderedCollection returns false,
-// Get will return any arbitrary value.
-func (this InboxProperty) Get() vocab.OrderedCollectionInterface {
-	return this.OrderedCollectionMember
 }
 
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
-// return any arbitrary value.
+// return an arbitrary value.
 func (this InboxProperty) GetIRI() *url.URL {
 	return this.iri
 }
 
-// HasAny returns true if the value or IRI is set.
-func (this InboxProperty) HasAny() bool {
-	return this.IsOrderedCollection() || this.iri != nil
+// GetOrderedCollection returns the value of this property. When
+// IsOrderedCollection returns false, GetOrderedCollection will return an
+// arbitrary value.
+func (this InboxProperty) GetOrderedCollection() vocab.OrderedCollectionInterface {
+	return this.OrderedCollectionMember
 }
 
-// IsIRI returns true if this property is an IRI.
+// GetOrderedCollectionPage returns the value of this property. When
+// IsOrderedCollectionPage returns false, GetOrderedCollectionPage will return
+// an arbitrary value.
+func (this InboxProperty) GetOrderedCollectionPage() vocab.OrderedCollectionPageInterface {
+	return this.OrderedCollectionPageMember
+}
+
+// HasAny returns true if any of the different values is set.
+func (this InboxProperty) HasAny() bool {
+	return this.IsOrderedCollection() ||
+		this.IsOrderedCollectionPage() ||
+		this.iri != nil
+}
+
+// IsIRI returns true if this property is an IRI. When true, use GetIRI and SetIRI
+// to access and set this property
 func (this InboxProperty) IsIRI() bool {
 	return this.iri != nil
 }
 
-// IsOrderedCollection returns true if this property is set and not an IRI.
+// IsOrderedCollection returns true if this property has a type of
+// "OrderedCollection". When true, use the GetOrderedCollection and
+// SetOrderedCollection methods to access and set this property.
 func (this InboxProperty) IsOrderedCollection() bool {
 	return this.OrderedCollectionMember != nil
+}
+
+// IsOrderedCollectionPage returns true if this property has a type of
+// "OrderedCollectionPage". When true, use the GetOrderedCollectionPage and
+// SetOrderedCollectionPage methods to access and set this property.
+func (this InboxProperty) IsOrderedCollectionPage() bool {
+	return this.OrderedCollectionPageMember != nil
 }
 
 // JSONLDContext returns the JSONLD URIs required in the context string for this
@@ -105,7 +136,9 @@ func (this InboxProperty) JSONLDContext() map[string]string {
 	m := map[string]string{"https://www.w3.org/TR/activitystreams-vocabulary": this.alias}
 	var child map[string]string
 	if this.IsOrderedCollection() {
-		child = this.Get().JSONLDContext()
+		child = this.GetOrderedCollection().JSONLDContext()
+	} else if this.IsOrderedCollectionPage() {
+		child = this.GetOrderedCollectionPage().JSONLDContext()
 	}
 	/*
 	   Since the literal maps in this function are determined at
@@ -125,6 +158,9 @@ func (this InboxProperty) KindIndex() int {
 	if this.IsOrderedCollection() {
 		return 0
 	}
+	if this.IsOrderedCollectionPage() {
+		return 1
+	}
 	if this.IsIRI() {
 		return -2
 	}
@@ -136,30 +172,20 @@ func (this InboxProperty) KindIndex() int {
 // help alternative implementations to go-fed to be able to normalize
 // nonfunctional properties.
 func (this InboxProperty) LessThan(o vocab.InboxPropertyInterface) bool {
-	// LessThan comparison for if either or both are IRIs.
-	if this.IsIRI() && o.IsIRI() {
-		return this.iri.String() < o.GetIRI().String()
+	idx1 := this.KindIndex()
+	idx2 := o.KindIndex()
+	if idx1 < idx2 {
+		return true
+	} else if idx1 > idx2 {
+		return false
+	} else if this.IsOrderedCollection() {
+		return this.GetOrderedCollection().LessThan(o.GetOrderedCollection())
+	} else if this.IsOrderedCollectionPage() {
+		return this.GetOrderedCollectionPage().LessThan(o.GetOrderedCollectionPage())
 	} else if this.IsIRI() {
-		// IRIs are always less than other values, none, or unknowns
-		return true
-	} else if o.IsIRI() {
-		// This other, none, or unknown value is always greater than IRIs
-		return false
+		return this.iri.String() < o.GetIRI().String()
 	}
-	// LessThan comparison for the single value or unknown value.
-	if !this.IsOrderedCollection() && !o.IsOrderedCollection() {
-		// Both are unknowns.
-		return false
-	} else if this.IsOrderedCollection() && !o.IsOrderedCollection() {
-		// Values are always greater than unknown values.
-		return false
-	} else if !this.IsOrderedCollection() && o.IsOrderedCollection() {
-		// Unknowns are always less than known values.
-		return true
-	} else {
-		// Actual comparison.
-		return this.Get().LessThan(o.Get())
-	}
+	return false
 }
 
 // Name returns the name of this property: "inbox".
@@ -173,23 +199,31 @@ func (this InboxProperty) Name() string {
 // properties. It is exposed for alternatives to go-fed implementations to use.
 func (this InboxProperty) Serialize() (interface{}, error) {
 	if this.IsOrderedCollection() {
-		return this.Get().Serialize()
+		return this.GetOrderedCollection().Serialize()
+	} else if this.IsOrderedCollectionPage() {
+		return this.GetOrderedCollectionPage().Serialize()
 	} else if this.IsIRI() {
 		return this.iri.String(), nil
 	}
 	return this.unknown, nil
 }
 
-// Set sets the value of this property. Calling IsOrderedCollection afterwards
-// will return true.
-func (this *InboxProperty) Set(v vocab.OrderedCollectionInterface) {
+// SetIRI sets the value of this property. Calling IsIRI afterwards returns true.
+func (this *InboxProperty) SetIRI(v *url.URL) {
+	this.Clear()
+	this.iri = v
+}
+
+// SetOrderedCollection sets the value of this property. Calling
+// IsOrderedCollection afterwards returns true.
+func (this *InboxProperty) SetOrderedCollection(v vocab.OrderedCollectionInterface) {
 	this.Clear()
 	this.OrderedCollectionMember = v
 }
 
-// SetIRI sets the value of this property. Calling IsIRI afterwards will return
-// true.
-func (this *InboxProperty) SetIRI(v *url.URL) {
+// SetOrderedCollectionPage sets the value of this property. Calling
+// IsOrderedCollectionPage afterwards returns true.
+func (this *InboxProperty) SetOrderedCollectionPage(v vocab.OrderedCollectionPageInterface) {
 	this.Clear()
-	this.iri = v
+	this.OrderedCollectionPageMember = v
 }

@@ -81,10 +81,6 @@ type privateManager interface {
 	// method for the "InReplyToPropertyInterface" non-functional property
 	// in the vocabulary "ActivityStreams"
 	DeserializeInReplyToPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.InReplyToPropertyInterface, error)
-	// DeserializeItemsPropertyActivityStreams returns the deserialization
-	// method for the "ItemsPropertyInterface" non-functional property in
-	// the vocabulary "ActivityStreams"
-	DeserializeItemsPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ItemsPropertyInterface, error)
 	// DeserializeLastPropertyActivityStreams returns the deserialization
 	// method for the "LastPropertyInterface" non-functional property in
 	// the vocabulary "ActivityStreams"
@@ -113,6 +109,10 @@ type privateManager interface {
 	// method for the "ObjectPropertyInterface" non-functional property in
 	// the vocabulary "ActivityStreams"
 	DeserializeObjectPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ObjectPropertyInterface, error)
+	// DeserializeOrderedItemsPropertyActivityStreams returns the
+	// deserialization method for the "OrderedItemsPropertyInterface"
+	// non-functional property in the vocabulary "ActivityStreams"
+	DeserializeOrderedItemsPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OrderedItemsPropertyInterface, error)
 	// DeserializePartOfPropertyActivityStreams returns the deserialization
 	// method for the "PartOfPropertyInterface" non-functional property in
 	// the vocabulary "ActivityStreams"

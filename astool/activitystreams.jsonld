@@ -837,7 +837,7 @@
             },
             "name": "Example 35"
           },
-          "notes": "Indicates that the actor is traveling to target from origin. Travel is an IntransitiveObject whose actor specifies the direct object. If the target or origin are not specified, either can be determined by context.",
+          "notes": "Indicates that the actor is traveling to target from origin. Travel is an IntransitiveActivity whose actor specifies the direct object. If the target or origin are not specified, either can be determined by context.",
           "subClassOf": {
             "type": "owl:Class",
             "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-intransitiveactivity",
@@ -1352,11 +1352,18 @@
             "name": "Example 8"
           },
           "notes": "Used to represent ordered subsets of items from an OrderedCollection. Refer to the Activity Streams 2.0 Core for a complete description of the OrderedCollectionPage object.",
-          "subClassOf": {
-            "type": "owl:Class",
-            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollection",
-            "name": "CollectionPage"
-          },
+          "subClassOf": [
+            {
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage",
+              "name": "CollectionPage"
+            },
+            {
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollection",
+              "name": "OrderedCollection"
+            }
+          ],
           "disjointWith": [],
           "name": "OrderedCollectionPage",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollectionpage"
@@ -2844,7 +2851,52 @@
                 "totalItems": 2
               },
               "name": "Example 89"
+            }
+          ],
+          "notes": "Identifies the items contained in a collection. The items might be ordered or unordered.",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": {
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
+              "name": "Collection"
+            }
+          },
+          "@wtf_without_property": [
+            {
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollection",
+              "name": "OrderedCollection"
             },
+            {
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollectionpage",
+              "name": "OrderedCollectionPage"
+            }
+          ],
+          "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-items",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "name": "Object"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "name": "Link"
+              }
+            ]
+          },
+          "name": "items",
+          "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-items"
+        },
+        {
+          "id": "https://www.w3.org/ns/activitystreams#orderedItems",
+          "type": "rdf:Property",
+          "example": [
             {
               "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex92-jsonld",
               "type": "http://schema.org/CreativeWork",
@@ -2866,16 +2918,16 @@
               "name": "Example 90"
             }
           ],
-          "notes": "Identifies the items contained in a collection. The items might be ordered or unordered.",
+          "notes": "Identifies the items contained in an ordered collection. The items are ordered.",
           "domain": {
             "type": "owl:Class",
             "unionOf": {
               "type": "owl:Class",
-              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection",
-              "name": "Collection"
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollection",
+              "name": "OrderedCollection"
             }
           },
-          "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-items",
+          "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedItems",
           "range": {
             "type": "owl:Class",
             "unionOf": [
@@ -2891,8 +2943,8 @@
               }
             ]
           },
-          "name": "items",
-          "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-items"
+          "name": "orderedItems",
+          "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedItems"
         },
         {
           "id": "https://www.w3.org/ns/activitystreams#oneOf",

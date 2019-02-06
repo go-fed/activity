@@ -67,8 +67,6 @@ type OrderedCollectionInterface interface {
 	// GetInReplyTo returns the "inReplyTo" property if it exists, and nil
 	// otherwise.
 	GetInReplyTo() InReplyToPropertyInterface
-	// GetItems returns the "items" property if it exists, and nil otherwise.
-	GetItems() ItemsPropertyInterface
 	// GetLast returns the "last" property if it exists, and nil otherwise.
 	GetLast() LastPropertyInterface
 	// GetLikes returns the "likes" property if it exists, and nil otherwise.
@@ -83,6 +81,9 @@ type OrderedCollectionInterface interface {
 	GetName() NamePropertyInterface
 	// GetObject returns the "object" property if it exists, and nil otherwise.
 	GetObject() ObjectPropertyInterface
+	// GetOrderedItems returns the "orderedItems" property if it exists, and
+	// nil otherwise.
+	GetOrderedItems() OrderedItemsPropertyInterface
 	// GetPreview returns the "preview" property if it exists, and nil
 	// otherwise.
 	GetPreview() PreviewPropertyInterface
@@ -182,8 +183,6 @@ type OrderedCollectionInterface interface {
 	// SetInReplyTo returns the "inReplyTo" property if it exists, and nil
 	// otherwise.
 	SetInReplyTo(i InReplyToPropertyInterface)
-	// SetItems returns the "items" property if it exists, and nil otherwise.
-	SetItems(i ItemsPropertyInterface)
 	// SetLast returns the "last" property if it exists, and nil otherwise.
 	SetLast(i LastPropertyInterface)
 	// SetLikes returns the "likes" property if it exists, and nil otherwise.
@@ -198,6 +197,9 @@ type OrderedCollectionInterface interface {
 	SetName(i NamePropertyInterface)
 	// SetObject returns the "object" property if it exists, and nil otherwise.
 	SetObject(i ObjectPropertyInterface)
+	// SetOrderedItems returns the "orderedItems" property if it exists, and
+	// nil otherwise.
+	SetOrderedItems(i OrderedItemsPropertyInterface)
 	// SetPreview returns the "preview" property if it exists, and nil
 	// otherwise.
 	SetPreview(i PreviewPropertyInterface)

@@ -44,13 +44,13 @@ type OrderedCollection struct {
 	Id           vocab.IdPropertyInterface
 	Image        vocab.ImagePropertyInterface
 	InReplyTo    vocab.InReplyToPropertyInterface
-	Items        vocab.ItemsPropertyInterface
 	Last         vocab.LastPropertyInterface
 	Likes        vocab.LikesPropertyInterface
 	Location     vocab.LocationPropertyInterface
 	MediaType    vocab.MediaTypePropertyInterface
 	Name         vocab.NamePropertyInterface
 	Object       vocab.ObjectPropertyInterface
+	OrderedItems vocab.OrderedItemsPropertyInterface
 	Preview      vocab.PreviewPropertyInterface
 	Published    vocab.PublishedPropertyInterface
 	Replies      vocab.RepliesPropertyInterface
@@ -194,11 +194,6 @@ func DeserializeOrderedCollection(m map[string]interface{}, aliasMap map[string]
 	} else if p != nil {
 		this.InReplyTo = p
 	}
-	if p, err := mgr.DeserializeItemsPropertyActivityStreams()(m, aliasMap); err != nil {
-		return nil, err
-	} else if p != nil {
-		this.Items = p
-	}
 	if p, err := mgr.DeserializeLastPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -228,6 +223,11 @@ func DeserializeOrderedCollection(m map[string]interface{}, aliasMap map[string]
 		return nil, err
 	} else if p != nil {
 		this.Object = p
+	}
+	if p, err := mgr.DeserializeOrderedItemsPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.OrderedItems = p
 	}
 	if p, err := mgr.DeserializePreviewPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -330,8 +330,6 @@ func DeserializeOrderedCollection(m map[string]interface{}, aliasMap map[string]
 			continue
 		} else if k == "inReplyTo" {
 			continue
-		} else if k == "items" {
-			continue
 		} else if k == "last" {
 			continue
 		} else if k == "likes" {
@@ -343,6 +341,8 @@ func DeserializeOrderedCollection(m map[string]interface{}, aliasMap map[string]
 		} else if k == "name" {
 			continue
 		} else if k == "object" {
+			continue
+		} else if k == "orderedItems" {
 			continue
 		} else if k == "preview" {
 			continue
@@ -415,7 +415,12 @@ func OrderedCollectionIsDisjointWith(other vocab.Type) bool {
 // OrderedCollectionIsExtendedBy returns true if the other provided type extends
 // from the OrderedCollection type.
 func OrderedCollectionIsExtendedBy(other vocab.Type) bool {
-	// Shortcut implementation: is not extended by anything.
+	extensions := []string{"OrderedCollectionPage"}
+	for _, ext := range extensions {
+		if ext == other.GetName() {
+			return true
+		}
+	}
 	return false
 }
 
@@ -510,11 +515,6 @@ func (this OrderedCollection) GetInReplyTo() vocab.InReplyToPropertyInterface {
 	return this.InReplyTo
 }
 
-// GetItems returns the "items" property if it exists, and nil otherwise.
-func (this OrderedCollection) GetItems() vocab.ItemsPropertyInterface {
-	return this.Items
-}
-
 // GetLast returns the "last" property if it exists, and nil otherwise.
 func (this OrderedCollection) GetLast() vocab.LastPropertyInterface {
 	return this.Last
@@ -543,6 +543,12 @@ func (this OrderedCollection) GetName() vocab.NamePropertyInterface {
 // GetObject returns the "object" property if it exists, and nil otherwise.
 func (this OrderedCollection) GetObject() vocab.ObjectPropertyInterface {
 	return this.Object
+}
+
+// GetOrderedItems returns the "orderedItems" property if it exists, and nil
+// otherwise.
+func (this OrderedCollection) GetOrderedItems() vocab.OrderedItemsPropertyInterface {
+	return this.OrderedItems
 }
 
 // GetPreview returns the "preview" property if it exists, and nil otherwise.
@@ -644,13 +650,13 @@ func (this OrderedCollection) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Id, m)
 	m = this.helperJSONLDContext(this.Image, m)
 	m = this.helperJSONLDContext(this.InReplyTo, m)
-	m = this.helperJSONLDContext(this.Items, m)
 	m = this.helperJSONLDContext(this.Last, m)
 	m = this.helperJSONLDContext(this.Likes, m)
 	m = this.helperJSONLDContext(this.Location, m)
 	m = this.helperJSONLDContext(this.MediaType, m)
 	m = this.helperJSONLDContext(this.Name, m)
 	m = this.helperJSONLDContext(this.Object, m)
+	m = this.helperJSONLDContext(this.OrderedItems, m)
 	m = this.helperJSONLDContext(this.Preview, m)
 	m = this.helperJSONLDContext(this.Published, m)
 	m = this.helperJSONLDContext(this.Replies, m)
@@ -923,20 +929,6 @@ func (this OrderedCollection) LessThan(o vocab.OrderedCollectionInterface) bool 
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
-	// Compare property "items"
-	if lhs, rhs := this.Items, o.GetItems(); lhs != nil && rhs != nil {
-		if lhs.LessThan(rhs) {
-			return true
-		} else if rhs.LessThan(lhs) {
-			return false
-		}
-	} else if lhs == nil && rhs != nil {
-		// Nil is less than anything else
-		return true
-	} else if rhs != nil && rhs == nil {
-		// Anything else is greater than nil
-		return false
-	} // Else: Both are nil
 	// Compare property "last"
 	if lhs, rhs := this.Last, o.GetLast(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -1009,6 +1001,20 @@ func (this OrderedCollection) LessThan(o vocab.OrderedCollectionInterface) bool 
 	} // Else: Both are nil
 	// Compare property "object"
 	if lhs, rhs := this.Object, o.GetObject(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "orderedItems"
+	if lhs, rhs := this.OrderedItems, o.GetOrderedItems(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1356,14 +1362,6 @@ func (this OrderedCollection) Serialize() (map[string]interface{}, error) {
 			m[this.InReplyTo.Name()] = i
 		}
 	}
-	// Maybe serialize property "items"
-	if this.Items != nil {
-		if i, err := this.Items.Serialize(); err != nil {
-			return nil, err
-		} else if i != nil {
-			m[this.Items.Name()] = i
-		}
-	}
 	// Maybe serialize property "last"
 	if this.Last != nil {
 		if i, err := this.Last.Serialize(); err != nil {
@@ -1410,6 +1408,14 @@ func (this OrderedCollection) Serialize() (map[string]interface{}, error) {
 			return nil, err
 		} else if i != nil {
 			m[this.Object.Name()] = i
+		}
+	}
+	// Maybe serialize property "orderedItems"
+	if this.OrderedItems != nil {
+		if i, err := this.OrderedItems.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.OrderedItems.Name()] = i
 		}
 	}
 	// Maybe serialize property "preview"
@@ -1613,11 +1619,6 @@ func (this *OrderedCollection) SetInReplyTo(i vocab.InReplyToPropertyInterface) 
 	this.InReplyTo = i
 }
 
-// SetItems returns the "items" property if it exists, and nil otherwise.
-func (this *OrderedCollection) SetItems(i vocab.ItemsPropertyInterface) {
-	this.Items = i
-}
-
 // SetLast returns the "last" property if it exists, and nil otherwise.
 func (this *OrderedCollection) SetLast(i vocab.LastPropertyInterface) {
 	this.Last = i
@@ -1646,6 +1647,12 @@ func (this *OrderedCollection) SetName(i vocab.NamePropertyInterface) {
 // SetObject returns the "object" property if it exists, and nil otherwise.
 func (this *OrderedCollection) SetObject(i vocab.ObjectPropertyInterface) {
 	this.Object = i
+}
+
+// SetOrderedItems returns the "orderedItems" property if it exists, and nil
+// otherwise.
+func (this *OrderedCollection) SetOrderedItems(i vocab.OrderedItemsPropertyInterface) {
+	this.OrderedItems = i
 }
 
 // SetPreview returns the "preview" property if it exists, and nil otherwise.

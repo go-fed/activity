@@ -7,7 +7,7 @@ import (
 )
 
 // Indicates that the actor is traveling to target from origin. Travel is an
-// IntransitiveObject whose actor specifies the direct object. If the target
+// IntransitiveActivity whose actor specifies the direct object. If the target
 // or origin are not specified, either can be determined by context.
 //
 // Example 35 (https://www.w3.org/TR/activitystreams-vocabulary/#ex169-jsonld):

@@ -45,6 +45,7 @@ import (
 	propertynext "github.com/go-fed/activity/streams/impl/activitystreams/property_next"
 	propertyobject "github.com/go-fed/activity/streams/impl/activitystreams/property_object"
 	propertyoneof "github.com/go-fed/activity/streams/impl/activitystreams/property_oneof"
+	propertyordereditems "github.com/go-fed/activity/streams/impl/activitystreams/property_ordereditems"
 	propertyorigin "github.com/go-fed/activity/streams/impl/activitystreams/property_origin"
 	propertyoutbox "github.com/go-fed/activity/streams/impl/activitystreams/property_outbox"
 	propertypartof "github.com/go-fed/activity/streams/impl/activitystreams/property_partof"
@@ -185,6 +186,7 @@ func init() {
 	propertynext.SetManager(mgr)
 	propertyobject.SetManager(mgr)
 	propertyoneof.SetManager(mgr)
+	propertyordereditems.SetManager(mgr)
 	propertyorigin.SetManager(mgr)
 	propertyoutbox.SetManager(mgr)
 	propertypartof.SetManager(mgr)

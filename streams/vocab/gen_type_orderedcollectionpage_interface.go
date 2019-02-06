@@ -69,8 +69,6 @@ type OrderedCollectionPageInterface interface {
 	// GetInReplyTo returns the "inReplyTo" property if it exists, and nil
 	// otherwise.
 	GetInReplyTo() InReplyToPropertyInterface
-	// GetItems returns the "items" property if it exists, and nil otherwise.
-	GetItems() ItemsPropertyInterface
 	// GetLast returns the "last" property if it exists, and nil otherwise.
 	GetLast() LastPropertyInterface
 	// GetLikes returns the "likes" property if it exists, and nil otherwise.
@@ -87,6 +85,9 @@ type OrderedCollectionPageInterface interface {
 	GetNext() NextPropertyInterface
 	// GetObject returns the "object" property if it exists, and nil otherwise.
 	GetObject() ObjectPropertyInterface
+	// GetOrderedItems returns the "orderedItems" property if it exists, and
+	// nil otherwise.
+	GetOrderedItems() OrderedItemsPropertyInterface
 	// GetPartOf returns the "partOf" property if it exists, and nil otherwise.
 	GetPartOf() PartOfPropertyInterface
 	// GetPrev returns the "prev" property if it exists, and nil otherwise.
@@ -193,8 +194,6 @@ type OrderedCollectionPageInterface interface {
 	// SetInReplyTo returns the "inReplyTo" property if it exists, and nil
 	// otherwise.
 	SetInReplyTo(i InReplyToPropertyInterface)
-	// SetItems returns the "items" property if it exists, and nil otherwise.
-	SetItems(i ItemsPropertyInterface)
 	// SetLast returns the "last" property if it exists, and nil otherwise.
 	SetLast(i LastPropertyInterface)
 	// SetLikes returns the "likes" property if it exists, and nil otherwise.
@@ -211,6 +210,9 @@ type OrderedCollectionPageInterface interface {
 	SetNext(i NextPropertyInterface)
 	// SetObject returns the "object" property if it exists, and nil otherwise.
 	SetObject(i ObjectPropertyInterface)
+	// SetOrderedItems returns the "orderedItems" property if it exists, and
+	// nil otherwise.
+	SetOrderedItems(i OrderedItemsPropertyInterface)
 	// SetPartOf returns the "partOf" property if it exists, and nil otherwise.
 	SetPartOf(i PartOfPropertyInterface)
 	// SetPrev returns the "prev" property if it exists, and nil otherwise.

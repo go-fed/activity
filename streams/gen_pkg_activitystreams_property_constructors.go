@@ -45,6 +45,7 @@ import (
 	propertynext "github.com/go-fed/activity/streams/impl/activitystreams/property_next"
 	propertyobject "github.com/go-fed/activity/streams/impl/activitystreams/property_object"
 	propertyoneof "github.com/go-fed/activity/streams/impl/activitystreams/property_oneof"
+	propertyordereditems "github.com/go-fed/activity/streams/impl/activitystreams/property_ordereditems"
 	propertyorigin "github.com/go-fed/activity/streams/impl/activitystreams/property_origin"
 	propertyoutbox "github.com/go-fed/activity/streams/impl/activitystreams/property_outbox"
 	propertypartof "github.com/go-fed/activity/streams/impl/activitystreams/property_partof"
@@ -294,6 +295,12 @@ func NewActivityStreamsObjectProperty() vocab.ObjectPropertyInterface {
 // NewActivityStreamsOneOfProperty creates a new OneOfPropertyInterface
 func NewActivityStreamsOneOfProperty() vocab.OneOfPropertyInterface {
 	return propertyoneof.NewOneOfProperty()
+}
+
+// NewActivityStreamsOrderedItemsProperty creates a new
+// OrderedItemsPropertyInterface
+func NewActivityStreamsOrderedItemsProperty() vocab.OrderedItemsPropertyInterface {
+	return propertyordereditems.NewOrderedItemsProperty()
 }
 
 // NewActivityStreamsOriginProperty creates a new OriginPropertyInterface
