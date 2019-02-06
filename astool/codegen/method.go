@@ -100,6 +100,16 @@ func (m Function) QualifiedName() *jen.Statement {
 	return m.qual.Clone()
 }
 
+// ToFunctionSignature obtains this function's FunctionSignature.
+func (m Function) ToFunctionSignature() FunctionSignature {
+	return FunctionSignature{
+		Name:    m.Name(),
+		Params:  m.params,
+		Ret:     m.ret,
+		Comment: m.comment,
+	}
+}
+
 // Method represents a method on a type, not a free function, for Go code to be
 // generated.
 type Method struct {

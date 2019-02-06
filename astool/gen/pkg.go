@@ -149,16 +149,28 @@ func (p Package) Parent() *PackageManager {
 }
 
 const (
-	managerInterfaceName   = "privateManager"
-	setManagerFunctionName = "SetManager"
+	managerInterfaceName           = "privateManager"
+	setManagerFunctionName         = "SetManager"
+	setTypePropertyConstructorName = "SetTypePropertyConstructor"
 )
 
 // TypePackageGenerator manages generating one-time files needed for types.
-type TypePackageGenerator struct{}
+type TypePackageGenerator struct {
+	typeVocabName string
+	m             *ManagerGenerator
+	typeProperty  *PropertyGenerator
+}
 
 // NewTypePackageGenerator creates a new TypePackageGenerator.
-func NewTypePackageGenerator() *TypePackageGenerator {
-	return &TypePackageGenerator{}
+func NewTypePackageGenerator(
+	typeVocabName string,
+	m *ManagerGenerator,
+	typeProperty *PropertyGenerator) *TypePackageGenerator {
+	return &TypePackageGenerator{
+		typeVocabName: typeVocabName,
+		m:             m,
+		typeProperty:  typeProperty,
+	}
 }
 
 // PublicDefinitions creates the public-facing code generated definitions needed
@@ -175,11 +187,12 @@ func (t *TypePackageGenerator) PublicDefinitions(tgs []*TypeGenerator) (typeI *c
 //
 // Precondition: The passed-in generators are the complete set of type
 // generators within a package. len(tgs) > 0
-func (t *TypePackageGenerator) PrivateDefinitions(tgs []*TypeGenerator) (mgrVar *jen.Statement, mgrI []*codegen.Interface, setMgrFn *codegen.Function) {
+func (t *TypePackageGenerator) PrivateDefinitions(tgs []*TypeGenerator) ([]*jen.Statement, []*codegen.Interface, []*codegen.Function) {
 	pkg := tgs[0].PrivatePackage()
 	s, i, f := privateManagerHookDefinitions(pkg, tgs, nil)
 	interfaces := []*codegen.Interface{i, ContextInterface(pkg)}
-	return s, interfaces, f
+	cv, setCv := privateTypePropertyConstructor(pkg, toPublicConstructor(t.typeVocabName, t.m, t.typeProperty))
+	return []*jen.Statement{s, cv}, interfaces, []*codegen.Function{f, setCv}
 }
 
 // PropertyPackageGenerator manages generating one-time files needed for
@@ -202,20 +215,31 @@ func (p *PropertyPackageGenerator) PrivateDefinitions(pgs []*PropertyGenerator) 
 
 // PackageGenerator maanges generating one-time files needed for both type and
 // property implementations.
-type PackageGenerator struct{}
-
-// NewPackageGenerator creates a new PackageGenerator.
-func NewPackageGenerator() *PackageGenerator {
-	return &PackageGenerator{}
+type PackageGenerator struct {
+	typeVocabName string
+	m             *ManagerGenerator
+	typeProperty  *PropertyGenerator
 }
 
+// NewPackageGenerator creates a new PackageGenerator.
+func NewPackageGenerator(typeVocabName string, m *ManagerGenerator, typeProperty *PropertyGenerator) *PackageGenerator {
+	return &PackageGenerator{
+		typeVocabName: typeVocabName,
+		m:             m,
+		typeProperty:  typeProperty,
+	}
+}
+
+// InitDefinitions returns the root init function needed to inject proper global
+// package-private variables needed at runtime. This is the dependency injection
+// into the implementation.
 func (t *PackageGenerator) InitDefinitions(pkg Package, tgs []*TypeGenerator, pgs []*PropertyGenerator) (globalManager *jen.Statement, init *codegen.Function) {
-	return genInit(pkg, tgs, pgs)
+	return genInit(pkg, tgs, pgs, toPublicConstructor(t.typeVocabName, t.m, t.typeProperty))
 }
 
 // RootDefinitions creates functions needed at the root level of the package declarations.
-func (t *PackageGenerator) RootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (typeCtors, propCtors, ext, disj, extBy []*codegen.Function) {
-	return rootDefinitions(vocabName, m, tgs, pgs)
+func (t *PackageGenerator) RootDefinitions(vocabName string, tgs []*TypeGenerator, pgs []*PropertyGenerator) (typeCtors, propCtors, ext, disj, extBy []*codegen.Function) {
+	return rootDefinitions(vocabName, t.m, tgs, pgs)
 }
 
 // PublicDefinitions creates the public-facing code generated definitions needed
@@ -232,7 +256,7 @@ func (t *PackageGenerator) PublicDefinitions(tgs []*TypeGenerator) *codegen.Inte
 //
 // Precondition: The passed-in generators are the complete set of type
 // generators within a package. One of tgs or pgs has at least one value.
-func (t *PackageGenerator) PrivateDefinitions(tgs []*TypeGenerator, pgs []*PropertyGenerator) (*jen.Statement, []*codegen.Interface, *codegen.Function) {
+func (t *PackageGenerator) PrivateDefinitions(tgs []*TypeGenerator, pgs []*PropertyGenerator) ([]*jen.Statement, []*codegen.Interface, []*codegen.Function) {
 	var pkg Package
 	if len(tgs) > 0 {
 		pkg = tgs[0].PrivatePackage()
@@ -241,7 +265,28 @@ func (t *PackageGenerator) PrivateDefinitions(tgs []*TypeGenerator, pgs []*Prope
 	}
 	s, i, f := privateManagerHookDefinitions(pkg, tgs, pgs)
 	interfaces := []*codegen.Interface{i, ContextInterface(pkg)}
-	return s, interfaces, f
+	cv, setCv := privateTypePropertyConstructor(pkg, toPublicConstructor(t.typeVocabName, t.m, t.typeProperty))
+	return []*jen.Statement{s, cv}, interfaces, []*codegen.Function{f, setCv}
+}
+
+// privateTypePropertyConstructor creates common code needed by types to hook
+// the type property constructor into this package at init time without
+// statically linking to a specific implementation.
+func privateTypePropertyConstructor(pkg Package, typePropertyConstructor *codegen.Function) (ctrVar *jen.Statement, setCtrVar *codegen.Function) {
+	sig := typePropertyConstructor.ToFunctionSignature().Signature()
+	ctrVar = jen.Var().Id(typePropertyConstructorName()).Add(sig)
+	setCtrVar = codegen.NewCommentedFunction(
+		pkg.Path(),
+		setTypePropertyConstructorName,
+		[]jen.Code{
+			jen.Id("f").Add(sig),
+		},
+		/*ret=*/ nil,
+		[]jen.Code{
+			jen.Id(typePropertyConstructorName()).Op("=").Id("f"),
+		},
+		fmt.Sprintf("%s sets the \"type\" property's constructor in the package-global variable. For internal use only, do not use as part of Application behavior. Must be called at golang init time. Permits ActivityStreams types to correctly set their \"type\" property at construction time, so users don't have to remember to do so each time. It is dependency injected so other go-fed compatible implementations could inject their own type.", setTypePropertyConstructorName))
+	return
 }
 
 // privateManagerHookDefinitions creates common code needed by types and
@@ -309,17 +354,7 @@ func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator
 	}
 	// Property Constructors
 	for _, pg := range pgs {
-		propCtors = append(propCtors, codegen.NewCommentedFunction(
-			m.pkg.Path(),
-			fmt.Sprintf("New%s%s", vocabName, pg.StructName()),
-			/*params=*/ nil,
-			[]jen.Code{jen.Qual(pg.GetPublicPackage().Path(), pg.InterfaceName())},
-			[]jen.Code{
-				jen.Return(
-					pg.ConstructorFn().Call(),
-				),
-			},
-			fmt.Sprintf("New%s%s creates a new %s", vocabName, pg.StructName(), pg.InterfaceName())))
+		propCtors = append(propCtors, toPublicConstructor(vocabName, m, pg))
 	}
 	// Extends
 	for _, tg := range tgs {
@@ -374,8 +409,11 @@ func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator
 
 // init generates the code that implements the init calls per-type and
 // per-property package, so that the Manager is injected at runtime.
-func genInit(pkg Package, tgs []*TypeGenerator, pgs []*PropertyGenerator) (globalManager *jen.Statement, init *codegen.Function) {
-	// init
+func genInit(pkg Package,
+	tgs []*TypeGenerator,
+	pgs []*PropertyGenerator,
+	typePropertyConstructor *codegen.Function) (globalManager *jen.Statement, init *codegen.Function) {
+	// manager dependency injection inits
 	globalManager = jen.Var().Id(managerInitName()).Op("*").Qual(pkg.Path(), managerName)
 	callInitsMap := make(map[string]jen.Code, len(tgs)+len(pgs))
 	callInitsSlice := make([]string, 0, len(tgs)+len(pgs))
@@ -398,6 +436,22 @@ func genInit(pkg Package, tgs []*TypeGenerator, pgs []*PropertyGenerator) (globa
 	for _, c := range callInitsSlice {
 		callInits = append(callInits, callInitsMap[c])
 	}
+	// type property constructor injection inits.
+	// Resets the inits map and slice from above, to
+	// keep appending to the callInits result.
+	callInitsMap = make(map[string]jen.Code, len(tgs))
+	callInitsSlice = make([]string, 0, len(tgs))
+	for _, tg := range tgs {
+		key := tg.PrivatePackage().Path()
+		callInitsMap[key] = jen.Qual(tg.PrivatePackage().Path(), setTypePropertyConstructorName).Call(
+			typePropertyConstructor.QualifiedName(),
+		)
+		callInitsSlice = append(callInitsSlice, key)
+	}
+	sort.Sort(sort.StringSlice(callInitsSlice))
+	for _, c := range callInitsSlice {
+		callInits = append(callInits, callInitsMap[c])
+	}
 	init = codegen.NewCommentedFunction(
 		pkg.Path(),
 		"init",
@@ -408,4 +462,20 @@ func genInit(pkg Package, tgs []*TypeGenerator, pgs []*PropertyGenerator) (globa
 		}, callInits...),
 		fmt.Sprintf("init handles the 'magic' of creating a %s and dependency-injecting it into every other code-generated package. This gives the implementations access to create any type needed to deserialize, without relying on the other specific concrete implementations. In order to replace a go-fed created type with your own, be sure to have the manager call your own implementation's deserialize functions instead of the built-in type. Finally, each implementation views the %s as an interface with only a subset of funcitons available. This means this %s implements the union of those interfaces.", managerName, managerName, managerName))
 	return
+}
+
+// toPublicConstructor creates a public constructor function for the given
+// property, vocab name, and manager.
+func toPublicConstructor(vocabName string, m *ManagerGenerator, pg *PropertyGenerator) *codegen.Function {
+	return codegen.NewCommentedFunction(
+		m.pkg.Path(),
+		fmt.Sprintf("New%s%s", vocabName, pg.StructName()),
+		/*params=*/ nil,
+		[]jen.Code{jen.Qual(pg.GetPublicPackage().Path(), pg.InterfaceName())},
+		[]jen.Code{
+			jen.Return(
+				pg.ConstructorFn().Call(),
+			),
+		},
+		fmt.Sprintf("New%s%s creates a new %s", vocabName, pg.StructName(), pg.InterfaceName()))
 }

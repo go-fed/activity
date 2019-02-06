@@ -32,6 +32,15 @@ type FunctionSignature struct {
 	Comment string
 }
 
+// Signature returns the uncommented raw signature.
+func (f FunctionSignature) Signature() jen.Code {
+	sig := jen.Func().Params(f.Params...)
+	if len(f.Ret) > 0 {
+		sig.Params(f.Ret...)
+	}
+	return sig
+}
+
 // Interface manages and generates a Golang interface definition.
 type Interface struct {
 	qual      *jen.Statement
