@@ -2,7 +2,6 @@ package typetravel
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -374,7 +373,7 @@ func DeserializeTravel(m map[string]interface{}, aliasMap map[string]string) (*T
 
 // NewTravel creates a new Travel type
 func NewTravel() *Travel {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Travel")
 	return &Travel{
 		Type:    typeProp,

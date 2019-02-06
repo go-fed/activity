@@ -2,7 +2,6 @@ package typeservice
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -384,7 +383,7 @@ func DeserializeService(m map[string]interface{}, aliasMap map[string]string) (*
 
 // NewService creates a new Service type
 func NewService() *Service {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Service")
 	return &Service{
 		Type:    typeProp,

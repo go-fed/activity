@@ -2,7 +2,6 @@ package typeperson
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -384,7 +383,7 @@ func DeserializePerson(m map[string]interface{}, aliasMap map[string]string) (*P
 
 // NewPerson creates a new Person type
 func NewPerson() *Person {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Person")
 	return &Person{
 		Type:    typeProp,

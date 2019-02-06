@@ -2,7 +2,6 @@ package typepage
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -329,7 +328,7 @@ func DeserializePage(m map[string]interface{}, aliasMap map[string]string) (*Pag
 
 // NewPage creates a new Page type
 func NewPage() *Page {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Page")
 	return &Page{
 		Type:    typeProp,

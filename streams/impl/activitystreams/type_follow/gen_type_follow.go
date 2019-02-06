@@ -2,7 +2,6 @@ package typefollow
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -409,7 +408,7 @@ func FollowIsExtendedBy(other vocab.Type) bool {
 
 // NewFollow creates a new Follow type
 func NewFollow() *Follow {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Follow")
 	return &Follow{
 		Type:    typeProp,

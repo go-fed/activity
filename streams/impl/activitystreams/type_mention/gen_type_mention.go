@@ -2,7 +2,6 @@ package typemention
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -192,7 +191,7 @@ func MentionIsExtendedBy(other vocab.Type) bool {
 
 // NewMention creates a new Mention type
 func NewMention() *Mention {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Mention")
 	return &Mention{
 		Type:    typeProp,

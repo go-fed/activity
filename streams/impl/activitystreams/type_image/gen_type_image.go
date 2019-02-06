@@ -2,7 +2,6 @@ package typeimage
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -370,7 +369,7 @@ func ImageIsExtendedBy(other vocab.Type) bool {
 
 // NewImage creates a new Image type
 func NewImage() *Image {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Image")
 	return &Image{
 		Type:    typeProp,

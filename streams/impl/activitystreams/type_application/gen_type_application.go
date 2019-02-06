@@ -2,7 +2,6 @@ package typeapplication
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -415,7 +414,7 @@ func DeserializeApplication(m map[string]interface{}, aliasMap map[string]string
 
 // NewApplication creates a new Application type
 func NewApplication() *Application {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Application")
 	return &Application{
 		Type:    typeProp,

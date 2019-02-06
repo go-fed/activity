@@ -2,7 +2,6 @@ package typetombstone
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -363,7 +362,7 @@ func DeserializeTombstone(m map[string]interface{}, aliasMap map[string]string) 
 
 // NewTombstone creates a new Tombstone type
 func NewTombstone() *Tombstone {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Tombstone")
 	return &Tombstone{
 		Type:    typeProp,

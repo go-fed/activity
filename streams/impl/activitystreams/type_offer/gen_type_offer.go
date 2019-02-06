@@ -2,7 +2,6 @@ package typeoffer
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -381,7 +380,7 @@ func DeserializeOffer(m map[string]interface{}, aliasMap map[string]string) (*Of
 
 // NewOffer creates a new Offer type
 func NewOffer() *Offer {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Offer")
 	return &Offer{
 		Type:    typeProp,

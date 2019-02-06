@@ -2,7 +2,6 @@ package typeintransitiveactivity
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -414,7 +413,7 @@ func IntransitiveActivityIsExtendedBy(other vocab.Type) bool {
 
 // NewIntransitiveActivity creates a new IntransitiveActivity type
 func NewIntransitiveActivity() *IntransitiveActivity {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("IntransitiveActivity")
 	return &IntransitiveActivity{
 		Type:    typeProp,

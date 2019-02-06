@@ -2,7 +2,6 @@ package typeobject
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -332,7 +331,7 @@ func DeserializeObject(m map[string]interface{}, aliasMap map[string]string) (*O
 
 // NewObject creates a new Object type
 func NewObject() *Object {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Object")
 	return &Object{
 		Type:    typeProp,

@@ -2,7 +2,6 @@ package typecollection
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -417,7 +416,7 @@ func DeserializeCollection(m map[string]interface{}, aliasMap map[string]string)
 
 // NewCollection creates a new Collection type
 func NewCollection() *Collection {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Collection")
 	return &Collection{
 		Type:    typeProp,

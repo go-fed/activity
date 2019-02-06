@@ -2,7 +2,6 @@ package typearrive
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -404,7 +403,7 @@ func DeserializeArrive(m map[string]interface{}, aliasMap map[string]string) (*A
 
 // NewArrive creates a new Arrive type
 func NewArrive() *Arrive {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Arrive")
 	return &Arrive{
 		Type:    typeProp,

@@ -4,6 +4,8 @@ import vocab "github.com/go-fed/activity/streams/vocab"
 
 var mgr privateManager
 
+var typePropertyConstructor func() vocab.TypePropertyInterface
+
 // privateManager abstracts the code-generated manager that provides access to
 // concrete implementations.
 type privateManager interface {
@@ -180,4 +182,15 @@ type jsonldContexter interface {
 // not use as part of Application behavior. Must be called at golang init time.
 func SetManager(m privateManager) {
 	mgr = m
+}
+
+// SetTypePropertyConstructor sets the "type" property's constructor in the
+// package-global variable. For internal use only, do not use as part of
+// Application behavior. Must be called at golang init time. Permits
+// ActivityStreams types to correctly set their "type" property at
+// construction time, so users don't have to remember to do so each time. It
+// is dependency injected so other go-fed compatible implementations could
+// inject their own type.
+func SetTypePropertyConstructor(f func() vocab.TypePropertyInterface) {
+	typePropertyConstructor = f
 }

@@ -2,7 +2,6 @@ package typearticle
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -361,7 +360,7 @@ func DeserializeArticle(m map[string]interface{}, aliasMap map[string]string) (*
 
 // NewArticle creates a new Article type
 func NewArticle() *Article {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Article")
 	return &Article{
 		Type:    typeProp,

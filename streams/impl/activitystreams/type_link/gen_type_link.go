@@ -2,7 +2,6 @@ package typelink
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -199,7 +198,7 @@ func LinkIsExtendedBy(other vocab.Type) bool {
 
 // NewLink creates a new Link type
 func NewLink() *Link {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Link")
 	return &Link{
 		Type:    typeProp,

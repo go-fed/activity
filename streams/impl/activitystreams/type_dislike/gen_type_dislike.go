@@ -2,7 +2,6 @@ package typedislike
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -400,7 +399,7 @@ func DislikeIsExtendedBy(other vocab.Type) bool {
 
 // NewDislike creates a new Dislike type
 func NewDislike() *Dislike {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Dislike")
 	return &Dislike{
 		Type:    typeProp,

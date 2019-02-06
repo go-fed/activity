@@ -2,7 +2,6 @@ package typeadd
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -430,7 +429,7 @@ func DeserializeAdd(m map[string]interface{}, aliasMap map[string]string) (*Add,
 
 // NewAdd creates a new Add type
 func NewAdd() *Add {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Add")
 	return &Add{
 		Type:    typeProp,

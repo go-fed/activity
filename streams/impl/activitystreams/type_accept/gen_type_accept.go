@@ -2,7 +2,6 @@ package typeaccept
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -435,7 +434,7 @@ func DeserializeAccept(m map[string]interface{}, aliasMap map[string]string) (*A
 
 // NewAccept creates a new Accept type
 func NewAccept() *Accept {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Accept")
 	return &Accept{
 		Type:    typeProp,

@@ -2,7 +2,6 @@ package typelike
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -404,7 +403,7 @@ func LikeIsExtendedBy(other vocab.Type) bool {
 
 // NewLike creates a new Like type
 func NewLike() *Like {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Like")
 	return &Like{
 		Type:    typeProp,

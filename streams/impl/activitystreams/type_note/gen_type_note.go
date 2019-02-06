@@ -2,7 +2,6 @@ package typenote
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -330,7 +329,7 @@ func DeserializeNote(m map[string]interface{}, aliasMap map[string]string) (*Not
 
 // NewNote creates a new Note type
 func NewNote() *Note {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Note")
 	return &Note{
 		Type:    typeProp,

@@ -2,7 +2,6 @@ package typetentativeaccept
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -380,7 +379,7 @@ func DeserializeTentativeAccept(m map[string]interface{}, aliasMap map[string]st
 
 // NewTentativeAccept creates a new TentativeAccept type
 func NewTentativeAccept() *TentativeAccept {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("TentativeAccept")
 	return &TentativeAccept{
 		Type:    typeProp,

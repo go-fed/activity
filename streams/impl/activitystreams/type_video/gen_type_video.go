@@ -2,7 +2,6 @@ package typevideo
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -330,7 +329,7 @@ func DeserializeVideo(m map[string]interface{}, aliasMap map[string]string) (*Vi
 
 // NewVideo creates a new Video type
 func NewVideo() *Video {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Video")
 	return &Video{
 		Type:    typeProp,

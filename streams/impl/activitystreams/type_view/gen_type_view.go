@@ -2,7 +2,6 @@ package typeview
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -376,7 +375,7 @@ func DeserializeView(m map[string]interface{}, aliasMap map[string]string) (*Vie
 
 // NewView creates a new View type
 func NewView() *View {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("View")
 	return &View{
 		Type:    typeProp,

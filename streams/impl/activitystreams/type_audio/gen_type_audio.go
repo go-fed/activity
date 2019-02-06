@@ -2,7 +2,6 @@ package typeaudio
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -363,7 +362,7 @@ func DeserializeAudio(m map[string]interface{}, aliasMap map[string]string) (*Au
 
 // NewAudio creates a new Audio type
 func NewAudio() *Audio {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Audio")
 	return &Audio{
 		Type:    typeProp,

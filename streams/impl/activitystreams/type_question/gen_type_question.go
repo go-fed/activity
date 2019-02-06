@@ -2,7 +2,6 @@ package typequestion
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -406,7 +405,7 @@ func DeserializeQuestion(m map[string]interface{}, aliasMap map[string]string) (
 
 // NewQuestion creates a new Question type
 func NewQuestion() *Question {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Question")
 	return &Question{
 		Type:    typeProp,

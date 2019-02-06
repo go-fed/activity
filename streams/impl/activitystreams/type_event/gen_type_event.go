@@ -2,7 +2,6 @@ package typeevent
 
 import (
 	"fmt"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"strings"
 )
@@ -360,7 +359,7 @@ func EventIsExtendedBy(other vocab.Type) bool {
 
 // NewEvent creates a new Event type
 func NewEvent() *Event {
-	typeProp := propertytype.NewTypeProperty()
+	typeProp := typePropertyConstructor()
 	typeProp.AppendString("Event")
 	return &Event{
 		Type:    typeProp,
