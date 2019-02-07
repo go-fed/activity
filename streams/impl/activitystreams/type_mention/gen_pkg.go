@@ -45,6 +45,10 @@ type privateManager interface {
 	// method for the "RelPropertyInterface" non-functional property in
 	// the vocabulary "ActivityStreams"
 	DeserializeRelPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.RelPropertyInterface, error)
+	// DeserializeSummaryPropertyActivityStreams returns the deserialization
+	// method for the "SummaryPropertyInterface" non-functional property
+	// in the vocabulary "ActivityStreams"
+	DeserializeSummaryPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.SummaryPropertyInterface, error)
 	// DeserializeTypePropertyActivityStreams returns the deserialization
 	// method for the "TypePropertyInterface" non-functional property in
 	// the vocabulary "ActivityStreams"

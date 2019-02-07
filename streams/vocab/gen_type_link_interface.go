@@ -39,6 +39,9 @@ type LinkInterface interface {
 	GetPreview() PreviewPropertyInterface
 	// GetRel returns the "rel" property if it exists, and nil otherwise.
 	GetRel() RelPropertyInterface
+	// GetSummary returns the "summary" property if it exists, and nil
+	// otherwise.
+	GetSummary() SummaryPropertyInterface
 	// GetType returns the "type" property if it exists, and nil otherwise.
 	GetType() TypePropertyInterface
 	// GetUnknownProperties returns the unknown properties for the Link type.
@@ -85,6 +88,9 @@ type LinkInterface interface {
 	SetPreview(i PreviewPropertyInterface)
 	// SetRel returns the "rel" property if it exists, and nil otherwise.
 	SetRel(i RelPropertyInterface)
+	// SetSummary returns the "summary" property if it exists, and nil
+	// otherwise.
+	SetSummary(i SummaryPropertyInterface)
 	// SetType returns the "type" property if it exists, and nil otherwise.
 	SetType(i TypePropertyInterface)
 	// SetWidth returns the "width" property if it exists, and nil otherwise.

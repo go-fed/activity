@@ -4000,11 +4000,18 @@
           "notes": "On a Link, specifies a hint as to the rendering height in device-independent pixels of the linked resource.",
           "domain": {
             "type": "owl:Class",
-            "unionOf": {
-              "type": "owl:Class",
-              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
-              "name": "Link"
-            }
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "name": "Link"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-image",
+                "name": "Image"
+              }
+            ]
           },
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-height",
           "range": {
@@ -4508,11 +4515,18 @@
           "notes": "A natural language summarization of the object encoded as HTML. Multiple language tagged summaries MAY be provided.",
           "domain": {
             "type": "owl:Class",
-            "unionOf": {
-              "type": "owl:Class",
-              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
-              "name": "Object"
-            }
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "name": "Object"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "name": "Link"
+              }
+            ]
           },
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-summary",
           "range": {
@@ -4662,11 +4676,18 @@
           "notes": "On a Link, specifies a hint as to the rendering width in device-independent pixels of the linked resource.",
           "domain": {
             "type": "owl:Class",
-            "unionOf": {
-              "type": "owl:Class",
-              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
-              "name": "Link"
-            }
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "name": "Link"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-image",
+                "name": "Image"
+              }
+            ]
           },
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-width",
           "range": {
@@ -4837,11 +4858,14 @@
           "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-formertype",
           "range": {
             "type": "owl:Class",
-            "unionOf": {
-              "type": "owl:Class",
-              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
-              "name": "Object"
-            }
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "name": "Object"
+              },
+              "xsd:string"
+            ]
           },
           "name": "formerType",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-formertype"

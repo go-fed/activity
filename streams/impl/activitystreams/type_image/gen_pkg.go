@@ -57,6 +57,10 @@ type privateManager interface {
 	// method for the "GeneratorPropertyInterface" non-functional property
 	// in the vocabulary "ActivityStreams"
 	DeserializeGeneratorPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.GeneratorPropertyInterface, error)
+	// DeserializeHeightPropertyActivityStreams returns the deserialization
+	// method for the "HeightPropertyInterface" non-functional property in
+	// the vocabulary "ActivityStreams"
+	DeserializeHeightPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.HeightPropertyInterface, error)
 	// DeserializeIconPropertyActivityStreams returns the deserialization
 	// method for the "IconPropertyInterface" non-functional property in
 	// the vocabulary "ActivityStreams"
@@ -137,6 +141,10 @@ type privateManager interface {
 	// method for the "UrlPropertyInterface" non-functional property in
 	// the vocabulary "ActivityStreams"
 	DeserializeUrlPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.UrlPropertyInterface, error)
+	// DeserializeWidthPropertyActivityStreams returns the deserialization
+	// method for the "WidthPropertyInterface" non-functional property in
+	// the vocabulary "ActivityStreams"
+	DeserializeWidthPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.WidthPropertyInterface, error)
 }
 
 // jsonldContexter is a private interface to determine the JSON-LD contexts and

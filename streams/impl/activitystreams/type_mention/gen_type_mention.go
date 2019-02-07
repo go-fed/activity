@@ -25,6 +25,7 @@ type Mention struct {
 	Name         vocab.NamePropertyInterface
 	Preview      vocab.PreviewPropertyInterface
 	Rel          vocab.RelPropertyInterface
+	Summary      vocab.SummaryPropertyInterface
 	Type         vocab.TypePropertyInterface
 	Width        vocab.WidthPropertyInterface
 	alias        string
@@ -113,6 +114,11 @@ func DeserializeMention(m map[string]interface{}, aliasMap map[string]string) (*
 	} else if p != nil {
 		this.Rel = p
 	}
+	if p, err := mgr.DeserializeSummaryPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Summary = p
+	}
 	if p, err := mgr.DeserializeTypePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -145,6 +151,8 @@ func DeserializeMention(m map[string]interface{}, aliasMap map[string]string) (*
 		} else if k == "preview" {
 			continue
 		} else if k == "rel" {
+			continue
+		} else if k == "summary" {
 			continue
 		} else if k == "type" {
 			continue
@@ -246,6 +254,11 @@ func (this Mention) GetRel() vocab.RelPropertyInterface {
 	return this.Rel
 }
 
+// GetSummary returns the "summary" property if it exists, and nil otherwise.
+func (this Mention) GetSummary() vocab.SummaryPropertyInterface {
+	return this.Summary
+}
+
 // GetType returns the "type" property if it exists, and nil otherwise.
 func (this Mention) GetType() vocab.TypePropertyInterface {
 	return this.Type
@@ -285,6 +298,7 @@ func (this Mention) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Name, m)
 	m = this.helperJSONLDContext(this.Preview, m)
 	m = this.helperJSONLDContext(this.Rel, m)
+	m = this.helperJSONLDContext(this.Summary, m)
 	m = this.helperJSONLDContext(this.Type, m)
 	m = this.helperJSONLDContext(this.Width, m)
 
@@ -421,6 +435,20 @@ func (this Mention) LessThan(o vocab.MentionInterface) bool {
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "summary"
+	if lhs, rhs := this.Summary, o.GetSummary(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "type"
 	if lhs, rhs := this.Type, o.GetType(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -544,6 +572,14 @@ func (this Mention) Serialize() (map[string]interface{}, error) {
 			m[this.Rel.Name()] = i
 		}
 	}
+	// Maybe serialize property "summary"
+	if this.Summary != nil {
+		if i, err := this.Summary.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Summary.Name()] = i
+		}
+	}
 	// Maybe serialize property "type"
 	if this.Type != nil {
 		if i, err := this.Type.Serialize(); err != nil {
@@ -618,6 +654,11 @@ func (this *Mention) SetPreview(i vocab.PreviewPropertyInterface) {
 // SetRel returns the "rel" property if it exists, and nil otherwise.
 func (this *Mention) SetRel(i vocab.RelPropertyInterface) {
 	this.Rel = i
+}
+
+// SetSummary returns the "summary" property if it exists, and nil otherwise.
+func (this *Mention) SetSummary(i vocab.SummaryPropertyInterface) {
+	this.Summary = i
 }
 
 // SetType returns the "type" property if it exists, and nil otherwise.

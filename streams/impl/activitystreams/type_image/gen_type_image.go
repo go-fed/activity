@@ -38,6 +38,7 @@ type Image struct {
 	Duration     vocab.DurationPropertyInterface
 	EndTime      vocab.EndTimePropertyInterface
 	Generator    vocab.GeneratorPropertyInterface
+	Height       vocab.HeightPropertyInterface
 	Icon         vocab.IconPropertyInterface
 	Id           vocab.IdPropertyInterface
 	Image        vocab.ImagePropertyInterface
@@ -58,6 +59,7 @@ type Image struct {
 	Type         vocab.TypePropertyInterface
 	Updated      vocab.UpdatedPropertyInterface
 	Url          vocab.UrlPropertyInterface
+	Width        vocab.WidthPropertyInterface
 	alias        string
 	unknown      map[string]interface{}
 }
@@ -159,6 +161,11 @@ func DeserializeImage(m map[string]interface{}, aliasMap map[string]string) (*Im
 	} else if p != nil {
 		this.Generator = p
 	}
+	if p, err := mgr.DeserializeHeightPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Height = p
+	}
 	if p, err := mgr.DeserializeIconPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -259,6 +266,11 @@ func DeserializeImage(m map[string]interface{}, aliasMap map[string]string) (*Im
 	} else if p != nil {
 		this.Url = p
 	}
+	if p, err := mgr.DeserializeWidthPropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.Width = p
+	}
 	// End: Known property deserialization
 
 	// Begin: Unknown deserialization
@@ -287,6 +299,8 @@ func DeserializeImage(m map[string]interface{}, aliasMap map[string]string) (*Im
 		} else if k == "endTime" {
 			continue
 		} else if k == "generator" {
+			continue
+		} else if k == "height" {
 			continue
 		} else if k == "icon" {
 			continue
@@ -327,6 +341,8 @@ func DeserializeImage(m map[string]interface{}, aliasMap map[string]string) (*Im
 		} else if k == "updated" {
 			continue
 		} else if k == "url" {
+			continue
+		} else if k == "width" {
 			continue
 		} // End: Code that ensures a property name is unknown
 
@@ -439,6 +455,11 @@ func (this Image) GetGenerator() vocab.GeneratorPropertyInterface {
 	return this.Generator
 }
 
+// GetHeight returns the "height" property if it exists, and nil otherwise.
+func (this Image) GetHeight() vocab.HeightPropertyInterface {
+	return this.Height
+}
+
 // GetIcon returns the "icon" property if it exists, and nil otherwise.
 func (this Image) GetIcon() vocab.IconPropertyInterface {
 	return this.Icon
@@ -549,6 +570,11 @@ func (this Image) GetUrl() vocab.UrlPropertyInterface {
 	return this.Url
 }
 
+// GetWidth returns the "width" property if it exists, and nil otherwise.
+func (this Image) GetWidth() vocab.WidthPropertyInterface {
+	return this.Width
+}
+
 // IsExtending returns true if the Image type extends from the other type.
 func (this Image) IsExtending(other vocab.Type) bool {
 	return ImageExtends(other)
@@ -571,6 +597,7 @@ func (this Image) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Duration, m)
 	m = this.helperJSONLDContext(this.EndTime, m)
 	m = this.helperJSONLDContext(this.Generator, m)
+	m = this.helperJSONLDContext(this.Height, m)
 	m = this.helperJSONLDContext(this.Icon, m)
 	m = this.helperJSONLDContext(this.Id, m)
 	m = this.helperJSONLDContext(this.Image, m)
@@ -591,6 +618,7 @@ func (this Image) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.Type, m)
 	m = this.helperJSONLDContext(this.Updated, m)
 	m = this.helperJSONLDContext(this.Url, m)
+	m = this.helperJSONLDContext(this.Width, m)
 
 	return m
 }
@@ -755,6 +783,20 @@ func (this Image) LessThan(o vocab.ImageInterface) bool {
 	} // Else: Both are nil
 	// Compare property "generator"
 	if lhs, rhs := this.Generator, o.GetGenerator(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "height"
+	if lhs, rhs := this.Height, o.GetHeight(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1047,6 +1089,20 @@ func (this Image) LessThan(o vocab.ImageInterface) bool {
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "width"
+	if lhs, rhs := this.Width, o.GetWidth(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// End: Compare known properties
 
 	// Begin: Compare unknown properties (only by number of them)
@@ -1164,6 +1220,14 @@ func (this Image) Serialize() (map[string]interface{}, error) {
 			return nil, err
 		} else if i != nil {
 			m[this.Generator.Name()] = i
+		}
+	}
+	// Maybe serialize property "height"
+	if this.Height != nil {
+		if i, err := this.Height.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Height.Name()] = i
 		}
 	}
 	// Maybe serialize property "icon"
@@ -1326,6 +1390,14 @@ func (this Image) Serialize() (map[string]interface{}, error) {
 			m[this.Url.Name()] = i
 		}
 	}
+	// Maybe serialize property "width"
+	if this.Width != nil {
+		if i, err := this.Width.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.Width.Name()] = i
+		}
+	}
 	// End: Serialize known properties
 
 	// Begin: Serialize unknown properties
@@ -1399,6 +1471,11 @@ func (this *Image) SetEndTime(i vocab.EndTimePropertyInterface) {
 // SetGenerator returns the "generator" property if it exists, and nil otherwise.
 func (this *Image) SetGenerator(i vocab.GeneratorPropertyInterface) {
 	this.Generator = i
+}
+
+// SetHeight returns the "height" property if it exists, and nil otherwise.
+func (this *Image) SetHeight(i vocab.HeightPropertyInterface) {
+	this.Height = i
 }
 
 // SetIcon returns the "icon" property if it exists, and nil otherwise.
@@ -1499,6 +1576,11 @@ func (this *Image) SetUpdated(i vocab.UpdatedPropertyInterface) {
 // SetUrl returns the "url" property if it exists, and nil otherwise.
 func (this *Image) SetUrl(i vocab.UrlPropertyInterface) {
 	this.Url = i
+}
+
+// SetWidth returns the "width" property if it exists, and nil otherwise.
+func (this *Image) SetWidth(i vocab.WidthPropertyInterface) {
+	this.Width = i
 }
 
 // helperJSONLDContext obtains the context uris and their aliases from a property,

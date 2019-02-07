@@ -53,6 +53,8 @@ type ImageInterface interface {
 	// GetGenerator returns the "generator" property if it exists, and nil
 	// otherwise.
 	GetGenerator() GeneratorPropertyInterface
+	// GetHeight returns the "height" property if it exists, and nil otherwise.
+	GetHeight() HeightPropertyInterface
 	// GetIcon returns the "icon" property if it exists, and nil otherwise.
 	GetIcon() IconPropertyInterface
 	// GetId returns the "id" property if it exists, and nil otherwise.
@@ -110,6 +112,8 @@ type ImageInterface interface {
 	GetUpdated() UpdatedPropertyInterface
 	// GetUrl returns the "url" property if it exists, and nil otherwise.
 	GetUrl() UrlPropertyInterface
+	// GetWidth returns the "width" property if it exists, and nil otherwise.
+	GetWidth() WidthPropertyInterface
 	// IsExtending returns true if the Image type extends from the other type.
 	IsExtending(other Type) bool
 	// JSONLDContext returns the JSONLD URIs required in the context string
@@ -155,6 +159,8 @@ type ImageInterface interface {
 	// SetGenerator returns the "generator" property if it exists, and nil
 	// otherwise.
 	SetGenerator(i GeneratorPropertyInterface)
+	// SetHeight returns the "height" property if it exists, and nil otherwise.
+	SetHeight(i HeightPropertyInterface)
 	// SetIcon returns the "icon" property if it exists, and nil otherwise.
 	SetIcon(i IconPropertyInterface)
 	// SetId returns the "id" property if it exists, and nil otherwise.
@@ -204,4 +210,6 @@ type ImageInterface interface {
 	SetUpdated(i UpdatedPropertyInterface)
 	// SetUrl returns the "url" property if it exists, and nil otherwise.
 	SetUrl(i UrlPropertyInterface)
+	// SetWidth returns the "width" property if it exists, and nil otherwise.
+	SetWidth(i WidthPropertyInterface)
 }

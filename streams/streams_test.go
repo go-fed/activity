@@ -292,11 +292,11 @@ func TestNulls(t *testing.T) {
 	// Variable to aid in deserialization in tests
 	var actual serializer
 	tables := []struct {
-		name     string
-		expected serializer
-		callback interface{}
-		input    string
-		inputWithoutNulls    string
+		name              string
+		expected          serializer
+		callback          interface{}
+		input             string
+		inputWithoutNulls string
 	}{
 		{
 			name:     "JSON nulls are not preserved",

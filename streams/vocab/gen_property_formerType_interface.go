@@ -144,6 +144,9 @@ type FormerTypePropertyIteratorInterface interface {
 	// GetService returns the value of this property. When IsService returns
 	// false, GetService will return an arbitrary value.
 	GetService() ServiceInterface
+	// GetString returns the value of this property. When IsString returns
+	// false, GetString will return an arbitrary value.
+	GetString() string
 	// GetTentativeAccept returns the value of this property. When
 	// IsTentativeAccept returns false, GetTentativeAccept will return an
 	// arbitrary value.
@@ -344,6 +347,10 @@ type FormerTypePropertyIteratorInterface interface {
 	// true, use the GetService and SetService methods to access and set
 	// this property.
 	IsService() bool
+	// IsString returns true if this property has a type of "string". When
+	// true, use the GetString and SetString methods to access and set
+	// this property.
+	IsString() bool
 	// IsTentativeAccept returns true if this property has a type of
 	// "TentativeAccept". When true, use the GetTentativeAccept and
 	// SetTentativeAccept methods to access and set this property.
@@ -530,6 +537,9 @@ type FormerTypePropertyIteratorInterface interface {
 	// SetService sets the value of this property. Calling IsService
 	// afterwards returns true.
 	SetService(v ServiceInterface)
+	// SetString sets the value of this property. Calling IsString afterwards
+	// returns true.
+	SetString(v string)
 	// SetTentativeAccept sets the value of this property. Calling
 	// IsTentativeAccept afterwards returns true.
 	SetTentativeAccept(v TentativeAcceptInterface)
@@ -730,6 +740,10 @@ type FormerTypePropertyInterface interface {
 	// property "formerType". Invalidates iterators that are traversing
 	// using Prev.
 	AppendService(v ServiceInterface)
+	// AppendString appends a string value to the back of a list of the
+	// property "formerType". Invalidates iterators that are traversing
+	// using Prev.
+	AppendString(v string)
 	// AppendTentativeAccept appends a TentativeAccept value to the back of a
 	// list of the property "formerType". Invalidates iterators that are
 	// traversing using Prev.
@@ -933,6 +947,9 @@ type FormerTypePropertyInterface interface {
 	// PrependService prepends a Service value to the front of a list of the
 	// property "formerType". Invalidates all iterators.
 	PrependService(v ServiceInterface)
+	// PrependString prepends a string value to the front of a list of the
+	// property "formerType". Invalidates all iterators.
+	PrependString(v string)
 	// PrependTentativeAccept prepends a TentativeAccept value to the front of
 	// a list of the property "formerType". Invalidates all iterators.
 	PrependTentativeAccept(v TentativeAcceptInterface)
@@ -1146,6 +1163,10 @@ type FormerTypePropertyInterface interface {
 	// property "formerType". Panics if the index is out of bounds.
 	// Invalidates all iterators.
 	SetService(idx int, v ServiceInterface)
+	// SetString sets a string value to be at the specified index for the
+	// property "formerType". Panics if the index is out of bounds.
+	// Invalidates all iterators.
+	SetString(idx int, v string)
 	// SetTentativeAccept sets a TentativeAccept value to be at the specified
 	// index for the property "formerType". Panics if the index is out of
 	// bounds. Invalidates all iterators.

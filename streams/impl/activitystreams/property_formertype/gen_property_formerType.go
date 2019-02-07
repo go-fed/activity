@@ -2,6 +2,7 @@ package propertyformertype
 
 import (
 	"fmt"
+	string1 "github.com/go-fed/activity/streams/values/string"
 	vocab "github.com/go-fed/activity/streams/vocab"
 	"net/url"
 )
@@ -13,6 +14,8 @@ import (
 // values, so that this property is empty.
 type FormerTypePropertyIterator struct {
 	ObjectMember                vocab.ObjectInterface
+	stringMember                string
+	hasStringMember             bool
 	AcceptMember                vocab.AcceptInterface
 	ActivityMember              vocab.ActivityInterface
 	AddMember                   vocab.AddInterface
@@ -410,6 +413,14 @@ func deserializeFormerTypePropertyIterator(i interface{}, aliasMap map[string]st
 			return this, nil
 		}
 	}
+	if v, err := string1.DeserializeString(i); err == nil {
+		this := &FormerTypePropertyIterator{
+			alias:           alias,
+			hasStringMember: true,
+			stringMember:    v,
+		}
+		return this, nil
+	}
 	this := &FormerTypePropertyIterator{
 		alias:   alias,
 		unknown: i,
@@ -691,6 +702,12 @@ func (this FormerTypePropertyIterator) GetService() vocab.ServiceInterface {
 	return this.ServiceMember
 }
 
+// GetString returns the value of this property. When IsString returns false,
+// GetString will return an arbitrary value.
+func (this FormerTypePropertyIterator) GetString() string {
+	return this.stringMember
+}
+
 // GetTentativeAccept returns the value of this property. When IsTentativeAccept
 // returns false, GetTentativeAccept will return an arbitrary value.
 func (this FormerTypePropertyIterator) GetTentativeAccept() vocab.TentativeAcceptInterface {
@@ -742,6 +759,7 @@ func (this FormerTypePropertyIterator) GetView() vocab.ViewInterface {
 // HasAny returns true if any of the different values is set.
 func (this FormerTypePropertyIterator) HasAny() bool {
 	return this.IsObject() ||
+		this.IsString() ||
 		this.IsAccept() ||
 		this.IsActivity() ||
 		this.IsAdd() ||
@@ -1074,6 +1092,12 @@ func (this FormerTypePropertyIterator) IsService() bool {
 	return this.ServiceMember != nil
 }
 
+// IsString returns true if this property has a type of "string". When true, use
+// the GetString and SetString methods to access and set this property.
+func (this FormerTypePropertyIterator) IsString() bool {
+	return this.hasStringMember
+}
+
 // IsTentativeAccept returns true if this property has a type of
 // "TentativeAccept". When true, use the GetTentativeAccept and
 // SetTentativeAccept methods to access and set this property.
@@ -1254,158 +1278,161 @@ func (this FormerTypePropertyIterator) KindIndex() int {
 	if this.IsObject() {
 		return 0
 	}
-	if this.IsAccept() {
+	if this.IsString() {
 		return 1
 	}
-	if this.IsActivity() {
+	if this.IsAccept() {
 		return 2
 	}
-	if this.IsAdd() {
+	if this.IsActivity() {
 		return 3
 	}
-	if this.IsAnnounce() {
+	if this.IsAdd() {
 		return 4
 	}
-	if this.IsApplication() {
+	if this.IsAnnounce() {
 		return 5
 	}
-	if this.IsArrive() {
+	if this.IsApplication() {
 		return 6
 	}
-	if this.IsArticle() {
+	if this.IsArrive() {
 		return 7
 	}
-	if this.IsAudio() {
+	if this.IsArticle() {
 		return 8
 	}
-	if this.IsBlock() {
+	if this.IsAudio() {
 		return 9
 	}
-	if this.IsCollection() {
+	if this.IsBlock() {
 		return 10
 	}
-	if this.IsCollectionPage() {
+	if this.IsCollection() {
 		return 11
 	}
-	if this.IsCreate() {
+	if this.IsCollectionPage() {
 		return 12
 	}
-	if this.IsDelete() {
+	if this.IsCreate() {
 		return 13
 	}
-	if this.IsDislike() {
+	if this.IsDelete() {
 		return 14
 	}
-	if this.IsDocument() {
+	if this.IsDislike() {
 		return 15
 	}
-	if this.IsEvent() {
+	if this.IsDocument() {
 		return 16
 	}
-	if this.IsFlag() {
+	if this.IsEvent() {
 		return 17
 	}
-	if this.IsFollow() {
+	if this.IsFlag() {
 		return 18
 	}
-	if this.IsGroup() {
+	if this.IsFollow() {
 		return 19
 	}
-	if this.IsIgnore() {
+	if this.IsGroup() {
 		return 20
 	}
-	if this.IsImage() {
+	if this.IsIgnore() {
 		return 21
 	}
-	if this.IsIntransitiveActivity() {
+	if this.IsImage() {
 		return 22
 	}
-	if this.IsInvite() {
+	if this.IsIntransitiveActivity() {
 		return 23
 	}
-	if this.IsJoin() {
+	if this.IsInvite() {
 		return 24
 	}
-	if this.IsLeave() {
+	if this.IsJoin() {
 		return 25
 	}
-	if this.IsLike() {
+	if this.IsLeave() {
 		return 26
 	}
-	if this.IsListen() {
+	if this.IsLike() {
 		return 27
 	}
-	if this.IsMove() {
+	if this.IsListen() {
 		return 28
 	}
-	if this.IsNote() {
+	if this.IsMove() {
 		return 29
 	}
-	if this.IsOffer() {
+	if this.IsNote() {
 		return 30
 	}
-	if this.IsOrderedCollection() {
+	if this.IsOffer() {
 		return 31
 	}
-	if this.IsOrderedCollectionPage() {
+	if this.IsOrderedCollection() {
 		return 32
 	}
-	if this.IsOrganization() {
+	if this.IsOrderedCollectionPage() {
 		return 33
 	}
-	if this.IsPage() {
+	if this.IsOrganization() {
 		return 34
 	}
-	if this.IsPerson() {
+	if this.IsPage() {
 		return 35
 	}
-	if this.IsPlace() {
+	if this.IsPerson() {
 		return 36
 	}
-	if this.IsProfile() {
+	if this.IsPlace() {
 		return 37
 	}
-	if this.IsQuestion() {
+	if this.IsProfile() {
 		return 38
 	}
-	if this.IsRead() {
+	if this.IsQuestion() {
 		return 39
 	}
-	if this.IsReject() {
+	if this.IsRead() {
 		return 40
 	}
-	if this.IsRelationship() {
+	if this.IsReject() {
 		return 41
 	}
-	if this.IsRemove() {
+	if this.IsRelationship() {
 		return 42
 	}
-	if this.IsService() {
+	if this.IsRemove() {
 		return 43
 	}
-	if this.IsTentativeAccept() {
+	if this.IsService() {
 		return 44
 	}
-	if this.IsTentativeReject() {
+	if this.IsTentativeAccept() {
 		return 45
 	}
-	if this.IsTombstone() {
+	if this.IsTentativeReject() {
 		return 46
 	}
-	if this.IsTravel() {
+	if this.IsTombstone() {
 		return 47
 	}
-	if this.IsUndo() {
+	if this.IsTravel() {
 		return 48
 	}
-	if this.IsUpdate() {
+	if this.IsUndo() {
 		return 49
 	}
-	if this.IsVideo() {
+	if this.IsUpdate() {
 		return 50
 	}
-	if this.IsView() {
+	if this.IsVideo() {
 		return 51
+	}
+	if this.IsView() {
+		return 52
 	}
 	if this.IsIRI() {
 		return -2
@@ -1426,6 +1453,8 @@ func (this FormerTypePropertyIterator) LessThan(o vocab.FormerTypePropertyIterat
 		return false
 	} else if this.IsObject() {
 		return this.GetObject().LessThan(o.GetObject())
+	} else if this.IsString() {
+		return string1.LessString(this.GetString(), o.GetString())
 	} else if this.IsAccept() {
 		return this.GetAccept().LessThan(o.GetAccept())
 	} else if this.IsActivity() {
@@ -1863,6 +1892,14 @@ func (this *FormerTypePropertyIterator) SetService(v vocab.ServiceInterface) {
 	this.ServiceMember = v
 }
 
+// SetString sets the value of this property. Calling IsString afterwards returns
+// true.
+func (this *FormerTypePropertyIterator) SetString(v string) {
+	this.clear()
+	this.stringMember = v
+	this.hasStringMember = true
+}
+
 // SetTentativeAccept sets the value of this property. Calling IsTentativeAccept
 // afterwards returns true.
 func (this *FormerTypePropertyIterator) SetTentativeAccept(v vocab.TentativeAcceptInterface) {
@@ -1921,6 +1958,7 @@ func (this *FormerTypePropertyIterator) SetView(v vocab.ViewInterface) {
 // 'Is' methods afterwards will return false.
 func (this *FormerTypePropertyIterator) clear() {
 	this.ObjectMember = nil
+	this.hasStringMember = false
 	this.AcceptMember = nil
 	this.ActivityMember = nil
 	this.AddMember = nil
@@ -1983,6 +2021,8 @@ func (this *FormerTypePropertyIterator) clear() {
 func (this FormerTypePropertyIterator) serialize() (interface{}, error) {
 	if this.IsObject() {
 		return this.GetObject().Serialize()
+	} else if this.IsString() {
+		return string1.SerializeString(this.GetString())
 	} else if this.IsAccept() {
 		return this.GetAccept().Serialize()
 	} else if this.IsActivity() {
@@ -2643,6 +2683,18 @@ func (this *FormerTypeProperty) AppendService(v vocab.ServiceInterface) {
 	})
 }
 
+// AppendString appends a string value to the back of a list of the property
+// "formerType". Invalidates iterators that are traversing using Prev.
+func (this *FormerTypeProperty) AppendString(v string) {
+	this.properties = append(this.properties, &FormerTypePropertyIterator{
+		alias:           this.alias,
+		hasStringMember: true,
+		myIdx:           this.Len(),
+		parent:          this,
+		stringMember:    v,
+	})
+}
+
 // AppendTentativeAccept appends a TentativeAccept value to the back of a list of
 // the property "formerType". Invalidates iterators that are traversing using
 // Prev.
@@ -2807,206 +2859,210 @@ func (this FormerTypeProperty) Less(i, j int) bool {
 			rhs := this.properties[j].GetObject()
 			return lhs.LessThan(rhs)
 		} else if idx1 == 1 {
+			lhs := this.properties[i].GetString()
+			rhs := this.properties[j].GetString()
+			return string1.LessString(lhs, rhs)
+		} else if idx1 == 2 {
 			lhs := this.properties[i].GetAccept()
 			rhs := this.properties[j].GetAccept()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 2 {
+		} else if idx1 == 3 {
 			lhs := this.properties[i].GetActivity()
 			rhs := this.properties[j].GetActivity()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 3 {
+		} else if idx1 == 4 {
 			lhs := this.properties[i].GetAdd()
 			rhs := this.properties[j].GetAdd()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 4 {
+		} else if idx1 == 5 {
 			lhs := this.properties[i].GetAnnounce()
 			rhs := this.properties[j].GetAnnounce()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 5 {
+		} else if idx1 == 6 {
 			lhs := this.properties[i].GetApplication()
 			rhs := this.properties[j].GetApplication()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 6 {
+		} else if idx1 == 7 {
 			lhs := this.properties[i].GetArrive()
 			rhs := this.properties[j].GetArrive()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 7 {
+		} else if idx1 == 8 {
 			lhs := this.properties[i].GetArticle()
 			rhs := this.properties[j].GetArticle()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 8 {
+		} else if idx1 == 9 {
 			lhs := this.properties[i].GetAudio()
 			rhs := this.properties[j].GetAudio()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 9 {
+		} else if idx1 == 10 {
 			lhs := this.properties[i].GetBlock()
 			rhs := this.properties[j].GetBlock()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 10 {
+		} else if idx1 == 11 {
 			lhs := this.properties[i].GetCollection()
 			rhs := this.properties[j].GetCollection()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 11 {
+		} else if idx1 == 12 {
 			lhs := this.properties[i].GetCollectionPage()
 			rhs := this.properties[j].GetCollectionPage()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 12 {
+		} else if idx1 == 13 {
 			lhs := this.properties[i].GetCreate()
 			rhs := this.properties[j].GetCreate()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 13 {
+		} else if idx1 == 14 {
 			lhs := this.properties[i].GetDelete()
 			rhs := this.properties[j].GetDelete()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 14 {
+		} else if idx1 == 15 {
 			lhs := this.properties[i].GetDislike()
 			rhs := this.properties[j].GetDislike()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 15 {
+		} else if idx1 == 16 {
 			lhs := this.properties[i].GetDocument()
 			rhs := this.properties[j].GetDocument()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 16 {
+		} else if idx1 == 17 {
 			lhs := this.properties[i].GetEvent()
 			rhs := this.properties[j].GetEvent()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 17 {
+		} else if idx1 == 18 {
 			lhs := this.properties[i].GetFlag()
 			rhs := this.properties[j].GetFlag()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 18 {
+		} else if idx1 == 19 {
 			lhs := this.properties[i].GetFollow()
 			rhs := this.properties[j].GetFollow()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 19 {
+		} else if idx1 == 20 {
 			lhs := this.properties[i].GetGroup()
 			rhs := this.properties[j].GetGroup()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 20 {
+		} else if idx1 == 21 {
 			lhs := this.properties[i].GetIgnore()
 			rhs := this.properties[j].GetIgnore()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 21 {
+		} else if idx1 == 22 {
 			lhs := this.properties[i].GetImage()
 			rhs := this.properties[j].GetImage()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 22 {
+		} else if idx1 == 23 {
 			lhs := this.properties[i].GetIntransitiveActivity()
 			rhs := this.properties[j].GetIntransitiveActivity()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 23 {
+		} else if idx1 == 24 {
 			lhs := this.properties[i].GetInvite()
 			rhs := this.properties[j].GetInvite()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 24 {
+		} else if idx1 == 25 {
 			lhs := this.properties[i].GetJoin()
 			rhs := this.properties[j].GetJoin()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 25 {
+		} else if idx1 == 26 {
 			lhs := this.properties[i].GetLeave()
 			rhs := this.properties[j].GetLeave()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 26 {
+		} else if idx1 == 27 {
 			lhs := this.properties[i].GetLike()
 			rhs := this.properties[j].GetLike()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 27 {
+		} else if idx1 == 28 {
 			lhs := this.properties[i].GetListen()
 			rhs := this.properties[j].GetListen()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 28 {
+		} else if idx1 == 29 {
 			lhs := this.properties[i].GetMove()
 			rhs := this.properties[j].GetMove()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 29 {
+		} else if idx1 == 30 {
 			lhs := this.properties[i].GetNote()
 			rhs := this.properties[j].GetNote()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 30 {
+		} else if idx1 == 31 {
 			lhs := this.properties[i].GetOffer()
 			rhs := this.properties[j].GetOffer()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 31 {
+		} else if idx1 == 32 {
 			lhs := this.properties[i].GetOrderedCollection()
 			rhs := this.properties[j].GetOrderedCollection()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 32 {
+		} else if idx1 == 33 {
 			lhs := this.properties[i].GetOrderedCollectionPage()
 			rhs := this.properties[j].GetOrderedCollectionPage()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 33 {
+		} else if idx1 == 34 {
 			lhs := this.properties[i].GetOrganization()
 			rhs := this.properties[j].GetOrganization()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 34 {
+		} else if idx1 == 35 {
 			lhs := this.properties[i].GetPage()
 			rhs := this.properties[j].GetPage()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 35 {
+		} else if idx1 == 36 {
 			lhs := this.properties[i].GetPerson()
 			rhs := this.properties[j].GetPerson()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 36 {
+		} else if idx1 == 37 {
 			lhs := this.properties[i].GetPlace()
 			rhs := this.properties[j].GetPlace()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 37 {
+		} else if idx1 == 38 {
 			lhs := this.properties[i].GetProfile()
 			rhs := this.properties[j].GetProfile()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 38 {
+		} else if idx1 == 39 {
 			lhs := this.properties[i].GetQuestion()
 			rhs := this.properties[j].GetQuestion()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 39 {
+		} else if idx1 == 40 {
 			lhs := this.properties[i].GetRead()
 			rhs := this.properties[j].GetRead()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 40 {
+		} else if idx1 == 41 {
 			lhs := this.properties[i].GetReject()
 			rhs := this.properties[j].GetReject()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 41 {
+		} else if idx1 == 42 {
 			lhs := this.properties[i].GetRelationship()
 			rhs := this.properties[j].GetRelationship()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 42 {
+		} else if idx1 == 43 {
 			lhs := this.properties[i].GetRemove()
 			rhs := this.properties[j].GetRemove()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 43 {
+		} else if idx1 == 44 {
 			lhs := this.properties[i].GetService()
 			rhs := this.properties[j].GetService()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 44 {
+		} else if idx1 == 45 {
 			lhs := this.properties[i].GetTentativeAccept()
 			rhs := this.properties[j].GetTentativeAccept()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 45 {
+		} else if idx1 == 46 {
 			lhs := this.properties[i].GetTentativeReject()
 			rhs := this.properties[j].GetTentativeReject()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 46 {
+		} else if idx1 == 47 {
 			lhs := this.properties[i].GetTombstone()
 			rhs := this.properties[j].GetTombstone()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 47 {
+		} else if idx1 == 48 {
 			lhs := this.properties[i].GetTravel()
 			rhs := this.properties[j].GetTravel()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 48 {
+		} else if idx1 == 49 {
 			lhs := this.properties[i].GetUndo()
 			rhs := this.properties[j].GetUndo()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 49 {
+		} else if idx1 == 50 {
 			lhs := this.properties[i].GetUpdate()
 			rhs := this.properties[j].GetUpdate()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 50 {
+		} else if idx1 == 51 {
 			lhs := this.properties[i].GetVideo()
 			rhs := this.properties[j].GetVideo()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 51 {
+		} else if idx1 == 52 {
 			lhs := this.properties[i].GetView()
 			rhs := this.properties[j].GetView()
 			return lhs.LessThan(rhs)
@@ -3669,6 +3725,21 @@ func (this *FormerTypeProperty) PrependService(v vocab.ServiceInterface) {
 		alias:         this.alias,
 		myIdx:         0,
 		parent:        this,
+	}}, this.properties...)
+	for i := 1; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// PrependString prepends a string value to the front of a list of the property
+// "formerType". Invalidates all iterators.
+func (this *FormerTypeProperty) PrependString(v string) {
+	this.properties = append([]*FormerTypePropertyIterator{{
+		alias:           this.alias,
+		hasStringMember: true,
+		myIdx:           0,
+		parent:          this,
+		stringMember:    v,
 	}}, this.properties...)
 	for i := 1; i < this.Len(); i++ {
 		(this.properties)[i].myIdx = i
@@ -4401,6 +4472,20 @@ func (this *FormerTypeProperty) SetService(idx int, v vocab.ServiceInterface) {
 		alias:         this.alias,
 		myIdx:         idx,
 		parent:        this,
+	}
+}
+
+// SetString sets a string value to be at the specified index for the property
+// "formerType". Panics if the index is out of bounds. Invalidates all
+// iterators.
+func (this *FormerTypeProperty) SetString(idx int, v string) {
+	(this.properties)[idx].parent = nil
+	(this.properties)[idx] = &FormerTypePropertyIterator{
+		alias:           this.alias,
+		hasStringMember: true,
+		myIdx:           idx,
+		parent:          this,
+		stringMember:    v,
 	}
 }
 
