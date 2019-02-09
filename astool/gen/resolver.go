@@ -231,10 +231,55 @@ func (r *ResolverGenerator) isUnFn() *codegen.Function {
 
 // jsonResolverMethods returns the methods for the TypeResolver.
 func (r *ResolverGenerator) jsonResolverMethods() (m []*codegen.Method) {
+	aliasToId := make(map[string]string)
+	aliasFetching := jen.Empty()
 	impl := jen.Empty()
-	for _, t := range r.types {
-		impl = impl.Case(
-			jen.Lit(t.TypeName()),
+	for i, t := range r.types {
+		if i > 0 {
+			impl = impl.Else()
+		}
+		// Get the vocab URI in http and https forms
+		vocabHttps := *t.vocabURI
+		vocabHttps.Scheme = "https"
+		vocabHttp := vocabHttps
+		vocabHttp.Scheme = "http"
+		// Determine if we've already generated the code for fetching
+		// the alias for this vocabulary.
+		if _, ok := aliasToId[vocabHttps.String()]; !ok {
+			// If not, generate the code.
+			vocabId := t.vocabName + "Alias"
+			aliasToId[vocabHttps.String()] = vocabId
+			aliasFetching = aliasFetching.Add(
+				jen.List(
+					jen.Id(vocabId),
+					jen.Id("ok"),
+				).Op(":=").Id("aliasMap").Index(
+					jen.Lit(vocabHttps.String()),
+				),
+			).Line().Add(
+				jen.If(
+					jen.Op("!").Id("ok"),
+				).Block(
+					jen.List(
+						jen.Id(vocabId),
+						jen.Id("_"),
+					).Op("=").Id("aliasMap").Index(
+						jen.Lit(vocabHttp.String()),
+					),
+				),
+			).Line().Add(
+				// If it is not empty post-pend with a ":".
+				jen.If(
+					jen.Len(jen.Id(vocabId)).Op(">").Lit(0),
+				).Block(
+					jen.Id(vocabId).Op("+=").Lit(":"),
+				),
+			).Line()
+		}
+		// Fetch the identifier holding the alias for this vocabulary,
+		aliasId := aliasToId[vocabHttps.String()]
+		impl = impl.If(
+			jen.Id("typeString").Op("==").Id(aliasId).Op("+").Lit(t.TypeName()),
 		).Block(
 			jen.List(
 				jen.Id("v"),
@@ -276,7 +321,7 @@ func (r *ResolverGenerator) jsonResolverMethods() (m []*codegen.Method) {
 			jen.Return(
 				jen.Id(errorNoMatch),
 			),
-		).Line()
+		)
 	}
 	m = append(m, codegen.NewCommentedValueMethod(
 		r.pkg.Path(),
@@ -321,11 +366,10 @@ func (r *ResolverGenerator) jsonResolverMethods() (m []*codegen.Method) {
 			jen.Id("handleFn").Op(":=").Func().Parens(
 				jen.Id("typeString").String(),
 			).Error().Block(
-				jen.Switch(jen.Id("typeString")).Block(
-					impl.Default().Block(
-						jen.Return(
-							jen.Id(errorUnhandled),
-						),
+				aliasFetching,
+				impl.Else().Block(
+					jen.Return(
+						jen.Id(errorUnhandled),
 					),
 				),
 			),
@@ -393,9 +437,14 @@ func (r *ResolverGenerator) jsonResolverMethods() (m []*codegen.Method) {
 // typeResolverMethods returns the methods for the TypeResolver.
 func (r *ResolverGenerator) typeResolverMethods() (m []*codegen.Method) {
 	impl := jen.Empty()
-	for _, t := range r.types {
-		impl = impl.Case(
-			jen.Lit(t.TypeName()),
+	for i, t := range r.types {
+		if i > 0 {
+			impl = impl.Else()
+		}
+		impl = impl.If(
+			jen.Id("o").Dot(vocabURIMethod).Call().Op("==").Lit(t.vocabURI.String()).Op(
+				"&&",
+			).Id("o").Dot(typeNameMethod).Call().Op("==").Lit(t.TypeName()),
 		).Block(
 			jen.If(
 				jen.List(
@@ -430,7 +479,7 @@ func (r *ResolverGenerator) typeResolverMethods() (m []*codegen.Method) {
 					),
 				),
 			),
-		).Line()
+		)
 	}
 	m = append(m, codegen.NewCommentedValueMethod(
 		r.pkg.Path(),
@@ -450,11 +499,9 @@ func (r *ResolverGenerator) typeResolverMethods() (m []*codegen.Method) {
 					jen.Id("i"),
 				).Op(":=").Range().Id(codegen.This()).Dot(callbackMember),
 			).Block(
-				jen.Switch(jen.Id("o").Dot(typeNameMethod).Call()).Block(
-					impl.Default().Block(
-						jen.Return(
-							jen.Id(errorUnhandled),
-						),
+				impl.Else().Block(
+					jen.Return(
+						jen.Id(errorUnhandled),
 					),
 				),
 			),
@@ -469,9 +516,14 @@ func (r *ResolverGenerator) typeResolverMethods() (m []*codegen.Method) {
 // typePredicatedResolverMethods returns the methods for the TypePredicatedResolver.
 func (r *ResolverGenerator) typePredicatedResolverMethods() (m []*codegen.Method) {
 	impl := jen.Empty()
-	for _, t := range r.types {
-		impl = impl.Case(
-			jen.Lit(t.TypeName()),
+	for i, t := range r.types {
+		if i > 0 {
+			impl = impl.Else()
+		}
+		impl = impl.If(
+			jen.Id("o").Dot(vocabURIMethod).Call().Op("==").Lit(t.vocabURI.String()).Op(
+				"&&",
+			).Id("o").Dot(typeNameMethod).Call().Op("==").Lit(t.TypeName()),
 		).Block(
 			jen.If(
 				jen.List(
@@ -518,7 +570,7 @@ func (r *ResolverGenerator) typePredicatedResolverMethods() (m []*codegen.Method
 					jen.Id(errorPredicateUnmatched),
 				),
 			),
-		).Line()
+		)
 	}
 	m = append(m, codegen.NewCommentedValueMethod(
 		r.pkg.Path(),
@@ -535,12 +587,10 @@ func (r *ResolverGenerator) typePredicatedResolverMethods() (m []*codegen.Method
 		[]jen.Code{
 			jen.Var().Id("predicatePasses").Bool(),
 			jen.Var().Err().Error(),
-			jen.Switch(jen.Id("o").Dot(typeNameMethod).Call()).Block(
-				impl.Default().Block(
-					jen.Return(
-						jen.False(),
-						jen.Id(errorUnhandled),
-					),
+			impl.Else().Block(
+				jen.Return(
+					jen.False(),
+					jen.Id(errorUnhandled),
 				),
 			),
 			jen.If(
@@ -725,6 +775,12 @@ func (r *ResolverGenerator) asInterface() *codegen.Interface {
 				Params:  nil,
 				Ret:     []jen.Code{jen.String()},
 				Comment: fmt.Sprintf("%s returns the ActiivtyStreams value's type.", typeNameMethod),
+			},
+			{
+				Name:    vocabURIMethod,
+				Params:  nil,
+				Ret:     []jen.Code{jen.String()},
+				Comment: fmt.Sprintf("%s returns the vocabulary's URI as a string.", vocabURIMethod),
 			},
 		},
 		fmt.Sprintf("%s represents any ActivityStream value code-generated by go-fed or compatible with the generated interfaces.", activityStreamInterface))

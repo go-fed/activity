@@ -5,6 +5,7 @@ import (
 	"github.com/dave/jennifer/jen"
 	"github.com/go-fed/activity/astool/codegen"
 	"net/url"
+	"strings"
 	"sync"
 )
 
@@ -104,7 +105,7 @@ func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codege
 
 // iteratorInterfaceName gets the interface name for the iterator.
 func (p *NonFunctionalPropertyGenerator) iteratorInterfaceName() string {
-	return fmt.Sprintf("%sInterface", p.iteratorTypeName().CamelName)
+	return fmt.Sprintf("%s", strings.Title(p.iteratorTypeName().CamelName))
 }
 
 // elementTypeGenerator produces a FunctionalPropertyGenerator for the iterator
@@ -143,7 +144,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			prependDict[k] = v
 		}
 		prependDict[jen.Id(myIndexMemberName)] = jen.Lit(0)
-		prependMethodName := fmt.Sprintf("%s%s", prependMethod, p.kindCamelName(i))
+		prependMethodName := fmt.Sprintf("%s%s%s", prependMethod, kind.Vocab, p.kindCamelName(i))
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
 				p.GetPrivatePackage().Path(),
@@ -175,7 +176,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			appendDict[k] = v
 		}
 		appendDict[jen.Id(myIndexMemberName)] = jen.Id(codegen.This()).Dot(lenMethod).Call()
-		appendMethodName := fmt.Sprintf("%s%s", appendMethod, p.kindCamelName(i))
+		appendMethodName := fmt.Sprintf("%s%s%s", appendMethod, kind.Vocab, p.kindCamelName(i))
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
 				p.GetPrivatePackage().Path(),

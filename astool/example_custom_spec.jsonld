@@ -112,6 +112,57 @@
       },
       "name": "customproperty",
       "url": "https://example.com/fake-vocabulary#dfn-customproperty"
+    },
+    {
+      "id": "https://example.com/fake-vocabulary#Update",
+      "type": "owl:Class",
+      "notes": "Collides with the ActivityStreams Update type.",
+      "subClassOf": {
+        "type": "owl:Class",
+        "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-activity",
+        "name": "as:Activity"
+      },
+      "disjointWith": [],
+      "name": "Update",
+      "url": "https://example.com/fake-vocabulary#dfn-update"
+    },
+    {
+      "id": "https://example.com/fake-vocabulary#accuracy",
+      "type": "rdf:Property",
+      "notes": "Collides with the ActivityStreams accuracy property",
+      "domain": {
+        "type": "owl:Class",
+        "unionOf": [
+          {
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-update",
+            "name": "as:Update"
+          },
+          {
+            "type": "owl:Class",
+            "url": "https://example.com/fake-vocabulary#dfn-update",
+            "name": "Update"
+          }
+        ]
+      },
+      "isDefinedBy": "https://example.com/fake-vocabulary#dfn-accuracy",
+      "range": {
+        "type": "owl:Class",
+        "unionOf": [
+          {
+            "type": "owl:Class",
+            "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-update",
+            "name": "as:Update"
+          },
+          {
+            "type": "owl:Class",
+            "url": "https://example.com/fake-vocabulary#dfn-update",
+            "name": "Update"
+          }
+        ]
+      },
+      "name": "accuracy",
+      "url": "https://example.com/fake-vocabulary#dfn-accuracy"
     }
   ]
 } 

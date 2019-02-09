@@ -46,8 +46,8 @@ const (
 	unknownMemberName = "unknown"
 	// Reference to the rdf:langString member! Kludge: both of these must be
 	// kept in sync with the generated code.
-	langMapMember       = "langStringMember"
-	isLanguageMapMethod = "IsLangString"
+	langMapMember       = "rdfLangStringMember"
+	isLanguageMapMethod = "IsRDFLangString"
 	// Kind Index constants
 	iriKindIndex           = -2
 	noneOrUnknownKindIndex = -1
@@ -82,7 +82,8 @@ type Identifier struct {
 //
 // Only represents values and other types.
 type Kind struct {
-	Name Identifier
+	Name  Identifier
+	Vocab string
 	// ConcreteKind is expected to be properly qualified.
 	ConcreteKind *jen.Statement
 	Nilable      bool
@@ -106,7 +107,7 @@ type Kind struct {
 }
 
 // NewKindForValue creates a Kind for a value type.
-func NewKindForValue(docName, idName string,
+func NewKindForValue(docName, idName, vocab string,
 	defType *jen.Statement,
 	isNilable, isURI bool,
 	serializeFn, deserializeFn, lessFn *codegen.Function) *Kind {
@@ -115,6 +116,7 @@ func NewKindForValue(docName, idName string,
 			LowerName: docName,
 			CamelName: idName,
 		},
+		Vocab:          vocab,
 		ConcreteKind:   defType,
 		Nilable:        isNilable,
 		IsURI:          isURI,
@@ -128,7 +130,7 @@ func NewKindForValue(docName, idName string,
 }
 
 // NewKindForType creates a Kind for an ActivitySteams type.
-func NewKindForType(docName, idName string) *Kind {
+func NewKindForType(docName, idName, vocab string) *Kind {
 	return &Kind{
 		// Name must use toIdentifier for vocabValuePackage and
 		// valuePackage to be the same.
@@ -136,6 +138,7 @@ func NewKindForType(docName, idName string) *Kind {
 			LowerName: docName,
 			CamelName: idName,
 		},
+		Vocab:   vocab,
 		Nilable: true,
 		IsURI:   false,
 		// Instead of populating:
@@ -236,9 +239,9 @@ func (p *PropertyGenerator) GetPublicPackage() Package {
 // The name parameter must match the LowerName of an Identifier.
 //
 // This feels very hacky.
-func (p *PropertyGenerator) SetKindFns(docName, idName string, qualKind *jen.Statement, deser *codegen.Method) error {
+func (p *PropertyGenerator) SetKindFns(docName, idName, vocab string, qualKind *jen.Statement, deser *codegen.Method) error {
 	for i, kind := range p.kinds {
-		if kind.Name.LowerName == docName {
+		if kind.Name.LowerName == docName && kind.Vocab == vocab {
 			if kind.SerializeFn != nil || kind.DeserializeFn != nil || kind.LessFn != nil {
 				return fmt.Errorf("property kind already has serialization functions set for %q: %s", docName, p.PropertyName())
 			}
@@ -252,7 +255,7 @@ func (p *PropertyGenerator) SetKindFns(docName, idName string, qualKind *jen.Sta
 	// In the case of extended types applying themselves to their parents'
 	// range, they will be missing from the property's kinds list. Append a
 	// new kind to handle this use case.
-	k := NewKindForType(docName, idName)
+	k := NewKindForType(docName, idName, vocab)
 	k.ConcreteKind = qualKind
 	k.DeserializeFn = deser.On(managerInitName())
 	p.managerMethods = append(p.managerMethods, deser)
@@ -272,26 +275,27 @@ func (p *PropertyGenerator) StructName() string {
 	if p.asIterator {
 		return p.name.CamelName
 	}
-	return fmt.Sprintf("%sProperty", p.name.CamelName)
+	return fmt.Sprintf("%s%sProperty", p.VocabName(), p.name.CamelName)
 }
 
 // iteratorTypeName determines the identifier to use for the iterator type.
 func (p *PropertyGenerator) iteratorTypeName() Identifier {
+	s := fmt.Sprintf("%s%s", p.VocabName(), p.name.CamelName)
 	return Identifier{
-		LowerName: p.name.LowerName,
-		CamelName: fmt.Sprintf("%sPropertyIterator", p.name.CamelName),
+		LowerName: s,
+		CamelName: fmt.Sprintf("%sPropertyIterator", s),
 	}
 }
 
 // InterfaceName returns the interface name of the property type.
 func (p *PropertyGenerator) InterfaceName() string {
-	return fmt.Sprintf("%sInterface", p.StructName())
+	return fmt.Sprintf("%s", p.StructName())
 }
 
 // parentTypeInterfaceName is useful for iterators that need the base property
 // type's interface name.
 func (p *PropertyGenerator) parentTypeInterfaceName() string {
-	return fmt.Sprintf("%sInterface", strings.TrimSuffix(p.StructName(), "Iterator"))
+	return fmt.Sprintf("%s", strings.TrimSuffix(p.StructName(), "Iterator"))
 }
 
 // PropertyName returns the name of this property, as defined in
@@ -321,7 +325,7 @@ func (p *PropertyGenerator) getFnName(i int) string {
 	if len(p.kinds) == 1 {
 		return getMethod
 	}
-	return fmt.Sprintf("%s%s", getMethod, p.kindCamelName(i))
+	return fmt.Sprintf("%s%s%s", getMethod, p.kinds[i].Vocab, p.kindCamelName(i))
 }
 
 // setFnName returns the identifier of the function that sets concrete types
@@ -330,7 +334,7 @@ func (p *PropertyGenerator) setFnName(i int) string {
 	if len(p.kinds) == 1 {
 		return setMethod
 	}
-	return fmt.Sprintf("%s%s", setMethod, p.kindCamelName(i))
+	return fmt.Sprintf("%s%s%s", setMethod, p.kinds[i].Vocab, p.kindCamelName(i))
 }
 
 // serializeFnName returns the identifier of the function that serializes the
@@ -354,7 +358,9 @@ func (p *PropertyGenerator) kindCamelName(i int) string {
 //
 // It will panic if 'i' is out of range.
 func (p *PropertyGenerator) memberName(i int) string {
-	return fmt.Sprintf("%sMember", p.kinds[i].Name.LowerName)
+	k := p.kinds[i]
+	v := strings.ToLower(k.Vocab)
+	return fmt.Sprintf("%s%sMember", v, k.Name.CamelName)
 }
 
 // hasMemberName returns the identifier to use for struct members that determine
@@ -423,7 +429,7 @@ func (p *PropertyGenerator) commonMethods() (m []*codegen.Method) {
 // isMethodName returns the identifier to use for methods that determine if a
 // property holds a specific Kind of value.
 func (p *PropertyGenerator) isMethodName(i int) string {
-	return fmt.Sprintf("%s%s", isMethod, p.kindCamelName(i))
+	return fmt.Sprintf("%s%s%s", isMethod, p.kinds[i].Vocab, p.kindCamelName(i))
 }
 
 // ConstructorFn creates a constructor function with a default vocabulary

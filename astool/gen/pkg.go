@@ -469,7 +469,7 @@ func genInit(pkg Package,
 func toPublicConstructor(vocabName string, m *ManagerGenerator, pg *PropertyGenerator) *codegen.Function {
 	return codegen.NewCommentedFunction(
 		m.pkg.Path(),
-		fmt.Sprintf("New%s%s", vocabName, pg.StructName()),
+		fmt.Sprintf("New%s%sProperty", vocabName, strings.Title(pg.PropertyName())),
 		/*params=*/ nil,
 		[]jen.Code{jen.Qual(pg.GetPublicPackage().Path(), pg.InterfaceName())},
 		[]jen.Code{

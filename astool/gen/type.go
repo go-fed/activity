@@ -12,7 +12,7 @@ import (
 
 const (
 	typeInterfaceName          = "Type"
-	typeMember                 = "Type" // This specifically must match the "type" property member generated! Kludge that this happens to just work.
+	typeMember                 = "ActivityStreamsType" // This specifically must match the "type" property member generated! Kludge that this happens to just work.
 	typePropertyConstructor    = "typePropertyConstructor"
 	jsonLDContextInterfaceName = "jsonldContexter"
 	extendedByMethod           = "IsExtendedBy"
@@ -20,6 +20,7 @@ const (
 	extendsMethod              = "Extends"
 	disjointWithMethod         = "IsDisjointWith"
 	typeNameMethod             = "GetName"
+	vocabURIMethod             = "VocabularyURI"
 	serializeMethodName        = "Serialize"
 	deserializeFnName          = "Deserialize"
 	compareLessMethod          = "LessThan"
@@ -47,6 +48,12 @@ func TypeInterface(pkg Package) *codegen.Interface {
 			Params:  nil,
 			Ret:     []jen.Code{jen.String()},
 			Comment: fmt.Sprintf("%s returns the ActivityStreams type name.", typeNameMethod),
+		},
+		{
+			Name:    vocabURIMethod,
+			Params:  nil,
+			Ret:     []jen.Code{jen.String()},
+			Comment: fmt.Sprintf("%s returns the vocabulary's URI as a string.", vocabURIMethod),
 		},
 	}
 	return codegen.NewInterface(pkg.Path(), typeInterfaceName, funcs, comment)
@@ -77,10 +84,12 @@ func ContextInterface(pkg Package) *codegen.Interface {
 
 // Property represents a property of an ActivityStreams type.
 type Property interface {
+	VocabName() string
 	GetPublicPackage() Package
 	PropertyName() string
+	StructName() string
 	InterfaceName() string
-	SetKindFns(docName, idName string, kind *jen.Statement, deser *codegen.Method) error
+	SetKindFns(docName, idName, vocab string, kind *jen.Statement, deser *codegen.Method) error
 	DeserializeFnName() string
 	HasNaturalLanguageMap() bool
 }
@@ -150,10 +159,10 @@ func NewTypeGenerator(vocabName string,
 		}
 	}
 	for _, wop := range withoutProperties {
-		if _, has := t.withoutProperties[wop.PropertyName()]; has {
-			return nil, fmt.Errorf("type already has withoutproperty with name %q", wop.PropertyName())
+		if _, has := t.withoutProperties[wop.StructName()]; has {
+			return nil, fmt.Errorf("type already has withoutproperty with name %q", wop.StructName())
 		}
-		t.withoutProperties[wop.PropertyName()] = wop
+		t.withoutProperties[wop.StructName()] = wop
 	}
 	// Complete doubly-linked extends/extendedBy lists.
 	for _, ext := range extends {
@@ -169,10 +178,10 @@ func NewTypeGenerator(vocabName string,
 // AddPropertyGenerator adds a property generator to this type. It must be
 // called before Definition is called.
 func (t *TypeGenerator) AddPropertyGenerator(property Property) error {
-	if _, has := t.properties[property.PropertyName()]; has {
-		return fmt.Errorf("type already has property with name %q", property.PropertyName())
+	if _, has := t.properties[property.StructName()]; has {
+		return fmt.Errorf("type already has property with name %q", property.StructName())
 	}
-	t.properties[property.PropertyName()] = property
+	t.properties[property.StructName()] = property
 	return nil
 }
 
@@ -206,7 +215,7 @@ func (t *TypeGenerator) apply(m *ManagerGenerator) error {
 				continue
 			}
 			// Kluge: convert.toIdentifier must match this!
-			if e := p.SetKindFns(t.TypeName(), strings.Title(t.TypeName()), kind, deser); e != nil {
+			if e := p.SetKindFns(t.TypeName(), strings.Title(t.TypeName()), t.vocabName, kind, deser); e != nil {
 				return e
 			}
 			propsSet[p] = true
@@ -249,9 +258,14 @@ func (t *TypeGenerator) TypeName() string {
 	return t.typeName
 }
 
+// StructName returns the Go name for this type.
+func (t *TypeGenerator) StructName() string {
+	return fmt.Sprintf("%s%s", t.VocabName(), t.typeName)
+}
+
 // InterfaceName returns the interface name for this type.
 func (t *TypeGenerator) InterfaceName() string {
-	return fmt.Sprintf("%sInterface", t.TypeName())
+	return fmt.Sprintf("%s", t.StructName())
 }
 
 // Extends returns the generators of types that this ActivityStreams type
@@ -287,7 +301,7 @@ func (t *TypeGenerator) WithoutProperties() map[string]Property {
 // extendsFnName determines the name of the Extends function, which
 // determines if this ActivityStreams type extends another one.
 func (t *TypeGenerator) extendsFnName() string {
-	return fmt.Sprintf("%s%s", t.TypeName(), extendsMethod)
+	return fmt.Sprintf("%s%s", t.StructName(), extendsMethod)
 }
 
 // extendedByFnName determines the name of the ExtendedBy function, which
@@ -332,10 +346,11 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 		ctxMethods := t.contextMethods()
 		t.cachedStruct = codegen.NewStruct(
 			t.Comments(),
-			t.TypeName(),
+			t.StructName(),
 			append(append(append(
 				[]*codegen.Method{
 					t.nameDefinition(),
+					t.vocabURIDefinition(),
 					extendsMethod,
 					ser,
 					less,
@@ -410,7 +425,10 @@ func (t *TypeGenerator) allProperties() []Property {
 
 // memberName returns the member name for this property.
 func (*TypeGenerator) memberName(p Property) string {
-	return strings.Title(p.PropertyName())
+	return fmt.Sprintf(
+		"%s%s",
+		p.VocabName(),
+		strings.Title(p.PropertyName()))
 }
 
 // members returns all the properties this type has as its members.
@@ -433,13 +451,29 @@ func (t *TypeGenerator) nameDefinition() *codegen.Method {
 	return codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
 		typeNameMethod,
-		t.TypeName(),
+		t.StructName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.String()},
 		[]jen.Code{
 			jen.Return(jen.Lit(t.TypeName())),
 		},
 		fmt.Sprintf("%s returns the name of this type.", typeNameMethod))
+}
+
+// vocabURIDefinition generates the golang method for returning this type's
+// vocabulary URI as a string.
+func (t *TypeGenerator) vocabURIDefinition() *codegen.Method {
+	return codegen.NewCommentedValueMethod(
+		t.PrivatePackage().Path(),
+		vocabURIMethod,
+		t.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.String()},
+		[]jen.Code{
+			jen.Return(jen.Lit(t.vocabURI.String())),
+		},
+		fmt.Sprintf("%s returns the vocabulary's URI as a string.", vocabURIMethod))
+
 }
 
 // getAllParentExtends recursively determines all the parent types that this
@@ -495,7 +529,7 @@ func (t *TypeGenerator) extendsDefinition() (*codegen.Function, *codegen.Method)
 	m := codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
 		extendingMethod,
-		t.TypeName(),
+		t.StructName(),
 		[]jen.Code{jen.Id("other").Qual(t.PublicPackage().Path(), typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		[]jen.Code{
@@ -646,7 +680,7 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 	ser = codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
 		serializeMethodName,
-		t.TypeName(),
+		t.StructName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.Map(jen.String()).Interface(), jen.Error()},
 		[]jen.Code{
@@ -734,7 +768,7 @@ func (t *TypeGenerator) lessMethod() (less *codegen.Method) {
 	less = codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
 		compareLessMethod,
-		t.TypeName(),
+		t.StructName(),
 		[]jen.Code{
 			jen.Id("o").Qual(t.PublicPackage().Path(), t.InterfaceName()),
 		},
@@ -803,7 +837,7 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 		t.PrivatePackage().Path(),
 		t.deserializationFnName(),
 		[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("aliasMap").Map(jen.String()).String()},
-		[]jen.Code{jen.Op("*").Id(t.TypeName()), jen.Error()},
+		[]jen.Code{jen.Op("*").Id(t.StructName()), jen.Error()},
 		[]jen.Code{
 			jen.Id("alias").Op(":=").Lit(""),
 			jen.Id("aliasPrefix").Op(":=").Lit(""),
@@ -817,7 +851,7 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 				jen.Id("alias").Op("=").Id("a"),
 				jen.Id("aliasPrefix").Op("=").Id("a").Op("+").Lit(":"),
 			),
-			jen.Id(codegen.This()).Op(":=").Op("&").Id(t.TypeName()).Values(jen.Dict{
+			jen.Id(codegen.This()).Op(":=").Op("&").Id(t.StructName()).Values(jen.Dict{
 				jen.Id(aliasMember):   jen.Id("alias"),
 				jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface()),
 			}),
@@ -910,7 +944,7 @@ func (t *TypeGenerator) getUnknownMethod() (get *codegen.Method) {
 	get = codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
 		getUnknownMethod,
-		t.TypeName(),
+		t.StructName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.Map(jen.String()).Interface()},
 		[]jen.Code{
@@ -929,7 +963,7 @@ func (t *TypeGenerator) allGetters() (m []*codegen.Method) {
 		m = append(m, codegen.NewCommentedValueMethod(
 			t.PrivatePackage().Path(),
 			fmt.Sprintf(getMethodFormat, t.memberName(property)),
-			t.TypeName(),
+			t.StructName(),
 			/*params=*/ nil,
 			[]jen.Code{jen.Qual(property.GetPublicPackage().Path(), property.InterfaceName())},
 			[]jen.Code{
@@ -948,7 +982,7 @@ func (t *TypeGenerator) allSetters() (m []*codegen.Method) {
 		m = append(m, codegen.NewCommentedPointerMethod(
 			t.PrivatePackage().Path(),
 			fmt.Sprintf("Set%s", t.memberName(property)),
-			t.TypeName(),
+			t.StructName(),
 			[]jen.Code{jen.Id("i").Qual(property.GetPublicPackage().Path(), property.InterfaceName())},
 			/*ret=*/ nil,
 			[]jen.Code{
@@ -972,16 +1006,16 @@ func (t *TypeGenerator) getAllManagerMethods() (m []*codegen.Method) {
 func (t *TypeGenerator) constructorFn() *codegen.Function {
 	return codegen.NewCommentedFunction(
 		t.PrivatePackage().Path(),
-		fmt.Sprintf("%s%s", constructorName, t.TypeName()),
+		fmt.Sprintf("%s%s", constructorName, t.StructName()),
 		/*params=*/ nil,
 		[]jen.Code{
-			jen.Op("*").Qual(t.PrivatePackage().Path(), t.TypeName()),
+			jen.Op("*").Qual(t.PrivatePackage().Path(), t.StructName()),
 		},
 		[]jen.Code{
 			jen.Id("typeProp").Op(":=").Id(typePropertyConstructorName()).Call(),
-			jen.Id("typeProp").Dot("AppendString").Call(jen.Lit(t.TypeName())),
+			jen.Id("typeProp").Dot("AppendXMLSchemaString").Call(jen.Lit(t.TypeName())),
 			jen.Return(
-				jen.Op("&").Qual(t.PrivatePackage().Path(), t.TypeName()).Values(
+				jen.Op("&").Qual(t.PrivatePackage().Path(), t.StructName()).Values(
 					jen.Dict{
 						jen.Id(aliasMember):   jen.Lit(t.vocabAlias),
 						jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface(), jen.Lit(0)),
@@ -990,7 +1024,7 @@ func (t *TypeGenerator) constructorFn() *codegen.Function {
 				),
 			),
 		},
-		fmt.Sprintf("%s%s creates a new %s type", constructorName, t.TypeName(), t.TypeName()))
+		fmt.Sprintf("%s%s creates a new %s type", constructorName, t.StructName(), t.TypeName()))
 }
 
 // contextMethod returns a map of the context's vocabulary
@@ -999,7 +1033,7 @@ func (t *TypeGenerator) contextMethods() []*codegen.Method {
 	helper := codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
 		helperName,
-		t.TypeName(),
+		t.StructName(),
 		[]jen.Code{jen.Id("i").Id(jsonLDContextInterfaceName), jen.Id("toMerge").Map(jen.String()).String()},
 		[]jen.Code{jen.Map(jen.String()).String()},
 		[]jen.Code{
@@ -1034,7 +1068,7 @@ func (t *TypeGenerator) contextMethods() []*codegen.Method {
 	ctxMethod := codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
 		contextMethod,
-		t.TypeName(),
+		t.StructName(),
 		/*params=*/ nil,
 		[]jen.Code{jen.Map(jen.String()).String()},
 		[]jen.Code{

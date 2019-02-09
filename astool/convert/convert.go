@@ -399,7 +399,7 @@ func (c *Converter) convertVocabulary(p *rdf.ParsedVocabulary, refs map[string]*
 	v.Name = p.Vocab.Name
 	v.URI = p.Vocab.URI
 	for k, val := range p.Vocab.Values {
-		v.Values[k] = c.convertValue(val)
+		v.Values[k] = c.convertValue(p.Vocab.Name, val)
 	}
 	for k, prop := range p.Vocab.Properties {
 		if prop.Functional {
@@ -735,7 +735,7 @@ func (c *Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 }
 
 // convertValue turns a rdf.VocabularyValue into a Kind.
-func (c *Converter) convertValue(v rdf.VocabularyValue) *gen.Kind {
+func (c *Converter) convertValue(vocabName string, v rdf.VocabularyValue) *gen.Kind {
 	s := v.SerializeFn.CloneToPackage(c.vocabValuePackage(v).Path())
 	d := v.DeserializeFn.CloneToPackage(c.vocabValuePackage(v).Path())
 	l := v.LessFn.CloneToPackage(c.vocabValuePackage(v).Path())
@@ -744,6 +744,7 @@ func (c *Converter) convertValue(v rdf.VocabularyValue) *gen.Kind {
 	id := toIdentifier(v)
 	return gen.NewKindForValue(id.LowerName,
 		id.CamelName,
+		vocabName,
 		v.DefinitionType,
 		v.IsNilable,
 		v.IsURI,
@@ -773,7 +774,7 @@ func (c *Converter) propertyKinds(v rdf.VocabularyProperty,
 					return
 				} else {
 					id := toIdentifier(t)
-					kt := gen.NewKindForType(id.LowerName, id.CamelName)
+					kt := gen.NewKindForType(id.LowerName, id.CamelName, vocab.Name)
 					k = append(k, *kt)
 				}
 			} else {
@@ -799,12 +800,12 @@ func (c *Converter) propertyKinds(v rdf.VocabularyProperty,
 					return
 				} else {
 					id := toIdentifier(t)
-					kt := gen.NewKindForType(id.LowerName, id.CamelName)
+					kt := gen.NewKindForType(id.LowerName, id.CamelName, refVocab.Name)
 					k = append(k, *kt)
 				}
 			} else {
 				// It is a Value of the vocabulary
-				k = append(k, *c.convertValue(val))
+				k = append(k, *c.convertValue(refVocab.Name, val))
 			}
 		}
 	}
@@ -1160,6 +1161,7 @@ func (c *Converter) allExtendsAreIn(registry *rdf.RDFRegistry, t rdf.VocabularyT
 
 // toFiles converts a vocabulary's types and properties to files.
 func (c *Converter) toFiles(v vocabulary) (f []*File, e error) {
+	vName := strings.ToLower(v.Name)
 	for _, i := range v.FProps {
 		var pm *gen.PackageManager
 		pm, e = c.propertyPackageManager(i, v.Name)
@@ -1172,7 +1174,7 @@ func (c *Converter) toFiles(v vocabulary) (f []*File, e error) {
 		file.Add(i.Definition().Definition())
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_property_%s.go", i.PropertyName()),
+			FileName:  fmt.Sprintf("gen_property_%s_%s.go", vName, i.PropertyName()),
 			Directory: priv.WriteDir(),
 		})
 		// Interface
@@ -1181,7 +1183,7 @@ func (c *Converter) toFiles(v vocabulary) (f []*File, e error) {
 		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_property_%s_interface.go", i.PropertyName()),
+			FileName:  fmt.Sprintf("gen_property_%s_%s_interface.go", vName, i.PropertyName()),
 			Directory: pub.WriteDir(),
 		})
 	}
@@ -1199,7 +1201,7 @@ func (c *Converter) toFiles(v vocabulary) (f []*File, e error) {
 		file.Add(s.Definition()).Line().Add(t.Definition())
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_property_%s.go", i.PropertyName()),
+			FileName:  fmt.Sprintf("gen_property_%s_%s.go", vName, i.PropertyName()),
 			Directory: priv.WriteDir(),
 		})
 		// Interface
@@ -1210,7 +1212,7 @@ func (c *Converter) toFiles(v vocabulary) (f []*File, e error) {
 		}
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_property_%s_interface.go", i.PropertyName()),
+			FileName:  fmt.Sprintf("gen_property_%s_%s_interface.go", vName, i.PropertyName()),
 			Directory: pub.WriteDir(),
 		})
 	}
@@ -1227,7 +1229,7 @@ func (c *Converter) toFiles(v vocabulary) (f []*File, e error) {
 		file.Add(i.Definition().Definition())
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_type_%s.go", strings.ToLower(i.TypeName())),
+			FileName:  fmt.Sprintf("gen_type_%s_%s.go", vName, strings.ToLower(i.TypeName())),
 			Directory: priv.WriteDir(),
 		})
 		// Interface
@@ -1236,7 +1238,7 @@ func (c *Converter) toFiles(v vocabulary) (f []*File, e error) {
 		file.Add(i.InterfaceDefinition(pm.PublicPackage()).Definition())
 		f = append(f, &File{
 			F:         file,
-			FileName:  fmt.Sprintf("gen_type_%s_interface.go", strings.ToLower(i.TypeName())),
+			FileName:  fmt.Sprintf("gen_type_%s_%s_interface.go", vName, strings.ToLower(i.TypeName())),
 			Directory: pub.WriteDir(),
 		})
 	}
