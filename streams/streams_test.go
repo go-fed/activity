@@ -13,17 +13,37 @@ type serializer interface {
 	Serialize() (map[string]interface{}, error)
 }
 
+// IsKnownResolverError returns true if it is known that an example from
+// GetTestTable will trigger a JSONResolver error.
+func IsKnownResolverError(t TestTable) (b bool, reason string) {
+	if t.name == "Example 61" {
+		b = true
+		reason = "no \"type\" property is on the root object"
+	} else if t.name == "Example 62" {
+		b = true
+		reason = "an unknown \"type\" property is on the root object"
+	} else if t.name == "Example 153" {
+		b = true
+		reason = "no \"type\" property is on the root object"
+	}
+	return
+}
+
 func TestJSONResolver(t *testing.T) {
-	for _, example := range allRepoExamples {
+	for _, example := range GetTestTable() {
+		if skip, reason := IsKnownResolverError(example); skip {
+			t.Logf("Skipping table test case %q as it's known an error will be returned because %s", example.name, reason)
+			continue
+		}
 		name := example.name
-		t.Logf("%s: Testing table test case", name)
-		ex := example.example
+		t.Logf("Testing table test case %q", name)
+		ex := example.expectedJSON
 		resFn := func(s serializer) error {
 			m, err := s.Serialize()
 			if err != nil {
 				return err
 			}
-			m["@context"] = "http://www.w3.org/ns/activitystreams"
+			m["@context"] = "https://www.w3.org/ns/activitystreams"
 			actual, err := json.Marshal(m)
 			if diff, err := GetJSONDiff(actual, []byte(ex)); err == nil && diff != nil {
 				t.Errorf("%s: Serialize JSON equality is false:\n%s", name, diff)
@@ -206,19 +226,201 @@ func TestJSONResolver(t *testing.T) {
 			t.Errorf("%s: Cannot json.Unmarshal: %s", name, err)
 			continue
 		}
-		// Examples that needed adjustment:
-		// Example 64: Array of one attachment - deserializes OK, but re-serialization does not match
-		// Example 68: Array of one bcc - deserializes OK, but re-serialization does not match
-		// Example 70: Array of one cc - deserializes OK, but re-serialization does not match
-		// Example 112: Array of one item - deserializes OK, but re-serialization does not match
-		// Example 118: Array of one tag - deserializes OK, but re-serialization does not match
-		// Example 123: Array of one to - deserializes OK, but re-serialization does not match
-		// Example 184: missing @context
-		// Example 196: '\n' characters were literal newlines in source
 		err = r.Resolve(context.Background(), m)
 		if err != nil {
 			t.Errorf("%s: Cannot JSONResolver.Deserialize: %s", name, err)
 			continue
+		}
+	}
+}
+
+func TestJSONResolverErrors(t *testing.T) {
+	for _, example := range GetTestTable() {
+		isError, reason := IsKnownResolverError(example)
+		if !isError {
+			continue
+		}
+		name := example.name
+		t.Logf("Testing table test case %q", name)
+		ex := example.expectedJSON
+		resFn := func(s serializer) error { return nil }
+		r, err := NewJSONResolver(
+			func(c context.Context, x vocab.AcceptInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.ActivityInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.AddInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.AnnounceInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.ApplicationInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.ArriveInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.ArticleInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.AudioInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.BlockInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.CollectionInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.CollectionPageInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.CreateInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.DeleteInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.DislikeInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.DocumentInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.EventInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.FlagInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.FollowInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.GroupInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.IgnoreInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.ImageInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.IntransitiveActivityInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.InviteInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.JoinInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.LeaveInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.LikeInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.LinkInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.ListenInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.MentionInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.MoveInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.NoteInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.ObjectInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.OfferInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.OrderedCollectionInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.OrderedCollectionPageInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.OrganizationInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.PageInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.PersonInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.PlaceInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.ProfileInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.QuestionInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.ReadInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.RejectInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.RelationshipInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.RemoveInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.ServiceInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.TentativeAcceptInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.TentativeRejectInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.TombstoneInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.TravelInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.UndoInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.UpdateInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.VideoInterface) error {
+				return resFn(x)
+			},
+			func(c context.Context, x vocab.ViewInterface) error {
+				return resFn(x)
+			},
+		)
+		if err != nil {
+			t.Errorf("%s: Cannot create JSONResolver: %s", name, err)
+			continue
+		}
+		m := make(map[string]interface{})
+		err = json.Unmarshal([]byte(ex), &m)
+		if err != nil {
+			t.Errorf("%s: Cannot json.Unmarshal: %s", name, err)
+			continue
+		}
+		err = r.Resolve(context.Background(), m)
+		if err == nil {
+			t.Errorf("%s: Expected error because %s", name, reason)
 		}
 	}
 }
