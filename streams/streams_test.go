@@ -16,7 +16,7 @@ type serializer interface {
 func TestJSONResolver(t *testing.T) {
 	for _, example := range allRepoExamples {
 		name := example.name
-		t.Logf("(%q): Testing table test case", name)
+		t.Logf("%s: Testing table test case", name)
 		ex := example.example
 		resFn := func(s serializer) error {
 			m, err := s.Serialize()
@@ -345,7 +345,7 @@ func TestNulls(t *testing.T) {
 		},
 	}
 	for _, r := range tables {
-		t.Logf("(%q): Testing table test case", r.name)
+		t.Logf("%s: Testing table test case", r.name)
 		res, err := NewJSONResolver(r.callback)
 		if err != nil {
 			t.Errorf("%s: cannot create resolver: %s", r.name, err)

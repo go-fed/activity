@@ -81,7 +81,7 @@ func example3Type() vocab.ActivityInterface {
 	person.SetName(sally)
 	note := NewActivityStreamsNote()
 	aNote := NewActivityStreamsNameProperty()
-	aNote.AppendString("Sally")
+	aNote.AppendString("A Note")
 	note.SetName(aNote)
 	summary := NewActivityStreamsSummaryProperty()
 	summary.AppendString("Sally did something to a note")
@@ -1578,12 +1578,10 @@ func example40Type() vocab.QuestionInterface {
 	name := NewActivityStreamsNameProperty()
 	name.AppendString("What is the answer?")
 	example40Type.SetName(name)
-	oneOf1 := NewActivityStreamsOneOfProperty()
-	oneOf1.AppendNote(note1)
-	example40Type.SetOneOf(oneOf1)
-	oneOf2 := NewActivityStreamsOneOfProperty()
-	oneOf2.AppendNote(note2)
-	example40Type.SetOneOf(oneOf2)
+	oneOf := NewActivityStreamsOneOfProperty()
+	oneOf.AppendNote(note1)
+	oneOf.AppendNote(note2)
+	example40Type.SetOneOf(oneOf)
 	return example40Type
 }
 
@@ -1831,12 +1829,10 @@ func example51Type() vocab.ImageInterface {
 	name := NewActivityStreamsNameProperty()
 	name.AppendString("Cat Jumping on Wagon")
 	example51Type.SetName(name)
-	urlProperty1 := NewActivityStreamsUrlProperty()
-	urlProperty1.AppendLink(link1)
-	example51Type.SetUrl(urlProperty1)
-	urlProperty2 := NewActivityStreamsUrlProperty()
-	urlProperty2.AppendLink(link2)
-	example51Type.SetUrl(urlProperty2)
+	urlProperty := NewActivityStreamsUrlProperty()
+	urlProperty.AppendLink(link1)
+	urlProperty.AppendLink(link2)
+	example51Type.SetUrl(urlProperty)
 	return example51Type
 }
 
@@ -2090,10 +2086,6 @@ const example61 = `{
   "id": "http://example.org/foo"
 }`
 
-func example61Type() interface{} {
-	return nil
-}
-
 var example61Unknown = func(m map[string]interface{}) map[string]interface{} {
 	m["id"] = "http://example.org/foo"
 	m["name"] = "Foo"
@@ -2105,10 +2097,6 @@ const example62 = `{
   "summary": "A foo",
   "type": "http://example.org/Foo"
 }`
-
-func example62Type() interface{} {
-	return nil
-}
 
 var example62Unknown = func(m map[string]interface{}) map[string]interface{} {
 	m["type"] = "http://example.org/Foo"
@@ -2206,10 +2194,8 @@ func example65Type() vocab.OfferInterface {
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
 	example65Type.SetObject(obj)
-	objectActor := NewActivityStreamsActorProperty()
-	objectActor.AppendIRI(l)
-	example65Type.SetActor(objectActor)
 	rootActor := NewActivityStreamsActorProperty()
+	rootActor.AppendIRI(l)
 	rootActor.AppendPerson(actor)
 	example65Type.SetActor(rootActor)
 	return example65Type
@@ -2307,10 +2293,8 @@ func example68Type() vocab.ImageInterface {
 	example68Type.SetUrl(urlProp)
 	attr := NewActivityStreamsAttributedToProperty()
 	attr.AppendIRI(a)
+	attr.AppendPerson(person)
 	example68Type.SetAttributedTo(attr)
-	attrPerson := NewActivityStreamsAttributedToProperty()
-	attrPerson.AppendPerson(person)
-	example68Type.SetAttributedTo(attrPerson)
 	return example68Type
 }
 
@@ -3177,12 +3161,10 @@ func example91Type() vocab.QuestionInterface {
 	name := NewActivityStreamsNameProperty()
 	name.AppendString("What is the answer?")
 	example91Type.SetName(name)
-	oneOf1 := NewActivityStreamsOneOfProperty()
-	oneOf1.AppendNote(note1)
-	example91Type.SetOneOf(oneOf1)
-	oneOf2 := NewActivityStreamsOneOfProperty()
-	oneOf2.AppendNote(note2)
-	example91Type.SetOneOf(oneOf2)
+	oneOf := NewActivityStreamsOneOfProperty()
+	oneOf.AppendNote(note1)
+	oneOf.AppendNote(note2)
+	example91Type.SetOneOf(oneOf)
 	return example91Type
 }
 
@@ -3449,10 +3431,8 @@ func example99Type() vocab.LikeInterface {
 	example99Type.SetActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
+	obj.AppendNote(note)
 	example99Type.SetObject(obj)
-	objRoot := NewActivityStreamsObjectProperty()
-	objRoot.AppendNote(note)
-	example99Type.SetObject(objRoot)
 	return example99Type
 }
 
@@ -3594,6 +3574,10 @@ const example103 = `{
 }`
 
 var example103Unknown = func(m map[string]interface{}) map[string]interface{} {
+	m["type"] = []interface{}{
+		m["type"],
+		"http://www.verbs.example/Check",
+	}
 	m["result"] = map[string]interface{}{
 		"type": "http://www.types.example/flightstatus",
 		"name": "On Time",
@@ -3889,12 +3873,10 @@ func example111Type() vocab.DocumentInterface {
 	name := NewActivityStreamsNameProperty()
 	name.AppendString("4Q Sales Forecast")
 	example111Type.SetName(name)
-	urlProperty1 := NewActivityStreamsUrlProperty()
-	urlProperty1.AppendLink(link1)
-	example111Type.SetUrl(urlProperty1)
-	urlProperty2 := NewActivityStreamsUrlProperty()
-	urlProperty2.AppendLink(link2)
-	example111Type.SetUrl(urlProperty2)
+	urlProperty := NewActivityStreamsUrlProperty()
+	urlProperty.AppendLink(link1)
+	urlProperty.AppendLink(link2)
+	example111Type.SetUrl(urlProperty)
 	return example111Type
 }
 
@@ -5403,10 +5385,6 @@ const example153 = `{
  "inReplyTo": "http://polls.example.org/question/1",
  "name": "arduino"
 }`
-
-func example153Type() interface{} {
-	return nil
-}
 
 var example153Unknown = func(m map[string]interface{}) map[string]interface{} {
 	m["attributedTo"] = "http://sally.example.org"
