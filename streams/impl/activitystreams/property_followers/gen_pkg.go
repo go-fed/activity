@@ -8,21 +8,22 @@ var mgr privateManager
 // concrete implementations.
 type privateManager interface {
 	// DeserializeCollectionActivityStreams returns the deserialization method
-	// for the "CollectionInterface" non-functional property in the
+	// for the "ActivityStreamsCollection" non-functional property in the
 	// vocabulary "ActivityStreams"
-	DeserializeCollectionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.CollectionInterface, error)
+	DeserializeCollectionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsCollection, error)
 	// DeserializeCollectionPageActivityStreams returns the deserialization
-	// method for the "CollectionPageInterface" non-functional property in
-	// the vocabulary "ActivityStreams"
-	DeserializeCollectionPageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.CollectionPageInterface, error)
+	// method for the "ActivityStreamsCollectionPage" non-functional
+	// property in the vocabulary "ActivityStreams"
+	DeserializeCollectionPageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsCollectionPage, error)
 	// DeserializeOrderedCollectionActivityStreams returns the deserialization
-	// method for the "OrderedCollectionInterface" non-functional property
-	// in the vocabulary "ActivityStreams"
-	DeserializeOrderedCollectionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OrderedCollectionInterface, error)
+	// method for the "ActivityStreamsOrderedCollection" non-functional
+	// property in the vocabulary "ActivityStreams"
+	DeserializeOrderedCollectionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsOrderedCollection, error)
 	// DeserializeOrderedCollectionPageActivityStreams returns the
-	// deserialization method for the "OrderedCollectionPageInterface"
-	// non-functional property in the vocabulary "ActivityStreams"
-	DeserializeOrderedCollectionPageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OrderedCollectionPageInterface, error)
+	// deserialization method for the
+	// "ActivityStreamsOrderedCollectionPage" non-functional property in
+	// the vocabulary "ActivityStreams"
+	DeserializeOrderedCollectionPageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsOrderedCollectionPage, error)
 }
 
 // SetManager sets the manager package-global variable. For internal use only, do

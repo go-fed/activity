@@ -27,113 +27,113 @@ type TypePredicatedResolver struct {
 func NewTypePredicatedResolver(delegate Resolver, predicate interface{}) (*TypePredicatedResolver, error) {
 	// The predicate must satisfy one known predicate function signature, or else we will generate a runtime error instead of silently fail.
 	switch predicate.(type) {
-	case func(context.Context, vocab.AcceptInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsAccept) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.ActivityInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsActivity) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.AddInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsAdd) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.AnnounceInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsAnnounce) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.ApplicationInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsApplication) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.ArriveInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsArrive) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.ArticleInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsArticle) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.AudioInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsAudio) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.BlockInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsBlock) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.CollectionInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsCollection) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.CollectionPageInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsCollectionPage) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.CreateInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsCreate) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.DeleteInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsDelete) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.DislikeInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsDislike) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.DocumentInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsDocument) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.EventInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsEvent) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.FlagInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsFlag) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.FollowInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsFollow) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.GroupInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsGroup) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.IgnoreInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsIgnore) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.ImageInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsImage) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.IntransitiveActivityInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsIntransitiveActivity) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.InviteInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsInvite) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.JoinInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsJoin) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.LeaveInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsLeave) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.LikeInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsLike) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.LinkInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsLink) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.ListenInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsListen) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.MentionInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsMention) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.MoveInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsMove) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.NoteInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsNote) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.ObjectInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsObject) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.OfferInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsOffer) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.OrderedCollectionInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsOrderedCollection) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.OrderedCollectionPageInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsOrderedCollectionPage) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.OrganizationInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsOrganization) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.PageInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsPage) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.PersonInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsPerson) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.PlaceInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsPlace) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.ProfileInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsProfile) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.QuestionInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsQuestion) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.ReadInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsRead) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.RejectInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsReject) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.RelationshipInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsRelationship) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.RemoveInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsRemove) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.ServiceInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsService) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.TentativeAcceptInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsTentativeAccept) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.TentativeRejectInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsTentativeReject) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.TombstoneInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsTombstone) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.TravelInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsTravel) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.UndoInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsUndo) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.UpdateInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsUpdate) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.VideoInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsVideo) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.ViewInterface) (bool, error):
+	case func(context.Context, vocab.ActivityStreamsView) (bool, error):
 		// Do nothing, this predicate has a correct signature.
 	default:
 		return nil, errors.New("the predicate function is of the wrong signature and would never be called")
@@ -154,10 +154,9 @@ func NewTypePredicatedResolver(delegate Resolver, predicate interface{}) (*TypeP
 func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsInterface) (bool, error) {
 	var predicatePasses bool
 	var err error
-	switch o.GetName() {
-	case "Accept":
-		if fn, ok := this.predicate.(func(context.Context, vocab.AcceptInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.AcceptInterface); ok {
+	if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Accept" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsAccept) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsAccept); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -166,9 +165,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Activity":
-		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.ActivityInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Activity" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsActivity) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsActivity); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -177,9 +176,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Add":
-		if fn, ok := this.predicate.(func(context.Context, vocab.AddInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.AddInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Add" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsAdd) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsAdd); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -188,9 +187,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Announce":
-		if fn, ok := this.predicate.(func(context.Context, vocab.AnnounceInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.AnnounceInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Announce" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsAnnounce) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsAnnounce); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -199,9 +198,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Application":
-		if fn, ok := this.predicate.(func(context.Context, vocab.ApplicationInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.ApplicationInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Application" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsApplication) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsApplication); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -210,9 +209,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Arrive":
-		if fn, ok := this.predicate.(func(context.Context, vocab.ArriveInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.ArriveInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Arrive" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsArrive) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsArrive); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -221,9 +220,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Article":
-		if fn, ok := this.predicate.(func(context.Context, vocab.ArticleInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.ArticleInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Article" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsArticle) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsArticle); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -232,9 +231,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Audio":
-		if fn, ok := this.predicate.(func(context.Context, vocab.AudioInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.AudioInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Audio" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsAudio) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsAudio); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -243,9 +242,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Block":
-		if fn, ok := this.predicate.(func(context.Context, vocab.BlockInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.BlockInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Block" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsBlock) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsBlock); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -254,9 +253,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Collection":
-		if fn, ok := this.predicate.(func(context.Context, vocab.CollectionInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.CollectionInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Collection" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsCollection) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsCollection); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -265,9 +264,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "CollectionPage":
-		if fn, ok := this.predicate.(func(context.Context, vocab.CollectionPageInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.CollectionPageInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "CollectionPage" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsCollectionPage) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsCollectionPage); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -276,9 +275,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Create":
-		if fn, ok := this.predicate.(func(context.Context, vocab.CreateInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.CreateInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Create" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsCreate) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsCreate); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -287,9 +286,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Delete":
-		if fn, ok := this.predicate.(func(context.Context, vocab.DeleteInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.DeleteInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Delete" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsDelete) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsDelete); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -298,9 +297,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Dislike":
-		if fn, ok := this.predicate.(func(context.Context, vocab.DislikeInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.DislikeInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Dislike" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsDislike) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsDislike); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -309,9 +308,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Document":
-		if fn, ok := this.predicate.(func(context.Context, vocab.DocumentInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.DocumentInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Document" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsDocument) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsDocument); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -320,9 +319,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Event":
-		if fn, ok := this.predicate.(func(context.Context, vocab.EventInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.EventInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Event" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsEvent) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsEvent); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -331,9 +330,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Flag":
-		if fn, ok := this.predicate.(func(context.Context, vocab.FlagInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.FlagInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Flag" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsFlag) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsFlag); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -342,9 +341,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Follow":
-		if fn, ok := this.predicate.(func(context.Context, vocab.FollowInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.FollowInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Follow" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsFollow) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsFollow); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -353,9 +352,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Group":
-		if fn, ok := this.predicate.(func(context.Context, vocab.GroupInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.GroupInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Group" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsGroup) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsGroup); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -364,9 +363,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Ignore":
-		if fn, ok := this.predicate.(func(context.Context, vocab.IgnoreInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.IgnoreInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Ignore" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsIgnore) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsIgnore); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -375,9 +374,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Image":
-		if fn, ok := this.predicate.(func(context.Context, vocab.ImageInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.ImageInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Image" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsImage) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsImage); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -386,9 +385,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "IntransitiveActivity":
-		if fn, ok := this.predicate.(func(context.Context, vocab.IntransitiveActivityInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.IntransitiveActivityInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "IntransitiveActivity" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsIntransitiveActivity) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsIntransitiveActivity); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -397,9 +396,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Invite":
-		if fn, ok := this.predicate.(func(context.Context, vocab.InviteInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.InviteInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Invite" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsInvite) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsInvite); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -408,9 +407,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Join":
-		if fn, ok := this.predicate.(func(context.Context, vocab.JoinInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.JoinInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Join" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsJoin) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsJoin); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -419,9 +418,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Leave":
-		if fn, ok := this.predicate.(func(context.Context, vocab.LeaveInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.LeaveInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Leave" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsLeave) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsLeave); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -430,9 +429,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Like":
-		if fn, ok := this.predicate.(func(context.Context, vocab.LikeInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.LikeInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Like" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsLike) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsLike); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -441,9 +440,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Link":
-		if fn, ok := this.predicate.(func(context.Context, vocab.LinkInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.LinkInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Link" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsLink) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsLink); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -452,9 +451,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Listen":
-		if fn, ok := this.predicate.(func(context.Context, vocab.ListenInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.ListenInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Listen" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsListen) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsListen); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -463,9 +462,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Mention":
-		if fn, ok := this.predicate.(func(context.Context, vocab.MentionInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.MentionInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Mention" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsMention) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsMention); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -474,9 +473,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Move":
-		if fn, ok := this.predicate.(func(context.Context, vocab.MoveInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.MoveInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Move" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsMove) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsMove); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -485,9 +484,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Note":
-		if fn, ok := this.predicate.(func(context.Context, vocab.NoteInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.NoteInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Note" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsNote) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsNote); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -496,9 +495,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Object":
-		if fn, ok := this.predicate.(func(context.Context, vocab.ObjectInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.ObjectInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Object" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsObject) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsObject); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -507,9 +506,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Offer":
-		if fn, ok := this.predicate.(func(context.Context, vocab.OfferInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.OfferInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Offer" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsOffer) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsOffer); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -518,9 +517,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "OrderedCollection":
-		if fn, ok := this.predicate.(func(context.Context, vocab.OrderedCollectionInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.OrderedCollectionInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "OrderedCollection" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsOrderedCollection) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsOrderedCollection); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -529,9 +528,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "OrderedCollectionPage":
-		if fn, ok := this.predicate.(func(context.Context, vocab.OrderedCollectionPageInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.OrderedCollectionPageInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "OrderedCollectionPage" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsOrderedCollectionPage) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsOrderedCollectionPage); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -540,9 +539,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Organization":
-		if fn, ok := this.predicate.(func(context.Context, vocab.OrganizationInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.OrganizationInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Organization" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsOrganization) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsOrganization); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -551,9 +550,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Page":
-		if fn, ok := this.predicate.(func(context.Context, vocab.PageInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.PageInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Page" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsPage) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsPage); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -562,9 +561,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Person":
-		if fn, ok := this.predicate.(func(context.Context, vocab.PersonInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.PersonInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Person" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsPerson) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsPerson); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -573,9 +572,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Place":
-		if fn, ok := this.predicate.(func(context.Context, vocab.PlaceInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.PlaceInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Place" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsPlace) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsPlace); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -584,9 +583,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Profile":
-		if fn, ok := this.predicate.(func(context.Context, vocab.ProfileInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.ProfileInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Profile" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsProfile) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsProfile); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -595,9 +594,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Question":
-		if fn, ok := this.predicate.(func(context.Context, vocab.QuestionInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.QuestionInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Question" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsQuestion) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsQuestion); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -606,9 +605,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Read":
-		if fn, ok := this.predicate.(func(context.Context, vocab.ReadInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.ReadInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Read" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsRead) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsRead); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -617,9 +616,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Reject":
-		if fn, ok := this.predicate.(func(context.Context, vocab.RejectInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.RejectInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Reject" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsReject) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsReject); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -628,9 +627,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Relationship":
-		if fn, ok := this.predicate.(func(context.Context, vocab.RelationshipInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.RelationshipInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Relationship" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsRelationship) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsRelationship); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -639,9 +638,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Remove":
-		if fn, ok := this.predicate.(func(context.Context, vocab.RemoveInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.RemoveInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Remove" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsRemove) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsRemove); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -650,9 +649,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Service":
-		if fn, ok := this.predicate.(func(context.Context, vocab.ServiceInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.ServiceInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Service" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsService) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsService); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -661,9 +660,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "TentativeAccept":
-		if fn, ok := this.predicate.(func(context.Context, vocab.TentativeAcceptInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.TentativeAcceptInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "TentativeAccept" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsTentativeAccept) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsTentativeAccept); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -672,9 +671,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "TentativeReject":
-		if fn, ok := this.predicate.(func(context.Context, vocab.TentativeRejectInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.TentativeRejectInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "TentativeReject" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsTentativeReject) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsTentativeReject); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -683,9 +682,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Tombstone":
-		if fn, ok := this.predicate.(func(context.Context, vocab.TombstoneInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.TombstoneInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Tombstone" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsTombstone) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsTombstone); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -694,9 +693,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Travel":
-		if fn, ok := this.predicate.(func(context.Context, vocab.TravelInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.TravelInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Travel" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsTravel) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsTravel); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -705,9 +704,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Undo":
-		if fn, ok := this.predicate.(func(context.Context, vocab.UndoInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.UndoInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Undo" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsUndo) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsUndo); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -716,9 +715,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Update":
-		if fn, ok := this.predicate.(func(context.Context, vocab.UpdateInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.UpdateInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Update" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsUpdate) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsUpdate); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -727,9 +726,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "Video":
-		if fn, ok := this.predicate.(func(context.Context, vocab.VideoInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.VideoInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Video" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsVideo) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsVideo); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -738,9 +737,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	case "View":
-		if fn, ok := this.predicate.(func(context.Context, vocab.ViewInterface) (bool, error)); ok {
-			if v, ok := o.(vocab.ViewInterface); ok {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "View" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsView) (bool, error)); ok {
+			if v, ok := o.(vocab.ActivityStreamsView); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -749,7 +748,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	default:
+	} else {
 		return false, ErrUnhandledType
 	}
 	if err != nil {

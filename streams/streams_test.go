@@ -53,166 +53,166 @@ func TestJSONResolver(t *testing.T) {
 			return nil
 		}
 		r, err := NewJSONResolver(
-			func(c context.Context, x vocab.AcceptInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsAccept) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ActivityInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsActivity) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.AddInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsAdd) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.AnnounceInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsAnnounce) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ApplicationInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsApplication) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ArriveInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsArrive) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ArticleInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsArticle) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.AudioInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsAudio) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.BlockInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsBlock) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.CollectionInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsCollection) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.CollectionPageInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsCollectionPage) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.CreateInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsCreate) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.DeleteInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsDelete) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.DislikeInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsDislike) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.DocumentInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsDocument) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.EventInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsEvent) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.FlagInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsFlag) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.FollowInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsFollow) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.GroupInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsGroup) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.IgnoreInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsIgnore) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ImageInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsImage) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.IntransitiveActivityInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsIntransitiveActivity) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.InviteInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsInvite) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.JoinInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsJoin) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.LeaveInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsLeave) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.LikeInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsLike) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.LinkInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsLink) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ListenInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsListen) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.MentionInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsMention) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.MoveInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsMove) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.NoteInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsNote) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ObjectInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsObject) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.OfferInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsOffer) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.OrderedCollectionInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsOrderedCollection) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.OrderedCollectionPageInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsOrderedCollectionPage) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.OrganizationInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsOrganization) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.PageInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsPage) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.PersonInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsPerson) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.PlaceInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsPlace) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ProfileInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsProfile) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.QuestionInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsQuestion) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ReadInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsRead) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.RejectInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsReject) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.RelationshipInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsRelationship) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.RemoveInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsRemove) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ServiceInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsService) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.TentativeAcceptInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsTentativeAccept) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.TentativeRejectInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsTentativeReject) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.TombstoneInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsTombstone) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.TravelInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsTravel) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.UndoInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsUndo) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.UpdateInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsUpdate) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.VideoInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsVideo) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ViewInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsView) error {
 				return resFn(x)
 			},
 		)
@@ -245,166 +245,166 @@ func TestJSONResolverErrors(t *testing.T) {
 		ex := example.expectedJSON
 		resFn := func(s serializer) error { return nil }
 		r, err := NewJSONResolver(
-			func(c context.Context, x vocab.AcceptInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsAccept) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ActivityInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsActivity) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.AddInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsAdd) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.AnnounceInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsAnnounce) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ApplicationInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsApplication) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ArriveInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsArrive) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ArticleInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsArticle) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.AudioInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsAudio) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.BlockInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsBlock) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.CollectionInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsCollection) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.CollectionPageInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsCollectionPage) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.CreateInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsCreate) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.DeleteInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsDelete) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.DislikeInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsDislike) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.DocumentInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsDocument) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.EventInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsEvent) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.FlagInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsFlag) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.FollowInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsFollow) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.GroupInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsGroup) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.IgnoreInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsIgnore) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ImageInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsImage) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.IntransitiveActivityInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsIntransitiveActivity) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.InviteInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsInvite) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.JoinInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsJoin) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.LeaveInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsLeave) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.LikeInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsLike) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.LinkInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsLink) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ListenInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsListen) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.MentionInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsMention) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.MoveInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsMove) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.NoteInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsNote) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ObjectInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsObject) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.OfferInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsOffer) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.OrderedCollectionInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsOrderedCollection) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.OrderedCollectionPageInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsOrderedCollectionPage) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.OrganizationInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsOrganization) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.PageInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsPage) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.PersonInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsPerson) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.PlaceInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsPlace) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ProfileInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsProfile) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.QuestionInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsQuestion) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ReadInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsRead) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.RejectInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsReject) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.RelationshipInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsRelationship) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.RemoveInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsRemove) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ServiceInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsService) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.TentativeAcceptInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsTentativeAccept) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.TentativeRejectInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsTentativeReject) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.TombstoneInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsTombstone) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.TravelInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsTravel) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.UndoInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsUndo) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.UpdateInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsUpdate) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.VideoInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsVideo) error {
 				return resFn(x)
 			},
-			func(c context.Context, x vocab.ViewInterface) error {
+			func(c context.Context, x vocab.ActivityStreamsView) error {
 				return resFn(x)
 			},
 		)
@@ -456,40 +456,40 @@ func TestNulls(t *testing.T) {
 	noteIdProperty := NewActivityStreamsIdProperty()
 	noteIdProperty.SetIRI(noteIRI)
 	expectedNote := NewActivityStreamsNote()
-	expectedNote.SetId(noteIdProperty)
+	expectedNote.SetActivityStreamsId(noteIdProperty)
 	noteNameProperty := NewActivityStreamsNameProperty()
-	noteNameProperty.AppendString("A Note")
-	expectedNote.SetName(noteNameProperty)
+	noteNameProperty.AppendXMLSchemaString("A Note")
+	expectedNote.SetActivityStreamsName(noteNameProperty)
 	noteContentProperty := NewActivityStreamsContentProperty()
-	noteContentProperty.AppendString("This is a simple note")
-	expectedNote.SetContent(noteContentProperty)
+	noteContentProperty.AppendXMLSchemaString("This is a simple note")
+	expectedNote.SetActivityStreamsContent(noteContentProperty)
 	noteToProperty := NewActivityStreamsToProperty()
 	expectedSamActor := NewActivityStreamsPerson()
 	samInboxProperty := NewActivityStreamsInboxProperty()
 	samInboxProperty.SetIRI(samIRIInbox)
-	expectedSamActor.SetInbox(samInboxProperty)
+	expectedSamActor.SetActivityStreamsInbox(samInboxProperty)
 	samIdProperty := NewActivityStreamsIdProperty()
 	samIdProperty.SetIRI(samIRI)
-	expectedSamActor.SetId(samIdProperty)
-	noteToProperty.AppendPerson(expectedSamActor)
-	expectedNote.SetTo(noteToProperty)
+	expectedSamActor.SetActivityStreamsId(samIdProperty)
+	noteToProperty.AppendActivityStreamsPerson(expectedSamActor)
+	expectedNote.SetActivityStreamsTo(noteToProperty)
 	expectedUpdate := NewActivityStreamsUpdate()
 	sallyIdProperty := NewActivityStreamsIdProperty()
 	sallyIdProperty.SetIRI(sallyIRI)
 	sallyPerson := NewActivityStreamsPerson()
-	sallyPerson.SetId(sallyIdProperty)
+	sallyPerson.SetActivityStreamsId(sallyIdProperty)
 	sallyActor := NewActivityStreamsActorProperty()
-	sallyActor.AppendPerson(sallyPerson)
-	expectedUpdate.SetActor(sallyActor)
+	sallyActor.AppendActivityStreamsPerson(sallyPerson)
+	expectedUpdate.SetActivityStreamsActor(sallyActor)
 	summaryProperty := NewActivityStreamsSummaryProperty()
-	summaryProperty.AppendString("Sally updated her note")
-	expectedUpdate.SetSummary(summaryProperty)
+	summaryProperty.AppendXMLSchemaString("Sally updated her note")
+	expectedUpdate.SetActivityStreamsSummary(summaryProperty)
 	updateIdProperty := NewActivityStreamsIdProperty()
 	updateIdProperty.SetIRI(activityIRI)
-	expectedUpdate.SetId(updateIdProperty)
+	expectedUpdate.SetActivityStreamsId(updateIdProperty)
 	objectNote := NewActivityStreamsObjectProperty()
-	objectNote.AppendNote(expectedNote)
-	expectedUpdate.SetObject(objectNote)
+	objectNote.AppendActivityStreamsNote(expectedNote)
+	expectedUpdate.SetActivityStreamsObject(objectNote)
 
 	// Variable to aid in deserialization in tests
 	var actual serializer
@@ -503,7 +503,7 @@ func TestNulls(t *testing.T) {
 		{
 			name:     "JSON nulls are not preserved",
 			expected: expectedUpdate,
-			callback: func(c context.Context, v vocab.UpdateInterface) error {
+			callback: func(c context.Context, v vocab.ActivityStreamsUpdate) error {
 				actual = v
 				return nil
 			},

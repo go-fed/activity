@@ -21,14 +21,14 @@ const example1 = `{
   "name": "A Simple, non-specific object"
 }`
 
-func example1Type() vocab.ObjectInterface {
+func example1Type() vocab.ActivityStreamsObject {
 	example1Type := NewActivityStreamsObject()
 	id := NewActivityStreamsIdProperty()
 	id.Set(MustParseURL("http://www.test.example/object/1"))
-	example1Type.SetId(id)
+	example1Type.SetActivityStreamsId(id)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("A Simple, non-specific object")
-	example1Type.SetName(name)
+	name.AppendXMLSchemaString("A Simple, non-specific object")
+	example1Type.SetActivityStreamsName(name)
 	return example1Type
 }
 
@@ -41,21 +41,21 @@ const example2 = `{
   "name": "An example link"
 }`
 
-func example2Type() vocab.LinkInterface {
+func example2Type() vocab.ActivityStreamsLink {
 	example2Type := NewActivityStreamsLink()
 	hrefUrl := MustParseURL("http://example.org/abc")
 	href := NewActivityStreamsHrefProperty()
 	href.Set(hrefUrl)
-	example2Type.SetHref(href)
+	example2Type.SetActivityStreamsHref(href)
 	hrefLang := NewActivityStreamsHreflangProperty()
 	hrefLang.Set("en")
-	example2Type.SetHreflang(hrefLang)
+	example2Type.SetActivityStreamsHreflang(hrefLang)
 	mediaType := NewActivityStreamsMediaTypeProperty()
 	mediaType.Set("text/html")
-	example2Type.SetMediaType(mediaType)
+	example2Type.SetActivityStreamsMediaType(mediaType)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("An example link")
-	example2Type.SetName(name)
+	name.AppendXMLSchemaString("An example link")
+	example2Type.SetActivityStreamsName(name)
 	return example2Type
 }
 
@@ -73,25 +73,25 @@ const example3 = `{
   }
 }`
 
-func example3Type() vocab.ActivityInterface {
+func example3Type() vocab.ActivityStreamsActivity {
 	example3Type := NewActivityStreamsActivity()
 	person := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	note := NewActivityStreamsNote()
 	aNote := NewActivityStreamsNameProperty()
-	aNote.AppendString("A Note")
-	note.SetName(aNote)
+	aNote.AppendXMLSchemaString("A Note")
+	note.SetActivityStreamsName(aNote)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally did something to a note")
-	example3Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally did something to a note")
+	example3Type.SetActivityStreamsSummary(summary)
 	actor := NewActivityStreamsActorProperty()
-	actor.AppendPerson(person)
-	example3Type.SetActor(actor)
+	actor.AppendActivityStreamsPerson(person)
+	example3Type.SetActivityStreamsActor(actor)
 	object := NewActivityStreamsObjectProperty()
-	object.AppendNote(note)
-	example3Type.SetObject(object)
+	object.AppendActivityStreamsNote(note)
+	example3Type.SetActivityStreamsObject(object)
 	return example3Type
 }
 
@@ -109,25 +109,25 @@ const example4 = `{
   }
 }`
 
-func example4Type() vocab.TravelInterface {
+func example4Type() vocab.ActivityStreamsTravel {
 	example4Type := NewActivityStreamsTravel()
 	person := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	place := NewActivityStreamsPlace()
 	work := NewActivityStreamsNameProperty()
-	work.AppendString("Work")
-	place.SetName(work)
+	work.AppendXMLSchemaString("Work")
+	place.SetActivityStreamsName(work)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally went to work")
-	example4Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally went to work")
+	example4Type.SetActivityStreamsSummary(summary)
 	actor := NewActivityStreamsActorProperty()
-	actor.AppendPerson(person)
-	example4Type.SetActor(actor)
+	actor.AppendActivityStreamsPerson(person)
+	example4Type.SetActivityStreamsActor(actor)
 	target := NewActivityStreamsTargetProperty()
-	target.AppendPlace(place)
-	example4Type.SetTarget(target)
+	target.AppendActivityStreamsPlace(place)
+	example4Type.SetActivityStreamsTarget(target)
 	return example4Type
 }
 
@@ -148,26 +148,26 @@ const example5 = `{
   ]
 }`
 
-func example5Type() vocab.CollectionInterface {
+func example5Type() vocab.ActivityStreamsCollection {
 	example5Type := NewActivityStreamsCollection()
 	note1 := NewActivityStreamsNote()
 	name1 := NewActivityStreamsNameProperty()
-	name1.AppendString("A Simple Note")
-	note1.SetName(name1)
+	name1.AppendXMLSchemaString("A Simple Note")
+	note1.SetActivityStreamsName(name1)
 	note2 := NewActivityStreamsNote()
 	name2 := NewActivityStreamsNameProperty()
-	name2.AppendString("Another Simple Note")
-	note2.SetName(name2)
+	name2.AppendXMLSchemaString("Another Simple Note")
+	note2.SetActivityStreamsName(name2)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally's notes")
-	example5Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally's notes")
+	example5Type.SetActivityStreamsSummary(summary)
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(2)
-	example5Type.SetTotalItems(totalItems)
+	example5Type.SetActivityStreamsTotalItems(totalItems)
 	items := NewActivityStreamsItemsProperty()
-	items.AppendNote(note1)
-	items.AppendNote(note2)
-	example5Type.SetItems(items)
+	items.AppendActivityStreamsNote(note1)
+	items.AppendActivityStreamsNote(note2)
+	example5Type.SetActivityStreamsItems(items)
 	return example5Type
 }
 
@@ -188,26 +188,26 @@ const example6 = `{
   ]
 }`
 
-func example6Type() vocab.OrderedCollectionInterface {
+func example6Type() vocab.ActivityStreamsOrderedCollection {
 	example6Type := NewActivityStreamsOrderedCollection()
 	note1 := NewActivityStreamsNote()
 	name1 := NewActivityStreamsNameProperty()
-	name1.AppendString("A Simple Note")
-	note1.SetName(name1)
+	name1.AppendXMLSchemaString("A Simple Note")
+	note1.SetActivityStreamsName(name1)
 	note2 := NewActivityStreamsNote()
 	name2 := NewActivityStreamsNameProperty()
-	name2.AppendString("Another Simple Note")
-	note2.SetName(name2)
+	name2.AppendXMLSchemaString("Another Simple Note")
+	note2.SetActivityStreamsName(name2)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally's notes")
-	example6Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally's notes")
+	example6Type.SetActivityStreamsSummary(summary)
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(2)
-	example6Type.SetTotalItems(totalItems)
+	example6Type.SetActivityStreamsTotalItems(totalItems)
 	orderedItems := NewActivityStreamsOrderedItemsProperty()
-	orderedItems.AppendNote(note1)
-	orderedItems.AppendNote(note2)
-	example6Type.SetOrderedItems(orderedItems)
+	orderedItems.AppendActivityStreamsNote(note1)
+	orderedItems.AppendActivityStreamsNote(note2)
+	example6Type.SetActivityStreamsOrderedItems(orderedItems)
 	return example6Type
 }
 
@@ -229,29 +229,29 @@ const example7 = `{
   ]
 }`
 
-func example7Type() vocab.CollectionPageInterface {
+func example7Type() vocab.ActivityStreamsCollectionPage {
 	example7Type := NewActivityStreamsCollectionPage()
 	note1 := NewActivityStreamsNote()
 	name1 := NewActivityStreamsNameProperty()
-	name1.AppendString("A Simple Note")
-	note1.SetName(name1)
+	name1.AppendXMLSchemaString("A Simple Note")
+	note1.SetActivityStreamsName(name1)
 	note2 := NewActivityStreamsNote()
 	name2 := NewActivityStreamsNameProperty()
-	name2.AppendString("Another Simple Note")
-	note2.SetName(name2)
+	name2.AppendXMLSchemaString("Another Simple Note")
+	note2.SetActivityStreamsName(name2)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Page 1 of Sally's notes")
-	example7Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Page 1 of Sally's notes")
+	example7Type.SetActivityStreamsSummary(summary)
 	id := NewActivityStreamsIdProperty()
 	id.Set(MustParseURL("http://example.org/foo?page=1"))
-	example7Type.SetId(id)
+	example7Type.SetActivityStreamsId(id)
 	partOf := NewActivityStreamsPartOfProperty()
 	partOf.SetIRI(MustParseURL("http://example.org/foo"))
-	example7Type.SetPartOf(partOf)
+	example7Type.SetActivityStreamsPartOf(partOf)
 	items := NewActivityStreamsItemsProperty()
-	items.AppendNote(note1)
-	items.AppendNote(note2)
-	example7Type.SetItems(items)
+	items.AppendActivityStreamsNote(note1)
+	items.AppendActivityStreamsNote(note2)
+	example7Type.SetActivityStreamsItems(items)
 	return example7Type
 }
 
@@ -273,29 +273,29 @@ const example8 = `{
   ]
 }`
 
-func example8Type() vocab.OrderedCollectionPageInterface {
+func example8Type() vocab.ActivityStreamsOrderedCollectionPage {
 	example8Type := NewActivityStreamsOrderedCollectionPage()
 	note1 := NewActivityStreamsNote()
 	name1 := NewActivityStreamsNameProperty()
-	name1.AppendString("A Simple Note")
-	note1.SetName(name1)
+	name1.AppendXMLSchemaString("A Simple Note")
+	note1.SetActivityStreamsName(name1)
 	note2 := NewActivityStreamsNote()
 	name2 := NewActivityStreamsNameProperty()
-	name2.AppendString("Another Simple Note")
-	note2.SetName(name2)
+	name2.AppendXMLSchemaString("Another Simple Note")
+	note2.SetActivityStreamsName(name2)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Page 1 of Sally's notes")
-	example8Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Page 1 of Sally's notes")
+	example8Type.SetActivityStreamsSummary(summary)
 	id := NewActivityStreamsIdProperty()
 	id.Set(MustParseURL("http://example.org/foo?page=1"))
-	example8Type.SetId(id)
+	example8Type.SetActivityStreamsId(id)
 	partOf := NewActivityStreamsPartOfProperty()
 	partOf.SetIRI(MustParseURL("http://example.org/foo"))
-	example8Type.SetPartOf(partOf)
+	example8Type.SetActivityStreamsPartOf(partOf)
 	orderedItems := NewActivityStreamsOrderedItemsProperty()
-	orderedItems.AppendNote(note1)
-	orderedItems.AppendNote(note2)
-	example8Type.SetOrderedItems(orderedItems)
+	orderedItems.AppendActivityStreamsNote(note1)
+	orderedItems.AppendActivityStreamsNote(note2)
+	example8Type.SetActivityStreamsOrderedItems(orderedItems)
 	return example8Type
 }
 
@@ -317,32 +317,32 @@ const example9 = `{
   }
 }`
 
-func example9Type() vocab.AcceptInterface {
+func example9Type() vocab.ActivityStreamsAccept {
 	example9Type := NewActivityStreamsAccept()
 	person := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	event := NewActivityStreamsEvent()
 	goingAway := NewActivityStreamsNameProperty()
-	goingAway.AppendString("Going-Away Party for Jim")
-	event.SetName(goingAway)
+	goingAway.AppendXMLSchemaString("Going-Away Party for Jim")
+	event.SetActivityStreamsName(goingAway)
 	invite := NewActivityStreamsInvite()
 	actor := NewActivityStreamsActorProperty()
 	actor.AppendIRI(MustParseURL("http://john.example.org"))
-	invite.SetActor(actor)
+	invite.SetActivityStreamsActor(actor)
 	object := NewActivityStreamsObjectProperty()
-	object.AppendEvent(event)
-	invite.SetObject(object)
+	object.AppendActivityStreamsEvent(event)
+	invite.SetActivityStreamsObject(object)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally accepted an invitation to a party")
-	example9Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally accepted an invitation to a party")
+	example9Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(person)
-	example9Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(person)
+	example9Type.SetActivityStreamsActor(rootActor)
 	inviteObject := NewActivityStreamsObjectProperty()
-	inviteObject.AppendInvite(invite)
-	example9Type.SetObject(inviteObject)
+	inviteObject.AppendActivityStreamsInvite(invite)
+	example9Type.SetActivityStreamsObject(inviteObject)
 	return example9Type
 }
 
@@ -364,32 +364,32 @@ const example10 = `{
   }
 }`
 
-func example10Type() vocab.AcceptInterface {
+func example10Type() vocab.ActivityStreamsAccept {
 	example10Type := NewActivityStreamsAccept()
 	person := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	object := NewActivityStreamsPerson()
 	joe := NewActivityStreamsNameProperty()
-	joe.AppendString("Joe")
-	object.SetName(joe)
+	joe.AppendXMLSchemaString("Joe")
+	object.SetActivityStreamsName(joe)
 	target := NewActivityStreamsGroup()
 	club := NewActivityStreamsNameProperty()
-	club.AppendString("The Club")
-	target.SetName(club)
+	club.AppendXMLSchemaString("The Club")
+	target.SetActivityStreamsName(club)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally accepted Joe into the club")
-	example10Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally accepted Joe into the club")
+	example10Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(person)
-	example10Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(person)
+	example10Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendPerson(object)
-	example10Type.SetObject(obj)
+	obj.AppendActivityStreamsPerson(object)
+	example10Type.SetActivityStreamsObject(obj)
 	tobj := NewActivityStreamsTargetProperty()
-	tobj.AppendGroup(target)
-	example10Type.SetTarget(tobj)
+	tobj.AppendActivityStreamsGroup(target)
+	example10Type.SetActivityStreamsTarget(tobj)
 	return example10Type
 }
 
@@ -411,32 +411,32 @@ const example11 = `{
   }
 }`
 
-func example11Type() vocab.TentativeAcceptInterface {
+func example11Type() vocab.ActivityStreamsTentativeAccept {
 	example11Type := NewActivityStreamsTentativeAccept()
 	person := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	event := NewActivityStreamsEvent()
 	goingAway := NewActivityStreamsNameProperty()
-	goingAway.AppendString("Going-Away Party for Jim")
-	event.SetName(goingAway)
+	goingAway.AppendXMLSchemaString("Going-Away Party for Jim")
+	event.SetActivityStreamsName(goingAway)
 	invite := NewActivityStreamsInvite()
 	inviteActor := NewActivityStreamsActorProperty()
 	inviteActor.AppendIRI(MustParseURL("http://john.example.org"))
-	invite.SetActor(inviteActor)
+	invite.SetActivityStreamsActor(inviteActor)
 	objInvite := NewActivityStreamsObjectProperty()
-	objInvite.AppendEvent(event)
-	invite.SetObject(objInvite)
+	objInvite.AppendActivityStreamsEvent(event)
+	invite.SetActivityStreamsObject(objInvite)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally tentatively accepted an invitation to a party")
-	example11Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally tentatively accepted an invitation to a party")
+	example11Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(person)
-	example11Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(person)
+	example11Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendInvite(invite)
-	example11Type.SetObject(obj)
+	obj.AppendActivityStreamsInvite(invite)
+	example11Type.SetActivityStreamsObject(obj)
 	return example11Type
 }
 
@@ -451,22 +451,22 @@ const example12 = `{
   "object": "http://example.org/abc"
 }`
 
-func example12Type() vocab.AddInterface {
+func example12Type() vocab.ActivityStreamsAdd {
 	example12Type := NewActivityStreamsAdd()
 	person := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	link := MustParseURL("http://example.org/abc")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally added an object")
-	example12Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally added an object")
+	example12Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(person)
-	example12Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(person)
+	example12Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(link)
-	example12Type.SetObject(obj)
+	example12Type.SetActivityStreamsObject(obj)
 	return example12Type
 }
 
@@ -493,43 +493,43 @@ const example13 = `{
   }
 }`
 
-func example13Type() vocab.AddInterface {
+func example13Type() vocab.ActivityStreamsAdd {
 	example13Type := NewActivityStreamsAdd()
 	person := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	link := MustParseURL("http://example.org/img/cat.png")
 	object := NewActivityStreamsImage()
 	objectName := NewActivityStreamsNameProperty()
-	objectName.AppendString("A picture of my cat")
-	object.SetName(objectName)
+	objectName.AppendXMLSchemaString("A picture of my cat")
+	object.SetActivityStreamsName(objectName)
 	urlProp := NewActivityStreamsUrlProperty()
 	urlProp.AppendIRI(link)
-	object.SetUrl(urlProp)
+	object.SetActivityStreamsUrl(urlProp)
 	origin := NewActivityStreamsCollection()
 	originName := NewActivityStreamsNameProperty()
-	originName.AppendString("Camera Roll")
-	origin.SetName(originName)
+	originName.AppendXMLSchemaString("Camera Roll")
+	origin.SetActivityStreamsName(originName)
 	target := NewActivityStreamsCollection()
 	targetName := NewActivityStreamsNameProperty()
-	targetName.AppendString("My Cat Pictures")
-	target.SetName(targetName)
+	targetName.AppendXMLSchemaString("My Cat Pictures")
+	target.SetActivityStreamsName(targetName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally added a picture of her cat to her cat picture collection")
-	example13Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally added a picture of her cat to her cat picture collection")
+	example13Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(person)
-	example13Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(person)
+	example13Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendImage(object)
-	example13Type.SetObject(obj)
+	obj.AppendActivityStreamsImage(object)
+	example13Type.SetActivityStreamsObject(obj)
 	originProp := NewActivityStreamsOriginProperty()
-	originProp.AppendCollection(origin)
-	example13Type.SetOrigin(originProp)
+	originProp.AppendActivityStreamsCollection(origin)
+	example13Type.SetActivityStreamsOrigin(originProp)
 	tobj := NewActivityStreamsTargetProperty()
-	tobj.AppendCollection(target)
-	example13Type.SetTarget(tobj)
+	tobj.AppendActivityStreamsCollection(target)
+	example13Type.SetActivityStreamsTarget(tobj)
 	return example13Type
 }
 
@@ -551,32 +551,32 @@ const example14 = `{
   }
 }`
 
-func example14Type() vocab.ArriveInterface {
+func example14Type() vocab.ActivityStreamsArrive {
 	example14Type := NewActivityStreamsArrive()
 	person := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	location := NewActivityStreamsPlace()
 	locationName := NewActivityStreamsNameProperty()
-	locationName.AppendString("Work")
-	location.SetName(locationName)
+	locationName.AppendXMLSchemaString("Work")
+	location.SetActivityStreamsName(locationName)
 	origin := NewActivityStreamsPlace()
 	originName := NewActivityStreamsNameProperty()
-	originName.AppendString("Home")
-	origin.SetName(originName)
+	originName.AppendXMLSchemaString("Home")
+	origin.SetActivityStreamsName(originName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally arrived at work")
-	example14Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally arrived at work")
+	example14Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(person)
-	example14Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(person)
+	example14Type.SetActivityStreamsActor(rootActor)
 	loc := NewActivityStreamsLocationProperty()
-	loc.AppendPlace(location)
-	example14Type.SetLocation(loc)
+	loc.AppendActivityStreamsPlace(location)
+	example14Type.SetActivityStreamsLocation(loc)
 	originProp := NewActivityStreamsOriginProperty()
-	originProp.AppendPlace(origin)
-	example14Type.SetOrigin(originProp)
+	originProp.AppendActivityStreamsPlace(origin)
+	example14Type.SetActivityStreamsOrigin(originProp)
 	return example14Type
 }
 
@@ -595,28 +595,28 @@ const example15 = `{
   }
 }`
 
-func example15Type() vocab.CreateInterface {
+func example15Type() vocab.ActivityStreamsCreate {
 	example15Type := NewActivityStreamsCreate()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	object := NewActivityStreamsNote()
 	objectName := NewActivityStreamsNameProperty()
-	objectName.AppendString("A Simple Note")
-	object.SetName(objectName)
+	objectName.AppendXMLSchemaString("A Simple Note")
+	object.SetActivityStreamsName(objectName)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("This is a simple note")
-	object.SetContent(content)
+	content.AppendXMLSchemaString("This is a simple note")
+	object.SetActivityStreamsContent(content)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally created a note")
-	example15Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally created a note")
+	example15Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example15Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example15Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendNote(object)
-	example15Type.SetObject(obj)
+	obj.AppendActivityStreamsNote(object)
+	example15Type.SetActivityStreamsObject(obj)
 	return example15Type
 }
 
@@ -635,29 +635,29 @@ const example16 = `{
   }
 }`
 
-func example16Type() vocab.DeleteInterface {
+func example16Type() vocab.ActivityStreamsDelete {
 	example16Type := NewActivityStreamsDelete()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	origin := NewActivityStreamsCollection()
 	originName := NewActivityStreamsNameProperty()
-	originName.AppendString("Sally's Notes")
-	origin.SetName(originName)
+	originName.AppendXMLSchemaString("Sally's Notes")
+	origin.SetActivityStreamsName(originName)
 	link := MustParseURL("http://example.org/notes/1")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally deleted a note")
-	example16Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally deleted a note")
+	example16Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example16Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example16Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(link)
-	example16Type.SetObject(obj)
+	example16Type.SetActivityStreamsObject(obj)
 	originProp := NewActivityStreamsOriginProperty()
-	originProp.AppendCollection(origin)
-	example16Type.SetOrigin(originProp)
+	originProp.AppendActivityStreamsCollection(origin)
+	example16Type.SetActivityStreamsOrigin(originProp)
 	return example16Type
 }
 
@@ -675,25 +675,25 @@ const example17 = `{
   }
 }`
 
-func example17Type() vocab.FollowInterface {
+func example17Type() vocab.ActivityStreamsFollow {
 	example17Type := NewActivityStreamsFollow()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	object := NewActivityStreamsPerson()
 	objectName := NewActivityStreamsNameProperty()
-	objectName.AppendString("John")
-	object.SetName(objectName)
+	objectName.AppendXMLSchemaString("John")
+	object.SetActivityStreamsName(objectName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally followed John")
-	example17Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally followed John")
+	example17Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example17Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example17Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendPerson(object)
-	example17Type.SetObject(obj)
+	obj.AppendActivityStreamsPerson(object)
+	example17Type.SetActivityStreamsObject(obj)
 	return example17Type
 }
 
@@ -708,22 +708,22 @@ const example18 = `{
   "object": "http://example.org/notes/1"
 }`
 
-func example18Type() vocab.IgnoreInterface {
+func example18Type() vocab.ActivityStreamsIgnore {
 	example18Type := NewActivityStreamsIgnore()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	link := MustParseURL("http://example.org/notes/1")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally ignored a note")
-	example18Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally ignored a note")
+	example18Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example18Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example18Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(link)
-	example18Type.SetObject(obj)
+	example18Type.SetActivityStreamsObject(obj)
 	return example18Type
 }
 
@@ -741,25 +741,25 @@ const example19 = `{
   }
 }`
 
-func example19Type() vocab.JoinInterface {
+func example19Type() vocab.ActivityStreamsJoin {
 	example19Type := NewActivityStreamsJoin()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	object := NewActivityStreamsGroup()
 	objectName := NewActivityStreamsNameProperty()
-	objectName.AppendString("A Simple Group")
-	object.SetName(objectName)
+	objectName.AppendXMLSchemaString("A Simple Group")
+	object.SetActivityStreamsName(objectName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally joined a group")
-	example19Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally joined a group")
+	example19Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example19Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example19Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendGroup(object)
-	example19Type.SetObject(obj)
+	obj.AppendActivityStreamsGroup(object)
+	example19Type.SetActivityStreamsObject(obj)
 	return example19Type
 }
 
@@ -777,25 +777,25 @@ const example20 = `{
   }
 }`
 
-func example20Type() vocab.LeaveInterface {
+func example20Type() vocab.ActivityStreamsLeave {
 	example20Type := NewActivityStreamsLeave()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	object := NewActivityStreamsPlace()
 	objectName := NewActivityStreamsNameProperty()
-	objectName.AppendString("Work")
-	object.SetName(objectName)
+	objectName.AppendXMLSchemaString("Work")
+	object.SetActivityStreamsName(objectName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally left work")
-	example20Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally left work")
+	example20Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example20Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example20Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendPlace(object)
-	example20Type.SetObject(obj)
+	obj.AppendActivityStreamsPlace(object)
+	example20Type.SetActivityStreamsObject(obj)
 	return example20Type
 }
 
@@ -813,25 +813,25 @@ const example21 = `{
   }
 }`
 
-func example21Type() vocab.LeaveInterface {
+func example21Type() vocab.ActivityStreamsLeave {
 	example21Type := NewActivityStreamsLeave()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	object := NewActivityStreamsGroup()
 	objectName := NewActivityStreamsNameProperty()
-	objectName.AppendString("A Simple Group")
-	object.SetName(objectName)
+	objectName.AppendXMLSchemaString("A Simple Group")
+	object.SetActivityStreamsName(objectName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally left a group")
-	example21Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally left a group")
+	example21Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example21Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example21Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendGroup(object)
-	example21Type.SetObject(obj)
+	obj.AppendActivityStreamsGroup(object)
+	example21Type.SetActivityStreamsObject(obj)
 	return example21Type
 }
 
@@ -846,22 +846,22 @@ const example22 = `{
   "object": "http://example.org/notes/1"
 }`
 
-func example22Type() vocab.LikeInterface {
+func example22Type() vocab.ActivityStreamsLike {
 	example22Type := NewActivityStreamsLike()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	link := MustParseURL("http://example.org/notes/1")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally liked a note")
-	example22Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally liked a note")
+	example22Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example22Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example22Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(link)
-	example22Type.SetObject(obj)
+	example22Type.SetActivityStreamsObject(obj)
 	return example22Type
 }
 
@@ -891,25 +891,25 @@ var example23Unknown = func(m map[string]interface{}) map[string]interface{} {
 	return m
 }
 
-func example23Type() vocab.OfferInterface {
+func example23Type() vocab.ActivityStreamsOffer {
 	example23Type := NewActivityStreamsOffer()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	target := NewActivityStreamsPerson()
 	targetName := NewActivityStreamsNameProperty()
-	targetName.AppendString("Lewis")
-	target.SetName(targetName)
+	targetName.AppendXMLSchemaString("Lewis")
+	target.SetActivityStreamsName(targetName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally offered 50% off to Lewis")
-	example23Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally offered 50% off to Lewis")
+	example23Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example23Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example23Type.SetActivityStreamsActor(rootActor)
 	tobj := NewActivityStreamsTargetProperty()
-	tobj.AppendPerson(target)
-	example23Type.SetTarget(tobj)
+	tobj.AppendActivityStreamsPerson(target)
+	example23Type.SetActivityStreamsTarget(tobj)
 	return example23Type
 }
 
@@ -937,37 +937,37 @@ const example24 = `{
   ]
 }`
 
-func example24Type() vocab.InviteInterface {
+func example24Type() vocab.ActivityStreamsInvite {
 	example24Type := NewActivityStreamsInvite()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	object := NewActivityStreamsEvent()
 	objectName := NewActivityStreamsNameProperty()
-	objectName.AppendString("A Party")
-	object.SetName(objectName)
+	objectName.AppendXMLSchemaString("A Party")
+	object.SetActivityStreamsName(objectName)
 	target1 := NewActivityStreamsPerson()
 	target1Name := NewActivityStreamsNameProperty()
-	target1Name.AppendString("John")
-	target1.SetName(target1Name)
+	target1Name.AppendXMLSchemaString("John")
+	target1.SetActivityStreamsName(target1Name)
 	target2 := NewActivityStreamsPerson()
 	target2Name := NewActivityStreamsNameProperty()
-	target2Name.AppendString("Lisa")
-	target2.SetName(target2Name)
+	target2Name.AppendXMLSchemaString("Lisa")
+	target2.SetActivityStreamsName(target2Name)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally invited John and Lisa to a party")
-	example24Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally invited John and Lisa to a party")
+	example24Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example24Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example24Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendEvent(object)
-	example24Type.SetObject(obj)
+	obj.AppendActivityStreamsEvent(object)
+	example24Type.SetActivityStreamsObject(obj)
 	tobj := NewActivityStreamsTargetProperty()
-	tobj.AppendPerson(target1)
-	tobj.AppendPerson(target2)
-	example24Type.SetTarget(tobj)
+	tobj.AppendActivityStreamsPerson(target1)
+	tobj.AppendActivityStreamsPerson(target2)
+	example24Type.SetActivityStreamsTarget(tobj)
 	return example24Type
 }
 
@@ -989,32 +989,32 @@ const example25 = `{
   }
 }`
 
-func example25Type() vocab.RejectInterface {
+func example25Type() vocab.ActivityStreamsReject {
 	example25Type := NewActivityStreamsReject()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	inviteObject := NewActivityStreamsEvent()
 	goingAway := NewActivityStreamsNameProperty()
-	goingAway.AppendString("Going-Away Party for Jim")
-	inviteObject.SetName(goingAway)
+	goingAway.AppendXMLSchemaString("Going-Away Party for Jim")
+	inviteObject.SetActivityStreamsName(goingAway)
 	object := NewActivityStreamsInvite()
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(MustParseURL("http://john.example.org"))
-	object.SetActor(objectActor)
+	object.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendEvent(inviteObject)
-	object.SetObject(obj)
+	obj.AppendActivityStreamsEvent(inviteObject)
+	object.SetActivityStreamsObject(obj)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally rejected an invitation to a party")
-	example25Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally rejected an invitation to a party")
+	example25Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example25Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example25Type.SetActivityStreamsActor(rootActor)
 	objRoot := NewActivityStreamsObjectProperty()
-	objRoot.AppendInvite(object)
-	example25Type.SetObject(objRoot)
+	objRoot.AppendActivityStreamsInvite(object)
+	example25Type.SetActivityStreamsObject(objRoot)
 	return example25Type
 }
 
@@ -1036,32 +1036,32 @@ const example26 = `{
   }
 }`
 
-func example26Type() vocab.TentativeRejectInterface {
+func example26Type() vocab.ActivityStreamsTentativeReject {
 	example26Type := NewActivityStreamsTentativeReject()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	inviteObject := NewActivityStreamsEvent()
 	goingAway := NewActivityStreamsNameProperty()
-	goingAway.AppendString("Going-Away Party for Jim")
-	inviteObject.SetName(goingAway)
+	goingAway.AppendXMLSchemaString("Going-Away Party for Jim")
+	inviteObject.SetActivityStreamsName(goingAway)
 	object := NewActivityStreamsInvite()
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(MustParseURL("http://john.example.org"))
-	object.SetActor(objectActor)
+	object.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendEvent(inviteObject)
-	object.SetObject(obj)
+	obj.AppendActivityStreamsEvent(inviteObject)
+	object.SetActivityStreamsObject(obj)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally tentatively rejected an invitation to a party")
-	example26Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally tentatively rejected an invitation to a party")
+	example26Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example26Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example26Type.SetActivityStreamsActor(rootActor)
 	objRoot := NewActivityStreamsObjectProperty()
-	objRoot.AppendInvite(object)
-	example26Type.SetObject(objRoot)
+	objRoot.AppendActivityStreamsInvite(object)
+	example26Type.SetActivityStreamsObject(objRoot)
 	return example26Type
 }
 
@@ -1080,29 +1080,29 @@ const example27 = `{
   }
 }`
 
-func example27Type() vocab.RemoveInterface {
+func example27Type() vocab.ActivityStreamsRemove {
 	example27Type := NewActivityStreamsRemove()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	link := MustParseURL("http://example.org/notes/1")
 	target := NewActivityStreamsCollection()
 	targetName := NewActivityStreamsNameProperty()
-	targetName.AppendString("Notes Folder")
-	target.SetName(targetName)
+	targetName.AppendXMLSchemaString("Notes Folder")
+	target.SetActivityStreamsName(targetName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally removed a note from her notes folder")
-	example27Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally removed a note from her notes folder")
+	example27Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example27Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example27Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(link)
-	example27Type.SetObject(obj)
+	example27Type.SetActivityStreamsObject(obj)
 	tobj := NewActivityStreamsTargetProperty()
-	tobj.AppendCollection(target)
-	example27Type.SetTarget(tobj)
+	tobj.AppendActivityStreamsCollection(target)
+	example27Type.SetActivityStreamsTarget(tobj)
 	return example27Type
 }
 
@@ -1132,25 +1132,25 @@ var example28Unknown = func(m map[string]interface{}) map[string]interface{} {
 	return m
 }
 
-func example28Type() vocab.RemoveInterface {
+func example28Type() vocab.ActivityStreamsRemove {
 	example28Type := NewActivityStreamsRemove()
 	object := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	object.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	object.SetActivityStreamsName(sally)
 	origin := NewActivityStreamsGroup()
 	originName := NewActivityStreamsNameProperty()
-	originName.AppendString("A Simple Group")
-	origin.SetName(originName)
+	originName.AppendXMLSchemaString("A Simple Group")
+	origin.SetActivityStreamsName(originName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("The moderator removed Sally from a group")
-	example28Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("The moderator removed Sally from a group")
+	example28Type.SetActivityStreamsSummary(summary)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendPerson(object)
-	example28Type.SetObject(obj)
+	obj.AppendActivityStreamsPerson(object)
+	example28Type.SetActivityStreamsObject(obj)
 	originProp := NewActivityStreamsOriginProperty()
-	originProp.AppendGroup(origin)
-	example28Type.SetOrigin(originProp)
+	originProp.AppendActivityStreamsGroup(origin)
+	example28Type.SetActivityStreamsOrigin(originProp)
 	return example28Type
 }
 
@@ -1167,7 +1167,7 @@ const example29 = `{
   }
 }`
 
-func example29Type() vocab.UndoInterface {
+func example29Type() vocab.ActivityStreamsUndo {
 	example29Type := NewActivityStreamsUndo()
 	link := MustParseURL("http://sally.example.org")
 	objectLink := MustParseURL("http://example.org/posts/1")
@@ -1175,22 +1175,22 @@ func example29Type() vocab.UndoInterface {
 	object := NewActivityStreamsOffer()
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(link)
-	object.SetActor(objectActor)
+	object.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(objectLink)
-	object.SetObject(obj)
+	object.SetActivityStreamsObject(obj)
 	target := NewActivityStreamsTargetProperty()
 	target.AppendIRI(targetLink)
-	object.SetTarget(target)
+	object.SetActivityStreamsTarget(target)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally retracted her offer to John")
-	example29Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally retracted her offer to John")
+	example29Type.SetActivityStreamsSummary(summary)
 	actor := NewActivityStreamsActorProperty()
 	actor.AppendIRI(link)
-	example29Type.SetActor(actor)
+	example29Type.SetActivityStreamsActor(actor)
 	objRoot := NewActivityStreamsObjectProperty()
-	objRoot.AppendOffer(object)
-	example29Type.SetObject(objRoot)
+	objRoot.AppendActivityStreamsOffer(object)
+	example29Type.SetActivityStreamsObject(objRoot)
 	return example29Type
 }
 
@@ -1205,22 +1205,22 @@ const example30 = `{
   "object": "http://example.org/notes/1"
 }`
 
-func example30Type() vocab.UpdateInterface {
+func example30Type() vocab.ActivityStreamsUpdate {
 	example30Type := NewActivityStreamsUpdate()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	link := MustParseURL("http://example.org/notes/1")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally updated her note")
-	example30Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally updated her note")
+	example30Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example30Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example30Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(link)
-	example30Type.SetObject(obj)
+	example30Type.SetActivityStreamsObject(obj)
 	return example30Type
 }
 
@@ -1238,25 +1238,25 @@ const example31 = `{
   }
 }`
 
-func example31Type() vocab.ViewInterface {
+func example31Type() vocab.ActivityStreamsView {
 	example31Type := NewActivityStreamsView()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	object := NewActivityStreamsArticle()
 	objectName := NewActivityStreamsNameProperty()
-	objectName.AppendString("What You Should Know About Activity Streams")
-	object.SetName(objectName)
+	objectName.AppendXMLSchemaString("What You Should Know About Activity Streams")
+	object.SetActivityStreamsName(objectName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally read an article")
-	example31Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally read an article")
+	example31Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example31Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example31Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendArticle(object)
-	example31Type.SetObject(obj)
+	obj.AppendActivityStreamsArticle(object)
+	example31Type.SetActivityStreamsObject(obj)
 	return example31Type
 }
 
@@ -1271,22 +1271,22 @@ const example32 = `{
   "object": "http://example.org/music.mp3"
 }`
 
-func example32Type() vocab.ListenInterface {
+func example32Type() vocab.ActivityStreamsListen {
 	example32Type := NewActivityStreamsListen()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	link := MustParseURL("http://example.org/music.mp3")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally listened to a piece of music")
-	example32Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally listened to a piece of music")
+	example32Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example32Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example32Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(link)
-	example32Type.SetObject(obj)
+	example32Type.SetActivityStreamsObject(obj)
 	return example32Type
 }
 
@@ -1301,22 +1301,22 @@ const example33 = `{
   "object": "http://example.org/posts/1"
 }`
 
-func example33Type() vocab.ReadInterface {
+func example33Type() vocab.ActivityStreamsRead {
 	example33Type := NewActivityStreamsRead()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	link := MustParseURL("http://example.org/posts/1")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally read a blog post")
-	example33Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally read a blog post")
+	example33Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example33Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example33Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(link)
-	example33Type.SetObject(obj)
+	example33Type.SetActivityStreamsObject(obj)
 	return example33Type
 }
 
@@ -1339,36 +1339,36 @@ const example34 = `{
   }
 }`
 
-func example34Type() vocab.MoveInterface {
+func example34Type() vocab.ActivityStreamsMove {
 	example34Type := NewActivityStreamsMove()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	link := MustParseURL("http://example.org/posts/1")
 	target := NewActivityStreamsCollection()
 	targetName := NewActivityStreamsNameProperty()
-	targetName.AppendString("List B")
-	target.SetName(targetName)
+	targetName.AppendXMLSchemaString("List B")
+	target.SetActivityStreamsName(targetName)
 	origin := NewActivityStreamsCollection()
 	originName := NewActivityStreamsNameProperty()
-	originName.AppendString("List A")
-	origin.SetName(originName)
+	originName.AppendXMLSchemaString("List A")
+	origin.SetActivityStreamsName(originName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally moved a post from List A to List B")
-	example34Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally moved a post from List A to List B")
+	example34Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example34Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example34Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(link)
-	example34Type.SetObject(obj)
+	example34Type.SetActivityStreamsObject(obj)
 	tobj := NewActivityStreamsTargetProperty()
-	tobj.AppendCollection(target)
-	example34Type.SetTarget(tobj)
+	tobj.AppendActivityStreamsCollection(target)
+	example34Type.SetActivityStreamsTarget(tobj)
 	originProp := NewActivityStreamsOriginProperty()
-	originProp.AppendCollection(origin)
-	example34Type.SetOrigin(originProp)
+	originProp.AppendActivityStreamsCollection(origin)
+	example34Type.SetActivityStreamsOrigin(originProp)
 	return example34Type
 }
 
@@ -1390,32 +1390,32 @@ const example35 = `{
   }
 }`
 
-func example35Type() vocab.TravelInterface {
+func example35Type() vocab.ActivityStreamsTravel {
 	example35Type := NewActivityStreamsTravel()
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	target := NewActivityStreamsPlace()
 	targetName := NewActivityStreamsNameProperty()
-	targetName.AppendString("Home")
-	target.SetName(targetName)
+	targetName.AppendXMLSchemaString("Home")
+	target.SetActivityStreamsName(targetName)
 	origin := NewActivityStreamsPlace()
 	originName := NewActivityStreamsNameProperty()
-	originName.AppendString("Work")
-	origin.SetName(originName)
+	originName.AppendXMLSchemaString("Work")
+	origin.SetActivityStreamsName(originName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally went home from work")
-	example35Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally went home from work")
+	example35Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example35Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example35Type.SetActivityStreamsActor(rootActor)
 	tobj := NewActivityStreamsTargetProperty()
-	tobj.AppendPlace(target)
-	example35Type.SetTarget(tobj)
+	tobj.AppendActivityStreamsPlace(target)
+	example35Type.SetActivityStreamsTarget(tobj)
 	originProp := NewActivityStreamsOriginProperty()
-	originProp.AppendPlace(origin)
-	example35Type.SetOrigin(originProp)
+	originProp.AppendActivityStreamsPlace(origin)
+	example35Type.SetActivityStreamsOrigin(originProp)
 	return example35Type
 }
 
@@ -1438,36 +1438,36 @@ const example36 = `{
   }
 }`
 
-func example36Type() vocab.AnnounceInterface {
+func example36Type() vocab.ActivityStreamsAnnounce {
 	example36Type := NewActivityStreamsAnnounce()
 	link := MustParseURL("http://sally.example.org")
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	id := NewActivityStreamsIdProperty()
 	id.Set(link)
-	actor.SetId(id)
+	actor.SetActivityStreamsId(id)
 	loc := NewActivityStreamsPlace()
 	locName := NewActivityStreamsNameProperty()
-	locName.AppendString("Work")
-	loc.SetName(locName)
+	locName.AppendXMLSchemaString("Work")
+	loc.SetActivityStreamsName(locName)
 	object := NewActivityStreamsArrive()
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(link)
-	object.SetActor(objectActor)
+	object.SetActivityStreamsActor(objectActor)
 	location := NewActivityStreamsLocationProperty()
-	location.AppendPlace(loc)
-	object.SetLocation(location)
+	location.AppendActivityStreamsPlace(loc)
+	object.SetActivityStreamsLocation(location)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally announced that she had arrived at work")
-	example36Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally announced that she had arrived at work")
+	example36Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example36Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example36Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendArrive(object)
-	example36Type.SetObject(obj)
+	obj.AppendActivityStreamsArrive(object)
+	example36Type.SetActivityStreamsObject(obj)
 	return example36Type
 }
 
@@ -1479,19 +1479,19 @@ const example37 = `{
   "object": "http://joe.example.org"
 }`
 
-func example37Type() vocab.BlockInterface {
+func example37Type() vocab.ActivityStreamsBlock {
 	example37Type := NewActivityStreamsBlock()
 	link := MustParseURL("http://sally.example.org")
 	objLink := MustParseURL("http://joe.example.org")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally blocked Joe")
-	example37Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally blocked Joe")
+	example37Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(link)
-	example37Type.SetActor(objectActor)
+	example37Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(objLink)
-	example37Type.SetObject(obj)
+	example37Type.SetActivityStreamsObject(obj)
 	return example37Type
 }
 
@@ -1506,22 +1506,22 @@ const example38 = `{
   }
 }`
 
-func example38Type() vocab.FlagInterface {
+func example38Type() vocab.ActivityStreamsFlag {
 	example38Type := NewActivityStreamsFlag()
 	link := MustParseURL("http://sally.example.org")
 	object := NewActivityStreamsNote()
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("An inappropriate note")
-	object.SetContent(content)
+	content.AppendXMLSchemaString("An inappropriate note")
+	object.SetActivityStreamsContent(content)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally flagged an inappropriate note")
-	example38Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally flagged an inappropriate note")
+	example38Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(link)
-	example38Type.SetActor(objectActor)
+	example38Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendNote(object)
-	example38Type.SetObject(obj)
+	obj.AppendActivityStreamsNote(object)
+	example38Type.SetActivityStreamsObject(obj)
 	return example38Type
 }
 
@@ -1533,19 +1533,19 @@ const example39 = `{
   "object": "http://example.org/posts/1"
 }`
 
-func example39Type() vocab.DislikeInterface {
+func example39Type() vocab.ActivityStreamsDislike {
 	example39Type := NewActivityStreamsDislike()
 	link := MustParseURL("http://sally.example.org")
 	objLink := MustParseURL("http://example.org/posts/1")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally disliked a post")
-	example39Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally disliked a post")
+	example39Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(link)
-	example39Type.SetActor(objectActor)
+	example39Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(objLink)
-	example39Type.SetObject(obj)
+	example39Type.SetActivityStreamsObject(obj)
 	return example39Type
 }
 
@@ -1565,23 +1565,23 @@ const example40 = `{
   ]
 }`
 
-func example40Type() vocab.QuestionInterface {
+func example40Type() vocab.ActivityStreamsQuestion {
 	example40Type := NewActivityStreamsQuestion()
 	note1 := NewActivityStreamsNote()
 	note1Name := NewActivityStreamsNameProperty()
-	note1Name.AppendString("Option A")
-	note1.SetName(note1Name)
+	note1Name.AppendXMLSchemaString("Option A")
+	note1.SetActivityStreamsName(note1Name)
 	note2 := NewActivityStreamsNote()
 	note2Name := NewActivityStreamsNameProperty()
-	note2Name.AppendString("Option B")
-	note2.SetName(note2Name)
+	note2Name.AppendXMLSchemaString("Option B")
+	note2.SetActivityStreamsName(note2Name)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("What is the answer?")
-	example40Type.SetName(name)
+	name.AppendXMLSchemaString("What is the answer?")
+	example40Type.SetActivityStreamsName(name)
 	oneOf := NewActivityStreamsOneOfProperty()
-	oneOf.AppendNote(note1)
-	oneOf.AppendNote(note2)
-	example40Type.SetOneOf(oneOf)
+	oneOf.AppendActivityStreamsNote(note1)
+	oneOf.AppendActivityStreamsNote(note2)
+	example40Type.SetActivityStreamsOneOf(oneOf)
 	return example40Type
 }
 
@@ -1592,18 +1592,18 @@ const example41 = `{
   "closed": "2016-05-10T00:00:00Z"
 }`
 
-func example41Type() vocab.QuestionInterface {
+func example41Type() vocab.ActivityStreamsQuestion {
 	example41Type := NewActivityStreamsQuestion()
 	t, err := time.Parse(time.RFC3339, "2016-05-10T00:00:00Z")
 	if err != nil {
 		panic(err)
 	}
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("What is the answer?")
-	example41Type.SetName(name)
+	name.AppendXMLSchemaString("What is the answer?")
+	example41Type.SetActivityStreamsName(name)
 	closed := NewActivityStreamsClosedProperty()
-	closed.AppendDateTime(t)
-	example41Type.SetClosed(closed)
+	closed.AppendXMLSchemaDateTime(t)
+	example41Type.SetActivityStreamsClosed(closed)
 	return example41Type
 }
 
@@ -1613,11 +1613,11 @@ const example42 = `{
   "name": "Exampletron 3000"
 }`
 
-func example42Type() vocab.ApplicationInterface {
+func example42Type() vocab.ActivityStreamsApplication {
 	example42Type := NewActivityStreamsApplication()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Exampletron 3000")
-	example42Type.SetName(name)
+	name.AppendXMLSchemaString("Exampletron 3000")
+	example42Type.SetActivityStreamsName(name)
 	return example42Type
 }
 
@@ -1627,11 +1627,11 @@ const example43 = `{
   "name": "Big Beards of Austin"
 }`
 
-func example43Type() vocab.GroupInterface {
+func example43Type() vocab.ActivityStreamsGroup {
 	example43Type := NewActivityStreamsGroup()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Big Beards of Austin")
-	example43Type.SetName(name)
+	name.AppendXMLSchemaString("Big Beards of Austin")
+	example43Type.SetActivityStreamsName(name)
 	return example43Type
 }
 
@@ -1641,11 +1641,11 @@ const example44 = `{
   "name": "Example Co."
 }`
 
-func example44Type() vocab.OrganizationInterface {
+func example44Type() vocab.ActivityStreamsOrganization {
 	example44Type := NewActivityStreamsOrganization()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Example Co.")
-	example44Type.SetName(name)
+	name.AppendXMLSchemaString("Example Co.")
+	example44Type.SetActivityStreamsName(name)
 	return example44Type
 }
 
@@ -1655,11 +1655,11 @@ const example45 = `{
   "name": "Sally Smith"
 }`
 
-func example45Type() vocab.PersonInterface {
+func example45Type() vocab.ActivityStreamsPerson {
 	example45Type := NewActivityStreamsPerson()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Sally Smith")
-	example45Type.SetName(name)
+	name.AppendXMLSchemaString("Sally Smith")
+	example45Type.SetActivityStreamsName(name)
 	return example45Type
 }
 
@@ -1669,11 +1669,11 @@ const example46 = `{
   "name": "Acme Web Service"
 }`
 
-func example46Type() vocab.ServiceInterface {
+func example46Type() vocab.ActivityStreamsService {
 	example46Type := NewActivityStreamsService()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Acme Web Service")
-	example46Type.SetName(name)
+	name.AppendXMLSchemaString("Acme Web Service")
+	example46Type.SetActivityStreamsName(name)
 	return example46Type
 }
 
@@ -1692,29 +1692,29 @@ const example47 = `{
   }
 }`
 
-func example47Type() vocab.RelationshipInterface {
+func example47Type() vocab.ActivityStreamsRelationship {
 	example47Type := NewActivityStreamsRelationship()
 	subject := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	subject.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	subject.SetActivityStreamsName(sally)
 	object := NewActivityStreamsPerson()
 	objectName := NewActivityStreamsNameProperty()
-	objectName.AppendString("John")
-	object.SetName(objectName)
+	objectName.AppendXMLSchemaString("John")
+	object.SetActivityStreamsName(objectName)
 	rel := MustParseURL("http://purl.org/vocab/relationship/acquaintanceOf")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally is an acquaintance of John")
-	example47Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally is an acquaintance of John")
+	example47Type.SetActivityStreamsSummary(summary)
 	subj := NewActivityStreamsSubjectProperty()
-	subj.SetPerson(subject)
-	example47Type.SetSubject(subj)
+	subj.SetActivityStreamsPerson(subject)
+	example47Type.SetActivityStreamsSubject(subj)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendPerson(object)
-	example47Type.SetObject(obj)
+	obj.AppendActivityStreamsPerson(object)
+	example47Type.SetActivityStreamsObject(obj)
 	relationship := NewActivityStreamsRelationshipProperty()
 	relationship.AppendIRI(rel)
-	example47Type.SetRelationship(relationship)
+	example47Type.SetActivityStreamsRelationship(relationship)
 	return example47Type
 }
 
@@ -1726,18 +1726,18 @@ const example48 = `{
   "attributedTo": "http://sally.example.org"
 }`
 
-func example48Type() vocab.ArticleInterface {
+func example48Type() vocab.ActivityStreamsArticle {
 	example48Type := NewActivityStreamsArticle()
 	att := MustParseURL("http://sally.example.org")
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("What a Crazy Day I Had")
-	example48Type.SetName(name)
+	name.AppendXMLSchemaString("What a Crazy Day I Had")
+	example48Type.SetActivityStreamsName(name)
 	attr := NewActivityStreamsAttributedToProperty()
 	attr.AppendIRI(att)
-	example48Type.SetAttributedTo(attr)
+	example48Type.SetActivityStreamsAttributedTo(attr)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("<div>... you will never believe ...</div>")
-	example48Type.SetContent(content)
+	content.AppendXMLSchemaString("<div>... you will never believe ...</div>")
+	example48Type.SetActivityStreamsContent(content)
 	return example48Type
 }
 
@@ -1748,15 +1748,15 @@ const example49 = `{
   "url": "http://example.org/4q-sales-forecast.pdf"
 }`
 
-func example49Type() vocab.DocumentInterface {
+func example49Type() vocab.ActivityStreamsDocument {
 	example49Type := NewActivityStreamsDocument()
 	l := MustParseURL("http://example.org/4q-sales-forecast.pdf")
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("4Q Sales Forecast")
-	example49Type.SetName(name)
+	name.AppendXMLSchemaString("4Q Sales Forecast")
+	example49Type.SetActivityStreamsName(name)
 	urlProp := NewActivityStreamsUrlProperty()
 	urlProp.AppendIRI(l)
-	example49Type.SetUrl(urlProp)
+	example49Type.SetActivityStreamsUrl(urlProp)
 	return example49Type
 }
 
@@ -1771,22 +1771,22 @@ const example50 = `{
   }
 }`
 
-func example50Type() vocab.AudioInterface {
+func example50Type() vocab.ActivityStreamsAudio {
 	example50Type := NewActivityStreamsAudio()
 	l := MustParseURL("http://example.org/podcast.mp3")
 	link := NewActivityStreamsLink()
 	href := NewActivityStreamsHrefProperty()
 	href.Set(l)
-	link.SetHref(href)
+	link.SetActivityStreamsHref(href)
 	mediaType := NewActivityStreamsMediaTypeProperty()
 	mediaType.Set("audio/mp3")
-	link.SetMediaType(mediaType)
+	link.SetActivityStreamsMediaType(mediaType)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Interview With A Famous Technologist")
-	example50Type.SetName(name)
+	name.AppendXMLSchemaString("Interview With A Famous Technologist")
+	example50Type.SetActivityStreamsName(name)
 	urlProperty := NewActivityStreamsUrlProperty()
-	urlProperty.AppendLink(link)
-	example50Type.SetUrl(urlProperty)
+	urlProperty.AppendActivityStreamsLink(link)
+	example50Type.SetActivityStreamsUrl(urlProperty)
 	return example50Type
 }
 
@@ -1808,31 +1808,31 @@ const example51 = `{
   ]
 }`
 
-func example51Type() vocab.ImageInterface {
+func example51Type() vocab.ActivityStreamsImage {
 	example51Type := NewActivityStreamsImage()
 	l1 := MustParseURL("http://example.org/image.jpeg")
 	l2 := MustParseURL("http://example.org/image.png")
 	link1 := NewActivityStreamsLink()
 	href1 := NewActivityStreamsHrefProperty()
 	href1.Set(l1)
-	link1.SetHref(href1)
+	link1.SetActivityStreamsHref(href1)
 	mediaType1 := NewActivityStreamsMediaTypeProperty()
 	mediaType1.Set("image/jpeg")
-	link1.SetMediaType(mediaType1)
+	link1.SetActivityStreamsMediaType(mediaType1)
 	link2 := NewActivityStreamsLink()
 	href2 := NewActivityStreamsHrefProperty()
 	href2.Set(l2)
-	link2.SetHref(href2)
+	link2.SetActivityStreamsHref(href2)
 	mediaType2 := NewActivityStreamsMediaTypeProperty()
 	mediaType2.Set("image/png")
-	link2.SetMediaType(mediaType2)
+	link2.SetActivityStreamsMediaType(mediaType2)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Cat Jumping on Wagon")
-	example51Type.SetName(name)
+	name.AppendXMLSchemaString("Cat Jumping on Wagon")
+	example51Type.SetActivityStreamsName(name)
 	urlProperty := NewActivityStreamsUrlProperty()
-	urlProperty.AppendLink(link1)
-	urlProperty.AppendLink(link2)
-	example51Type.SetUrl(urlProperty)
+	urlProperty.AppendActivityStreamsLink(link1)
+	urlProperty.AppendActivityStreamsLink(link2)
+	example51Type.SetActivityStreamsUrl(urlProperty)
 	return example51Type
 }
 
@@ -1844,18 +1844,18 @@ const example52 = `{
   "duration": "PT2H"
 }`
 
-func example52Type() vocab.VideoInterface {
+func example52Type() vocab.ActivityStreamsVideo {
 	example52Type := NewActivityStreamsVideo()
 	l := MustParseURL("http://example.org/video.mkv")
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Puppy Plays With Ball")
-	example52Type.SetName(name)
+	name.AppendXMLSchemaString("Puppy Plays With Ball")
+	example52Type.SetActivityStreamsName(name)
 	urlProp := NewActivityStreamsUrlProperty()
 	urlProp.AppendIRI(l)
-	example52Type.SetUrl(urlProp)
+	example52Type.SetActivityStreamsUrl(urlProp)
 	dur := NewActivityStreamsDurationProperty()
 	dur.Set(time.Hour * 2)
-	example52Type.SetDuration(dur)
+	example52Type.SetActivityStreamsDuration(dur)
 	return example52Type
 }
 
@@ -1866,14 +1866,14 @@ const example53 = `{
   "content": "Looks like it is going to rain today. Bring an umbrella!"
 }`
 
-func example53Type() vocab.NoteInterface {
+func example53Type() vocab.ActivityStreamsNote {
 	example53Type := NewActivityStreamsNote()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("A Word of Warning")
-	example53Type.SetName(name)
+	name.AppendXMLSchemaString("A Word of Warning")
+	example53Type.SetActivityStreamsName(name)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("Looks like it is going to rain today. Bring an umbrella!")
-	example53Type.SetContent(content)
+	content.AppendXMLSchemaString("Looks like it is going to rain today. Bring an umbrella!")
+	example53Type.SetActivityStreamsContent(content)
 	return example53Type
 }
 
@@ -1884,15 +1884,15 @@ const example54 = `{
   "url": "http://example.org/weather-in-omaha.html"
 }`
 
-func example54Type() vocab.PageInterface {
+func example54Type() vocab.ActivityStreamsPage {
 	example54Type := NewActivityStreamsPage()
 	l := MustParseURL("http://example.org/weather-in-omaha.html")
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Omaha Weather Report")
-	example54Type.SetName(name)
+	name.AppendXMLSchemaString("Omaha Weather Report")
+	example54Type.SetActivityStreamsName(name)
 	urlProp := NewActivityStreamsUrlProperty()
 	urlProp.AppendIRI(l)
-	example54Type.SetUrl(urlProp)
+	example54Type.SetActivityStreamsUrl(urlProp)
 	return example54Type
 }
 
@@ -1904,7 +1904,7 @@ const example55 = `{
   "endTime": "2015-01-01T06:00:00-08:00"
 }`
 
-func example55Type() vocab.EventInterface {
+func example55Type() vocab.ActivityStreamsEvent {
 	example55Type := NewActivityStreamsEvent()
 	t1, err := time.Parse(time.RFC3339, "2014-12-31T23:00:00-08:00")
 	if err != nil {
@@ -1915,14 +1915,14 @@ func example55Type() vocab.EventInterface {
 		panic(err)
 	}
 	goingAway := NewActivityStreamsNameProperty()
-	goingAway.AppendString("Going-Away Party for Jim")
-	example55Type.SetName(goingAway)
+	goingAway.AppendXMLSchemaString("Going-Away Party for Jim")
+	example55Type.SetActivityStreamsName(goingAway)
 	startTime := NewActivityStreamsStartTimeProperty()
 	startTime.Set(t1)
-	example55Type.SetStartTime(startTime)
+	example55Type.SetActivityStreamsStartTime(startTime)
 	endTime := NewActivityStreamsEndTimeProperty()
 	endTime.Set(t2)
-	example55Type.SetEndTime(endTime)
+	example55Type.SetActivityStreamsEndTime(endTime)
 	return example55Type
 }
 
@@ -1932,11 +1932,11 @@ const example56 = `{
   "name": "Work"
 }`
 
-func example56Type() vocab.PlaceInterface {
+func example56Type() vocab.ActivityStreamsPlace {
 	example56Type := NewActivityStreamsPlace()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Work")
-	example56Type.SetName(name)
+	name.AppendXMLSchemaString("Work")
+	example56Type.SetActivityStreamsName(name)
 	return example56Type
 }
 
@@ -1950,23 +1950,23 @@ const example57 = `{
   "units": "miles"
 }`
 
-func example57Type() vocab.PlaceInterface {
+func example57Type() vocab.ActivityStreamsPlace {
 	example57Type := NewActivityStreamsPlace()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Fresno Area")
-	example57Type.SetName(name)
+	name.AppendXMLSchemaString("Fresno Area")
+	example57Type.SetActivityStreamsName(name)
 	lat := NewActivityStreamsLatitudeProperty()
 	lat.Set(36.75)
-	example57Type.SetLatitude(lat)
+	example57Type.SetActivityStreamsLatitude(lat)
 	lon := NewActivityStreamsLongitudeProperty()
 	lon.Set(119.7667)
-	example57Type.SetLongitude(lon)
+	example57Type.SetActivityStreamsLongitude(lon)
 	rad := NewActivityStreamsRadiusProperty()
 	rad.Set(15)
-	example57Type.SetRadius(rad)
+	example57Type.SetActivityStreamsRadius(rad)
 	units := NewActivityStreamsUnitsProperty()
-	units.SetString("miles")
-	example57Type.SetUnits(units)
+	units.SetXMLSchemaString("miles")
+	example57Type.SetActivityStreamsUnits(units)
 	return example57Type
 }
 
@@ -1978,18 +1978,18 @@ const example58 = `{
   "name": "Joe"
 }`
 
-func example58Type() vocab.MentionInterface {
+func example58Type() vocab.ActivityStreamsMention {
 	example58Type := NewActivityStreamsMention()
 	l := MustParseURL("http://example.org/joe")
 	href := NewActivityStreamsHrefProperty()
 	href.Set(l)
-	example58Type.SetHref(href)
+	example58Type.SetActivityStreamsHref(href)
 	joe := NewActivityStreamsNameProperty()
-	joe.AppendString("Joe")
-	example58Type.SetName(joe)
+	joe.AppendXMLSchemaString("Joe")
+	example58Type.SetActivityStreamsName(joe)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Mention of Joe by Carrie in her note")
-	example58Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Mention of Joe by Carrie in her note")
+	example58Type.SetActivityStreamsSummary(summary)
 	return example58Type
 }
 
@@ -2003,18 +2003,18 @@ const example59 = `{
   }
 }`
 
-func example59Type() vocab.ProfileInterface {
+func example59Type() vocab.ActivityStreamsProfile {
 	example59Type := NewActivityStreamsProfile()
 	person := NewActivityStreamsPerson()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Sally Smith")
-	person.SetName(name)
+	name.AppendXMLSchemaString("Sally Smith")
+	person.SetActivityStreamsName(name)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally's Profile")
-	example59Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally's Profile")
+	example59Type.SetActivityStreamsSummary(summary)
 	describes := NewActivityStreamsDescribesProperty()
-	describes.SetPerson(person)
-	example59Type.SetDescribes(describes)
+	describes.SetActivityStreamsPerson(person)
+	example59Type.SetActivityStreamsDescribes(describes)
 	return example59Type
 }
 
@@ -2042,7 +2042,7 @@ const example60 = `{
   ]
 }`
 
-func example60Type() vocab.OrderedCollectionInterface {
+func example60Type() vocab.ActivityStreamsOrderedCollection {
 	example60Type := NewActivityStreamsOrderedCollection()
 	t, err := time.Parse(time.RFC3339, "2016-03-17T00:00:00Z")
 	if err != nil {
@@ -2051,32 +2051,32 @@ func example60Type() vocab.OrderedCollectionInterface {
 	image1 := NewActivityStreamsImage()
 	imgId1 := NewActivityStreamsIdProperty()
 	imgId1.Set(MustParseURL("http://image.example/1"))
-	image1.SetId(imgId1)
+	image1.SetActivityStreamsId(imgId1)
 	tombstone := NewActivityStreamsTombstone()
 	ft := NewActivityStreamsFormerTypeProperty()
-	ft.AppendString("Image")
-	tombstone.SetFormerType(ft)
+	ft.AppendXMLSchemaString("Image")
+	tombstone.SetActivityStreamsFormerType(ft)
 	tombId := NewActivityStreamsIdProperty()
 	tombId.Set(MustParseURL("http://image.example/2"))
-	tombstone.SetId(tombId)
+	tombstone.SetActivityStreamsId(tombId)
 	deleted := NewActivityStreamsDeletedProperty()
 	deleted.Set(t)
-	tombstone.SetDeleted(deleted)
+	tombstone.SetActivityStreamsDeleted(deleted)
 	image2 := NewActivityStreamsImage()
 	imgId2 := NewActivityStreamsIdProperty()
 	imgId2.Set(MustParseURL("http://image.example/3"))
-	image2.SetId(imgId2)
+	image2.SetActivityStreamsId(imgId2)
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(3)
-	example60Type.SetTotalItems(totalItems)
+	example60Type.SetActivityStreamsTotalItems(totalItems)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Vacation photos 2016")
-	example60Type.SetName(name)
+	name.AppendXMLSchemaString("Vacation photos 2016")
+	example60Type.SetActivityStreamsName(name)
 	orderedItems := NewActivityStreamsOrderedItemsProperty()
-	orderedItems.AppendImage(image1)
-	orderedItems.AppendTombstone(tombstone)
-	orderedItems.AppendImage(image2)
-	example60Type.SetOrderedItems(orderedItems)
+	orderedItems.AppendActivityStreamsImage(image1)
+	orderedItems.AppendActivityStreamsTombstone(tombstone)
+	orderedItems.AppendActivityStreamsImage(image2)
+	example60Type.SetActivityStreamsOrderedItems(orderedItems)
 	return example60Type
 }
 
@@ -2112,19 +2112,19 @@ const example63 = `{
   "object": "http://example.org/foo"
 }`
 
-func example63Type() vocab.OfferInterface {
+func example63Type() vocab.ActivityStreamsOffer {
 	example63Type := NewActivityStreamsOffer()
 	l := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/foo")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally offered the Foo object")
-	example63Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally offered the Foo object")
+	example63Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(l)
-	example63Type.SetActor(objectActor)
+	example63Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	example63Type.SetObject(obj)
+	example63Type.SetActivityStreamsObject(obj)
 	return example63Type
 }
 
@@ -2140,25 +2140,25 @@ const example64 = `{
   "object": "http://example.org/foo"
 }`
 
-func example64Type() vocab.OfferInterface {
+func example64Type() vocab.ActivityStreamsOffer {
 	example64Type := NewActivityStreamsOffer()
 	actor := NewActivityStreamsPerson()
 	actorId := NewActivityStreamsIdProperty()
 	actorId.Set(MustParseURL("http://sally.example.org"))
-	actor.SetId(actorId)
+	actor.SetActivityStreamsId(actorId)
 	summaryActor := NewActivityStreamsSummaryProperty()
-	summaryActor.AppendString("Sally")
-	actor.SetSummary(summaryActor)
+	summaryActor.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsSummary(summaryActor)
 	o := MustParseURL("http://example.org/foo")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally offered the Foo object")
-	example64Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally offered the Foo object")
+	example64Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example64Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example64Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	example64Type.SetObject(obj)
+	example64Type.SetActivityStreamsObject(obj)
 	return example64Type
 }
 
@@ -2177,27 +2177,27 @@ const example65 = `{
   "object": "http://example.org/foo"
 }`
 
-func example65Type() vocab.OfferInterface {
+func example65Type() vocab.ActivityStreamsOffer {
 	example65Type := NewActivityStreamsOffer()
 	actor := NewActivityStreamsPerson()
 	actorId := NewActivityStreamsIdProperty()
 	actorId.Set(MustParseURL("http://sally.example.org"))
-	actor.SetId(actorId)
+	actor.SetActivityStreamsId(actorId)
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	o := MustParseURL("http://example.org/foo")
 	l := MustParseURL("http://joe.example.org")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally and Joe offered the Foo object")
-	example65Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally and Joe offered the Foo object")
+	example65Type.SetActivityStreamsSummary(summary)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	example65Type.SetObject(obj)
+	example65Type.SetActivityStreamsObject(obj)
 	rootActor := NewActivityStreamsActorProperty()
 	rootActor.AppendIRI(l)
-	rootActor.AppendPerson(actor)
-	example65Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example65Type.SetActivityStreamsActor(rootActor)
 	return example65Type
 }
 
@@ -2213,22 +2213,22 @@ const example66 = `{
   }
 }`
 
-func example66Type() vocab.NoteInterface {
+func example66Type() vocab.ActivityStreamsNote {
 	example66Type := NewActivityStreamsNote()
 	l := MustParseURL("http://example.org/cat.jpeg")
 	image := NewActivityStreamsImage()
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("This is what he looks like.")
-	image.SetContent(content)
+	content.AppendXMLSchemaString("This is what he looks like.")
+	image.SetActivityStreamsContent(content)
 	imgProp := NewActivityStreamsUrlProperty()
 	imgProp.AppendIRI(l)
-	image.SetUrl(imgProp)
+	image.SetActivityStreamsUrl(imgProp)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Have you seen my cat?")
-	example66Type.SetName(name)
+	name.AppendXMLSchemaString("Have you seen my cat?")
+	example66Type.SetActivityStreamsName(name)
 	attachment := NewActivityStreamsAttachmentProperty()
-	attachment.AppendImage(image)
-	example66Type.SetAttachment(attachment)
+	attachment.AppendActivityStreamsImage(image)
+	example66Type.SetActivityStreamsAttachment(attachment)
 	return example66Type
 }
 
@@ -2244,22 +2244,22 @@ const example67 = `{
   }
 }`
 
-func example67Type() vocab.ImageInterface {
+func example67Type() vocab.ActivityStreamsImage {
 	example67Type := NewActivityStreamsImage()
 	l := MustParseURL("http://example.org/cat.jpeg")
 	person := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("My cat taking a nap")
-	example67Type.SetName(name)
+	name.AppendXMLSchemaString("My cat taking a nap")
+	example67Type.SetActivityStreamsName(name)
 	urlProp := NewActivityStreamsUrlProperty()
 	urlProp.AppendIRI(l)
-	example67Type.SetUrl(urlProp)
+	example67Type.SetActivityStreamsUrl(urlProp)
 	attr := NewActivityStreamsAttributedToProperty()
-	attr.AppendPerson(person)
-	example67Type.SetAttributedTo(attr)
+	attr.AppendActivityStreamsPerson(person)
+	example67Type.SetActivityStreamsAttributedTo(attr)
 	return example67Type
 }
 
@@ -2277,24 +2277,24 @@ const example68 = `{
   ]
 }`
 
-func example68Type() vocab.ImageInterface {
+func example68Type() vocab.ActivityStreamsImage {
 	example68Type := NewActivityStreamsImage()
 	l := MustParseURL("http://example.org/cat.jpeg")
 	a := MustParseURL("http://joe.example.org")
 	person := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("My cat taking a nap")
-	example68Type.SetName(name)
+	name.AppendXMLSchemaString("My cat taking a nap")
+	example68Type.SetActivityStreamsName(name)
 	urlProp := NewActivityStreamsUrlProperty()
 	urlProp.AppendIRI(l)
-	example68Type.SetUrl(urlProp)
+	example68Type.SetActivityStreamsUrl(urlProp)
 	attr := NewActivityStreamsAttributedToProperty()
 	attr.AppendIRI(a)
-	attr.AppendPerson(person)
-	example68Type.SetAttributedTo(attr)
+	attr.AppendActivityStreamsPerson(person)
+	example68Type.SetActivityStreamsAttributedTo(attr)
 	return example68Type
 }
 
@@ -2317,14 +2317,14 @@ var example69Unknown = func(m map[string]interface{}) map[string]interface{} {
 	return m
 }
 
-func example69Type() vocab.NoteInterface {
+func example69Type() vocab.ActivityStreamsNote {
 	example69Type := NewActivityStreamsNote()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Holiday announcement")
-	example69Type.SetName(name)
+	name.AppendXMLSchemaString("Holiday announcement")
+	example69Type.SetActivityStreamsName(name)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("Thursday will be a company-wide holiday. Enjoy your day off!")
-	example69Type.SetContent(content)
+	content.AppendXMLSchemaString("Thursday will be a company-wide holiday. Enjoy your day off!")
+	example69Type.SetActivityStreamsContent(content)
 	return example69Type
 }
 
@@ -2339,27 +2339,27 @@ const example70 = `{
   "bcc": "http://joe.example.org"
 }`
 
-func example70Type() vocab.OfferInterface {
+func example70Type() vocab.ActivityStreamsOffer {
 	example70Type := NewActivityStreamsOffer()
 	o := MustParseURL("http://example.org/posts/1")
 	a := MustParseURL("http://sally.example.org")
 	t := MustParseURL("http://john.example.org")
 	b := MustParseURL("http://joe.example.org")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally offered a post to John")
-	example70Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally offered a post to John")
+	example70Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(a)
-	example70Type.SetActor(objectActor)
+	example70Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	example70Type.SetObject(obj)
+	example70Type.SetActivityStreamsObject(obj)
 	target := NewActivityStreamsTargetProperty()
 	target.AppendIRI(t)
-	example70Type.SetTarget(target)
+	example70Type.SetActivityStreamsTarget(target)
 	bcc := NewActivityStreamsBccProperty()
 	bcc.AppendIRI(b)
-	example70Type.SetBcc(bcc)
+	example70Type.SetActivityStreamsBcc(bcc)
 	return example70Type
 }
 
@@ -2374,27 +2374,27 @@ const example71 = `{
   "bto": "http://joe.example.org"
 }`
 
-func example71Type() vocab.OfferInterface {
+func example71Type() vocab.ActivityStreamsOffer {
 	example71Type := NewActivityStreamsOffer()
 	o := MustParseURL("http://example.org/posts/1")
 	a := MustParseURL("http://sally.example.org")
 	t := MustParseURL("http://john.example.org")
 	b := MustParseURL("http://joe.example.org")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally offered a post to John")
-	example71Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally offered a post to John")
+	example71Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(a)
-	example71Type.SetActor(objectActor)
+	example71Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	example71Type.SetObject(obj)
+	example71Type.SetActivityStreamsObject(obj)
 	target := NewActivityStreamsTargetProperty()
 	target.AppendIRI(t)
-	example71Type.SetTarget(target)
+	example71Type.SetActivityStreamsTarget(target)
 	bto := NewActivityStreamsBtoProperty()
 	bto.AppendIRI(b)
-	example71Type.SetBto(bto)
+	example71Type.SetActivityStreamsBto(bto)
 	return example71Type
 }
 
@@ -2409,27 +2409,27 @@ const example72 = `{
   "cc": "http://joe.example.org"
 }`
 
-func example72Type() vocab.OfferInterface {
+func example72Type() vocab.ActivityStreamsOffer {
 	example72Type := NewActivityStreamsOffer()
 	o := MustParseURL("http://example.org/posts/1")
 	a := MustParseURL("http://sally.example.org")
 	t := MustParseURL("http://john.example.org")
 	b := MustParseURL("http://joe.example.org")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally offered a post to John")
-	example72Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally offered a post to John")
+	example72Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(a)
-	example72Type.SetActor(objectActor)
+	example72Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	example72Type.SetObject(obj)
+	example72Type.SetActivityStreamsObject(obj)
 	target := NewActivityStreamsTargetProperty()
 	target.AppendIRI(t)
-	example72Type.SetTarget(target)
+	example72Type.SetActivityStreamsTarget(target)
 	cc := NewActivityStreamsCcProperty()
 	cc.AppendIRI(b)
-	example72Type.SetCc(cc)
+	example72Type.SetActivityStreamsCc(cc)
 	return example72Type
 }
 
@@ -2454,7 +2454,7 @@ const example73 = `{
   ]
 }`
 
-func example73Type() vocab.CollectionInterface {
+func example73Type() vocab.ActivityStreamsCollection {
 	example73Type := NewActivityStreamsCollection()
 	oa := MustParseURL("http://sally.example.org")
 	oo := MustParseURL("http://example.org/posts/1")
@@ -2463,36 +2463,36 @@ func example73Type() vocab.CollectionInterface {
 	offer := NewActivityStreamsOffer()
 	offerActor := NewActivityStreamsActorProperty()
 	offerActor.AppendIRI(oa)
-	offer.SetActor(offerActor)
+	offer.SetActivityStreamsActor(offerActor)
 	objOffer := NewActivityStreamsObjectProperty()
 	objOffer.AppendIRI(oo)
-	offer.SetObject(objOffer)
+	offer.SetActivityStreamsObject(objOffer)
 	target := NewActivityStreamsTargetProperty()
 	target.AppendIRI(ot)
-	offer.SetTarget(target)
+	offer.SetActivityStreamsTarget(target)
 	ctx := NewActivityStreamsContextProperty()
 	ctx.AppendIRI(oc)
-	offer.SetContext(ctx)
+	offer.SetActivityStreamsContext(ctx)
 	la := MustParseURL("http://joe.example.org")
 	lo := MustParseURL("http://example.org/posts/2")
 	lc := MustParseURL("http://example.org/contexts/1")
 	like := NewActivityStreamsLike()
 	likeActor := NewActivityStreamsActorProperty()
 	likeActor.AppendIRI(la)
-	like.SetActor(likeActor)
+	like.SetActivityStreamsActor(likeActor)
 	objLike := NewActivityStreamsObjectProperty()
 	objLike.AppendIRI(lo)
-	like.SetObject(objLike)
+	like.SetActivityStreamsObject(objLike)
 	ctxLike := NewActivityStreamsContextProperty()
 	ctxLike.AppendIRI(lc)
-	like.SetContext(ctxLike)
+	like.SetActivityStreamsContext(ctxLike)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Activities in context 1")
-	example73Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Activities in context 1")
+	example73Type.SetActivityStreamsSummary(summary)
 	items := NewActivityStreamsItemsProperty()
-	items.AppendOffer(offer)
-	items.AppendLike(like)
-	example73Type.SetItems(items)
+	items.AppendActivityStreamsOffer(offer)
+	items.AppendActivityStreamsLike(like)
+	example73Type.SetActivityStreamsItems(items)
 	return example73Type
 }
 
@@ -2509,7 +2509,7 @@ const example74 = `{
   ]
 }`
 
-func example74Type() vocab.CollectionInterface {
+func example74Type() vocab.ActivityStreamsCollection {
 	example74Type := NewActivityStreamsCollection()
 	c := MustParseURL("http://example.org/collection")
 	i1 := MustParseURL("http://example.org/posts/1")
@@ -2517,18 +2517,18 @@ func example74Type() vocab.CollectionInterface {
 	i3 := MustParseURL("http://example.org/posts/3")
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(3)
-	example74Type.SetTotalItems(totalItems)
+	example74Type.SetActivityStreamsTotalItems(totalItems)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally's blog posts")
-	example74Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally's blog posts")
+	example74Type.SetActivityStreamsSummary(summary)
 	current := NewActivityStreamsCurrentProperty()
 	current.SetIRI(c)
-	example74Type.SetCurrent(current)
+	example74Type.SetActivityStreamsCurrent(current)
 	items := NewActivityStreamsItemsProperty()
 	items.AppendIRI(i1)
 	items.AppendIRI(i2)
 	items.AppendIRI(i3)
-	example74Type.SetItems(items)
+	example74Type.SetActivityStreamsItems(items)
 	return example74Type
 }
 
@@ -2549,7 +2549,7 @@ const example75 = `{
   ]
 }`
 
-func example75Type() vocab.CollectionInterface {
+func example75Type() vocab.ActivityStreamsCollection {
 	example75Type := NewActivityStreamsCollection()
 	i1 := MustParseURL("http://example.org/posts/1")
 	i2 := MustParseURL("http://example.org/posts/2")
@@ -2557,25 +2557,25 @@ func example75Type() vocab.CollectionInterface {
 	href := MustParseURL("http://example.org/collection")
 	link := NewActivityStreamsLink()
 	summaryLink := NewActivityStreamsSummaryProperty()
-	summaryLink.AppendString("Most Recent Items")
-	link.SetSummary(summaryLink)
+	summaryLink.AppendXMLSchemaString("Most Recent Items")
+	link.SetActivityStreamsSummary(summaryLink)
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(href)
-	link.SetHref(hrefLink)
+	link.SetActivityStreamsHref(hrefLink)
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(3)
-	example75Type.SetTotalItems(totalItems)
+	example75Type.SetActivityStreamsTotalItems(totalItems)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally's blog posts")
-	example75Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally's blog posts")
+	example75Type.SetActivityStreamsSummary(summary)
 	current := NewActivityStreamsCurrentProperty()
-	current.SetLink(link)
-	example75Type.SetCurrent(current)
+	current.SetActivityStreamsLink(link)
+	example75Type.SetActivityStreamsCurrent(current)
 	items := NewActivityStreamsItemsProperty()
 	items.AppendIRI(i1)
 	items.AppendIRI(i2)
 	items.AppendIRI(i3)
-	example75Type.SetItems(items)
+	example75Type.SetActivityStreamsItems(items)
 	return example75Type
 }
 
@@ -2587,18 +2587,18 @@ const example76 = `{
   "first": "http://example.org/collection?page=0"
 }`
 
-func example76Type() vocab.CollectionInterface {
+func example76Type() vocab.ActivityStreamsCollection {
 	example76Type := NewActivityStreamsCollection()
 	f := MustParseURL("http://example.org/collection?page=0")
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(3)
-	example76Type.SetTotalItems(totalItems)
+	example76Type.SetActivityStreamsTotalItems(totalItems)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally's blog posts")
-	example76Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally's blog posts")
+	example76Type.SetActivityStreamsSummary(summary)
 	first := NewActivityStreamsFirstProperty()
 	first.SetIRI(f)
-	example76Type.SetFirst(first)
+	example76Type.SetActivityStreamsFirst(first)
 	return example76Type
 }
 
@@ -2614,25 +2614,25 @@ const example77 = `{
   }
 }`
 
-func example77Type() vocab.CollectionInterface {
+func example77Type() vocab.ActivityStreamsCollection {
 	example77Type := NewActivityStreamsCollection()
 	href := MustParseURL("http://example.org/collection?page=0")
 	link := NewActivityStreamsLink()
 	summaryLink := NewActivityStreamsSummaryProperty()
-	summaryLink.AppendString("First Page")
-	link.SetSummary(summaryLink)
+	summaryLink.AppendXMLSchemaString("First Page")
+	link.SetActivityStreamsSummary(summaryLink)
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(href)
-	link.SetHref(hrefLink)
+	link.SetActivityStreamsHref(hrefLink)
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(3)
-	example77Type.SetTotalItems(totalItems)
+	example77Type.SetActivityStreamsTotalItems(totalItems)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally's blog posts")
-	example77Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally's blog posts")
+	example77Type.SetActivityStreamsSummary(summary)
 	first := NewActivityStreamsFirstProperty()
-	first.SetLink(link)
-	example77Type.SetFirst(first)
+	first.SetActivityStreamsLink(link)
+	example77Type.SetActivityStreamsFirst(first)
 	return example77Type
 }
 
@@ -2647,21 +2647,21 @@ const example78 = `{
   }
 }`
 
-func example78Type() vocab.NoteInterface {
+func example78Type() vocab.ActivityStreamsNote {
 	example78Type := NewActivityStreamsNote()
 	app := NewActivityStreamsApplication()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Exampletron 3000")
-	app.SetName(name)
+	name.AppendXMLSchemaString("Exampletron 3000")
+	app.SetActivityStreamsName(name)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A simple note")
-	example78Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A simple note")
+	example78Type.SetActivityStreamsSummary(summary)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("This is all there is.")
-	example78Type.SetContent(content)
+	content.AppendXMLSchemaString("This is all there is.")
+	example78Type.SetActivityStreamsContent(content)
 	gen := NewActivityStreamsGeneratorProperty()
-	gen.AppendApplication(app)
-	example78Type.SetGenerator(gen)
+	gen.AppendActivityStreamsApplication(app)
+	example78Type.SetActivityStreamsGenerator(gen)
 	return example78Type
 }
 
@@ -2679,31 +2679,31 @@ const example79 = `{
   }
 }`
 
-func example79Type() vocab.NoteInterface {
+func example79Type() vocab.ActivityStreamsNote {
 	example79Type := NewActivityStreamsNote()
 	u := MustParseURL("http://example.org/note.png")
 	image := NewActivityStreamsImage()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Note icon")
-	image.SetName(name)
+	name.AppendXMLSchemaString("Note icon")
+	image.SetActivityStreamsName(name)
 	imgProp := NewActivityStreamsUrlProperty()
 	imgProp.AppendIRI(u)
-	image.SetUrl(imgProp)
+	image.SetActivityStreamsUrl(imgProp)
 	width := NewActivityStreamsWidthProperty()
 	width.Set(16)
-	image.SetWidth(width)
+	image.SetActivityStreamsWidth(width)
 	height := NewActivityStreamsHeightProperty()
 	height.Set(16)
-	image.SetHeight(height)
+	image.SetActivityStreamsHeight(height)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A simple note")
-	example79Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A simple note")
+	example79Type.SetActivityStreamsSummary(summary)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("This is all there is.")
-	example79Type.SetContent(content)
+	content.AppendXMLSchemaString("This is all there is.")
+	example79Type.SetActivityStreamsContent(content)
 	icon := NewActivityStreamsIconProperty()
-	icon.AppendImage(image)
-	example79Type.SetIcon(icon)
+	icon.AppendActivityStreamsImage(image)
+	example79Type.SetActivityStreamsIcon(icon)
 	return example79Type
 }
 
@@ -2730,46 +2730,46 @@ const example80 = `{
   ]
 }`
 
-func example80Type() vocab.NoteInterface {
+func example80Type() vocab.ActivityStreamsNote {
 	example80Type := NewActivityStreamsNote()
 	u1 := MustParseURL("http://example.org/note1.png")
 	u2 := MustParseURL("http://example.org/note2.png")
 	image1 := NewActivityStreamsImage()
 	summaryImg1 := NewActivityStreamsSummaryProperty()
-	summaryImg1.AppendString("Note (16x16)")
-	image1.SetSummary(summaryImg1)
+	summaryImg1.AppendXMLSchemaString("Note (16x16)")
+	image1.SetActivityStreamsSummary(summaryImg1)
 	imgProp1 := NewActivityStreamsUrlProperty()
 	imgProp1.AppendIRI(u1)
-	image1.SetUrl(imgProp1)
+	image1.SetActivityStreamsUrl(imgProp1)
 	width1 := NewActivityStreamsWidthProperty()
 	width1.Set(16)
-	image1.SetWidth(width1)
+	image1.SetActivityStreamsWidth(width1)
 	height1 := NewActivityStreamsHeightProperty()
 	height1.Set(16)
-	image1.SetHeight(height1)
+	image1.SetActivityStreamsHeight(height1)
 	image2 := NewActivityStreamsImage()
 	summaryImg2 := NewActivityStreamsSummaryProperty()
-	summaryImg2.AppendString("Note (32x32)")
-	image2.SetSummary(summaryImg2)
+	summaryImg2.AppendXMLSchemaString("Note (32x32)")
+	image2.SetActivityStreamsSummary(summaryImg2)
 	imgProp2 := NewActivityStreamsUrlProperty()
 	imgProp2.AppendIRI(u2)
-	image2.SetUrl(imgProp2)
+	image2.SetActivityStreamsUrl(imgProp2)
 	width2 := NewActivityStreamsWidthProperty()
 	width2.Set(32)
-	image2.SetWidth(width2)
+	image2.SetActivityStreamsWidth(width2)
 	height2 := NewActivityStreamsHeightProperty()
 	height2.Set(32)
-	image2.SetHeight(height2)
+	image2.SetActivityStreamsHeight(height2)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A simple note")
-	example80Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A simple note")
+	example80Type.SetActivityStreamsSummary(summary)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("A simple note")
-	example80Type.SetContent(content)
+	content.AppendXMLSchemaString("A simple note")
+	example80Type.SetActivityStreamsContent(content)
 	icon := NewActivityStreamsIconProperty()
-	icon.AppendImage(image1)
-	icon.AppendImage(image2)
-	example80Type.SetIcon(icon)
+	icon.AppendActivityStreamsImage(image1)
+	icon.AppendActivityStreamsImage(image2)
+	example80Type.SetActivityStreamsIcon(icon)
 	return example80Type
 }
 
@@ -2785,25 +2785,25 @@ const example81 = `{
   }
 }`
 
-func example81Type() vocab.NoteInterface {
+func example81Type() vocab.ActivityStreamsNote {
 	example81Type := NewActivityStreamsNote()
 	u := MustParseURL("http://example.org/cat.png")
 	image := NewActivityStreamsImage()
 	imageName := NewActivityStreamsNameProperty()
-	imageName.AppendString("A Cat")
-	image.SetName(imageName)
+	imageName.AppendXMLSchemaString("A Cat")
+	image.SetActivityStreamsName(imageName)
 	imgProp := NewActivityStreamsUrlProperty()
 	imgProp.AppendIRI(u)
-	image.SetUrl(imgProp)
+	image.SetActivityStreamsUrl(imgProp)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("A simple note")
-	example81Type.SetName(name)
+	name.AppendXMLSchemaString("A simple note")
+	example81Type.SetActivityStreamsName(name)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("This is all there is.")
-	example81Type.SetContent(content)
+	content.AppendXMLSchemaString("This is all there is.")
+	example81Type.SetActivityStreamsContent(content)
 	imageProp := NewActivityStreamsImageProperty()
-	imageProp.AppendImage(image)
-	example81Type.SetImage(imageProp)
+	imageProp.AppendActivityStreamsImage(image)
+	example81Type.SetActivityStreamsImage(imageProp)
 	return example81Type
 }
 
@@ -2826,34 +2826,34 @@ const example82 = `{
   ]
 }`
 
-func example82Type() vocab.NoteInterface {
+func example82Type() vocab.ActivityStreamsNote {
 	example82Type := NewActivityStreamsNote()
 	u1 := MustParseURL("http://example.org/cat1.png")
 	u2 := MustParseURL("http://example.org/cat2.png")
 	image1 := NewActivityStreamsImage()
 	image1Name := NewActivityStreamsNameProperty()
-	image1Name.AppendString("Cat 1")
-	image1.SetName(image1Name)
+	image1Name.AppendXMLSchemaString("Cat 1")
+	image1.SetActivityStreamsName(image1Name)
 	imgProp1 := NewActivityStreamsUrlProperty()
 	imgProp1.AppendIRI(u1)
-	image1.SetUrl(imgProp1)
+	image1.SetActivityStreamsUrl(imgProp1)
 	image2 := NewActivityStreamsImage()
 	image2Name := NewActivityStreamsNameProperty()
-	image2Name.AppendString("Cat 2")
-	image2.SetName(image2Name)
+	image2Name.AppendXMLSchemaString("Cat 2")
+	image2.SetActivityStreamsName(image2Name)
 	imgProp2 := NewActivityStreamsUrlProperty()
 	imgProp2.AppendIRI(u2)
-	image2.SetUrl(imgProp2)
+	image2.SetActivityStreamsUrl(imgProp2)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("A simple note")
-	example82Type.SetName(name)
+	name.AppendXMLSchemaString("A simple note")
+	example82Type.SetActivityStreamsName(name)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("This is all there is.")
-	example82Type.SetContent(content)
+	content.AppendXMLSchemaString("This is all there is.")
+	example82Type.SetActivityStreamsContent(content)
 	imageProp := NewActivityStreamsImageProperty()
-	imageProp.AppendImage(image1)
-	imageProp.AppendImage(image2)
-	example82Type.SetImage(imageProp)
+	imageProp.AppendActivityStreamsImage(image1)
+	imageProp.AppendActivityStreamsImage(image2)
+	example82Type.SetActivityStreamsImage(imageProp)
 	return example82Type
 }
 
@@ -2869,24 +2869,24 @@ const example83 = `{
   }
 }`
 
-func example83Type() vocab.NoteInterface {
+func example83Type() vocab.ActivityStreamsNote {
 	example83Type := NewActivityStreamsNote()
 	note := NewActivityStreamsNote()
 	summaryNote := NewActivityStreamsSummaryProperty()
-	summaryNote.AppendString("Previous note")
-	note.SetSummary(summaryNote)
+	summaryNote.AppendXMLSchemaString("Previous note")
+	note.SetActivityStreamsSummary(summaryNote)
 	contentNote := NewActivityStreamsContentProperty()
-	contentNote.AppendString("What else is there?")
-	note.SetContent(contentNote)
+	contentNote.AppendXMLSchemaString("What else is there?")
+	note.SetActivityStreamsContent(contentNote)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A simple note")
-	example83Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A simple note")
+	example83Type.SetActivityStreamsSummary(summary)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("This is all there is.")
-	example83Type.SetContent(content)
+	content.AppendXMLSchemaString("This is all there is.")
+	example83Type.SetActivityStreamsContent(content)
 	inReplyTo := NewActivityStreamsInReplyToProperty()
-	inReplyTo.AppendNote(note)
-	example83Type.SetInReplyTo(inReplyTo)
+	inReplyTo.AppendActivityStreamsNote(note)
+	example83Type.SetActivityStreamsInReplyTo(inReplyTo)
 	return example83Type
 }
 
@@ -2898,18 +2898,18 @@ const example84 = `{
   "inReplyTo": "http://example.org/posts/1"
 }`
 
-func example84Type() vocab.NoteInterface {
+func example84Type() vocab.ActivityStreamsNote {
 	example84Type := NewActivityStreamsNote()
 	u := MustParseURL("http://example.org/posts/1")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A simple note")
-	example84Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A simple note")
+	example84Type.SetActivityStreamsSummary(summary)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("This is all there is.")
-	example84Type.SetContent(content)
+	content.AppendXMLSchemaString("This is all there is.")
+	example84Type.SetActivityStreamsContent(content)
 	inReplyTo := NewActivityStreamsInReplyToProperty()
 	inReplyTo.AppendIRI(u)
-	example84Type.SetInReplyTo(inReplyTo)
+	example84Type.SetActivityStreamsInReplyTo(inReplyTo)
 	return example84Type
 }
 
@@ -2928,29 +2928,29 @@ const example85 = `{
   }
 }`
 
-func example85Type() vocab.ListenInterface {
+func example85Type() vocab.ActivityStreamsListen {
 	example85Type := NewActivityStreamsListen()
 	u := MustParseURL("http://example.org/foo.mp3")
 	actor := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	actor.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	actor.SetActivityStreamsName(sally)
 	service := NewActivityStreamsService()
 	serviceName := NewActivityStreamsNameProperty()
-	serviceName.AppendString("Acme Music Service")
-	service.SetName(serviceName)
+	serviceName.AppendXMLSchemaString("Acme Music Service")
+	service.SetActivityStreamsName(serviceName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally listened to a piece of music on the Acme Music Service")
-	example85Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally listened to a piece of music on the Acme Music Service")
+	example85Type.SetActivityStreamsSummary(summary)
 	rootActor := NewActivityStreamsActorProperty()
-	rootActor.AppendPerson(actor)
-	example85Type.SetActor(rootActor)
+	rootActor.AppendActivityStreamsPerson(actor)
+	example85Type.SetActivityStreamsActor(rootActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(u)
-	example85Type.SetObject(obj)
+	example85Type.SetActivityStreamsObject(obj)
 	inst := NewActivityStreamsInstrumentProperty()
-	inst.AppendService(service)
-	example85Type.SetInstrument(inst)
+	inst.AppendActivityStreamsService(service)
+	example85Type.SetActivityStreamsInstrument(inst)
 	return example85Type
 }
 
@@ -2962,18 +2962,18 @@ const example86 = `{
   "last": "http://example.org/collection?page=1"
 }`
 
-func example86Type() vocab.CollectionInterface {
+func example86Type() vocab.ActivityStreamsCollection {
 	example86Type := NewActivityStreamsCollection()
 	u := MustParseURL("http://example.org/collection?page=1")
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(3)
-	example86Type.SetTotalItems(totalItems)
+	example86Type.SetActivityStreamsTotalItems(totalItems)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A collection")
-	example86Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A collection")
+	example86Type.SetActivityStreamsSummary(summary)
 	last := NewActivityStreamsLastProperty()
 	last.SetIRI(u)
-	example86Type.SetLast(last)
+	example86Type.SetActivityStreamsLast(last)
 	return example86Type
 }
 
@@ -2989,25 +2989,25 @@ const example87 = `{
   }
 }`
 
-func example87Type() vocab.CollectionInterface {
+func example87Type() vocab.ActivityStreamsCollection {
 	example87Type := NewActivityStreamsCollection()
 	u := MustParseURL("http://example.org/collection?page=1")
 	link := NewActivityStreamsLink()
 	summaryLink := NewActivityStreamsSummaryProperty()
-	summaryLink.AppendString("Last Page")
-	link.SetSummary(summaryLink)
+	summaryLink.AppendXMLSchemaString("Last Page")
+	link.SetActivityStreamsSummary(summaryLink)
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(u)
-	link.SetHref(hrefLink)
+	link.SetActivityStreamsHref(hrefLink)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A collection")
-	example87Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A collection")
+	example87Type.SetActivityStreamsSummary(summary)
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(5)
-	example87Type.SetTotalItems(totalItems)
+	example87Type.SetActivityStreamsTotalItems(totalItems)
 	last := NewActivityStreamsLastProperty()
-	last.SetLink(link)
-	example87Type.SetLast(last)
+	last.SetActivityStreamsLink(link)
+	example87Type.SetActivityStreamsLast(last)
 	return example87Type
 }
 
@@ -3025,30 +3025,30 @@ const example88 = `{
   }
 }`
 
-func example88Type() vocab.PersonInterface {
+func example88Type() vocab.ActivityStreamsPerson {
 	example88Type := NewActivityStreamsPerson()
 	place := NewActivityStreamsPlace()
 	placeName := NewActivityStreamsNameProperty()
-	placeName.AppendString("Over the Arabian Sea, east of Socotra Island Nature Sanctuary")
-	place.SetName(placeName)
+	placeName.AppendXMLSchemaString("Over the Arabian Sea, east of Socotra Island Nature Sanctuary")
+	place.SetActivityStreamsName(placeName)
 	lon := NewActivityStreamsLongitudeProperty()
 	lon.Set(12.34)
-	place.SetLongitude(lon)
+	place.SetActivityStreamsLongitude(lon)
 	lat := NewActivityStreamsLatitudeProperty()
 	lat.Set(56.78)
-	place.SetLatitude(lat)
+	place.SetActivityStreamsLatitude(lat)
 	alt := NewActivityStreamsAltitudeProperty()
 	alt.Set(90)
-	place.SetAltitude(alt)
+	place.SetActivityStreamsAltitude(alt)
 	units := NewActivityStreamsUnitsProperty()
-	units.SetString("m")
-	place.SetUnits(units)
+	units.SetXMLSchemaString("m")
+	place.SetActivityStreamsUnits(units)
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	example88Type.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	example88Type.SetActivityStreamsName(sally)
 	location := NewActivityStreamsLocationProperty()
-	location.AppendPlace(place)
-	example88Type.SetLocation(location)
+	location.AppendActivityStreamsPlace(place)
+	example88Type.SetActivityStreamsLocation(location)
 	return example88Type
 }
 
@@ -3069,26 +3069,26 @@ const example89 = `{
   ]
 }`
 
-func example89Type() vocab.CollectionInterface {
+func example89Type() vocab.ActivityStreamsCollection {
 	example89Type := NewActivityStreamsCollection()
 	note1 := NewActivityStreamsNote()
 	note1Name := NewActivityStreamsNameProperty()
-	note1Name.AppendString("Reminder for Going-Away Party")
-	note1.SetName(note1Name)
+	note1Name.AppendXMLSchemaString("Reminder for Going-Away Party")
+	note1.SetActivityStreamsName(note1Name)
 	note2 := NewActivityStreamsNote()
 	note2Name := NewActivityStreamsNameProperty()
-	note2Name.AppendString("Meeting 2016-11-17")
-	note2.SetName(note2Name)
+	note2Name.AppendXMLSchemaString("Meeting 2016-11-17")
+	note2.SetActivityStreamsName(note2Name)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally's notes")
-	example89Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally's notes")
+	example89Type.SetActivityStreamsSummary(summary)
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(2)
-	example89Type.SetTotalItems(totalItems)
+	example89Type.SetActivityStreamsTotalItems(totalItems)
 	items := NewActivityStreamsItemsProperty()
-	items.AppendNote(note1)
-	items.AppendNote(note2)
-	example89Type.SetItems(items)
+	items.AppendActivityStreamsNote(note1)
+	items.AppendActivityStreamsNote(note2)
+	example89Type.SetActivityStreamsItems(items)
 	return example89Type
 }
 
@@ -3109,26 +3109,26 @@ const example90 = `{
   ]
 }`
 
-func example90Type() vocab.OrderedCollectionInterface {
+func example90Type() vocab.ActivityStreamsOrderedCollection {
 	example90Type := NewActivityStreamsOrderedCollection()
 	note1 := NewActivityStreamsNote()
 	note1Name := NewActivityStreamsNameProperty()
-	note1Name.AppendString("Meeting 2016-11-17")
-	note1.SetName(note1Name)
+	note1Name.AppendXMLSchemaString("Meeting 2016-11-17")
+	note1.SetActivityStreamsName(note1Name)
 	note2 := NewActivityStreamsNote()
 	note2Name := NewActivityStreamsNameProperty()
-	note2Name.AppendString("Reminder for Going-Away Party")
-	note2.SetName(note2Name)
+	note2Name.AppendXMLSchemaString("Reminder for Going-Away Party")
+	note2.SetActivityStreamsName(note2Name)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally's notes")
-	example90Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally's notes")
+	example90Type.SetActivityStreamsSummary(summary)
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(2)
-	example90Type.SetTotalItems(totalItems)
+	example90Type.SetActivityStreamsTotalItems(totalItems)
 	orderedItems := NewActivityStreamsOrderedItemsProperty()
-	orderedItems.AppendNote(note1)
-	orderedItems.AppendNote(note2)
-	example90Type.SetOrderedItems(orderedItems)
+	orderedItems.AppendActivityStreamsNote(note1)
+	orderedItems.AppendActivityStreamsNote(note2)
+	example90Type.SetActivityStreamsOrderedItems(orderedItems)
 	return example90Type
 }
 
@@ -3148,23 +3148,23 @@ const example91 = `{
   ]
 }`
 
-func example91Type() vocab.QuestionInterface {
+func example91Type() vocab.ActivityStreamsQuestion {
 	example91Type := NewActivityStreamsQuestion()
 	note1 := NewActivityStreamsNote()
 	note1Name := NewActivityStreamsNameProperty()
-	note1Name.AppendString("Option A")
-	note1.SetName(note1Name)
+	note1Name.AppendXMLSchemaString("Option A")
+	note1.SetActivityStreamsName(note1Name)
 	note2 := NewActivityStreamsNote()
 	note2Name := NewActivityStreamsNameProperty()
-	note2Name.AppendString("Option B")
-	note2.SetName(note2Name)
+	note2Name.AppendXMLSchemaString("Option B")
+	note2.SetActivityStreamsName(note2Name)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("What is the answer?")
-	example91Type.SetName(name)
+	name.AppendXMLSchemaString("What is the answer?")
+	example91Type.SetActivityStreamsName(name)
 	oneOf := NewActivityStreamsOneOfProperty()
-	oneOf.AppendNote(note1)
-	oneOf.AppendNote(note2)
-	example91Type.SetOneOf(oneOf)
+	oneOf.AppendActivityStreamsNote(note1)
+	oneOf.AppendActivityStreamsNote(note2)
+	example91Type.SetActivityStreamsOneOf(oneOf)
 	return example91Type
 }
 
@@ -3184,23 +3184,23 @@ const example92 = `{
   ]
 }`
 
-func example92Type() vocab.QuestionInterface {
+func example92Type() vocab.ActivityStreamsQuestion {
 	example92Type := NewActivityStreamsQuestion()
 	note1 := NewActivityStreamsNote()
 	note1Name := NewActivityStreamsNameProperty()
-	note1Name.AppendString("Option A")
-	note1.SetName(note1Name)
+	note1Name.AppendXMLSchemaString("Option A")
+	note1.SetActivityStreamsName(note1Name)
 	note2 := NewActivityStreamsNote()
 	note2Name := NewActivityStreamsNameProperty()
-	note2Name.AppendString("Option B")
-	note2.SetName(note2Name)
+	note2Name.AppendXMLSchemaString("Option B")
+	note2.SetActivityStreamsName(note2Name)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("What is the answer?")
-	example92Type.SetName(name)
+	name.AppendXMLSchemaString("What is the answer?")
+	example92Type.SetActivityStreamsName(name)
 	anyOf := NewActivityStreamsAnyOfProperty()
-	anyOf.AppendNote(note1)
-	anyOf.AppendNote(note2)
-	example92Type.SetAnyOf(anyOf)
+	anyOf.AppendActivityStreamsNote(note1)
+	anyOf.AppendActivityStreamsNote(note2)
+	example92Type.SetActivityStreamsAnyOf(anyOf)
 	return example92Type
 }
 
@@ -3211,18 +3211,18 @@ const example93 = `{
   "closed": "2016-05-10T00:00:00Z"
 }`
 
-func example93Type() vocab.QuestionInterface {
+func example93Type() vocab.ActivityStreamsQuestion {
 	example93Type := NewActivityStreamsQuestion()
 	t, err := time.Parse(time.RFC3339, "2016-05-10T00:00:00Z")
 	if err != nil {
 		panic(err)
 	}
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("What is the answer?")
-	example93Type.SetName(name)
+	name.AppendXMLSchemaString("What is the answer?")
+	example93Type.SetActivityStreamsName(name)
 	closed := NewActivityStreamsClosedProperty()
-	closed.AppendDateTime(t)
-	example93Type.SetClosed(closed)
+	closed.AppendXMLSchemaDateTime(t)
+	example93Type.SetActivityStreamsClosed(closed)
 	return example93Type
 }
 
@@ -3242,33 +3242,33 @@ const example94 = `{
   }
 }`
 
-func example94Type() vocab.MoveInterface {
+func example94Type() vocab.ActivityStreamsMove {
 	example94Type := NewActivityStreamsMove()
 	a := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/posts/1")
 	target := NewActivityStreamsCollection()
 	targetName := NewActivityStreamsNameProperty()
-	targetName.AppendString("List B")
-	target.SetName(targetName)
+	targetName.AppendXMLSchemaString("List B")
+	target.SetActivityStreamsName(targetName)
 	origin := NewActivityStreamsCollection()
 	originName := NewActivityStreamsNameProperty()
-	originName.AppendString("List A")
-	origin.SetName(originName)
+	originName.AppendXMLSchemaString("List A")
+	origin.SetActivityStreamsName(originName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally moved a post from List A to List B")
-	example94Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally moved a post from List A to List B")
+	example94Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(a)
-	example94Type.SetActor(objectActor)
+	example94Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	example94Type.SetObject(obj)
+	example94Type.SetActivityStreamsObject(obj)
 	tobj := NewActivityStreamsTargetProperty()
-	tobj.AppendCollection(target)
-	example94Type.SetTarget(tobj)
+	tobj.AppendActivityStreamsCollection(target)
+	example94Type.SetActivityStreamsTarget(tobj)
 	originProp := NewActivityStreamsOriginProperty()
-	originProp.AppendCollection(origin)
-	example94Type.SetOrigin(originProp)
+	originProp.AppendActivityStreamsCollection(origin)
+	example94Type.SetActivityStreamsOrigin(originProp)
 	return example94Type
 }
 
@@ -3284,23 +3284,23 @@ const example95 = `{
   ]
 }`
 
-func example95Type() vocab.CollectionPageInterface {
+func example95Type() vocab.ActivityStreamsCollectionPage {
 	example95Type := NewActivityStreamsCollectionPage()
 	i := MustParseURL("http://example.org/collection?page=2")
 	u1 := MustParseURL("http://example.org/posts/1")
 	u2 := MustParseURL("http://example.org/posts/2")
 	u3 := MustParseURL("http://example.org/posts/3")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Page 2 of Sally's blog posts")
-	example95Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Page 2 of Sally's blog posts")
+	example95Type.SetActivityStreamsSummary(summary)
 	next := NewActivityStreamsNextProperty()
 	next.SetIRI(i)
-	example95Type.SetNext(next)
+	example95Type.SetActivityStreamsNext(next)
 	items := NewActivityStreamsItemsProperty()
 	items.AppendIRI(u1)
 	items.AppendIRI(u2)
 	items.AppendIRI(u3)
-	example95Type.SetItems(items)
+	example95Type.SetActivityStreamsItems(items)
 	return example95Type
 }
 
@@ -3320,7 +3320,7 @@ const example96 = `{
   ]
 }`
 
-func example96Type() vocab.CollectionPageInterface {
+func example96Type() vocab.ActivityStreamsCollectionPage {
 	example96Type := NewActivityStreamsCollectionPage()
 	href := MustParseURL("http://example.org/collection?page=2")
 	u1 := MustParseURL("http://example.org/posts/1")
@@ -3328,22 +3328,22 @@ func example96Type() vocab.CollectionPageInterface {
 	u3 := MustParseURL("http://example.org/posts/3")
 	link := NewActivityStreamsLink()
 	linkName := NewActivityStreamsNameProperty()
-	linkName.AppendString("Next Page")
-	link.SetName(linkName)
+	linkName.AppendXMLSchemaString("Next Page")
+	link.SetActivityStreamsName(linkName)
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(href)
-	link.SetHref(hrefLink)
+	link.SetActivityStreamsHref(hrefLink)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Page 2 of Sally's blog posts")
-	example96Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Page 2 of Sally's blog posts")
+	example96Type.SetActivityStreamsSummary(summary)
 	next := NewActivityStreamsNextProperty()
-	next.SetLink(link)
-	example96Type.SetNext(next)
+	next.SetActivityStreamsLink(link)
+	example96Type.SetActivityStreamsNext(next)
 	items := NewActivityStreamsItemsProperty()
 	items.AppendIRI(u1)
 	items.AppendIRI(u2)
 	items.AppendIRI(u3)
-	example96Type.SetItems(items)
+	example96Type.SetActivityStreamsItems(items)
 	return example96Type
 }
 
@@ -3355,19 +3355,19 @@ const example97 = `{
   "object": "http://example.org/posts/1"
 }`
 
-func example97Type() vocab.LikeInterface {
+func example97Type() vocab.ActivityStreamsLike {
 	example97Type := NewActivityStreamsLike()
 	a := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/posts/1")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally liked a post")
-	example97Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally liked a post")
+	example97Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(a)
-	example97Type.SetActor(objectActor)
+	example97Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	example97Type.SetObject(obj)
+	example97Type.SetActivityStreamsObject(obj)
 	return example97Type
 }
 
@@ -3381,19 +3381,19 @@ const example98 = `{
   }
 }`
 
-func example98Type() vocab.LikeInterface {
+func example98Type() vocab.ActivityStreamsLike {
 	example98Type := NewActivityStreamsLike()
 	a := MustParseURL("http://sally.example.org")
 	note := NewActivityStreamsNote()
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("A simple note")
-	note.SetContent(content)
+	content.AppendXMLSchemaString("A simple note")
+	note.SetActivityStreamsContent(content)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(a)
-	example98Type.SetActor(objectActor)
+	example98Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendNote(note)
-	example98Type.SetObject(obj)
+	obj.AppendActivityStreamsNote(note)
+	example98Type.SetActivityStreamsObject(obj)
 	return example98Type
 }
 
@@ -3412,27 +3412,27 @@ const example99 = `{
   ]
 }`
 
-func example99Type() vocab.LikeInterface {
+func example99Type() vocab.ActivityStreamsLike {
 	example99Type := NewActivityStreamsLike()
 	a := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/posts/1")
 	note := NewActivityStreamsNote()
 	summaryNote := NewActivityStreamsSummaryProperty()
-	summaryNote.AppendString("A simple note")
-	note.SetSummary(summaryNote)
+	summaryNote.AppendXMLSchemaString("A simple note")
+	note.SetActivityStreamsSummary(summaryNote)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("That is a tree.")
-	note.SetContent(content)
+	content.AppendXMLSchemaString("That is a tree.")
+	note.SetActivityStreamsContent(content)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally liked a note")
-	example99Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally liked a note")
+	example99Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(a)
-	example99Type.SetActor(objectActor)
+	example99Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	obj.AppendNote(note)
-	example99Type.SetObject(obj)
+	obj.AppendActivityStreamsNote(note)
+	example99Type.SetActivityStreamsObject(obj)
 	return example99Type
 }
 
@@ -3448,23 +3448,23 @@ const example100 = `{
   ]
 }`
 
-func example100Type() vocab.CollectionPageInterface {
+func example100Type() vocab.ActivityStreamsCollectionPage {
 	example100Type := NewActivityStreamsCollectionPage()
 	p := MustParseURL("http://example.org/collection?page=1")
 	u1 := MustParseURL("http://example.org/posts/1")
 	u2 := MustParseURL("http://example.org/posts/2")
 	u3 := MustParseURL("http://example.org/posts/3")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Page 1 of Sally's blog posts")
-	example100Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Page 1 of Sally's blog posts")
+	example100Type.SetActivityStreamsSummary(summary)
 	prev := NewActivityStreamsPrevProperty()
 	prev.SetIRI(p)
-	example100Type.SetPrev(prev)
+	example100Type.SetActivityStreamsPrev(prev)
 	items := NewActivityStreamsItemsProperty()
 	items.AppendIRI(u1)
 	items.AppendIRI(u2)
 	items.AppendIRI(u3)
-	example100Type.SetItems(items)
+	example100Type.SetActivityStreamsItems(items)
 	return example100Type
 }
 
@@ -3484,7 +3484,7 @@ const example101 = `{
   ]
 }`
 
-func example101Type() vocab.CollectionPageInterface {
+func example101Type() vocab.ActivityStreamsCollectionPage {
 	example101Type := NewActivityStreamsCollectionPage()
 	p := MustParseURL("http://example.org/collection?page=1")
 	u1 := MustParseURL("http://example.org/posts/1")
@@ -3492,22 +3492,22 @@ func example101Type() vocab.CollectionPageInterface {
 	u3 := MustParseURL("http://example.org/posts/3")
 	link := NewActivityStreamsLink()
 	linkName := NewActivityStreamsNameProperty()
-	linkName.AppendString("Previous Page")
-	link.SetName(linkName)
+	linkName.AppendXMLSchemaString("Previous Page")
+	link.SetActivityStreamsName(linkName)
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(p)
-	link.SetHref(hrefLink)
+	link.SetActivityStreamsHref(hrefLink)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Page 1 of Sally's blog posts")
-	example101Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Page 1 of Sally's blog posts")
+	example101Type.SetActivityStreamsSummary(summary)
 	prev := NewActivityStreamsPrevProperty()
-	prev.SetLink(link)
-	example101Type.SetPrev(prev)
+	prev.SetActivityStreamsLink(link)
+	example101Type.SetActivityStreamsPrev(prev)
 	items := NewActivityStreamsItemsProperty()
 	items.AppendIRI(u1)
 	items.AppendIRI(u2)
 	items.AppendIRI(u3)
-	example101Type.SetItems(items)
+	example101Type.SetActivityStreamsItems(items)
 	return example101Type
 }
 
@@ -3529,35 +3529,35 @@ const example102 = `{
   }
 }`
 
-func example102Type() vocab.VideoInterface {
+func example102Type() vocab.ActivityStreamsVideo {
 	example102Type := NewActivityStreamsVideo()
 	u := MustParseURL("http://example.org/trailer.mkv")
 	link := NewActivityStreamsLink()
 	mediaType := NewActivityStreamsMediaTypeProperty()
 	mediaType.Set("video/mkv")
-	link.SetMediaType(mediaType)
+	link.SetActivityStreamsMediaType(mediaType)
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(u)
-	link.SetHref(hrefLink)
+	link.SetActivityStreamsHref(hrefLink)
 	video := NewActivityStreamsVideo()
 	videoName := NewActivityStreamsNameProperty()
-	videoName.AppendString("Trailer")
-	video.SetName(videoName)
+	videoName.AppendXMLSchemaString("Trailer")
+	video.SetActivityStreamsName(videoName)
 	durVideo := NewActivityStreamsDurationProperty()
 	durVideo.Set(time.Minute)
-	video.SetDuration(durVideo)
+	video.SetActivityStreamsDuration(durVideo)
 	urlProperty := NewActivityStreamsUrlProperty()
-	urlProperty.AppendLink(link)
-	video.SetUrl(urlProperty)
+	urlProperty.AppendActivityStreamsLink(link)
+	video.SetActivityStreamsUrl(urlProperty)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Cool New Movie")
-	example102Type.SetName(name)
+	name.AppendXMLSchemaString("Cool New Movie")
+	example102Type.SetActivityStreamsName(name)
 	dur := NewActivityStreamsDurationProperty()
 	dur.Set(time.Hour*2 + time.Minute*30)
-	example102Type.SetDuration(dur)
+	example102Type.SetActivityStreamsDuration(dur)
 	preview := NewActivityStreamsPreviewProperty()
-	preview.AppendVideo(video)
-	example102Type.SetPreview(preview)
+	preview.AppendActivityStreamsVideo(video)
+	example102Type.SetActivityStreamsPreview(preview)
 	return example102Type
 }
 
@@ -3585,19 +3585,19 @@ var example103Unknown = func(m map[string]interface{}) map[string]interface{} {
 	return m
 }
 
-func example103Type() vocab.ActivityInterface {
+func example103Type() vocab.ActivityStreamsActivity {
 	example103Type := NewActivityStreamsActivity()
 	o := MustParseURL("http://example.org/flights/1")
 	a := MustParseURL("http://sally.example.org")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally checked that her flight was on time")
-	example103Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally checked that her flight was on time")
+	example103Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(a)
-	example103Type.SetActor(objectActor)
+	example103Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	example103Type.SetObject(obj)
+	example103Type.SetActivityStreamsObject(obj)
 	return example103Type
 }
 
@@ -3620,38 +3620,38 @@ const example104 = `{
   }
 }`
 
-func example104Type() vocab.NoteInterface {
+func example104Type() vocab.ActivityStreamsNote {
 	example104Type := NewActivityStreamsNote()
 	i := MustParseURL("http://www.test.example/notes/1")
 	note := NewActivityStreamsNote()
 	summaryNote := NewActivityStreamsSummaryProperty()
-	summaryNote.AppendString("A response to the note")
-	note.SetSummary(summaryNote)
+	summaryNote.AppendXMLSchemaString("A response to the note")
+	note.SetActivityStreamsSummary(summaryNote)
 	contentNote := NewActivityStreamsContentProperty()
-	contentNote.AppendString("I am glad to hear it.")
-	note.SetContent(contentNote)
+	contentNote.AppendXMLSchemaString("I am glad to hear it.")
+	note.SetActivityStreamsContent(contentNote)
 	inReplyTo := NewActivityStreamsInReplyToProperty()
 	inReplyTo.AppendIRI(i)
-	note.SetInReplyTo(inReplyTo)
+	note.SetActivityStreamsInReplyTo(inReplyTo)
 	replies := NewActivityStreamsCollection()
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(1)
-	replies.SetTotalItems(totalItems)
+	replies.SetActivityStreamsTotalItems(totalItems)
 	items := NewActivityStreamsItemsProperty()
-	items.AppendNote(note)
-	replies.SetItems(items)
+	items.AppendActivityStreamsNote(note)
+	replies.SetActivityStreamsItems(items)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A simple note")
-	example104Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A simple note")
+	example104Type.SetActivityStreamsSummary(summary)
 	id := NewActivityStreamsIdProperty()
 	id.Set(MustParseURL("http://www.test.example/notes/1"))
-	example104Type.SetId(id)
+	example104Type.SetActivityStreamsId(id)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("I am fine.")
-	example104Type.SetContent(content)
+	content.AppendXMLSchemaString("I am fine.")
+	example104Type.SetActivityStreamsContent(content)
 	reply := NewActivityStreamsRepliesProperty()
-	reply.SetCollection(replies)
-	example104Type.SetReplies(reply)
+	reply.SetActivityStreamsCollection(replies)
+	example104Type.SetActivityStreamsReplies(reply)
 	return example104Type
 }
 
@@ -3668,25 +3668,25 @@ const example105 = `{
   }
 }`
 
-func example105Type() vocab.ImageInterface {
+func example105Type() vocab.ActivityStreamsImage {
 	example105Type := NewActivityStreamsImage()
 	u := MustParseURL("http://example.org/sally.jpg")
 	person := NewActivityStreamsPerson()
 	id := NewActivityStreamsIdProperty()
 	id.Set(MustParseURL("http://sally.example.org"))
-	person.SetId(id)
+	person.SetActivityStreamsId(id)
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Picture of Sally")
-	example105Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Picture of Sally")
+	example105Type.SetActivityStreamsSummary(summary)
 	urlProp := NewActivityStreamsUrlProperty()
 	urlProp.AppendIRI(u)
-	example105Type.SetUrl(urlProp)
+	example105Type.SetActivityStreamsUrl(urlProp)
 	tag := NewActivityStreamsTagProperty()
-	tag.AppendPerson(person)
-	example105Type.SetTag(tag)
+	tag.AppendActivityStreamsPerson(person)
+	example105Type.SetActivityStreamsTag(tag)
 	return example105Type
 }
 
@@ -3699,23 +3699,23 @@ const example106 = `{
   "target": "http://john.example.org"
 }`
 
-func example106Type() vocab.OfferInterface {
+func example106Type() vocab.ActivityStreamsOffer {
 	example106Type := NewActivityStreamsOffer()
 	a := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/posts/1")
 	t := MustParseURL("http://john.example.org")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally offered the post to John")
-	example106Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally offered the post to John")
+	example106Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(a)
-	example106Type.SetActor(objectActor)
+	example106Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	example106Type.SetObject(obj)
+	example106Type.SetActivityStreamsObject(obj)
 	target := NewActivityStreamsTargetProperty()
 	target.AppendIRI(t)
-	example106Type.SetTarget(target)
+	example106Type.SetActivityStreamsTarget(target)
 	return example106Type
 }
 
@@ -3731,26 +3731,26 @@ const example107 = `{
   }
 }`
 
-func example107Type() vocab.OfferInterface {
+func example107Type() vocab.ActivityStreamsOffer {
 	example107Type := NewActivityStreamsOffer()
 	a := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/posts/1")
 	person := NewActivityStreamsPerson()
 	personName := NewActivityStreamsNameProperty()
-	personName.AppendString("John")
-	person.SetName(personName)
+	personName.AppendXMLSchemaString("John")
+	person.SetActivityStreamsName(personName)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally offered the post to John")
-	example107Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally offered the post to John")
+	example107Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(a)
-	example107Type.SetActor(objectActor)
+	example107Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	example107Type.SetObject(obj)
+	example107Type.SetActivityStreamsObject(obj)
 	tobj := NewActivityStreamsTargetProperty()
-	tobj.AppendPerson(person)
-	example107Type.SetTarget(tobj)
+	tobj.AppendActivityStreamsPerson(person)
+	example107Type.SetActivityStreamsTarget(tobj)
 	return example107Type
 }
 
@@ -3765,27 +3765,27 @@ const example108 = `{
   "to": "http://joe.example.org"
 }`
 
-func example108Type() vocab.OfferInterface {
+func example108Type() vocab.ActivityStreamsOffer {
 	example108Type := NewActivityStreamsOffer()
 	a := MustParseURL("http://sally.example.org")
 	o := MustParseURL("http://example.org/posts/1")
 	t := MustParseURL("http://john.example.org")
 	z := MustParseURL("http://joe.example.org")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally offered the post to John")
-	example108Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally offered the post to John")
+	example108Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(a)
-	example108Type.SetActor(objectActor)
+	example108Type.SetActivityStreamsActor(objectActor)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(o)
-	example108Type.SetObject(obj)
+	example108Type.SetActivityStreamsObject(obj)
 	target := NewActivityStreamsTargetProperty()
 	target.AppendIRI(t)
-	example108Type.SetTarget(target)
+	example108Type.SetActivityStreamsTarget(target)
 	to := NewActivityStreamsToProperty()
 	to.AppendIRI(z)
-	example108Type.SetTo(to)
+	example108Type.SetActivityStreamsTo(to)
 	return example108Type
 }
 
@@ -3796,15 +3796,15 @@ const example109 = `{
   "url": "http://example.org/4q-sales-forecast.pdf"
 }`
 
-func example109Type() vocab.DocumentInterface {
+func example109Type() vocab.ActivityStreamsDocument {
 	example109Type := NewActivityStreamsDocument()
 	u := MustParseURL("http://example.org/4q-sales-forecast.pdf")
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("4Q Sales Forecast")
-	example109Type.SetName(name)
+	name.AppendXMLSchemaString("4Q Sales Forecast")
+	example109Type.SetActivityStreamsName(name)
 	urlProp := NewActivityStreamsUrlProperty()
 	urlProp.AppendIRI(u)
-	example109Type.SetUrl(urlProp)
+	example109Type.SetActivityStreamsUrl(urlProp)
 	return example109Type
 }
 
@@ -3818,19 +3818,19 @@ const example110 = `{
   }
 }`
 
-func example110Type() vocab.DocumentInterface {
+func example110Type() vocab.ActivityStreamsDocument {
 	example110Type := NewActivityStreamsDocument()
 	u := MustParseURL("http://example.org/4q-sales-forecast.pdf")
 	link := NewActivityStreamsLink()
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(u)
-	link.SetHref(hrefLink)
+	link.SetActivityStreamsHref(hrefLink)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("4Q Sales Forecast")
-	example110Type.SetName(name)
+	name.AppendXMLSchemaString("4Q Sales Forecast")
+	example110Type.SetActivityStreamsName(name)
 	urlProperty := NewActivityStreamsUrlProperty()
-	urlProperty.AppendLink(link)
-	example110Type.SetUrl(urlProperty)
+	urlProperty.AppendActivityStreamsLink(link)
+	example110Type.SetActivityStreamsUrl(urlProperty)
 	return example110Type
 }
 
@@ -3852,31 +3852,31 @@ const example111 = `{
   ]
 }`
 
-func example111Type() vocab.DocumentInterface {
+func example111Type() vocab.ActivityStreamsDocument {
 	example111Type := NewActivityStreamsDocument()
 	u1 := MustParseURL("http://example.org/4q-sales-forecast.pdf")
 	u2 := MustParseURL("http://example.org/4q-sales-forecast.html")
 	link1 := NewActivityStreamsLink()
 	hrefLink1 := NewActivityStreamsHrefProperty()
 	hrefLink1.Set(u1)
-	link1.SetHref(hrefLink1)
+	link1.SetActivityStreamsHref(hrefLink1)
 	mediaType1 := NewActivityStreamsMediaTypeProperty()
 	mediaType1.Set("application/pdf")
-	link1.SetMediaType(mediaType1)
+	link1.SetActivityStreamsMediaType(mediaType1)
 	link2 := NewActivityStreamsLink()
 	hrefLink2 := NewActivityStreamsHrefProperty()
 	hrefLink2.Set(u2)
-	link2.SetHref(hrefLink2)
+	link2.SetActivityStreamsHref(hrefLink2)
 	mediaType2 := NewActivityStreamsMediaTypeProperty()
 	mediaType2.Set("text/html")
-	link2.SetMediaType(mediaType2)
+	link2.SetActivityStreamsMediaType(mediaType2)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("4Q Sales Forecast")
-	example111Type.SetName(name)
+	name.AppendXMLSchemaString("4Q Sales Forecast")
+	example111Type.SetActivityStreamsName(name)
 	urlProperty := NewActivityStreamsUrlProperty()
-	urlProperty.AppendLink(link1)
-	urlProperty.AppendLink(link2)
-	example111Type.SetUrl(urlProperty)
+	urlProperty.AppendActivityStreamsLink(link1)
+	urlProperty.AppendActivityStreamsLink(link2)
+	example111Type.SetActivityStreamsUrl(urlProperty)
 	return example111Type
 }
 
@@ -3889,20 +3889,20 @@ const example112 = `{
   "accuracy": 94.5
 }`
 
-func example112Type() vocab.PlaceInterface {
+func example112Type() vocab.ActivityStreamsPlace {
 	example112Type := NewActivityStreamsPlace()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Liu Gu Lu Cun, Pingdu, Qingdao, Shandong, China")
-	example112Type.SetName(name)
+	name.AppendXMLSchemaString("Liu Gu Lu Cun, Pingdu, Qingdao, Shandong, China")
+	example112Type.SetActivityStreamsName(name)
 	lat := NewActivityStreamsLatitudeProperty()
 	lat.Set(36.75)
-	example112Type.SetLatitude(lat)
+	example112Type.SetActivityStreamsLatitude(lat)
 	lon := NewActivityStreamsLongitudeProperty()
 	lon.Set(119.7667)
-	example112Type.SetLongitude(lon)
+	example112Type.SetActivityStreamsLongitude(lon)
 	acc := NewActivityStreamsAccuracyProperty()
 	acc.Set(94.5)
-	example112Type.SetAccuracy(acc)
+	example112Type.SetActivityStreamsAccuracy(acc)
 	return example112Type
 }
 
@@ -3916,23 +3916,23 @@ const example113 = `{
   "units": "miles"
 }`
 
-func example113Type() vocab.PlaceInterface {
+func example113Type() vocab.ActivityStreamsPlace {
 	example113Type := NewActivityStreamsPlace()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Fresno Area")
-	example113Type.SetName(name)
+	name.AppendXMLSchemaString("Fresno Area")
+	example113Type.SetActivityStreamsName(name)
 	alt := NewActivityStreamsAltitudeProperty()
 	alt.Set(15.0)
-	example113Type.SetAltitude(alt)
+	example113Type.SetActivityStreamsAltitude(alt)
 	lat := NewActivityStreamsLatitudeProperty()
 	lat.Set(36.75)
-	example113Type.SetLatitude(lat)
+	example113Type.SetActivityStreamsLatitude(lat)
 	lon := NewActivityStreamsLongitudeProperty()
 	lon.Set(119.7667)
-	example113Type.SetLongitude(lon)
+	example113Type.SetActivityStreamsLongitude(lon)
 	units := NewActivityStreamsUnitsProperty()
-	units.SetString("miles")
-	example113Type.SetUnits(units)
+	units.SetXMLSchemaString("miles")
+	example113Type.SetActivityStreamsUnits(units)
 	return example113Type
 }
 
@@ -3943,14 +3943,14 @@ const example114 = `{
   "content": "A <em>simple</em> note"
 }`
 
-func example114Type() vocab.NoteInterface {
+func example114Type() vocab.ActivityStreamsNote {
 	example114Type := NewActivityStreamsNote()
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A simple note")
-	example114Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A simple note")
+	example114Type.SetActivityStreamsSummary(summary)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("A <em>simple</em> note")
-	example114Type.SetContent(content)
+	content.AppendXMLSchemaString("A <em>simple</em> note")
+	example114Type.SetActivityStreamsContent(content)
 	return example114Type
 }
 
@@ -3965,18 +3965,18 @@ const example115 = `{
   }
 }`
 
-func example115Type() vocab.NoteInterface {
+func example115Type() vocab.ActivityStreamsNote {
 	example115Type := NewActivityStreamsNote()
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A simple note")
-	example115Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A simple note")
+	example115Type.SetActivityStreamsSummary(summary)
 	content := NewActivityStreamsContentProperty()
-	content.AppendLangString(map[string]string{
+	content.AppendRDFLangString(map[string]string{
 		"en":      "A <em>simple</em> note",
 		"es":      "Una nota <em>sencilla</em>",
 		"zh-Hans": "一段<em>简单的</em>笔记",
 	})
-	example115Type.SetContent(content)
+	example115Type.SetActivityStreamsContent(content)
 	return example115Type
 }
 
@@ -3988,17 +3988,17 @@ const example116 = `{
   "content": "## A simple note\nA simple markdown ` + "`note`" + `"
 }`
 
-func example116Type() vocab.NoteInterface {
+func example116Type() vocab.ActivityStreamsNote {
 	example116Type := NewActivityStreamsNote()
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A simple note")
-	example116Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A simple note")
+	example116Type.SetActivityStreamsSummary(summary)
 	mediaType := NewActivityStreamsMediaTypeProperty()
 	mediaType.Set("text/markdown")
-	example116Type.SetMediaType(mediaType)
+	example116Type.SetActivityStreamsMediaType(mediaType)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("## A simple note\nA simple markdown `note`")
-	example116Type.SetContent(content)
+	content.AppendXMLSchemaString("## A simple note\nA simple markdown `note`")
+	example116Type.SetActivityStreamsContent(content)
 	return example116Type
 }
 
@@ -4008,11 +4008,11 @@ const example117 = `{
   "name": "A simple note"
 }`
 
-func example117Type() vocab.NoteInterface {
+func example117Type() vocab.ActivityStreamsNote {
 	example117Type := NewActivityStreamsNote()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("A simple note")
-	example117Type.SetName(name)
+	name.AppendXMLSchemaString("A simple note")
+	example117Type.SetActivityStreamsName(name)
 	return example117Type
 }
 
@@ -4026,15 +4026,15 @@ const example118 = `{
   }
 }`
 
-func example118Type() vocab.NoteInterface {
+func example118Type() vocab.ActivityStreamsNote {
 	example118Type := NewActivityStreamsNote()
 	name := NewActivityStreamsNameProperty()
-	name.AppendLangString(map[string]string{
+	name.AppendRDFLangString(map[string]string{
 		"en":      "A simple note",
 		"es":      "Una nota sencilla",
 		"zh-Hans": "一段简单的笔记",
 	})
-	example118Type.SetName(name)
+	example118Type.SetActivityStreamsName(name)
 	return example118Type
 }
 
@@ -4046,18 +4046,18 @@ const example119 = `{
   "duration": "PT2H"
 }`
 
-func example119Type() vocab.VideoInterface {
+func example119Type() vocab.ActivityStreamsVideo {
 	example119Type := NewActivityStreamsVideo()
 	u := MustParseURL("http://example.org/video.mkv")
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Birds Flying")
-	example119Type.SetName(name)
+	name.AppendXMLSchemaString("Birds Flying")
+	example119Type.SetActivityStreamsName(name)
 	urlProp := NewActivityStreamsUrlProperty()
 	urlProp.AppendIRI(u)
-	example119Type.SetUrl(urlProp)
+	example119Type.SetActivityStreamsUrl(urlProp)
 	dur := NewActivityStreamsDurationProperty()
 	dur.Set(time.Hour * 2)
-	example119Type.SetDuration(dur)
+	example119Type.SetActivityStreamsDuration(dur)
 	return example119Type
 }
 
@@ -4069,18 +4069,18 @@ const example120 = `{
   "width": 100
 }`
 
-func example120Type() vocab.LinkInterface {
+func example120Type() vocab.ActivityStreamsLink {
 	example120Type := NewActivityStreamsLink()
 	u := MustParseURL("http://example.org/image.png")
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(u)
-	example120Type.SetHref(hrefLink)
+	example120Type.SetActivityStreamsHref(hrefLink)
 	width := NewActivityStreamsWidthProperty()
 	width.Set(100)
-	example120Type.SetWidth(width)
+	example120Type.SetActivityStreamsWidth(width)
 	height := NewActivityStreamsHeightProperty()
 	height.Set(100)
-	example120Type.SetHeight(height)
+	example120Type.SetActivityStreamsHeight(height)
 	return example120Type
 }
 
@@ -4092,18 +4092,18 @@ const example121 = `{
   "name": "Previous"
 }`
 
-func example121Type() vocab.LinkInterface {
+func example121Type() vocab.ActivityStreamsLink {
 	example121Type := NewActivityStreamsLink()
 	u := MustParseURL("http://example.org/abc")
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(u)
-	example121Type.SetHref(hrefLink)
+	example121Type.SetActivityStreamsHref(hrefLink)
 	mediaType := NewActivityStreamsMediaTypeProperty()
 	mediaType.Set("text/html")
-	example121Type.SetMediaType(mediaType)
+	example121Type.SetActivityStreamsMediaType(mediaType)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Previous")
-	example121Type.SetName(name)
+	name.AppendXMLSchemaString("Previous")
+	example121Type.SetActivityStreamsName(name)
 	return example121Type
 }
 
@@ -4116,21 +4116,21 @@ const example122 = `{
   "name": "Previous"
 }`
 
-func example122Type() vocab.LinkInterface {
+func example122Type() vocab.ActivityStreamsLink {
 	example122Type := NewActivityStreamsLink()
 	u := MustParseURL("http://example.org/abc")
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(u)
-	example122Type.SetHref(hrefLink)
+	example122Type.SetActivityStreamsHref(hrefLink)
 	mediaType := NewActivityStreamsMediaTypeProperty()
 	mediaType.Set("text/html")
-	example122Type.SetMediaType(mediaType)
+	example122Type.SetActivityStreamsMediaType(mediaType)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Previous")
-	example122Type.SetName(name)
+	name.AppendXMLSchemaString("Previous")
+	example122Type.SetActivityStreamsName(name)
 	hreflang := NewActivityStreamsHreflangProperty()
 	hreflang.Set("en")
-	example122Type.SetHreflang(hreflang)
+	example122Type.SetActivityStreamsHreflang(hreflang)
 	return example122Type
 }
 
@@ -4152,30 +4152,30 @@ const example123 = `{
   ]
 }`
 
-func example123Type() vocab.CollectionPageInterface {
+func example123Type() vocab.ActivityStreamsCollectionPage {
 	example123Type := NewActivityStreamsCollectionPage()
 	u := MustParseURL("http://example.org/collection")
 	note1 := NewActivityStreamsNote()
 	name1 := NewActivityStreamsNameProperty()
-	name1.AppendString("Pizza Toppings to Try")
-	note1.SetName(name1)
+	name1.AppendXMLSchemaString("Pizza Toppings to Try")
+	note1.SetActivityStreamsName(name1)
 	note2 := NewActivityStreamsNote()
 	name2 := NewActivityStreamsNameProperty()
-	name2.AppendString("Thought about California")
-	note2.SetName(name2)
+	name2.AppendXMLSchemaString("Thought about California")
+	note2.SetActivityStreamsName(name2)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Page 1 of Sally's notes")
-	example123Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Page 1 of Sally's notes")
+	example123Type.SetActivityStreamsSummary(summary)
 	id := NewActivityStreamsIdProperty()
 	id.Set(MustParseURL("http://example.org/collection?page=1"))
-	example123Type.SetId(id)
+	example123Type.SetActivityStreamsId(id)
 	partOf := NewActivityStreamsPartOfProperty()
 	partOf.SetIRI(u)
-	example123Type.SetPartOf(partOf)
+	example123Type.SetActivityStreamsPartOf(partOf)
 	items := NewActivityStreamsItemsProperty()
-	items.AppendNote(note1)
-	items.AppendNote(note2)
-	example123Type.SetItems(items)
+	items.AppendActivityStreamsNote(note1)
+	items.AppendActivityStreamsNote(note2)
+	example123Type.SetActivityStreamsItems(items)
 	return example123Type
 }
 
@@ -4189,23 +4189,23 @@ const example124 = `{
   "units": "miles"
 }`
 
-func example124Type() vocab.PlaceInterface {
+func example124Type() vocab.ActivityStreamsPlace {
 	example124Type := NewActivityStreamsPlace()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Fresno Area")
-	example124Type.SetName(name)
+	name.AppendXMLSchemaString("Fresno Area")
+	example124Type.SetActivityStreamsName(name)
 	lat := NewActivityStreamsLatitudeProperty()
 	lat.Set(36.75)
-	example124Type.SetLatitude(lat)
+	example124Type.SetActivityStreamsLatitude(lat)
 	lon := NewActivityStreamsLongitudeProperty()
 	lon.Set(119.7667)
-	example124Type.SetLongitude(lon)
+	example124Type.SetActivityStreamsLongitude(lon)
 	rad := NewActivityStreamsRadiusProperty()
 	rad.Set(15)
-	example124Type.SetRadius(rad)
+	example124Type.SetActivityStreamsRadius(rad)
 	units := NewActivityStreamsUnitsProperty()
-	units.SetString("miles")
-	example124Type.SetUnits(units)
+	units.SetXMLSchemaString("miles")
+	example124Type.SetActivityStreamsUnits(units)
 	return example124Type
 }
 
@@ -4219,23 +4219,23 @@ const example125 = `{
   "units": "miles"
 }`
 
-func example125Type() vocab.PlaceInterface {
+func example125Type() vocab.ActivityStreamsPlace {
 	example125Type := NewActivityStreamsPlace()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Fresno Area")
-	example125Type.SetName(name)
+	name.AppendXMLSchemaString("Fresno Area")
+	example125Type.SetActivityStreamsName(name)
 	lat := NewActivityStreamsLatitudeProperty()
 	lat.Set(36.75)
-	example125Type.SetLatitude(lat)
+	example125Type.SetActivityStreamsLatitude(lat)
 	lon := NewActivityStreamsLongitudeProperty()
 	lon.Set(119.7667)
-	example125Type.SetLongitude(lon)
+	example125Type.SetActivityStreamsLongitude(lon)
 	rad := NewActivityStreamsRadiusProperty()
 	rad.Set(15)
-	example125Type.SetRadius(rad)
+	example125Type.SetActivityStreamsRadius(rad)
 	units := NewActivityStreamsUnitsProperty()
-	units.SetString("miles")
-	example125Type.SetUnits(units)
+	units.SetXMLSchemaString("miles")
+	example125Type.SetActivityStreamsUnits(units)
 	return example125Type
 }
 
@@ -4248,21 +4248,21 @@ const example126 = `{
   "name": "Next"
 }`
 
-func example126Type() vocab.LinkInterface {
+func example126Type() vocab.ActivityStreamsLink {
 	example126Type := NewActivityStreamsLink()
 	u := MustParseURL("http://example.org/abc")
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(u)
-	example126Type.SetHref(hrefLink)
+	example126Type.SetActivityStreamsHref(hrefLink)
 	hreflang := NewActivityStreamsHreflangProperty()
 	hreflang.Set("en")
-	example126Type.SetHreflang(hreflang)
+	example126Type.SetActivityStreamsHreflang(hreflang)
 	mediaType := NewActivityStreamsMediaTypeProperty()
 	mediaType.Set("text/html")
-	example126Type.SetMediaType(mediaType)
+	example126Type.SetActivityStreamsMediaType(mediaType)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Next")
-	example126Type.SetName(name)
+	name.AppendXMLSchemaString("Next")
+	example126Type.SetActivityStreamsName(name)
 	return example126Type
 }
 
@@ -4274,7 +4274,7 @@ const example127 = `{
   "endTime": "2015-01-01T06:00:00-08:00"
 }`
 
-func example127Type() vocab.EventInterface {
+func example127Type() vocab.ActivityStreamsEvent {
 	example127Type := NewActivityStreamsEvent()
 	t1, err := time.Parse(time.RFC3339, "2014-12-31T23:00:00-08:00")
 	if err != nil {
@@ -4285,14 +4285,14 @@ func example127Type() vocab.EventInterface {
 		panic(err)
 	}
 	goingAway := NewActivityStreamsNameProperty()
-	goingAway.AppendString("Going-Away Party for Jim")
-	example127Type.SetName(goingAway)
+	goingAway.AppendXMLSchemaString("Going-Away Party for Jim")
+	example127Type.SetActivityStreamsName(goingAway)
 	startTime := NewActivityStreamsStartTimeProperty()
 	startTime.Set(t1)
-	example127Type.SetStartTime(startTime)
+	example127Type.SetActivityStreamsStartTime(startTime)
 	endTime := NewActivityStreamsEndTimeProperty()
 	endTime.Set(t2)
-	example127Type.SetEndTime(endTime)
+	example127Type.SetActivityStreamsEndTime(endTime)
 	return example127Type
 }
 
@@ -4304,21 +4304,21 @@ const example128 = `{
   "published": "2014-12-12T12:12:12Z"
 }`
 
-func example128Type() vocab.NoteInterface {
+func example128Type() vocab.ActivityStreamsNote {
 	example128Type := NewActivityStreamsNote()
 	t, err := time.Parse(time.RFC3339, "2014-12-12T12:12:12Z")
 	if err != nil {
 		panic(err)
 	}
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A simple note")
-	example128Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A simple note")
+	example128Type.SetActivityStreamsSummary(summary)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("Fish swim.")
-	example128Type.SetContent(content)
+	content.AppendXMLSchemaString("Fish swim.")
+	example128Type.SetActivityStreamsContent(content)
 	published := NewActivityStreamsPublishedProperty()
 	published.Set(t)
-	example128Type.SetPublished(published)
+	example128Type.SetActivityStreamsPublished(published)
 	return example128Type
 }
 
@@ -4330,7 +4330,7 @@ const example129 = `{
   "endTime": "2015-01-01T06:00:00-08:00"
 }`
 
-func example129Type() vocab.EventInterface {
+func example129Type() vocab.ActivityStreamsEvent {
 	example129Type := NewActivityStreamsEvent()
 	t1, err := time.Parse(time.RFC3339, "2014-12-31T23:00:00-08:00")
 	if err != nil {
@@ -4341,14 +4341,14 @@ func example129Type() vocab.EventInterface {
 		panic(err)
 	}
 	goingAway := NewActivityStreamsNameProperty()
-	goingAway.AppendString("Going-Away Party for Jim")
-	example129Type.SetName(goingAway)
+	goingAway.AppendXMLSchemaString("Going-Away Party for Jim")
+	example129Type.SetActivityStreamsName(goingAway)
 	startTime := NewActivityStreamsStartTimeProperty()
 	startTime.Set(t1)
-	example129Type.SetStartTime(startTime)
+	example129Type.SetActivityStreamsStartTime(startTime)
 	endTime := NewActivityStreamsEndTimeProperty()
 	endTime.Set(t2)
-	example129Type.SetEndTime(endTime)
+	example129Type.SetActivityStreamsEndTime(endTime)
 	return example129Type
 }
 
@@ -4362,23 +4362,23 @@ const example130 = `{
   "units": "miles"
 }`
 
-func example130Type() vocab.PlaceInterface {
+func example130Type() vocab.ActivityStreamsPlace {
 	example130Type := NewActivityStreamsPlace()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Fresno Area")
-	example130Type.SetName(name)
+	name.AppendXMLSchemaString("Fresno Area")
+	example130Type.SetActivityStreamsName(name)
 	lat := NewActivityStreamsLatitudeProperty()
 	lat.Set(36.75)
-	example130Type.SetLatitude(lat)
+	example130Type.SetActivityStreamsLatitude(lat)
 	lon := NewActivityStreamsLongitudeProperty()
 	lon.Set(119.7667)
-	example130Type.SetLongitude(lon)
+	example130Type.SetActivityStreamsLongitude(lon)
 	rad := NewActivityStreamsRadiusProperty()
 	rad.Set(15)
-	example130Type.SetRadius(rad)
+	example130Type.SetActivityStreamsRadius(rad)
 	units := NewActivityStreamsUnitsProperty()
-	units.SetString("miles")
-	example130Type.SetUnits(units)
+	units.SetXMLSchemaString("miles")
+	example130Type.SetActivityStreamsUnits(units)
 	return example130Type
 }
 
@@ -4392,25 +4392,25 @@ const example131 = `{
   "rel": ["canonical", "preview"]
 }`
 
-func example131Type() vocab.LinkInterface {
+func example131Type() vocab.ActivityStreamsLink {
 	example131Type := NewActivityStreamsLink()
 	u := MustParseURL("http://example.org/abc")
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(u)
-	example131Type.SetHref(hrefLink)
+	example131Type.SetActivityStreamsHref(hrefLink)
 	hreflang := NewActivityStreamsHreflangProperty()
 	hreflang.Set("en")
-	example131Type.SetHreflang(hreflang)
+	example131Type.SetActivityStreamsHreflang(hreflang)
 	mediaType := NewActivityStreamsMediaTypeProperty()
 	mediaType.Set("text/html")
-	example131Type.SetMediaType(mediaType)
+	example131Type.SetActivityStreamsMediaType(mediaType)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Preview")
-	example131Type.SetName(name)
+	name.AppendXMLSchemaString("Preview")
+	example131Type.SetActivityStreamsName(name)
 	rel := NewActivityStreamsRelProperty()
-	rel.AppendRfc5988("canonical")
-	rel.AppendRfc5988("preview")
-	example131Type.SetRel(rel)
+	rel.AppendRFCRfc5988("canonical")
+	rel.AppendRFCRfc5988("preview")
+	example131Type.SetActivityStreamsRel(rel)
 	return example131Type
 }
 
@@ -4431,26 +4431,26 @@ const example132 = `{
   ]
 }`
 
-func example132Type() vocab.OrderedCollectionPageInterface {
+func example132Type() vocab.ActivityStreamsOrderedCollectionPage {
 	example132Type := NewActivityStreamsOrderedCollectionPage()
 	note1 := NewActivityStreamsNote()
 	name1 := NewActivityStreamsNameProperty()
-	name1.AppendString("Density of Water")
-	note1.SetName(name1)
+	name1.AppendXMLSchemaString("Density of Water")
+	note1.SetActivityStreamsName(name1)
 	note2 := NewActivityStreamsNote()
 	name2 := NewActivityStreamsNameProperty()
-	name2.AppendString("Air Mattress Idea")
-	note2.SetName(name2)
+	name2.AppendXMLSchemaString("Air Mattress Idea")
+	note2.SetActivityStreamsName(name2)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Page 1 of Sally's notes")
-	example132Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Page 1 of Sally's notes")
+	example132Type.SetActivityStreamsSummary(summary)
 	start := NewActivityStreamsStartIndexProperty()
 	start.Set(0)
-	example132Type.SetStartIndex(start)
+	example132Type.SetActivityStreamsStartIndex(start)
 	orderedItems := NewActivityStreamsOrderedItemsProperty()
-	orderedItems.AppendNote(note1)
-	orderedItems.AppendNote(note2)
-	example132Type.SetOrderedItems(orderedItems)
+	orderedItems.AppendActivityStreamsNote(note1)
+	orderedItems.AppendActivityStreamsNote(note2)
+	example132Type.SetActivityStreamsOrderedItems(orderedItems)
 	return example132Type
 }
 
@@ -4461,14 +4461,14 @@ const example133 = `{
   "summary": "A simple <em>note</em>"
 }`
 
-func example133Type() vocab.NoteInterface {
+func example133Type() vocab.ActivityStreamsNote {
 	example133Type := NewActivityStreamsNote()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Cane Sugar Processing")
-	example133Type.SetName(name)
+	name.AppendXMLSchemaString("Cane Sugar Processing")
+	example133Type.SetActivityStreamsName(name)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("A simple <em>note</em>")
-	example133Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("A simple <em>note</em>")
+	example133Type.SetActivityStreamsSummary(summary)
 	return example133Type
 }
 
@@ -4483,18 +4483,18 @@ const example134 = `{
   }
 }`
 
-func example134Type() vocab.NoteInterface {
+func example134Type() vocab.ActivityStreamsNote {
 	example134Type := NewActivityStreamsNote()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Cane Sugar Processing")
-	example134Type.SetName(name)
+	name.AppendXMLSchemaString("Cane Sugar Processing")
+	example134Type.SetActivityStreamsName(name)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendLangString(map[string]string{
+	summary.AppendRDFLangString(map[string]string{
 		"en":      "A simple <em>note</em>",
 		"es":      "Una <em>nota</em> sencilla",
 		"zh-Hans": "一段<em>简单的</em>笔记",
 	})
-	example134Type.SetSummary(summary)
+	example134Type.SetActivityStreamsSummary(summary)
 	return example134Type
 }
 
@@ -4515,26 +4515,26 @@ const example135 = `{
   ]
 }`
 
-func example135Type() vocab.CollectionInterface {
+func example135Type() vocab.ActivityStreamsCollection {
 	example135Type := NewActivityStreamsCollection()
 	note1 := NewActivityStreamsNote()
 	name1 := NewActivityStreamsNameProperty()
-	name1.AppendString("Which Staircase Should I Use")
-	note1.SetName(name1)
+	name1.AppendXMLSchemaString("Which Staircase Should I Use")
+	note1.SetActivityStreamsName(name1)
 	note2 := NewActivityStreamsNote()
 	name2 := NewActivityStreamsNameProperty()
-	name2.AppendString("Something to Remember")
-	note2.SetName(name2)
+	name2.AppendXMLSchemaString("Something to Remember")
+	note2.SetActivityStreamsName(name2)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally's notes")
-	example135Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally's notes")
+	example135Type.SetActivityStreamsSummary(summary)
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(2)
-	example135Type.SetTotalItems(totalItems)
+	example135Type.SetActivityStreamsTotalItems(totalItems)
 	items := NewActivityStreamsItemsProperty()
-	items.AppendNote(note1)
-	items.AppendNote(note2)
-	example135Type.SetItems(items)
+	items.AppendActivityStreamsNote(note1)
+	items.AppendActivityStreamsNote(note2)
+	example135Type.SetActivityStreamsItems(items)
 	return example135Type
 }
 
@@ -4548,23 +4548,23 @@ const example136 = `{
   "units": "miles"
 }`
 
-func example136Type() vocab.PlaceInterface {
+func example136Type() vocab.ActivityStreamsPlace {
 	example136Type := NewActivityStreamsPlace()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Fresno Area")
-	example136Type.SetName(name)
+	name.AppendXMLSchemaString("Fresno Area")
+	example136Type.SetActivityStreamsName(name)
 	lat := NewActivityStreamsLatitudeProperty()
 	lat.Set(36.75)
-	example136Type.SetLatitude(lat)
+	example136Type.SetActivityStreamsLatitude(lat)
 	lon := NewActivityStreamsLongitudeProperty()
 	lon.Set(119.7667)
-	example136Type.SetLongitude(lon)
+	example136Type.SetActivityStreamsLongitude(lon)
 	rad := NewActivityStreamsRadiusProperty()
 	rad.Set(15)
-	example136Type.SetRadius(rad)
+	example136Type.SetActivityStreamsRadius(rad)
 	units := NewActivityStreamsUnitsProperty()
-	units.SetString("miles")
-	example136Type.SetUnits(units)
+	units.SetXMLSchemaString("miles")
+	example136Type.SetActivityStreamsUnits(units)
 	return example136Type
 }
 
@@ -4576,21 +4576,21 @@ const example137 = `{
   "updated": "2014-12-12T12:12:12Z"
 }`
 
-func example137Type() vocab.NoteInterface {
+func example137Type() vocab.ActivityStreamsNote {
 	example137Type := NewActivityStreamsNote()
 	t, err := time.Parse(time.RFC3339, "2014-12-12T12:12:12Z")
 	if err != nil {
 		panic(err)
 	}
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Cranberry Sauce Idea")
-	example137Type.SetName(name)
+	name.AppendXMLSchemaString("Cranberry Sauce Idea")
+	example137Type.SetActivityStreamsName(name)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("Mush it up so it does not have the same shape as the can.")
-	example137Type.SetContent(content)
+	content.AppendXMLSchemaString("Mush it up so it does not have the same shape as the can.")
+	example137Type.SetActivityStreamsContent(content)
 	updated := NewActivityStreamsUpdatedProperty()
 	updated.Set(t)
-	example137Type.SetUpdated(updated)
+	example137Type.SetActivityStreamsUpdated(updated)
 	return example137Type
 }
 
@@ -4602,18 +4602,18 @@ const example138 = `{
   "width": 100
 }`
 
-func example138Type() vocab.LinkInterface {
+func example138Type() vocab.ActivityStreamsLink {
 	example138Type := NewActivityStreamsLink()
 	u := MustParseURL("http://example.org/image.png")
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(u)
-	example138Type.SetHref(hrefLink)
+	example138Type.SetActivityStreamsHref(hrefLink)
 	width := NewActivityStreamsWidthProperty()
 	width.Set(100)
-	example138Type.SetWidth(width)
+	example138Type.SetActivityStreamsWidth(width)
 	height := NewActivityStreamsHeightProperty()
 	height.Set(100)
-	example138Type.SetHeight(height)
+	example138Type.SetActivityStreamsHeight(height)
 	return example138Type
 }
 
@@ -4632,29 +4632,29 @@ const example139 = `{
   }
 }`
 
-func example139Type() vocab.RelationshipInterface {
+func example139Type() vocab.ActivityStreamsRelationship {
 	example139Type := NewActivityStreamsRelationship()
 	u := MustParseURL("http://purl.org/vocab/relationship/acquaintanceOf")
 	subject := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	subject.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	subject.SetActivityStreamsName(sally)
 	object := NewActivityStreamsPerson()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("John")
-	object.SetName(name)
+	name.AppendXMLSchemaString("John")
+	object.SetActivityStreamsName(name)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally is an acquaintance of John's")
-	example139Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally is an acquaintance of John's")
+	example139Type.SetActivityStreamsSummary(summary)
 	subj := NewActivityStreamsSubjectProperty()
-	subj.SetPerson(subject)
-	example139Type.SetSubject(subj)
+	subj.SetActivityStreamsPerson(subject)
+	example139Type.SetActivityStreamsSubject(subj)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendPerson(object)
-	example139Type.SetObject(obj)
+	obj.AppendActivityStreamsPerson(object)
+	example139Type.SetActivityStreamsObject(obj)
 	relationship := NewActivityStreamsRelationshipProperty()
 	relationship.AppendIRI(u)
-	example139Type.SetRelationship(relationship)
+	example139Type.SetActivityStreamsRelationship(relationship)
 	return example139Type
 }
 
@@ -4673,29 +4673,29 @@ const example140 = `{
   }
 }`
 
-func example140Type() vocab.RelationshipInterface {
+func example140Type() vocab.ActivityStreamsRelationship {
 	example140Type := NewActivityStreamsRelationship()
 	u := MustParseURL("http://purl.org/vocab/relationship/acquaintanceOf")
 	subject := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	subject.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	subject.SetActivityStreamsName(sally)
 	object := NewActivityStreamsPerson()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("John")
-	object.SetName(name)
+	name.AppendXMLSchemaString("John")
+	object.SetActivityStreamsName(name)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally is an acquaintance of John's")
-	example140Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally is an acquaintance of John's")
+	example140Type.SetActivityStreamsSummary(summary)
 	subj := NewActivityStreamsSubjectProperty()
-	subj.SetPerson(subject)
-	example140Type.SetSubject(subj)
+	subj.SetActivityStreamsPerson(subject)
+	example140Type.SetActivityStreamsSubject(subj)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendPerson(object)
-	example140Type.SetObject(obj)
+	obj.AppendActivityStreamsPerson(object)
+	example140Type.SetActivityStreamsObject(obj)
 	relationship := NewActivityStreamsRelationshipProperty()
 	relationship.AppendIRI(u)
-	example140Type.SetRelationship(relationship)
+	example140Type.SetActivityStreamsRelationship(relationship)
 	return example140Type
 }
 
@@ -4710,22 +4710,22 @@ const example141 = `{
   "url": "http://sally.example.org"
 }`
 
-func example141Type() vocab.ProfileInterface {
+func example141Type() vocab.ActivityStreamsProfile {
 	example141Type := NewActivityStreamsProfile()
 	u := MustParseURL("http://sally.example.org")
 	person := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally's profile")
-	example141Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally's profile")
+	example141Type.SetActivityStreamsSummary(summary)
 	urlProp := NewActivityStreamsUrlProperty()
 	urlProp.AppendIRI(u)
-	example141Type.SetUrl(urlProp)
+	example141Type.SetActivityStreamsUrl(urlProp)
 	describes := NewActivityStreamsDescribesProperty()
-	describes.SetPerson(person)
-	example141Type.SetDescribes(describes)
+	describes.SetActivityStreamsPerson(person)
+	example141Type.SetActivityStreamsDescribes(describes)
 	return example141Type
 }
 
@@ -4737,18 +4737,18 @@ const example142 = `{
 "url": "http://example.org/image/2"
 }`
 
-func example142Type() vocab.TombstoneInterface {
+func example142Type() vocab.ActivityStreamsTombstone {
 	example142Type := NewActivityStreamsTombstone()
 	u := MustParseURL("http://example.org/image/2")
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("This image has been deleted")
-	example142Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("This image has been deleted")
+	example142Type.SetActivityStreamsSummary(summary)
 	former := NewActivityStreamsFormerTypeProperty()
-	former.AppendString("Image")
-	example142Type.SetFormerType(former)
+	former.AppendXMLSchemaString("Image")
+	example142Type.SetActivityStreamsFormerType(former)
 	urlProp := NewActivityStreamsUrlProperty()
 	urlProp.AppendIRI(u)
-	example142Type.SetUrl(urlProp)
+	example142Type.SetActivityStreamsUrl(urlProp)
 	return example142Type
 }
 
@@ -4759,18 +4759,18 @@ const example143 = `{
 "deleted": "2016-05-03T00:00:00Z"
 }`
 
-func example143Type() vocab.TombstoneInterface {
+func example143Type() vocab.ActivityStreamsTombstone {
 	example143Type := NewActivityStreamsTombstone()
 	t, err := time.Parse(time.RFC3339, "2016-05-03T00:00:00Z")
 	if err != nil {
 		panic(err)
 	}
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("This image has been deleted")
-	example143Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("This image has been deleted")
+	example143Type.SetActivityStreamsSummary(summary)
 	deleted := NewActivityStreamsDeletedProperty()
 	deleted.Set(t)
-	example143Type.SetDeleted(deleted)
+	example143Type.SetActivityStreamsDeleted(deleted)
 	return example143Type
 }
 
@@ -4835,70 +4835,70 @@ var example144Unknown = func(m map[string]interface{}) map[string]interface{} {
 	return m
 }
 
-func example144Type() vocab.CollectionInterface {
+func example144Type() vocab.ActivityStreamsCollection {
 	example144Type := NewActivityStreamsCollection()
 	sally := MustParseURL("http://sally.example.org")
 	john := MustParseURL("http://john.example.org")
 	o := MustParseURL("http://notes.example.com/1")
 	audience := NewActivityStreamsGroup()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Project XYZ Working Group")
-	audience.SetName(name)
+	name.AppendXMLSchemaString("Project XYZ Working Group")
+	audience.SetActivityStreamsName(name)
 	note := NewActivityStreamsNote()
 	summaryNote := NewActivityStreamsSummaryProperty()
-	summaryNote.AppendString("A note")
-	note.SetSummary(summaryNote)
+	summaryNote.AppendXMLSchemaString("A note")
+	note.SetActivityStreamsSummary(summaryNote)
 	noteId := NewActivityStreamsIdProperty()
 	noteId.Set(MustParseURL("http://notes.example.com/1"))
-	note.SetId(noteId)
+	note.SetActivityStreamsId(noteId)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("A note")
-	note.SetContent(content)
+	content.AppendXMLSchemaString("A note")
+	note.SetActivityStreamsContent(content)
 	create := NewActivityStreamsCreate()
 	summaryCreate := NewActivityStreamsSummaryProperty()
-	summaryCreate.AppendString("Sally created a note")
-	create.SetSummary(summaryCreate)
+	summaryCreate.AppendXMLSchemaString("Sally created a note")
+	create.SetActivityStreamsSummary(summaryCreate)
 	createId := NewActivityStreamsIdProperty()
 	createId.Set(MustParseURL("http://activities.example.com/1"))
-	create.SetId(createId)
+	create.SetActivityStreamsId(createId)
 	createActor := NewActivityStreamsActorProperty()
 	createActor.AppendIRI(sally)
-	create.SetActor(createActor)
+	create.SetActivityStreamsActor(createActor)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendNote(note)
-	create.SetObject(obj)
+	obj.AppendActivityStreamsNote(note)
+	create.SetActivityStreamsObject(obj)
 	aud1 := NewActivityStreamsAudienceProperty()
-	aud1.AppendGroup(audience)
-	create.SetAudience(aud1)
+	aud1.AppendActivityStreamsGroup(audience)
+	create.SetActivityStreamsAudience(aud1)
 	toCreate := NewActivityStreamsToProperty()
 	toCreate.AppendIRI(john)
-	create.SetTo(toCreate)
+	create.SetActivityStreamsTo(toCreate)
 	like := NewActivityStreamsLike()
 	summaryLike := NewActivityStreamsSummaryProperty()
-	summaryLike.AppendString("John liked Sally's note")
-	like.SetSummary(summaryLike)
+	summaryLike.AppendXMLSchemaString("John liked Sally's note")
+	like.SetActivityStreamsSummary(summaryLike)
 	likeId := NewActivityStreamsIdProperty()
 	likeId.Set(MustParseURL("http://activities.example.com/1"))
-	like.SetId(likeId)
+	like.SetActivityStreamsId(likeId)
 	likeActor := NewActivityStreamsActorProperty()
 	likeActor.AppendIRI(john)
-	like.SetActor(likeActor)
+	like.SetActivityStreamsActor(likeActor)
 	objLike := NewActivityStreamsObjectProperty()
 	objLike.AppendIRI(o)
-	like.SetObject(objLike)
+	like.SetActivityStreamsObject(objLike)
 	aud2 := NewActivityStreamsAudienceProperty()
-	aud2.AppendGroup(audience)
-	like.SetAudience(aud2)
+	aud2.AppendActivityStreamsGroup(audience)
+	like.SetActivityStreamsAudience(aud2)
 	toLike := NewActivityStreamsToProperty()
 	toLike.AppendIRI(sally)
-	like.SetTo(toLike)
+	like.SetActivityStreamsTo(toLike)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Activities in Project XYZ")
-	example144Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Activities in Project XYZ")
+	example144Type.SetActivityStreamsSummary(summary)
 	items := NewActivityStreamsItemsProperty()
-	items.AppendCreate(create)
-	items.AppendLike(like)
-	example144Type.SetItems(items)
+	items.AppendActivityStreamsCreate(create)
+	items.AppendActivityStreamsLike(like)
+	example144Type.SetActivityStreamsItems(items)
 	return example144Type
 }
 
@@ -4936,55 +4936,55 @@ const example145 = `{
   ]
 }`
 
-func example145Type() vocab.CollectionInterface {
+func example145Type() vocab.ActivityStreamsCollection {
 	example145Type := NewActivityStreamsCollection()
 	friend := MustParseURL("http://purl.org/vocab/relationship/friendOf")
 	influenced := MustParseURL("http://purl.org/vocab/relationship/influencedBy")
 	sally := NewActivityStreamsPerson()
 	sallyName := NewActivityStreamsNameProperty()
-	sallyName.AppendString("Sally")
-	sally.SetName(sallyName)
+	sallyName.AppendXMLSchemaString("Sally")
+	sally.SetActivityStreamsName(sallyName)
 	jane := NewActivityStreamsPerson()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("Jane")
-	jane.SetName(name)
+	name.AppendXMLSchemaString("Jane")
+	jane.SetActivityStreamsName(name)
 	joe := NewActivityStreamsPerson()
 	joeName := NewActivityStreamsNameProperty()
-	joeName.AppendString("Joe")
-	joe.SetName(joeName)
+	joeName.AppendXMLSchemaString("Joe")
+	joe.SetActivityStreamsName(joeName)
 	joeRel := NewActivityStreamsRelationship()
 	summaryJoe := NewActivityStreamsSummaryProperty()
-	summaryJoe.AppendString("Sally is influenced by Joe")
-	joeRel.SetSummary(summaryJoe)
+	summaryJoe.AppendXMLSchemaString("Sally is influenced by Joe")
+	joeRel.SetActivityStreamsSummary(summaryJoe)
 	subj1 := NewActivityStreamsSubjectProperty()
-	subj1.SetPerson(sally)
-	joeRel.SetSubject(subj1)
+	subj1.SetActivityStreamsPerson(sally)
+	joeRel.SetActivityStreamsSubject(subj1)
 	obj := NewActivityStreamsObjectProperty()
-	obj.AppendPerson(joe)
-	joeRel.SetObject(obj)
+	obj.AppendActivityStreamsPerson(joe)
+	joeRel.SetActivityStreamsObject(obj)
 	relationship := NewActivityStreamsRelationshipProperty()
 	relationship.AppendIRI(influenced)
-	joeRel.SetRelationship(relationship)
+	joeRel.SetActivityStreamsRelationship(relationship)
 	janeRel := NewActivityStreamsRelationship()
 	summaryJane := NewActivityStreamsSummaryProperty()
-	summaryJane.AppendString("Sally is a friend of Jane")
-	janeRel.SetSummary(summaryJane)
+	summaryJane.AppendXMLSchemaString("Sally is a friend of Jane")
+	janeRel.SetActivityStreamsSummary(summaryJane)
 	subj2 := NewActivityStreamsSubjectProperty()
-	subj2.SetPerson(sally)
-	janeRel.SetSubject(subj2)
+	subj2.SetActivityStreamsPerson(sally)
+	janeRel.SetActivityStreamsSubject(subj2)
 	objJane := NewActivityStreamsObjectProperty()
-	objJane.AppendPerson(jane)
-	janeRel.SetObject(objJane)
+	objJane.AppendActivityStreamsPerson(jane)
+	janeRel.SetActivityStreamsObject(objJane)
 	relationshipJane := NewActivityStreamsRelationshipProperty()
 	relationshipJane.AppendIRI(friend)
-	janeRel.SetRelationship(relationshipJane)
+	janeRel.SetActivityStreamsRelationship(relationshipJane)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally's friends list")
-	example145Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally's friends list")
+	example145Type.SetActivityStreamsSummary(summary)
 	items := NewActivityStreamsItemsProperty()
-	items.AppendRelationship(joeRel)
-	items.AppendRelationship(janeRel)
-	example145Type.SetItems(items)
+	items.AppendActivityStreamsRelationship(joeRel)
+	items.AppendActivityStreamsRelationship(janeRel)
+	example145Type.SetActivityStreamsItems(items)
 	return example145Type
 }
 
@@ -5003,7 +5003,7 @@ const example146 = `{
   }
 }`
 
-func example146Type() vocab.CreateInterface {
+func example146Type() vocab.ActivityStreamsCreate {
 	example146Type := NewActivityStreamsCreate()
 	friend := MustParseURL("http://purl.org/vocab/relationship/friendOf")
 	m := MustParseURL("http://matt.example.org")
@@ -5015,25 +5015,25 @@ func example146Type() vocab.CreateInterface {
 	relationship := NewActivityStreamsRelationship()
 	subj := NewActivityStreamsSubjectProperty()
 	subj.SetIRI(s)
-	relationship.SetSubject(subj)
+	relationship.SetActivityStreamsSubject(subj)
 	friendRel := NewActivityStreamsRelationshipProperty()
 	friendRel.AppendIRI(friend)
-	relationship.SetRelationship(friendRel)
+	relationship.SetActivityStreamsRelationship(friendRel)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(m)
-	relationship.SetObject(obj)
+	relationship.SetActivityStreamsObject(obj)
 	startTime := NewActivityStreamsStartTimeProperty()
 	startTime.Set(t)
-	relationship.SetStartTime(startTime)
+	relationship.SetActivityStreamsStartTime(startTime)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally became a friend of Matt")
-	example146Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally became a friend of Matt")
+	example146Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(s)
-	example146Type.SetActor(objectActor)
+	example146Type.SetActivityStreamsActor(objectActor)
 	objRoot := NewActivityStreamsObjectProperty()
-	objRoot.AppendRelationship(relationship)
-	example146Type.SetObject(objRoot)
+	objRoot.AppendActivityStreamsRelationship(relationship)
+	example146Type.SetActivityStreamsObject(objRoot)
 	return example146Type
 }
 
@@ -5054,45 +5054,45 @@ const example147 = `{
   "target": "acct:john@example.org"
 }`
 
-func example147Type() vocab.OfferInterface {
+func example147Type() vocab.ActivityStreamsOffer {
 	example147Type := NewActivityStreamsOffer()
 	friend := MustParseURL("http://purl.org/vocab/relationship/friendOf")
 	s := MustParseURL("acct:sally@example.org")
 	t := MustParseURL("acct:john@example.org")
 	rel := NewActivityStreamsRelationship()
 	summaryRel := NewActivityStreamsSummaryProperty()
-	summaryRel.AppendString("Sally and John's friendship")
-	rel.SetSummary(summaryRel)
+	summaryRel.AppendXMLSchemaString("Sally and John's friendship")
+	rel.SetActivityStreamsSummary(summaryRel)
 	relId := NewActivityStreamsIdProperty()
 	relId.Set(MustParseURL("http://example.org/connections/123"))
-	rel.SetId(relId)
+	rel.SetActivityStreamsId(relId)
 	subj := NewActivityStreamsSubjectProperty()
 	subj.SetIRI(s)
-	rel.SetSubject(subj)
+	rel.SetActivityStreamsSubject(subj)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(t)
-	rel.SetObject(obj)
+	rel.SetActivityStreamsObject(obj)
 	relationship := NewActivityStreamsRelationshipProperty()
 	relationship.AppendIRI(friend)
-	rel.SetRelationship(relationship)
+	rel.SetActivityStreamsRelationship(relationship)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally requested to be a friend of John")
-	example147Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally requested to be a friend of John")
+	example147Type.SetActivityStreamsSummary(summary)
 	id := NewActivityStreamsIdProperty()
 	id.Set(MustParseURL("http://example.org/connection-requests/123"))
-	example147Type.SetId(id)
+	example147Type.SetActivityStreamsId(id)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(s)
-	example147Type.SetActor(objectActor)
+	example147Type.SetActivityStreamsActor(objectActor)
 	objRel := NewActivityStreamsObjectProperty()
-	objRel.AppendRelationship(rel)
-	example147Type.SetObject(objRel)
+	objRel.AppendActivityStreamsRelationship(rel)
+	example147Type.SetActivityStreamsObject(objRel)
 	objRoot := NewActivityStreamsObjectProperty()
-	objRoot.AppendRelationship(rel)
-	example147Type.SetObject(objRoot)
+	objRoot.AppendActivityStreamsRelationship(rel)
+	example147Type.SetActivityStreamsObject(objRoot)
 	target := NewActivityStreamsTargetProperty()
 	target.AppendIRI(t)
-	example147Type.SetTarget(target)
+	example147Type.SetActivityStreamsTarget(target)
 	return example147Type
 }
 
@@ -5159,7 +5159,7 @@ const example148 = `{
   ]
 }`
 
-func example148Type() vocab.CollectionInterface {
+func example148Type() vocab.ActivityStreamsCollection {
 	example148Type := NewActivityStreamsCollection()
 	john := MustParseURL("acct:john@example.org")
 	sally := MustParseURL("acct:sally@example.org")
@@ -5171,117 +5171,117 @@ func example148Type() vocab.CollectionInterface {
 	a126 := MustParseURL("http://example.org/activities/126")
 	jc := NewActivityStreamsCollection()
 	summaryJc := NewActivityStreamsSummaryProperty()
-	summaryJc.AppendString("John's Connections")
-	jc.SetSummary(summaryJc)
+	summaryJc.AppendXMLSchemaString("John's Connections")
+	jc.SetActivityStreamsSummary(summaryJc)
 	sc := NewActivityStreamsCollection()
 	summarySc := NewActivityStreamsSummaryProperty()
-	summarySc.AppendString("Sally's Connections")
-	sc.SetSummary(summarySc)
+	summarySc.AppendXMLSchemaString("Sally's Connections")
+	sc.SetActivityStreamsSummary(summarySc)
 	o1 := NewActivityStreamsAccept()
 	oId1 := NewActivityStreamsIdProperty()
 	oId1.Set(MustParseURL("http://example.org/activities/122"))
-	o1.SetId(oId1)
+	o1.SetActivityStreamsId(oId1)
 	summary1 := NewActivityStreamsSummaryProperty()
-	summary1.AppendString("John accepted Sally's friend request")
-	o1.SetSummary(summary1)
+	summary1.AppendXMLSchemaString("John accepted Sally's friend request")
+	o1.SetActivityStreamsSummary(summary1)
 	obj1 := NewActivityStreamsObjectProperty()
 	obj1.AppendIRI(req123)
-	o1.SetObject(obj1)
+	o1.SetActivityStreamsObject(obj1)
 	inReplyTo := NewActivityStreamsInReplyToProperty()
 	inReplyTo.AppendIRI(req123)
-	o1.SetInReplyTo(inReplyTo)
+	o1.SetActivityStreamsInReplyTo(inReplyTo)
 	ctx1 := NewActivityStreamsContextProperty()
 	ctx1.AppendIRI(conn123)
-	o1.SetContext(ctx1)
+	o1.SetActivityStreamsContext(ctx1)
 	result := NewActivityStreamsResultProperty()
 	result.AppendIRI(a123)
 	result.AppendIRI(a124)
 	result.AppendIRI(a125)
 	result.AppendIRI(a126)
-	o1.SetResult(result)
+	o1.SetActivityStreamsResult(result)
 	objectActor1 := NewActivityStreamsActorProperty()
 	objectActor1.AppendIRI(john)
-	o1.SetActor(objectActor1)
+	o1.SetActivityStreamsActor(objectActor1)
 	o2 := NewActivityStreamsFollow()
 	oId2 := NewActivityStreamsIdProperty()
 	oId2.Set(MustParseURL("http://example.org/activities/123"))
-	o2.SetId(oId2)
+	o2.SetActivityStreamsId(oId2)
 	objectActor2 := NewActivityStreamsActorProperty()
 	objectActor2.AppendIRI(john)
-	o2.SetActor(objectActor2)
+	o2.SetActivityStreamsActor(objectActor2)
 	obj2 := NewActivityStreamsObjectProperty()
 	obj2.AppendIRI(sally)
-	o2.SetObject(obj2)
+	o2.SetActivityStreamsObject(obj2)
 	ctx2 := NewActivityStreamsContextProperty()
 	ctx2.AppendIRI(conn123)
-	o2.SetContext(ctx2)
+	o2.SetActivityStreamsContext(ctx2)
 	summary2 := NewActivityStreamsSummaryProperty()
-	summary2.AppendString("John followed Sally")
-	o2.SetSummary(summary2)
+	summary2.AppendXMLSchemaString("John followed Sally")
+	o2.SetActivityStreamsSummary(summary2)
 	o3 := NewActivityStreamsFollow()
 	oId3 := NewActivityStreamsIdProperty()
 	oId3.Set(MustParseURL("http://example.org/activities/124"))
-	o3.SetId(oId3)
+	o3.SetActivityStreamsId(oId3)
 	objectActor3 := NewActivityStreamsActorProperty()
 	objectActor3.AppendIRI(sally)
-	o3.SetActor(objectActor3)
+	o3.SetActivityStreamsActor(objectActor3)
 	obj3 := NewActivityStreamsObjectProperty()
 	obj3.AppendIRI(john)
-	o3.SetObject(obj3)
+	o3.SetActivityStreamsObject(obj3)
 	ctx3 := NewActivityStreamsContextProperty()
 	ctx3.AppendIRI(conn123)
-	o3.SetContext(ctx3)
+	o3.SetActivityStreamsContext(ctx3)
 	summary3 := NewActivityStreamsSummaryProperty()
-	summary3.AppendString("Sally followed John")
-	o3.SetSummary(summary3)
+	summary3.AppendXMLSchemaString("Sally followed John")
+	o3.SetActivityStreamsSummary(summary3)
 	o4 := NewActivityStreamsAdd()
 	oId4 := NewActivityStreamsIdProperty()
 	oId4.Set(MustParseURL("http://example.org/activities/125"))
-	o4.SetId(oId4)
+	o4.SetActivityStreamsId(oId4)
 	summary4 := NewActivityStreamsSummaryProperty()
-	summary4.AppendString("John added Sally to his friends list")
-	o4.SetSummary(summary4)
+	summary4.AppendXMLSchemaString("John added Sally to his friends list")
+	o4.SetActivityStreamsSummary(summary4)
 	objectActor4 := NewActivityStreamsActorProperty()
 	objectActor4.AppendIRI(john)
-	o4.SetActor(objectActor4)
+	o4.SetActivityStreamsActor(objectActor4)
 	obj4 := NewActivityStreamsObjectProperty()
 	obj4.AppendIRI(conn123)
-	o4.SetObject(obj4)
+	o4.SetActivityStreamsObject(obj4)
 	ctx4 := NewActivityStreamsContextProperty()
 	ctx4.AppendIRI(conn123)
-	o4.SetContext(ctx4)
+	o4.SetActivityStreamsContext(ctx4)
 	tobj4 := NewActivityStreamsTargetProperty()
-	tobj4.AppendCollection(jc)
-	o4.SetTarget(tobj4)
+	tobj4.AppendActivityStreamsCollection(jc)
+	o4.SetActivityStreamsTarget(tobj4)
 	o5 := NewActivityStreamsAdd()
 	oId5 := NewActivityStreamsIdProperty()
 	oId5.Set(MustParseURL("http://example.org/activities/126"))
-	o5.SetId(oId5)
+	o5.SetActivityStreamsId(oId5)
 	summary5 := NewActivityStreamsSummaryProperty()
-	summary5.AppendString("Sally added John to her friends list")
-	o5.SetSummary(summary5)
+	summary5.AppendXMLSchemaString("Sally added John to her friends list")
+	o5.SetActivityStreamsSummary(summary5)
 	objectActor5 := NewActivityStreamsActorProperty()
 	objectActor5.AppendIRI(sally)
-	o5.SetActor(objectActor5)
+	o5.SetActivityStreamsActor(objectActor5)
 	obj5 := NewActivityStreamsObjectProperty()
 	obj5.AppendIRI(conn123)
-	o5.SetObject(obj5)
+	o5.SetActivityStreamsObject(obj5)
 	ctx5 := NewActivityStreamsContextProperty()
 	ctx5.AppendIRI(conn123)
-	o5.SetContext(ctx5)
+	o5.SetActivityStreamsContext(ctx5)
 	tobj5 := NewActivityStreamsTargetProperty()
-	tobj5.AppendCollection(sc)
-	o5.SetTarget(tobj5)
+	tobj5.AppendActivityStreamsCollection(sc)
+	o5.SetActivityStreamsTarget(tobj5)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally and John's relationship history")
-	example148Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally and John's relationship history")
+	example148Type.SetActivityStreamsSummary(summary)
 	items := NewActivityStreamsItemsProperty()
-	items.AppendAccept(o1)
-	items.AppendFollow(o2)
-	items.AppendFollow(o3)
-	items.AppendAdd(o4)
-	items.AppendAdd(o5)
-	example148Type.SetItems(items)
+	items.AppendActivityStreamsAccept(o1)
+	items.AppendActivityStreamsFollow(o2)
+	items.AppendActivityStreamsFollow(o3)
+	items.AppendActivityStreamsAdd(o4)
+	items.AppendActivityStreamsAdd(o5)
+	example148Type.SetActivityStreamsItems(items)
 	return example148Type
 }
 
@@ -5291,11 +5291,11 @@ const example149 = `{
   "name": "San Francisco, CA"
 }`
 
-func example149Type() vocab.PlaceInterface {
+func example149Type() vocab.ActivityStreamsPlace {
 	example149Type := NewActivityStreamsPlace()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("San Francisco, CA")
-	example149Type.SetName(name)
+	name.AppendXMLSchemaString("San Francisco, CA")
+	example149Type.SetActivityStreamsName(name)
 	return example149Type
 }
 
@@ -5308,17 +5308,17 @@ const example150 = `{
   "latitude": 37.7833
 }`
 
-func example150Type() vocab.PlaceInterface {
+func example150Type() vocab.ActivityStreamsPlace {
 	example150Type := NewActivityStreamsPlace()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("San Francisco, CA")
-	example150Type.SetName(name)
+	name.AppendXMLSchemaString("San Francisco, CA")
+	example150Type.SetActivityStreamsName(name)
 	lon := NewActivityStreamsLongitudeProperty()
 	lon.Set(122.4167)
-	example150Type.SetLongitude(lon)
+	example150Type.SetActivityStreamsLongitude(lon)
 	lat := NewActivityStreamsLatitudeProperty()
 	lat.Set(37.7833)
-	example150Type.SetLatitude(lat)
+	example150Type.SetActivityStreamsLatitude(lat)
 	return example150Type
 }
 
@@ -5330,17 +5330,17 @@ const example151 = `{
   "content": "I'd like to build a robot to feed my cat. Should I use Arduino or Raspberry Pi?"
 }`
 
-func example151Type() vocab.QuestionInterface {
+func example151Type() vocab.ActivityStreamsQuestion {
 	example151Type := NewActivityStreamsQuestion()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("A question about robots")
-	example151Type.SetName(name)
+	name.AppendXMLSchemaString("A question about robots")
+	example151Type.SetActivityStreamsName(name)
 	id := NewActivityStreamsIdProperty()
 	id.Set(MustParseURL("http://help.example.org/question/1"))
-	example151Type.SetId(id)
+	example151Type.SetActivityStreamsId(id)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("I'd like to build a robot to feed my cat. Should I use Arduino or Raspberry Pi?")
-	example151Type.SetContent(content)
+	content.AppendXMLSchemaString("I'd like to build a robot to feed my cat. Should I use Arduino or Raspberry Pi?")
+	example151Type.SetActivityStreamsContent(content)
 	return example151Type
 }
 
@@ -5365,17 +5365,17 @@ var example152Unknown = func(m map[string]interface{}) map[string]interface{} {
 	return m
 }
 
-func example152Type() vocab.QuestionInterface {
+func example152Type() vocab.ActivityStreamsQuestion {
 	example152Type := NewActivityStreamsQuestion()
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("A question about robots")
-	example152Type.SetName(name)
+	name.AppendXMLSchemaString("A question about robots")
+	example152Type.SetActivityStreamsName(name)
 	id := NewActivityStreamsIdProperty()
 	id.Set(MustParseURL("http://polls.example.org/question/1"))
-	example152Type.SetId(id)
+	example152Type.SetActivityStreamsId(id)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("I'd like to build a robot to feed my cat. Which platform is best?")
-	example152Type.SetContent(content)
+	content.AppendXMLSchemaString("I'd like to build a robot to feed my cat. Which platform is best?")
+	example152Type.SetActivityStreamsContent(content)
 	return example152Type
 }
 
@@ -5455,31 +5455,31 @@ var example154Unknown = func(m map[string]interface{}) map[string]interface{} {
 	return m
 }
 
-func example154Type() vocab.QuestionInterface {
+func example154Type() vocab.ActivityStreamsQuestion {
 	example154Type := NewActivityStreamsQuestion()
 	replies := NewActivityStreamsCollection()
 	totalItems := NewActivityStreamsTotalItemsProperty()
 	totalItems.Set(3)
-	replies.SetTotalItems(totalItems)
+	replies.SetActivityStreamsTotalItems(totalItems)
 	note := NewActivityStreamsNote()
 	contentNote := NewActivityStreamsContentProperty()
-	contentNote.AppendString("Users are favoriting &quot;arduino&quot; by a 33% margin.")
-	note.SetContent(contentNote)
+	contentNote.AppendXMLSchemaString("Users are favoriting &quot;arduino&quot; by a 33% margin.")
+	note.SetActivityStreamsContent(contentNote)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("A question about robots")
-	example154Type.SetName(name)
+	name.AppendXMLSchemaString("A question about robots")
+	example154Type.SetActivityStreamsName(name)
 	id := NewActivityStreamsIdProperty()
 	id.Set(MustParseURL("http://polls.example.org/question/1"))
-	example154Type.SetId(id)
+	example154Type.SetActivityStreamsId(id)
 	content := NewActivityStreamsContentProperty()
-	content.AppendString("I'd like to build a robot to feed my cat. Which platform is best?")
-	example154Type.SetContent(content)
+	content.AppendXMLSchemaString("I'd like to build a robot to feed my cat. Which platform is best?")
+	example154Type.SetActivityStreamsContent(content)
 	reply := NewActivityStreamsRepliesProperty()
-	reply.SetCollection(replies)
-	example154Type.SetReplies(reply)
+	reply.SetActivityStreamsCollection(replies)
+	example154Type.SetActivityStreamsReplies(reply)
 	result := NewActivityStreamsResultProperty()
-	result.AppendNote(note)
-	example154Type.SetResult(result)
+	result.AppendActivityStreamsNote(note)
+	example154Type.SetActivityStreamsResult(result)
 	return example154Type
 }
 
@@ -5519,7 +5519,7 @@ const example155 = `{
   ]
 }`
 
-func example155Type() vocab.CollectionInterface {
+func example155Type() vocab.ActivityStreamsCollection {
 	example155Type := NewActivityStreamsCollection()
 	john := MustParseURL("http://john.example.org")
 	sally := MustParseURL("http://sally.example.org")
@@ -5533,56 +5533,56 @@ func example155Type() vocab.CollectionInterface {
 	}
 	note := NewActivityStreamsNote()
 	summaryNote := NewActivityStreamsSummaryProperty()
-	summaryNote.AppendString("John's note")
-	note.SetSummary(summaryNote)
+	summaryNote.AppendXMLSchemaString("John's note")
+	note.SetActivityStreamsSummary(summaryNote)
 	noteId := NewActivityStreamsIdProperty()
 	noteId.Set(MustParseURL("http://notes.example.com/1"))
-	note.SetId(noteId)
+	note.SetActivityStreamsId(noteId)
 	contentNote := NewActivityStreamsContentProperty()
-	contentNote.AppendString("My note")
-	note.SetContent(contentNote)
+	contentNote.AppendXMLSchemaString("My note")
+	note.SetActivityStreamsContent(contentNote)
 	attr := NewActivityStreamsAttributedToProperty()
 	attr.AppendIRI(john)
-	note.SetAttributedTo(attr)
+	note.SetActivityStreamsAttributedTo(attr)
 	like := NewActivityStreamsLike()
 	summaryLike := NewActivityStreamsSummaryProperty()
-	summaryLike.AppendString("Sally liked John's note")
-	like.SetSummary(summaryLike)
+	summaryLike.AppendXMLSchemaString("Sally liked John's note")
+	like.SetActivityStreamsSummary(summaryLike)
 	likeId := NewActivityStreamsIdProperty()
 	likeId.Set(MustParseURL("http://activities.example.com/1"))
-	like.SetId(likeId)
+	like.SetActivityStreamsId(likeId)
 	likeActor := NewActivityStreamsActorProperty()
 	likeActor.AppendIRI(sally)
-	like.SetActor(likeActor)
+	like.SetActivityStreamsActor(likeActor)
 	published1 := NewActivityStreamsPublishedProperty()
 	published1.Set(t1)
-	like.SetPublished(published1)
+	like.SetActivityStreamsPublished(published1)
 	objLike := NewActivityStreamsObjectProperty()
-	objLike.AppendNote(note)
-	like.SetObject(objLike)
+	objLike.AppendActivityStreamsNote(note)
+	like.SetActivityStreamsObject(objLike)
 	dislike := NewActivityStreamsDislike()
 	summaryDislike := NewActivityStreamsSummaryProperty()
-	summaryDislike.AppendString("Sally disliked John's note")
-	dislike.SetSummary(summaryDislike)
+	summaryDislike.AppendXMLSchemaString("Sally disliked John's note")
+	dislike.SetActivityStreamsSummary(summaryDislike)
 	dislikeId := NewActivityStreamsIdProperty()
 	dislikeId.Set(MustParseURL("http://activities.example.com/2"))
-	dislike.SetId(dislikeId)
+	dislike.SetActivityStreamsId(dislikeId)
 	dislikeActor := NewActivityStreamsActorProperty()
 	dislikeActor.AppendIRI(sally)
-	dislike.SetActor(dislikeActor)
+	dislike.SetActivityStreamsActor(dislikeActor)
 	published2 := NewActivityStreamsPublishedProperty()
 	published2.Set(t2)
-	dislike.SetPublished(published2)
+	dislike.SetActivityStreamsPublished(published2)
 	objDislike := NewActivityStreamsObjectProperty()
-	objDislike.AppendNote(note)
-	dislike.SetObject(objDislike)
+	objDislike.AppendActivityStreamsNote(note)
+	dislike.SetActivityStreamsObject(objDislike)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("History of John's note")
-	example155Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("History of John's note")
+	example155Type.SetActivityStreamsSummary(summary)
 	items := NewActivityStreamsItemsProperty()
-	items.AppendLike(like)
-	items.AppendDislike(dislike)
-	example155Type.SetItems(items)
+	items.AppendActivityStreamsLike(like)
+	items.AppendActivityStreamsDislike(dislike)
+	example155Type.SetActivityStreamsItems(items)
 	return example155Type
 }
 
@@ -5616,7 +5616,7 @@ const example156 = `{
  ]
 }`
 
-func example156Type() vocab.CollectionInterface {
+func example156Type() vocab.ActivityStreamsCollection {
 	example156Type := NewActivityStreamsCollection()
 	john := MustParseURL("http://john.example.org")
 	sally := MustParseURL("http://sally.example.org")
@@ -5632,55 +5632,55 @@ func example156Type() vocab.CollectionInterface {
 	note := NewActivityStreamsNote()
 	noteId := NewActivityStreamsIdProperty()
 	noteId.Set(MustParseURL("http://notes.example.com/1"))
-	note.SetId(noteId)
+	note.SetActivityStreamsId(noteId)
 	summaryNote := NewActivityStreamsSummaryProperty()
-	summaryNote.AppendString("John's note")
-	note.SetSummary(summaryNote)
+	summaryNote.AppendXMLSchemaString("John's note")
+	note.SetActivityStreamsSummary(summaryNote)
 	attr := NewActivityStreamsAttributedToProperty()
 	attr.AppendIRI(john)
-	note.SetAttributedTo(attr)
+	note.SetActivityStreamsAttributedTo(attr)
 	contentNote := NewActivityStreamsContentProperty()
-	contentNote.AppendString("My note")
-	note.SetContent(contentNote)
+	contentNote.AppendXMLSchemaString("My note")
+	note.SetActivityStreamsContent(contentNote)
 	like := NewActivityStreamsLike()
 	likeId := NewActivityStreamsIdProperty()
 	likeId.Set(MustParseURL("http://activities.example.com/1"))
-	like.SetId(likeId)
+	like.SetActivityStreamsId(likeId)
 	summaryLike := NewActivityStreamsSummaryProperty()
-	summaryLike.AppendString("Sally liked John's note")
-	like.SetSummary(summaryLike)
+	summaryLike.AppendXMLSchemaString("Sally liked John's note")
+	like.SetActivityStreamsSummary(summaryLike)
 	likeActor := NewActivityStreamsActorProperty()
 	likeActor.AppendIRI(sally)
-	like.SetActor(likeActor)
+	like.SetActivityStreamsActor(likeActor)
 	published1 := NewActivityStreamsPublishedProperty()
 	published1.Set(t1)
-	like.SetPublished(published1)
+	like.SetActivityStreamsPublished(published1)
 	objLike := NewActivityStreamsObjectProperty()
-	objLike.AppendNote(note)
-	like.SetObject(objLike)
+	objLike.AppendActivityStreamsNote(note)
+	like.SetActivityStreamsObject(objLike)
 	undo := NewActivityStreamsUndo()
 	undoId := NewActivityStreamsIdProperty()
 	undoId.Set(MustParseURL("http://activities.example.com/2"))
-	undo.SetId(undoId)
+	undo.SetActivityStreamsId(undoId)
 	summaryUndo := NewActivityStreamsSummaryProperty()
-	summaryUndo.AppendString("Sally no longer likes John's note")
-	undo.SetSummary(summaryUndo)
+	summaryUndo.AppendXMLSchemaString("Sally no longer likes John's note")
+	undo.SetActivityStreamsSummary(summaryUndo)
 	undoActor := NewActivityStreamsActorProperty()
 	undoActor.AppendIRI(sally)
-	undo.SetActor(undoActor)
+	undo.SetActivityStreamsActor(undoActor)
 	published2 := NewActivityStreamsPublishedProperty()
 	published2.Set(t2)
-	undo.SetPublished(published2)
+	undo.SetActivityStreamsPublished(published2)
 	obj := NewActivityStreamsObjectProperty()
 	obj.AppendIRI(a)
-	undo.SetObject(obj)
+	undo.SetActivityStreamsObject(obj)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("History of John's note")
-	example156Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("History of John's note")
+	example156Type.SetActivityStreamsSummary(summary)
 	items := NewActivityStreamsItemsProperty()
-	items.AppendLike(like)
-	items.AppendUndo(undo)
-	example156Type.SetItems(items)
+	items.AppendActivityStreamsLike(like)
+	items.AppendActivityStreamsUndo(undo)
+	example156Type.SetActivityStreamsItems(items)
 	return example156Type
 }
 
@@ -5709,24 +5709,24 @@ var example157Unknown = func(m map[string]interface{}) map[string]interface{} {
 	return m
 }
 
-func example157Type() vocab.NoteInterface {
+func example157Type() vocab.ActivityStreamsNote {
 	example157Type := NewActivityStreamsNote()
 	person := NewActivityStreamsPerson()
 	sally := NewActivityStreamsNameProperty()
-	sally.AppendString("Sally")
-	person.SetName(sally)
+	sally.AppendXMLSchemaString("Sally")
+	person.SetActivityStreamsName(sally)
 	id := NewActivityStreamsIdProperty()
 	id.Set(MustParseURL("http://sally.example.org"))
-	person.SetId(id)
+	person.SetActivityStreamsId(id)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("A thank-you note")
-	example157Type.SetName(name)
+	name.AppendXMLSchemaString("A thank-you note")
+	example157Type.SetActivityStreamsName(name)
 	contentNote := NewActivityStreamsContentProperty()
-	contentNote.AppendString("Thank you <a href='http://sally.example.org'>@sally</a> for all your hard work! <a href='http://example.org/tags/givingthanks'>#givingthanks</a>")
-	example157Type.SetContent(contentNote)
+	contentNote.AppendXMLSchemaString("Thank you <a href='http://sally.example.org'>@sally</a> for all your hard work! <a href='http://example.org/tags/givingthanks'>#givingthanks</a>")
+	example157Type.SetActivityStreamsContent(contentNote)
 	to := NewActivityStreamsToProperty()
-	to.AppendPerson(person)
-	example157Type.SetTo(to)
+	to.AppendActivityStreamsPerson(person)
+	example157Type.SetActivityStreamsTo(to)
 	return example157Type
 }
 
@@ -5758,25 +5758,25 @@ var example158Unknown = func(m map[string]interface{}) map[string]interface{} {
 	return m
 }
 
-func example158Type() vocab.NoteInterface {
+func example158Type() vocab.ActivityStreamsNote {
 	example158Type := NewActivityStreamsNote()
 	u := MustParseURL("http://example.org/people/sally")
 	mention := NewActivityStreamsMention()
 	hrefLink := NewActivityStreamsHrefProperty()
 	hrefLink.Set(u)
-	mention.SetHref(hrefLink)
+	mention.SetActivityStreamsHref(hrefLink)
 	mentionName := NewActivityStreamsNameProperty()
-	mentionName.AppendString("@sally")
-	mention.SetName(mentionName)
+	mentionName.AppendXMLSchemaString("@sally")
+	mention.SetActivityStreamsName(mentionName)
 	name := NewActivityStreamsNameProperty()
-	name.AppendString("A thank-you note")
-	example158Type.SetName(name)
+	name.AppendXMLSchemaString("A thank-you note")
+	example158Type.SetActivityStreamsName(name)
 	contentNote := NewActivityStreamsContentProperty()
-	contentNote.AppendString("Thank you @sally for all your hard work! #givingthanks")
-	example158Type.SetContent(contentNote)
+	contentNote.AppendXMLSchemaString("Thank you @sally for all your hard work! #givingthanks")
+	example158Type.SetActivityStreamsContent(contentNote)
 	tag := NewActivityStreamsTagProperty()
-	tag.AppendMention(mention)
-	example158Type.SetTag(tag)
+	tag.AppendActivityStreamsMention(mention)
+	example158Type.SetActivityStreamsTag(tag)
 	return example158Type
 }
 
@@ -5799,35 +5799,35 @@ const example159 = `{
   }
 }`
 
-func example159Type() vocab.MoveInterface {
+func example159Type() vocab.ActivityStreamsMove {
 	example159Type := NewActivityStreamsMove()
 	sally := MustParseURL("http://sally.example.org")
 	obj := NewActivityStreamsDocument()
 	nameObj := NewActivityStreamsNameProperty()
-	nameObj.AppendString("sales figures")
-	obj.SetName(nameObj)
+	nameObj.AppendXMLSchemaString("sales figures")
+	obj.SetActivityStreamsName(nameObj)
 	origin := NewActivityStreamsCollection()
 	nameOrigin := NewActivityStreamsNameProperty()
-	nameOrigin.AppendString("Folder A")
-	origin.SetName(nameOrigin)
+	nameOrigin.AppendXMLSchemaString("Folder A")
+	origin.SetActivityStreamsName(nameOrigin)
 	target := NewActivityStreamsCollection()
 	nameTarget := NewActivityStreamsNameProperty()
-	nameTarget.AppendString("Folder B")
-	target.SetName(nameTarget)
+	nameTarget.AppendXMLSchemaString("Folder B")
+	target.SetActivityStreamsName(nameTarget)
 	summary := NewActivityStreamsSummaryProperty()
-	summary.AppendString("Sally moved the sales figures from Folder A to Folder B")
-	example159Type.SetSummary(summary)
+	summary.AppendXMLSchemaString("Sally moved the sales figures from Folder A to Folder B")
+	example159Type.SetActivityStreamsSummary(summary)
 	objectActor := NewActivityStreamsActorProperty()
 	objectActor.AppendIRI(sally)
-	example159Type.SetActor(objectActor)
+	example159Type.SetActivityStreamsActor(objectActor)
 	object := NewActivityStreamsObjectProperty()
-	object.AppendDocument(obj)
-	example159Type.SetObject(object)
+	object.AppendActivityStreamsDocument(obj)
+	example159Type.SetActivityStreamsObject(object)
 	originProp := NewActivityStreamsOriginProperty()
-	originProp.AppendCollection(origin)
-	example159Type.SetOrigin(originProp)
+	originProp.AppendActivityStreamsCollection(origin)
+	example159Type.SetActivityStreamsOrigin(originProp)
 	tobj := NewActivityStreamsTargetProperty()
-	tobj.AppendCollection(target)
-	example159Type.SetTarget(tobj)
+	tobj.AppendActivityStreamsCollection(target)
+	example159Type.SetActivityStreamsTarget(tobj)
 	return example159Type
 }

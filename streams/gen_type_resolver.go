@@ -26,113 +26,113 @@ func NewTypeResolver(callbacks ...interface{}) (*TypeResolver, error) {
 	for _, cb := range callbacks {
 		// Each callback function must satisfy one known function signature, or else we will generate a runtime error instead of silently fail.
 		switch cb.(type) {
-		case func(context.Context, vocab.AcceptInterface) error:
+		case func(context.Context, vocab.ActivityStreamsAccept) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ActivityInterface) error:
+		case func(context.Context, vocab.ActivityStreamsActivity) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.AddInterface) error:
+		case func(context.Context, vocab.ActivityStreamsAdd) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.AnnounceInterface) error:
+		case func(context.Context, vocab.ActivityStreamsAnnounce) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ApplicationInterface) error:
+		case func(context.Context, vocab.ActivityStreamsApplication) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ArriveInterface) error:
+		case func(context.Context, vocab.ActivityStreamsArrive) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ArticleInterface) error:
+		case func(context.Context, vocab.ActivityStreamsArticle) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.AudioInterface) error:
+		case func(context.Context, vocab.ActivityStreamsAudio) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.BlockInterface) error:
+		case func(context.Context, vocab.ActivityStreamsBlock) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.CollectionInterface) error:
+		case func(context.Context, vocab.ActivityStreamsCollection) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.CollectionPageInterface) error:
+		case func(context.Context, vocab.ActivityStreamsCollectionPage) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.CreateInterface) error:
+		case func(context.Context, vocab.ActivityStreamsCreate) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.DeleteInterface) error:
+		case func(context.Context, vocab.ActivityStreamsDelete) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.DislikeInterface) error:
+		case func(context.Context, vocab.ActivityStreamsDislike) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.DocumentInterface) error:
+		case func(context.Context, vocab.ActivityStreamsDocument) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.EventInterface) error:
+		case func(context.Context, vocab.ActivityStreamsEvent) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.FlagInterface) error:
+		case func(context.Context, vocab.ActivityStreamsFlag) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.FollowInterface) error:
+		case func(context.Context, vocab.ActivityStreamsFollow) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.GroupInterface) error:
+		case func(context.Context, vocab.ActivityStreamsGroup) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.IgnoreInterface) error:
+		case func(context.Context, vocab.ActivityStreamsIgnore) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ImageInterface) error:
+		case func(context.Context, vocab.ActivityStreamsImage) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.IntransitiveActivityInterface) error:
+		case func(context.Context, vocab.ActivityStreamsIntransitiveActivity) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.InviteInterface) error:
+		case func(context.Context, vocab.ActivityStreamsInvite) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.JoinInterface) error:
+		case func(context.Context, vocab.ActivityStreamsJoin) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.LeaveInterface) error:
+		case func(context.Context, vocab.ActivityStreamsLeave) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.LikeInterface) error:
+		case func(context.Context, vocab.ActivityStreamsLike) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.LinkInterface) error:
+		case func(context.Context, vocab.ActivityStreamsLink) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ListenInterface) error:
+		case func(context.Context, vocab.ActivityStreamsListen) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.MentionInterface) error:
+		case func(context.Context, vocab.ActivityStreamsMention) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.MoveInterface) error:
+		case func(context.Context, vocab.ActivityStreamsMove) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.NoteInterface) error:
+		case func(context.Context, vocab.ActivityStreamsNote) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ObjectInterface) error:
+		case func(context.Context, vocab.ActivityStreamsObject) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.OfferInterface) error:
+		case func(context.Context, vocab.ActivityStreamsOffer) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.OrderedCollectionInterface) error:
+		case func(context.Context, vocab.ActivityStreamsOrderedCollection) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.OrderedCollectionPageInterface) error:
+		case func(context.Context, vocab.ActivityStreamsOrderedCollectionPage) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.OrganizationInterface) error:
+		case func(context.Context, vocab.ActivityStreamsOrganization) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.PageInterface) error:
+		case func(context.Context, vocab.ActivityStreamsPage) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.PersonInterface) error:
+		case func(context.Context, vocab.ActivityStreamsPerson) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.PlaceInterface) error:
+		case func(context.Context, vocab.ActivityStreamsPlace) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ProfileInterface) error:
+		case func(context.Context, vocab.ActivityStreamsProfile) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.QuestionInterface) error:
+		case func(context.Context, vocab.ActivityStreamsQuestion) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ReadInterface) error:
+		case func(context.Context, vocab.ActivityStreamsRead) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.RejectInterface) error:
+		case func(context.Context, vocab.ActivityStreamsReject) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.RelationshipInterface) error:
+		case func(context.Context, vocab.ActivityStreamsRelationship) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.RemoveInterface) error:
+		case func(context.Context, vocab.ActivityStreamsRemove) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ServiceInterface) error:
+		case func(context.Context, vocab.ActivityStreamsService) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.TentativeAcceptInterface) error:
+		case func(context.Context, vocab.ActivityStreamsTentativeAccept) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.TentativeRejectInterface) error:
+		case func(context.Context, vocab.ActivityStreamsTentativeReject) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.TombstoneInterface) error:
+		case func(context.Context, vocab.ActivityStreamsTombstone) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.TravelInterface) error:
+		case func(context.Context, vocab.ActivityStreamsTravel) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.UndoInterface) error:
+		case func(context.Context, vocab.ActivityStreamsUndo) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.UpdateInterface) error:
+		case func(context.Context, vocab.ActivityStreamsUpdate) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.VideoInterface) error:
+		case func(context.Context, vocab.ActivityStreamsVideo) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ViewInterface) error:
+		case func(context.Context, vocab.ActivityStreamsView) error:
 			// Do nothing, this callback has a correct signature.
 		default:
 			return nil, errors.New("a callback function is of the wrong signature and would never be called")
@@ -149,494 +149,493 @@ func NewTypeResolver(callbacks ...interface{}) (*TypeResolver, error) {
 // passed in is not go-fed compatible.
 func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface) error {
 	for _, i := range this.callbacks {
-		switch o.GetName() {
-		case "Accept":
-			if fn, ok := i.(func(context.Context, vocab.AcceptInterface) error); ok {
-				if v, ok := o.(vocab.AcceptInterface); ok {
+		if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Accept" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsAccept) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsAccept); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Activity":
-			if fn, ok := i.(func(context.Context, vocab.ActivityInterface) error); ok {
-				if v, ok := o.(vocab.ActivityInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Activity" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsActivity) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsActivity); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Add":
-			if fn, ok := i.(func(context.Context, vocab.AddInterface) error); ok {
-				if v, ok := o.(vocab.AddInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Add" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsAdd) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsAdd); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Announce":
-			if fn, ok := i.(func(context.Context, vocab.AnnounceInterface) error); ok {
-				if v, ok := o.(vocab.AnnounceInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Announce" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsAnnounce) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsAnnounce); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Application":
-			if fn, ok := i.(func(context.Context, vocab.ApplicationInterface) error); ok {
-				if v, ok := o.(vocab.ApplicationInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Application" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsApplication) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsApplication); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Arrive":
-			if fn, ok := i.(func(context.Context, vocab.ArriveInterface) error); ok {
-				if v, ok := o.(vocab.ArriveInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Arrive" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsArrive) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsArrive); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Article":
-			if fn, ok := i.(func(context.Context, vocab.ArticleInterface) error); ok {
-				if v, ok := o.(vocab.ArticleInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Article" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsArticle) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsArticle); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Audio":
-			if fn, ok := i.(func(context.Context, vocab.AudioInterface) error); ok {
-				if v, ok := o.(vocab.AudioInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Audio" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsAudio) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsAudio); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Block":
-			if fn, ok := i.(func(context.Context, vocab.BlockInterface) error); ok {
-				if v, ok := o.(vocab.BlockInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Block" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsBlock) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsBlock); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Collection":
-			if fn, ok := i.(func(context.Context, vocab.CollectionInterface) error); ok {
-				if v, ok := o.(vocab.CollectionInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Collection" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsCollection) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsCollection); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "CollectionPage":
-			if fn, ok := i.(func(context.Context, vocab.CollectionPageInterface) error); ok {
-				if v, ok := o.(vocab.CollectionPageInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "CollectionPage" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsCollectionPage) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsCollectionPage); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Create":
-			if fn, ok := i.(func(context.Context, vocab.CreateInterface) error); ok {
-				if v, ok := o.(vocab.CreateInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Create" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsCreate) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsCreate); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Delete":
-			if fn, ok := i.(func(context.Context, vocab.DeleteInterface) error); ok {
-				if v, ok := o.(vocab.DeleteInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Delete" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsDelete) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsDelete); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Dislike":
-			if fn, ok := i.(func(context.Context, vocab.DislikeInterface) error); ok {
-				if v, ok := o.(vocab.DislikeInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Dislike" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsDislike) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsDislike); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Document":
-			if fn, ok := i.(func(context.Context, vocab.DocumentInterface) error); ok {
-				if v, ok := o.(vocab.DocumentInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Document" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsDocument) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsDocument); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Event":
-			if fn, ok := i.(func(context.Context, vocab.EventInterface) error); ok {
-				if v, ok := o.(vocab.EventInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Event" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsEvent) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsEvent); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Flag":
-			if fn, ok := i.(func(context.Context, vocab.FlagInterface) error); ok {
-				if v, ok := o.(vocab.FlagInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Flag" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsFlag) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsFlag); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Follow":
-			if fn, ok := i.(func(context.Context, vocab.FollowInterface) error); ok {
-				if v, ok := o.(vocab.FollowInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Follow" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsFollow) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsFollow); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Group":
-			if fn, ok := i.(func(context.Context, vocab.GroupInterface) error); ok {
-				if v, ok := o.(vocab.GroupInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Group" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsGroup) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsGroup); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Ignore":
-			if fn, ok := i.(func(context.Context, vocab.IgnoreInterface) error); ok {
-				if v, ok := o.(vocab.IgnoreInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Ignore" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsIgnore) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsIgnore); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Image":
-			if fn, ok := i.(func(context.Context, vocab.ImageInterface) error); ok {
-				if v, ok := o.(vocab.ImageInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Image" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsImage) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsImage); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "IntransitiveActivity":
-			if fn, ok := i.(func(context.Context, vocab.IntransitiveActivityInterface) error); ok {
-				if v, ok := o.(vocab.IntransitiveActivityInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "IntransitiveActivity" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsIntransitiveActivity) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsIntransitiveActivity); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Invite":
-			if fn, ok := i.(func(context.Context, vocab.InviteInterface) error); ok {
-				if v, ok := o.(vocab.InviteInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Invite" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsInvite) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsInvite); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Join":
-			if fn, ok := i.(func(context.Context, vocab.JoinInterface) error); ok {
-				if v, ok := o.(vocab.JoinInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Join" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsJoin) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsJoin); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Leave":
-			if fn, ok := i.(func(context.Context, vocab.LeaveInterface) error); ok {
-				if v, ok := o.(vocab.LeaveInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Leave" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsLeave) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsLeave); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Like":
-			if fn, ok := i.(func(context.Context, vocab.LikeInterface) error); ok {
-				if v, ok := o.(vocab.LikeInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Like" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsLike) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsLike); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Link":
-			if fn, ok := i.(func(context.Context, vocab.LinkInterface) error); ok {
-				if v, ok := o.(vocab.LinkInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Link" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsLink) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsLink); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Listen":
-			if fn, ok := i.(func(context.Context, vocab.ListenInterface) error); ok {
-				if v, ok := o.(vocab.ListenInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Listen" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsListen) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsListen); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Mention":
-			if fn, ok := i.(func(context.Context, vocab.MentionInterface) error); ok {
-				if v, ok := o.(vocab.MentionInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Mention" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsMention) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsMention); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Move":
-			if fn, ok := i.(func(context.Context, vocab.MoveInterface) error); ok {
-				if v, ok := o.(vocab.MoveInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Move" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsMove) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsMove); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Note":
-			if fn, ok := i.(func(context.Context, vocab.NoteInterface) error); ok {
-				if v, ok := o.(vocab.NoteInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Note" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsNote) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsNote); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Object":
-			if fn, ok := i.(func(context.Context, vocab.ObjectInterface) error); ok {
-				if v, ok := o.(vocab.ObjectInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Object" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsObject) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsObject); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Offer":
-			if fn, ok := i.(func(context.Context, vocab.OfferInterface) error); ok {
-				if v, ok := o.(vocab.OfferInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Offer" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsOffer) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsOffer); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "OrderedCollection":
-			if fn, ok := i.(func(context.Context, vocab.OrderedCollectionInterface) error); ok {
-				if v, ok := o.(vocab.OrderedCollectionInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "OrderedCollection" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsOrderedCollection) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsOrderedCollection); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "OrderedCollectionPage":
-			if fn, ok := i.(func(context.Context, vocab.OrderedCollectionPageInterface) error); ok {
-				if v, ok := o.(vocab.OrderedCollectionPageInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "OrderedCollectionPage" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsOrderedCollectionPage) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsOrderedCollectionPage); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Organization":
-			if fn, ok := i.(func(context.Context, vocab.OrganizationInterface) error); ok {
-				if v, ok := o.(vocab.OrganizationInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Organization" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsOrganization) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsOrganization); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Page":
-			if fn, ok := i.(func(context.Context, vocab.PageInterface) error); ok {
-				if v, ok := o.(vocab.PageInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Page" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsPage) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsPage); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Person":
-			if fn, ok := i.(func(context.Context, vocab.PersonInterface) error); ok {
-				if v, ok := o.(vocab.PersonInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Person" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsPerson) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsPerson); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Place":
-			if fn, ok := i.(func(context.Context, vocab.PlaceInterface) error); ok {
-				if v, ok := o.(vocab.PlaceInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Place" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsPlace) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsPlace); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Profile":
-			if fn, ok := i.(func(context.Context, vocab.ProfileInterface) error); ok {
-				if v, ok := o.(vocab.ProfileInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Profile" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsProfile) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsProfile); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Question":
-			if fn, ok := i.(func(context.Context, vocab.QuestionInterface) error); ok {
-				if v, ok := o.(vocab.QuestionInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Question" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsQuestion) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsQuestion); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Read":
-			if fn, ok := i.(func(context.Context, vocab.ReadInterface) error); ok {
-				if v, ok := o.(vocab.ReadInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Read" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsRead) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsRead); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Reject":
-			if fn, ok := i.(func(context.Context, vocab.RejectInterface) error); ok {
-				if v, ok := o.(vocab.RejectInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Reject" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsReject) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsReject); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Relationship":
-			if fn, ok := i.(func(context.Context, vocab.RelationshipInterface) error); ok {
-				if v, ok := o.(vocab.RelationshipInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Relationship" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsRelationship) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsRelationship); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Remove":
-			if fn, ok := i.(func(context.Context, vocab.RemoveInterface) error); ok {
-				if v, ok := o.(vocab.RemoveInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Remove" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsRemove) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsRemove); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Service":
-			if fn, ok := i.(func(context.Context, vocab.ServiceInterface) error); ok {
-				if v, ok := o.(vocab.ServiceInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Service" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsService) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsService); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "TentativeAccept":
-			if fn, ok := i.(func(context.Context, vocab.TentativeAcceptInterface) error); ok {
-				if v, ok := o.(vocab.TentativeAcceptInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "TentativeAccept" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsTentativeAccept) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsTentativeAccept); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "TentativeReject":
-			if fn, ok := i.(func(context.Context, vocab.TentativeRejectInterface) error); ok {
-				if v, ok := o.(vocab.TentativeRejectInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "TentativeReject" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsTentativeReject) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsTentativeReject); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Tombstone":
-			if fn, ok := i.(func(context.Context, vocab.TombstoneInterface) error); ok {
-				if v, ok := o.(vocab.TombstoneInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Tombstone" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsTombstone) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsTombstone); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Travel":
-			if fn, ok := i.(func(context.Context, vocab.TravelInterface) error); ok {
-				if v, ok := o.(vocab.TravelInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Travel" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsTravel) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsTravel); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Undo":
-			if fn, ok := i.(func(context.Context, vocab.UndoInterface) error); ok {
-				if v, ok := o.(vocab.UndoInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Undo" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsUndo) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsUndo); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Update":
-			if fn, ok := i.(func(context.Context, vocab.UpdateInterface) error); ok {
-				if v, ok := o.(vocab.UpdateInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Update" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsUpdate) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsUpdate); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "Video":
-			if fn, ok := i.(func(context.Context, vocab.VideoInterface) error); ok {
-				if v, ok := o.(vocab.VideoInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Video" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsVideo) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsVideo); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		case "View":
-			if fn, ok := i.(func(context.Context, vocab.ViewInterface) error); ok {
-				if v, ok := o.(vocab.ViewInterface); ok {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "View" {
+			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsView) error); ok {
+				if v, ok := o.(vocab.ActivityStreamsView); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
 					return errCannotTypeAssertType
 				}
 			}
-		default:
+		} else {
 			return ErrUnhandledType
 		}
 	}

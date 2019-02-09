@@ -8,17 +8,17 @@ var mgr privateManager
 // concrete implementations.
 type privateManager interface {
 	// DeserializeImageActivityStreams returns the deserialization method for
-	// the "ImageInterface" non-functional property in the vocabulary
-	// "ActivityStreams"
-	DeserializeImageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ImageInterface, error)
-	// DeserializeLinkActivityStreams returns the deserialization method for
-	// the "LinkInterface" non-functional property in the vocabulary
-	// "ActivityStreams"
-	DeserializeLinkActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LinkInterface, error)
-	// DeserializeMentionActivityStreams returns the deserialization method
-	// for the "MentionInterface" non-functional property in the
+	// the "ActivityStreamsImage" non-functional property in the
 	// vocabulary "ActivityStreams"
-	DeserializeMentionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.MentionInterface, error)
+	DeserializeImageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsImage, error)
+	// DeserializeLinkActivityStreams returns the deserialization method for
+	// the "ActivityStreamsLink" non-functional property in the vocabulary
+	// "ActivityStreams"
+	DeserializeLinkActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsLink, error)
+	// DeserializeMentionActivityStreams returns the deserialization method
+	// for the "ActivityStreamsMention" non-functional property in the
+	// vocabulary "ActivityStreams"
+	DeserializeMentionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsMention, error)
 }
 
 // SetManager sets the manager package-global variable. For internal use only, do

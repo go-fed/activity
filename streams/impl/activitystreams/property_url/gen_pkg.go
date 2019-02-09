@@ -8,13 +8,13 @@ var mgr privateManager
 // concrete implementations.
 type privateManager interface {
 	// DeserializeLinkActivityStreams returns the deserialization method for
-	// the "LinkInterface" non-functional property in the vocabulary
+	// the "ActivityStreamsLink" non-functional property in the vocabulary
 	// "ActivityStreams"
-	DeserializeLinkActivityStreams() func(map[string]interface{}, map[string]string) (vocab.LinkInterface, error)
+	DeserializeLinkActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsLink, error)
 	// DeserializeMentionActivityStreams returns the deserialization method
-	// for the "MentionInterface" non-functional property in the
+	// for the "ActivityStreamsMention" non-functional property in the
 	// vocabulary "ActivityStreams"
-	DeserializeMentionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.MentionInterface, error)
+	DeserializeMentionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsMention, error)
 }
 
 // SetManager sets the manager package-global variable. For internal use only, do

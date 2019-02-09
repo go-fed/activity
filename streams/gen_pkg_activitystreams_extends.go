@@ -58,306 +58,326 @@ import (
 	vocab "github.com/go-fed/activity/streams/vocab"
 )
 
-// ActivityStreamsAcceptExtends returns true if Accept extends from the other's
-// type.
-func ActivityStreamsAcceptExtends(other vocab.Type) bool {
-	return typeaccept.AcceptExtends(other)
+// ActivityStreamsActivityStreamsAcceptExtends returns true if Accept extends from
+// the other's type.
+func ActivityStreamsActivityStreamsAcceptExtends(other vocab.Type) bool {
+	return typeaccept.ActivityStreamsAcceptExtends(other)
 }
 
-// ActivityStreamsActivityExtends returns true if Activity extends from the
-// other's type.
-func ActivityStreamsActivityExtends(other vocab.Type) bool {
-	return typeactivity.ActivityExtends(other)
-}
-
-// ActivityStreamsAddExtends returns true if Add extends from the other's type.
-func ActivityStreamsAddExtends(other vocab.Type) bool {
-	return typeadd.AddExtends(other)
-}
-
-// ActivityStreamsAnnounceExtends returns true if Announce extends from the
-// other's type.
-func ActivityStreamsAnnounceExtends(other vocab.Type) bool {
-	return typeannounce.AnnounceExtends(other)
-}
-
-// ActivityStreamsApplicationExtends returns true if Application extends from the
-// other's type.
-func ActivityStreamsApplicationExtends(other vocab.Type) bool {
-	return typeapplication.ApplicationExtends(other)
-}
-
-// ActivityStreamsArriveExtends returns true if Arrive extends from the other's
-// type.
-func ActivityStreamsArriveExtends(other vocab.Type) bool {
-	return typearrive.ArriveExtends(other)
-}
-
-// ActivityStreamsArticleExtends returns true if Article extends from the other's
-// type.
-func ActivityStreamsArticleExtends(other vocab.Type) bool {
-	return typearticle.ArticleExtends(other)
-}
-
-// ActivityStreamsAudioExtends returns true if Audio extends from the other's type.
-func ActivityStreamsAudioExtends(other vocab.Type) bool {
-	return typeaudio.AudioExtends(other)
-}
-
-// ActivityStreamsBlockExtends returns true if Block extends from the other's type.
-func ActivityStreamsBlockExtends(other vocab.Type) bool {
-	return typeblock.BlockExtends(other)
-}
-
-// ActivityStreamsCollectionExtends returns true if Collection extends from the
-// other's type.
-func ActivityStreamsCollectionExtends(other vocab.Type) bool {
-	return typecollection.CollectionExtends(other)
-}
-
-// ActivityStreamsCollectionPageExtends returns true if CollectionPage extends
+// ActivityStreamsActivityStreamsActivityExtends returns true if Activity extends
 // from the other's type.
-func ActivityStreamsCollectionPageExtends(other vocab.Type) bool {
-	return typecollectionpage.CollectionPageExtends(other)
+func ActivityStreamsActivityStreamsActivityExtends(other vocab.Type) bool {
+	return typeactivity.ActivityStreamsActivityExtends(other)
 }
 
-// ActivityStreamsCreateExtends returns true if Create extends from the other's
-// type.
-func ActivityStreamsCreateExtends(other vocab.Type) bool {
-	return typecreate.CreateExtends(other)
-}
-
-// ActivityStreamsDeleteExtends returns true if Delete extends from the other's
-// type.
-func ActivityStreamsDeleteExtends(other vocab.Type) bool {
-	return typedelete.DeleteExtends(other)
-}
-
-// ActivityStreamsDislikeExtends returns true if Dislike extends from the other's
-// type.
-func ActivityStreamsDislikeExtends(other vocab.Type) bool {
-	return typedislike.DislikeExtends(other)
-}
-
-// ActivityStreamsDocumentExtends returns true if Document extends from the
+// ActivityStreamsActivityStreamsAddExtends returns true if Add extends from the
 // other's type.
-func ActivityStreamsDocumentExtends(other vocab.Type) bool {
-	return typedocument.DocumentExtends(other)
+func ActivityStreamsActivityStreamsAddExtends(other vocab.Type) bool {
+	return typeadd.ActivityStreamsAddExtends(other)
 }
 
-// ActivityStreamsEventExtends returns true if Event extends from the other's type.
-func ActivityStreamsEventExtends(other vocab.Type) bool {
-	return typeevent.EventExtends(other)
+// ActivityStreamsActivityStreamsAnnounceExtends returns true if Announce extends
+// from the other's type.
+func ActivityStreamsActivityStreamsAnnounceExtends(other vocab.Type) bool {
+	return typeannounce.ActivityStreamsAnnounceExtends(other)
 }
 
-// ActivityStreamsFlagExtends returns true if Flag extends from the other's type.
-func ActivityStreamsFlagExtends(other vocab.Type) bool {
-	return typeflag.FlagExtends(other)
-}
-
-// ActivityStreamsFollowExtends returns true if Follow extends from the other's
-// type.
-func ActivityStreamsFollowExtends(other vocab.Type) bool {
-	return typefollow.FollowExtends(other)
-}
-
-// ActivityStreamsGroupExtends returns true if Group extends from the other's type.
-func ActivityStreamsGroupExtends(other vocab.Type) bool {
-	return typegroup.GroupExtends(other)
-}
-
-// ActivityStreamsIgnoreExtends returns true if Ignore extends from the other's
-// type.
-func ActivityStreamsIgnoreExtends(other vocab.Type) bool {
-	return typeignore.IgnoreExtends(other)
-}
-
-// ActivityStreamsImageExtends returns true if Image extends from the other's type.
-func ActivityStreamsImageExtends(other vocab.Type) bool {
-	return typeimage.ImageExtends(other)
-}
-
-// ActivityStreamsIntransitiveActivityExtends returns true if IntransitiveActivity
+// ActivityStreamsActivityStreamsApplicationExtends returns true if Application
 // extends from the other's type.
-func ActivityStreamsIntransitiveActivityExtends(other vocab.Type) bool {
-	return typeintransitiveactivity.IntransitiveActivityExtends(other)
+func ActivityStreamsActivityStreamsApplicationExtends(other vocab.Type) bool {
+	return typeapplication.ActivityStreamsApplicationExtends(other)
 }
 
-// ActivityStreamsInviteExtends returns true if Invite extends from the other's
-// type.
-func ActivityStreamsInviteExtends(other vocab.Type) bool {
-	return typeinvite.InviteExtends(other)
+// ActivityStreamsActivityStreamsArriveExtends returns true if Arrive extends from
+// the other's type.
+func ActivityStreamsActivityStreamsArriveExtends(other vocab.Type) bool {
+	return typearrive.ActivityStreamsArriveExtends(other)
 }
 
-// ActivityStreamsJoinExtends returns true if Join extends from the other's type.
-func ActivityStreamsJoinExtends(other vocab.Type) bool {
-	return typejoin.JoinExtends(other)
+// ActivityStreamsActivityStreamsArticleExtends returns true if Article extends
+// from the other's type.
+func ActivityStreamsActivityStreamsArticleExtends(other vocab.Type) bool {
+	return typearticle.ActivityStreamsArticleExtends(other)
 }
 
-// ActivityStreamsLeaveExtends returns true if Leave extends from the other's type.
-func ActivityStreamsLeaveExtends(other vocab.Type) bool {
-	return typeleave.LeaveExtends(other)
+// ActivityStreamsActivityStreamsAudioExtends returns true if Audio extends from
+// the other's type.
+func ActivityStreamsActivityStreamsAudioExtends(other vocab.Type) bool {
+	return typeaudio.ActivityStreamsAudioExtends(other)
 }
 
-// ActivityStreamsLikeExtends returns true if Like extends from the other's type.
-func ActivityStreamsLikeExtends(other vocab.Type) bool {
-	return typelike.LikeExtends(other)
+// ActivityStreamsActivityStreamsBlockExtends returns true if Block extends from
+// the other's type.
+func ActivityStreamsActivityStreamsBlockExtends(other vocab.Type) bool {
+	return typeblock.ActivityStreamsBlockExtends(other)
 }
 
-// ActivityStreamsLinkExtends returns true if Link extends from the other's type.
-func ActivityStreamsLinkExtends(other vocab.Type) bool {
-	return typelink.LinkExtends(other)
-}
-
-// ActivityStreamsListenExtends returns true if Listen extends from the other's
-// type.
-func ActivityStreamsListenExtends(other vocab.Type) bool {
-	return typelisten.ListenExtends(other)
-}
-
-// ActivityStreamsMentionExtends returns true if Mention extends from the other's
-// type.
-func ActivityStreamsMentionExtends(other vocab.Type) bool {
-	return typemention.MentionExtends(other)
-}
-
-// ActivityStreamsMoveExtends returns true if Move extends from the other's type.
-func ActivityStreamsMoveExtends(other vocab.Type) bool {
-	return typemove.MoveExtends(other)
-}
-
-// ActivityStreamsNoteExtends returns true if Note extends from the other's type.
-func ActivityStreamsNoteExtends(other vocab.Type) bool {
-	return typenote.NoteExtends(other)
-}
-
-// ActivityStreamsObjectExtends returns true if Object extends from the other's
-// type.
-func ActivityStreamsObjectExtends(other vocab.Type) bool {
-	return typeobject.ObjectExtends(other)
-}
-
-// ActivityStreamsOfferExtends returns true if Offer extends from the other's type.
-func ActivityStreamsOfferExtends(other vocab.Type) bool {
-	return typeoffer.OfferExtends(other)
-}
-
-// ActivityStreamsOrderedCollectionExtends returns true if OrderedCollection
+// ActivityStreamsActivityStreamsCollectionExtends returns true if Collection
 // extends from the other's type.
-func ActivityStreamsOrderedCollectionExtends(other vocab.Type) bool {
-	return typeorderedcollection.OrderedCollectionExtends(other)
+func ActivityStreamsActivityStreamsCollectionExtends(other vocab.Type) bool {
+	return typecollection.ActivityStreamsCollectionExtends(other)
 }
 
-// ActivityStreamsOrderedCollectionPageExtends returns true if
+// ActivityStreamsActivityStreamsCollectionPageExtends returns true if
+// CollectionPage extends from the other's type.
+func ActivityStreamsActivityStreamsCollectionPageExtends(other vocab.Type) bool {
+	return typecollectionpage.ActivityStreamsCollectionPageExtends(other)
+}
+
+// ActivityStreamsActivityStreamsCreateExtends returns true if Create extends from
+// the other's type.
+func ActivityStreamsActivityStreamsCreateExtends(other vocab.Type) bool {
+	return typecreate.ActivityStreamsCreateExtends(other)
+}
+
+// ActivityStreamsActivityStreamsDeleteExtends returns true if Delete extends from
+// the other's type.
+func ActivityStreamsActivityStreamsDeleteExtends(other vocab.Type) bool {
+	return typedelete.ActivityStreamsDeleteExtends(other)
+}
+
+// ActivityStreamsActivityStreamsDislikeExtends returns true if Dislike extends
+// from the other's type.
+func ActivityStreamsActivityStreamsDislikeExtends(other vocab.Type) bool {
+	return typedislike.ActivityStreamsDislikeExtends(other)
+}
+
+// ActivityStreamsActivityStreamsDocumentExtends returns true if Document extends
+// from the other's type.
+func ActivityStreamsActivityStreamsDocumentExtends(other vocab.Type) bool {
+	return typedocument.ActivityStreamsDocumentExtends(other)
+}
+
+// ActivityStreamsActivityStreamsEventExtends returns true if Event extends from
+// the other's type.
+func ActivityStreamsActivityStreamsEventExtends(other vocab.Type) bool {
+	return typeevent.ActivityStreamsEventExtends(other)
+}
+
+// ActivityStreamsActivityStreamsFlagExtends returns true if Flag extends from the
+// other's type.
+func ActivityStreamsActivityStreamsFlagExtends(other vocab.Type) bool {
+	return typeflag.ActivityStreamsFlagExtends(other)
+}
+
+// ActivityStreamsActivityStreamsFollowExtends returns true if Follow extends from
+// the other's type.
+func ActivityStreamsActivityStreamsFollowExtends(other vocab.Type) bool {
+	return typefollow.ActivityStreamsFollowExtends(other)
+}
+
+// ActivityStreamsActivityStreamsGroupExtends returns true if Group extends from
+// the other's type.
+func ActivityStreamsActivityStreamsGroupExtends(other vocab.Type) bool {
+	return typegroup.ActivityStreamsGroupExtends(other)
+}
+
+// ActivityStreamsActivityStreamsIgnoreExtends returns true if Ignore extends from
+// the other's type.
+func ActivityStreamsActivityStreamsIgnoreExtends(other vocab.Type) bool {
+	return typeignore.ActivityStreamsIgnoreExtends(other)
+}
+
+// ActivityStreamsActivityStreamsImageExtends returns true if Image extends from
+// the other's type.
+func ActivityStreamsActivityStreamsImageExtends(other vocab.Type) bool {
+	return typeimage.ActivityStreamsImageExtends(other)
+}
+
+// ActivityStreamsActivityStreamsIntransitiveActivityExtends returns true if
+// IntransitiveActivity extends from the other's type.
+func ActivityStreamsActivityStreamsIntransitiveActivityExtends(other vocab.Type) bool {
+	return typeintransitiveactivity.ActivityStreamsIntransitiveActivityExtends(other)
+}
+
+// ActivityStreamsActivityStreamsInviteExtends returns true if Invite extends from
+// the other's type.
+func ActivityStreamsActivityStreamsInviteExtends(other vocab.Type) bool {
+	return typeinvite.ActivityStreamsInviteExtends(other)
+}
+
+// ActivityStreamsActivityStreamsJoinExtends returns true if Join extends from the
+// other's type.
+func ActivityStreamsActivityStreamsJoinExtends(other vocab.Type) bool {
+	return typejoin.ActivityStreamsJoinExtends(other)
+}
+
+// ActivityStreamsActivityStreamsLeaveExtends returns true if Leave extends from
+// the other's type.
+func ActivityStreamsActivityStreamsLeaveExtends(other vocab.Type) bool {
+	return typeleave.ActivityStreamsLeaveExtends(other)
+}
+
+// ActivityStreamsActivityStreamsLikeExtends returns true if Like extends from the
+// other's type.
+func ActivityStreamsActivityStreamsLikeExtends(other vocab.Type) bool {
+	return typelike.ActivityStreamsLikeExtends(other)
+}
+
+// ActivityStreamsActivityStreamsLinkExtends returns true if Link extends from the
+// other's type.
+func ActivityStreamsActivityStreamsLinkExtends(other vocab.Type) bool {
+	return typelink.ActivityStreamsLinkExtends(other)
+}
+
+// ActivityStreamsActivityStreamsListenExtends returns true if Listen extends from
+// the other's type.
+func ActivityStreamsActivityStreamsListenExtends(other vocab.Type) bool {
+	return typelisten.ActivityStreamsListenExtends(other)
+}
+
+// ActivityStreamsActivityStreamsMentionExtends returns true if Mention extends
+// from the other's type.
+func ActivityStreamsActivityStreamsMentionExtends(other vocab.Type) bool {
+	return typemention.ActivityStreamsMentionExtends(other)
+}
+
+// ActivityStreamsActivityStreamsMoveExtends returns true if Move extends from the
+// other's type.
+func ActivityStreamsActivityStreamsMoveExtends(other vocab.Type) bool {
+	return typemove.ActivityStreamsMoveExtends(other)
+}
+
+// ActivityStreamsActivityStreamsNoteExtends returns true if Note extends from the
+// other's type.
+func ActivityStreamsActivityStreamsNoteExtends(other vocab.Type) bool {
+	return typenote.ActivityStreamsNoteExtends(other)
+}
+
+// ActivityStreamsActivityStreamsObjectExtends returns true if Object extends from
+// the other's type.
+func ActivityStreamsActivityStreamsObjectExtends(other vocab.Type) bool {
+	return typeobject.ActivityStreamsObjectExtends(other)
+}
+
+// ActivityStreamsActivityStreamsOfferExtends returns true if Offer extends from
+// the other's type.
+func ActivityStreamsActivityStreamsOfferExtends(other vocab.Type) bool {
+	return typeoffer.ActivityStreamsOfferExtends(other)
+}
+
+// ActivityStreamsActivityStreamsOrderedCollectionExtends returns true if
+// OrderedCollection extends from the other's type.
+func ActivityStreamsActivityStreamsOrderedCollectionExtends(other vocab.Type) bool {
+	return typeorderedcollection.ActivityStreamsOrderedCollectionExtends(other)
+}
+
+// ActivityStreamsActivityStreamsOrderedCollectionPageExtends returns true if
 // OrderedCollectionPage extends from the other's type.
-func ActivityStreamsOrderedCollectionPageExtends(other vocab.Type) bool {
-	return typeorderedcollectionpage.OrderedCollectionPageExtends(other)
+func ActivityStreamsActivityStreamsOrderedCollectionPageExtends(other vocab.Type) bool {
+	return typeorderedcollectionpage.ActivityStreamsOrderedCollectionPageExtends(other)
 }
 
-// ActivityStreamsOrganizationExtends returns true if Organization extends from
-// the other's type.
-func ActivityStreamsOrganizationExtends(other vocab.Type) bool {
-	return typeorganization.OrganizationExtends(other)
+// ActivityStreamsActivityStreamsOrganizationExtends returns true if Organization
+// extends from the other's type.
+func ActivityStreamsActivityStreamsOrganizationExtends(other vocab.Type) bool {
+	return typeorganization.ActivityStreamsOrganizationExtends(other)
 }
 
-// ActivityStreamsPageExtends returns true if Page extends from the other's type.
-func ActivityStreamsPageExtends(other vocab.Type) bool {
-	return typepage.PageExtends(other)
-}
-
-// ActivityStreamsPersonExtends returns true if Person extends from the other's
-// type.
-func ActivityStreamsPersonExtends(other vocab.Type) bool {
-	return typeperson.PersonExtends(other)
-}
-
-// ActivityStreamsPlaceExtends returns true if Place extends from the other's type.
-func ActivityStreamsPlaceExtends(other vocab.Type) bool {
-	return typeplace.PlaceExtends(other)
-}
-
-// ActivityStreamsProfileExtends returns true if Profile extends from the other's
-// type.
-func ActivityStreamsProfileExtends(other vocab.Type) bool {
-	return typeprofile.ProfileExtends(other)
-}
-
-// ActivityStreamsQuestionExtends returns true if Question extends from the
+// ActivityStreamsActivityStreamsPageExtends returns true if Page extends from the
 // other's type.
-func ActivityStreamsQuestionExtends(other vocab.Type) bool {
-	return typequestion.QuestionExtends(other)
+func ActivityStreamsActivityStreamsPageExtends(other vocab.Type) bool {
+	return typepage.ActivityStreamsPageExtends(other)
 }
 
-// ActivityStreamsReadExtends returns true if Read extends from the other's type.
-func ActivityStreamsReadExtends(other vocab.Type) bool {
-	return typeread.ReadExtends(other)
-}
-
-// ActivityStreamsRejectExtends returns true if Reject extends from the other's
-// type.
-func ActivityStreamsRejectExtends(other vocab.Type) bool {
-	return typereject.RejectExtends(other)
-}
-
-// ActivityStreamsRelationshipExtends returns true if Relationship extends from
+// ActivityStreamsActivityStreamsPersonExtends returns true if Person extends from
 // the other's type.
-func ActivityStreamsRelationshipExtends(other vocab.Type) bool {
-	return typerelationship.RelationshipExtends(other)
+func ActivityStreamsActivityStreamsPersonExtends(other vocab.Type) bool {
+	return typeperson.ActivityStreamsPersonExtends(other)
 }
 
-// ActivityStreamsRemoveExtends returns true if Remove extends from the other's
-// type.
-func ActivityStreamsRemoveExtends(other vocab.Type) bool {
-	return typeremove.RemoveExtends(other)
+// ActivityStreamsActivityStreamsPlaceExtends returns true if Place extends from
+// the other's type.
+func ActivityStreamsActivityStreamsPlaceExtends(other vocab.Type) bool {
+	return typeplace.ActivityStreamsPlaceExtends(other)
 }
 
-// ActivityStreamsServiceExtends returns true if Service extends from the other's
-// type.
-func ActivityStreamsServiceExtends(other vocab.Type) bool {
-	return typeservice.ServiceExtends(other)
-}
-
-// ActivityStreamsTentativeAcceptExtends returns true if TentativeAccept extends
+// ActivityStreamsActivityStreamsProfileExtends returns true if Profile extends
 // from the other's type.
-func ActivityStreamsTentativeAcceptExtends(other vocab.Type) bool {
-	return typetentativeaccept.TentativeAcceptExtends(other)
+func ActivityStreamsActivityStreamsProfileExtends(other vocab.Type) bool {
+	return typeprofile.ActivityStreamsProfileExtends(other)
 }
 
-// ActivityStreamsTentativeRejectExtends returns true if TentativeReject extends
+// ActivityStreamsActivityStreamsQuestionExtends returns true if Question extends
 // from the other's type.
-func ActivityStreamsTentativeRejectExtends(other vocab.Type) bool {
-	return typetentativereject.TentativeRejectExtends(other)
+func ActivityStreamsActivityStreamsQuestionExtends(other vocab.Type) bool {
+	return typequestion.ActivityStreamsQuestionExtends(other)
 }
 
-// ActivityStreamsTombstoneExtends returns true if Tombstone extends from the
+// ActivityStreamsActivityStreamsReadExtends returns true if Read extends from the
 // other's type.
-func ActivityStreamsTombstoneExtends(other vocab.Type) bool {
-	return typetombstone.TombstoneExtends(other)
+func ActivityStreamsActivityStreamsReadExtends(other vocab.Type) bool {
+	return typeread.ActivityStreamsReadExtends(other)
 }
 
-// ActivityStreamsTravelExtends returns true if Travel extends from the other's
-// type.
-func ActivityStreamsTravelExtends(other vocab.Type) bool {
-	return typetravel.TravelExtends(other)
+// ActivityStreamsActivityStreamsRejectExtends returns true if Reject extends from
+// the other's type.
+func ActivityStreamsActivityStreamsRejectExtends(other vocab.Type) bool {
+	return typereject.ActivityStreamsRejectExtends(other)
 }
 
-// ActivityStreamsUndoExtends returns true if Undo extends from the other's type.
-func ActivityStreamsUndoExtends(other vocab.Type) bool {
-	return typeundo.UndoExtends(other)
+// ActivityStreamsActivityStreamsRelationshipExtends returns true if Relationship
+// extends from the other's type.
+func ActivityStreamsActivityStreamsRelationshipExtends(other vocab.Type) bool {
+	return typerelationship.ActivityStreamsRelationshipExtends(other)
 }
 
-// ActivityStreamsUpdateExtends returns true if Update extends from the other's
-// type.
-func ActivityStreamsUpdateExtends(other vocab.Type) bool {
-	return typeupdate.UpdateExtends(other)
+// ActivityStreamsActivityStreamsRemoveExtends returns true if Remove extends from
+// the other's type.
+func ActivityStreamsActivityStreamsRemoveExtends(other vocab.Type) bool {
+	return typeremove.ActivityStreamsRemoveExtends(other)
 }
 
-// ActivityStreamsVideoExtends returns true if Video extends from the other's type.
-func ActivityStreamsVideoExtends(other vocab.Type) bool {
-	return typevideo.VideoExtends(other)
+// ActivityStreamsActivityStreamsServiceExtends returns true if Service extends
+// from the other's type.
+func ActivityStreamsActivityStreamsServiceExtends(other vocab.Type) bool {
+	return typeservice.ActivityStreamsServiceExtends(other)
 }
 
-// ActivityStreamsViewExtends returns true if View extends from the other's type.
-func ActivityStreamsViewExtends(other vocab.Type) bool {
-	return typeview.ViewExtends(other)
+// ActivityStreamsActivityStreamsTentativeAcceptExtends returns true if
+// TentativeAccept extends from the other's type.
+func ActivityStreamsActivityStreamsTentativeAcceptExtends(other vocab.Type) bool {
+	return typetentativeaccept.ActivityStreamsTentativeAcceptExtends(other)
+}
+
+// ActivityStreamsActivityStreamsTentativeRejectExtends returns true if
+// TentativeReject extends from the other's type.
+func ActivityStreamsActivityStreamsTentativeRejectExtends(other vocab.Type) bool {
+	return typetentativereject.ActivityStreamsTentativeRejectExtends(other)
+}
+
+// ActivityStreamsActivityStreamsTombstoneExtends returns true if Tombstone
+// extends from the other's type.
+func ActivityStreamsActivityStreamsTombstoneExtends(other vocab.Type) bool {
+	return typetombstone.ActivityStreamsTombstoneExtends(other)
+}
+
+// ActivityStreamsActivityStreamsTravelExtends returns true if Travel extends from
+// the other's type.
+func ActivityStreamsActivityStreamsTravelExtends(other vocab.Type) bool {
+	return typetravel.ActivityStreamsTravelExtends(other)
+}
+
+// ActivityStreamsActivityStreamsUndoExtends returns true if Undo extends from the
+// other's type.
+func ActivityStreamsActivityStreamsUndoExtends(other vocab.Type) bool {
+	return typeundo.ActivityStreamsUndoExtends(other)
+}
+
+// ActivityStreamsActivityStreamsUpdateExtends returns true if Update extends from
+// the other's type.
+func ActivityStreamsActivityStreamsUpdateExtends(other vocab.Type) bool {
+	return typeupdate.ActivityStreamsUpdateExtends(other)
+}
+
+// ActivityStreamsActivityStreamsVideoExtends returns true if Video extends from
+// the other's type.
+func ActivityStreamsActivityStreamsVideoExtends(other vocab.Type) bool {
+	return typevideo.ActivityStreamsVideoExtends(other)
+}
+
+// ActivityStreamsActivityStreamsViewExtends returns true if View extends from the
+// other's type.
+func ActivityStreamsActivityStreamsViewExtends(other vocab.Type) bool {
+	return typeview.ActivityStreamsViewExtends(other)
 }

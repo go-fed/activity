@@ -25,6 +25,8 @@ var errCannotTypeAssertPredicate error = errors.New("predicate cannot be type as
 type ActivityStreamsInterface interface {
 	// GetName returns the ActiivtyStreams value's type.
 	GetName() string
+	// VocabularyURI returns the vocabulary's URI as a string.
+	VocabularyURI() string
 }
 
 // Resolver represents any TypeResolver.

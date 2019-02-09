@@ -8,13 +8,14 @@ var mgr privateManager
 // concrete implementations.
 type privateManager interface {
 	// DeserializeOrderedCollectionActivityStreams returns the deserialization
-	// method for the "OrderedCollectionInterface" non-functional property
-	// in the vocabulary "ActivityStreams"
-	DeserializeOrderedCollectionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OrderedCollectionInterface, error)
+	// method for the "ActivityStreamsOrderedCollection" non-functional
+	// property in the vocabulary "ActivityStreams"
+	DeserializeOrderedCollectionActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsOrderedCollection, error)
 	// DeserializeOrderedCollectionPageActivityStreams returns the
-	// deserialization method for the "OrderedCollectionPageInterface"
-	// non-functional property in the vocabulary "ActivityStreams"
-	DeserializeOrderedCollectionPageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.OrderedCollectionPageInterface, error)
+	// deserialization method for the
+	// "ActivityStreamsOrderedCollectionPage" non-functional property in
+	// the vocabulary "ActivityStreams"
+	DeserializeOrderedCollectionPageActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsOrderedCollectionPage, error)
 }
 
 // SetManager sets the manager package-global variable. For internal use only, do
