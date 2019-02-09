@@ -158,10 +158,11 @@ func (l *langstring) Exit(key string, ctx *ParsingContext) (bool, error) {
 // Apply sets the langstring value in the context as a referenced spec.
 func (l *langstring) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
 	for k, p := range ctx.Result.Vocab.Properties {
-		for _, ref := range p.Range {
+		for i, ref := range p.Range {
 			if ref.Name == langstringSpec && ref.Vocab == l.alias {
 				p.NaturalLanguageMap = true
 				ctx.Result.Vocab.Properties[k] = p
+				p.Range = append(p.Range[:i], p.Range[i+1:]...)
 				break
 			}
 		}

@@ -32,7 +32,6 @@ const (
 	nameMethod                = "Name"
 	serializeIteratorMethod   = "serialize"
 	deserializeIteratorMethod = "deserialize"
-	isLanguageMapMethod       = "IsLanguageMap"
 	hasLanguageMethod         = "HasLanguage"
 	getLanguageMethod         = "GetLanguage"
 	setLanguageMethod         = "SetLanguage"
@@ -45,7 +44,10 @@ const (
 	contextMethod = "JSONLDContext"
 	// Member names for generated code
 	unknownMemberName = "unknown"
-	langMapMember     = "langMap"
+	// Reference to the rdf:langString member! Kludge: both of these must be
+	// kept in sync with the generated code.
+	langMapMember     = "langStringMember"
+	isLanguageMapMethod       = "IsLangString"
 	// Kind Index constants
 	iriKindIndex           = -2
 	noneOrUnknownKindIndex = -1
@@ -200,6 +202,12 @@ type PropertyGenerator struct {
 	kinds                 []Kind
 	hasNaturalLanguageMap bool
 	asIterator            bool
+}
+
+// HasNaturalLanguageMap returns whether this property has a natural language
+// map.
+func (p *PropertyGenerator) HasNaturalLanguageMap() bool {
+	return p.hasNaturalLanguageMap
 }
 
 // VocabName returns this property's vocabulary name.
@@ -369,23 +377,7 @@ func (p *PropertyGenerator) clearMethodName() string {
 }
 
 // commonMethods returns methods common to every property.
-func (p *PropertyGenerator) commonMethods() []*codegen.Method {
-	// Name method
-	m := []*codegen.Method{
-		codegen.NewCommentedValueMethod(
-			p.GetPrivatePackage().Path(),
-			nameMethod,
-			p.StructName(),
-			/*params=*/ nil,
-			[]jen.Code{jen.String()},
-			[]jen.Code{
-				jen.Return(
-					jen.Lit(p.PropertyName()),
-				),
-			},
-			fmt.Sprintf("%s returns the name of this property: %q.", nameMethod, p.PropertyName()),
-		),
-	}
+func (p *PropertyGenerator) commonMethods() (m []*codegen.Method) {
 	if p.asIterator {
 		// Next & Prev methods
 		m = append(m, codegen.NewCommentedValueMethod(

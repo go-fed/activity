@@ -35,7 +35,20 @@ func NewNonFunctionalPropertyGenerator(vocabName string,
 	name Identifier,
 	comment string,
 	kinds []Kind,
-	hasNaturalLanguageMap bool) *NonFunctionalPropertyGenerator {
+	hasNaturalLanguageMap bool) (*NonFunctionalPropertyGenerator, error) {
+	// Ensure that the natural language map has the langString kind.
+	if hasNaturalLanguageMap {
+		found := false
+		for _, k := range kinds {
+			if k.Name.LowerName == "langString" {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil, fmt.Errorf("Property has natural language map, but not an rdf:langString kind")
+		}
+	}
 	return &NonFunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
 			vocabName:             vocabName,
@@ -47,7 +60,7 @@ func NewNonFunctionalPropertyGenerator(vocabName string,
 			comment:               comment,
 			kinds:                 kinds,
 		},
-	}
+	}, nil
 }
 
 // InterfaceDefinitions creates interface definitions in the provided package.
@@ -539,6 +552,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		},
 		fmt.Sprintf("%s returns the JSONLD URIs required in the context string for this property and the specific values that are set. The value in the map is the alias used to import the property's value or values.", contextMethod)))
 	methods = append(methods, p.commonMethods()...)
+	methods = append(methods, p.nameMethod())
 	return methods
 }
 
@@ -621,6 +635,20 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 			),
 		)
 	}
+	mapProperty := jen.Empty()
+	if p.hasNaturalLanguageMap {
+		mapProperty = jen.If(
+			jen.Id("!ok"),
+		).Block(
+			jen.Commentf("Attempt to find the map instead."),
+			jen.List(
+				jen.Id("i"),
+				jen.Id("ok"),
+			).Op("=").Id("m").Index(
+				jen.Id("propName").Op("+").Lit("Map"),
+			),
+		)
+	}
 	deserialize := codegen.NewCommentedFunction(
 		p.GetPrivatePackage().Path(),
 		p.DeserializeFnName(),
@@ -647,13 +675,14 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 					jen.Lit(p.PropertyName()),
 				),
 			),
+			jen.List(
+				jen.Id("i"),
+				jen.Id("ok"),
+			).Op(":=").Id("m").Index(
+				jen.Id("propName"),
+			),
+			mapProperty,
 			jen.If(
-				jen.List(
-					jen.Id("i"),
-					jen.Id("ok"),
-				).Op(":=").Id("m").Index(
-					jen.Id("propName"),
-				),
 				jen.Id("ok"),
 			).Block(
 				jen.Id(codegen.This()).Op(":=").Op("&").Id(p.StructName()).Values(
@@ -716,4 +745,37 @@ func (p *NonFunctionalPropertyGenerator) thisIRI() *jen.Statement {
 		}
 	}
 	return nil
+}
+
+// nameMethod returns the Name method for this non-functional property.
+func (p *NonFunctionalPropertyGenerator) nameMethod() *codegen.Method{
+	nameImpl := jen.Return(
+		jen.Lit(p.PropertyName()),
+	)
+	if p.hasNaturalLanguageMap {
+		nameImpl = jen.If(
+			jen.Id(codegen.This()).Dot(lenMethod).Call().Op("==").Lit(1).Op(
+				"&&",
+			).Id(codegen.This()).Dot(atMethodName).Call(jen.Lit(0)).Dot(isLanguageMapMethod).Call(),
+		).Block(
+			jen.Return(
+				jen.Lit(p.PropertyName() + "Map"),
+			),
+		).Else().Block(
+			jen.Return(
+				jen.Lit(p.PropertyName()),
+			),
+		)
+	}
+	return codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		nameMethod,
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.String()},
+		[]jen.Code{
+			nameImpl,
+		},
+		fmt.Sprintf("%s returns the name of this property: %q.", nameMethod, p.PropertyName()),
+	)
 }

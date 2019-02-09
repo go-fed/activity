@@ -670,7 +670,7 @@ func (c *Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 	if len(examples) > 0 {
 		comment = fmt.Sprintf("%s\n\n%s", comment, strings.Join(examples, "\n\n"))
 	}
-	fp = gen.NewFunctionalPropertyGenerator(
+	fp, e = gen.NewFunctionalPropertyGenerator(
 		v.GetName(),
 		v.URI,
 		vocabNameToAlias(v.GetName()),
@@ -679,6 +679,9 @@ func (c *Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 		comment,
 		k,
 		p.NaturalLanguageMap)
+	if e != nil {
+		return
+	}
 	e = backPopulateProperty(v.Registry, p, genRefs, fp)
 	if e != nil {
 		return
@@ -712,7 +715,7 @@ func (c *Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 	if len(examples) > 0 {
 		comment = fmt.Sprintf("%s\n\n%s", comment, strings.Join(examples, "\n\n"))
 	}
-	nfp = gen.NewNonFunctionalPropertyGenerator(
+	nfp, e = gen.NewNonFunctionalPropertyGenerator(
 		v.GetName(),
 		v.URI,
 		vocabNameToAlias(v.GetName()),
@@ -721,6 +724,9 @@ func (c *Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 		comment,
 		k,
 		p.NaturalLanguageMap)
+	if e != nil {
+		return
+	}
 	e = backPopulateProperty(v.Registry, p, genRefs, nfp)
 	if e != nil {
 		return

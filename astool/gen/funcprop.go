@@ -34,7 +34,20 @@ func NewFunctionalPropertyGenerator(vocabName string,
 	name Identifier,
 	comment string,
 	kinds []Kind,
-	hasNaturalLanguageMap bool) *FunctionalPropertyGenerator {
+	hasNaturalLanguageMap bool) (*FunctionalPropertyGenerator, error) {
+	// Ensure that the natural language map has the langString kind.
+	if hasNaturalLanguageMap {
+		found := false
+		for _, k := range kinds {
+			if k.Name.LowerName == "langString" {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil, fmt.Errorf("Property has natural language map, but not an rdf:langString kind")
+		}
+	}
 	return &FunctionalPropertyGenerator{
 		PropertyGenerator: PropertyGenerator{
 			vocabName:             vocabName,
@@ -46,7 +59,7 @@ func NewFunctionalPropertyGenerator(vocabName string,
 			comment:               comment,
 			kinds:                 kinds,
 		},
-	}
+	}, nil
 }
 
 // InterfaceDefinition creates an interface definition in the provided package.
@@ -156,25 +169,6 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 		),
 	}
 	if p.hasNaturalLanguageMap {
-		// IsLanguageMap Method
-		methods = append(methods,
-			codegen.NewCommentedValueMethod(
-				p.GetPrivatePackage().Path(),
-				isLanguageMapMethod,
-				p.StructName(),
-				/*params=*/ nil,
-				[]jen.Code{jen.Bool()},
-				[]jen.Code{
-					jen.Return(jen.Id(codegen.This()).Dot(langMapMember).Op("!=").Nil()),
-				},
-				fmt.Sprintf(
-					"%s determines if this property is represented by a natural language map. When true, use %s, %s, and %s methods to access and mutate the natural language map. The %s method can be used to clear the natural language map. Note that this method is only used for natural language representations, and does not determine the presence nor absence of other values for this property.",
-					isLanguageMapMethod,
-					hasLanguageMethod,
-					getLanguageMethod,
-					setLanguageMethod,
-					p.clearMethodName(),
-				)))
 		// HasLanguage Method
 		methods = append(methods,
 			codegen.NewCommentedValueMethod(
@@ -366,6 +360,20 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			typeDeserializeFns = typeDeserializeFns.Add(tmp)
 		}
 	}
+	mapProperty := jen.Empty()
+	if p.hasNaturalLanguageMap {
+		mapProperty = jen.If(
+			jen.Id("!ok"),
+		).Block(
+			jen.Commentf("Attempt to find the map instead."),
+			jen.List(
+				jen.Id("i"),
+				jen.Id("ok"),
+			).Op("=").Id("m").Index(
+				jen.Id("propName").Op("+").Lit("Map"),
+			),
+		)
+	}
 	var deserialize *codegen.Function
 	if p.asIterator {
 		deserialize = codegen.NewCommentedFunction(
@@ -384,13 +392,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 				).Block(
 					jen.Id("alias").Op("=").Id("a"),
 				),
-				p.wrapDeserializeCode(valueDeserializeFns, typeDeserializeFns).Line().Return(
-					jen.Nil(),
-					jen.Qual("fmt", "Errorf").Call(
-						jen.Lit("could not deserialize %q property"),
-						jen.Lit(p.PropertyName()),
-					),
-				),
+				p.wrapDeserializeCode(valueDeserializeFns, typeDeserializeFns),
 			},
 			fmt.Sprintf("%s creates an iterator from an element that has been unmarshalled from a text or binary format.", p.DeserializeFnName()))
 	} else {
@@ -421,15 +423,14 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 						jen.Lit(p.PropertyName()),
 					),
 				),
-				jen.If(
-					jen.List(
-						jen.Id("i"),
-						jen.Id("ok"),
-					).Op(":=").Id("m").Index(
-						jen.Id("propName"),
-					),
+				jen.List(
+					jen.Id("i"),
 					jen.Id("ok"),
-				).Block(
+				).Op(":=").Id("m").Index(
+					jen.Id("propName"),
+				),
+				mapProperty,
+				jen.If(jen.Id("ok")).Block(
 					p.wrapDeserializeCode(valueDeserializeFns, typeDeserializeFns),
 				),
 				jen.Return(
@@ -471,9 +472,6 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 	}
 	// TODO: Normalize alias of values when setting on this property.
 	kindMembers = append(kindMembers, jen.Id(aliasMember).String())
-	if p.hasNaturalLanguageMap {
-		kindMembers = append(kindMembers, jen.Id(langMapMember).Map(jen.String()).String())
-	}
 	if p.asIterator {
 		kindMembers = append(kindMembers, jen.Id(myIndexMemberName).Int())
 		kindMembers = append(kindMembers, jen.Id(parentMemberName).Qual(p.GetPublicPackage().Path(), p.parentTypeInterfaceName()))
@@ -487,6 +485,7 @@ func (p *FunctionalPropertyGenerator) singleTypeDef() *codegen.Struct {
 	methods = append(methods, p.singleTypeFuncs()...)
 	methods = append(methods, p.funcs()...)
 	methods = append(methods, p.commonMethods()...)
+	methods = append(methods, p.nameMethod())
 	return codegen.NewStruct(comment,
 		p.StructName(),
 		methods,
@@ -719,9 +718,6 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
 		kindMembers = append(kindMembers, p.iriMemberDef())
 	}
 	kindMembers = append(kindMembers, jen.Id(aliasMember).String())
-	if p.hasNaturalLanguageMap {
-		kindMembers = append(kindMembers, jen.Id(langMapMember).Map(jen.String()).String())
-	}
 	explanation := "At most, one type of value can be present, or none at all. Setting a value will clear the other types of values so that only one of the 'Is' methods will return true. It is possible to clear all values, so that this property is empty."
 	comment := fmt.Sprintf(
 		"%s is the functional property %q. It is permitted to be one of multiple value types. %s",
@@ -747,6 +743,7 @@ func (p *FunctionalPropertyGenerator) multiTypeDef() *codegen.Struct {
 	methods = append(methods, p.multiTypeFuncs()...)
 	methods = append(methods, p.funcs()...)
 	methods = append(methods, p.commonMethods()...)
+	methods = append(methods, p.nameMethod())
 	return codegen.NewStruct(comment,
 		p.StructName(),
 		methods,
@@ -1149,4 +1146,35 @@ func (p *FunctionalPropertyGenerator) hasValueKind() bool {
 		}
 	}
 	return false
+}
+
+// nameMethod returns the Name method for this functional property.
+func (p *FunctionalPropertyGenerator) nameMethod() *codegen.Method{
+	nameImpl := jen.Return(
+		jen.Lit(p.PropertyName()),
+	)
+	if p.hasNaturalLanguageMap {
+		nameImpl = jen.If(
+			jen.Id(codegen.This()).Dot(isLanguageMapMethod).Call(),
+		).Block(
+			jen.Return(
+				jen.Lit(p.PropertyName() + "Map"),
+			),
+		).Else().Block(
+			jen.Return(
+				jen.Lit(p.PropertyName()),
+			),
+		)
+	}
+	return codegen.NewCommentedValueMethod(
+		p.GetPrivatePackage().Path(),
+		nameMethod,
+		p.StructName(),
+		/*params=*/ nil,
+		[]jen.Code{jen.String()},
+		[]jen.Code{
+			nameImpl,
+		},
+		fmt.Sprintf("%s returns the name of this property: %q.", nameMethod, p.PropertyName()),
+	)
 }

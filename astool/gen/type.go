@@ -82,6 +82,7 @@ type Property interface {
 	InterfaceName() string
 	SetKindFns(docName, idName string, kind *jen.Statement, deser *codegen.Method) error
 	DeserializeFnName() string
+	HasNaturalLanguageMap() bool
 }
 
 // TypeGenerator represents an ActivityStream type definition to generate in Go.
@@ -780,6 +781,13 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 		).Block(
 			jen.Continue(),
 		)
+		if prop.HasNaturalLanguageMap() {
+			knownProps = knownProps.Else().If(
+				jen.Id("k").Op("==").Lit(prop.PropertyName() + "Map"),
+			).Block(
+				jen.Continue(),
+			)
+		}
 	}
 	knownProps = knownProps.Commentf("End: Code that ensures a property name is unknown").Line()
 	unknownCode := jen.Commentf("Begin: Unknown deserialization").Line().For(
