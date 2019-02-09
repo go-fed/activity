@@ -33,7 +33,9 @@ func DeserializeUnitsProperty(m map[string]interface{}, aliasMap map[string]stri
 		// Use alias both to find the property, and set within the property.
 		propName = fmt.Sprintf("%s:%s", alias, "units")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		if v, err := string1.DeserializeString(i); err == nil {
 			this := &UnitsProperty{
 				alias:           alias,

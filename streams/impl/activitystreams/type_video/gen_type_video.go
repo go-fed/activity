@@ -270,6 +270,8 @@ func DeserializeVideo(m map[string]interface{}, aliasMap map[string]string) (*Vi
 			continue
 		} else if k == "content" {
 			continue
+		} else if k == "contentMap" {
+			continue
 		} else if k == "context" {
 			continue
 		} else if k == "duration" {
@@ -294,6 +296,8 @@ func DeserializeVideo(m map[string]interface{}, aliasMap map[string]string) (*Vi
 			continue
 		} else if k == "name" {
 			continue
+		} else if k == "nameMap" {
+			continue
 		} else if k == "object" {
 			continue
 		} else if k == "preview" {
@@ -307,6 +311,8 @@ func DeserializeVideo(m map[string]interface{}, aliasMap map[string]string) (*Vi
 		} else if k == "startTime" {
 			continue
 		} else if k == "summary" {
+			continue
+		} else if k == "summaryMap" {
 			continue
 		} else if k == "tag" {
 			continue

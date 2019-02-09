@@ -27,7 +27,9 @@ func DeserializeHrefProperty(m map[string]interface{}, aliasMap map[string]strin
 		// Use alias both to find the property, and set within the property.
 		propName = fmt.Sprintf("%s:%s", alias, "href")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		if v, err := anyuri.DeserializeAnyURI(i); err == nil {
 			this := &HrefProperty{
 				alias:        alias,

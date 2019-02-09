@@ -72,7 +72,6 @@ func deserializeImagePropertyIterator(i interface{}, aliasMap map[string]string)
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "image")
 }
 
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
@@ -291,7 +290,9 @@ func DeserializeImageProperty(m map[string]interface{}, aliasMap map[string]stri
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "image")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &ImageProperty{
 			alias:      alias,
 			properties: []*ImagePropertyIterator{},

@@ -148,11 +148,15 @@ func DeserializeMention(m map[string]interface{}, aliasMap map[string]string) (*
 			continue
 		} else if k == "name" {
 			continue
+		} else if k == "nameMap" {
+			continue
 		} else if k == "preview" {
 			continue
 		} else if k == "rel" {
 			continue
 		} else if k == "summary" {
+			continue
+		} else if k == "summaryMap" {
 			continue
 		} else if k == "type" {
 			continue

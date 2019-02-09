@@ -429,7 +429,6 @@ func deserializeAttachmentPropertyIterator(i interface{}, aliasMap map[string]st
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "attachment")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2182,7 +2181,9 @@ func DeserializeAttachmentProperty(m map[string]interface{}, aliasMap map[string
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "attachment")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &AttachmentProperty{
 			alias:      alias,
 			properties: []*AttachmentPropertyIterator{},

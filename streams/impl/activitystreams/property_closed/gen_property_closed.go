@@ -451,7 +451,6 @@ func deserializeClosedPropertyIterator(i interface{}, aliasMap map[string]string
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "closed")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2262,7 +2261,9 @@ func DeserializeClosedProperty(m map[string]interface{}, aliasMap map[string]str
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "closed")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &ClosedProperty{
 			alias:      alias,
 			properties: []*ClosedPropertyIterator{},

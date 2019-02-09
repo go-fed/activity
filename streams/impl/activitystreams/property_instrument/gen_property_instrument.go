@@ -429,7 +429,6 @@ func deserializeInstrumentPropertyIterator(i interface{}, aliasMap map[string]st
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "instrument")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2182,7 +2181,9 @@ func DeserializeInstrumentProperty(m map[string]interface{}, aliasMap map[string
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "instrument")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &InstrumentProperty{
 			alias:      alias,
 			properties: []*InstrumentPropertyIterator{},

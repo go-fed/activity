@@ -54,7 +54,6 @@ func deserializeTypePropertyIterator(i interface{}, aliasMap map[string]string) 
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "type")
 }
 
 // GetAnyURI returns the value of this property. When IsAnyURI returns false,
@@ -235,7 +234,9 @@ func DeserializeTypeProperty(m map[string]interface{}, aliasMap map[string]strin
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "type")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &TypeProperty{
 			alias:      alias,
 			properties: []*TypePropertyIterator{},

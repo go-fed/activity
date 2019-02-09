@@ -341,6 +341,8 @@ func DeserializeApplication(m map[string]interface{}, aliasMap map[string]string
 			continue
 		} else if k == "content" {
 			continue
+		} else if k == "contentMap" {
+			continue
 		} else if k == "context" {
 			continue
 		} else if k == "duration" {
@@ -373,11 +375,15 @@ func DeserializeApplication(m map[string]interface{}, aliasMap map[string]string
 			continue
 		} else if k == "name" {
 			continue
+		} else if k == "nameMap" {
+			continue
 		} else if k == "object" {
 			continue
 		} else if k == "outbox" {
 			continue
 		} else if k == "preferredUsername" {
+			continue
+		} else if k == "preferredUsernameMap" {
 			continue
 		} else if k == "preview" {
 			continue
@@ -392,6 +398,8 @@ func DeserializeApplication(m map[string]interface{}, aliasMap map[string]string
 		} else if k == "streams" {
 			continue
 		} else if k == "summary" {
+			continue
+		} else if k == "summaryMap" {
 			continue
 		} else if k == "tag" {
 			continue

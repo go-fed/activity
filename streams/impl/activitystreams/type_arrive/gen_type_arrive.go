@@ -338,6 +338,8 @@ func DeserializeArrive(m map[string]interface{}, aliasMap map[string]string) (*A
 			continue
 		} else if k == "content" {
 			continue
+		} else if k == "contentMap" {
+			continue
 		} else if k == "context" {
 			continue
 		} else if k == "duration" {
@@ -364,6 +366,8 @@ func DeserializeArrive(m map[string]interface{}, aliasMap map[string]string) (*A
 			continue
 		} else if k == "name" {
 			continue
+		} else if k == "nameMap" {
+			continue
 		} else if k == "origin" {
 			continue
 		} else if k == "preview" {
@@ -379,6 +383,8 @@ func DeserializeArrive(m map[string]interface{}, aliasMap map[string]string) (*A
 		} else if k == "startTime" {
 			continue
 		} else if k == "summary" {
+			continue
+		} else if k == "summaryMap" {
 			continue
 		} else if k == "tag" {
 			continue

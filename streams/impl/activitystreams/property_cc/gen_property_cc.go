@@ -429,7 +429,6 @@ func deserializeCcPropertyIterator(i interface{}, aliasMap map[string]string) (*
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "cc")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2182,7 +2181,9 @@ func DeserializeCcProperty(m map[string]interface{}, aliasMap map[string]string)
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "cc")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &CcProperty{
 			alias:      alias,
 			properties: []*CcPropertyIterator{},

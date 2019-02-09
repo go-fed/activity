@@ -429,7 +429,6 @@ func deserializeLocationPropertyIterator(i interface{}, aliasMap map[string]stri
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "location")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2182,7 +2181,9 @@ func DeserializeLocationProperty(m map[string]interface{}, aliasMap map[string]s
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "location")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &LocationProperty{
 			alias:      alias,
 			properties: []*LocationPropertyIterator{},

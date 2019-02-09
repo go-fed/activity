@@ -429,7 +429,6 @@ func deserializeAudiencePropertyIterator(i interface{}, aliasMap map[string]stri
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "audience")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2182,7 +2181,9 @@ func DeserializeAudienceProperty(m map[string]interface{}, aliasMap map[string]s
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "audience")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &AudienceProperty{
 			alias:      alias,
 			properties: []*AudiencePropertyIterator{},

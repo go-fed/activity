@@ -20,7 +20,6 @@ type PreferredUsernameProperty struct {
 	unknown          interface{}
 	iri              *url.URL
 	alias            string
-	langMap          map[string]string
 }
 
 // DeserializePreferredUsernameProperty creates a "preferredUsername" property
@@ -36,7 +35,12 @@ func DeserializePreferredUsernameProperty(m map[string]interface{}, aliasMap map
 		// Use alias both to find the property, and set within the property.
 		propName = fmt.Sprintf("%s:%s", alias, "preferredUsername")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+	if !ok {
+		// Attempt to find the map instead.
+		i, ok = m[propName+"Map"]
+	}
+	if ok {
 		if s, ok := i.(string); ok {
 			u, err := url.Parse(s)
 			// If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst
@@ -84,7 +88,7 @@ func (this *PreferredUsernameProperty) Clear() {
 	this.langStringMember = nil
 	this.unknown = nil
 	this.iri = nil
-	this.langMap = nil
+	this.langStringMember = nil
 }
 
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
@@ -102,9 +106,9 @@ func (this PreferredUsernameProperty) GetLangString() map[string]string {
 // GetLanguage returns the value for the specified BCP47 language code, or an
 // empty string if it is either not a language map or no value is present.
 func (this PreferredUsernameProperty) GetLanguage(bcp47 string) string {
-	if this.langMap == nil {
+	if this.langStringMember == nil {
 		return ""
-	} else if v, ok := this.langMap[bcp47]; ok {
+	} else if v, ok := this.langStringMember[bcp47]; ok {
 		return v
 	} else {
 		return ""
@@ -121,7 +125,7 @@ func (this PreferredUsernameProperty) GetString() string {
 // language map. When true, the specific has, getter, and setter methods may
 // be used to determine what kind of value there is to access and set this
 // property. To determine if the property was set as a natural language map,
-// use the IsLanguageMap method instead.
+// use the IsLangString method instead.
 func (this PreferredUsernameProperty) HasAny() bool {
 	return this.IsString() ||
 		this.IsLangString() ||
@@ -131,10 +135,10 @@ func (this PreferredUsernameProperty) HasAny() bool {
 // HasLanguage returns true if the natural language map has an entry for the
 // specified BCP47 language code.
 func (this PreferredUsernameProperty) HasLanguage(bcp47 string) bool {
-	if this.langMap == nil {
+	if this.langStringMember == nil {
 		return false
 	} else {
-		_, ok := this.langMap[bcp47]
+		_, ok := this.langStringMember[bcp47]
 		return ok
 	}
 }
@@ -148,25 +152,15 @@ func (this PreferredUsernameProperty) IsIRI() bool {
 // IsLangString returns true if this property has a type of "langString". When
 // true, use the GetLangString and SetLangString methods to access and set
 // this property.. To determine if the property was set as a natural language
-// map, use the IsLanguageMap method instead.
+// map, use the IsLangString method instead.
 func (this PreferredUsernameProperty) IsLangString() bool {
 	return this.langStringMember != nil
-}
-
-// IsLanguageMap determines if this property is represented by a natural language
-// map. When true, use HasLanguage, GetLanguage, and SetLanguage methods to
-// access and mutate the natural language map. The Clear method can be used to
-// clear the natural language map. Note that this method is only used for
-// natural language representations, and does not determine the presence nor
-// absence of other values for this property.
-func (this PreferredUsernameProperty) IsLanguageMap() bool {
-	return this.langMap != nil
 }
 
 // IsString returns true if this property has a type of "string". When true, use
 // the GetString and SetString methods to access and set this property.. To
 // determine if the property was set as a natural language map, use the
-// IsLanguageMap method instead.
+// IsLangString method instead.
 func (this PreferredUsernameProperty) IsString() bool {
 	return this.hasStringMember
 }
@@ -228,7 +222,11 @@ func (this PreferredUsernameProperty) LessThan(o vocab.PreferredUsernameProperty
 
 // Name returns the name of this property: "preferredUsername".
 func (this PreferredUsernameProperty) Name() string {
-	return "preferredUsername"
+	if this.IsLangString() {
+		return "preferredUsernameMap"
+	} else {
+		return "preferredUsername"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for
@@ -253,8 +251,8 @@ func (this *PreferredUsernameProperty) SetIRI(v *url.URL) {
 }
 
 // SetLangString sets the value of this property and clears the natural language
-// map. Calling IsLangString afterwards will return true. Calling
-// IsLanguageMap afterwards returns false.
+// map. Calling IsLangString afterwards will return true. Calling IsLangString
+// afterwards returns false.
 func (this *PreferredUsernameProperty) SetLangString(v map[string]string) {
 	this.Clear()
 	this.langStringMember = v
@@ -266,14 +264,14 @@ func (this *PreferredUsernameProperty) SetLanguage(bcp47, value string) {
 	this.langStringMember = nil
 	this.unknown = nil
 	this.iri = nil
-	if this.langMap == nil {
-		this.langMap = make(map[string]string)
+	if this.langStringMember == nil {
+		this.langStringMember = make(map[string]string)
 	}
-	this.langMap[bcp47] = value
+	this.langStringMember[bcp47] = value
 }
 
 // SetString sets the value of this property and clears the natural language map.
-// Calling IsString afterwards will return true. Calling IsLanguageMap
+// Calling IsString afterwards will return true. Calling IsLangString
 // afterwards returns false.
 func (this *PreferredUsernameProperty) SetString(v string) {
 	this.Clear()

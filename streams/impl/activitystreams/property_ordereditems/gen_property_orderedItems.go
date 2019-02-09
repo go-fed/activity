@@ -429,7 +429,6 @@ func deserializeOrderedItemsPropertyIterator(i interface{}, aliasMap map[string]
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "orderedItems")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2183,7 +2182,9 @@ func DeserializeOrderedItemsProperty(m map[string]interface{}, aliasMap map[stri
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "orderedItems")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &OrderedItemsProperty{
 			alias:      alias,
 			properties: []*OrderedItemsPropertyIterator{},

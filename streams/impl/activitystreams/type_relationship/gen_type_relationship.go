@@ -291,6 +291,8 @@ func DeserializeRelationship(m map[string]interface{}, aliasMap map[string]strin
 			continue
 		} else if k == "content" {
 			continue
+		} else if k == "contentMap" {
+			continue
 		} else if k == "context" {
 			continue
 		} else if k == "duration" {
@@ -315,6 +317,8 @@ func DeserializeRelationship(m map[string]interface{}, aliasMap map[string]strin
 			continue
 		} else if k == "name" {
 			continue
+		} else if k == "nameMap" {
+			continue
 		} else if k == "object" {
 			continue
 		} else if k == "preview" {
@@ -332,6 +336,8 @@ func DeserializeRelationship(m map[string]interface{}, aliasMap map[string]strin
 		} else if k == "subject" {
 			continue
 		} else if k == "summary" {
+			continue
+		} else if k == "summaryMap" {
 			continue
 		} else if k == "tag" {
 			continue

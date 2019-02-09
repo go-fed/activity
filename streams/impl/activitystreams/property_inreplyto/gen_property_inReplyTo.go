@@ -429,7 +429,6 @@ func deserializeInReplyToPropertyIterator(i interface{}, aliasMap map[string]str
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "inReplyTo")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2182,7 +2181,9 @@ func DeserializeInReplyToProperty(m map[string]interface{}, aliasMap map[string]
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "inReplyTo")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &InReplyToProperty{
 			alias:      alias,
 			properties: []*InReplyToPropertyIterator{},

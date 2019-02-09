@@ -26,7 +26,7 @@ type PreferredUsernamePropertyInterface interface {
 	// natural language map. When true, the specific has, getter, and
 	// setter methods may be used to determine what kind of value there is
 	// to access and set this property. To determine if the property was
-	// set as a natural language map, use the IsLanguageMap method instead.
+	// set as a natural language map, use the IsLangString method instead.
 	HasAny() bool
 	// HasLanguage returns true if the natural language map has an entry for
 	// the specified BCP47 language code.
@@ -37,20 +37,12 @@ type PreferredUsernamePropertyInterface interface {
 	// IsLangString returns true if this property has a type of "langString".
 	// When true, use the GetLangString and SetLangString methods to
 	// access and set this property.. To determine if the property was set
-	// as a natural language map, use the IsLanguageMap method instead.
+	// as a natural language map, use the IsLangString method instead.
 	IsLangString() bool
-	// IsLanguageMap determines if this property is represented by a natural
-	// language map. When true, use HasLanguage, GetLanguage, and
-	// SetLanguage methods to access and mutate the natural language map.
-	// The Clear method can be used to clear the natural language map.
-	// Note that this method is only used for natural language
-	// representations, and does not determine the presence nor absence of
-	// other values for this property.
-	IsLanguageMap() bool
 	// IsString returns true if this property has a type of "string". When
 	// true, use the GetString and SetString methods to access and set
 	// this property.. To determine if the property was set as a natural
-	// language map, use the IsLanguageMap method instead.
+	// language map, use the IsLangString method instead.
 	IsString() bool
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
@@ -79,12 +71,12 @@ type PreferredUsernamePropertyInterface interface {
 	SetIRI(v *url.URL)
 	// SetLangString sets the value of this property and clears the natural
 	// language map. Calling IsLangString afterwards will return true.
-	// Calling IsLanguageMap afterwards returns false.
+	// Calling IsLangString afterwards returns false.
 	SetLangString(v map[string]string)
 	// SetLanguage sets the value for the specified BCP47 language code.
 	SetLanguage(bcp47, value string)
 	// SetString sets the value of this property and clears the natural
 	// language map. Calling IsString afterwards will return true. Calling
-	// IsLanguageMap afterwards returns false.
+	// IsLangString afterwards returns false.
 	SetString(v string)
 }

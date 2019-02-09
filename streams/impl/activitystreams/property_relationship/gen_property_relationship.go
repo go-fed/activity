@@ -415,7 +415,6 @@ func deserializeRelationshipPropertyIterator(i interface{}, aliasMap map[string]
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "relationship")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2110,7 +2109,9 @@ func DeserializeRelationshipProperty(m map[string]interface{}, aliasMap map[stri
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "relationship")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &RelationshipProperty{
 			alias:      alias,
 			properties: []*RelationshipPropertyIterator{},

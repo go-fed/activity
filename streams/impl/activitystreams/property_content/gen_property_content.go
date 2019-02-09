@@ -20,7 +20,6 @@ type ContentPropertyIterator struct {
 	unknown          interface{}
 	iri              *url.URL
 	alias            string
-	langMap          map[string]string
 	myIdx            int
 	parent           vocab.ContentPropertyInterface
 }
@@ -68,7 +67,6 @@ func deserializeContentPropertyIterator(i interface{}, aliasMap map[string]strin
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "content")
 }
 
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
@@ -86,9 +84,9 @@ func (this ContentPropertyIterator) GetLangString() map[string]string {
 // GetLanguage returns the value for the specified BCP47 language code, or an
 // empty string if it is either not a language map or no value is present.
 func (this ContentPropertyIterator) GetLanguage(bcp47 string) string {
-	if this.langMap == nil {
+	if this.langStringMember == nil {
 		return ""
-	} else if v, ok := this.langMap[bcp47]; ok {
+	} else if v, ok := this.langStringMember[bcp47]; ok {
 		return v
 	} else {
 		return ""
@@ -105,7 +103,7 @@ func (this ContentPropertyIterator) GetString() string {
 // language map. When true, the specific has, getter, and setter methods may
 // be used to determine what kind of value there is to access and set this
 // property. To determine if the property was set as a natural language map,
-// use the IsLanguageMap method instead.
+// use the IsLangString method instead.
 func (this ContentPropertyIterator) HasAny() bool {
 	return this.IsString() ||
 		this.IsLangString() ||
@@ -115,10 +113,10 @@ func (this ContentPropertyIterator) HasAny() bool {
 // HasLanguage returns true if the natural language map has an entry for the
 // specified BCP47 language code.
 func (this ContentPropertyIterator) HasLanguage(bcp47 string) bool {
-	if this.langMap == nil {
+	if this.langStringMember == nil {
 		return false
 	} else {
-		_, ok := this.langMap[bcp47]
+		_, ok := this.langStringMember[bcp47]
 		return ok
 	}
 }
@@ -132,25 +130,15 @@ func (this ContentPropertyIterator) IsIRI() bool {
 // IsLangString returns true if this property has a type of "langString". When
 // true, use the GetLangString and SetLangString methods to access and set
 // this property.. To determine if the property was set as a natural language
-// map, use the IsLanguageMap method instead.
+// map, use the IsLangString method instead.
 func (this ContentPropertyIterator) IsLangString() bool {
 	return this.langStringMember != nil
-}
-
-// IsLanguageMap determines if this property is represented by a natural language
-// map. When true, use HasLanguage, GetLanguage, and SetLanguage methods to
-// access and mutate the natural language map. The clear method can be used to
-// clear the natural language map. Note that this method is only used for
-// natural language representations, and does not determine the presence nor
-// absence of other values for this property.
-func (this ContentPropertyIterator) IsLanguageMap() bool {
-	return this.langMap != nil
 }
 
 // IsString returns true if this property has a type of "string". When true, use
 // the GetString and SetString methods to access and set this property.. To
 // determine if the property was set as a natural language map, use the
-// IsLanguageMap method instead.
+// IsLangString method instead.
 func (this ContentPropertyIterator) IsString() bool {
 	return this.hasStringMember
 }
@@ -212,7 +200,11 @@ func (this ContentPropertyIterator) LessThan(o vocab.ContentPropertyIteratorInte
 
 // Name returns the name of this property: "content".
 func (this ContentPropertyIterator) Name() string {
-	return "content"
+	if this.IsLangString() {
+		return "contentMap"
+	} else {
+		return "content"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -240,8 +232,8 @@ func (this *ContentPropertyIterator) SetIRI(v *url.URL) {
 }
 
 // SetLangString sets the value of this property and clears the natural language
-// map. Calling IsLangString afterwards will return true. Calling
-// IsLanguageMap afterwards returns false.
+// map. Calling IsLangString afterwards will return true. Calling IsLangString
+// afterwards returns false.
 func (this *ContentPropertyIterator) SetLangString(v map[string]string) {
 	this.clear()
 	this.langStringMember = v
@@ -253,14 +245,14 @@ func (this *ContentPropertyIterator) SetLanguage(bcp47, value string) {
 	this.langStringMember = nil
 	this.unknown = nil
 	this.iri = nil
-	if this.langMap == nil {
-		this.langMap = make(map[string]string)
+	if this.langStringMember == nil {
+		this.langStringMember = make(map[string]string)
 	}
-	this.langMap[bcp47] = value
+	this.langStringMember[bcp47] = value
 }
 
 // SetString sets the value of this property and clears the natural language map.
-// Calling IsString afterwards will return true. Calling IsLanguageMap
+// Calling IsString afterwards will return true. Calling IsLangString
 // afterwards returns false.
 func (this *ContentPropertyIterator) SetString(v string) {
 	this.clear()
@@ -275,7 +267,7 @@ func (this *ContentPropertyIterator) clear() {
 	this.langStringMember = nil
 	this.unknown = nil
 	this.iri = nil
-	this.langMap = nil
+	this.langStringMember = nil
 }
 
 // serialize converts this into an interface representation suitable for
@@ -311,7 +303,12 @@ func DeserializeContentProperty(m map[string]interface{}, aliasMap map[string]st
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "content")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+	if !ok {
+		// Attempt to find the map instead.
+		i, ok = m[propName+"Map"]
+	}
+	if ok {
 		this := &ContentProperty{
 			alias:      alias,
 			properties: []*ContentPropertyIterator{},
@@ -488,7 +485,11 @@ func (this ContentProperty) LessThan(o vocab.ContentPropertyInterface) bool {
 
 // Name returns the name of this property: "content".
 func (this ContentProperty) Name() string {
-	return "content"
+	if this.Len() == 1 && this.At(0).IsLangString() {
+		return "contentMap"
+	} else {
+		return "content"
+	}
 }
 
 // PrependIRI prepends an IRI value to the front of a list of the property

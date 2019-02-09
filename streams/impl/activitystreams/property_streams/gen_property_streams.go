@@ -79,7 +79,6 @@ func deserializeStreamsPropertyIterator(i interface{}, aliasMap map[string]strin
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "streams")
 }
 
 // GetCollection returns the value of this property. When IsCollection returns
@@ -335,7 +334,9 @@ func DeserializeStreamsProperty(m map[string]interface{}, aliasMap map[string]st
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "streams")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &StreamsProperty{
 			alias:      alias,
 			properties: []*StreamsPropertyIterator{},

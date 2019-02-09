@@ -72,7 +72,6 @@ func deserializeIconPropertyIterator(i interface{}, aliasMap map[string]string) 
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "icon")
 }
 
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
@@ -291,7 +290,9 @@ func DeserializeIconProperty(m map[string]interface{}, aliasMap map[string]strin
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "icon")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &IconProperty{
 			alias:      alias,
 			properties: []*IconPropertyIterator{},

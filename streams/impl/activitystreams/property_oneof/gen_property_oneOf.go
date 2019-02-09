@@ -429,7 +429,6 @@ func deserializeOneOfPropertyIterator(i interface{}, aliasMap map[string]string)
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "oneOf")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2182,7 +2181,9 @@ func DeserializeOneOfProperty(m map[string]interface{}, aliasMap map[string]stri
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "oneOf")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &OneOfProperty{
 			alias:      alias,
 			properties: []*OneOfPropertyIterator{},

@@ -27,7 +27,9 @@ func DeserializeIdProperty(m map[string]interface{}, aliasMap map[string]string)
 		// Use alias both to find the property, and set within the property.
 		propName = fmt.Sprintf("%s:%s", alias, "id")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		if v, err := anyuri.DeserializeAnyURI(i); err == nil {
 			this := &IdProperty{
 				alias:        alias,

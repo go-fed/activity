@@ -56,7 +56,6 @@ func deserializeRelPropertyIterator(i interface{}, aliasMap map[string]string) (
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "rel")
 }
 
 // Get returns the value of this property. When IsRfc5988 returns false, Get will
@@ -225,7 +224,9 @@ func DeserializeRelProperty(m map[string]interface{}, aliasMap map[string]string
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "rel")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &RelProperty{
 			alias:      alias,
 			properties: []*RelPropertyIterator{},

@@ -305,6 +305,8 @@ func DeserializeRead(m map[string]interface{}, aliasMap map[string]string) (*Rea
 			continue
 		} else if k == "content" {
 			continue
+		} else if k == "contentMap" {
+			continue
 		} else if k == "context" {
 			continue
 		} else if k == "duration" {
@@ -331,6 +333,8 @@ func DeserializeRead(m map[string]interface{}, aliasMap map[string]string) (*Rea
 			continue
 		} else if k == "name" {
 			continue
+		} else if k == "nameMap" {
+			continue
 		} else if k == "object" {
 			continue
 		} else if k == "origin" {
@@ -348,6 +352,8 @@ func DeserializeRead(m map[string]interface{}, aliasMap map[string]string) (*Rea
 		} else if k == "startTime" {
 			continue
 		} else if k == "summary" {
+			continue
+		} else if k == "summaryMap" {
 			continue
 		} else if k == "tag" {
 			continue

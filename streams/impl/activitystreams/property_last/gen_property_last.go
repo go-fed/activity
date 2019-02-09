@@ -33,7 +33,9 @@ func DeserializeLastProperty(m map[string]interface{}, aliasMap map[string]strin
 		// Use alias both to find the property, and set within the property.
 		propName = fmt.Sprintf("%s:%s", alias, "last")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		if s, ok := i.(string); ok {
 			u, err := url.Parse(s)
 			// If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst

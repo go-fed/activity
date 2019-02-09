@@ -429,7 +429,6 @@ func deserializeActorPropertyIterator(i interface{}, aliasMap map[string]string)
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "actor")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2182,7 +2181,9 @@ func DeserializeActorProperty(m map[string]interface{}, aliasMap map[string]stri
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "actor")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &ActorProperty{
 			alias:      alias,
 			properties: []*ActorPropertyIterator{},

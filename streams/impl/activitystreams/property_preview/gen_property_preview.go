@@ -429,7 +429,6 @@ func deserializePreviewPropertyIterator(i interface{}, aliasMap map[string]strin
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "preview")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2182,7 +2181,9 @@ func DeserializePreviewProperty(m map[string]interface{}, aliasMap map[string]st
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "preview")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &PreviewProperty{
 			alias:      alias,
 			properties: []*PreviewPropertyIterator{},

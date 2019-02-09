@@ -429,7 +429,6 @@ func deserializeOriginPropertyIterator(i interface{}, aliasMap map[string]string
 		unknown: i,
 	}
 	return this, nil
-	return nil, fmt.Errorf("could not deserialize %q property", "origin")
 }
 
 // GetAccept returns the value of this property. When IsAccept returns false,
@@ -2182,7 +2181,9 @@ func DeserializeOriginProperty(m map[string]interface{}, aliasMap map[string]str
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "origin")
 	}
-	if i, ok := m[propName]; ok {
+	i, ok := m[propName]
+
+	if ok {
 		this := &OriginProperty{
 			alias:      alias,
 			properties: []*OriginPropertyIterator{},
