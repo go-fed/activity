@@ -748,7 +748,7 @@ func (p *NonFunctionalPropertyGenerator) thisIRI() *jen.Statement {
 }
 
 // nameMethod returns the Name method for this non-functional property.
-func (p *NonFunctionalPropertyGenerator) nameMethod() *codegen.Method{
+func (p *NonFunctionalPropertyGenerator) nameMethod() *codegen.Method {
 	nameImpl := jen.Return(
 		jen.Lit(p.PropertyName()),
 	)

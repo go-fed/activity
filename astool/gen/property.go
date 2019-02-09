@@ -46,8 +46,8 @@ const (
 	unknownMemberName = "unknown"
 	// Reference to the rdf:langString member! Kludge: both of these must be
 	// kept in sync with the generated code.
-	langMapMember     = "langStringMember"
-	isLanguageMapMethod       = "IsLangString"
+	langMapMember       = "langStringMember"
+	isLanguageMapMethod = "IsLangString"
 	// Kind Index constants
 	iriKindIndex           = -2
 	noneOrUnknownKindIndex = -1

@@ -1149,7 +1149,7 @@ func (p *FunctionalPropertyGenerator) hasValueKind() bool {
 }
 
 // nameMethod returns the Name method for this functional property.
-func (p *FunctionalPropertyGenerator) nameMethod() *codegen.Method{
+func (p *FunctionalPropertyGenerator) nameMethod() *codegen.Method {
 	nameImpl := jen.Return(
 		jen.Lit(p.PropertyName()),
 	)
