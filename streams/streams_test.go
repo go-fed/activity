@@ -345,7 +345,7 @@ func TestNulls(t *testing.T) {
 		},
 	}
 	for _, r := range tables {
-		t.Logf("%s: Testing table test case", r.name)
+		t.Logf("Testing table test case %q", r.name)
 		res, err := NewJSONResolver(r.callback)
 		if err != nil {
 			t.Errorf("%s: cannot create resolver: %s", r.name, err)
