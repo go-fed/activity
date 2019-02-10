@@ -78,6 +78,18 @@ func TypeInterface(pkg Package) *codegen.Interface {
 			Ret:     nil,
 			Comment: fmt.Sprintf("%s sets the \"id\" property.", setIdFunction),
 		},
+		{
+			Name:    contextMethod,
+			Params:  nil,
+			Ret:     []jen.Code{jen.Map(jen.String()).String()},
+			Comment: fmt.Sprintf("%s returns the JSONLD URIs required in the context string for this property and the specific values that are set. The value in the map is the alias used to import the property's value or values.", contextMethod),
+		},
+		{
+			Name:    serializeMethodName,
+			Params:  nil,
+			Ret:     []jen.Code{jen.Map(jen.String()).Interface(), jen.Error()},
+			Comment: fmt.Sprintf("%s converts this into an interface representation suitable for marshalling into a text or binary format.", serializeMethodName),
+		},
 	}
 	return codegen.NewInterface(pkg.Path(), typeInterfaceName, funcs, comment)
 }
