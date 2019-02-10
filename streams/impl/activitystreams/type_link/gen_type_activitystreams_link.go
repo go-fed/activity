@@ -637,73 +637,62 @@ func (this ActivityStreamsLink) Serialize() (map[string]interface{}, error) {
 	return m, nil
 }
 
-// SetActivityStreamsAttributedTo returns the "attributedTo" property if it
-// exists, and nil otherwise.
+// SetActivityStreamsAttributedTo sets the "attributedTo" property.
 func (this *ActivityStreamsLink) SetActivityStreamsAttributedTo(i vocab.ActivityStreamsAttributedToProperty) {
 	this.ActivityStreamsAttributedTo = i
 }
 
-// SetActivityStreamsHeight returns the "height" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsHeight sets the "height" property.
 func (this *ActivityStreamsLink) SetActivityStreamsHeight(i vocab.ActivityStreamsHeightProperty) {
 	this.ActivityStreamsHeight = i
 }
 
-// SetActivityStreamsHref returns the "href" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsHref sets the "href" property.
 func (this *ActivityStreamsLink) SetActivityStreamsHref(i vocab.ActivityStreamsHrefProperty) {
 	this.ActivityStreamsHref = i
 }
 
-// SetActivityStreamsHreflang returns the "hreflang" property if it exists, and
-// nil otherwise.
+// SetActivityStreamsHreflang sets the "hreflang" property.
 func (this *ActivityStreamsLink) SetActivityStreamsHreflang(i vocab.ActivityStreamsHreflangProperty) {
 	this.ActivityStreamsHreflang = i
 }
 
-// SetActivityStreamsId returns the "id" property if it exists, and nil otherwise.
+// SetActivityStreamsId sets the "id" property.
 func (this *ActivityStreamsLink) SetActivityStreamsId(i vocab.ActivityStreamsIdProperty) {
 	this.ActivityStreamsId = i
 }
 
-// SetActivityStreamsMediaType returns the "mediaType" property if it exists, and
-// nil otherwise.
+// SetActivityStreamsMediaType sets the "mediaType" property.
 func (this *ActivityStreamsLink) SetActivityStreamsMediaType(i vocab.ActivityStreamsMediaTypeProperty) {
 	this.ActivityStreamsMediaType = i
 }
 
-// SetActivityStreamsName returns the "name" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsName sets the "name" property.
 func (this *ActivityStreamsLink) SetActivityStreamsName(i vocab.ActivityStreamsNameProperty) {
 	this.ActivityStreamsName = i
 }
 
-// SetActivityStreamsPreview returns the "preview" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsPreview sets the "preview" property.
 func (this *ActivityStreamsLink) SetActivityStreamsPreview(i vocab.ActivityStreamsPreviewProperty) {
 	this.ActivityStreamsPreview = i
 }
 
-// SetActivityStreamsRel returns the "rel" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsRel sets the "rel" property.
 func (this *ActivityStreamsLink) SetActivityStreamsRel(i vocab.ActivityStreamsRelProperty) {
 	this.ActivityStreamsRel = i
 }
 
-// SetActivityStreamsSummary returns the "summary" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsSummary sets the "summary" property.
 func (this *ActivityStreamsLink) SetActivityStreamsSummary(i vocab.ActivityStreamsSummaryProperty) {
 	this.ActivityStreamsSummary = i
 }
 
-// SetActivityStreamsType returns the "type" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsType sets the "type" property.
 func (this *ActivityStreamsLink) SetActivityStreamsType(i vocab.ActivityStreamsTypeProperty) {
 	this.ActivityStreamsType = i
 }
 
-// SetActivityStreamsWidth returns the "width" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsWidth sets the "width" property.
 func (this *ActivityStreamsLink) SetActivityStreamsWidth(i vocab.ActivityStreamsWidthProperty) {
 	this.ActivityStreamsWidth = i
 }

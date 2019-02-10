@@ -1560,221 +1560,187 @@ func (this ActivityStreamsFlag) Serialize() (map[string]interface{}, error) {
 	return m, nil
 }
 
-// SetActivityStreamsActor returns the "actor" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsActor sets the "actor" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsActor(i vocab.ActivityStreamsActorProperty) {
 	this.ActivityStreamsActor = i
 }
 
-// SetActivityStreamsAltitude returns the "altitude" property if it exists, and
-// nil otherwise.
+// SetActivityStreamsAltitude sets the "altitude" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsAltitude(i vocab.ActivityStreamsAltitudeProperty) {
 	this.ActivityStreamsAltitude = i
 }
 
-// SetActivityStreamsAttachment returns the "attachment" property if it exists,
-// and nil otherwise.
+// SetActivityStreamsAttachment sets the "attachment" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsAttachment(i vocab.ActivityStreamsAttachmentProperty) {
 	this.ActivityStreamsAttachment = i
 }
 
-// SetActivityStreamsAttributedTo returns the "attributedTo" property if it
-// exists, and nil otherwise.
+// SetActivityStreamsAttributedTo sets the "attributedTo" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsAttributedTo(i vocab.ActivityStreamsAttributedToProperty) {
 	this.ActivityStreamsAttributedTo = i
 }
 
-// SetActivityStreamsAudience returns the "audience" property if it exists, and
-// nil otherwise.
+// SetActivityStreamsAudience sets the "audience" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsAudience(i vocab.ActivityStreamsAudienceProperty) {
 	this.ActivityStreamsAudience = i
 }
 
-// SetActivityStreamsBcc returns the "bcc" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsBcc sets the "bcc" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsBcc(i vocab.ActivityStreamsBccProperty) {
 	this.ActivityStreamsBcc = i
 }
 
-// SetActivityStreamsBto returns the "bto" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsBto sets the "bto" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsBto(i vocab.ActivityStreamsBtoProperty) {
 	this.ActivityStreamsBto = i
 }
 
-// SetActivityStreamsCc returns the "cc" property if it exists, and nil otherwise.
+// SetActivityStreamsCc sets the "cc" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsCc(i vocab.ActivityStreamsCcProperty) {
 	this.ActivityStreamsCc = i
 }
 
-// SetActivityStreamsContent returns the "content" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsContent sets the "content" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsContent(i vocab.ActivityStreamsContentProperty) {
 	this.ActivityStreamsContent = i
 }
 
-// SetActivityStreamsContext returns the "context" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsContext sets the "context" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsContext(i vocab.ActivityStreamsContextProperty) {
 	this.ActivityStreamsContext = i
 }
 
-// SetActivityStreamsDuration returns the "duration" property if it exists, and
-// nil otherwise.
+// SetActivityStreamsDuration sets the "duration" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsDuration(i vocab.ActivityStreamsDurationProperty) {
 	this.ActivityStreamsDuration = i
 }
 
-// SetActivityStreamsEndTime returns the "endTime" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsEndTime sets the "endTime" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsEndTime(i vocab.ActivityStreamsEndTimeProperty) {
 	this.ActivityStreamsEndTime = i
 }
 
-// SetActivityStreamsGenerator returns the "generator" property if it exists, and
-// nil otherwise.
+// SetActivityStreamsGenerator sets the "generator" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsGenerator(i vocab.ActivityStreamsGeneratorProperty) {
 	this.ActivityStreamsGenerator = i
 }
 
-// SetActivityStreamsIcon returns the "icon" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsIcon sets the "icon" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsIcon(i vocab.ActivityStreamsIconProperty) {
 	this.ActivityStreamsIcon = i
 }
 
-// SetActivityStreamsId returns the "id" property if it exists, and nil otherwise.
+// SetActivityStreamsId sets the "id" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsId(i vocab.ActivityStreamsIdProperty) {
 	this.ActivityStreamsId = i
 }
 
-// SetActivityStreamsImage returns the "image" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsImage sets the "image" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsImage(i vocab.ActivityStreamsImageProperty) {
 	this.ActivityStreamsImage = i
 }
 
-// SetActivityStreamsInReplyTo returns the "inReplyTo" property if it exists, and
-// nil otherwise.
+// SetActivityStreamsInReplyTo sets the "inReplyTo" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsInReplyTo(i vocab.ActivityStreamsInReplyToProperty) {
 	this.ActivityStreamsInReplyTo = i
 }
 
-// SetActivityStreamsInstrument returns the "instrument" property if it exists,
-// and nil otherwise.
+// SetActivityStreamsInstrument sets the "instrument" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsInstrument(i vocab.ActivityStreamsInstrumentProperty) {
 	this.ActivityStreamsInstrument = i
 }
 
-// SetActivityStreamsLikes returns the "likes" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsLikes sets the "likes" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsLikes(i vocab.ActivityStreamsLikesProperty) {
 	this.ActivityStreamsLikes = i
 }
 
-// SetActivityStreamsLocation returns the "location" property if it exists, and
-// nil otherwise.
+// SetActivityStreamsLocation sets the "location" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsLocation(i vocab.ActivityStreamsLocationProperty) {
 	this.ActivityStreamsLocation = i
 }
 
-// SetActivityStreamsMediaType returns the "mediaType" property if it exists, and
-// nil otherwise.
+// SetActivityStreamsMediaType sets the "mediaType" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsMediaType(i vocab.ActivityStreamsMediaTypeProperty) {
 	this.ActivityStreamsMediaType = i
 }
 
-// SetActivityStreamsName returns the "name" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsName sets the "name" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsName(i vocab.ActivityStreamsNameProperty) {
 	this.ActivityStreamsName = i
 }
 
-// SetActivityStreamsObject returns the "object" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsObject sets the "object" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsObject(i vocab.ActivityStreamsObjectProperty) {
 	this.ActivityStreamsObject = i
 }
 
-// SetActivityStreamsOrigin returns the "origin" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsOrigin sets the "origin" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsOrigin(i vocab.ActivityStreamsOriginProperty) {
 	this.ActivityStreamsOrigin = i
 }
 
-// SetActivityStreamsPreview returns the "preview" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsPreview sets the "preview" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsPreview(i vocab.ActivityStreamsPreviewProperty) {
 	this.ActivityStreamsPreview = i
 }
 
-// SetActivityStreamsPublished returns the "published" property if it exists, and
-// nil otherwise.
+// SetActivityStreamsPublished sets the "published" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsPublished(i vocab.ActivityStreamsPublishedProperty) {
 	this.ActivityStreamsPublished = i
 }
 
-// SetActivityStreamsReplies returns the "replies" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsReplies sets the "replies" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsReplies(i vocab.ActivityStreamsRepliesProperty) {
 	this.ActivityStreamsReplies = i
 }
 
-// SetActivityStreamsResult returns the "result" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsResult sets the "result" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsResult(i vocab.ActivityStreamsResultProperty) {
 	this.ActivityStreamsResult = i
 }
 
-// SetActivityStreamsShares returns the "shares" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsShares sets the "shares" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsShares(i vocab.ActivityStreamsSharesProperty) {
 	this.ActivityStreamsShares = i
 }
 
-// SetActivityStreamsStartTime returns the "startTime" property if it exists, and
-// nil otherwise.
+// SetActivityStreamsStartTime sets the "startTime" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsStartTime(i vocab.ActivityStreamsStartTimeProperty) {
 	this.ActivityStreamsStartTime = i
 }
 
-// SetActivityStreamsSummary returns the "summary" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsSummary sets the "summary" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsSummary(i vocab.ActivityStreamsSummaryProperty) {
 	this.ActivityStreamsSummary = i
 }
 
-// SetActivityStreamsTag returns the "tag" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsTag sets the "tag" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsTag(i vocab.ActivityStreamsTagProperty) {
 	this.ActivityStreamsTag = i
 }
 
-// SetActivityStreamsTarget returns the "target" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsTarget sets the "target" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsTarget(i vocab.ActivityStreamsTargetProperty) {
 	this.ActivityStreamsTarget = i
 }
 
-// SetActivityStreamsTo returns the "to" property if it exists, and nil otherwise.
+// SetActivityStreamsTo sets the "to" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsTo(i vocab.ActivityStreamsToProperty) {
 	this.ActivityStreamsTo = i
 }
 
-// SetActivityStreamsType returns the "type" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsType sets the "type" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsType(i vocab.ActivityStreamsTypeProperty) {
 	this.ActivityStreamsType = i
 }
 
-// SetActivityStreamsUpdated returns the "updated" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsUpdated sets the "updated" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsUpdated(i vocab.ActivityStreamsUpdatedProperty) {
 	this.ActivityStreamsUpdated = i
 }
 
-// SetActivityStreamsUrl returns the "url" property if it exists, and nil
-// otherwise.
+// SetActivityStreamsUrl sets the "url" property.
 func (this *ActivityStreamsFlag) SetActivityStreamsUrl(i vocab.ActivityStreamsUrlProperty) {
 	this.ActivityStreamsUrl = i
 }

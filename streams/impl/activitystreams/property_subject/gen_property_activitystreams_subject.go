@@ -884,6 +884,175 @@ func (this ActivityStreamsSubjectProperty) GetIRI() *url.URL {
 	return this.iri
 }
 
+// GetType returns the value in this property as a Type. Returns nil if the value
+// is not an ActivityStreams type, such as an IRI or another value.
+func (this ActivityStreamsSubjectProperty) GetType() vocab.Type {
+	if this.IsActivityStreamsLink() {
+		return this.GetActivityStreamsLink()
+	}
+	if this.IsActivityStreamsObject() {
+		return this.GetActivityStreamsObject()
+	}
+	if this.IsActivityStreamsAccept() {
+		return this.GetActivityStreamsAccept()
+	}
+	if this.IsActivityStreamsActivity() {
+		return this.GetActivityStreamsActivity()
+	}
+	if this.IsActivityStreamsAdd() {
+		return this.GetActivityStreamsAdd()
+	}
+	if this.IsActivityStreamsAnnounce() {
+		return this.GetActivityStreamsAnnounce()
+	}
+	if this.IsActivityStreamsApplication() {
+		return this.GetActivityStreamsApplication()
+	}
+	if this.IsActivityStreamsArrive() {
+		return this.GetActivityStreamsArrive()
+	}
+	if this.IsActivityStreamsArticle() {
+		return this.GetActivityStreamsArticle()
+	}
+	if this.IsActivityStreamsAudio() {
+		return this.GetActivityStreamsAudio()
+	}
+	if this.IsActivityStreamsBlock() {
+		return this.GetActivityStreamsBlock()
+	}
+	if this.IsActivityStreamsCollection() {
+		return this.GetActivityStreamsCollection()
+	}
+	if this.IsActivityStreamsCollectionPage() {
+		return this.GetActivityStreamsCollectionPage()
+	}
+	if this.IsActivityStreamsCreate() {
+		return this.GetActivityStreamsCreate()
+	}
+	if this.IsActivityStreamsDelete() {
+		return this.GetActivityStreamsDelete()
+	}
+	if this.IsActivityStreamsDislike() {
+		return this.GetActivityStreamsDislike()
+	}
+	if this.IsActivityStreamsDocument() {
+		return this.GetActivityStreamsDocument()
+	}
+	if this.IsActivityStreamsEvent() {
+		return this.GetActivityStreamsEvent()
+	}
+	if this.IsActivityStreamsFlag() {
+		return this.GetActivityStreamsFlag()
+	}
+	if this.IsActivityStreamsFollow() {
+		return this.GetActivityStreamsFollow()
+	}
+	if this.IsActivityStreamsGroup() {
+		return this.GetActivityStreamsGroup()
+	}
+	if this.IsActivityStreamsIgnore() {
+		return this.GetActivityStreamsIgnore()
+	}
+	if this.IsActivityStreamsImage() {
+		return this.GetActivityStreamsImage()
+	}
+	if this.IsActivityStreamsIntransitiveActivity() {
+		return this.GetActivityStreamsIntransitiveActivity()
+	}
+	if this.IsActivityStreamsInvite() {
+		return this.GetActivityStreamsInvite()
+	}
+	if this.IsActivityStreamsJoin() {
+		return this.GetActivityStreamsJoin()
+	}
+	if this.IsActivityStreamsLeave() {
+		return this.GetActivityStreamsLeave()
+	}
+	if this.IsActivityStreamsLike() {
+		return this.GetActivityStreamsLike()
+	}
+	if this.IsActivityStreamsListen() {
+		return this.GetActivityStreamsListen()
+	}
+	if this.IsActivityStreamsMention() {
+		return this.GetActivityStreamsMention()
+	}
+	if this.IsActivityStreamsMove() {
+		return this.GetActivityStreamsMove()
+	}
+	if this.IsActivityStreamsNote() {
+		return this.GetActivityStreamsNote()
+	}
+	if this.IsActivityStreamsOffer() {
+		return this.GetActivityStreamsOffer()
+	}
+	if this.IsActivityStreamsOrderedCollection() {
+		return this.GetActivityStreamsOrderedCollection()
+	}
+	if this.IsActivityStreamsOrderedCollectionPage() {
+		return this.GetActivityStreamsOrderedCollectionPage()
+	}
+	if this.IsActivityStreamsOrganization() {
+		return this.GetActivityStreamsOrganization()
+	}
+	if this.IsActivityStreamsPage() {
+		return this.GetActivityStreamsPage()
+	}
+	if this.IsActivityStreamsPerson() {
+		return this.GetActivityStreamsPerson()
+	}
+	if this.IsActivityStreamsPlace() {
+		return this.GetActivityStreamsPlace()
+	}
+	if this.IsActivityStreamsProfile() {
+		return this.GetActivityStreamsProfile()
+	}
+	if this.IsActivityStreamsQuestion() {
+		return this.GetActivityStreamsQuestion()
+	}
+	if this.IsActivityStreamsRead() {
+		return this.GetActivityStreamsRead()
+	}
+	if this.IsActivityStreamsReject() {
+		return this.GetActivityStreamsReject()
+	}
+	if this.IsActivityStreamsRelationship() {
+		return this.GetActivityStreamsRelationship()
+	}
+	if this.IsActivityStreamsRemove() {
+		return this.GetActivityStreamsRemove()
+	}
+	if this.IsActivityStreamsService() {
+		return this.GetActivityStreamsService()
+	}
+	if this.IsActivityStreamsTentativeAccept() {
+		return this.GetActivityStreamsTentativeAccept()
+	}
+	if this.IsActivityStreamsTentativeReject() {
+		return this.GetActivityStreamsTentativeReject()
+	}
+	if this.IsActivityStreamsTombstone() {
+		return this.GetActivityStreamsTombstone()
+	}
+	if this.IsActivityStreamsTravel() {
+		return this.GetActivityStreamsTravel()
+	}
+	if this.IsActivityStreamsUndo() {
+		return this.GetActivityStreamsUndo()
+	}
+	if this.IsActivityStreamsUpdate() {
+		return this.GetActivityStreamsUpdate()
+	}
+	if this.IsActivityStreamsVideo() {
+		return this.GetActivityStreamsVideo()
+	}
+	if this.IsActivityStreamsView() {
+		return this.GetActivityStreamsView()
+	}
+
+	return nil
+}
+
 // HasAny returns true if any of the different values is set.
 func (this ActivityStreamsSubjectProperty) HasAny() bool {
 	return this.IsActivityStreamsLink() ||

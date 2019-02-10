@@ -134,6 +134,25 @@ func (this ActivityStreamsCurrentProperty) GetIRI() *url.URL {
 	return this.iri
 }
 
+// GetType returns the value in this property as a Type. Returns nil if the value
+// is not an ActivityStreams type, such as an IRI or another value.
+func (this ActivityStreamsCurrentProperty) GetType() vocab.Type {
+	if this.IsActivityStreamsCollectionPage() {
+		return this.GetActivityStreamsCollectionPage()
+	}
+	if this.IsActivityStreamsLink() {
+		return this.GetActivityStreamsLink()
+	}
+	if this.IsActivityStreamsMention() {
+		return this.GetActivityStreamsMention()
+	}
+	if this.IsActivityStreamsOrderedCollectionPage() {
+		return this.GetActivityStreamsOrderedCollectionPage()
+	}
+
+	return nil
+}
+
 // HasAny returns true if any of the different values is set.
 func (this ActivityStreamsCurrentProperty) HasAny() bool {
 	return this.IsActivityStreamsCollectionPage() ||

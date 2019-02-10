@@ -226,6 +226,10 @@ type ActivityStreamsOrderedItemsPropertyIterator interface {
 	// GetIRI returns the IRI of this property. When IsIRI returns false,
 	// GetIRI will return an arbitrary value.
 	GetIRI() *url.URL
+	// GetType returns the value in this property as a Type. Returns nil if
+	// the value is not an ActivityStreams type, such as an IRI or another
+	// value.
+	GetType() Type
 	// HasAny returns true if any of the different values is set.
 	HasAny() bool
 	// IsActivityStreamsAccept returns true if this property has a type of

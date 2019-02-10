@@ -168,6 +168,34 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 			fmt.Sprintf("%s computes an arbitrary value for indexing this kind of value. This is a leaky API detail only for folks looking to replace the go-fed implementation. Applications should not use this method.", kindIndexMethod),
 		),
 	}
+	if p.hasTypeKind() {
+		typeInterfaceCode := jen.Empty()
+		for i, k := range p.kinds {
+			if k.isValue() {
+				continue
+			}
+			typeInterfaceCode = typeInterfaceCode.If(
+				jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
+			).Block(
+				jen.Return(
+					jen.Id(codegen.This()).Dot(p.getFnName(i)).Call(),
+				),
+			).Line()
+		}
+		methods = append(methods,
+			codegen.NewCommentedValueMethod(
+				p.GetPrivatePackage().Path(),
+				fmt.Sprintf("Get%s", typeInterfaceName),
+				p.StructName(),
+				/*params=*/ nil,
+				// Requires the property and type public path to be the same.
+				[]jen.Code{jen.Qual(p.GetPublicPackage().Path(), typeInterfaceName)},
+				[]jen.Code{
+					typeInterfaceCode,
+					jen.Return(jen.Nil()),
+				},
+				fmt.Sprintf("Get%s returns the value in this property as a %s. Returns nil if the value is not an ActivityStreams type, such as an IRI or another value.", typeInterfaceName, typeInterfaceName)))
+	}
 	if p.hasNaturalLanguageMap {
 		// HasLanguage Method
 		methods = append(methods,

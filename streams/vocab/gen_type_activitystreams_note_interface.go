@@ -128,101 +128,69 @@ type ActivityStreamsNote interface {
 	// Serialize converts this into an interface representation suitable for
 	// marshalling into a text or binary format.
 	Serialize() (map[string]interface{}, error)
-	// SetActivityStreamsAltitude returns the "altitude" property if it
-	// exists, and nil otherwise.
+	// SetActivityStreamsAltitude sets the "altitude" property.
 	SetActivityStreamsAltitude(i ActivityStreamsAltitudeProperty)
-	// SetActivityStreamsAttachment returns the "attachment" property if it
-	// exists, and nil otherwise.
+	// SetActivityStreamsAttachment sets the "attachment" property.
 	SetActivityStreamsAttachment(i ActivityStreamsAttachmentProperty)
-	// SetActivityStreamsAttributedTo returns the "attributedTo" property if
-	// it exists, and nil otherwise.
+	// SetActivityStreamsAttributedTo sets the "attributedTo" property.
 	SetActivityStreamsAttributedTo(i ActivityStreamsAttributedToProperty)
-	// SetActivityStreamsAudience returns the "audience" property if it
-	// exists, and nil otherwise.
+	// SetActivityStreamsAudience sets the "audience" property.
 	SetActivityStreamsAudience(i ActivityStreamsAudienceProperty)
-	// SetActivityStreamsBcc returns the "bcc" property if it exists, and nil
-	// otherwise.
+	// SetActivityStreamsBcc sets the "bcc" property.
 	SetActivityStreamsBcc(i ActivityStreamsBccProperty)
-	// SetActivityStreamsBto returns the "bto" property if it exists, and nil
-	// otherwise.
+	// SetActivityStreamsBto sets the "bto" property.
 	SetActivityStreamsBto(i ActivityStreamsBtoProperty)
-	// SetActivityStreamsCc returns the "cc" property if it exists, and nil
-	// otherwise.
+	// SetActivityStreamsCc sets the "cc" property.
 	SetActivityStreamsCc(i ActivityStreamsCcProperty)
-	// SetActivityStreamsContent returns the "content" property if it exists,
-	// and nil otherwise.
+	// SetActivityStreamsContent sets the "content" property.
 	SetActivityStreamsContent(i ActivityStreamsContentProperty)
-	// SetActivityStreamsContext returns the "context" property if it exists,
-	// and nil otherwise.
+	// SetActivityStreamsContext sets the "context" property.
 	SetActivityStreamsContext(i ActivityStreamsContextProperty)
-	// SetActivityStreamsDuration returns the "duration" property if it
-	// exists, and nil otherwise.
+	// SetActivityStreamsDuration sets the "duration" property.
 	SetActivityStreamsDuration(i ActivityStreamsDurationProperty)
-	// SetActivityStreamsEndTime returns the "endTime" property if it exists,
-	// and nil otherwise.
+	// SetActivityStreamsEndTime sets the "endTime" property.
 	SetActivityStreamsEndTime(i ActivityStreamsEndTimeProperty)
-	// SetActivityStreamsGenerator returns the "generator" property if it
-	// exists, and nil otherwise.
+	// SetActivityStreamsGenerator sets the "generator" property.
 	SetActivityStreamsGenerator(i ActivityStreamsGeneratorProperty)
-	// SetActivityStreamsIcon returns the "icon" property if it exists, and
-	// nil otherwise.
+	// SetActivityStreamsIcon sets the "icon" property.
 	SetActivityStreamsIcon(i ActivityStreamsIconProperty)
-	// SetActivityStreamsId returns the "id" property if it exists, and nil
-	// otherwise.
+	// SetActivityStreamsId sets the "id" property.
 	SetActivityStreamsId(i ActivityStreamsIdProperty)
-	// SetActivityStreamsImage returns the "image" property if it exists, and
-	// nil otherwise.
+	// SetActivityStreamsImage sets the "image" property.
 	SetActivityStreamsImage(i ActivityStreamsImageProperty)
-	// SetActivityStreamsInReplyTo returns the "inReplyTo" property if it
-	// exists, and nil otherwise.
+	// SetActivityStreamsInReplyTo sets the "inReplyTo" property.
 	SetActivityStreamsInReplyTo(i ActivityStreamsInReplyToProperty)
-	// SetActivityStreamsLikes returns the "likes" property if it exists, and
-	// nil otherwise.
+	// SetActivityStreamsLikes sets the "likes" property.
 	SetActivityStreamsLikes(i ActivityStreamsLikesProperty)
-	// SetActivityStreamsLocation returns the "location" property if it
-	// exists, and nil otherwise.
+	// SetActivityStreamsLocation sets the "location" property.
 	SetActivityStreamsLocation(i ActivityStreamsLocationProperty)
-	// SetActivityStreamsMediaType returns the "mediaType" property if it
-	// exists, and nil otherwise.
+	// SetActivityStreamsMediaType sets the "mediaType" property.
 	SetActivityStreamsMediaType(i ActivityStreamsMediaTypeProperty)
-	// SetActivityStreamsName returns the "name" property if it exists, and
-	// nil otherwise.
+	// SetActivityStreamsName sets the "name" property.
 	SetActivityStreamsName(i ActivityStreamsNameProperty)
-	// SetActivityStreamsObject returns the "object" property if it exists,
-	// and nil otherwise.
+	// SetActivityStreamsObject sets the "object" property.
 	SetActivityStreamsObject(i ActivityStreamsObjectProperty)
-	// SetActivityStreamsPreview returns the "preview" property if it exists,
-	// and nil otherwise.
+	// SetActivityStreamsPreview sets the "preview" property.
 	SetActivityStreamsPreview(i ActivityStreamsPreviewProperty)
-	// SetActivityStreamsPublished returns the "published" property if it
-	// exists, and nil otherwise.
+	// SetActivityStreamsPublished sets the "published" property.
 	SetActivityStreamsPublished(i ActivityStreamsPublishedProperty)
-	// SetActivityStreamsReplies returns the "replies" property if it exists,
-	// and nil otherwise.
+	// SetActivityStreamsReplies sets the "replies" property.
 	SetActivityStreamsReplies(i ActivityStreamsRepliesProperty)
-	// SetActivityStreamsShares returns the "shares" property if it exists,
-	// and nil otherwise.
+	// SetActivityStreamsShares sets the "shares" property.
 	SetActivityStreamsShares(i ActivityStreamsSharesProperty)
-	// SetActivityStreamsStartTime returns the "startTime" property if it
-	// exists, and nil otherwise.
+	// SetActivityStreamsStartTime sets the "startTime" property.
 	SetActivityStreamsStartTime(i ActivityStreamsStartTimeProperty)
-	// SetActivityStreamsSummary returns the "summary" property if it exists,
-	// and nil otherwise.
+	// SetActivityStreamsSummary sets the "summary" property.
 	SetActivityStreamsSummary(i ActivityStreamsSummaryProperty)
-	// SetActivityStreamsTag returns the "tag" property if it exists, and nil
-	// otherwise.
+	// SetActivityStreamsTag sets the "tag" property.
 	SetActivityStreamsTag(i ActivityStreamsTagProperty)
-	// SetActivityStreamsTo returns the "to" property if it exists, and nil
-	// otherwise.
+	// SetActivityStreamsTo sets the "to" property.
 	SetActivityStreamsTo(i ActivityStreamsToProperty)
-	// SetActivityStreamsType returns the "type" property if it exists, and
-	// nil otherwise.
+	// SetActivityStreamsType sets the "type" property.
 	SetActivityStreamsType(i ActivityStreamsTypeProperty)
-	// SetActivityStreamsUpdated returns the "updated" property if it exists,
-	// and nil otherwise.
+	// SetActivityStreamsUpdated sets the "updated" property.
 	SetActivityStreamsUpdated(i ActivityStreamsUpdatedProperty)
-	// SetActivityStreamsUrl returns the "url" property if it exists, and nil
-	// otherwise.
+	// SetActivityStreamsUrl sets the "url" property.
 	SetActivityStreamsUrl(i ActivityStreamsUrlProperty)
 	// VocabularyURI returns the vocabulary's URI as a string.
 	VocabularyURI() string

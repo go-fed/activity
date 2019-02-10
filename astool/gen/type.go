@@ -12,7 +12,6 @@ import (
 
 const (
 	typeInterfaceName          = "Type"
-	typeMember                 = "ActivityStreamsType" // This specifically must match the "type" property member generated! Kludge that this happens to just work.
 	typePropertyConstructor    = "typePropertyConstructor"
 	jsonLDContextInterfaceName = "jsonldContexter"
 	extendedByMethod           = "IsExtendedBy"
@@ -29,6 +28,18 @@ const (
 	aliasMember                = "alias"
 	getMethodFormat            = "Get%s"
 	constructorName            = "New"
+)
+
+const (
+	// The following are all kluges to refer to specific properties: the
+	// 'type' and 'id' property members, types, and functions!
+	//
+	// TODO: Figure out how to obtain these names at code-generation
+	// runtime.
+	typeMember    = "ActivityStreamsType"
+	getIdFunction = "GetActivityStreamsId"
+	setIdFunction = "SetActivityStreamsId"
+	idType        = "ActivityStreamsIdProperty"
 )
 
 // typePropertyConstructorName returns the package variable name for the
@@ -54,6 +65,18 @@ func TypeInterface(pkg Package) *codegen.Interface {
 			Params:  nil,
 			Ret:     []jen.Code{jen.String()},
 			Comment: fmt.Sprintf("%s returns the vocabulary's URI as a string.", vocabURIMethod),
+		},
+		{
+			Name:    getIdFunction,
+			Params:  nil,
+			Ret:     []jen.Code{jen.Qual(pkg.Path(), idType)},
+			Comment: fmt.Sprintf("%s returns the \"id\" property if it exists, and nil otherwise.", getIdFunction),
+		},
+		{
+			Name:    setIdFunction,
+			Params:  []jen.Code{jen.Qual(pkg.Path(), idType)},
+			Ret:     nil,
+			Comment: fmt.Sprintf("%s sets the \"id\" property.", setIdFunction),
 		},
 	}
 	return codegen.NewInterface(pkg.Path(), typeInterfaceName, funcs, comment)
@@ -988,7 +1011,7 @@ func (t *TypeGenerator) allSetters() (m []*codegen.Method) {
 			[]jen.Code{
 				jen.Id(codegen.This()).Dot(t.memberName(property)).Op("=").Id("i"),
 			},
-			fmt.Sprintf("Set%s returns the %q property if it exists, and nil otherwise.", t.memberName(property), property.PropertyName())))
+			fmt.Sprintf("Set%s sets the %q property.", t.memberName(property), property.PropertyName())))
 	}
 	return
 }

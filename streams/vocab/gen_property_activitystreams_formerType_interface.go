@@ -218,6 +218,10 @@ type ActivityStreamsFormerTypePropertyIterator interface {
 	// GetIRI returns the IRI of this property. When IsIRI returns false,
 	// GetIRI will return an arbitrary value.
 	GetIRI() *url.URL
+	// GetType returns the value in this property as a Type. Returns nil if
+	// the value is not an ActivityStreams type, such as an IRI or another
+	// value.
+	GetType() Type
 	// GetXMLSchemaString returns the value of this property. When
 	// IsXMLSchemaString returns false, GetXMLSchemaString will return an
 	// arbitrary value.

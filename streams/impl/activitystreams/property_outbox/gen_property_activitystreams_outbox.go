@@ -104,6 +104,19 @@ func (this ActivityStreamsOutboxProperty) GetIRI() *url.URL {
 	return this.iri
 }
 
+// GetType returns the value in this property as a Type. Returns nil if the value
+// is not an ActivityStreams type, such as an IRI or another value.
+func (this ActivityStreamsOutboxProperty) GetType() vocab.Type {
+	if this.IsActivityStreamsOrderedCollection() {
+		return this.GetActivityStreamsOrderedCollection()
+	}
+	if this.IsActivityStreamsOrderedCollectionPage() {
+		return this.GetActivityStreamsOrderedCollectionPage()
+	}
+
+	return nil
+}
+
 // HasAny returns true if any of the different values is set.
 func (this ActivityStreamsOutboxProperty) HasAny() bool {
 	return this.IsActivityStreamsOrderedCollection() ||

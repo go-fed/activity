@@ -83,6 +83,19 @@ func (this ActivityStreamsUrlPropertyIterator) GetIRI() *url.URL {
 	return this.xmlschemaAnyURIMember
 }
 
+// GetType returns the value in this property as a Type. Returns nil if the value
+// is not an ActivityStreams type, such as an IRI or another value.
+func (this ActivityStreamsUrlPropertyIterator) GetType() vocab.Type {
+	if this.IsActivityStreamsLink() {
+		return this.GetActivityStreamsLink()
+	}
+	if this.IsActivityStreamsMention() {
+		return this.GetActivityStreamsMention()
+	}
+
+	return nil
+}
+
 // GetXMLSchemaAnyURI returns the value of this property. When IsXMLSchemaAnyURI
 // returns false, GetXMLSchemaAnyURI will return an arbitrary value.
 func (this ActivityStreamsUrlPropertyIterator) GetXMLSchemaAnyURI() *url.URL {

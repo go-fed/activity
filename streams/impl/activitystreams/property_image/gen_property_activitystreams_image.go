@@ -102,6 +102,22 @@ func (this ActivityStreamsImagePropertyIterator) GetIRI() *url.URL {
 	return this.iri
 }
 
+// GetType returns the value in this property as a Type. Returns nil if the value
+// is not an ActivityStreams type, such as an IRI or another value.
+func (this ActivityStreamsImagePropertyIterator) GetType() vocab.Type {
+	if this.IsActivityStreamsImage() {
+		return this.GetActivityStreamsImage()
+	}
+	if this.IsActivityStreamsLink() {
+		return this.GetActivityStreamsLink()
+	}
+	if this.IsActivityStreamsMention() {
+		return this.GetActivityStreamsMention()
+	}
+
+	return nil
+}
+
 // HasAny returns true if any of the different values is set.
 func (this ActivityStreamsImagePropertyIterator) HasAny() bool {
 	return this.IsActivityStreamsImage() ||

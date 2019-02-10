@@ -69,41 +69,29 @@ type ActivityStreamsMention interface {
 	// Serialize converts this into an interface representation suitable for
 	// marshalling into a text or binary format.
 	Serialize() (map[string]interface{}, error)
-	// SetActivityStreamsAttributedTo returns the "attributedTo" property if
-	// it exists, and nil otherwise.
+	// SetActivityStreamsAttributedTo sets the "attributedTo" property.
 	SetActivityStreamsAttributedTo(i ActivityStreamsAttributedToProperty)
-	// SetActivityStreamsHeight returns the "height" property if it exists,
-	// and nil otherwise.
+	// SetActivityStreamsHeight sets the "height" property.
 	SetActivityStreamsHeight(i ActivityStreamsHeightProperty)
-	// SetActivityStreamsHref returns the "href" property if it exists, and
-	// nil otherwise.
+	// SetActivityStreamsHref sets the "href" property.
 	SetActivityStreamsHref(i ActivityStreamsHrefProperty)
-	// SetActivityStreamsHreflang returns the "hreflang" property if it
-	// exists, and nil otherwise.
+	// SetActivityStreamsHreflang sets the "hreflang" property.
 	SetActivityStreamsHreflang(i ActivityStreamsHreflangProperty)
-	// SetActivityStreamsId returns the "id" property if it exists, and nil
-	// otherwise.
+	// SetActivityStreamsId sets the "id" property.
 	SetActivityStreamsId(i ActivityStreamsIdProperty)
-	// SetActivityStreamsMediaType returns the "mediaType" property if it
-	// exists, and nil otherwise.
+	// SetActivityStreamsMediaType sets the "mediaType" property.
 	SetActivityStreamsMediaType(i ActivityStreamsMediaTypeProperty)
-	// SetActivityStreamsName returns the "name" property if it exists, and
-	// nil otherwise.
+	// SetActivityStreamsName sets the "name" property.
 	SetActivityStreamsName(i ActivityStreamsNameProperty)
-	// SetActivityStreamsPreview returns the "preview" property if it exists,
-	// and nil otherwise.
+	// SetActivityStreamsPreview sets the "preview" property.
 	SetActivityStreamsPreview(i ActivityStreamsPreviewProperty)
-	// SetActivityStreamsRel returns the "rel" property if it exists, and nil
-	// otherwise.
+	// SetActivityStreamsRel sets the "rel" property.
 	SetActivityStreamsRel(i ActivityStreamsRelProperty)
-	// SetActivityStreamsSummary returns the "summary" property if it exists,
-	// and nil otherwise.
+	// SetActivityStreamsSummary sets the "summary" property.
 	SetActivityStreamsSummary(i ActivityStreamsSummaryProperty)
-	// SetActivityStreamsType returns the "type" property if it exists, and
-	// nil otherwise.
+	// SetActivityStreamsType sets the "type" property.
 	SetActivityStreamsType(i ActivityStreamsTypeProperty)
-	// SetActivityStreamsWidth returns the "width" property if it exists, and
-	// nil otherwise.
+	// SetActivityStreamsWidth sets the "width" property.
 	SetActivityStreamsWidth(i ActivityStreamsWidthProperty)
 	// VocabularyURI returns the vocabulary's URI as a string.
 	VocabularyURI() string
