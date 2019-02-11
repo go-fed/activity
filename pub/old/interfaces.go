@@ -22,11 +22,6 @@ import (
 // response to send to the requester.
 type HandlerFunc func(context.Context, http.ResponseWriter, *http.Request) (bool, error)
 
-// Clock determines the time.
-type Clock interface {
-	Now() time.Time
-}
-
 // HttpClient sends http requests.
 type HttpClient interface {
 	Do(req *http.Request) (*http.Response, error)
@@ -114,16 +109,6 @@ type Application interface {
 	// both of the SocialAPI and FederateAPI.
 	CanRemove(c context.Context, o vocab.ObjectType, t vocab.ObjectType) bool
 }
-
-// RWType indicates the kind of reading being done.
-type RWType bool
-
-const (
-	// Read indicates the object is only being read.
-	Read RWType = false
-	// ReadWrite indicates the object is being mutated as well.
-	ReadWrite = true
-)
 
 // SocialAPI is provided by users of this library and designed to handle
 // receiving messages from ActivityPub clients through the Social API.

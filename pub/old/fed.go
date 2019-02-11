@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/go-fed/activity/streams_old"
-	"github.com/go-fed/activity/vocab"
+	"github.com/go-fed/activity/streams"
+	"github.com/go-fed/activity/streams/vocab"
 	"github.com/go-fed/httpsig"
 	"io/ioutil"
 	"net/http"
@@ -22,43 +22,6 @@ var (
 
 // TODO: Helper for sending arbitrary ActivityPub objects.
 
-// Pubber provides methods for interacting with ActivityPub clients and
-// ActivityPub federating servers.
-type Pubber interface {
-	// PostInbox returns true if the request was handled as an ActivityPub
-	// POST to an actor's inbox. If false, the request was not an
-	// ActivityPub request.
-	//
-	// If the error is nil, then the ResponseWriter's headers and response
-	// has already been written. If a non-nil error is returned, then no
-	// response has been written.
-	PostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
-	// GetInbox returns true if the request was handled as an ActivityPub
-	// GET to an actor's inbox. If false, the request was not an ActivityPub
-	// request.
-	//
-	// If the error is nil, then the ResponseWriter's headers and response
-	// has already been written. If a non-nil error is returned, then no
-	// response has been written.
-	GetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
-	// PostOutbox returns true if the request was handled as an ActivityPub
-	// POST to an actor's outbox. If false, the request was not an
-	// ActivityPub request.
-	//
-	// If the error is nil, then the ResponseWriter's headers and response
-	// has already been written. If a non-nil error is returned, then no
-	// response has been written.
-	PostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
-	// GetOutbox returns true if the request was handled as an ActivityPub
-	// GET to an actor's outbox. If false, the request was not an
-	// ActivityPub request.
-	//
-	// If the error is nil, then the ResponseWriter's headers and response
-	// has already been written. If a non-nil error is returned, then no
-	// response has been written.
-	GetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
-}
-
 // NewSocialPubber provides a Pubber that implements only the Social API in
 // ActivityPub.
 func NewSocialPubber(clock Clock, app SocialApplication, cb Callbacker) Pubber {
@@ -68,12 +31,14 @@ func NewSocialPubber(clock Clock, app SocialApplication, cb Callbacker) Pubber {
 		SocialAPI:        app,
 		ClientCallbacker: cb,
 		EnableClient:     true,
-	}
+	}, nil
 }
 
 // NewFederatingPubber provides a Pubber that implements only the Federating API
 // in ActivityPub.
-func NewFederatingPubber(clock Clock, app FederateApplication, cb Callbacker, d Deliverer, client HttpClient, userAgent string, maxDeliveryDepth, maxForwardingDepth int) Pubber {
+//
+// Returns an error if
+func NewFederatingPubber(clock Clock, app FederateApplication, cb Callbacker, d Deliverer, client HttpClient, userAgent string, maxDeliveryDepth, maxForwardingDepth int) (p Pubber, e error) {
 	return &federator{
 		Clock:                   clock,
 		App:                     app,
@@ -83,14 +48,14 @@ func NewFederatingPubber(clock Clock, app FederateApplication, cb Callbacker, d 
 		Agent:                   userAgent,
 		MaxDeliveryDepth:        maxDeliveryDepth,
 		MaxInboxForwardingDepth: maxForwardingDepth,
-		EnableServer:            true,
+		EnableFederatedProtocol: true,
 		deliverer:               d,
 	}
 }
 
 // NewPubber provides a Pubber that implements both the Social API and the
 // Federating API in ActivityPub.
-func NewPubber(clock Clock, app SocialFederateApplication, client, server Callbacker, d Deliverer, httpClient HttpClient, userAgent string, maxDeliveryDepth, maxForwardingDepth int) Pubber {
+func NewPubber(clock Clock, app SocialFederateApplication, client, server Callbacker, d Deliverer, httpClient HttpClient, userAgent string, maxDeliveryDepth, maxForwardingDepth int) (p Pubber, e error) {
 	return &federator{
 		Clock:                   clock,
 		App:                     app,
@@ -103,7 +68,7 @@ func NewPubber(clock Clock, app SocialFederateApplication, client, server Callba
 		ServerCallbacker:        server,
 		ClientCallbacker:        client,
 		EnableClient:            true,
-		EnableServer:            true,
+		EnableFederatedProtocol: true,
 		deliverer:               d,
 	}
 }
@@ -113,10 +78,10 @@ type federator struct {
 	// server part of ActivityPub. Useful if permitting remote clients to
 	// act on behalf of the users of the client application.
 	EnableClient bool
-	// EnableServer enables or disables the Federated Protocol, or the
+	// EnableFederatedProtocol enables or disables the Federated Protocol, or the
 	// server to server part of ActivityPub. Useful to permit integrating
 	// with the rest of the federative web.
-	EnableServer bool
+	EnableFederatedProtocol bool
 	// Clock determines the time of this federator.
 	Clock Clock
 	// App is the client application that is ActivityPub aware.
@@ -126,7 +91,7 @@ type federator struct {
 	// FederateAPI provides utility when handling incoming messages received
 	// via the Federated Protocol, or server-to-server communications.
 	//
-	// It is only required if EnableServer is true.
+	// It is only required if EnableFederatedProtocol is true.
 	FederateAPI FederateAPI
 	// SocialAPI provides utility when handling incoming messages
 	// received via the Social API, or client-to-server communications.
@@ -139,38 +104,39 @@ type federator struct {
 	ServerCallbacker Callbacker
 	// Client is used to federate with other ActivityPub servers.
 	//
-	// It is only required if EnableServer is true.
+	// It is only required if EnableFederatedProtocol is true.
 	Client HttpClient
 	// Agent is the User-Agent string to use in HTTP headers when
 	// federating with another server. It will automatically be appended
 	// with '(go-fed ActivityPub)'.
 	//
-	// It is only required if EnableServer is true.
+	// It is only required if EnableFederatedProtocol is true.
 	Agent string
 	// MaxDeliveryDepth is how deep collections of recipients will be
 	// expanded for delivery. It must be at least 1 to be compliant with the
 	// ActivityPub spec.
 	//
-	// It is only required if EnableServer is true.
+	// It is only required if EnableFederatedProtocol is true.
 	MaxDeliveryDepth int
 	// MaxInboxForwardingDepth is how deep the values are examined for
 	// determining ownership of whether to forward an Activity to
 	// collections or followers. Once this maximum is exceeded, the ghost
 	// replies issue may become a problem, but users may not mind.
 	//
-	// It is only required if EnableServer is true.
+	// It is only required if EnableFederatedProtocol is true.
 	MaxInboxForwardingDepth int
 	// deliverer handles deliveries to other federated servers.
 	//
-	// It is only required if EnableServer is true.
+	// It is only required if EnableFederatedProtocol is true.
 	deliverer Deliverer
 }
 
+// PostInbox handles an HTTP request to an
 func (f *federator) PostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error) {
 	if !isActivityPubPost(r) {
 		return false, nil
 	}
-	if !f.EnableServer {
+	if !f.EnableFederatedProtocol {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return true, nil
 	}
@@ -353,7 +319,7 @@ func (f *federator) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	if err = f.addToOutbox(c, r, m); err != nil {
 		return true, err
 	}
-	if f.EnableServer && deliverable {
+	if f.EnableFederatedProtocol && deliverable {
 		obj, err := toAnyActivity(m)
 		if err != nil {
 			return true, err

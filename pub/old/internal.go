@@ -220,7 +220,7 @@ func (f *federator) addNewIdsIntransitive(c context.Context, a vocab.Intransitiv
 // wrapInCreate will automatically wrap the provided object in a Create
 // activity. This will copy over the 'to', 'bto', 'cc', 'bcc', and 'audience'
 // properties. It will also copy over the published time if present.
-func (f *federator) wrapInCreate(o vocab.ObjectType, actor *url.URL) (c *vocab.Create, err error) {
+func wrapInCreate(o vocab.ObjectType, actor *url.URL) (c *vocab.Create, err error) {
 	c = &vocab.Create{}
 	c.AppendType("Create")
 	c.AppendObject(o)
@@ -719,45 +719,6 @@ func (f *federator) sameRecipients(a vocab.ActivityType) error {
 
 // TODO: (Section 7) HTTP caching mechanisms [RFC7234] SHOULD be respected when appropriate, both when receiving responses from other servers as well as sending responses to other servers.
 
-// deliver will complete the peer-to-peer sending of a federated message to
-// another server.
-func (f *federator) deliver(obj vocab.ActivityType, boxIRI *url.URL) error {
-	recipients, err := f.prepare(boxIRI, obj)
-	if err != nil {
-		return err
-	}
-	creds := &creds{}
-	creds.signer, err = f.FederateAPI.NewSigner()
-	if err != nil {
-		return err
-	}
-	creds.privKey, creds.pubKeyId, err = f.FederateAPI.PrivateKey(boxIRI)
-	if err != nil {
-		return err
-	}
-	return f.deliverToRecipients(obj, recipients, creds)
-}
-
-// deliverToRecipients will take a prepared Activity and send it to specific
-// recipients without examining the activity.
-func (f *federator) deliverToRecipients(obj vocab.ActivityType, recipients []*url.URL, creds *creds) error {
-	m, err := obj.Serialize()
-	if err != nil {
-		return err
-	}
-	addJSONLDContext(m)
-	b, err := json.Marshal(m)
-	if err != nil {
-		return err
-	}
-	for _, to := range recipients {
-		f.deliverer.Do(b, to, func(b []byte, u *url.URL) error {
-			return postToOutbox(f.Client, b, u, f.Agent, creds, f.Clock)
-		})
-	}
-	return nil
-}
-
 // prepare takes a deliverableObject and returns a list of the proper recipient
 // target URIs. Additionally, the deliverableObject will have any hidden
 // hidden recipients ("bto" and "bcc") stripped from it.
@@ -1006,7 +967,7 @@ func dedupeIRIs(recipients, ignored []*url.URL) (out []*url.URL) {
 
 // dedupeOrderedItems will deduplicate the 'orderedItems' within an ordered
 // collection type. Deduplication happens by simply examining the 'id'.
-func (f *federator) dedupeOrderedItems(oc vocab.OrderedCollectionType) (vocab.OrderedCollectionType, error) {
+func dedupeOrderedItems(oc vocab.OrderedCollectionType) (vocab.OrderedCollectionType, error) {
 	i := 0
 	seen := make(map[string]bool, oc.OrderedItemsLen())
 	for i < oc.OrderedItemsLen() {
@@ -1792,122 +1753,6 @@ func (f *federator) addToInboxIfNew(c context.Context, r *http.Request, m map[st
 		return f.App.Set(c, inbox)
 	}
 	return nil
-}
-
-// Note: This is a mechanism for causing other victim servers to DDOS
-// or forward spam on a malicious user's behalf. The trick is a simple
-// one: Reply to a user, and CC a ton of 'follower' collections owned
-// by the victim server. Bonus points for listing more 'follower'
-// collections from other popular instances as well. Leveraging the
-// Inbox Forwarding mechanism, a storm of messages will ensue.
-//
-// I don't want users of this library to be vulnerable to this kind of
-// spam/DDOS storm. So here we allow the client application to filter
-// out recipient collections.
-func (f *federator) inboxForwarding(c context.Context, m map[string]interface{}) error {
-	a, err := toAnyActivity(m)
-	if err != nil {
-		return err
-	}
-	// 1. Must be first time we have seen this Activity.
-	if ok, err := f.App.Has(c, a.GetId()); err != nil {
-		return err
-	} else if ok {
-		return nil
-	}
-	// 2. The values of 'to', 'cc', or 'audience' are Collections owned by
-	//    this server.
-	var r []*url.URL
-	r = append(r, getToIRIs(a)...)
-	r = append(r, getCcIRIs(a)...)
-	r = append(r, getAudienceIRIs(a)...)
-	var myIRIs []*url.URL
-	col := make(map[string]vocab.CollectionType, 0)
-	oCol := make(map[string]vocab.OrderedCollectionType, 0)
-	for _, iri := range r {
-		if ok, err := f.App.Has(c, iri); err != nil {
-			return err
-		} else if !ok {
-			continue
-		}
-		obj, err := f.App.Get(c, iri, Read)
-		if err != nil {
-			return err
-		}
-		if c, ok := obj.(vocab.CollectionType); ok {
-			col[iri.String()] = c
-			myIRIs = append(myIRIs, iri)
-		} else if oc, ok := obj.(vocab.OrderedCollectionType); ok {
-			oCol[iri.String()] = oc
-			myIRIs = append(myIRIs, iri)
-		}
-	}
-	if len(myIRIs) == 0 {
-		return nil
-	}
-	// 3. The values of 'inReplyTo', 'object', 'target', or 'tag' are owned
-	//    by this server.
-	ownsValue := false
-	objs, l, iris := getInboxForwardingValues(a)
-	for _, obj := range objs {
-		if f.hasInboxForwardingValues(c, 0, f.MaxInboxForwardingDepth, obj) {
-			ownsValue = true
-			break
-		}
-	}
-	if !ownsValue && f.ownsAnyLinks(c, l) {
-		ownsValue = true
-	}
-	if !ownsValue && f.ownsAnyIRIs(c, iris) {
-		ownsValue = true
-	}
-	if !ownsValue {
-		return nil
-	}
-	// Do the inbox forwarding since the above conditions hold true. Support
-	// the behavior of letting the application filter out the resulting
-	// collections to be targeted.
-	toSend, err := f.FederateAPI.FilterForwarding(c, a, myIRIs)
-	if err != nil {
-		return err
-	}
-	recipients := make([]*url.URL, 0, len(toSend))
-	for _, iri := range toSend {
-		if c, ok := col[iri.String()]; ok {
-			for i := 0; i < c.ItemsLen(); i++ {
-				if c.IsItemsObject(i) {
-					obj := c.GetItemsObject(i)
-					if obj.HasId() {
-						recipients = append(recipients, obj.GetId())
-					}
-				} else if c.IsItemsLink(i) {
-					l := c.GetItemsLink(i)
-					if l.HasHref() {
-						recipients = append(recipients, l.GetHref())
-					}
-				} else if c.IsItemsIRI(i) {
-					recipients = append(recipients, c.GetItemsIRI(i))
-				}
-			}
-		} else if oc, ok := oCol[iri.String()]; ok {
-			for i := 0; i < oc.OrderedItemsLen(); i++ {
-				if oc.IsOrderedItemsObject(i) {
-					obj := oc.GetOrderedItemsObject(i)
-					if obj.HasId() {
-						recipients = append(recipients, obj.GetId())
-					}
-				} else if oc.IsOrderedItemsLink(i) {
-					l := oc.GetItemsLink(i)
-					if l.HasHref() {
-						recipients = append(recipients, l.GetHref())
-					}
-				} else if oc.IsOrderedItemsIRI(i) {
-					recipients = append(recipients, oc.GetOrderedItemsIRI(i))
-				}
-			}
-		}
-	}
-	return f.deliverToRecipients(a, recipients, nil)
 }
 
 // Given an 'inReplyTo', 'object', 'target', or 'tag' object, recursively
