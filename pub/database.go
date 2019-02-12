@@ -59,10 +59,31 @@ type Database interface {
 	//
 	// Note that Activity values received from federated peers may also be
 	// created in the database this way if the Federating Protocol is
-	// enabled.
+	// enabled. The client may freely decide to store only the id instead of
+	// the entire value.
 	//
 	// The library makes this call only after acquiring a lock first.
+	//
+	// Under certain conditions and network activities, Create may be called
+	// multiple times for the same ActivityStreams object.
 	Create(c context.Context, asType vocab.Type) error
+	// Update sets an existing entry to the database based on the value's
+	// id.
+	//
+	// Note that Activity values received from federated peers may also be
+	// updated in the database this way if the Federating Protocol is
+	// enabled. The client may freely decide to store only the id instead of
+	// the entire value.
+	//
+	// The library makes this call only after acquiring a lock first.
+	Update(c context.Context, asType vocab.Type) error
+	// Delete removes the entry with the given id.
+	//
+	// Delete is only called for federated objects. Deletes from the Social
+	// Protocol instead call Update to create a Tombstone.
+	//
+	// The library makes this call only after acquiring a lock first.
+	Delete(c context.Context, id *url.URL) error
 	// GetOutbox returns the first ordered collection page of the outbox
 	// at the specified IRI, for prepending new items.
 	//

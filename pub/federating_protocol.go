@@ -52,18 +52,18 @@ type FederatingProtocol interface {
 	// be specified by 'other'.
 	//
 	// Note that the functions in 'wrapped' cannot be provided in 'other'.
-	Callbacks() (wrapped WrappedCallbacks, other []interface{})
+	Callbacks(c context.Context) (wrapped FederatingWrappedCallbacks, other []interface{})
 	// MaxInboxForwardingRecursionDepth determines how deep to search within
 	// an activity to determine if inbox forwarding needs to occur.
 	//
 	// Zero or negative numbers indicate infinite recursion.
-	MaxInboxForwardingRecursionDepth() int
+	MaxInboxForwardingRecursionDepth(c context.Context) int
 	// MaxDeliveryRecursionDepth determines how deep to search within
 	// collections owned by peers when they are targeted to receive a
 	// delivery.
 	//
 	// Zero or negative numbers indicate infinite recursion.
-	MaxDeliveryRecursionDepth() int
+	MaxDeliveryRecursionDepth(c context.Context) int
 	// FilterForwarding allows the implementation to apply business logic
 	// such as blocks, spam filtering, and so on to a list of potential
 	// Collections and OrderedCollections of recipients when inbox
@@ -95,7 +95,7 @@ type FederatingProtocol interface {
 	// Note that the library will not maintain a long-lived pointer to the
 	// returned Transport so that any private credentials are able to be
 	// garbage collected.
-	NewTransport(actorBoxIRI *url.URL, gofedAgent string) (t Transport, err error)
+	NewTransport(c context.Context, actorBoxIRI *url.URL, gofedAgent string) (t Transport, err error)
 	// GetInbox returns the OrderedCollection inbox of the actor for this
 	// context. It is up to the implementation to provide the correct
 	// collection for the kind of authorization given in the request.

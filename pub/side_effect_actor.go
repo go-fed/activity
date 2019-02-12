@@ -97,7 +97,10 @@ func (a *sideEffectActor) PostInbox(c context.Context, inboxIRI *url.URL, activi
 	}
 	if isNew {
 		wrapped, other := a.s2s.Callbacks()
-		// TODO: Wrap these callbacks with the old implementations.
+		wrapped.db = a.db
+		if err = wrapped.disjoint(other); err != nil {
+			return err
+		}
 		res, err := streams.NewTypeResolver(append(wrapped.callbacks(), other...))
 		if err != nil {
 			return err
@@ -270,7 +273,10 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 // the ActivityStreams Block type.
 func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outboxIRI *url.URL) (deliverable bool, e error) {
 	wrapped, other := a.c2s.Callbacks()
-	// TODO: Wrap these callbacks with the old implementations.
+	wrapped.db = a.db
+	if e = wrapped.disjoint(other); e != nil {
+		return
+	}
 	// TODO: populate deliverable
 	res, err := streams.NewTypeResolver(append(wrapped.callbacks(), other...))
 	if err != nil {

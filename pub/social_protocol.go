@@ -39,7 +39,7 @@ type SocialProtocol interface {
 	// be specified by 'other'.
 	//
 	// Note that the functions in 'wrapped' cannot be provided in 'other'.
-	Callbacks() (wrapped WrappedCallbacks, other []interface{})
+	Callbacks(c context.Context) (wrapped SocialWrappedCallbacks, other []interface{})
 	// ActorIRI fetches the outbox's actor's IRI.
 	ActorIRI(c context.Context, outboxIRI *url.URL) (actorIRI *url.URL, err error)
 	// GetOutbox returns the OrderedCollection inbox of the actor for this

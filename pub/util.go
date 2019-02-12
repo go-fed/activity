@@ -448,3 +448,94 @@ func stripHiddenRecipients(activity Activity) {
 		}
 	}
 }
+
+// mustHaveActivityOriginMatchObjects ensures that the Host in the activity id
+// IRI matches all of the Hosts in the object id IRIs.
+func mustHaveActivityOriginMatchObjects(a Activity) error {
+	if !a.HasId() {
+		return fmt.Errorf("activity has no iri")
+	}
+	originIRI := a.GetId()
+	originHost := originIRI.Host
+	for i := 0; i < a.ObjectLen(); i++ {
+		if a.IsObject(i) {
+			obj := a.GetObject(i)
+			if !obj.HasId() {
+				return fmt.Errorf("object at index %d has no id", i)
+			}
+			iri := obj.GetId()
+			if originHost != iri.Host {
+				return fmt.Errorf("object %q: not in activity origin", iri)
+			}
+		} else if a.IsObjectIRI(i) {
+			iri := a.GetObjectIRI(i)
+			if originHost != iri.Host {
+				return fmt.Errorf("object %q: not in activity origin", iri)
+			}
+		}
+	}
+	return nil
+}
+
+// mustHaveActivityActorsMatchObjectActors ensures that the set of actors on all
+// objects in an activity are a subset of actor(s) on the activity.
+func mustHaveActivityActorsMatchObjectActors(a vocab.ActivityType) error {
+	actorSet := make(map[string]bool, a.ActorLen())
+	for i := 0; i < a.ActorLen(); i++ {
+		if a.IsActorObject(i) {
+			obj := a.GetActorObject(i)
+			if !obj.HasId() {
+				return fmt.Errorf("actor object at index %d has no id", i)
+			}
+			actorSet[obj.GetId().String()] = true
+		} else if a.IsActorLink(i) {
+			l := a.GetActorLink(i)
+			if !l.HasHref() {
+				return fmt.Errorf("actor link at index %d has no href", i)
+			}
+			actorSet[l.GetHref().String()] = true
+		} else if a.IsActorIRI(i) {
+			actorSet[a.GetActorIRI(i).String()] = true
+		}
+	}
+	objectActors := make(map[string]bool, a.ObjectLen())
+	for i := 0; i < a.ObjectLen(); i++ {
+		if a.IsObject(i) {
+			obj := a.GetObject(i)
+			if !obj.HasId() {
+				return fmt.Errorf("object at index %d has no id", i)
+			}
+			objectActivity, ok := obj.(vocab.ActivityType)
+			if !ok {
+				return fmt.Errorf("object at index %d is not an activity", i)
+			}
+			for j := 0; j < objectActivity.ActorLen(); j++ {
+				if objectActivity.IsActorObject(j) {
+					obj := objectActivity.GetActorObject(j)
+					if !obj.HasId() {
+						return fmt.Errorf("actor object at index (%d,%d) has no id", i, j)
+					}
+					objectActors[obj.GetId().String()] = true
+				} else if objectActivity.IsActorLink(j) {
+					l := objectActivity.GetActorLink(j)
+					if !l.HasHref() {
+						return fmt.Errorf("actor link at index (%d,%d) has no href", i, j)
+					}
+					objectActors[l.GetHref().String()] = true
+				} else if objectActivity.IsActorIRI(j) {
+					objectActors[objectActivity.GetActorIRI(j).String()] = true
+				}
+			}
+		} else if a.IsObjectIRI(i) {
+			// TODO: Dereference IRI
+			iri := a.GetObjectIRI(i)
+			return fmt.Errorf("unimplemented: fetching IRI for UNDO verification of ownership of %q", iri)
+		}
+	}
+	for k := range objectActors {
+		if !actorSet[k] {
+			return fmt.Errorf("at least 1 activity actors missing: %q", k)
+		}
+	}
+	return nil
+}

@@ -24,16 +24,117 @@ var _ Actor = &baseActor{}
 type baseActor struct {
 	// delegate contains application-specific delegation logic.
 	delegate DelegateActor
-	// EnableSocialAPI enables or disables the Social API, the client to
+	// enableSocialProtocol enables or disables the Social API, the client to
 	// server part of ActivityPub. Useful if permitting remote clients to
 	// act on behalf of the users of the client application.
-	EnableSocialAPI bool
-	// EnableFederatedProtocol enables or disables the Federated Protocol, or the
+	enableSocialProtocol bool
+	// enableFederatedProtocol enables or disables the Federated Protocol, or the
 	// server to server part of ActivityPub. Useful to permit integrating
 	// with the rest of the federative web.
-	EnableFederatedProtocol bool
-	// Clock simply tracks the current time.
-	Clock Clock
+	enableFederatedProtocol bool
+	// clock simply tracks the current time.
+	clock Clock
+}
+
+// NewSocialActor builds a new Actor concept that handles only the Social
+// Protocol part of ActivityPub.
+//
+// This Actor can be created once in an application and reused to handle
+// multiple requests concurrently and for different endpoints.
+//
+// It leverages as much of go-fed as possible to ensure the implementation is
+// compliant with the ActivityPub specification, while providing enough freedom
+// to be productive without shooting one's self in the foot.
+//
+// Do not try to use NewSocialActor and NewFederatingActor together to cover
+// both the Social and Federating parts of the protocol. Instead, use NewActor.
+func NewSocialActor(c CommonBehavior,
+	c2s SocialProtocol,
+	db Database,
+	clock Clock) Actor {
+	return &baseActor{
+		delegate: &sideEffectActor{
+			common: c,
+			c2s:    c2s,
+			db:     db,
+		},
+		enableSocialProtocol: true,
+		clock:                clock,
+	}
+}
+
+// NewFederatingActor builds a new Actor concept that handles only the Federating
+// Protocol part of ActivityPub.
+//
+// This Actor can be created once in an application and reused to handle
+// multiple requests concurrently and for different endpoints.
+//
+// It leverages as much of go-fed as possible to ensure the implementation is
+// compliant with the ActivityPub specification, while providing enough freedom
+// to be productive without shooting one's self in the foot.
+//
+// Do not try to use NewSocialActor and NewFederatingActor together to cover
+// both the Social and Federating parts of the protocol. Instead, use NewActor.
+func NewFederatingActor(c CommonBehavior,
+	s2s FederatingProtocol,
+	db Database,
+	clock Clock) Actor {
+	return &baseActor{
+		delegate: &sideEffectActor{
+			common: c,
+			s2s:    s2s,
+			db:     db,
+		},
+		enableFederatedProtocol: true,
+		clock:                   clock,
+	}
+}
+
+// NewActor builds a new Actor concept that handles both the Social and
+// Federating Protocol parts of ActivityPub.
+//
+// This Actor can be created once in an application and reused to handle
+// multiple requests concurrently and for different endpoints.
+//
+// It leverages as much of go-fed as possible to ensure the implementation is
+// compliant with the ActivityPub specification, while providing enough freedom
+// to be productive without shooting one's self in the foot.
+func NewActor(c CommonBehavior,
+	c2s SocialProtocol,
+	s2s FederatingProtocol,
+	db Database,
+	clock Clock) Actor {
+	return &baseActor{
+		delegate: &sideEffectActor{
+			common: c,
+			c2s:    c2s,
+			s2s:    s2s,
+			db:     db,
+		},
+		enableSocialProtocol:    true,
+		enableFederatedProtocol: true,
+		clock:                   clock,
+	}
+}
+
+// NewCustomActor allows clients to create a custom ActivityPub implementation
+// for the Social Protocol, Federating Protocol, or both.
+//
+// It still uses the library as a high-level scaffold, which has the benefit of
+// allowing applications to grow into a custom solution without having to
+// refactor the code that passes HTTP requests into the Actor.
+//
+// It is possible to create a DelegateActor that is not ActivityPub compliant.
+// Use with care.
+func NewCustomActor(delegate DelegateActor,
+	enableSocialProtocol, enableFederatedProtocol bool,
+	clock Clock) Actor {
+	return &baseActor{
+		delegate:                delegate,
+		enableSocialProtocol:    enableSocialProtocol,
+		enableFederatedProtocol: enableFederatedProtocol,
+		clock:                   clock,
+	}
 }
 
 // PostInbox implements the generic algorithm for handling a POST request to an
@@ -46,7 +147,7 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	}
 	// If the Federated Protocol is not enabled, then this endpoint is not
 	// enabled.
-	if !b.EnableFederatedProtocol {
+	if !b.enableFederatedProtocol {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return true, nil
 	}
@@ -152,7 +253,7 @@ func (b *baseActor) GetInbox(c context.Context, w http.ResponseWriter, r *http.R
 		return true, err
 	}
 	// Write the response.
-	addResponseHeaders(w.Header(), b.Clock, raw)
+	addResponseHeaders(w.Header(), b.clock, raw)
 	w.WriteHeader(http.StatusOK)
 	n, err := w.Write(raw)
 	if err != nil {
@@ -172,7 +273,7 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		return false, nil
 	}
 	// If the Social API is not enabled, then this endpoint is not enabled.
-	if !b.EnableSocialAPI {
+	if !b.enableSocialProtocol {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return true, nil
 	}
@@ -242,7 +343,7 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	//
 	// If we are federating and the type is a deliverable one, then deliver
 	// the activity to federating peers.
-	if b.EnableFederatedProtocol && deliverable {
+	if b.enableFederatedProtocol && deliverable {
 		if err := b.delegate.Deliver(c, r.URL, activity); err != nil {
 			return true, err
 		}
@@ -285,7 +386,7 @@ func (b *baseActor) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 		return true, err
 	}
 	// Write the response.
-	addResponseHeaders(w.Header(), b.Clock, raw)
+	addResponseHeaders(w.Header(), b.clock, raw)
 	w.WriteHeader(http.StatusOK)
 	n, err := w.Write(raw)
 	if err != nil {
