@@ -2,7 +2,10 @@ package pub
 
 import (
 	"context"
+	"fmt"
+	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/streams/vocab"
+	"net/url"
 )
 
 // SocialWrappedCallbacks lists the callback functions that already have some
@@ -15,8 +18,7 @@ type SocialWrappedCallbacks struct {
 	//
 	// The wrapping callback for the Social Protocol copies the actor(s) to
 	// the 'attributedTo' property, copying recipients between the Create
-	// activity and all objects, save the entry in the database, and adds it
-	// to the outbox.
+	// activity and all objects. It then saves the entry in the database.
 	Create func(context.Context, vocab.ActivityStreamsCreate) error
 	// Update handles additional side effects for the Update ActivityStreams
 	// type.
@@ -58,9 +60,16 @@ type SocialWrappedCallbacks struct {
 	//
 	// TODO: Describe
 	Block func(context.Context, vocab.ActivityStreamsBlock) error
+
+	// Sidechannel data -- this is set at request handling time. These must
+	// be set before the callbacks are used.
+
 	// db is the Database the SocialWrappedCallbacks should use. It must be
 	// set before calling the callbacks.
 	db Database
+	// deliverable is a sidechannel out, indicating if the handled activity
+	// should be delivered to a peer.
+	deliverable bool
 }
 
 // disjoint ensures that the functions given do not share a type signature with
@@ -104,8 +113,6 @@ func (w SocialWrappedCallbacks) callbacks() []interface{} {
 		w.update,
 		w.deleteFn,
 		w.follow,
-		w.accept,
-		w.reject,
 		w.add,
 		w.remove,
 		w.like,
@@ -116,120 +123,85 @@ func (w SocialWrappedCallbacks) callbacks() []interface{} {
 
 // create implements the social Create activity side effects.
 func (w SocialWrappedCallbacks) create(c context.Context, a vocab.ActivityStreamsCreate) error {
-	*deliverable = true
-	if s.LenObject() == 0 {
-		return errObjectRequired
+	w.deliverable = true
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	c = s.Raw()
-	// When a Create activity is posted, the actor of the activity
-	// SHOULD be copied onto the object's attributedTo field.
-	// Presumably only if it doesn't already exist, to prevent
-	// duplicate deliveries.
-	createActorIds := make(map[string]interface{})
-	for i := 0; i < c.ActorLen(); i++ {
-		if c.IsActorObject(i) {
-			obj := c.GetActorObject(i)
-			id := obj.GetId()
-			createActorIds[id.String()] = obj
-		} else if c.IsActorLink(i) {
-			l := c.GetActorLink(i)
-			href := l.GetHref()
-			createActorIds[href.String()] = l
-		} else if c.IsActorIRI(i) {
-			iri := c.GetActorIRI(i)
-			createActorIds[iri.String()] = iri
+	// Obtain all actor IRIs.
+	actors := a.GetActivityStreamsActor()
+	createActorIds := make(map[string]*url.URL, actors.Len())
+	for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
 		}
+		createActorIds[id.String()] = id
 	}
-	var obj []vocab.ObjectType
-	for i := 0; i < c.ObjectLen(); i++ {
-		if !c.IsObject(i) {
-			return fmt.Errorf("unsupported: Create Activity with 'object' that is only an IRI")
-		}
-		obj = append(obj, c.GetObject(i))
-	}
-	objectAttributedToIds := make([]map[string]interface{}, len(obj))
+	// Obtain each object's 'attributedTo' IRIs.
+	objectAttributedToIds := make([]map[string]*url.URL, op.Len())
 	for i := range objectAttributedToIds {
-		objectAttributedToIds[i] = make(map[string]interface{})
+		objectAttributedToIds[i] = make(map[string]*url.URL)
 	}
-	for k, o := range obj {
-		for i := 0; i < o.AttributedToLen(); i++ {
-			if o.IsAttributedToObject(i) {
-				at := o.GetAttributedToObject(i)
-				id := o.GetId()
-				objectAttributedToIds[k][id.String()] = at
-			} else if o.IsAttributedToLink(i) {
-				at := o.GetAttributedToLink(i)
-				href := at.GetHref()
-				objectAttributedToIds[k][href.String()] = at
-			} else if o.IsAttributedToIRI(i) {
-				iri := o.GetAttributedToIRI(i)
-				objectAttributedToIds[k][iri.String()] = iri
+	for i := 0; i < op.Len(); i++ {
+		t := op.At(i).GetType()
+		attrToer, ok := t.(attributedToer)
+		if !ok {
+			continue
+		}
+		attr := attrToer.GetActivityStreamsAttributedTo()
+		if attr == nil {
+			attr = streams.NewActivityStreamsAttributedToProperty()
+			attrToer.SetActivityStreamsAttributedTo(attr)
+		}
+		for iter := attr.Begin(); iter != attr.End(); iter = iter.Next() {
+			id, err := ToId(iter)
+			if err != nil {
+				return err
 			}
+			objectAttributedToIds[i][id.String()] = id
 		}
 	}
+	// Put all missing actor IRIs onto all object attributedTo properties.
 	for k, v := range createActorIds {
 		for i, attributedToMap := range objectAttributedToIds {
 			if _, ok := attributedToMap[k]; !ok {
-				var iri *url.URL
-				if vObj, ok := v.(vocab.ObjectType); ok {
-					if !vObj.HasId() {
-						return fmt.Errorf("create actor object missing id")
-					}
-					iri = vObj.GetId()
-				} else if vLink, ok := v.(vocab.LinkType); ok {
-					if !vLink.HasHref() {
-						return fmt.Errorf("create actor link missing href")
-					}
-					iri = vLink.GetHref()
-				} else if vIRI, ok := v.(*url.URL); ok {
-					iri = vIRI
+				t := op.At(i).GetType()
+				attrToer, ok := t.(attributedToer)
+				if !ok {
+					continue
 				}
-				obj[i].AppendAttributedToIRI(iri)
+				attr := attrToer.GetActivityStreamsAttributedTo()
+				attr.AppendIRI(v)
 			}
 		}
 	}
+	// Put all missing object attributedTo IRIs onto the actor property.
 	for _, attributedToMap := range objectAttributedToIds {
 		for k, v := range attributedToMap {
 			if _, ok := createActorIds[k]; !ok {
-				var iri *url.URL
-				if vObj, ok := v.(vocab.ObjectType); ok {
-					if !vObj.HasId() {
-						return fmt.Errorf("attributedTo object missing id")
-					}
-					iri = vObj.GetId()
-				} else if vLink, ok := v.(vocab.LinkType); ok {
-					if !vLink.HasHref() {
-						return fmt.Errorf("attributedTo link missing href")
-					}
-					iri = vLink.GetHref()
-				} else if vIRI, ok := v.(*url.URL); ok {
-					iri = vIRI
-				}
-				c.AppendActorIRI(iri)
+				actors.AppendIRI(v)
 			}
 		}
 	}
-	// As such, a server SHOULD copy any recipients of the Create activity to its
-	// object upon initial distribution, and likewise with copying recipients from
-	// the object to the wrapping Create activity.
-	if err := f.sameRecipients(c); err != nil {
+	// Copy over the 'to', 'bto', 'cc', 'bcc', and 'audience' recipients
+	// between the activity and all child objects and vice versa.
+	if err := normalizeRecipients(a); err != nil {
 		return err
 	}
-	// Create requires the client application to persist the 'object' that
-	// was created.
-	for _, o := range obj {
-		if err := f.App.Set(ctx, o); err != nil {
+	// Persist all objects we've created, which will include sensitive
+	// recipients such as 'bcc' and 'bto'.
+	for i := 0; i < op.Len(); i++ {
+		obj := op.At(i).GetType()
+		// TODO: Lock
+		if err := w.db.Create(c, obj); err != nil {
 			return err
 		}
 	}
-	// Persist the above changes in the outbox
-	var err error
-	*toAddToOutbox = make(map[string]interface{})
-	*toAddToOutbox, err = c.Serialize()
-	if err != nil {
-		return err
+	if w.Create != nil {
+		return w.Create(c, a)
 	}
-	return f.ClientCallbacker.Create(ctx, s)
+	return nil
 }
 
 // update implements the social Update activity side effects.

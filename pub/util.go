@@ -539,3 +539,264 @@ func mustHaveActivityActorsMatchObjectActors(a vocab.ActivityType) error {
 	}
 	return nil
 }
+
+// normalizeRecipients ensures the activity and object have the same 'to',
+// 'bto', 'cc', 'bcc', and 'audience' properties. Copy the Activity's recipients
+// to objects, and the objects to the activity, but does NOT copy objects'
+// recipients to each other.
+func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
+	// Phase 0: Acquire all recipients on the activity.
+	//
+	// Obtain the actorTo map
+	actorToMap := make(map[string]interface{})
+	actorTo := a.GetActivityStreamsTo()
+	if actorTo == nil {
+		actorTo = streams.NewActivityStreamsToProperty()
+		a.SetActivityStreamsTo(actorTo)
+	}
+	for iter := actorTo.Begin(); iter != actorTo.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		actorToMap[id.String()] = id
+	}
+	// Obtain the actorBto map
+	actorBtoMap := make(map[string]interface{})
+	actorBto := a.GetActivityStreamsBto()
+	if actorBto == nil {
+		actorBto = streams.NewActivityStreamsBtoProperty()
+		a.SetActivityStreamsBto(actorBto)
+	}
+	for iter := actorBto.Begin(); iter != actorBto.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		actorBtoMap[id.String()] = id
+	}
+	// Obtain the actorCc map
+	actorCcMap := make(map[string]interface{})
+	actorCc := a.GetActivityStreamsCc()
+	if actorCc == nil {
+		actorCc = streams.NewActivityStreamsCcProperty()
+		a.SetActivityStreamsCc(actorCc)
+	}
+	for iter := actorCc.Begin(); iter != actorCc.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		actorCcMap[id.String()] = id
+	}
+	// Obtain the actorBcc map
+	actorBccMap := make(map[string]interface{})
+	actorBcc := a.GetActivityStreamsBcc()
+	if actorBcc == nil {
+		actorBcc = streams.NewActivityStreamsBccProperty()
+		a.SetActivityStreamsBcc(actorBcc)
+	}
+	for iter := actorBcc.Begin(); iter != actorBcc.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		actorBccMap[id.String()] = id
+	}
+	// Obtain the actorAudience map
+	actorAudienceMap := make(map[string]interface{})
+	actorAudience := a.GetActivityStreamsAudience()
+	if actorAudience == nil {
+		actorAudience = streams.NewActivityStreamsAudienceProperty()
+		a.SetActivityStreamsAudience(actorAudience)
+	}
+	for iter := actorAudience.Begin(); iter != actorAudience.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		actorAudienceMap[id.String()] = id
+	}
+	// Obtain the objects maps for each recipient type.
+	o := a.GetActivityStreamsObject()
+	objsTo := make([]map[string]interface{}, o.Len())
+	objsBto := make([]map[string]interface{}, o.Len())
+	objsCco := make([]map[string]interface{}, o.Len())
+	objsBcc := make([]map[string]interface{}, o.Len())
+	objsAudience := make([]map[string]interface{}, o.Len())
+	for i := 0; i < o.Len(); i++ {
+		// Phase 1: Acquire all existing recipients on the object.
+		//
+		// Object to
+		objsTo[i] = make(map[string]interface{})
+		var oTo vocab.ActivityStreamsToProperty
+		if tr, ok := o.At(i).(toer); !ok {
+			return fmt.Errorf("the Create object at %d has no 'to' property", i)
+		} else {
+			oTo = tr.GetActivityStreamsTo()
+			if oTo == nil {
+				oTo = streams.NewActivityStreamsToProperty()
+				tr.SetActivityStreamsTo(oTo)
+			}
+		}
+		for iter := oTo.Begin(); iter != oTo.End(); iter = iter.Next() {
+			id, err := ToId(iter)
+			if err != nil {
+				return err
+			}
+			objsTo[i][id.String()] = id
+		}
+		// Object bto
+		objsBto[i] = make(map[string]interface{})
+		var oBto vocab.ActivityStreamsBtoProperty
+		if tr, ok := o.At(i).(btoer); !ok {
+			return fmt.Errorf("the Create object at %d has no 'bto' property", i)
+		} else {
+			oBto = tr.GetActivityStreamsBto()
+			if oBto == nil {
+				oBto = streams.NewActivityStreamsBtoProperty()
+				tr.SetActivityStreamsBto(oBto)
+			}
+		}
+		for iter := oBto.Begin(); iter != oBto.End(); iter = iter.Next() {
+			id, err := ToId(iter)
+			if err != nil {
+				return err
+			}
+			objsBto[i][id.String()] = id
+		}
+		// Object cc
+		objsCc[i] = make(map[string]interface{})
+		var oCc vocab.ActivityStreamsCcProperty
+		if tr, ok := o.At(i).(ccer); !ok {
+			return fmt.Errorf("the Create object at %d has no 'cc' property", i)
+		} else {
+			oCc = tr.GetActivityStreamsCc()
+			if oCc == nil {
+				oCc = streams.NewActivityStreamsCcProperty()
+				tr.SetActivityStreamsCc(oCc)
+			}
+		}
+		for iter := oCc.Begin(); iter != oCc.End(); iter = iter.Next() {
+			id, err := ToId(iter)
+			if err != nil {
+				return err
+			}
+			objsCc[i][id.String()] = id
+		}
+		// Object bcc
+		objsBcc[i] = make(map[string]interface{})
+		var oBcc vocab.ActivityStreamsBccProperty
+		if tr, ok := o.At(i).(bccer); !ok {
+			return fmt.Errorf("the Create object at %d has no 'bcc' property", i)
+		} else {
+			oBcc = tr.GetActivityStreamsBcc()
+			if oBcc == nil {
+				oBcc = streams.NewActivityStreamsBccProperty()
+				tr.SetActivityStreamsBcc(oBcc)
+			}
+		}
+		for iter := oBcc.Begin(); iter != oBcc.End(); iter = iter.Next() {
+			id, err := ToId(iter)
+			if err != nil {
+				return err
+			}
+			objsBcc[i][id.String()] = id
+		}
+		// Object audience
+		objsAudience[i] = make(map[string]interface{})
+		var oAudience vocab.ActivityStreamsAudienceProperty
+		if tr, ok := o.At(i).(audiencer); !ok {
+			return fmt.Errorf("the Create object at %d has no 'audience' property", i)
+		} else {
+			oAudience = tr.GetActivityStreamsAudience()
+			if oAudience == nil {
+				oAudience = streams.NewActivityStreamsAudienceProperty()
+				tr.SetActivityStreamsAudience(oAudience)
+			}
+		}
+		for iter := oAudience.Begin(); iter != oAudience.End(); iter = iter.Next() {
+			id, err := ToId(iter)
+			if err != nil {
+				return err
+			}
+			objsAudience[i][id.String()] = id
+		}
+		// Phase 2: Apply missing recipients to the object from the
+		// activity.
+		//
+		// Activity to -> Object to
+		for k, v := range actorToMap {
+			if _, ok := objsTo[i][k]; !ok {
+				oTo.AppendIRI(v)
+			}
+		}
+		// Activity bto -> Object bto
+		for k, v := range actorBtoMap {
+			if _, ok := objsBto[i][k]; !ok {
+				oBto.AppendIRI(v)
+			}
+		}
+		// Activity cc -> Object cc
+		for k, v := range actorCcMap {
+			if _, ok := objsCc[i][k]; !ok {
+				oCc.AppendIRI(v)
+			}
+		}
+		// Activity bcc -> Object bcc
+		for k, v := range actorBccMap {
+			if _, ok := objsBcc[i][k]; !ok {
+				oBcc.AppendIRI(v)
+			}
+		}
+		// Activity audience -> Object audience
+		for k, v := range actorAudienceMap {
+			if _, ok := objsAudience[i][k]; !ok {
+				oAudience.AppendIRI(v)
+			}
+		}
+	}
+	// Phase 3: Apply missing recipients to the activity from the objects.
+	//
+	// Object to -> Activity to
+	for i := 0; i < len(objsTo); i++ {
+		for k, v := range objsTo[i] {
+			if _, ok := actorToMap[k]; !ok {
+				actorTo.AppendIRI(v)
+			}
+		}
+	}
+	// Object bto -> Activity bto
+	for i := 0; i < len(objsBto); i++ {
+		for k, v := range objsBto[i] {
+			if _, ok := actorBtoMap[k]; !ok {
+				actorBto.AppendIRI(v)
+			}
+		}
+	}
+	// Object cc -> Activity cc
+	for i := 0; i < len(objsCc); i++ {
+		for k, v := range objsCc[i] {
+			if _, ok := actorCcMap[k]; !ok {
+				actorCc.AppendIRI(v)
+			}
+		}
+	}
+	// Object bcc -> Activity bcc
+	for i := 0; i < len(objsBcc); i++ {
+		for k, v := range objsBcc[i] {
+			if _, ok := actorBccMap[k]; !ok {
+				actorBcc.AppendIRI(v)
+			}
+		}
+	}
+	// Object audience -> Activity audience
+	for i := 0; i < len(objsAudience); i++ {
+		for k, v := range objsAudience[i] {
+			if _, ok := actorAudienceMap[k]; !ok {
+				actorAudience.AppendIRI(v)
+			}
+		}
+	}
+	return nil
+}

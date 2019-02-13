@@ -125,10 +125,8 @@ type FederatingWrappedCallbacks struct {
 	// db is the Database the FederatingWrappedCallbacks should use.
 	db Database
 	// inboxIRI is the inboxIRI that is handling this callback.
-	// TODO: Populate
 	inboxIRI *url.URL
 	// newTransport creates a new Transport.
-	// TODO: Populate
 	newTransport func(c context.Context, actorBoxIRI *url.URL, gofedAgent string) (t Transport, err error)
 }
 
@@ -820,7 +818,7 @@ func (w FederatingWrappedCallbacks) announce(c context.Context, a vocab.Activity
 		}
 		// Get 'shares' value, defaulting to a collection.
 		sharesT := shares.GetType()
-		if sharesT== nil {
+		if sharesT == nil {
 			col := streams.NewActivityStreamsCollection()
 			sharesT = col
 			shares.SetActivityStreamsCollection(col)

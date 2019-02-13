@@ -99,8 +99,8 @@ func (a *sideEffectActor) PostInbox(c context.Context, inboxIRI *url.URL, activi
 		wrapped, other := a.s2s.Callbacks(c)
 		// Populate side channels.
 		wrapped.db = a.db
-		wrapped.inboxIRI= inboxIRI
-		wrapped.newTransport= a.s2s.NewTransport
+		wrapped.inboxIRI = inboxIRI
+		wrapped.newTransport = a.s2s.NewTransport
 		if err = wrapped.disjoint(other); err != nil {
 			return err
 		}

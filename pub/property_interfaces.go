@@ -2,6 +2,7 @@ package pub
 
 import (
 	"github.com/go-fed/activity/streams/vocab"
+	"net/url"
 )
 
 // inReplyToer is an ActivityStreams type with a 'inReplyTo' property
@@ -49,26 +50,31 @@ type publisheder interface {
 // toer is an ActivityStreams type with a 'to' property
 type toer interface {
 	GetActivityStreamsTo() vocab.ActivityStreamsToProperty
+	SetActivityStreamsTo(i vocab.ActivityStreamsToProperty)
 }
 
 // btoer is an ActivityStreams type with a 'bto' property
 type btoer interface {
 	GetActivityStreamsBto() vocab.ActivityStreamsBtoProperty
+	SetActivityStreamsBto(i vocab.ActivityStreamsBtoProperty)
 }
 
 // ccer is an ActivityStreams type with a 'cc' property
 type ccer interface {
 	GetActivityStreamsCc() vocab.ActivityStreamsCcProperty
+	SetActivityStreamsCc(i vocab.ActivityStreamsCcProperty)
 }
 
 // bccer is an ActivityStreams type with a 'bcc' property
 type bccer interface {
 	GetActivityStreamsBcc() vocab.ActivityStreamsBccProperty
+	SetActivityStreamsBcc(i vocab.ActivityStreamsBccProperty)
 }
 
 // audiencer is an ActivityStreams type with a 'audience' property
 type audiencer interface {
 	GetActivityStreamsAudience() vocab.ActivityStreamsAudienceProperty
+	SetActivityStreamsAudience(i vocab.ActivityStreamsAudienceProperty)
 }
 
 // inboxer is an ActivityStreams type with a 'inbox' property
@@ -79,6 +85,7 @@ type inboxer interface {
 // attributedToer is an ActivityStreams type with a 'attributedTo' property
 type attributedToer interface {
 	GetActivityStreamsAttributedTo() vocab.ActivityStreamsAttributedToProperty
+	SetActivityStreamsAttributedTo(i vocab.ActivityStreamsAttributedToProperty)
 }
 
 // likeser is an ActivityStreams type with a 'likes' property
@@ -97,4 +104,9 @@ type shareser interface {
 type actorer interface {
 	GetActivityStreamsActor() vocab.ActivityStreamsActorProperty
 	SetActivityStreamsActor(i vocab.ActivityStreamsActorProperty)
+}
+
+// appendIRIer is an ActivityStreams type that can Append IRIs.
+type appendIRIer interface {
+	AppendIRI(v *url.URL)
 }
