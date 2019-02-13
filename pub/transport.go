@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"sync"
 )
 
 const (
@@ -19,12 +20,16 @@ const (
 
 // Transport makes ActivityStreams calls to other servers in order to POST or
 // GET ActivityStreams data.
+//
+// It may be reused multiple times, but never concurrently.
 type Transport interface {
 	// Dereference fetches the ActivityStreams object located at this IRI
 	// with a GET request.
 	Dereference(c context.Context, iri *url.URL) ([]byte, error)
 	// Deliver sends an ActivityStreams object.
 	Deliver(c context.Context, b []byte, to *url.URL) error
+	// BatchDeliver sends an ActivityStreams object to multiple recipients.
+	BatchDeliver(c context.Context, b []byte, recipients []*url.URL) error
 }
 
 // Transport must be implemented by HttpSigTransport.
@@ -116,6 +121,36 @@ func (h HttpSigTransport) Deliver(c context.Context, b []byte, to *url.URL) erro
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("POST request to %s failed (%d): %s", to.String(), resp.StatusCode, resp.Status)
+	}
+	return nil
+}
+
+// BatchDeliver sends concurrent POST requests. Returns an error if any of the
+// requests had an error.
+func (h HttpSigTransport) BatchDeliver(c context.Context, b []byte, recipients []*url.URL) error {
+	var wg sync.WaitGroup
+	errCh := make(chan error, len(recipients))
+	for _, recipient := range recipients {
+		wg.Add(1)
+		go func(r *url.URL) {
+			defer wg.Done()
+			if err := h.Deliver(c, b, r); err != nil {
+				errCh <- err
+			}
+		}(recipient)
+	}
+	wg.Wait()
+	errs := make([]string, 0, len(recipients))
+	for {
+		select {
+		case e := <-errCh:
+			errs = append(errs, e.Error())
+		default:
+			break
+		}
+	}
+	if len(errs) > 0 {
+		return fmt.Errorf("batch deliver had at least one failure: %s", strings.Join(errs, "; "))
 	}
 	return nil
 }

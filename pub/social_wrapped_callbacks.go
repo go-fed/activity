@@ -120,7 +120,7 @@ func (w SocialWrappedCallbacks) create(c context.Context, a vocab.ActivityStream
 	if s.LenObject() == 0 {
 		return errObjectRequired
 	}
-	c := s.Raw()
+	c = s.Raw()
 	// When a Create activity is posted, the actor of the activity
 	// SHOULD be copied onto the object's attributedTo field.
 	// Presumably only if it doesn't already exist, to prevent

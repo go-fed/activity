@@ -2,8 +2,11 @@ package pub
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/streams/vocab"
+	"net/url"
 )
 
 // OnFollowBehavior enumerates the different default actions that the go-fed
@@ -14,11 +17,11 @@ const (
 	// OnFollowDoNothing does not take any action when a Follow Activity
 	// is received.
 	OnFollowDoNothing OnFollowBehavior = iota
-	// OnFollowAutomaticallyAccept will trigger the side effect of sending
-	// an Accept of this Follow request in response.
+	// OnFollowAutomaticallyAccept triggers the side effect of sending an
+	// Accept of this Follow request in response.
 	OnFollowAutomaticallyAccept
-	// OnFollowAutomaticallyAccept will trigger the side effect of sending
-	// a Reject of this Follow request in response.
+	// OnFollowAutomaticallyAccept triggers the side effect of sending a
+	// Reject of this Follow request in response.
 	OnFollowAutomaticallyReject
 )
 
@@ -30,28 +33,30 @@ type FederatingWrappedCallbacks struct {
 	// Create handles additional side effects for the Create ActivityStreams
 	// type, specific to the application using go-fed.
 	//
-	// The wrapping callback for the Federating Protocol will ensure the
+	// The wrapping callback for the Federating Protocol ensures the
 	// 'object' property is created in the database.
 	//
-	// TODO: Toggle this behavior locally
+	// Create calls Create for each object in the federated Activity.
 	Create func(context.Context, vocab.ActivityStreamsCreate) error
 	// Update handles additional side effects for the Update ActivityStreams
 	// type, specific to the application using go-fed.
 	//
-	// The wrapping callback for the Federating Protocol will ensure the
+	// The wrapping callback for the Federating Protocol ensures the
 	// 'object' property is updated in the database.
 	//
-	// TODO: Toggle this behavior locally
+	// Update calls Update on the federated entry from the database, with a
+	// new value.
 	Update func(context.Context, vocab.ActivityStreamsUpdate) error
 	// Delete handles additional side effects for the Delete ActivityStreams
 	// type, specific to the application using go-fed.
 	//
-	// TODO: Describe
+	// Delete removes the federated entry from the database.
 	Delete func(context.Context, vocab.ActivityStreamsDelete) error
 	// Follow handles additional side effects for the Follow ActivityStreams
 	// type, specific to the application using go-fed.
 	//
-	// TODO: Describe
+	// The wrapping function can have one of several default behaviors,
+	// depending on the value of the OnFollow setting.
 	Follow func(context.Context, vocab.ActivityStreamsFollow) error
 	// OnFollow determines what action to take for this particular callback
 	// if a Follow Activity is handled.
@@ -59,42 +64,59 @@ type FederatingWrappedCallbacks struct {
 	// Accept handles additional side effects for the Accept ActivityStreams
 	// type, specific to the application using go-fed.
 	//
-	// TODO: Describe
+	// The wrapping function determines if this 'Accept' is in response to a
+	// 'Follow'. If so, then the 'actor' is added to the original 'actor's
+	// 'following' collection.
 	Accept func(context.Context, vocab.ActivityStreamsAccept) error
 	// Reject handles additional side effects for the Reject ActivityStreams
 	// type, specific to the application using go-fed.
 	//
-	// TODO: Describe
+	// The wrapping function does nothing. However, if this 'Reject' is in
+	// response to a 'Follow' then the client MUST NOT go forward with
+	// adding the 'actor' to the original 'actor's 'following' collection by
+	// the client application.
 	Reject func(context.Context, vocab.ActivityStreamsReject) error
 	// Add handles additional side effects for the Add ActivityStreams
 	// type, specific to the application using go-fed.
 	//
-	// TODO: Describe
+	// The wrapping function will add the 'object' IRIs to a specific
+	// 'target' collection if the 'target' collection(s) live on this
+	// server.
 	Add func(context.Context, vocab.ActivityStreamsAdd) error
 	// Remove handles additional side effects for the Remove ActivityStreams
 	// type, specific to the application using go-fed.
 	//
-	// TODO: Describe
+	// The wrapping function will remove all 'object' IRIs from a specific
+	// 'target' collection if the 'target' collection(s) live on this
+	// server.
 	Remove func(context.Context, vocab.ActivityStreamsRemove) error
 	// Like handles additional side effects for the Like ActivityStreams
 	// type, specific to the application using go-fed.
 	//
-	// TODO: Describe
+	// The wrapping function will add the activity to the "likes" collection
+	// on all 'object' targets owned by this server.
 	Like func(context.Context, vocab.ActivityStreamsLike) error
 	// Announce handles additional side effects for the Announce
 	// ActivityStreams type, specific to the application using go-fed.
 	//
-	// TODO: Describe
+	// The wrapping function will add the activity to the "shares"
+	// collection on all 'object' targets owned by this server.
 	Announce func(context.Context, vocab.ActivityStreamsAnnounce) error
 	// Undo handles additional side effects for the Undo ActivityStreams
 	// type, specific to the application using go-fed.
 	//
-	// TODO: Describe
+	// The wrapping function ensures the 'actor' on the 'Undo'
+	// is be the same as the 'actor' on all Activities being undone.
+	// It enforces that the actors on the Undo must correspond to all of the
+	// 'object' actors in some manner.
 	Undo func(context.Context, vocab.ActivityStreamsUndo) error
 	// Block handles additional side effects for the Block ActivityStreams
 	// type, specific to the application using go-fed.
 	//
-	// TODO: Describe
+	// The wrapping function does nothing. It simply calls this wrapped
+	// function. However, note that Blocks should not be received from a
+	// federated peer, as delivering Blocks explicitly deviates from the
+	// original ActivityPub specification.
 	Block func(context.Context, vocab.ActivityStreamsBlock) error
 
 	// Sidechannel data -- this is set at request handling time. These must
@@ -102,11 +124,18 @@ type FederatingWrappedCallbacks struct {
 
 	// db is the Database the FederatingWrappedCallbacks should use.
 	db Database
+	// inboxIRI is the inboxIRI that is handling this callback.
+	// TODO: Populate
+	inboxIRI *url.URL
+	// newTransport creates a new Transport.
+	// TODO: Populate
+	newTransport func(c context.Context, actorBoxIRI *url.URL, gofedAgent string) (t Transport, err error)
 }
 
 // disjoint ensures that the functions given do not share a type signature with
 // the functions being wrapped in FederatingWrappedCallbacks.
 func (w FederatingWrappedCallbacks) disjoint(fns []interface{}) error {
+	// TODO: Instead, if provided in "other" it should override this behavior.
 	var s string
 	for _, fn := range fns {
 		switch fn.(type) {
@@ -273,38 +302,55 @@ func (w FederatingWrappedCallbacks) follow(c context.Context, a vocab.ActivitySt
 	if op == nil || op.Len() == 0 {
 		return ErrObjectRequired
 	}
-	respond := false
+	// Check that we own at least one of the 'object' properties, and ensure
+	// it is to the actor that owns this inbox.
+	//
+	// If not then don't send a response. It was federated to us as an FYI,
+	// by mistake, or some other reason.
+	if err := w.db.Lock(c, w.inboxIRI); err != nil {
+		return err
+	}
+	// WARNING: Unlock not deferred.
+	actorIRI, err := w.db.ActorForInbox(c, w.inboxIRI)
+	if err != nil {
+		w.db.Unlock(c, w.inboxIRI)
+		return err
+	}
+	w.db.Unlock(c, w.inboxIRI)
+	// Unlock must be called by now and every branch above.
+	isMe := false
 	if w.OnFollow != OnFollowDoNothing {
-		// Check that we own at least one of the 'object' properties. If
-		// not then don't send a response. It was federated to us as an
-		// FYI.
-		// TODO: Check that this actor is the object.
 		for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
 			id, err := ToId(iter)
 			if err != nil {
 				return err
 			}
-			if w.db.Owns(c, id) {
-				respond = true
+			if id.String() == actorIRI.String() {
+				isMe = true
 				break
 			}
 		}
 	}
-	if respond {
+	if isMe {
 		// Prepare the response.
 		var response Activity
 		if w.OnFollow == OnFollowAutomaticallyAccept {
 			response = streams.NewActivityStreamsAccept()
-		} else if w.OnFollow == AutomaticReject {
+		} else if w.OnFollow == OnFollowAutomaticallyReject {
 			response = streams.NewActivityStreamsReject()
 		} else {
 			return fmt.Errorf("unknown OnFollowBehavior: %d", w.OnFollow)
 		}
+		// Set us as the 'actor'.
+		me := streams.NewActivityStreamsActorProperty()
+		response.SetActivityStreamsActor(me)
+		me.AppendIRI(actorIRI)
 		// Set the Follow as the 'object' property.
 		op := streams.NewActivityStreamsObjectProperty()
 		response.SetActivityStreamsObject(op)
 		op.AppendActivityStreamsFollow(a)
 		// Add all actors on the original Follow to the 'to' property.
+		recipients := make([]*url.URL, 0)
 		to := streams.NewActivityStreamsToProperty()
 		response.SetActivityStreamsTo(to)
 		followActors := a.GetActivityStreamsActor()
@@ -314,337 +360,555 @@ func (w FederatingWrappedCallbacks) follow(c context.Context, a vocab.ActivitySt
 				return err
 			}
 			to.AppendIRI(id)
+			recipients = append(recipients, id)
 		}
-		ownsAny := false
-		if todo == AutomaticAccept {
+		if w.OnFollow == OnFollowAutomaticallyAccept {
 			// If automatically accepting, then also update our
-			// followers collection.
-			getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
-				if object.IsFollowersAnyURI() {
-					pObj, err := f.App.Get(c, object.GetFollowersAnyURI(), ReadWrite)
-					if err != nil {
-						return true, err
-					}
-					ok := false
-					if *lc, ok = pObj.(vocab.CollectionType); !ok {
-						if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
-							return true, fmt.Errorf("object followers collection not CollectionType nor OrderedCollectionType")
-						}
-					}
-					return true, nil
-				} else if object.IsFollowersCollection() {
-					*lc = object.GetFollowersCollection()
-					return false, nil
-				} else if object.IsFollowersOrderedCollection() {
-					*loc = object.GetFollowersOrderedCollection()
-					return false, nil
-				}
-				*loc = &vocab.OrderedCollection{}
-				object.SetFollowersOrderedCollection(*loc)
-				return false, nil
-			}
-			var err error
-			if ownsAny, err = f.addAllActorsToObjectCollection(c, getter, raw, true); err != nil {
-				return err
-			}
-		} else if todo == AutomaticReject {
+			// followers collection with the new actors.
+			//
 			// If automatically rejecting, do not update the
 			// followers collection.
-			var err error
-			ownsAny, err = f.ownsAnyObjects(c, raw)
+			if err := w.db.Lock(c, actorIRI); err != nil {
+				return err
+			}
+			// WARNING: Unlock not deferred.
+			followers, err := w.db.Followers(c, actorIRI)
 			if err != nil {
+				w.db.Unlock(c, actorIRI)
 				return err
 			}
+			items := followers.GetActivityStreamsItems()
+			for _, elem := range recipients {
+				items.PrependIRI(elem)
+			}
+			if err = w.db.Update(c, followers); err != nil {
+				w.db.Unlock(c, actorIRI)
+				return err
+			}
+			w.db.Unlock(c, actorIRI)
+			// Unlock must be called by now and every branch above.
 		}
-		if ownsAny {
-			if err := f.deliver(activity, inboxURL); err != nil {
-				return err
-			}
+		m, err := serialize(response)
+		if err != nil {
+			return err
+		}
+		b, err := json.Marshal(m)
+		if err != nil {
+			return err
+		}
+		t, err := w.newTransport(c, w.inboxIRI, goFedUserAgent())
+		if err != nil {
+			return err
+		}
+		if err := t.BatchDeliver(c, b, recipients); err != nil {
+			return err
 		}
 	}
-	return f.ServerCallbacker.Follow(c, s)
+	if w.Follow != nil {
+		return w.Follow(c, a)
+	}
+	return nil
 }
 
 // accept implements the federating Accept activity side effects.
 func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivityStreamsAccept) error {
-	// Accept can be client application specific. However, if this 'Accept'
-	// is in response to a 'Follow' then the 'actor' should be added to the
-	// original 'actor's 'following' collection by the client application.
-	raw := s.Raw()
-	for i := 0; i < raw.ObjectLen(); i++ {
-		if raw.IsObject(i) {
-			obj := raw.GetObject(i)
-			follow, ok := obj.(vocab.FollowType) // TODO: Random audit: Make sure this is correct
-			if !ok {
+	op := a.GetActivityStreamsObject()
+	if op != nil && op.Len() > 0 {
+		// Get this actor's id.
+		if err := w.db.Lock(c, w.inboxIRI); err != nil {
+			return err
+		}
+		// WARNING: Unlock not deferred.
+		actorIRI, err := w.db.ActorForInbox(c, w.inboxIRI)
+		if err != nil {
+			w.db.Unlock(c, w.inboxIRI)
+			return err
+		}
+		w.db.Unlock(c, w.inboxIRI)
+		// Unlock must be called by now and every branch above.
+		//
+		// Determine if we are in a follow on the 'object' property.
+		isMe := false
+		for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+			t := iter.GetType()
+			if t == nil {
+				// TODO: Fetch by IRI
 				continue
 			}
-			getter := func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
-				if actor.IsFollowingAnyURI() {
-					pObj, err := f.App.Get(c, actor.GetFollowingAnyURI(), ReadWrite)
-					if err != nil {
-						return true, err
-					}
-					ok := false
-					if *lc, ok = pObj.(vocab.CollectionType); !ok {
-						if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
-							return true, fmt.Errorf("actors following collection not CollectionType nor OrderedCollectionType")
-						}
-					}
-					return true, nil
-				} else if actor.IsFollowingCollection() {
-					*lc = actor.GetFollowingCollection()
-					return false, nil
-				} else if actor.IsFollowingOrderedCollection() {
-					*loc = actor.GetFollowingOrderedCollection()
-					return false, nil
-				}
-				*loc = &vocab.OrderedCollection{}
-				actor.SetFollowingOrderedCollection(*loc)
-				return false, nil
+			// Ensure it is a Follow.
+			if !streams.ActivityStreamsFollowIsExtendedBy(t) {
+				continue
 			}
-			if err := f.addAllObjectsToActorCollection(c, getter, follow, true); err != nil {
-				return err
+			follow, ok := t.(Activity)
+			if !ok {
+				return fmt.Errorf("a Follow in an Accept does not satisfy the Activity interface")
+			}
+			// Ensure that we are one of the actors on the Follow.
+			actors := follow.GetActivityStreamsActor()
+			for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
+				id, err := ToId(iter)
+				if err != nil {
+					return err
+				}
+				if id.String() == actorIRI.String() {
+					isMe = true
+					break
+				}
+			}
+			// TODO: Double check and verify it exists.
+			// Continue breaking if we found ourselves
+			if isMe {
+				break
 			}
 		}
+		// If we received an Accept whose 'object' is a Follow with an
+		// Accept that we sent, add to the following collection.
+		if isMe {
+			actors := a.GetActivityStreamsActor()
+			if actors == nil || actors.Len() == 0 {
+				return fmt.Errorf("an Accept with a Follow has no actors")
+			}
+			if err := w.db.Lock(c, actorIRI); err != nil {
+				return err
+			}
+			// WARNING: Unlock not deferred.
+			following, err := w.db.Following(c, actorIRI)
+			if err != nil {
+				w.db.Unlock(c, actorIRI)
+				return err
+			}
+			items := following.GetActivityStreamsItems()
+			for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
+				id, err := ToId(iter)
+				if err != nil {
+					w.db.Unlock(c, actorIRI)
+					return err
+				}
+				items.PrependIRI(id)
+			}
+			if err = w.db.Update(c, following); err != nil {
+				w.db.Unlock(c, actorIRI)
+				return err
+			}
+			w.db.Unlock(c, actorIRI)
+			// Unlock must be called by now and every branch above.
+		}
 	}
-	return f.ServerCallbacker.Accept(c, s)
+	if w.Accept != nil {
+		return w.Accept(c, a)
+	}
+	return nil
 }
 
 // reject implements the federating Reject activity side effects.
 func (w FederatingWrappedCallbacks) reject(c context.Context, a vocab.ActivityStreamsReject) error {
-	// Reject can be client application specific. However, if this 'Reject'
-	// is in response to a 'Follow' then the client MUST NOT go forward with
-	// adding the 'actor' to the original 'actor's 'following' collection
-	// by the client application.
-	return f.ServerCallbacker.Reject(c, s)
+	if w.Reject != nil {
+		return w.Reject(c, a)
+	}
+	return nil
 }
 
 // add implements the federating Add activity side effects.
 func (w FederatingWrappedCallbacks) add(c context.Context, a vocab.ActivityStreamsAdd) error {
-	// Add is client application specific, generally involving adding an
-	// 'object' to a specific 'target' collection.
-	if s.LenObject() == 0 {
-		return errObjectRequired
-	} else if s.LenTarget() == 0 {
-		return errTargetRequired
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	raw := s.Raw()
-	ids, err := getTargetIds(raw)
-	if err != nil {
-		return err
-	} else if len(ids) == 0 {
-		return fmt.Errorf("add target has no ids: %v", s)
+	target := a.GetActivityStreamsTarget()
+	if target == nil || target.Len() == 0 {
+		return ErrTargetRequired
 	}
-	objIds, err := getObjectIds(s.Raw())
-	if err != nil {
-		return err
-	} else if len(objIds) == 0 {
-		return fmt.Errorf("add object has no ids: %v", s)
-	}
-	var targets []vocab.ObjectType
-	for _, id := range ids {
-		if !f.App.Owns(c, id) {
-			continue
-		}
-		target, err := f.App.Get(c, id, ReadWrite)
+	opIds := make([]*url.URL, 0, op.Len())
+	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+		id, err := ToId(iter)
 		if err != nil {
 			return err
 		}
-		ct, okCollection := target.(vocab.CollectionType)
-		oct, okOrdered := target.(vocab.OrderedCollectionType)
-		if okCollection {
-			targets = append(targets, ct)
-		} else if okOrdered {
-			targets = append(targets, oct)
-		}
-		// else ignore non-collection, let Application handle.
+		opIds = append(opIds, id)
 	}
-	for i := 0; i < raw.ObjectLen(); i++ {
-		var obj vocab.ObjectType
-		var objId *url.URL
-		if raw.IsObject(i) {
-			obj = raw.GetObject(i)
-			if !obj.HasId() {
-				return fmt.Errorf("add object missing id")
-			}
-			objId = obj.GetId()
-		} else if raw.IsObjectIRI(i) {
-			// TODO: Fetch IRI
-			return fmt.Errorf("add object must not be IRI")
+	targetIds := make([]*url.URL, 0, op.Len())
+	for iter := target.Begin(); iter != target.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
 		}
-		for _, target := range targets {
-			if !f.App.CanAdd(c, obj, target) {
-				continue
-			}
-			if ct, ok := target.(vocab.CollectionType); ok {
-				ct.AppendItemsIRI(objId)
-			} else if oct, ok := target.(vocab.OrderedCollectionType); ok {
-				oct.AppendOrderedItemsIRI(objId)
-			}
-			if err := f.App.Set(c, target); err != nil {
-				return err
-			}
-		}
+		targetIds = append(targetIds, id)
 	}
-	return f.ServerCallbacker.Add(c, s)
+	for _, t := range targetIds {
+		if err := w.db.Lock(c, t); err != nil {
+			return err
+		}
+		// WARNING: Unlock not deferred.
+		if owns, err := w.db.Owns(c, t); err != nil {
+			w.db.Unlock(c, t)
+			return err
+		} else if !owns {
+			w.db.Unlock(c, t)
+			continue
+		}
+		tp, err := w.db.Get(c, t)
+		if err != nil {
+			w.db.Unlock(c, t)
+			return err
+		}
+		if streams.ActivityStreamsOrderedCollectionIsExtendedBy(tp) {
+			oi, ok := tp.(orderedItemser)
+			if !ok {
+				w.db.Unlock(c, t)
+				return fmt.Errorf("type extending from OrderedCollection cannot convert to orderedItemser interface")
+			}
+			oiProp := oi.GetActivityStreamsOrderedItems()
+			if oiProp == nil {
+				oiProp = streams.NewActivityStreamsOrderedItemsProperty()
+				oi.SetActivityStreamsOrderedItems(oiProp)
+			}
+			for _, objId := range opIds {
+				oiProp.AppendIRI(objId)
+			}
+		} else if streams.ActivityStreamsCollectionIsExtendedBy(tp) {
+			i, ok := tp.(itemser)
+			if !ok {
+				w.db.Unlock(c, t)
+				return fmt.Errorf("type extending from Collection cannot convert to itemser interface")
+			}
+			iProp := i.GetActivityStreamsItems()
+			if iProp == nil {
+				iProp = streams.NewActivityStreamsItemsProperty()
+				i.SetActivityStreamsItems(iProp)
+			}
+			for _, objId := range opIds {
+				iProp.AppendIRI(objId)
+			}
+		}
+		err = w.db.Update(c, tp)
+		if err != nil {
+			w.db.Unlock(c, t)
+			return err
+		}
+		w.db.Unlock(c, t)
+		// Unlock must be called by now and every branch above.
+	}
+	if w.Add != nil {
+		return w.Add(c, a)
+	}
+	return nil
 }
 
 // remove implements the federating Remove activity side effects.
 func (w FederatingWrappedCallbacks) remove(c context.Context, a vocab.ActivityStreamsRemove) error {
-	// Remove is client application specific, generally involving removing
-	// an 'object' from a specific 'target' collection.
-	if s.LenObject() == 0 {
-		return errObjectRequired
-	} else if s.LenTarget() == 0 {
-		return errTargetRequired
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	raw := s.Raw()
-	ids, err := getTargetIds(raw)
-	if err != nil {
-		return err
-	} else if len(ids) == 0 {
-		return fmt.Errorf("remove target has no ids: %v", s)
+	target := a.GetActivityStreamsTarget()
+	if target == nil || target.Len() == 0 {
+		return ErrTargetRequired
 	}
-	objIds, err := getObjectIds(s.Raw())
-	if err != nil {
-		return err
-	} else if len(objIds) == 0 {
-		return fmt.Errorf("remove object has no ids: %v", s)
-	}
-	var targets []vocab.ObjectType
-	for _, id := range ids {
-		if !f.App.Owns(c, id) {
-			continue
-		}
-		target, err := f.App.Get(c, id, ReadWrite)
+	opIds := make(map[string]bool, op.Len())
+	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+		id, err := ToId(iter)
 		if err != nil {
 			return err
 		}
-		ct, okCollection := target.(vocab.CollectionType)
-		oct, okOrdered := target.(vocab.OrderedCollectionType)
-		if okCollection {
-			targets = append(targets, ct)
-		} else if okOrdered {
-			targets = append(targets, oct)
-		}
-		// else ignore non-collection, let Application handle.
+		opIds[id.String()] = true
 	}
-	for i := 0; i < raw.ObjectLen(); i++ {
-		if !raw.IsObject(i) {
-			// TODO: Fetch IRIs as well
-			return fmt.Errorf("remove object must be object type: %v", raw)
+	targetIds := make([]*url.URL, 0, op.Len())
+	for iter := target.Begin(); iter != target.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
 		}
-		obj := raw.GetObject(i)
-		for _, target := range targets {
-			if !f.App.CanRemove(c, obj, target) {
-				continue
-			}
-			if ct, ok := target.(vocab.CollectionType); ok {
-				removeCollectionItemWithId(ct, obj.GetId())
-			} else if oct, ok := target.(vocab.OrderedCollectionType); ok {
-				removeOrderedCollectionItemWithId(oct, obj.GetId())
-			}
-			if err := f.App.Set(c, target); err != nil {
-				return err
-			}
-		}
+		targetIds = append(targetIds, id)
 	}
-	return f.ServerCallbacker.Remove(c, s)
+	for _, t := range targetIds {
+		if err := w.db.Lock(c, t); err != nil {
+			return err
+		}
+		// WARNING: Unlock not deferred.
+		if owns, err := w.db.Owns(c, t); err != nil {
+			w.db.Unlock(c, t)
+			return err
+		} else if !owns {
+			w.db.Unlock(c, t)
+			continue
+		}
+		tp, err := w.db.Get(c, t)
+		if err != nil {
+			w.db.Unlock(c, t)
+			return err
+		}
+		if streams.ActivityStreamsOrderedCollectionIsExtendedBy(tp) {
+			oi, ok := tp.(orderedItemser)
+			if !ok {
+				w.db.Unlock(c, t)
+				return fmt.Errorf("type extending from OrderedCollection cannot convert to orderedItemser interface")
+			}
+			oiProp := oi.GetActivityStreamsOrderedItems()
+			if oiProp != nil {
+				for i := 0; i < oiProp.Len(); /*Conditional*/ {
+					id, err := ToId(oiProp.At(i))
+					if err != nil {
+						w.db.Unlock(c, t)
+						return err
+					}
+					if opIds[id.String()] {
+						oiProp.Remove(i)
+					} else {
+						i++
+					}
+				}
+			}
+		} else if streams.ActivityStreamsCollectionIsExtendedBy(tp) {
+			i, ok := tp.(itemser)
+			if !ok {
+				w.db.Unlock(c, t)
+				return fmt.Errorf("type extending from Collection cannot convert to itemser interface")
+			}
+			iProp := i.GetActivityStreamsItems()
+			if iProp != nil {
+				for i := 0; i < iProp.Len(); /*Conditional*/ {
+					id, err := ToId(iProp.At(i))
+					if err != nil {
+						w.db.Unlock(c, t)
+						return err
+					}
+					if opIds[id.String()] {
+						iProp.Remove(i)
+					} else {
+						i++
+					}
+				}
+			}
+		}
+		err = w.db.Update(c, tp)
+		if err != nil {
+			w.db.Unlock(c, t)
+			return err
+		}
+		w.db.Unlock(c, t)
+		// Unlock must be called by now and every branch above.
+	}
+	if w.Remove != nil {
+		return w.Remove(c, a)
+	}
+	return nil
 }
 
 // like implements the federating Like activity side effects.
 func (w FederatingWrappedCallbacks) like(c context.Context, a vocab.ActivityStreamsLike) error {
-	if s.LenObject() == 0 {
-		return errObjectRequired
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
-		if object.IsLikesAnyURI() {
-			pObj, err := f.App.Get(c, object.GetLikesAnyURI(), ReadWrite)
-			if err != nil {
-				return true, err
-			}
-			ok := false
-			if *lc, ok = pObj.(vocab.CollectionType); !ok {
-				if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
-					return true, fmt.Errorf("object likes collection not CollectionType nor OrderedCollectionType")
-				}
-			}
-			return true, nil
-		} else if object.IsLikesCollection() {
-			*lc = object.GetLikesCollection()
-			return false, nil
-		} else if object.IsLikesOrderedCollection() {
-			*loc = object.GetLikesOrderedCollection()
-			return false, nil
-		}
-		*loc = &vocab.OrderedCollection{}
-		object.SetLikesOrderedCollection(*loc)
-		return false, nil
-	}
-	if _, err := f.addActivityToObjectCollection(c, getter, s.Raw(), true); err != nil {
+	id, err := GetId(a)
+	if err != nil {
 		return err
 	}
-	return f.ServerCallbacker.Like(c, s)
+	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+		objId, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		if err := w.db.Lock(c, objId); err != nil {
+			return err
+		}
+		// WARNING: Unlock not deferred.
+		if owns, err := w.db.Owns(c, objId); err != nil {
+			w.db.Unlock(c, objId)
+			return err
+		} else if !owns {
+			w.db.Unlock(c, objId)
+			continue
+		}
+		t, err := w.db.Get(c, objId)
+		if err != nil {
+			w.db.Unlock(c, objId)
+			return err
+		}
+		l, ok := t.(likeser)
+		if !ok {
+			w.db.Unlock(c, objId)
+			return fmt.Errorf("cannot add Like to likes collection for type %T", t)
+		}
+		// Get 'likes' property on the object, creating default if
+		// necessary.
+		likes := l.GetActivityStreamsLikes()
+		if likes == nil {
+			likes = streams.NewActivityStreamsLikesProperty()
+			l.SetActivityStreamsLikes(likes)
+		}
+		// Get 'likes' value, defaulting to a collection.
+		likesT := likes.GetType()
+		if likesT == nil {
+			col := streams.NewActivityStreamsCollection()
+			likesT = col
+			likes.SetActivityStreamsCollection(col)
+		}
+		// Prepend the activity's 'id' on the 'likes' Collection or
+		// OrderedCollection.
+		if col, ok := likesT.(itemser); ok {
+			items := col.GetActivityStreamsItems()
+			if items == nil {
+				items = streams.NewActivityStreamsItemsProperty()
+				col.SetActivityStreamsItems(items)
+			}
+			items.PrependIRI(id)
+		} else if oCol, ok := likesT.(orderedItemser); ok {
+			oItems := oCol.GetActivityStreamsOrderedItems()
+			if oItems == nil {
+				oItems = streams.NewActivityStreamsOrderedItemsProperty()
+				oCol.SetActivityStreamsOrderedItems(oItems)
+			}
+			oItems.PrependIRI(id)
+		} else {
+			w.db.Unlock(c, objId)
+			return fmt.Errorf("likes type is neither a Collection nor an OrderedCollection: %T", likesT)
+		}
+		err = w.db.Update(c, t)
+		if err != nil {
+			w.db.Unlock(c, objId)
+			return err
+		}
+		w.db.Unlock(c, objId)
+		// Unlock must be called by now and every branch above.
+	}
+	if w.Like != nil {
+		return w.Like(c, a)
+	}
+	return nil
 }
 
 // announce implements the federating Announce activity side effects.
 func (w FederatingWrappedCallbacks) announce(c context.Context, a vocab.ActivityStreamsAnnounce) error {
-	getter := func(object vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
-		if object.IsSharesAnyURI() {
-			pObj, err := f.App.Get(c, object.GetSharesAnyURI(), ReadWrite)
-			if err != nil {
-				return true, err
-			}
-			ok := false
-			if *lc, ok = pObj.(vocab.CollectionType); !ok {
-				if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
-					return true, fmt.Errorf("object shares collection not CollectionType nor OrderedCollectionType")
-				}
-			}
-			return true, nil
-		} else if object.IsSharesCollection() {
-			*lc = object.GetSharesCollection()
-			return false, nil
-		} else if object.IsSharesOrderedCollection() {
-			*loc = object.GetSharesOrderedCollection()
-			return false, nil
-		}
-		*loc = &vocab.OrderedCollection{}
-		object.SetSharesOrderedCollection(*loc)
-		return false, nil
-	}
-	if _, err := f.addActivityToObjectCollection(c, getter, s.Raw(), true); err != nil {
+	id, err := GetId(a)
+	if err != nil {
 		return err
 	}
-	if t, ok := f.ServerCallbacker.(callbackerAnnounce); ok {
-		return t.Announce(c, s)
+	op := a.GetActivityStreamsObject()
+	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+		objId, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		if err := w.db.Lock(c, objId); err != nil {
+			return err
+		}
+		// WARNING: Unlock not deferred.
+		if owns, err := w.db.Owns(c, objId); err != nil {
+			w.db.Unlock(c, objId)
+			return err
+		} else if !owns {
+			w.db.Unlock(c, objId)
+			continue
+		}
+		t, err := w.db.Get(c, objId)
+		if err != nil {
+			w.db.Unlock(c, objId)
+			return err
+		}
+		s, ok := t.(shareser)
+		if !ok {
+			w.db.Unlock(c, objId)
+			return fmt.Errorf("cannot add Announce to Shares collection for type %T", t)
+		}
+		// Get 'shares' property on the object, creating default if
+		// necessary.
+		shares := s.GetActivityStreamsShares()
+		if shares == nil {
+			shares = streams.NewActivityStreamsSharesProperty()
+			s.SetActivityStreamsShares(shares)
+		}
+		// Get 'shares' value, defaulting to a collection.
+		sharesT := shares.GetType()
+		if sharesT== nil {
+			col := streams.NewActivityStreamsCollection()
+			sharesT = col
+			shares.SetActivityStreamsCollection(col)
+		}
+		// Prepend the activity's 'id' on the 'shares' Collection or
+		// OrderedCollection.
+		if col, ok := sharesT.(itemser); ok {
+			items := col.GetActivityStreamsItems()
+			if items == nil {
+				items = streams.NewActivityStreamsItemsProperty()
+				col.SetActivityStreamsItems(items)
+			}
+			items.PrependIRI(id)
+		} else if oCol, ok := sharesT.(orderedItemser); ok {
+			oItems := oCol.GetActivityStreamsOrderedItems()
+			if oItems == nil {
+				oItems = streams.NewActivityStreamsOrderedItemsProperty()
+				oCol.SetActivityStreamsOrderedItems(oItems)
+			}
+			oItems.PrependIRI(id)
+		} else {
+			w.db.Unlock(c, objId)
+			return fmt.Errorf("shares type is neither a Collection nor an OrderedCollection: %T", sharesT)
+		}
+		err = w.db.Update(c, t)
+		if err != nil {
+			w.db.Unlock(c, objId)
+			return err
+		}
+		w.db.Unlock(c, objId)
+		// Unlock must be called by now and every branch above.
+	}
+	if w.Announce != nil {
+		return w.Announce(c, a)
 	}
 	return nil
 }
 
 // undo implements the federating Undo activity side effects.
 func (w FederatingWrappedCallbacks) undo(c context.Context, a vocab.ActivityStreamsUndo) error {
-	// Undo negates a previous action. The 'actor' on the 'Undo'
-	// MUST be the same as the 'actor' on the Activity being undone.
-	// Here we enforce that the actors on the Undo must correspond
-	// to all objects' original actors in some manner.
-	if s.LenObject() == 0 {
-		return errObjectRequired
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	raw := s.Raw()
-	if err := f.ensureActivityActorsMatchObjectActors(raw); err != nil {
-		return err
+	actors := a.GetActivityStreamsActor()
+	activityActorMap := make(map[string]bool, actors.Len())
+	for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		activityActorMap[id.String()] = true
 	}
-	return f.ServerCallbacker.Undo(c, s)
+	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+		t := iter.GetType()
+		if t == nil {
+			// TODO: Fetch the IRI
+			continue
+		}
+		ac, ok := t.(actorer)
+		if !ok {
+			return fmt.Errorf("cannot undo an object with no 'actor' property")
+		}
+		objActors := ac.GetActivityStreamsActor()
+		for iter := objActors.Begin(); iter != objActors.End(); iter = iter.Next() {
+			id, err := ToId(iter)
+			if err != nil {
+				return err
+			}
+			if !activityActorMap[id.String()] {
+				return fmt.Errorf("activity Undoing another does not have all actors on original activities")
+			}
+		}
+	}
+	if w.Undo != nil {
+		return w.Undo(c, a)
+	}
+	return nil
 }
 
 // block implements the federating Block activity side effects.
 func (w FederatingWrappedCallbacks) block(c context.Context, a vocab.ActivityStreamsBlock) error {
-	// Servers SHOULD NOT deliver Block Activities to their object. So in
-	// this case we will explicitly ignore it, but validate it as if we
-	// were to accept it.
-	if s.LenObject() == 0 {
-		return errObjectRequired
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
+	}
+	if w.Block != nil {
+		return w.Block(c, a)
 	}
 	return nil
 }

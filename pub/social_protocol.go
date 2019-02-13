@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/go-fed/activity/streams/vocab"
 	"net/http"
-	"net/url"
 )
 
 // SocialProtocol contains behaviors an application needs to satisfy for the
@@ -40,8 +39,6 @@ type SocialProtocol interface {
 	//
 	// Note that the functions in 'wrapped' cannot be provided in 'other'.
 	Callbacks(c context.Context) (wrapped SocialWrappedCallbacks, other []interface{})
-	// ActorIRI fetches the outbox's actor's IRI.
-	ActorIRI(c context.Context, outboxIRI *url.URL) (actorIRI *url.URL, err error)
 	// GetOutbox returns the OrderedCollection inbox of the actor for this
 	// context. It is up to the implementation to provide the correct
 	// collection for the kind of authorization given in the request.

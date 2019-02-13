@@ -43,8 +43,18 @@ type Database interface {
 	// Owns returns true if the database has an entry for the IRI and it
 	// exists in the database.
 	//
-	// Owns is called even without acquiring a lock.
+	// TODO: Acquire a lock
+	//
+	// Owns is called without acquiring a lock.
 	Owns(c context.Context, id *url.URL) (owns bool, err error)
+	// ActorForOutbox fetches the actor's IRI for the given outbox IRI.
+	//
+	// The library makes this call only after acquiring a lock first.
+	ActorForOutbox(c context.Context, outboxIRI *url.URL) (actorIRI *url.URL, err error)
+	// ActorForInbox fetches the actor's IRI for the given outbox IRI.
+	//
+	// The library makes this call only after acquiring a lock first.
+	ActorForInbox(c context.Context, inboxIRI *url.URL) (actorIRI *url.URL, err error)
 	// Exists returns true if the database has an entry for the specified
 	// id. It may not be owned by this application instance.
 	//
@@ -102,4 +112,18 @@ type Database interface {
 	// The go-fed library will handle setting the 'id' property on the
 	// activity or object provided with the value returned.
 	NewId(c context.Context, t vocab.Type) (id *url.URL, err error)
+	// Followers obtains the Followers Collection for an actor with the
+	// given id.
+	//
+	// If modified, the library will then call Update.
+	//
+	// The library makes this call only after acquiring a lock first.
+	Followers(c context.Context, actorIRI *url.URL) (followers vocab.ActivityStreamsCollection, err error)
+	// Following obtains the Following Collection for an actor with the
+	// given id.
+	//
+	// If modified, the library will then call Update.
+	//
+	// The library makes this call only after acquiring a lock first.
+	Following(c context.Context, actorIRI *url.URL) (followers vocab.ActivityStreamsCollection, err error)
 }

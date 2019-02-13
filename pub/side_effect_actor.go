@@ -96,8 +96,11 @@ func (a *sideEffectActor) PostInbox(c context.Context, inboxIRI *url.URL, activi
 		return err
 	}
 	if isNew {
-		wrapped, other := a.s2s.Callbacks()
+		wrapped, other := a.s2s.Callbacks(c)
+		// Populate side channels.
 		wrapped.db = a.db
+		wrapped.inboxIRI= inboxIRI
+		wrapped.newTransport= a.s2s.NewTransport
 		if err = wrapped.disjoint(other); err != nil {
 			return err
 		}
@@ -224,7 +227,7 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 	// 3. The values of 'inReplyTo', 'object', 'target', or 'tag' are owned
 	//    by this server. This is only a boolean trigger: As soon as we get
 	//    a hit that we own something, then we should do inbox forwarding.
-	maxDepth := a.s2s.MaxInboxForwardingRecursionDepth()
+	maxDepth := a.s2s.MaxInboxForwardingRecursionDepth(c)
 	ownsValue, err := a.hasInboxForwardingValues(c, activity, maxDepth, 0)
 	if err != nil {
 		return err
@@ -272,7 +275,8 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 // This implementation assumes all types are meant to be delivered except for
 // the ActivityStreams Block type.
 func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outboxIRI *url.URL) (deliverable bool, e error) {
-	wrapped, other := a.c2s.Callbacks()
+	wrapped, other := a.c2s.Callbacks(c)
+	// Populate side channels.
 	wrapped.db = a.db
 	if e = wrapped.disjoint(other); e != nil {
 		return
@@ -336,7 +340,8 @@ func (a *sideEffectActor) Deliver(c context.Context, outboxIRI *url.URL, activit
 
 // WrapInCreate wraps an object with a Create activity.
 func (a *sideEffectActor) WrapInCreate(c context.Context, obj vocab.Type, outboxIRI *url.URL) (create vocab.ActivityStreamsCreate, err error) {
-	actorIri, err := a.c2s.ActorIRI(c, outboxIRI)
+	// TODO: Acquire a lock.
+	actorIri, err := a.db.ActorForOutbox(c, outboxIRI)
 	if err != nil {
 		return
 	}
@@ -354,7 +359,7 @@ func (a *sideEffectActor) deliverToRecipients(c context.Context, boxIRI *url.URL
 	if err != nil {
 		return err
 	}
-	tp, err := a.s2s.NewTransport(boxIRI, goFedUserAgent())
+	tp, err := a.s2s.NewTransport(c, boxIRI, goFedUserAgent())
 	if err != nil {
 		return err
 	}
@@ -567,11 +572,11 @@ func (a *sideEffectActor) prepare(c context.Context, outboxIRI *url.URL, activit
 	//    server MAY deliver that object to all known sharedInbox endpoints
 	//    on the network.
 	r = filterURLs(r, IsPublic)
-	t, err := a.s2s.NewTransport(outboxIRI, goFedUserAgent())
+	t, err := a.s2s.NewTransport(c, outboxIRI, goFedUserAgent())
 	if err != nil {
 		return nil, err
 	}
-	receiverActors, err := a.resolveInboxes(c, t, r, 0, a.s2s.MaxDeliveryRecursionDepth())
+	receiverActors, err := a.resolveInboxes(c, t, r, 0, a.s2s.MaxDeliveryRecursionDepth(c))
 	if err != nil {
 		return nil, err
 	}
@@ -580,7 +585,8 @@ func (a *sideEffectActor) prepare(c context.Context, outboxIRI *url.URL, activit
 		return nil, err
 	}
 	// Get inboxes of sender.
-	actorIRI, err := a.c2s.ActorIRI(c, outboxIRI)
+	// TODO: Acquire a lock.
+	actorIRI, err := a.db.ActorForOutbox(c, outboxIRI)
 	if err != nil {
 		return nil, err
 	}

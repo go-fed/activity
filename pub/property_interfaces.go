@@ -32,11 +32,13 @@ type hrefer interface {
 // itemser is an ActivityStreams type with a 'items' property
 type itemser interface {
 	GetActivityStreamsItems() vocab.ActivityStreamsItemsProperty
+	SetActivityStreamsItems(vocab.ActivityStreamsItemsProperty)
 }
 
 // orderedItemser is an ActivityStreams type with a 'orderedItems' property
 type orderedItemser interface {
 	GetActivityStreamsOrderedItems() vocab.ActivityStreamsOrderedItemsProperty
+	SetActivityStreamsOrderedItems(vocab.ActivityStreamsOrderedItemsProperty)
 }
 
 // publisheder is an ActivityStreams type with a 'published' property
@@ -77,4 +79,22 @@ type inboxer interface {
 // attributedToer is an ActivityStreams type with a 'attributedTo' property
 type attributedToer interface {
 	GetActivityStreamsAttributedTo() vocab.ActivityStreamsAttributedToProperty
+}
+
+// likeser is an ActivityStreams type with a 'likes' property
+type likeser interface {
+	GetActivityStreamsLikes() vocab.ActivityStreamsLikesProperty
+	SetActivityStreamsLikes(i vocab.ActivityStreamsLikesProperty)
+}
+
+// shareser is an ActivityStreams type with a 'shares' property
+type shareser interface {
+	GetActivityStreamsShares() vocab.ActivityStreamsSharesProperty
+	SetActivityStreamsShares(i vocab.ActivityStreamsSharesProperty)
+}
+
+// actorer is an ActivityStreams type with a 'actor' property
+type actorer interface {
+	GetActivityStreamsActor() vocab.ActivityStreamsActorProperty
+	SetActivityStreamsActor(i vocab.ActivityStreamsActorProperty)
 }

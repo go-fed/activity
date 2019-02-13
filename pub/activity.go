@@ -5,6 +5,8 @@ import (
 )
 
 // Activity represents any ActivityStreams Activity type.
+//
+// The Activity types provided in the streams package implement this.
 type Activity interface {
 	// Activity is also a vocab.Type
 	vocab.Type
@@ -29,4 +31,10 @@ type Activity interface {
 	// GetActivityStreamsAttributedTo returns the "attributedTo" property if
 	// it exists, and nil otherwise.
 	GetActivityStreamsAttributedTo() vocab.ActivityStreamsAttributedToProperty
+	// SetActivityStreamsActor sets the "actor" property.
+	SetActivityStreamsActor(i vocab.ActivityStreamsActorProperty)
+	// SetActivityStreamsObject sets the "object" property.
+	SetActivityStreamsObject(i vocab.ActivityStreamsObjectProperty)
+	// SetActivityStreamsTo sets the "to" property.
+	SetActivityStreamsTo(i vocab.ActivityStreamsToProperty)
 }
