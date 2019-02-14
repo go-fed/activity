@@ -57,6 +57,7 @@ func NewSocialActor(c CommonBehavior,
 			common: c,
 			c2s:    c2s,
 			db:     db,
+			clock:  clock,
 		},
 		enableSocialProtocol: true,
 		clock:                clock,
@@ -84,6 +85,7 @@ func NewFederatingActor(c CommonBehavior,
 			common: c,
 			s2s:    s2s,
 			db:     db,
+			clock:  clock,
 		},
 		enableFederatedProtocol: true,
 		clock:                   clock,
@@ -110,6 +112,7 @@ func NewActor(c CommonBehavior,
 			c2s:    c2s,
 			s2s:    s2s,
 			db:     db,
+			clock:  clock,
 		},
 		enableSocialProtocol:    true,
 		enableFederatedProtocol: true,
@@ -325,7 +328,7 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	}
 	// Post the activity to the actor's outbox and trigger side effects for
 	// that particular Activity type.
-	deliverable, err := b.delegate.PostOutbox(c, activity, r.URL)
+	deliverable, err := b.delegate.PostOutbox(c, activity, r.URL, m)
 	if err != nil {
 		// Special case: We know it is a bad request if the object or
 		// target properties needed to be populated, but weren't.

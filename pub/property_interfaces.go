@@ -47,6 +47,11 @@ type publisheder interface {
 	GetActivityStreamsPublished() vocab.ActivityStreamsPublishedProperty
 }
 
+// updateder is an ActivityStreams type with a 'updateder' property
+type updateder interface {
+	GetActivityStreamsUpdated() vocab.ActivityStreamsUpdatedProperty
+}
+
 // toer is an ActivityStreams type with a 'to' property
 type toer interface {
 	GetActivityStreamsTo() vocab.ActivityStreamsToProperty

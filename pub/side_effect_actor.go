@@ -26,6 +26,7 @@ type sideEffectActor struct {
 	s2s    FederatingProtocol
 	c2s    SocialProtocol
 	db     Database
+	clock  Clock
 }
 
 // AuthenticatePostInbox defers to the delegate to authenticate the request.
@@ -274,14 +275,17 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 //
 // This implementation assumes all types are meant to be delivered except for
 // the ActivityStreams Block type.
-func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outboxIRI *url.URL) (deliverable bool, e error) {
+func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outboxIRI *url.URL, rawJSON map[string]interface{}) (deliverable bool, e error) {
 	wrapped, other := a.c2s.Callbacks(c)
 	// Populate side channels.
 	wrapped.db = a.db
+	wrapped.outboxIRI = outboxIRI
+	wrapped.rawActivity = rawJSON
+	wrapped.clock = a.clock
+	wrapped.deliverable = &deliverable
 	if e = wrapped.disjoint(other); e != nil {
 		return
 	}
-	// TODO: populate deliverable
 	res, err := streams.NewTypeResolver(append(wrapped.callbacks(), other...))
 	if err != nil {
 		return

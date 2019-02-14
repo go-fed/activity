@@ -31,6 +31,9 @@ type Activity interface {
 	// GetActivityStreamsAttributedTo returns the "attributedTo" property if
 	// it exists, and nil otherwise.
 	GetActivityStreamsAttributedTo() vocab.ActivityStreamsAttributedToProperty
+	// GetActivityStreamsObject returns the "object" property if it exists,
+	// and nil otherwise.
+	GetActivityStreamsObject() vocab.ActivityStreamsObjectProperty
 	// SetActivityStreamsActor sets the "actor" property.
 	SetActivityStreamsActor(i vocab.ActivityStreamsActorProperty)
 	// SetActivityStreamsObject sets the "object" property.

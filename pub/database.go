@@ -126,4 +126,11 @@ type Database interface {
 	//
 	// The library makes this call only after acquiring a lock first.
 	Following(c context.Context, actorIRI *url.URL) (followers vocab.ActivityStreamsCollection, err error)
+	// Liked obtains the Liked Collection for an actor with the
+	// given id.
+	//
+	// If modified, the library will then call Update.
+	//
+	// The library makes this call only after acquiring a lock first.
+	Liked(c context.Context, actorIRI *url.URL) (followers vocab.ActivityStreamsCollection, err error)
 }

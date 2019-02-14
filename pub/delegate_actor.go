@@ -120,7 +120,13 @@ type DelegateActor interface {
 	//
 	// If the error is ErrObjectRequired or ErrTargetRequired, then a Bad
 	// Request status is sent in the response.
-	PostOutbox(c context.Context, a Activity, outboxIRI *url.URL) (deliverable bool, e error)
+	//
+	// Note that 'rawJSON' is an unfortunate consequence where an 'Update'
+	// Activity is the only one that explicitly cares about 'null' values in
+	// JSON. Since go-fed does not differentiate between 'null' values and
+	// values that are simply not present, the 'rawJSON' map is ONLY needed
+	// for this narrow and specific use case.
+	PostOutbox(c context.Context, a Activity, outboxIRI *url.URL, rawJSON map[string]interface{}) (deliverable bool, e error)
 	// AddNewIds sets new URL ids on the activity. It also does so for all
 	// 'object' properties if the Activity is a Create type.
 	//

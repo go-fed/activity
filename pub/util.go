@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 var (
@@ -452,89 +453,22 @@ func stripHiddenRecipients(activity Activity) {
 // mustHaveActivityOriginMatchObjects ensures that the Host in the activity id
 // IRI matches all of the Hosts in the object id IRIs.
 func mustHaveActivityOriginMatchObjects(a Activity) error {
-	if !a.HasId() {
-		return fmt.Errorf("activity has no iri")
+	originIRI, err := GetId(a)
+	if err != nil {
+		return err
 	}
-	originIRI := a.GetId()
 	originHost := originIRI.Host
-	for i := 0; i < a.ObjectLen(); i++ {
-		if a.IsObject(i) {
-			obj := a.GetObject(i)
-			if !obj.HasId() {
-				return fmt.Errorf("object at index %d has no id", i)
-			}
-			iri := obj.GetId()
-			if originHost != iri.Host {
-				return fmt.Errorf("object %q: not in activity origin", iri)
-			}
-		} else if a.IsObjectIRI(i) {
-			iri := a.GetObjectIRI(i)
-			if originHost != iri.Host {
-				return fmt.Errorf("object %q: not in activity origin", iri)
-			}
-		}
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return nil
 	}
-	return nil
-}
-
-// mustHaveActivityActorsMatchObjectActors ensures that the set of actors on all
-// objects in an activity are a subset of actor(s) on the activity.
-func mustHaveActivityActorsMatchObjectActors(a vocab.ActivityType) error {
-	actorSet := make(map[string]bool, a.ActorLen())
-	for i := 0; i < a.ActorLen(); i++ {
-		if a.IsActorObject(i) {
-			obj := a.GetActorObject(i)
-			if !obj.HasId() {
-				return fmt.Errorf("actor object at index %d has no id", i)
-			}
-			actorSet[obj.GetId().String()] = true
-		} else if a.IsActorLink(i) {
-			l := a.GetActorLink(i)
-			if !l.HasHref() {
-				return fmt.Errorf("actor link at index %d has no href", i)
-			}
-			actorSet[l.GetHref().String()] = true
-		} else if a.IsActorIRI(i) {
-			actorSet[a.GetActorIRI(i).String()] = true
+	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+		iri, err := ToId(iter)
+		if err != nil {
+			return err
 		}
-	}
-	objectActors := make(map[string]bool, a.ObjectLen())
-	for i := 0; i < a.ObjectLen(); i++ {
-		if a.IsObject(i) {
-			obj := a.GetObject(i)
-			if !obj.HasId() {
-				return fmt.Errorf("object at index %d has no id", i)
-			}
-			objectActivity, ok := obj.(vocab.ActivityType)
-			if !ok {
-				return fmt.Errorf("object at index %d is not an activity", i)
-			}
-			for j := 0; j < objectActivity.ActorLen(); j++ {
-				if objectActivity.IsActorObject(j) {
-					obj := objectActivity.GetActorObject(j)
-					if !obj.HasId() {
-						return fmt.Errorf("actor object at index (%d,%d) has no id", i, j)
-					}
-					objectActors[obj.GetId().String()] = true
-				} else if objectActivity.IsActorLink(j) {
-					l := objectActivity.GetActorLink(j)
-					if !l.HasHref() {
-						return fmt.Errorf("actor link at index (%d,%d) has no href", i, j)
-					}
-					objectActors[l.GetHref().String()] = true
-				} else if objectActivity.IsActorIRI(j) {
-					objectActors[objectActivity.GetActorIRI(j).String()] = true
-				}
-			}
-		} else if a.IsObjectIRI(i) {
-			// TODO: Dereference IRI
-			iri := a.GetObjectIRI(i)
-			return fmt.Errorf("unimplemented: fetching IRI for UNDO verification of ownership of %q", iri)
-		}
-	}
-	for k := range objectActors {
-		if !actorSet[k] {
-			return fmt.Errorf("at least 1 activity actors missing: %q", k)
+		if originHost != iri.Host {
+			return fmt.Errorf("object %q: not in activity origin", iri)
 		}
 	}
 	return nil
@@ -548,7 +482,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 	// Phase 0: Acquire all recipients on the activity.
 	//
 	// Obtain the actorTo map
-	actorToMap := make(map[string]interface{})
+	actorToMap := make(map[string]*url.URL)
 	actorTo := a.GetActivityStreamsTo()
 	if actorTo == nil {
 		actorTo = streams.NewActivityStreamsToProperty()
@@ -562,7 +496,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 		actorToMap[id.String()] = id
 	}
 	// Obtain the actorBto map
-	actorBtoMap := make(map[string]interface{})
+	actorBtoMap := make(map[string]*url.URL)
 	actorBto := a.GetActivityStreamsBto()
 	if actorBto == nil {
 		actorBto = streams.NewActivityStreamsBtoProperty()
@@ -576,7 +510,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 		actorBtoMap[id.String()] = id
 	}
 	// Obtain the actorCc map
-	actorCcMap := make(map[string]interface{})
+	actorCcMap := make(map[string]*url.URL)
 	actorCc := a.GetActivityStreamsCc()
 	if actorCc == nil {
 		actorCc = streams.NewActivityStreamsCcProperty()
@@ -590,7 +524,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 		actorCcMap[id.String()] = id
 	}
 	// Obtain the actorBcc map
-	actorBccMap := make(map[string]interface{})
+	actorBccMap := make(map[string]*url.URL)
 	actorBcc := a.GetActivityStreamsBcc()
 	if actorBcc == nil {
 		actorBcc = streams.NewActivityStreamsBccProperty()
@@ -604,7 +538,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 		actorBccMap[id.String()] = id
 	}
 	// Obtain the actorAudience map
-	actorAudienceMap := make(map[string]interface{})
+	actorAudienceMap := make(map[string]*url.URL)
 	actorAudience := a.GetActivityStreamsAudience()
 	if actorAudience == nil {
 		actorAudience = streams.NewActivityStreamsAudienceProperty()
@@ -619,16 +553,16 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 	}
 	// Obtain the objects maps for each recipient type.
 	o := a.GetActivityStreamsObject()
-	objsTo := make([]map[string]interface{}, o.Len())
-	objsBto := make([]map[string]interface{}, o.Len())
-	objsCco := make([]map[string]interface{}, o.Len())
-	objsBcc := make([]map[string]interface{}, o.Len())
-	objsAudience := make([]map[string]interface{}, o.Len())
+	objsTo := make([]map[string]*url.URL, o.Len())
+	objsBto := make([]map[string]*url.URL, o.Len())
+	objsCc := make([]map[string]*url.URL, o.Len())
+	objsBcc := make([]map[string]*url.URL, o.Len())
+	objsAudience := make([]map[string]*url.URL, o.Len())
 	for i := 0; i < o.Len(); i++ {
 		// Phase 1: Acquire all existing recipients on the object.
 		//
 		// Object to
-		objsTo[i] = make(map[string]interface{})
+		objsTo[i] = make(map[string]*url.URL)
 		var oTo vocab.ActivityStreamsToProperty
 		if tr, ok := o.At(i).(toer); !ok {
 			return fmt.Errorf("the Create object at %d has no 'to' property", i)
@@ -647,7 +581,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 			objsTo[i][id.String()] = id
 		}
 		// Object bto
-		objsBto[i] = make(map[string]interface{})
+		objsBto[i] = make(map[string]*url.URL)
 		var oBto vocab.ActivityStreamsBtoProperty
 		if tr, ok := o.At(i).(btoer); !ok {
 			return fmt.Errorf("the Create object at %d has no 'bto' property", i)
@@ -666,7 +600,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 			objsBto[i][id.String()] = id
 		}
 		// Object cc
-		objsCc[i] = make(map[string]interface{})
+		objsCc[i] = make(map[string]*url.URL)
 		var oCc vocab.ActivityStreamsCcProperty
 		if tr, ok := o.At(i).(ccer); !ok {
 			return fmt.Errorf("the Create object at %d has no 'cc' property", i)
@@ -685,7 +619,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 			objsCc[i][id.String()] = id
 		}
 		// Object bcc
-		objsBcc[i] = make(map[string]interface{})
+		objsBcc[i] = make(map[string]*url.URL)
 		var oBcc vocab.ActivityStreamsBccProperty
 		if tr, ok := o.At(i).(bccer); !ok {
 			return fmt.Errorf("the Create object at %d has no 'bcc' property", i)
@@ -704,7 +638,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 			objsBcc[i][id.String()] = id
 		}
 		// Object audience
-		objsAudience[i] = make(map[string]interface{})
+		objsAudience[i] = make(map[string]*url.URL)
 		var oAudience vocab.ActivityStreamsAudienceProperty
 		if tr, ok := o.At(i).(audiencer); !ok {
 			return fmt.Errorf("the Create object at %d has no 'audience' property", i)
@@ -796,6 +730,243 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 			if _, ok := actorAudienceMap[k]; !ok {
 				actorAudience.AppendIRI(v)
 			}
+		}
+	}
+	return nil
+}
+
+// toTombstone creates a Tombstone object for the given ActivityStreams value.
+func toTombstone(obj vocab.Type, id *url.URL, now time.Time) vocab.ActivityStreamsTombstone {
+	tomb := streams.NewActivityStreamsTombstone()
+	// id property
+	idProp := streams.NewActivityStreamsIdProperty()
+	idProp.Set(id)
+	tomb.SetActivityStreamsId(idProp)
+	// formerType property
+	former := streams.NewActivityStreamsFormerTypeProperty()
+	tomb.SetActivityStreamsFormerType(former)
+	// Populate Former Type
+	former.AppendXMLSchemaString(obj.GetName())
+	// Copy over the published property if it existed
+	if pubber, ok := obj.(publisheder); ok {
+		if pub := pubber.GetActivityStreamsPublished(); pub != nil {
+			tomb.SetActivityStreamsPublished(pub)
+		}
+	}
+	// Copy over the updated property if it existed
+	if upder, ok := obj.(updateder); ok {
+		if upd := upder.GetActivityStreamsUpdated(); upd != nil {
+			tomb.SetActivityStreamsUpdated(upd)
+		}
+	}
+	// Set deleted time to now.
+	deleted := streams.NewActivityStreamsDeletedProperty()
+	deleted.Set(now)
+	tomb.SetActivityStreamsDeleted(deleted)
+	return tomb
+}
+
+// mustHaveActivityActorsMatchObjectActors ensures that the actors on types in
+// the 'object' property are all listed in the 'actor' property.
+func mustHaveActivityActorsMatchObjectActors(actors vocab.ActivityStreamsActorProperty,
+	op vocab.ActivityStreamsObjectProperty) error {
+	activityActorMap := make(map[string]bool, actors.Len())
+	for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		activityActorMap[id.String()] = true
+	}
+	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+		t := iter.GetType()
+		if t == nil {
+			// TODO: Fetch the IRI
+			continue
+		}
+		ac, ok := t.(actorer)
+		if !ok {
+			return fmt.Errorf("cannot verify actors: object value has no 'actor' property")
+		}
+		objActors := ac.GetActivityStreamsActor()
+		for iter := objActors.Begin(); iter != objActors.End(); iter = iter.Next() {
+			id, err := ToId(iter)
+			if err != nil {
+				return err
+			}
+			if !activityActorMap[id.String()] {
+				return fmt.Errorf("activity does not have all actors from its object's actors")
+			}
+		}
+	}
+	return nil
+}
+
+// add implements the logic of adding object ids to a target Collection or
+// OrderedCollection. This logic is shared by both the C2S and S2S protocols.
+func add(c context.Context,
+	op vocab.ActivityStreamsObjectProperty,
+	target vocab.ActivityStreamsTargetProperty,
+	db Database) error {
+	opIds := make([]*url.URL, 0, op.Len())
+	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		opIds = append(opIds, id)
+	}
+	targetIds := make([]*url.URL, 0, op.Len())
+	for iter := target.Begin(); iter != target.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		targetIds = append(targetIds, id)
+	}
+	// Create anonymous loop function to be able to properly scope the defer
+	// for the database lock at each iteration.
+	loopFn := func(t *url.URL) error {
+		if err := db.Lock(c, t); err != nil {
+			return err
+		}
+		defer db.Unlock(c, t)
+		if owns, err := db.Owns(c, t); err != nil {
+			return err
+		} else if !owns {
+			return nil
+		}
+		tp, err := db.Get(c, t)
+		if err != nil {
+			return err
+		}
+		if streams.ActivityStreamsOrderedCollectionIsExtendedBy(tp) {
+			oi, ok := tp.(orderedItemser)
+			if !ok {
+				return fmt.Errorf("type extending from OrderedCollection cannot convert to orderedItemser interface")
+			}
+			oiProp := oi.GetActivityStreamsOrderedItems()
+			if oiProp == nil {
+				oiProp = streams.NewActivityStreamsOrderedItemsProperty()
+				oi.SetActivityStreamsOrderedItems(oiProp)
+			}
+			for _, objId := range opIds {
+				oiProp.AppendIRI(objId)
+			}
+		} else if streams.ActivityStreamsCollectionIsExtendedBy(tp) {
+			i, ok := tp.(itemser)
+			if !ok {
+				return fmt.Errorf("type extending from Collection cannot convert to itemser interface")
+			}
+			iProp := i.GetActivityStreamsItems()
+			if iProp == nil {
+				iProp = streams.NewActivityStreamsItemsProperty()
+				i.SetActivityStreamsItems(iProp)
+			}
+			for _, objId := range opIds {
+				iProp.AppendIRI(objId)
+			}
+		}
+		err = db.Update(c, tp)
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+	for _, t := range targetIds {
+		if err := loopFn(t); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// remove implements the logic of removing object ids to a target Collection or
+// OrderedCollection. This logic is shared by both the C2S and S2S protocols.
+func remove(c context.Context,
+	op vocab.ActivityStreamsObjectProperty,
+	target vocab.ActivityStreamsTargetProperty,
+	db Database) error {
+	opIds := make(map[string]bool, op.Len())
+	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		opIds[id.String()] = true
+	}
+	targetIds := make([]*url.URL, 0, op.Len())
+	for iter := target.Begin(); iter != target.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		targetIds = append(targetIds, id)
+	}
+	// Create anonymous loop function to be able to properly scope the defer
+	// for the database lock at each iteration.
+	loopFn := func(t *url.URL) error {
+		if err := db.Lock(c, t); err != nil {
+			return err
+		}
+		defer db.Unlock(c, t)
+		if owns, err := db.Owns(c, t); err != nil {
+			return err
+		} else if !owns {
+			return nil
+		}
+		tp, err := db.Get(c, t)
+		if err != nil {
+			return err
+		}
+		if streams.ActivityStreamsOrderedCollectionIsExtendedBy(tp) {
+			oi, ok := tp.(orderedItemser)
+			if !ok {
+				return fmt.Errorf("type extending from OrderedCollection cannot convert to orderedItemser interface")
+			}
+			oiProp := oi.GetActivityStreamsOrderedItems()
+			if oiProp != nil {
+				for i := 0; i < oiProp.Len(); /*Conditional*/ {
+					id, err := ToId(oiProp.At(i))
+					if err != nil {
+						return err
+					}
+					if opIds[id.String()] {
+						oiProp.Remove(i)
+					} else {
+						i++
+					}
+				}
+			}
+		} else if streams.ActivityStreamsCollectionIsExtendedBy(tp) {
+			i, ok := tp.(itemser)
+			if !ok {
+				return fmt.Errorf("type extending from Collection cannot convert to itemser interface")
+			}
+			iProp := i.GetActivityStreamsItems()
+			if iProp != nil {
+				for i := 0; i < iProp.Len(); /*Conditional*/ {
+					id, err := ToId(iProp.At(i))
+					if err != nil {
+						return err
+					}
+					if opIds[id.String()] {
+						iProp.Remove(i)
+					} else {
+						i++
+					}
+				}
+			}
+		}
+		err = db.Update(c, tp)
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+	for _, t := range targetIds {
+		if err := loopFn(t); err != nil {
+			return err
 		}
 	}
 	return nil

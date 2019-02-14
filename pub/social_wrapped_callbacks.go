@@ -16,24 +16,28 @@ type SocialWrappedCallbacks struct {
 	// Create handles additional side effects for the Create ActivityStreams
 	// type.
 	//
-	// The wrapping callback for the Social Protocol copies the actor(s) to
-	// the 'attributedTo' property, copying recipients between the Create
-	// activity and all objects. It then saves the entry in the database.
+	// The wrapping callback copies the actor(s) to the 'attributedTo'
+	// property and copies recipients between the Create activity and all
+	// objects. It then saves the entry in the database.
 	Create func(context.Context, vocab.ActivityStreamsCreate) error
 	// Update handles additional side effects for the Update ActivityStreams
 	// type.
 	//
-	// TODO: Describe
+	// The wrapping callback applies new top-level values on an object to
+	// the stored objects. Any top-level null literals will be deleted on
+	// the stored objects as well.
 	Update func(context.Context, vocab.ActivityStreamsUpdate) error
 	// Delete handles additional side effects for the Delete ActivityStreams
 	// type.
 	//
-	// TODO: Describe
+	// The wrapping callback replaces the object(s) with tombstones in the
+	// database.
 	Delete func(context.Context, vocab.ActivityStreamsDelete) error
 	// Follow handles additional side effects for the Follow ActivityStreams
 	// type.
 	//
-	// TODO: Describe
+	// The wrapping callback only ensures the 'Follow' has at least one
+	// 'object' entry, but otherwise has no default side effect.
 	Follow func(context.Context, vocab.ActivityStreamsFollow) error
 	// Add handles additional side effects for the Add ActivityStreams
 	// type.
@@ -58,7 +62,13 @@ type SocialWrappedCallbacks struct {
 	// Block handles additional side effects for the Block ActivityStreams
 	// type.
 	//
-	// TODO: Describe
+	// The wrapping callback only ensures the 'Block' has at least one
+	// 'object' entry, but otherwise has no default side effect. It is up
+	// to the wrapped application function to properly enforce the new
+	// blocking behavior.
+	//
+	// Note that go-fed does not federate 'Block' activities received in the
+	// Social Protocol.
 	Block func(context.Context, vocab.ActivityStreamsBlock) error
 
 	// Sidechannel data -- this is set at request handling time. These must
@@ -67,9 +77,16 @@ type SocialWrappedCallbacks struct {
 	// db is the Database the SocialWrappedCallbacks should use. It must be
 	// set before calling the callbacks.
 	db Database
+	// outboxIRI is the outboxIRI that is handling this callback.
+	outboxIRI *url.URL
+	// rawActivity is the JSON map literal received when deserializing the
+	// request body.
+	rawActivity map[string]interface{}
+	// clock is the server's clock.
+	clock Clock
 	// deliverable is a sidechannel out, indicating if the handled activity
 	// should be delivered to a peer.
-	deliverable bool
+	deliverable *bool
 }
 
 // disjoint ensures that the functions given do not share a type signature with
@@ -123,7 +140,7 @@ func (w SocialWrappedCallbacks) callbacks() []interface{} {
 
 // create implements the social Create activity side effects.
 func (w SocialWrappedCallbacks) create(c context.Context, a vocab.ActivityStreamsCreate) error {
-	w.deliverable = true
+	*w.deliverable = true
 	op := a.GetActivityStreamsObject()
 	if op == nil || op.Len() == 0 {
 		return ErrObjectRequired
@@ -189,12 +206,28 @@ func (w SocialWrappedCallbacks) create(c context.Context, a vocab.ActivityStream
 	if err := normalizeRecipients(a); err != nil {
 		return err
 	}
+	// Create anonymous loop function to be able to properly scope the defer
+	// for the database lock at each iteration.
+	loopFn := func(i int) error {
+		obj := op.At(i).GetType()
+		id, err := GetId(obj)
+		if err != nil {
+			return err
+		}
+		err = w.db.Lock(c, id)
+		if err != nil {
+			return err
+		}
+		defer w.db.Unlock(c, id)
+		if err := w.db.Create(c, obj); err != nil {
+			return err
+		}
+		return nil
+	}
 	// Persist all objects we've created, which will include sensitive
 	// recipients such as 'bcc' and 'bto'.
 	for i := 0; i < op.Len(); i++ {
-		obj := op.At(i).GetType()
-		// TODO: Lock
-		if err := w.db.Create(c, obj); err != nil {
+		if err := loopFn(i); err != nil {
 			return err
 		}
 	}
@@ -206,296 +239,249 @@ func (w SocialWrappedCallbacks) create(c context.Context, a vocab.ActivityStream
 
 // update implements the social Update activity side effects.
 func (w SocialWrappedCallbacks) update(c context.Context, a vocab.ActivityStreamsUpdate) error {
-	*deliverable = true
-	if s.LenObject() == 0 {
-		return errObjectRequired
+	*w.deliverable = true
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	// Update should partially replace the 'object' with only the
-	// changed top-level fields.
-	ids, err := getObjectIds(s.Raw())
-	if err != nil {
-		return err
-	} else if len(ids) == 0 {
-		return fmt.Errorf("update has no id: %v", s)
+	// Obtain all object ids, which should be owned by this server.
+	objIds := make([]*url.URL, 0, op.Len())
+	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+		id, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		objIds = append(objIds, id)
 	}
-	for idx, id := range ids {
-		pObj, err := f.App.Get(c, id, ReadWrite)
+	// Create anonymous loop function to be able to properly scope the defer
+	// for the database lock at each iteration.
+	loopFn := func(idx int, loopId *url.URL) error {
+		err := w.db.Lock(c, loopId)
 		if err != nil {
 			return err
 		}
-		m, err := pObj.Serialize()
+		defer w.db.Unlock(c, loopId)
+		t, err := w.db.Get(c, loopId)
 		if err != nil {
 			return err
 		}
-		if !s.Raw().IsObject(idx) {
-			return fmt.Errorf("update requires object to be wholly provided at index %d", idx)
-		}
-		updated, err := s.Raw().GetObject(idx).Serialize()
+		m, err := t.Serialize()
 		if err != nil {
 			return err
 		}
-		for k, v := range updated {
+		// Copy over new top-level values.
+		objType := op.At(idx).GetType()
+		if objType == nil {
+			return fmt.Errorf("object at index %d is not a literal type value", idx)
+		}
+		newM, err := objType.Serialize()
+		if err != nil {
+			return err
+		}
+		for k, v := range newM {
 			m[k] = v
 		}
-		if rawUpdatedObject := getRawObject(rawJson, id.String()); rawUpdatedObject != nil {
-			recursivelyApplyDeletes(m, rawUpdatedObject)
+		// Delete top-level values where the raw Activity had nils.
+		for k, v := range w.rawActivity {
+			if _, ok := m[k]; v == nil && ok {
+				delete(m, k)
+			}
 		}
-		p, err := ToPubObject(m)
+		newT, err := toType(c, m)
 		if err != nil {
 			return err
 		}
-		for _, elem := range p {
-			if err := f.App.Set(c, elem); err != nil {
-				return err
-			}
+		if err = w.db.Update(c, newT); err != nil {
+			return err
+		}
+		return nil
+	}
+	for i, id := range objIds {
+		if err := loopFn(i, id); err != nil {
+			return err
 		}
 	}
-	return f.ClientCallbacker.Update(c, s)
+	if w.Update != nil {
+		return w.Update(c, a)
+	}
+	return nil
 }
 
 // deleteFn implements the social Delete activity side effects.
 func (w SocialWrappedCallbacks) deleteFn(c context.Context, a vocab.ActivityStreamsDelete) error {
-	*deliverable = true
-	if s.LenObject() == 0 {
-		return errObjectRequired
+	*w.deliverable = true
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	ids, err := getObjectIds(s.Raw())
-	if err != nil {
-		return err
-	} else if len(ids) == 0 {
-		return fmt.Errorf("delete has no id: %v", s)
-	}
-	for _, id := range ids {
-		pObj, err := f.App.Get(c, id, ReadWrite)
+	// Obtain all object ids, which should be owned by this server.
+	objIds := make([]*url.URL, 0, op.Len())
+	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+		id, err := ToId(iter)
 		if err != nil {
 			return err
 		}
-		obj, ok := pObj.(vocab.ObjectType)
-		if !ok {
-			return fmt.Errorf("cannot delete non-ObjectType: %T", pObj)
+		objIds = append(objIds, id)
+	}
+	// Create anonymous loop function to be able to properly scope the defer
+	// for the database lock at each iteration.
+	loopFn := func(idx int, loopId *url.URL) error {
+		err := w.db.Lock(c, loopId)
+		if err != nil {
+			return err
 		}
-		tomb := toTombstone(obj, id, f.Clock.Now())
-		if err := f.App.Set(c, tomb); err != nil {
+		defer w.db.Unlock(c, loopId)
+		t, err := w.db.Get(c, loopId)
+		if err != nil {
+			return err
+		}
+		tomb := toTombstone(t, loopId, w.clock.Now())
+		if err := w.db.Update(c, tomb); err != nil {
+			return err
+		}
+		return nil
+	}
+	for i, id := range objIds {
+		if err := loopFn(i, id); err != nil {
 			return err
 		}
 	}
-	return f.ClientCallbacker.Delete(c, s)
+	if w.Delete != nil {
+		return w.Delete(c, a)
+	}
+	return nil
 }
 
 // follow implements the social Follow activity side effects.
 func (w SocialWrappedCallbacks) follow(c context.Context, a vocab.ActivityStreamsFollow) error {
-	*deliverable = true
-	if s.LenObject() == 0 {
-		return errObjectRequired
+	*w.deliverable = true
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	return f.ClientCallbacker.Follow(c, s)
+	if w.Follow != nil {
+		return w.Follow(c, a)
+	}
+	return nil
 }
 
 // add implements the social Add activity side effects.
 func (w SocialWrappedCallbacks) add(c context.Context, a vocab.ActivityStreamsAdd) error {
-	// TODO: Dedupe with FederatingWrappedCallbacks
-	*deliverable = true
-	if s.LenObject() == 0 {
-		return errObjectRequired
-	} else if s.LenTarget() == 0 {
-		return errTargetRequired
+	*w.deliverable = true
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	raw := s.Raw()
-	ids, err := getTargetIds(raw)
-	if err != nil {
+	target := a.GetActivityStreamsTarget()
+	if target == nil || target.Len() == 0 {
+		return ErrTargetRequired
+	}
+	if err := add(c, op, target, w.db); err != nil {
 		return err
-	} else if len(ids) == 0 {
-		return fmt.Errorf("add target has no ids: %v", s)
 	}
-	objIds, err := getObjectIds(s.Raw())
-	if err != nil {
-		return err
-	} else if len(objIds) == 0 {
-		return fmt.Errorf("add object has no ids: %v", s)
+	if w.Add != nil {
+		return w.Add(c, a)
 	}
-	var targets []vocab.ObjectType
-	for _, id := range ids {
-		if !f.App.Owns(c, id) {
-			continue
-		}
-		target, err := f.App.Get(c, id, ReadWrite)
-		if err != nil {
-			return err
-		}
-		ct, okCollection := target.(vocab.CollectionType)
-		oct, okOrdered := target.(vocab.OrderedCollectionType)
-		if !okCollection && !okOrdered {
-			return fmt.Errorf("cannot add to type that is not Collection and not OrderedCollection: %v", target)
-		} else if okCollection {
-			targets = append(targets, ct)
-		} else {
-			targets = append(targets, oct)
-		}
-	}
-	for i := 0; i < raw.ObjectLen(); i++ {
-		var obj vocab.ObjectType
-		var objId *url.URL
-		if raw.IsObjectIRI(i) {
-			objId = raw.GetObjectIRI(i)
-			if f.App.Owns(c, objId) {
-				pObj, err := f.App.Get(c, objId, Read)
-				var ok bool
-				if obj, ok = pObj.(vocab.ObjectType); !ok {
-					return fmt.Errorf("add object must be an activitypub object: %v", raw)
-				}
-				if err != nil {
-					return err
-				}
-			} else {
-				obj, err = f.dereferenceAsUser(outboxURL, objId)
-				if err != nil {
-					return err
-				}
-			}
-		} else if raw.IsObject(i) {
-			obj = raw.GetObject(i)
-			if !obj.HasId() {
-				return fmt.Errorf("add object missing iri")
-			}
-			objId = obj.GetId()
-		} else {
-			return fmt.Errorf("add object must be of object or iri type: %v", raw)
-		}
-		for _, target := range targets {
-			if !f.App.CanAdd(c, obj, target) {
-				continue
-			}
-			if ct, ok := target.(vocab.CollectionType); ok {
-				ct.AppendItemsIRI(objId)
-			} else if oct, ok := target.(vocab.OrderedCollectionType); ok {
-				oct.AppendOrderedItemsIRI(objId)
-			}
-			if err := f.App.Set(c, target); err != nil {
-				return err
-			}
-		}
-	}
-	return f.ClientCallbacker.Add(c, s)
+	return nil
 }
 
 // remove implements the social Remove activity side effects.
 func (w SocialWrappedCallbacks) remove(c context.Context, a vocab.ActivityStreamsRemove) error {
-	// TODO: Dedupe with FederatingWrappedCallbacks
-	*deliverable = true
-	if s.LenObject() == 0 {
-		return errObjectRequired
-	} else if s.LenTarget() == 0 {
-		return errTargetRequired
+	*w.deliverable = true
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	raw := s.Raw()
-	ids, err := getTargetIds(raw)
-	if err != nil {
+	target := a.GetActivityStreamsTarget()
+	if target == nil || target.Len() == 0 {
+		return ErrTargetRequired
+	}
+	if err := remove(c, op, target, w.db); err != nil {
 		return err
-	} else if len(ids) == 0 {
-		return fmt.Errorf("remove target has no ids: %v", s)
 	}
-	objIds, err := getObjectIds(s.Raw())
-	if err != nil {
-		return err
-	} else if len(objIds) == 0 {
-		return fmt.Errorf("remove object has no ids: %v", s)
+	if w.Remove != nil {
+		return w.Remove(c, a)
 	}
-	var targets []vocab.ObjectType
-	for _, id := range ids {
-		if !f.App.Owns(c, id) {
-			continue
-		}
-		target, err := f.App.Get(c, id, ReadWrite)
-		if err != nil {
-			return err
-		}
-		ct, okCollection := target.(vocab.CollectionType)
-		oct, okOrdered := target.(vocab.OrderedCollectionType)
-		if !okCollection && !okOrdered {
-			return fmt.Errorf("cannot remove from type that is not Collection and not OrderedCollection: %v", target)
-		} else if okCollection {
-			targets = append(targets, ct)
-		} else {
-			targets = append(targets, oct)
-		}
-	}
-	for i := 0; i < raw.ObjectLen(); i++ {
-		if !raw.IsObject(i) {
-			// TODO: Fetch IRIs as well
-			return fmt.Errorf("remove object must be object type: %v", raw)
-		}
-		obj := raw.GetObject(i)
-		for _, target := range targets {
-			if !f.App.CanRemove(c, obj, target) {
-				continue
-			}
-			if ct, ok := target.(vocab.CollectionType); ok {
-				removeCollectionItemWithId(ct, obj.GetId())
-			} else if oct, ok := target.(vocab.OrderedCollectionType); ok {
-				removeOrderedCollectionItemWithId(oct, obj.GetId())
-			}
-			if err := f.App.Set(c, target); err != nil {
-				return err
-			}
-		}
-	}
-	return f.ClientCallbacker.Remove(c, s)
+	return nil
 }
 
 // like implements the social Like activity side effects.
 func (w SocialWrappedCallbacks) like(c context.Context, a vocab.ActivityStreamsLike) error {
-	*deliverable = true
-	if s.LenObject() == 0 {
-		return errObjectRequired
+	*w.deliverable = true
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	getter := func(actor vocab.ObjectType, lc *vocab.CollectionType, loc *vocab.OrderedCollectionType) (bool, error) {
-		if actor.IsLikedAnyURI() {
-			pObj, err := f.App.Get(ctx, actor.GetLikedAnyURI(), ReadWrite)
-			if err != nil {
-				return true, err
-			}
-			ok := false
-			if *lc, ok = pObj.(vocab.CollectionType); !ok {
-				if *loc, ok = pObj.(vocab.OrderedCollectionType); !ok {
-					return true, fmt.Errorf("actors liked collection not CollectionType nor OrderedCollectionType")
-				}
-			}
-			return true, nil
-		} else if actor.IsLikedCollection() {
-			*lc = actor.GetLikedCollection()
-			return false, nil
-		} else if actor.IsLikedOrderedCollection() {
-			*loc = actor.GetLikedOrderedCollection()
-			return false, nil
-		}
-		*loc = &vocab.OrderedCollection{}
-		actor.SetLikedOrderedCollection(*loc)
-		return false, nil
-	}
-	if err := f.addAllObjectsToActorCollection(ctx, getter, s.Raw(), true); err != nil {
+	// Get this actor's IRI.
+	if err := w.db.Lock(c, w.outboxIRI); err != nil {
 		return err
 	}
-	return f.ClientCallbacker.Like(ctx, s)
+	// WARNING: Unlock not deferred.
+	actorIRI, err := w.db.ActorForInbox(c, w.outboxIRI)
+	if err != nil {
+		w.db.Unlock(c, w.outboxIRI)
+		return err
+	}
+	w.db.Unlock(c, w.outboxIRI)
+	// Unlock must be called by now and every branch above.
+	//
+	// Now obtain this actor's 'liked' collection.
+	if err := w.db.Lock(c, actorIRI); err != nil {
+		return err
+	}
+	defer w.db.Unlock(c, actorIRI)
+	liked, err := w.db.Liked(c, actorIRI)
+	if err != nil {
+		return err
+	}
+	likedItems := liked.GetActivityStreamsItems()
+	if likedItems == nil {
+		likedItems = streams.NewActivityStreamsItemsProperty()
+		liked.SetActivityStreamsItems(likedItems)
+	}
+	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+		objId, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		likedItems.PrependIRI(objId)
+	}
+	err = w.db.Update(c, liked)
+	if err != nil {
+		return err
+	}
+	if w.Like != nil {
+		return w.Like(c, a)
+	}
+	return nil
 }
 
 // undo implements the social Undo activity side effects.
 func (w SocialWrappedCallbacks) undo(c context.Context, a vocab.ActivityStreamsUndo) error {
-	*deliverable = true
-	if s.LenObject() == 0 {
-		return errObjectRequired
+	*w.deliverable = true
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	raw := s.Raw()
-	if err := f.ensureActivityActorsMatchObjectActors(raw); err != nil {
+	actors := a.GetActivityStreamsActor()
+	if err := mustHaveActivityActorsMatchObjectActors(actors, op); err != nil {
 		return err
 	}
-	return f.ClientCallbacker.Undo(c, s)
+	if w.Undo != nil {
+		return w.Undo(c, a)
+	}
+	return nil
 }
 
 // block implements the social Block activity side effects.
 func (w SocialWrappedCallbacks) block(c context.Context, a vocab.ActivityStreamsBlock) error {
-	*deliverable = false
-	if s.LenObject() == 0 {
-		return errObjectRequired
+	*w.deliverable = false
+	op := a.GetActivityStreamsObject()
+	if op == nil || op.Len() == 0 {
+		return ErrObjectRequired
 	}
-	return f.ClientCallbacker.Block(c, s)
+	if w.Block != nil {
+		return w.Block(c, a)
+	}
+	return nil
 }
