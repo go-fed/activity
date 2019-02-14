@@ -123,7 +123,8 @@ const (
 	jsonLDContext = "@context"
 )
 
-// addJSONLDContext adds the
+// addJSONLDContext adds the context vocabularies contained within the type
+// into the JSON-LD @context field, and aliases them appropriately.
 func serialize(a vocab.Type) (m map[string]interface{}, e error) {
 	m, e = a.Serialize()
 	if e != nil {
@@ -970,4 +971,33 @@ func remove(c context.Context,
 		}
 	}
 	return nil
+}
+
+// clearSensitiveFields removes the 'bto' and 'bcc' entries on the given value
+// and recursively on every 'object' property value.
+func clearSensitiveFields(obj vocab.Type) {
+	if t, ok := obj.(btoer); ok {
+		bto := t.GetActivityStreamsBto()
+		if bto != nil {
+			for bto.Len() > 0 {
+				bto.Remove(0)
+			}
+		}
+	}
+	if t, ok := obj.(bccer); ok {
+		bcc := t.GetActivityStreamsBcc()
+		if bcc != nil {
+			for bcc.Len() > 0 {
+				bcc.Remove(0)
+			}
+		}
+	}
+	if t, ok := obj.(objecter); ok {
+		op := t.GetActivityStreamsObject()
+		if op != nil {
+			for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+				clearSensitiveFields(iter.GetType())
+			}
+		}
+	}
 }
