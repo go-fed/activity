@@ -5,6 +5,7 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/base64"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/go-fed/activity/streams"
@@ -769,8 +770,11 @@ func toTombstone(obj vocab.Type, id *url.URL, now time.Time) vocab.ActivityStrea
 
 // mustHaveActivityActorsMatchObjectActors ensures that the actors on types in
 // the 'object' property are all listed in the 'actor' property.
-func mustHaveActivityActorsMatchObjectActors(actors vocab.ActivityStreamsActorProperty,
-	op vocab.ActivityStreamsObjectProperty) error {
+func mustHaveActivityActorsMatchObjectActors(c context.Context,
+	actors vocab.ActivityStreamsActorProperty,
+	op vocab.ActivityStreamsObjectProperty,
+	newTransport func(c context.Context, actorBoxIRI *url.URL, gofedAgent string) (t Transport, err error),
+	boxIRI *url.URL) error {
 	activityActorMap := make(map[string]bool, actors.Len())
 	for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
 		id, err := ToId(iter)
@@ -781,9 +785,26 @@ func mustHaveActivityActorsMatchObjectActors(actors vocab.ActivityStreamsActorPr
 	}
 	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
 		t := iter.GetType()
-		if t == nil {
-			// TODO: Fetch the IRI
-			continue
+		if t == nil && iter.IsIRI() {
+			// Attempt to dereference the IRI instead
+			tport, err := newTransport(c, boxIRI, goFedUserAgent())
+			if err != nil {
+				return err
+			}
+			b, err := tport.Dereference(c, iter.GetIRI())
+			if err != nil {
+				return err
+			}
+			var m map[string]interface{}
+			if err = json.Unmarshal(b, &m); err != nil {
+				return err
+			}
+			t, err = toType(c, m)
+			if err != nil {
+				return err
+			}
+		} else {
+			return fmt.Errorf("cannot verify actors: object is neither a value nor IRI")
 		}
 		ac, ok := t.(actorer)
 		if !ok {

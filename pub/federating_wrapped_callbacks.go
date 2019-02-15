@@ -836,7 +836,7 @@ func (w FederatingWrappedCallbacks) undo(c context.Context, a vocab.ActivityStre
 		return ErrObjectRequired
 	}
 	actors := a.GetActivityStreamsActor()
-	if err := mustHaveActivityActorsMatchObjectActors(actors, op); err != nil {
+	if err := mustHaveActivityActorsMatchObjectActors(c, actors, op, w.newTransport, w.inboxIRI); err != nil {
 		return err
 	}
 	if w.Undo != nil {

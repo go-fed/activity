@@ -97,6 +97,8 @@ type SocialWrappedCallbacks struct {
 	rawActivity map[string]interface{}
 	// clock is the server's clock.
 	clock Clock
+	// newTransport creates a new Transport.
+	newTransport func(c context.Context, actorBoxIRI *url.URL, gofedAgent string) (t Transport, err error)
 	// deliverable is a sidechannel out, indicating if the handled activity
 	// should be delivered to a peer.
 	deliverable *bool
@@ -497,7 +499,7 @@ func (w SocialWrappedCallbacks) undo(c context.Context, a vocab.ActivityStreamsU
 		return ErrObjectRequired
 	}
 	actors := a.GetActivityStreamsActor()
-	if err := mustHaveActivityActorsMatchObjectActors(actors, op); err != nil {
+	if err := mustHaveActivityActorsMatchObjectActors(c, actors, op, w.newTransport, w.outboxIRI); err != nil {
 		return err
 	}
 	if w.Undo != nil {

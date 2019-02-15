@@ -101,7 +101,7 @@ func (a *sideEffectActor) PostInbox(c context.Context, inboxIRI *url.URL, activi
 		// Populate side channels.
 		wrapped.db = a.db
 		wrapped.inboxIRI = inboxIRI
-		wrapped.newTransport = a.s2s.NewTransport
+		wrapped.newTransport = a.common.NewTransport
 		res, err := streams.NewTypeResolver(wrapped.callbacks(other))
 		if err != nil {
 			return err
@@ -279,6 +279,7 @@ func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outbo
 	wrapped.outboxIRI = outboxIRI
 	wrapped.rawActivity = rawJSON
 	wrapped.clock = a.clock
+	wrapped.newTransport = a.common.NewTransport
 	wrapped.deliverable = &deliverable
 	res, err := streams.NewTypeResolver(wrapped.callbacks(other))
 	if err != nil {
@@ -357,7 +358,7 @@ func (a *sideEffectActor) deliverToRecipients(c context.Context, boxIRI *url.URL
 	if err != nil {
 		return err
 	}
-	tp, err := a.s2s.NewTransport(c, boxIRI, goFedUserAgent())
+	tp, err := a.common.NewTransport(c, boxIRI, goFedUserAgent())
 	if err != nil {
 		return err
 	}
@@ -570,7 +571,7 @@ func (a *sideEffectActor) prepare(c context.Context, outboxIRI *url.URL, activit
 	//    server MAY deliver that object to all known sharedInbox endpoints
 	//    on the network.
 	r = filterURLs(r, IsPublic)
-	t, err := a.s2s.NewTransport(c, outboxIRI, goFedUserAgent())
+	t, err := a.common.NewTransport(c, outboxIRI, goFedUserAgent())
 	if err != nil {
 		return nil, err
 	}

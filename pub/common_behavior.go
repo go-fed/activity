@@ -3,6 +3,7 @@ package pub
 import (
 	"context"
 	"net/http"
+	"net/url"
 )
 
 // Common contains functions required for both the Social API and Federating
@@ -51,4 +52,28 @@ type CommonBehavior interface {
 	// shouldReturn must be false and error nil. The request will continue
 	// to be processed.
 	AuthenticateGetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (shouldReturn bool, err error)
+	// NewTransport returns a new Transport on behalf of a specific actor.
+	//
+	// The actorBoxIRI will be either the inbox or outbox of an actor who is
+	// attempting to do the dereferencing or delivery. Any authentication
+	// scheme applied on the request must be based on this actor. The
+	// request must contain some sort of credential of the user, such as a
+	// HTTP Signature.
+	//
+	// The gofedAgent passed in should be used by the Transport
+	// implementation in the User-Agent, as well as the application-specific
+	// user agent string. The gofedAgent will indicate this library's use as
+	// well as the library's version number.
+	//
+	// Any server-wide rate-limiting that needs to occur should happen in a
+	// Transport implementation. This factory function allows this to be
+	// created, so peer servers are not DOS'd.
+	//
+	// Any retry logic should also be handled by the Transport
+	// implementation.
+	//
+	// Note that the library will not maintain a long-lived pointer to the
+	// returned Transport so that any private credentials are able to be
+	// garbage collected.
+	NewTransport(c context.Context, actorBoxIRI *url.URL, gofedAgent string) (t Transport, err error)
 }
