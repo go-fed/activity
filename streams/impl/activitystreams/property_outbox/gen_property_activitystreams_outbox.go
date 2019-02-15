@@ -245,3 +245,18 @@ func (this *ActivityStreamsOutboxProperty) SetIRI(v *url.URL) {
 	this.Clear()
 	this.iri = v
 }
+
+// SetType attempts to set the property for the arbitrary type. Returns an error
+// if it is not a valid type to set on this property.
+func (this *ActivityStreamsOutboxProperty) SetType(t vocab.Type) error {
+	if v, ok := t.(vocab.ActivityStreamsOrderedCollection); ok {
+		this.SetActivityStreamsOrderedCollection(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsOrderedCollectionPage); ok {
+		this.SetActivityStreamsOrderedCollectionPage(v)
+		return nil
+	}
+
+	return fmt.Errorf("illegal type to set on outbox property: %T", t)
+}

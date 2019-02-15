@@ -329,3 +329,26 @@ func (this *ActivityStreamsLikesProperty) SetIRI(v *url.URL) {
 	this.Clear()
 	this.iri = v
 }
+
+// SetType attempts to set the property for the arbitrary type. Returns an error
+// if it is not a valid type to set on this property.
+func (this *ActivityStreamsLikesProperty) SetType(t vocab.Type) error {
+	if v, ok := t.(vocab.ActivityStreamsOrderedCollection); ok {
+		this.SetActivityStreamsOrderedCollection(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsCollection); ok {
+		this.SetActivityStreamsCollection(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsCollectionPage); ok {
+		this.SetActivityStreamsCollectionPage(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsOrderedCollectionPage); ok {
+		this.SetActivityStreamsOrderedCollectionPage(v)
+		return nil
+	}
+
+	return fmt.Errorf("illegal type to set on likes property: %T", t)
+}

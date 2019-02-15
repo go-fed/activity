@@ -241,6 +241,21 @@ func (this *ActivityStreamsUrlPropertyIterator) SetIRI(v *url.URL) {
 	this.SetXMLSchemaAnyURI(v)
 }
 
+// SetType attempts to set the property for the arbitrary type. Returns an error
+// if it is not a valid type to set on this property.
+func (this *ActivityStreamsUrlPropertyIterator) SetType(t vocab.Type) error {
+	if v, ok := t.(vocab.ActivityStreamsLink); ok {
+		this.SetActivityStreamsLink(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsMention); ok {
+		this.SetActivityStreamsMention(v)
+		return nil
+	}
+
+	return fmt.Errorf("illegal type to set on ActivityStreamsUrl property: %T", t)
+}
+
 // SetXMLSchemaAnyURI sets the value of this property. Calling IsXMLSchemaAnyURI
 // afterwards returns true.
 func (this *ActivityStreamsUrlPropertyIterator) SetXMLSchemaAnyURI(v *url.URL) {

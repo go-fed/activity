@@ -196,6 +196,39 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Return(jen.Nil()),
 				},
 				fmt.Sprintf("Get%s returns the value in this property as a %s. Returns nil if the value is not an ActivityStreams type, such as an IRI or another value.", typeInterfaceName, typeInterfaceName)))
+		// SetType
+		setHandlers := jen.Empty()
+		for i, k := range p.kinds {
+			if k.isValue() {
+				continue
+			}
+			setHandlers = setHandlers.If(
+				jen.List(
+					jen.Id("v"),
+					jen.Id("ok"),
+				).Op(":=").Id("t").Assert(k.ConcreteKind),
+				jen.Id("ok"),
+			).Block(
+				jen.Id(codegen.This()).Dot(p.setFnName(i)).Call(jen.Id("v")),
+				jen.Return(jen.Nil()),
+			).Line()
+		}
+		methods = append(methods,
+			codegen.NewCommentedPointerMethod(
+				p.GetPrivatePackage().Path(),
+				fmt.Sprintf("Set%s", typeInterfaceName),
+				p.StructName(),
+				// Requires the property and type public path to be the same.
+				[]jen.Code{jen.Id("t").Qual(p.GetPublicPackage().Path(), typeInterfaceName)},
+				[]jen.Code{jen.Error()},
+				[]jen.Code{
+					setHandlers,
+					jen.Return(jen.Qual("fmt", "Errorf").Call(
+						jen.Lit("illegal type to set on "+p.PropertyName()+" property: %T"),
+						jen.Id("t"),
+					)),
+				},
+				fmt.Sprintf("Set%s attempts to set the property for the arbitrary type. Returns an error if it is not a valid type to set on this property.", typeInterfaceName)))
 	}
 	if p.hasNaturalLanguageMap {
 		// HasLanguage Method

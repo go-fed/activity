@@ -655,6 +655,9 @@ type ActivityStreamsAnyOfPropertyIterator interface {
 	// SetIRI sets the value of this property. Calling IsIRI afterwards
 	// returns true.
 	SetIRI(v *url.URL)
+	// SetType attempts to set the property for the arbitrary type. Returns an
+	// error if it is not a valid type to set on this property.
+	SetType(t Type) error
 }
 
 // Identifies an inclusive option for a Question. Use of anyOf implies that the

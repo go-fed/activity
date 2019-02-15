@@ -413,3 +413,34 @@ func (this *ActivityStreamsPartOfProperty) SetIRI(v *url.URL) {
 	this.Clear()
 	this.iri = v
 }
+
+// SetType attempts to set the property for the arbitrary type. Returns an error
+// if it is not a valid type to set on this property.
+func (this *ActivityStreamsPartOfProperty) SetType(t vocab.Type) error {
+	if v, ok := t.(vocab.ActivityStreamsLink); ok {
+		this.SetActivityStreamsLink(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsCollection); ok {
+		this.SetActivityStreamsCollection(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsCollectionPage); ok {
+		this.SetActivityStreamsCollectionPage(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsMention); ok {
+		this.SetActivityStreamsMention(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsOrderedCollection); ok {
+		this.SetActivityStreamsOrderedCollection(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsOrderedCollectionPage); ok {
+		this.SetActivityStreamsOrderedCollectionPage(v)
+		return nil
+	}
+
+	return fmt.Errorf("illegal type to set on partOf property: %T", t)
+}

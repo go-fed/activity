@@ -269,6 +269,25 @@ func (this *ActivityStreamsImagePropertyIterator) SetIRI(v *url.URL) {
 	this.iri = v
 }
 
+// SetType attempts to set the property for the arbitrary type. Returns an error
+// if it is not a valid type to set on this property.
+func (this *ActivityStreamsImagePropertyIterator) SetType(t vocab.Type) error {
+	if v, ok := t.(vocab.ActivityStreamsImage); ok {
+		this.SetActivityStreamsImage(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsLink); ok {
+		this.SetActivityStreamsLink(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsMention); ok {
+		this.SetActivityStreamsMention(v)
+		return nil
+	}
+
+	return fmt.Errorf("illegal type to set on ActivityStreamsImage property: %T", t)
+}
+
 // clear ensures no value of this property is set. Calling HasAny or any of the
 // 'Is' methods afterwards will return false.
 func (this *ActivityStreamsImagePropertyIterator) clear() {

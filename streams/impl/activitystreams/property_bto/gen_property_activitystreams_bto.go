@@ -2262,6 +2262,229 @@ func (this *ActivityStreamsBtoPropertyIterator) SetIRI(v *url.URL) {
 	this.iri = v
 }
 
+// SetType attempts to set the property for the arbitrary type. Returns an error
+// if it is not a valid type to set on this property.
+func (this *ActivityStreamsBtoPropertyIterator) SetType(t vocab.Type) error {
+	if v, ok := t.(vocab.ActivityStreamsObject); ok {
+		this.SetActivityStreamsObject(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsLink); ok {
+		this.SetActivityStreamsLink(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsAccept); ok {
+		this.SetActivityStreamsAccept(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsActivity); ok {
+		this.SetActivityStreamsActivity(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsAdd); ok {
+		this.SetActivityStreamsAdd(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsAnnounce); ok {
+		this.SetActivityStreamsAnnounce(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsApplication); ok {
+		this.SetActivityStreamsApplication(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsArrive); ok {
+		this.SetActivityStreamsArrive(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsArticle); ok {
+		this.SetActivityStreamsArticle(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsAudio); ok {
+		this.SetActivityStreamsAudio(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsBlock); ok {
+		this.SetActivityStreamsBlock(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsCollection); ok {
+		this.SetActivityStreamsCollection(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsCollectionPage); ok {
+		this.SetActivityStreamsCollectionPage(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsCreate); ok {
+		this.SetActivityStreamsCreate(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsDelete); ok {
+		this.SetActivityStreamsDelete(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsDislike); ok {
+		this.SetActivityStreamsDislike(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsDocument); ok {
+		this.SetActivityStreamsDocument(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsEvent); ok {
+		this.SetActivityStreamsEvent(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsFlag); ok {
+		this.SetActivityStreamsFlag(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsFollow); ok {
+		this.SetActivityStreamsFollow(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsGroup); ok {
+		this.SetActivityStreamsGroup(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsIgnore); ok {
+		this.SetActivityStreamsIgnore(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsImage); ok {
+		this.SetActivityStreamsImage(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsIntransitiveActivity); ok {
+		this.SetActivityStreamsIntransitiveActivity(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsInvite); ok {
+		this.SetActivityStreamsInvite(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsJoin); ok {
+		this.SetActivityStreamsJoin(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsLeave); ok {
+		this.SetActivityStreamsLeave(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsLike); ok {
+		this.SetActivityStreamsLike(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsListen); ok {
+		this.SetActivityStreamsListen(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsMention); ok {
+		this.SetActivityStreamsMention(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsMove); ok {
+		this.SetActivityStreamsMove(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsNote); ok {
+		this.SetActivityStreamsNote(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsOffer); ok {
+		this.SetActivityStreamsOffer(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsOrderedCollection); ok {
+		this.SetActivityStreamsOrderedCollection(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsOrderedCollectionPage); ok {
+		this.SetActivityStreamsOrderedCollectionPage(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsOrganization); ok {
+		this.SetActivityStreamsOrganization(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsPage); ok {
+		this.SetActivityStreamsPage(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsPerson); ok {
+		this.SetActivityStreamsPerson(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsPlace); ok {
+		this.SetActivityStreamsPlace(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsProfile); ok {
+		this.SetActivityStreamsProfile(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsQuestion); ok {
+		this.SetActivityStreamsQuestion(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsRead); ok {
+		this.SetActivityStreamsRead(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsReject); ok {
+		this.SetActivityStreamsReject(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsRelationship); ok {
+		this.SetActivityStreamsRelationship(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsRemove); ok {
+		this.SetActivityStreamsRemove(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsService); ok {
+		this.SetActivityStreamsService(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsTentativeAccept); ok {
+		this.SetActivityStreamsTentativeAccept(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsTentativeReject); ok {
+		this.SetActivityStreamsTentativeReject(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsTombstone); ok {
+		this.SetActivityStreamsTombstone(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsTravel); ok {
+		this.SetActivityStreamsTravel(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsUndo); ok {
+		this.SetActivityStreamsUndo(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsUpdate); ok {
+		this.SetActivityStreamsUpdate(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsVideo); ok {
+		this.SetActivityStreamsVideo(v)
+		return nil
+	}
+	if v, ok := t.(vocab.ActivityStreamsView); ok {
+		this.SetActivityStreamsView(v)
+		return nil
+	}
+
+	return fmt.Errorf("illegal type to set on ActivityStreamsBto property: %T", t)
+}
+
 // clear ensures no value of this property is set. Calling HasAny or any of the
 // 'Is' methods afterwards will return false.
 func (this *ActivityStreamsBtoPropertyIterator) clear() {
