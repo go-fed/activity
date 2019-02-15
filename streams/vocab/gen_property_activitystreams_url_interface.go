@@ -127,6 +127,11 @@ type ActivityStreamsUrlProperty interface {
 	// AppendIRI appends an IRI value to the back of a list of the property
 	// "url"
 	AppendIRI(v *url.URL)
+	// PrependType prepends an arbitrary type value to the front of a list of
+	// the property "url". Invalidates iterators that are traversing using
+	// Prev. Returns an error if the type is not a valid one to set for
+	// this property.
+	AppendType(t Type) error
 	// AppendXMLSchemaAnyURI appends a anyURI value to the back of a list of
 	// the property "url". Invalidates iterators that are traversing using
 	// Prev.
@@ -175,6 +180,10 @@ type ActivityStreamsUrlProperty interface {
 	// PrependIRI prepends an IRI value to the front of a list of the property
 	// "url".
 	PrependIRI(v *url.URL)
+	// PrependType prepends an arbitrary type value to the front of a list of
+	// the property "url". Invalidates all iterators. Returns an error if
+	// the type is not a valid one to set for this property.
+	PrependType(t Type) error
 	// PrependXMLSchemaAnyURI prepends a anyURI value to the front of a list
 	// of the property "url". Invalidates all iterators.
 	PrependXMLSchemaAnyURI(v *url.URL)

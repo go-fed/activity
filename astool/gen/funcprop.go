@@ -1190,16 +1190,6 @@ func (p *FunctionalPropertyGenerator) thisIRISetFn() *jen.Statement {
 	return nil
 }
 
-// hasTypeKind returns true if this property has a Kind that is a type.
-func (p *FunctionalPropertyGenerator) hasTypeKind() bool {
-	for _, k := range p.kinds {
-		if !k.isValue() {
-			return true
-		}
-	}
-	return false
-}
-
 // hasValueKind returns true if this property has a Kind that is a Value.
 func (p *FunctionalPropertyGenerator) hasValueKind() bool {
 	for _, k := range p.kinds {

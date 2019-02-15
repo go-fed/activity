@@ -917,6 +917,11 @@ type ActivityStreamsObjectProperty interface {
 	// AppendIRI appends an IRI value to the back of a list of the property
 	// "object"
 	AppendIRI(v *url.URL)
+	// PrependType prepends an arbitrary type value to the front of a list of
+	// the property "object". Invalidates iterators that are traversing
+	// using Prev. Returns an error if the type is not a valid one to set
+	// for this property.
+	AppendType(t Type) error
 	// At returns the property value for the specified index. Panics if the
 	// index is out of bounds.
 	At(index int) ActivityStreamsObjectPropertyIterator
@@ -1123,6 +1128,10 @@ type ActivityStreamsObjectProperty interface {
 	// PrependIRI prepends an IRI value to the front of a list of the property
 	// "object".
 	PrependIRI(v *url.URL)
+	// PrependType prepends an arbitrary type value to the front of a list of
+	// the property "object". Invalidates all iterators. Returns an error
+	// if the type is not a valid one to set for this property.
+	PrependType(t Type) error
 	// Remove deletes an element at the specified index from a list of the
 	// property "object", regardless of its type. Panics if the index is
 	// out of bounds. Invalidates all iterators.

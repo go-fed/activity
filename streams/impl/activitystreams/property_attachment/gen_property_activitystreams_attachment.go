@@ -3346,6 +3346,19 @@ func (this *ActivityStreamsAttachmentProperty) AppendIRI(v *url.URL) {
 	})
 }
 
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "attachment". Invalidates iterators that are traversing using
+// Prev. Returns an error if the type is not a valid one to set for this
+// property.
+func (this *ActivityStreamsAttachmentProperty) AppendType(t vocab.Type) error {
+	n := &ActivityStreamsAttachmentPropertyIterator{myIdx: this.Len()}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append(this.properties, n)
+	return nil
+}
+
 // At returns the property value for the specified index. Panics if the index is
 // out of bounds.
 func (this ActivityStreamsAttachmentProperty) At(index int) vocab.ActivityStreamsAttachmentPropertyIterator {
@@ -4436,6 +4449,21 @@ func (this *ActivityStreamsAttachmentProperty) PrependIRI(v *url.URL) {
 	for i := 1; i < this.Len(); i++ {
 		(this.properties)[i].myIdx = i
 	}
+}
+
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "attachment". Invalidates all iterators. Returns an error if the
+// type is not a valid one to set for this property.
+func (this *ActivityStreamsAttachmentProperty) PrependType(t vocab.Type) error {
+	n := &ActivityStreamsAttachmentPropertyIterator{myIdx: 0}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append([]*ActivityStreamsAttachmentPropertyIterator{n}, this.properties...)
+	for i := 1; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+	return nil
 }
 
 // Remove deletes an element at the specified index from a list of the property

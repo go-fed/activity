@@ -3272,6 +3272,19 @@ func (this *ActivityStreamsFormerTypeProperty) AppendIRI(v *url.URL) {
 	})
 }
 
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "formerType". Invalidates iterators that are traversing using
+// Prev. Returns an error if the type is not a valid one to set for this
+// property.
+func (this *ActivityStreamsFormerTypeProperty) AppendType(t vocab.Type) error {
+	n := &ActivityStreamsFormerTypePropertyIterator{myIdx: this.Len()}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append(this.properties, n)
+	return nil
+}
+
 // AppendXMLSchemaString appends a string value to the back of a list of the
 // property "formerType". Invalidates iterators that are traversing using Prev.
 func (this *ActivityStreamsFormerTypeProperty) AppendXMLSchemaString(v string) {
@@ -4342,6 +4355,21 @@ func (this *ActivityStreamsFormerTypeProperty) PrependIRI(v *url.URL) {
 	for i := 1; i < this.Len(); i++ {
 		(this.properties)[i].myIdx = i
 	}
+}
+
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "formerType". Invalidates all iterators. Returns an error if the
+// type is not a valid one to set for this property.
+func (this *ActivityStreamsFormerTypeProperty) PrependType(t vocab.Type) error {
+	n := &ActivityStreamsFormerTypePropertyIterator{myIdx: 0}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append([]*ActivityStreamsFormerTypePropertyIterator{n}, this.properties...)
+	for i := 1; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+	return nil
 }
 
 // PrependXMLSchemaString prepends a string value to the front of a list of the

@@ -871,6 +871,11 @@ type ActivityStreamsFormerTypeProperty interface {
 	// AppendIRI appends an IRI value to the back of a list of the property
 	// "formerType"
 	AppendIRI(v *url.URL)
+	// PrependType prepends an arbitrary type value to the front of a list of
+	// the property "formerType". Invalidates iterators that are
+	// traversing using Prev. Returns an error if the type is not a valid
+	// one to set for this property.
+	AppendType(t Type) error
 	// AppendXMLSchemaString appends a string value to the back of a list of
 	// the property "formerType". Invalidates iterators that are
 	// traversing using Prev.
@@ -1080,6 +1085,10 @@ type ActivityStreamsFormerTypeProperty interface {
 	// PrependIRI prepends an IRI value to the front of a list of the property
 	// "formerType".
 	PrependIRI(v *url.URL)
+	// PrependType prepends an arbitrary type value to the front of a list of
+	// the property "formerType". Invalidates all iterators. Returns an
+	// error if the type is not a valid one to set for this property.
+	PrependType(t Type) error
 	// PrependXMLSchemaString prepends a string value to the front of a list
 	// of the property "formerType". Invalidates all iterators.
 	PrependXMLSchemaString(v string)

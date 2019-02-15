@@ -913,6 +913,11 @@ type ActivityStreamsClosedProperty interface {
 	// AppendIRI appends an IRI value to the back of a list of the property
 	// "closed"
 	AppendIRI(v *url.URL)
+	// PrependType prepends an arbitrary type value to the front of a list of
+	// the property "closed". Invalidates iterators that are traversing
+	// using Prev. Returns an error if the type is not a valid one to set
+	// for this property.
+	AppendType(t Type) error
 	// AppendXMLSchemaBoolean appends a boolean value to the back of a list of
 	// the property "closed". Invalidates iterators that are traversing
 	// using Prev.
@@ -1127,6 +1132,10 @@ type ActivityStreamsClosedProperty interface {
 	// PrependIRI prepends an IRI value to the front of a list of the property
 	// "closed".
 	PrependIRI(v *url.URL)
+	// PrependType prepends an arbitrary type value to the front of a list of
+	// the property "closed". Invalidates all iterators. Returns an error
+	// if the type is not a valid one to set for this property.
+	PrependType(t Type) error
 	// PrependXMLSchemaBoolean prepends a boolean value to the front of a list
 	// of the property "closed". Invalidates all iterators.
 	PrependXMLSchemaBoolean(v bool)

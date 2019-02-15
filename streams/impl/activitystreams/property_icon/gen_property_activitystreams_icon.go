@@ -413,6 +413,18 @@ func (this *ActivityStreamsIconProperty) AppendIRI(v *url.URL) {
 	})
 }
 
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "icon". Invalidates iterators that are traversing using Prev.
+// Returns an error if the type is not a valid one to set for this property.
+func (this *ActivityStreamsIconProperty) AppendType(t vocab.Type) error {
+	n := &ActivityStreamsIconPropertyIterator{myIdx: this.Len()}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append(this.properties, n)
+	return nil
+}
+
 // At returns the property value for the specified index. Panics if the index is
 // out of bounds.
 func (this ActivityStreamsIconProperty) At(index int) vocab.ActivityStreamsIconPropertyIterator {
@@ -582,6 +594,21 @@ func (this *ActivityStreamsIconProperty) PrependIRI(v *url.URL) {
 	for i := 1; i < this.Len(); i++ {
 		(this.properties)[i].myIdx = i
 	}
+}
+
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "icon". Invalidates all iterators. Returns an error if the type is
+// not a valid one to set for this property.
+func (this *ActivityStreamsIconProperty) PrependType(t vocab.Type) error {
+	n := &ActivityStreamsIconPropertyIterator{myIdx: 0}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append([]*ActivityStreamsIconPropertyIterator{n}, this.properties...)
+	for i := 1; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+	return nil
 }
 
 // Remove deletes an element at the specified index from a list of the property

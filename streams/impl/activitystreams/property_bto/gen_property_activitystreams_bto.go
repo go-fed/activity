@@ -3334,6 +3334,18 @@ func (this *ActivityStreamsBtoProperty) AppendIRI(v *url.URL) {
 	})
 }
 
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "bto". Invalidates iterators that are traversing using Prev.
+// Returns an error if the type is not a valid one to set for this property.
+func (this *ActivityStreamsBtoProperty) AppendType(t vocab.Type) error {
+	n := &ActivityStreamsBtoPropertyIterator{myIdx: this.Len()}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append(this.properties, n)
+	return nil
+}
+
 // At returns the property value for the specified index. Panics if the index is
 // out of bounds.
 func (this ActivityStreamsBtoProperty) At(index int) vocab.ActivityStreamsBtoPropertyIterator {
@@ -4423,6 +4435,21 @@ func (this *ActivityStreamsBtoProperty) PrependIRI(v *url.URL) {
 	for i := 1; i < this.Len(); i++ {
 		(this.properties)[i].myIdx = i
 	}
+}
+
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "bto". Invalidates all iterators. Returns an error if the type is
+// not a valid one to set for this property.
+func (this *ActivityStreamsBtoProperty) PrependType(t vocab.Type) error {
+	n := &ActivityStreamsBtoPropertyIterator{myIdx: 0}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append([]*ActivityStreamsBtoPropertyIterator{n}, this.properties...)
+	for i := 1; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+	return nil
 }
 
 // Remove deletes an element at the specified index from a list of the property

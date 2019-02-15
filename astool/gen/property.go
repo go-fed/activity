@@ -463,3 +463,13 @@ func (p *PropertyGenerator) hasURIKind() bool {
 	}
 	return false
 }
+
+// hasTypeKind returns true if this property has a Kind that is a type.
+func (p *PropertyGenerator) hasTypeKind() bool {
+	for _, k := range p.kinds {
+		if !k.isValue() {
+			return true
+		}
+	}
+	return false
+}

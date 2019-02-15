@@ -552,6 +552,89 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			jen.Return(jen.Id("m")),
 		},
 		fmt.Sprintf("%s returns the JSONLD URIs required in the context string for this property and the specific values that are set. The value in the map is the alias used to import the property's value or values.", contextMethod)))
+	if p.hasTypeKind() {
+		// PrependType Method
+		methods = append(methods,
+			codegen.NewCommentedPointerMethod(
+				p.GetPrivatePackage().Path(),
+				fmt.Sprintf("%s%s", prependMethod, typeInterfaceName),
+				p.StructName(),
+				// Requires the property and type public path to be the same.
+				[]jen.Code{jen.Id("t").Qual(p.GetPublicPackage().Path(), typeInterfaceName)},
+				[]jen.Code{jen.Error()},
+				[]jen.Code{
+					jen.Id("n").Op(":=").Op("&").Id(
+						p.iteratorTypeName().CamelName,
+					).Values(
+						jen.Dict{
+							jen.Id(myIndexMemberName): jen.Lit(0),
+						},
+					),
+					jen.If(
+						jen.Err().Op(":=").Id("n").Dot(
+							fmt.Sprintf("Set%s", typeInterfaceName),
+						).Call(
+							jen.Id("t"),
+						),
+						jen.Err().Op("!=").Nil(),
+					).Block(
+						jen.Return(jen.Err()),
+					),
+					jen.Id(codegen.This()).Dot(propertiesName).Op("=").Append(
+						jen.Index().Op("*").Id(
+							p.iteratorTypeName().CamelName,
+						).Values(
+							jen.Id("n"),
+						),
+						jen.Id(codegen.This()).Dot(propertiesName).Op("..."),
+					),
+					jen.For(
+						jen.Id("i").Op(":=").Lit(1),
+						jen.Id("i").Op("<").Id(codegen.This()).Dot(lenMethod).Call(),
+						jen.Id("i").Op("++"),
+					).Block(
+						jen.Parens(
+							jen.Id(codegen.This()).Dot(propertiesName),
+						).Index(jen.Id("i")).Dot(myIndexMemberName).Op("=").Id("i"),
+					),
+					jen.Return(jen.Nil()),
+				},
+				fmt.Sprintf("%s%s prepends an arbitrary type value to the front of a list of the property %q. Invalidates all iterators. Returns an error if the type is not a valid one to set for this property.", prependMethod, typeInterfaceName, p.PropertyName())))
+		// AppendType
+		methods = append(methods,
+			codegen.NewCommentedPointerMethod(
+				p.GetPrivatePackage().Path(),
+				fmt.Sprintf("%s%s", appendMethod, typeInterfaceName),
+				p.StructName(),
+				// Requires the property and type public path to be the same.
+				[]jen.Code{jen.Id("t").Qual(p.GetPublicPackage().Path(), typeInterfaceName)},
+				[]jen.Code{jen.Error()},
+				[]jen.Code{
+					jen.Id("n").Op(":=").Op("&").Id(
+						p.iteratorTypeName().CamelName,
+					).Values(
+						jen.Dict{
+							jen.Id(myIndexMemberName): jen.Id(codegen.This()).Dot(lenMethod).Call(),
+						},
+					),
+					jen.If(
+						jen.Err().Op(":=").Id("n").Dot(
+							fmt.Sprintf("Set%s", typeInterfaceName),
+						).Call(
+							jen.Id("t"),
+						),
+						jen.Err().Op("!=").Nil(),
+					).Block(
+						jen.Return(jen.Err()),
+					),
+					jen.Id(codegen.This()).Dot(propertiesName).Op("=").Append(
+						jen.Id(codegen.This()).Dot(propertiesName),
+						jen.Id("n"),
+					),
+					jen.Return(jen.Nil()),
+				},
+				fmt.Sprintf("%s%s prepends an arbitrary type value to the front of a list of the property %q. Invalidates iterators that are traversing using %s. Returns an error if the type is not a valid one to set for this property.", prependMethod, typeInterfaceName, p.PropertyName(), prevMethod)))
+	}
 	methods = append(methods, p.commonMethods()...)
 	methods = append(methods, p.nameMethod())
 	return methods

@@ -135,6 +135,11 @@ type ActivityStreamsIconProperty interface {
 	// AppendIRI appends an IRI value to the back of a list of the property
 	// "icon"
 	AppendIRI(v *url.URL)
+	// PrependType prepends an arbitrary type value to the front of a list of
+	// the property "icon". Invalidates iterators that are traversing
+	// using Prev. Returns an error if the type is not a valid one to set
+	// for this property.
+	AppendType(t Type) error
 	// At returns the property value for the specified index. Panics if the
 	// index is out of bounds.
 	At(index int) ActivityStreamsIconPropertyIterator
@@ -182,6 +187,10 @@ type ActivityStreamsIconProperty interface {
 	// PrependIRI prepends an IRI value to the front of a list of the property
 	// "icon".
 	PrependIRI(v *url.URL)
+	// PrependType prepends an arbitrary type value to the front of a list of
+	// the property "icon". Invalidates all iterators. Returns an error if
+	// the type is not a valid one to set for this property.
+	PrependType(t Type) error
 	// Remove deletes an element at the specified index from a list of the
 	// property "icon", regardless of its type. Panics if the index is out
 	// of bounds. Invalidates all iterators.
