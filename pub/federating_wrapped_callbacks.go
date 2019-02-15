@@ -232,9 +232,26 @@ func (w FederatingWrappedCallbacks) create(c context.Context, a vocab.ActivitySt
 	// for the database lock at each iteration.
 	loopFn := func(iter vocab.ActivityStreamsObjectPropertyIterator) error {
 		t := iter.GetType()
-		if t == nil {
-			// TODO: Dereference the IRI and store it.
-			return nil
+		if t == nil && iter.IsIRI() {
+			// Attempt to dereference the IRI instead
+			tport, err := w.newTransport(c, w.inboxIRI, goFedUserAgent())
+			if err != nil {
+				return err
+			}
+			b, err := tport.Dereference(c, iter.GetIRI())
+			if err != nil {
+				return err
+			}
+			var m map[string]interface{}
+			if err = json.Unmarshal(b, &m); err != nil {
+				return err
+			}
+			t, err = toType(c, m)
+			if err != nil {
+				return err
+			}
+		} else {
+			return fmt.Errorf("cannot handle federated create: object is neither a value nor IRI")
 		}
 		id, err := GetId(t)
 		if err != nil {
@@ -471,12 +488,29 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 		// Unlock must be called by now and every branch above.
 		//
 		// Determine if we are in a follow on the 'object' property.
-		isMe := false
+		var maybeMyFollowIRI *url.URL
 		for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
 			t := iter.GetType()
-			if t == nil {
-				// TODO: Fetch by IRI
-				continue
+			if t == nil && iter.IsIRI() {
+				// Attempt to dereference the IRI instead
+				tport, err := w.newTransport(c, w.inboxIRI, goFedUserAgent())
+				if err != nil {
+					return err
+				}
+				b, err := tport.Dereference(c, iter.GetIRI())
+				if err != nil {
+					return err
+				}
+				var m map[string]interface{}
+				if err = json.Unmarshal(b, &m); err != nil {
+					return err
+				}
+				t, err = toType(c, m)
+				if err != nil {
+					return err
+				}
+			} else {
+				return fmt.Errorf("cannot handle federated create: object is neither a value nor IRI")
 			}
 			// Ensure it is a Follow.
 			if !streams.ActivityStreamsFollowIsExtendedBy(t) {
@@ -486,6 +520,10 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 			if !ok {
 				return fmt.Errorf("a Follow in an Accept does not satisfy the Activity interface")
 			}
+			followId, err := GetId(follow)
+			if err != nil {
+				return err
+			}
 			// Ensure that we are one of the actors on the Follow.
 			actors := follow.GetActivityStreamsActor()
 			for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
@@ -494,19 +532,56 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 					return err
 				}
 				if id.String() == actorIRI.String() {
-					isMe = true
+					maybeMyFollowIRI = followId
 					break
 				}
 			}
-			// TODO: Double check and verify it exists.
 			// Continue breaking if we found ourselves
-			if isMe {
+			if maybeMyFollowIRI != nil {
 				break
 			}
 		}
 		// If we received an Accept whose 'object' is a Follow with an
 		// Accept that we sent, add to the following collection.
-		if isMe {
+		if maybeMyFollowIRI != nil {
+			// Verify our Follow request exists and the peer didn't
+			// fabricate it.
+			//
+			// Use an anonymous function to properly scope the
+			// database lock, immediately call it.
+			err = func() error {
+				if err := w.db.Lock(c, maybeMyFollowIRI); err != nil {
+					return err
+				}
+				defer w.db.Unlock(c, maybeMyFollowIRI)
+				t, err := w.db.Get(c, maybeMyFollowIRI)
+				if err != nil {
+					return err
+				}
+				if !streams.ActivityStreamsFollowIsExtendedBy(t) {
+					return fmt.Errorf("peer gave an Accept wrapping a Follow but provided a non-Follow id")
+				}
+				follow, ok := t.(Activity)
+				if !ok {
+					return fmt.Errorf("a Follow in an Accept does not satisfy the Activity interface")
+				}
+				// Ensure that we are one of the actors on the Follow.
+				actors := follow.GetActivityStreamsActor()
+				for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
+					id, err := ToId(iter)
+					if err != nil {
+						return err
+					}
+					if id.String() == actorIRI.String() {
+						return nil
+					}
+				}
+				return fmt.Errorf("peer gave an Accept wrapping a Follow but we are not the actor on that Follow")
+			}()
+			if err != nil {
+				return err
+			}
+			// Add the peer to our following collection.
 			actors := a.GetActivityStreamsActor()
 			if actors == nil || actors.Len() == 0 {
 				return fmt.Errorf("an Accept with a Follow has no actors")
