@@ -29,12 +29,12 @@ type Actor interface {
 	// has already been written. If a non-nil error is returned, then no
 	// response has been written.
 	//
-	// TODO: Move this to individual constructors.
+	// If the Actor was constructed with the Federated Protocol enabled,
+	// side effects will occur.
+	//
 	// If the Federated Protocol is not enabled, writes the
 	// http.StatusMethodNotAllowed status code in the response. No side
 	// effects occur.
-	//
-	// If the Federated Protocol is enabled, side effects will occur.
 	PostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
 	// GetInbox returns true if the request was handled as an ActivityPub
 	// GET to an actor's inbox. If false, the request was not an ActivityPub
@@ -59,6 +59,17 @@ type Actor interface {
 	// If the error is nil, then the ResponseWriter's headers and response
 	// has already been written. If a non-nil error is returned, then no
 	// response has been written.
+	//
+	// If the Actor was constructed with the Social Protocol enabled, side
+	// effects will occur.
+	//
+	// If the Social Protocol is not enabled, writes the
+	// http.StatusMethodNotAllowed status code in the response. No side
+	// effects occur.
+	//
+	// If the Social and Federated Protocol are both enabled, it will handle
+	// the side effects of receiving an ActivityStream Activity, and then
+	// federate the Activity to peers.
 	PostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
 	// GetOutbox returns true if the request was handled as an ActivityPub
 	// GET to an actor's outbox. If false, the request was not an
