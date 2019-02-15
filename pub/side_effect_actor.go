@@ -695,7 +695,6 @@ func (a *sideEffectActor) prepare(c context.Context, outboxIRI *url.URL, activit
 //
 // Note that this also applies to CollectionPage and OrderedCollectionPage.
 func (a *sideEffectActor) resolveInboxes(c context.Context, t Transport, r []*url.URL, depth, maxDepth int) (actors []vocab.Type, err error) {
-	// TODO: Handle Page types by fetching additional pages.
 	if maxDepth > 0 && depth >= maxDepth {
 		return
 	}
