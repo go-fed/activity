@@ -9,8 +9,7 @@ import (
 // IsAnActivityType returns true if the ActivityStreams value is an Activity or
 // extends from the Activity type.
 func IsAnActivityType(value vocab.Type) bool {
-	// TODO: Generate these strings as exported constants.
-	return value.GetTypeName() == "Activity" || streams.ActivityStreamsActivityIsExtendedBy(value)
+	return value.GetTypeName() == streams.ActivityStreamsActivityName || streams.ActivityStreamsActivityIsExtendedBy(value)
 }
 
 // addToCreate adds the object to the Create activity.

@@ -375,6 +375,12 @@ func (c *Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		FileName:  "gen_doc.go",
 		Directory: pub.WriteDir(),
 	})
+	// Constants
+	files, e = c.constFiles(c.GenRoot.PublicPackage(), v.allTypeArray(), v.allPropArray())
+	if e != nil {
+		return
+	}
+	f = append(f, files...)
 	// Resolvers
 	files, e = c.resolverFiles(c.GenRoot.PublicPackage(), v.Manager, v)
 	if e != nil {
@@ -1145,6 +1151,21 @@ func (c *Converter) resolverFiles(pkg gen.Package, manGen *gen.ManagerGenerator,
 		Directory: pkg.WriteDir(),
 	})
 	return
+}
+
+// constFiles creates the files for constants.
+func (c *Converter) constFiles(pkg gen.Package, types []*gen.TypeGenerator, props []*gen.PropertyGenerator) (files []*File, e error) {
+	consts := gen.GenerateConstants(types, props)
+	file := jen.NewFilePath(pkg.Path())
+	for _, elem := range consts {
+		file.Add(elem).Line()
+	}
+	files = append(files, &File{
+		F:         file,
+		FileName:  "gen_consts.go",
+		Directory: pkg.WriteDir(),
+	})
+	return files, e
 }
 
 // allExtendsAreIn determines if a VocabularyType's parents are all already
