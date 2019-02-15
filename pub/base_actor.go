@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/go-fed/activity/streams"
 	"io/ioutil"
 	"net/http"
 )
@@ -172,10 +173,13 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	if err = json.Unmarshal(raw, &m); err != nil {
 		return true, err
 	}
-	// TODO: No longer reject unknown activities.
 	asValue, err := toType(c, m)
-	if err != nil {
+	if err != nil && !streams.IsUnmatchedErr(err) {
 		return true, err
+	} else if streams.IsUnmatchedErr(err) {
+		// Respond with bad request -- we do not understand the type.
+		w.WriteHeader(http.StatusBadRequest)
+		return true, nil
 	}
 	activity, ok := asValue.(Activity)
 	if !ok {
@@ -300,11 +304,13 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	// not known to go-fed. This prevents accidentally wrapping an Activity
 	// type unknown to go-fed in a Create below. Instead,
 	// streams.ErrUnhandledType will be returned here.
-	//
-	// TODO: No longer reject unknown activities.
 	asValue, err := toType(c, m)
-	if err != nil {
+	if err != nil && !streams.IsUnmatchedErr(err) {
 		return true, err
+	} else if streams.IsUnmatchedErr(err) {
+		// Respond with bad request -- we do not understand the type.
+		w.WriteHeader(http.StatusBadRequest)
+		return true, nil
 	}
 	// If the value is not an Activity or type extending from Activity, then
 	// we need to wrap it in a Create Activity.
