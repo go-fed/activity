@@ -37,7 +37,7 @@ type ActivityStreamsMention struct {
 func ActivityStreamsMentionExtends(other vocab.Type) bool {
 	extensions := []string{"Link"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -188,7 +188,7 @@ func DeserializeMention(m map[string]interface{}, aliasMap map[string]string) (*
 func MentionIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Accept", "Activity", "Add", "Announce", "Application", "Arrive", "Article", "Audio", "Block", "Collection", "CollectionPage", "Create", "Delete", "Dislike", "Document", "Event", "Flag", "Follow", "Group", "Ignore", "Image", "IntransitiveActivity", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Note", "Object", "Offer", "OrderedCollection", "OrderedCollectionPage", "OrderedCollectionPage", "Organization", "Page", "Person", "Place", "Profile", "Question", "Read", "Reject", "Relationship", "Remove", "Service", "TentativeAccept", "TentativeReject", "Tombstone", "Travel", "Undo", "Update", "Video", "View"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -284,8 +284,8 @@ func (this ActivityStreamsMention) GetActivityStreamsWidth() vocab.ActivityStrea
 	return this.ActivityStreamsWidth
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsMention) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsMention) GetTypeName() string {
 	return "Mention"
 }
 

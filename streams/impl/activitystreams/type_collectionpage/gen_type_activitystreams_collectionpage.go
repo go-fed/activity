@@ -77,7 +77,7 @@ type ActivityStreamsCollectionPage struct {
 func ActivityStreamsCollectionPageExtends(other vocab.Type) bool {
 	extensions := []string{"Collection", "Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -89,7 +89,7 @@ func ActivityStreamsCollectionPageExtends(other vocab.Type) bool {
 func CollectionPageIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -101,7 +101,7 @@ func CollectionPageIsDisjointWith(other vocab.Type) bool {
 func CollectionPageIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"OrderedCollectionPage"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -693,8 +693,8 @@ func (this ActivityStreamsCollectionPage) GetActivityStreamsUrl() vocab.Activity
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsCollectionPage) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsCollectionPage) GetTypeName() string {
 	return "CollectionPage"
 }
 

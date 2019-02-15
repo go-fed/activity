@@ -182,6 +182,7 @@ func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 				),
 			).Line()
 		}
+		// GetType
 		methods = append(methods,
 			codegen.NewCommentedValueMethod(
 				p.GetPrivatePackage().Path(),

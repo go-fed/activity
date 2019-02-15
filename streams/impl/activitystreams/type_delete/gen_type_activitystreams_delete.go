@@ -70,7 +70,7 @@ type ActivityStreamsDelete struct {
 func ActivityStreamsDeleteExtends(other vocab.Type) bool {
 	extensions := []string{"Activity", "Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -82,7 +82,7 @@ func ActivityStreamsDeleteExtends(other vocab.Type) bool {
 func DeleteIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -642,8 +642,8 @@ func (this ActivityStreamsDelete) GetActivityStreamsUrl() vocab.ActivityStreamsU
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsDelete) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsDelete) GetTypeName() string {
 	return "Delete"
 }
 

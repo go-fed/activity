@@ -62,7 +62,7 @@ type ActivityStreamsOrganization struct {
 func ActivityStreamsOrganizationExtends(other vocab.Type) bool {
 	extensions := []string{"Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -417,7 +417,7 @@ func NewActivityStreamsOrganization() *ActivityStreamsOrganization {
 func OrganizationIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -662,8 +662,8 @@ func (this ActivityStreamsOrganization) GetActivityStreamsUrl() vocab.ActivitySt
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsOrganization) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsOrganization) GetTypeName() string {
 	return "Organization"
 }
 

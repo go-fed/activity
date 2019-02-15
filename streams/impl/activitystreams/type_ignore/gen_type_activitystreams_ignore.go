@@ -66,7 +66,7 @@ type ActivityStreamsIgnore struct {
 func ActivityStreamsIgnoreExtends(other vocab.Type) bool {
 	extensions := []string{"Activity", "Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -394,7 +394,7 @@ func DeserializeIgnore(m map[string]interface{}, aliasMap map[string]string) (*A
 func IgnoreIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -406,7 +406,7 @@ func IgnoreIsDisjointWith(other vocab.Type) bool {
 func IgnoreIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"Block"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -643,8 +643,8 @@ func (this ActivityStreamsIgnore) GetActivityStreamsUrl() vocab.ActivityStreamsU
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsIgnore) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsIgnore) GetTypeName() string {
 	return "Ignore"
 }
 

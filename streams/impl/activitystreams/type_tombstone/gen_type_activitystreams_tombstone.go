@@ -76,7 +76,7 @@ type ActivityStreamsTombstone struct {
 func ActivityStreamsTombstoneExtends(other vocab.Type) bool {
 	extensions := []string{"Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -394,7 +394,7 @@ func NewActivityStreamsTombstone() *ActivityStreamsTombstone {
 func TombstoneIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -609,8 +609,8 @@ func (this ActivityStreamsTombstone) GetActivityStreamsUrl() vocab.ActivityStrea
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsTombstone) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsTombstone) GetTypeName() string {
 	return "Tombstone"
 }
 

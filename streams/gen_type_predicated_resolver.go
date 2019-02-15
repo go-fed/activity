@@ -154,7 +154,7 @@ func NewTypePredicatedResolver(delegate Resolver, predicate interface{}) (*TypeP
 func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsInterface) (bool, error) {
 	var predicatePasses bool
 	var err error
-	if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Accept" {
+	if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Accept" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsAccept) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsAccept); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -165,7 +165,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Activity" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Activity" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsActivity) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsActivity); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -176,7 +176,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Add" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Add" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsAdd) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsAdd); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -187,7 +187,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Announce" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Announce" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsAnnounce) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsAnnounce); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -198,7 +198,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Application" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Application" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsApplication) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsApplication); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -209,7 +209,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Arrive" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Arrive" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsArrive) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsArrive); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -220,7 +220,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Article" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Article" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsArticle) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsArticle); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -231,7 +231,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Audio" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Audio" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsAudio) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsAudio); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -242,7 +242,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Block" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Block" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsBlock) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsBlock); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -253,7 +253,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Collection" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Collection" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsCollection) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsCollection); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -264,7 +264,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "CollectionPage" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "CollectionPage" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsCollectionPage) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsCollectionPage); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -275,7 +275,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Create" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Create" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsCreate) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsCreate); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -286,7 +286,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Delete" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Delete" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsDelete) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsDelete); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -297,7 +297,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Dislike" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Dislike" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsDislike) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsDislike); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -308,7 +308,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Document" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Document" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsDocument) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsDocument); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -319,7 +319,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Event" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Event" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsEvent) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsEvent); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -330,7 +330,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Flag" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Flag" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsFlag) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsFlag); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -341,7 +341,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Follow" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Follow" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsFollow) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsFollow); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -352,7 +352,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Group" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Group" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsGroup) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsGroup); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -363,7 +363,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Ignore" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Ignore" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsIgnore) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsIgnore); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -374,7 +374,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Image" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Image" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsImage) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsImage); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -385,7 +385,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "IntransitiveActivity" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "IntransitiveActivity" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsIntransitiveActivity) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsIntransitiveActivity); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -396,7 +396,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Invite" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Invite" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsInvite) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsInvite); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -407,7 +407,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Join" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Join" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsJoin) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsJoin); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -418,7 +418,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Leave" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Leave" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsLeave) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsLeave); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -429,7 +429,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Like" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Like" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsLike) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsLike); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -440,7 +440,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Link" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Link" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsLink) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsLink); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -451,7 +451,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Listen" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Listen" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsListen) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsListen); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -462,7 +462,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Mention" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Mention" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsMention) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsMention); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -473,7 +473,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Move" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Move" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsMove) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsMove); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -484,7 +484,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Note" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Note" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsNote) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsNote); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -495,7 +495,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Object" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Object" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsObject) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsObject); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -506,7 +506,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Offer" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Offer" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsOffer) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsOffer); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -517,7 +517,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "OrderedCollection" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "OrderedCollection" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsOrderedCollection) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsOrderedCollection); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -528,7 +528,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "OrderedCollectionPage" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "OrderedCollectionPage" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsOrderedCollectionPage) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsOrderedCollectionPage); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -539,7 +539,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Organization" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Organization" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsOrganization) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsOrganization); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -550,7 +550,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Page" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Page" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsPage) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsPage); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -561,7 +561,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Person" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Person" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsPerson) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsPerson); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -572,7 +572,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Place" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Place" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsPlace) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsPlace); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -583,7 +583,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Profile" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Profile" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsProfile) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsProfile); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -594,7 +594,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Question" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Question" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsQuestion) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsQuestion); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -605,7 +605,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Read" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Read" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsRead) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsRead); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -616,7 +616,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Reject" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Reject" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsReject) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsReject); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -627,7 +627,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Relationship" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Relationship" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsRelationship) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsRelationship); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -638,7 +638,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Remove" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Remove" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsRemove) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsRemove); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -649,7 +649,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Service" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Service" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsService) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsService); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -660,7 +660,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "TentativeAccept" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "TentativeAccept" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsTentativeAccept) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsTentativeAccept); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -671,7 +671,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "TentativeReject" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "TentativeReject" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsTentativeReject) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsTentativeReject); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -682,7 +682,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Tombstone" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Tombstone" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsTombstone) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsTombstone); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -693,7 +693,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Travel" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Travel" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsTravel) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsTravel); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -704,7 +704,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Undo" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Undo" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsUndo) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsUndo); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -715,7 +715,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Update" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Update" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsUpdate) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsUpdate); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -726,7 +726,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Video" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Video" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsVideo) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsVideo); ok {
 				predicatePasses, err = fn(ctx, v)
@@ -737,7 +737,7 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "View" {
+	} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "View" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsView) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsView); ok {
 				predicatePasses, err = fn(ctx, v)

@@ -9,7 +9,8 @@ import (
 // IsAnActivityType returns true if the ActivityStreams value is an Activity or
 // extends from the Activity type.
 func IsAnActivityType(value vocab.Type) bool {
-	return value.GetName() == "Activity" || streams.ActivityStreamsActivityIsExtendedBy(value)
+	// TODO: Generate these strings as exported constants.
+	return value.GetTypeName() == "Activity" || streams.ActivityStreamsActivityIsExtendedBy(value)
 }
 
 // toAsType converts a generic map[string]interface{} into a known Type.

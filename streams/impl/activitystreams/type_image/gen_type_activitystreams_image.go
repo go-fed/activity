@@ -69,7 +69,7 @@ type ActivityStreamsImage struct {
 func ActivityStreamsImageExtends(other vocab.Type) bool {
 	extensions := []string{"Document", "Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -376,7 +376,7 @@ func DeserializeImage(m map[string]interface{}, aliasMap map[string]string) (*Ac
 func ImageIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -602,8 +602,8 @@ func (this ActivityStreamsImage) GetActivityStreamsWidth() vocab.ActivityStreams
 	return this.ActivityStreamsWidth
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsImage) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsImage) GetTypeName() string {
 	return "Image"
 }
 

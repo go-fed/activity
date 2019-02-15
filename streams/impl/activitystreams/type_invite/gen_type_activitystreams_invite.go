@@ -79,7 +79,7 @@ type ActivityStreamsInvite struct {
 func ActivityStreamsInviteExtends(other vocab.Type) bool {
 	extensions := []string{"Activity", "Object", "Offer"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -407,7 +407,7 @@ func DeserializeInvite(m map[string]interface{}, aliasMap map[string]string) (*A
 func InviteIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -651,8 +651,8 @@ func (this ActivityStreamsInvite) GetActivityStreamsUrl() vocab.ActivityStreamsU
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsInvite) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsInvite) GetTypeName() string {
 	return "Invite"
 }
 

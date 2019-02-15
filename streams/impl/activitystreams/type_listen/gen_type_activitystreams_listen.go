@@ -65,7 +65,7 @@ type ActivityStreamsListen struct {
 func ActivityStreamsListenExtends(other vocab.Type) bool {
 	extensions := []string{"Activity", "Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -393,7 +393,7 @@ func DeserializeListen(m map[string]interface{}, aliasMap map[string]string) (*A
 func ListenIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -637,8 +637,8 @@ func (this ActivityStreamsListen) GetActivityStreamsUrl() vocab.ActivityStreamsU
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsListen) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsListen) GetTypeName() string {
 	return "Listen"
 }
 

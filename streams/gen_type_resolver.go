@@ -149,7 +149,7 @@ func NewTypeResolver(callbacks ...interface{}) (*TypeResolver, error) {
 // passed in is not go-fed compatible.
 func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface) error {
 	for _, i := range this.callbacks {
-		if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Accept" {
+		if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Accept" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsAccept) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsAccept); ok {
 					return fn(ctx, v)
@@ -158,7 +158,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Activity" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Activity" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsActivity) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsActivity); ok {
 					return fn(ctx, v)
@@ -167,7 +167,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Add" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Add" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsAdd) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsAdd); ok {
 					return fn(ctx, v)
@@ -176,7 +176,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Announce" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Announce" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsAnnounce) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsAnnounce); ok {
 					return fn(ctx, v)
@@ -185,7 +185,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Application" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Application" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsApplication) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsApplication); ok {
 					return fn(ctx, v)
@@ -194,7 +194,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Arrive" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Arrive" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsArrive) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsArrive); ok {
 					return fn(ctx, v)
@@ -203,7 +203,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Article" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Article" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsArticle) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsArticle); ok {
 					return fn(ctx, v)
@@ -212,7 +212,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Audio" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Audio" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsAudio) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsAudio); ok {
 					return fn(ctx, v)
@@ -221,7 +221,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Block" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Block" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsBlock) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsBlock); ok {
 					return fn(ctx, v)
@@ -230,7 +230,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Collection" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Collection" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsCollection) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsCollection); ok {
 					return fn(ctx, v)
@@ -239,7 +239,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "CollectionPage" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "CollectionPage" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsCollectionPage) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsCollectionPage); ok {
 					return fn(ctx, v)
@@ -248,7 +248,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Create" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Create" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsCreate) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsCreate); ok {
 					return fn(ctx, v)
@@ -257,7 +257,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Delete" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Delete" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsDelete) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsDelete); ok {
 					return fn(ctx, v)
@@ -266,7 +266,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Dislike" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Dislike" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsDislike) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsDislike); ok {
 					return fn(ctx, v)
@@ -275,7 +275,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Document" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Document" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsDocument) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsDocument); ok {
 					return fn(ctx, v)
@@ -284,7 +284,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Event" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Event" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsEvent) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsEvent); ok {
 					return fn(ctx, v)
@@ -293,7 +293,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Flag" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Flag" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsFlag) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsFlag); ok {
 					return fn(ctx, v)
@@ -302,7 +302,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Follow" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Follow" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsFollow) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsFollow); ok {
 					return fn(ctx, v)
@@ -311,7 +311,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Group" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Group" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsGroup) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsGroup); ok {
 					return fn(ctx, v)
@@ -320,7 +320,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Ignore" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Ignore" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsIgnore) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsIgnore); ok {
 					return fn(ctx, v)
@@ -329,7 +329,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Image" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Image" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsImage) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsImage); ok {
 					return fn(ctx, v)
@@ -338,7 +338,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "IntransitiveActivity" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "IntransitiveActivity" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsIntransitiveActivity) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsIntransitiveActivity); ok {
 					return fn(ctx, v)
@@ -347,7 +347,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Invite" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Invite" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsInvite) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsInvite); ok {
 					return fn(ctx, v)
@@ -356,7 +356,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Join" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Join" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsJoin) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsJoin); ok {
 					return fn(ctx, v)
@@ -365,7 +365,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Leave" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Leave" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsLeave) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsLeave); ok {
 					return fn(ctx, v)
@@ -374,7 +374,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Like" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Like" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsLike) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsLike); ok {
 					return fn(ctx, v)
@@ -383,7 +383,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Link" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Link" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsLink) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsLink); ok {
 					return fn(ctx, v)
@@ -392,7 +392,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Listen" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Listen" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsListen) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsListen); ok {
 					return fn(ctx, v)
@@ -401,7 +401,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Mention" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Mention" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsMention) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsMention); ok {
 					return fn(ctx, v)
@@ -410,7 +410,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Move" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Move" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsMove) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsMove); ok {
 					return fn(ctx, v)
@@ -419,7 +419,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Note" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Note" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsNote) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsNote); ok {
 					return fn(ctx, v)
@@ -428,7 +428,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Object" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Object" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsObject) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsObject); ok {
 					return fn(ctx, v)
@@ -437,7 +437,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Offer" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Offer" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsOffer) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsOffer); ok {
 					return fn(ctx, v)
@@ -446,7 +446,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "OrderedCollection" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "OrderedCollection" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsOrderedCollection) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsOrderedCollection); ok {
 					return fn(ctx, v)
@@ -455,7 +455,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "OrderedCollectionPage" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "OrderedCollectionPage" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsOrderedCollectionPage) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsOrderedCollectionPage); ok {
 					return fn(ctx, v)
@@ -464,7 +464,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Organization" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Organization" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsOrganization) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsOrganization); ok {
 					return fn(ctx, v)
@@ -473,7 +473,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Page" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Page" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsPage) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsPage); ok {
 					return fn(ctx, v)
@@ -482,7 +482,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Person" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Person" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsPerson) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsPerson); ok {
 					return fn(ctx, v)
@@ -491,7 +491,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Place" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Place" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsPlace) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsPlace); ok {
 					return fn(ctx, v)
@@ -500,7 +500,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Profile" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Profile" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsProfile) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsProfile); ok {
 					return fn(ctx, v)
@@ -509,7 +509,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Question" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Question" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsQuestion) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsQuestion); ok {
 					return fn(ctx, v)
@@ -518,7 +518,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Read" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Read" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsRead) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsRead); ok {
 					return fn(ctx, v)
@@ -527,7 +527,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Reject" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Reject" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsReject) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsReject); ok {
 					return fn(ctx, v)
@@ -536,7 +536,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Relationship" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Relationship" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsRelationship) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsRelationship); ok {
 					return fn(ctx, v)
@@ -545,7 +545,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Remove" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Remove" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsRemove) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsRemove); ok {
 					return fn(ctx, v)
@@ -554,7 +554,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Service" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Service" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsService) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsService); ok {
 					return fn(ctx, v)
@@ -563,7 +563,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "TentativeAccept" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "TentativeAccept" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsTentativeAccept) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsTentativeAccept); ok {
 					return fn(ctx, v)
@@ -572,7 +572,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "TentativeReject" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "TentativeReject" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsTentativeReject) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsTentativeReject); ok {
 					return fn(ctx, v)
@@ -581,7 +581,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Tombstone" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Tombstone" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsTombstone) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsTombstone); ok {
 					return fn(ctx, v)
@@ -590,7 +590,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Travel" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Travel" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsTravel) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsTravel); ok {
 					return fn(ctx, v)
@@ -599,7 +599,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Undo" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Undo" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsUndo) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsUndo); ok {
 					return fn(ctx, v)
@@ -608,7 +608,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Update" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Update" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsUpdate) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsUpdate); ok {
 					return fn(ctx, v)
@@ -617,7 +617,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "Video" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "Video" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsVideo) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsVideo); ok {
 					return fn(ctx, v)
@@ -626,7 +626,7 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetName() == "View" {
+		} else if o.VocabularyURI() == "https://www.w3.org/TR/activitystreams-vocabulary" && o.GetTypeName() == "View" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsView) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsView); ok {
 					return fn(ctx, v)

@@ -9,8 +9,6 @@ import (
 	"net/http"
 )
 
-// TODO: Rename GetType and GetName
-
 // baseActor must satisfy the Actor interface.
 var _ Actor = &baseActor{}
 

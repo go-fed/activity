@@ -121,8 +121,8 @@ type ActivityStreamsRelationship interface {
 	// GetActivityStreamsUrl returns the "url" property if it exists, and nil
 	// otherwise.
 	GetActivityStreamsUrl() ActivityStreamsUrlProperty
-	// GetName returns the name of this type.
-	GetName() string
+	// GetTypeName returns the name of this type.
+	GetTypeName() string
 	// GetUnknownProperties returns the unknown properties for the
 	// Relationship type. Note that this should not be used by app
 	// developers. It is only used to help determine which implementation

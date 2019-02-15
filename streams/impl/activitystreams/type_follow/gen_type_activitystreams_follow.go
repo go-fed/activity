@@ -71,7 +71,7 @@ type ActivityStreamsFollow struct {
 func ActivityStreamsFollowExtends(other vocab.Type) bool {
 	extensions := []string{"Activity", "Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -399,7 +399,7 @@ func DeserializeFollow(m map[string]interface{}, aliasMap map[string]string) (*A
 func FollowIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -643,8 +643,8 @@ func (this ActivityStreamsFollow) GetActivityStreamsUrl() vocab.ActivityStreamsU
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsFollow) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsFollow) GetTypeName() string {
 	return "Follow"
 }
 

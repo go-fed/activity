@@ -69,7 +69,7 @@ type ActivityStreamsJoin struct {
 func ActivityStreamsJoinExtends(other vocab.Type) bool {
 	extensions := []string{"Activity", "Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -397,7 +397,7 @@ func DeserializeJoin(m map[string]interface{}, aliasMap map[string]string) (*Act
 func JoinIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -641,8 +641,8 @@ func (this ActivityStreamsJoin) GetActivityStreamsUrl() vocab.ActivityStreamsUrl
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsJoin) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsJoin) GetTypeName() string {
 	return "Join"
 }
 

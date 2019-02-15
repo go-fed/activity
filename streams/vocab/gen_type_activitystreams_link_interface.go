@@ -53,8 +53,8 @@ type ActivityStreamsLink interface {
 	// GetActivityStreamsWidth returns the "width" property if it exists, and
 	// nil otherwise.
 	GetActivityStreamsWidth() ActivityStreamsWidthProperty
-	// GetName returns the name of this type.
-	GetName() string
+	// GetTypeName returns the name of this type.
+	GetTypeName() string
 	// GetUnknownProperties returns the unknown properties for the Link type.
 	// Note that this should not be used by app developers. It is only
 	// used to help determine which implementation is LessThan the other.

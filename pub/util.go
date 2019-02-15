@@ -748,7 +748,7 @@ func toTombstone(obj vocab.Type, id *url.URL, now time.Time) vocab.ActivityStrea
 	former := streams.NewActivityStreamsFormerTypeProperty()
 	tomb.SetActivityStreamsFormerType(former)
 	// Populate Former Type
-	former.AppendXMLSchemaString(obj.GetName())
+	former.AppendXMLSchemaString(obj.GetTypeName())
 	// Copy over the published property if it existed
 	if pubber, ok := obj.(publisheder); ok {
 		if pub := pubber.GetActivityStreamsPublished(); pub != nil {

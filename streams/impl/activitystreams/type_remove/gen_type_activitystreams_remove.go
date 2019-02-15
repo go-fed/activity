@@ -88,7 +88,7 @@ type ActivityStreamsRemove struct {
 func ActivityStreamsRemoveExtends(other vocab.Type) bool {
 	extensions := []string{"Activity", "Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -427,7 +427,7 @@ func NewActivityStreamsRemove() *ActivityStreamsRemove {
 func RemoveIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -660,8 +660,8 @@ func (this ActivityStreamsRemove) GetActivityStreamsUrl() vocab.ActivityStreamsU
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsRemove) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsRemove) GetTypeName() string {
 	return "Remove"
 }
 

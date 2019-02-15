@@ -18,7 +18,7 @@ const (
 	extendingMethod            = "IsExtending"
 	extendsMethod              = "Extends"
 	disjointWithMethod         = "IsDisjointWith"
-	typeNameMethod             = "GetName"
+	typeNameMethod             = "GetTypeName"
 	vocabURIMethod             = "VocabularyURI"
 	serializeMethodName        = "Serialize"
 	deserializeFnName          = "Deserialize"

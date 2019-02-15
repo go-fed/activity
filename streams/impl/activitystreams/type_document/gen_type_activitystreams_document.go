@@ -56,7 +56,7 @@ type ActivityStreamsDocument struct {
 func ActivityStreamsDocumentExtends(other vocab.Type) bool {
 	extensions := []string{"Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -349,7 +349,7 @@ func DeserializeDocument(m map[string]interface{}, aliasMap map[string]string) (
 func DocumentIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -361,7 +361,7 @@ func DocumentIsDisjointWith(other vocab.Type) bool {
 func DocumentIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"Audio", "Image", "Page", "Video"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -568,8 +568,8 @@ func (this ActivityStreamsDocument) GetActivityStreamsUrl() vocab.ActivityStream
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsDocument) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsDocument) GetTypeName() string {
 	return "Document"
 }
 

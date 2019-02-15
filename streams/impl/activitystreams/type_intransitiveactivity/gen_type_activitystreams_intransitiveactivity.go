@@ -69,7 +69,7 @@ type ActivityStreamsIntransitiveActivity struct {
 func ActivityStreamsIntransitiveActivityExtends(other vocab.Type) bool {
 	extensions := []string{"Activity", "Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -390,7 +390,7 @@ func DeserializeIntransitiveActivity(m map[string]interface{}, aliasMap map[stri
 func IntransitiveActivityIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -402,7 +402,7 @@ func IntransitiveActivityIsDisjointWith(other vocab.Type) bool {
 func IntransitiveActivityIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"Arrive", "Question", "Travel"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -633,8 +633,8 @@ func (this ActivityStreamsIntransitiveActivity) GetActivityStreamsUrl() vocab.Ac
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsIntransitiveActivity) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsIntransitiveActivity) GetTypeName() string {
 	return "IntransitiveActivity"
 }
 

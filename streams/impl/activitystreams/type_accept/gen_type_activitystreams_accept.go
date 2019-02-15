@@ -92,7 +92,7 @@ type ActivityStreamsAccept struct {
 func AcceptIsDisjointWith(other vocab.Type) bool {
 	disjointWith := []string{"Link", "Mention"}
 	for _, disjoint := range disjointWith {
-		if disjoint == other.GetName() {
+		if disjoint == other.GetTypeName() {
 			return true
 		}
 	}
@@ -104,7 +104,7 @@ func AcceptIsDisjointWith(other vocab.Type) bool {
 func AcceptIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"TentativeAccept"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -116,7 +116,7 @@ func AcceptIsExtendedBy(other vocab.Type) bool {
 func ActivityStreamsAcceptExtends(other vocab.Type) bool {
 	extensions := []string{"Activity", "Object"}
 	for _, ext := range extensions {
-		if ext == other.GetName() {
+		if ext == other.GetTypeName() {
 			return true
 		}
 	}
@@ -669,8 +669,8 @@ func (this ActivityStreamsAccept) GetActivityStreamsUrl() vocab.ActivityStreamsU
 	return this.ActivityStreamsUrl
 }
 
-// GetName returns the name of this type.
-func (this ActivityStreamsAccept) GetName() string {
+// GetTypeName returns the name of this type.
+func (this ActivityStreamsAccept) GetTypeName() string {
 	return "Accept"
 }
 
