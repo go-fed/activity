@@ -16,6 +16,12 @@ import (
 	"time"
 )
 
+// IsAnActivityType returns true if the ActivityStreams value is an Activity or
+// extends from the Activity type.
+func IsAnActivityType(value vocab.Type) bool {
+	return value.GetTypeName() == streams.ActivityStreamsActivityName || streams.ActivityStreamsActivityIsExtendedBy(value)
+}
+
 var (
 	// ErrObjectRequired indicates the activity needs its object property
 	// set. Can be returned by DelegateActor's PostInbox or PostOutbox so a
@@ -285,7 +291,7 @@ func wrapInCreate(ctx context.Context, o vocab.Type, actor *url.URL) (c vocab.Ac
 	c = streams.NewActivityStreamsCreate()
 	// Object property
 	oProp := streams.NewActivityStreamsObjectProperty()
-	addToCreate(ctx, c, o)
+	oProp.AppendType(o)
 	c.SetActivityStreamsObject(oProp)
 	// Actor Property
 	actorProp := streams.NewActivityStreamsActorProperty()
