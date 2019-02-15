@@ -43,9 +43,7 @@ type Database interface {
 	// Owns returns true if the database has an entry for the IRI and it
 	// exists in the database.
 	//
-	// TODO: Acquire a lock
-	//
-	// Owns is called without acquiring a lock.
+	// The library makes this call only after acquiring a lock first.
 	Owns(c context.Context, id *url.URL) (owns bool, err error)
 	// ActorForOutbox fetches the actor's IRI for the given outbox IRI.
 	//

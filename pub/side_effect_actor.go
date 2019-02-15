@@ -175,11 +175,20 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 		if err != nil {
 			return err
 		}
+		err = a.db.Lock(c, iri)
+		if err != nil {
+			return err
+		}
+		// WARNING: Unlock is not deferred
 		if owns, err := a.db.Owns(c, iri); err != nil {
+			a.db.Unlock(c, iri)
 			return err
 		} else if !owns {
+			a.db.Unlock(c, iri)
 			continue
 		}
+		a.db.Unlock(c, iri)
+		// Unlock by this point and in every branch above.
 		myIRIs = append(myIRIs, iri)
 	}
 	// Finally, load our IRIs to determine if they are a Collection or
@@ -483,21 +492,41 @@ func (a *sideEffectActor) hasInboxForwardingValues(c context.Context, inboxIRI *
 	if err != nil {
 		return false, err
 	}
+	err = a.db.Lock(c, id)
+	if err != nil {
+		return false, err
+	}
+	// WARNING: Unlock is not deferred
 	if owns, err := a.db.Owns(c, id); err != nil {
+		a.db.Unlock(c, id)
 		return false, err
 	} else if owns {
+		a.db.Unlock(c, id)
 		return true, nil
 	}
+	a.db.Unlock(c, id)
+	// Unlock by this point and in every branch above
+	//
 	// Determine if we own the 'id' of any values on the properties we care
 	// about.
 	types, iris := getInboxForwardingValues(val)
 	// For IRIs, simply check if we own them.
 	for _, iri := range iris {
+		err = a.db.Lock(c, iri)
+		if err != nil {
+			return false, err
+		}
+		// WARNING: Unlock is not deferred
 		if owns, err := a.db.Owns(c, iri); err != nil {
+			a.db.Unlock(c, iri)
 			return false, err
 		} else if owns {
+			a.db.Unlock(c, iri)
 			return true, nil
 		}
+		a.db.Unlock(c, iri)
+		// Unlock by this point and in every branch above
+		//
 		// Attempt to dereference the IRI instead, and add it to the
 		// types we need to examine.
 		tport, err := a.common.NewTransport(c, inboxIRI, goFedUserAgent())
