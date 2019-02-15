@@ -31,7 +31,7 @@ func GenerateConstants(types []*TypeGenerator, props []*PropertyGenerator) (c []
 					"%s%sPropertyMapName is the string literal of the name for the %s property in the %s vocabulary when it is a natural language map.", p.VocabName(), strings.Title(p.PropertyName()), p.PropertyName(), p.VocabName(),
 				).Line().Var().Id(
 					fmt.Sprintf("%s%sPropertyMapName", p.VocabName(), strings.Title(p.PropertyName())),
-				).String().Op("=").Lit(p.PropertyName() + "Map"))
+				).String().Op("=").Lit(p.PropertyName()+"Map"))
 		}
 	}
 	return
