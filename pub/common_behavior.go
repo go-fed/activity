@@ -7,6 +7,9 @@ import (
 
 // Common contains functions required for both the Social API and Federating
 // Protocol.
+//
+// It is passed to the library as a dependency injection from the client
+// application.
 type CommonBehavior interface {
 	// AuthenticateGetInbox delegates the authentication of a GET to an
 	// inbox.

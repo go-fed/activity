@@ -102,10 +102,7 @@ func (a *sideEffectActor) PostInbox(c context.Context, inboxIRI *url.URL, activi
 		wrapped.db = a.db
 		wrapped.inboxIRI = inboxIRI
 		wrapped.newTransport = a.s2s.NewTransport
-		if err = wrapped.disjoint(other); err != nil {
-			return err
-		}
-		res, err := streams.NewTypeResolver(append(wrapped.callbacks(), other...))
+		res, err := streams.NewTypeResolver(wrapped.callbacks(other))
 		if err != nil {
 			return err
 		}
@@ -283,10 +280,7 @@ func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outbo
 	wrapped.rawActivity = rawJSON
 	wrapped.clock = a.clock
 	wrapped.deliverable = &deliverable
-	if e = wrapped.disjoint(other); e != nil {
-		return
-	}
-	res, err := streams.NewTypeResolver(append(wrapped.callbacks(), other...))
+	res, err := streams.NewTypeResolver(wrapped.callbacks(other))
 	if err != nil {
 		return
 	}

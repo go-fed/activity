@@ -42,22 +42,35 @@ type SocialWrappedCallbacks struct {
 	// Add handles additional side effects for the Add ActivityStreams
 	// type.
 	//
-	// TODO: Describe
+	//
+	// The wrapping function will add the 'object' IRIs to a specific
+	// 'target' collection if the 'target' collection(s) live on this
+	// server.
 	Add func(context.Context, vocab.ActivityStreamsAdd) error
 	// Remove handles additional side effects for the Remove ActivityStreams
 	// type.
 	//
-	// TODO: Describe
+	// The wrapping function will remove all 'object' IRIs from a specific
+	// 'target' collection if the 'target' collection(s) live on this
+	// server.
 	Remove func(context.Context, vocab.ActivityStreamsRemove) error
 	// Like handles additional side effects for the Like ActivityStreams
 	// type.
 	//
-	// TODO: Describe
+	// The wrapping function will add the objects on the activity to the
+	// "liked" collection of this actor.
 	Like func(context.Context, vocab.ActivityStreamsLike) error
 	// Undo handles additional side effects for the Undo ActivityStreams
 	// type.
 	//
-	// TODO: Describe
+	//
+	// The wrapping function ensures the 'actor' on the 'Undo'
+	// is be the same as the 'actor' on all Activities being undone.
+	// It enforces that the actors on the Undo must correspond to all of the
+	// 'object' actors in some manner.
+	//
+	// It is expected that the application will implement the proper
+	// reversal of activities that are being undone.
 	Undo func(context.Context, vocab.ActivityStreamsUndo) error
 	// Block handles additional side effects for the Block ActivityStreams
 	// type.
@@ -89,53 +102,73 @@ type SocialWrappedCallbacks struct {
 	deliverable *bool
 }
 
-// disjoint ensures that the functions given do not share a type signature with
-// the functions being wrapped in SocialWrappedCallbacks.
-func (w SocialWrappedCallbacks) disjoint(fns []interface{}) error {
-	var s string
+// callbacks returns the WrappedCallbacks members into a single interface slice
+// for use in streams.Resolver callbacks.
+//
+// If the given functions have a type that collides with the default behavior,
+// then disable our default behavior
+func (w SocialWrappedCallbacks) callbacks(fns []interface{}) []interface{} {
+	enableCreate := true
+	enableUpdate := true
+	enableDelete := true
+	enableFollow := true
+	enableAdd := true
+	enableRemove := true
+	enableLike := true
+	enableUndo := true
+	enableBlock := true
 	for _, fn := range fns {
 		switch fn.(type) {
 		default:
-			// OK, no collision
 			continue
 		case func(context.Context, vocab.ActivityStreamsCreate) error:
-			s = "Create"
+			enableCreate = false
 		case func(context.Context, vocab.ActivityStreamsUpdate) error:
-			s = "Update"
+			enableUpdate = false
 		case func(context.Context, vocab.ActivityStreamsDelete) error:
-			s = "Delete"
+			enableDelete = false
 		case func(context.Context, vocab.ActivityStreamsFollow) error:
-			s = "Follow"
+			enableFollow = false
 		case func(context.Context, vocab.ActivityStreamsAdd) error:
-			s = "Add"
+			enableAdd = false
 		case func(context.Context, vocab.ActivityStreamsRemove) error:
-			s = "Remove"
+			enableRemove = false
 		case func(context.Context, vocab.ActivityStreamsLike) error:
-			s = "Like"
+			enableLike = false
 		case func(context.Context, vocab.ActivityStreamsUndo) error:
-			s = "Undo"
+			enableUndo = false
 		case func(context.Context, vocab.ActivityStreamsBlock) error:
-			s = "Block"
+			enableBlock = false
 		}
-		return fmt.Errorf("callback function handling type %q conflicts with SocialWrappedCallbacks", s)
 	}
-	return nil
-}
-
-// callbacks returns the WrappedCallbacks members into a single interface slice
-// for use in streams.Resolver callbacks.
-func (w SocialWrappedCallbacks) callbacks() []interface{} {
-	return []interface{}{
-		w.create,
-		w.update,
-		w.deleteFn,
-		w.follow,
-		w.add,
-		w.remove,
-		w.like,
-		w.undo,
-		w.block,
+	if enableCreate {
+		fns = append(fns, w.create)
 	}
+	if enableUpdate {
+		fns = append(fns, w.update)
+	}
+	if enableDelete {
+		fns = append(fns, w.deleteFn)
+	}
+	if enableFollow {
+		fns = append(fns, w.follow)
+	}
+	if enableAdd {
+		fns = append(fns, w.add)
+	}
+	if enableRemove {
+		fns = append(fns, w.remove)
+	}
+	if enableLike {
+		fns = append(fns, w.like)
+	}
+	if enableUndo {
+		fns = append(fns, w.undo)
+	}
+	if enableBlock {
+		fns = append(fns, w.block)
+	}
+	return fns
 }
 
 // create implements the social Create activity side effects.

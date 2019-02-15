@@ -135,63 +135,91 @@ type FederatingWrappedCallbacks struct {
 	newTransport func(c context.Context, actorBoxIRI *url.URL, gofedAgent string) (t Transport, err error)
 }
 
-// disjoint ensures that the functions given do not share a type signature with
-// the functions being wrapped in FederatingWrappedCallbacks.
-func (w FederatingWrappedCallbacks) disjoint(fns []interface{}) error {
-	// TODO: Instead, if provided in "other" it should override this behavior.
-	var s string
+// callbacks returns the WrappedCallbacks members into a single interface slice
+// for use in streams.Resolver callbacks.
+//
+// If the given functions have a type that collides with the default behavior,
+// then disable our default behavior
+func (w FederatingWrappedCallbacks) callbacks(fns []interface{}) []interface{} {
+	enableCreate := true
+	enableUpdate := true
+	enableDelete := true
+	enableFollow := true
+	enableAccept := true
+	enableReject := true
+	enableAdd := true
+	enableRemove := true
+	enableLike := true
+	enableAnnounce := true
+	enableUndo := true
+	enableBlock := true
 	for _, fn := range fns {
 		switch fn.(type) {
 		default:
-			// OK, no collision
 			continue
 		case func(context.Context, vocab.ActivityStreamsCreate) error:
-			s = "Create"
+			enableCreate = false
 		case func(context.Context, vocab.ActivityStreamsUpdate) error:
-			s = "Update"
+			enableUpdate = false
 		case func(context.Context, vocab.ActivityStreamsDelete) error:
-			s = "Delete"
+			enableDelete = false
 		case func(context.Context, vocab.ActivityStreamsFollow) error:
-			s = "Follow"
+			enableFollow = false
 		case func(context.Context, vocab.ActivityStreamsAccept) error:
-			s = "Accept"
+			enableAccept = false
 		case func(context.Context, vocab.ActivityStreamsReject) error:
-			s = "Reject"
+			enableReject = false
 		case func(context.Context, vocab.ActivityStreamsAdd) error:
-			s = "Add"
+			enableAdd = false
 		case func(context.Context, vocab.ActivityStreamsRemove) error:
-			s = "Remove"
+			enableRemove = false
 		case func(context.Context, vocab.ActivityStreamsLike) error:
-			s = "Like"
+			enableLike = false
 		case func(context.Context, vocab.ActivityStreamsAnnounce) error:
-			s = "Announce"
+			enableAnnounce = false
 		case func(context.Context, vocab.ActivityStreamsUndo) error:
-			s = "Undo"
+			enableUndo = false
 		case func(context.Context, vocab.ActivityStreamsBlock) error:
-			s = "Block"
+			enableBlock = false
 		}
-		return fmt.Errorf("callback function handling type %q conflicts with FederatingWrappedCallbacks", s)
 	}
-	return nil
-}
-
-// callbacks returns the WrappedCallbacks members into a single interface slice
-// for use in streams.Resolver callbacks.
-func (w FederatingWrappedCallbacks) callbacks() []interface{} {
-	return []interface{}{
-		w.create,
-		w.update,
-		w.deleteFn,
-		w.follow,
-		w.accept,
-		w.reject,
-		w.add,
-		w.remove,
-		w.like,
-		w.announce,
-		w.undo,
-		w.block,
+	if enableCreate {
+		fns = append(fns, w.create)
 	}
+	if enableUpdate {
+		fns = append(fns, w.update)
+	}
+	if enableDelete {
+		fns = append(fns, w.deleteFn)
+	}
+	if enableFollow {
+		fns = append(fns, w.follow)
+	}
+	if enableAccept {
+		fns = append(fns, w.accept)
+	}
+	if enableReject {
+		fns = append(fns, w.reject)
+	}
+	if enableAdd {
+		fns = append(fns, w.add)
+	}
+	if enableRemove {
+		fns = append(fns, w.remove)
+	}
+	if enableLike {
+		fns = append(fns, w.like)
+	}
+	if enableAnnounce {
+		fns = append(fns, w.announce)
+	}
+	if enableUndo {
+		fns = append(fns, w.undo)
+	}
+	if enableBlock {
+		fns = append(fns, w.block)
+	}
+	return fns
 }
 
 // create implements the federating Create activity side effects.

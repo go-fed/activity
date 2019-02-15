@@ -13,6 +13,10 @@ import (
 // Protocol), client-to-server (Social API), or both. The Actor represents the
 // server in either use case.
 //
+// An actor can be created by calling NewSocialActor (only the Social Protocol
+// is supported), NewFederatingActor (only the Federating Protocol is
+// supported), NewActor (both are supported), or NewCustomActor (neither are).
+//
 // Not all Actors have the same behaviors depending on the constructor used to
 // create them. Refer to the constructor's documentation to determine the exact
 // behavior of the Actor on an application.

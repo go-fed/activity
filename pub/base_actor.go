@@ -124,11 +124,11 @@ func NewActor(c CommonBehavior,
 // for the Social Protocol, Federating Protocol, or both.
 //
 // It still uses the library as a high-level scaffold, which has the benefit of
-// allowing applications to grow into a custom solution without having to
-// refactor the code that passes HTTP requests into the Actor.
+// allowing applications to grow into a custom ActivityPub solution without
+// having to refactor the code that passes HTTP requests into the Actor.
 //
 // It is possible to create a DelegateActor that is not ActivityPub compliant.
-// Use with care.
+// Use with due care.
 func NewCustomActor(delegate DelegateActor,
 	enableSocialProtocol, enableFederatedProtocol bool,
 	clock Clock) Actor {

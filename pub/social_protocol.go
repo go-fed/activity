@@ -11,6 +11,9 @@ import (
 //
 // It is only required if the client application wants to support the client-to-
 // server, or social, protocol.
+//
+// It is passed to the library as a dependency injection from the client
+// application.
 type SocialProtocol interface {
 	// AuthenticatePostOutbox delegates the authentication of a POST to an
 	// outbox.
@@ -32,12 +35,21 @@ type SocialProtocol interface {
 	// to be processed.
 	AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (shouldReturn bool, err error)
 	// Callbacks returns the application logic that handles ActivityStreams
-	// received from C2S clients. Note that certain types of callbacks
-	// will be 'wrapped' with default behaviors supported natively by the
-	// library. Other callbacks compatible with streams.TypeResolver can
-	// be specified by 'other'.
+	// received from C2S clients.
 	//
-	// Note that the functions in 'wrapped' cannot be provided in 'other'.
+	// Note that certain types of callbacks will be 'wrapped' with default
+	// behaviors supported natively by the library. Other callbacks
+	// compatible with streams.TypeResolver can be specified by 'other'.
+	//
+	// For example, setting the 'Create' field in the SocialWrappedCallbacks
+	// lets an application dependency inject additional behaviors they want
+	// to take place, including the default behavior supplied by this
+	// library. This is guaranteed to be compliant with the ActivityPub
+	// Social protocol.
+	//
+	// To override the default behavior, instead supply the function in
+	// 'other', which does not guarantee the application will be compliant
+	// with the ActivityPub Social Protocol.
 	Callbacks(c context.Context) (wrapped SocialWrappedCallbacks, other []interface{})
 	// GetOutbox returns the OrderedCollection inbox of the actor for this
 	// context. It is up to the implementation to provide the correct

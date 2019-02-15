@@ -10,14 +10,17 @@ import (
 // DelegateActor contains the detailed interface an application must satisfy in
 // order to implement the ActivityPub specification.
 //
+// Note that an implementation of this interface is implicitly provided in the
+// calls to NewActor, NewSocialActor, and NewFederatingActor.
+//
 // Implementing the DelegateActor requires familiarity with the ActivityPub
-// specification, it does not a strong enough abstraction for the client
+// specification because it does not a strong enough abstraction for the client
 // application to ignore the ActivityPub spec. It is very possible to implement
 // this interface and build a foot-gun that trashes the fediverse without being
 // ActivityPub compliant. Please use with due consideration.
 //
 // Alternatively, build an application that uses the parts of the pub library
-// that does not require implementing a DelegateActor so that the ActivityPub
+// that do not require implementing a DelegateActor so that the ActivityPub
 // implementation is completely provided out of the box.
 type DelegateActor interface {
 	// AuthenticatePostInbox delegates the authentication of a POST to an
@@ -144,8 +147,8 @@ type DelegateActor interface {
 	//
 	// If an error is returned, it is returned to the caller of PostOutbox.
 	Deliver(c context.Context, outbox *url.URL, activity Activity) error
-	// AuthenticatePostOutbox delegates the authentication of a POST to an
-	// outbox.
+	// AuthenticatePostOutbox delegates the authentication and authorization
+	// of a POST to an outbox.
 	//
 	// Only called if the Social API is enabled.
 	//

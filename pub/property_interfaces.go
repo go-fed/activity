@@ -5,12 +5,12 @@ import (
 	"net/url"
 )
 
-// inReplyToer is an ActivityStreams type with a 'inReplyTo' property
+// inReplyToer is an ActivityStreams type with an 'inReplyTo' property
 type inReplyToer interface {
 	GetActivityStreamsInReplyTo() vocab.ActivityStreamsInReplyToProperty
 }
 
-// objecter is an ActivityStreams type with a 'object' property
+// objecter is an ActivityStreams type with an 'object' property
 type objecter interface {
 	GetActivityStreamsObject() vocab.ActivityStreamsObjectProperty
 }
@@ -30,13 +30,13 @@ type hrefer interface {
 	GetActivityStreamsHref() vocab.ActivityStreamsHrefProperty
 }
 
-// itemser is an ActivityStreams type with a 'items' property
+// itemser is an ActivityStreams type with an 'items' property
 type itemser interface {
 	GetActivityStreamsItems() vocab.ActivityStreamsItemsProperty
 	SetActivityStreamsItems(vocab.ActivityStreamsItemsProperty)
 }
 
-// orderedItemser is an ActivityStreams type with a 'orderedItems' property
+// orderedItemser is an ActivityStreams type with an 'orderedItems' property
 type orderedItemser interface {
 	GetActivityStreamsOrderedItems() vocab.ActivityStreamsOrderedItemsProperty
 	SetActivityStreamsOrderedItems(vocab.ActivityStreamsOrderedItemsProperty)
@@ -47,7 +47,7 @@ type publisheder interface {
 	GetActivityStreamsPublished() vocab.ActivityStreamsPublishedProperty
 }
 
-// updateder is an ActivityStreams type with a 'updateder' property
+// updateder is an ActivityStreams type with an 'updateder' property
 type updateder interface {
 	GetActivityStreamsUpdated() vocab.ActivityStreamsUpdatedProperty
 }
@@ -76,18 +76,18 @@ type bccer interface {
 	SetActivityStreamsBcc(i vocab.ActivityStreamsBccProperty)
 }
 
-// audiencer is an ActivityStreams type with a 'audience' property
+// audiencer is an ActivityStreams type with an 'audience' property
 type audiencer interface {
 	GetActivityStreamsAudience() vocab.ActivityStreamsAudienceProperty
 	SetActivityStreamsAudience(i vocab.ActivityStreamsAudienceProperty)
 }
 
-// inboxer is an ActivityStreams type with a 'inbox' property
+// inboxer is an ActivityStreams type with an 'inbox' property
 type inboxer interface {
 	GetActivityStreamsInbox() vocab.ActivityStreamsInboxProperty
 }
 
-// attributedToer is an ActivityStreams type with a 'attributedTo' property
+// attributedToer is an ActivityStreams type with an 'attributedTo' property
 type attributedToer interface {
 	GetActivityStreamsAttributedTo() vocab.ActivityStreamsAttributedToProperty
 	SetActivityStreamsAttributedTo(i vocab.ActivityStreamsAttributedToProperty)
@@ -105,7 +105,7 @@ type shareser interface {
 	SetActivityStreamsShares(i vocab.ActivityStreamsSharesProperty)
 }
 
-// actorer is an ActivityStreams type with a 'actor' property
+// actorer is an ActivityStreams type with an 'actor' property
 type actorer interface {
 	GetActivityStreamsActor() vocab.ActivityStreamsActorProperty
 	SetActivityStreamsActor(i vocab.ActivityStreamsActorProperty)
