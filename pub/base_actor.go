@@ -171,7 +171,7 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	if err = json.Unmarshal(raw, &m); err != nil {
 		return true, err
 	}
-	asValue, err := toType(c, m)
+	asValue, err := streams.ToType(c, m)
 	if err != nil && !streams.IsUnmatchedErr(err) {
 		return true, err
 	} else if streams.IsUnmatchedErr(err) {
@@ -302,7 +302,7 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	// not known to go-fed. This prevents accidentally wrapping an Activity
 	// type unknown to go-fed in a Create below. Instead,
 	// streams.ErrUnhandledType will be returned here.
-	asValue, err := toType(c, m)
+	asValue, err := streams.ToType(c, m)
 	if err != nil && !streams.IsUnmatchedErr(err) {
 		return true, err
 	} else if streams.IsUnmatchedErr(err) {

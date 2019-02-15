@@ -1103,7 +1103,7 @@ func (c *Converter) propertyPackageFiles(pg *gen.PropertyGenerator, vocabName st
 // resolverFiles creates the files necessary for the resolvers.
 func (c *Converter) resolverFiles(pkg gen.Package, manGen *gen.ManagerGenerator, root vocabulary) (files []*File, e error) {
 	rg := gen.NewResolverGenerator(root.allTypeArray(), manGen, pkg)
-	jsonRes, typeRes, typePredRes, errDefs, isUnFn, iFaces := rg.Definition()
+	jsonRes, typeRes, typePredRes, errDefs, fns, iFaces := rg.Definition()
 	// Utils
 	file := jen.NewFilePath(pkg.Path())
 	for _, errDef := range errDefs {
@@ -1112,7 +1112,9 @@ func (c *Converter) resolverFiles(pkg gen.Package, manGen *gen.ManagerGenerator,
 	for _, iFace := range iFaces {
 		file.Add(iFace.Definition()).Line()
 	}
-	file.Add(isUnFn.Definition())
+	for _, fn := range fns {
+		file.Add(fn.Definition()).Line()
+	}
 	files = append(files, &File{
 		F:         file,
 		FileName:  "gen_resolver_utils.go",

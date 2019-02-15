@@ -543,7 +543,7 @@ func (a *sideEffectActor) hasInboxForwardingValues(c context.Context, inboxIRI *
 		if err = json.Unmarshal(b, &m); err != nil {
 			return false, err
 		}
-		t, err := toType(c, m)
+		t, err := streams.ToType(c, m)
 		if err != nil {
 			// Do not fail the entire process if we cannot handle
 			// the type.
@@ -729,7 +729,7 @@ func (a *sideEffectActor) dereferenceForResolvingInboxes(c context.Context, t Tr
 	if err = json.Unmarshal(resp, &m); err != nil {
 		return
 	}
-	actor, err = toType(c, m)
+	actor, err = streams.ToType(c, m)
 	if err != nil {
 		return
 	}

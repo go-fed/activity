@@ -246,7 +246,7 @@ func (w FederatingWrappedCallbacks) create(c context.Context, a vocab.ActivitySt
 			if err = json.Unmarshal(b, &m); err != nil {
 				return err
 			}
-			t, err = toType(c, m)
+			t, err = streams.ToType(c, m)
 			if err != nil {
 				return err
 			}
@@ -505,7 +505,7 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 				if err = json.Unmarshal(b, &m); err != nil {
 					return err
 				}
-				t, err = toType(c, m)
+				t, err = streams.ToType(c, m)
 				if err != nil {
 					return err
 				}

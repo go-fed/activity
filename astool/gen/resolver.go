@@ -44,7 +44,7 @@ type ResolverGenerator struct {
 	cachedErrPredicateUnmatched        jen.Code
 	cachedErrCannotTypeAssert          jen.Code
 	cachedErrCannotTypeAssertPredicate jen.Code
-	cachedIsUnFn                       *codegen.Function
+	cachedFns                          []*codegen.Function
 	cachedASInterface                  *codegen.Interface
 	cachedResolverInterface            *codegen.Interface
 }
@@ -67,7 +67,7 @@ func NewResolverGenerator(
 // Definition returns the TypeResolver and PredicateTypeResolver.
 //
 // This function signature is pure garbage and yet I keep heaping it on.
-func (r *ResolverGenerator) Definition() (jsonRes, typeRes, typePredRes *codegen.Struct, errs []jen.Code, isUnFn *codegen.Function, iFaces []*codegen.Interface) {
+func (r *ResolverGenerator) Definition() (jsonRes, typeRes, typePredRes *codegen.Struct, errs []jen.Code, fns []*codegen.Function, iFaces []*codegen.Interface) {
 	r.cacheOnce.Do(func() {
 		r.cachedJSON = codegen.NewStruct(
 			fmt.Sprintf("%s resolves a JSON-deserialized map into "+
@@ -139,7 +139,7 @@ func (r *ResolverGenerator) Definition() (jsonRes, typeRes, typePredRes *codegen
 		r.cachedErrPredicateUnmatched = r.errorPredicateUnmatched()
 		r.cachedErrCannotTypeAssert = r.errorCannotTypeAssert()
 		r.cachedErrCannotTypeAssertPredicate = r.errorCannotTypeAssertPredicate()
-		r.cachedIsUnFn = r.isUnFn()
+		r.cachedFns = r.fns()
 		r.cachedASInterface = r.asInterface()
 		r.cachedResolverInterface = r.resolverInterface()
 	})
@@ -149,7 +149,7 @@ func (r *ResolverGenerator) Definition() (jsonRes, typeRes, typePredRes *codegen
 			r.cachedErrPredicateUnmatched,
 			r.cachedErrCannotTypeAssert,
 			r.cachedErrCannotTypeAssertPredicate,
-		}, r.cachedIsUnFn, []*codegen.Interface{
+		}, r.cachedFns, []*codegen.Interface{
 			r.cachedASInterface,
 			r.cachedResolverInterface,
 		}
@@ -205,28 +205,75 @@ func (r *ResolverGenerator) errorPredicateUnmatched() jen.Code {
 	).Line().Var().Id(errorPredicateUnmatched).Error().Op("=").Qual("errors", "New").Call(jen.Lit("activity stream did not match type demanded by predicate"))
 }
 
-// isUnFn returns a function that returns true if an error is one dealing with
-// Unmatched or Unhandled errors.
-func (r *ResolverGenerator) isUnFn() *codegen.Function {
-	return codegen.NewCommentedFunction(
-		r.pkg.Path(),
-		isUnFnName,
-		[]jen.Code{
-			jen.Err().Error(),
-		},
-		[]jen.Code{
-			jen.Bool(),
-		},
-		[]jen.Code{
-			jen.Return(
-				jen.Err().Op("==").Id(errorPredicateUnmatched).Op(
-					"||",
-				).Err().Op("==").Id(errorUnhandled).Op(
-					"||",
-				).Err().Op("==").Id(errorNoMatch),
-			),
-		},
-		fmt.Sprintf("%s is true when the error indicates that a Resolver was unsuccessful due to the ActivityStreams value not matching its callbacks or predicates.", isUnFnName))
+// fns returns all utility functions.
+func (r *ResolverGenerator) fns() []*codegen.Function {
+	allTypeFns := make([]jen.Code, 0)
+	for _, t := range r.types {
+		allTypeFns = append(allTypeFns, jen.Func().Params(
+			jen.Id("ctx").Qual("context", "Context"),
+			jen.Id("i").Qual(t.PublicPackage().Path(), t.InterfaceName()),
+		).Error().Block(
+			jen.Id("t").Op("=").Id("i"),
+			jen.Return(jen.Nil()),
+		))
+	}
+	return []*codegen.Function{
+		codegen.NewCommentedFunction(
+			r.pkg.Path(),
+			isUnFnName,
+			[]jen.Code{
+				jen.Err().Error(),
+			},
+			[]jen.Code{
+				jen.Bool(),
+			},
+			[]jen.Code{
+				jen.Return(
+					jen.Err().Op("==").Id(errorPredicateUnmatched).Op(
+						"||",
+					).Err().Op("==").Id(errorUnhandled).Op(
+						"||",
+					).Err().Op("==").Id(errorNoMatch),
+				),
+			},
+			fmt.Sprintf("%s is true when the error indicates that a Resolver was unsuccessful due to the ActivityStreams value not matching its callbacks or predicates.", isUnFnName)),
+		codegen.NewCommentedFunction(
+			r.types[0].PublicPackage().Path(),
+			fmt.Sprintf("To%s", typeInterfaceName),
+			[]jen.Code{
+				jen.Id("c").Qual("context", "Context"),
+				jen.Id("m").Map(jen.String()).Interface(),
+			},
+			[]jen.Code{
+				jen.Id("t").Qual(r.types[0].PublicPackage().Path(), typeInterfaceName),
+				jen.Err().Error(),
+			},
+			[]jen.Code{
+				jen.Var().Id("r").Op("*").Qual(r.pkg.Path(), jsonResolverStructName),
+				jen.List(
+					jen.Id("r"),
+					jen.Err(),
+				).Op("=").Qual(
+					r.pkg.Path(),
+					fmt.Sprintf("%s%s", constructorName, jsonResolverStructName),
+				).Call(
+					jen.List(
+						allTypeFns...,
+					),
+				),
+				jen.If(
+					jen.Err().Op("!=").Nil(),
+				).Block(
+					jen.Return(),
+				),
+				jen.Err().Op("=").Id("r").Dot(resolveMethod).Call(
+					jen.Id("c"),
+					jen.Id("m"),
+				),
+				jen.Return(),
+			},
+			fmt.Sprintf("To%s attempts to resolve the generic JSON map into a Type.", typeInterfaceName)),
+	}
 }
 
 // jsonResolverMethods returns the methods for the TypeResolver.

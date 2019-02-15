@@ -799,7 +799,7 @@ func mustHaveActivityActorsMatchObjectActors(c context.Context,
 			if err = json.Unmarshal(b, &m); err != nil {
 				return err
 			}
-			t, err = toType(c, m)
+			t, err = streams.ToType(c, m)
 			if err != nil {
 				return err
 			}

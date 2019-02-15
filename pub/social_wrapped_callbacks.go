@@ -322,7 +322,7 @@ func (w SocialWrappedCallbacks) update(c context.Context, a vocab.ActivityStream
 				delete(m, k)
 			}
 		}
-		newT, err := toType(c, m)
+		newT, err := streams.ToType(c, m)
 		if err != nil {
 			return err
 		}
