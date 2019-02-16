@@ -67,8 +67,10 @@ func TestHeaderIsActivityPubMediaType(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		if actual := headerIsActivityPubMediaType(test.input); actual != test.expected {
-			t.Fatalf("(%q): expected %v, got %v", test.name, test.expected, actual)
-		}
+		t.Run(test.name, func(t *testing.T) {
+			if actual := headerIsActivityPubMediaType(test.input); actual != test.expected {
+				t.Fatalf("expected %v, got %v", test.expected, actual)
+			}
+		})
 	}
 }

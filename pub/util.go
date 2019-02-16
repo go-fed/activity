@@ -168,6 +168,8 @@ func serialize(a vocab.Type) (m map[string]interface{}, e error) {
 }
 
 const (
+	// The Location header
+	locationHeader = "Location"
 	// Contains the ActivityStreams Content-Type value.
 	contentTypeHeaderValue = "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
 	// The Date header.
