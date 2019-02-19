@@ -128,19 +128,26 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 	if err != nil {
 		return err
 	}
-	defer a.db.Unlock(c, id.Get())
+	// WARNING: Unlock is not deferred
+	//
 	// If the database already contains the activity, exit early.
 	exists, err := a.db.Exists(c, id.Get())
 	if err != nil {
+		a.db.Unlock(c, id.Get())
 		return err
 	} else if exists {
+		a.db.Unlock(c, id.Get())
 		return nil
 	}
 	// Attempt to create the activity entry.
 	err = a.db.Create(c, activity)
 	if err != nil {
+		a.db.Unlock(c, id.Get())
 		return err
 	}
+	a.db.Unlock(c, id.Get())
+	// Unlock by this point and in every branch above.
+	//
 	// 2. The values of 'to', 'cc', or 'audience' are Collections owned by
 	//    this server.
 	var r []*url.URL
@@ -413,7 +420,7 @@ func (a *sideEffectActor) addToOutbox(c context.Context, outboxIRI *url.URL, act
 	a.db.Unlock(c, id.Get())
 	// WARNING: Unlock(c, id) should be called by this point and in every
 	// return before here.
-
+	//
 	// Acquire a lock to read the outbox. Defer release.
 	err = a.db.Lock(c, outboxIRI)
 	if err != nil {
