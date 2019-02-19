@@ -79,7 +79,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		req := toAPRequest(toGetInboxRequest())
 		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) (bool, error) {
 			resp.WriteHeader(http.StatusForbidden)
-			return true, nil
+			return false, nil
 		})
 		// Run the test
 		handled, err := a.GetInbox(ctx, resp, req)
@@ -95,7 +95,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		delegate, clock, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toGetInboxRequest())
-		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().GetInbox(ctx, req).Return(testOrderedCollectionUniqueElems, nil)
 		clock.EXPECT().Now().Return(now())
 		// Run the test
@@ -119,7 +119,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		delegate, clock, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toGetInboxRequest())
-		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().GetInbox(ctx, req).Return(testOrderedCollectionDupedElems, nil)
 		clock.EXPECT().Now().Return(now())
 		// Run the test
@@ -154,7 +154,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
 		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) (bool, error) {
 			resp.WriteHeader(http.StatusForbidden)
-			return true, nil
+			return false, nil
 		})
 		// Run the test
 		handled, err := a.PostOutbox(ctx, resp, req)
@@ -170,7 +170,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxUnknownRequest())
-		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(true, nil)
 		// Run the test
 		handled, err := a.PostOutbox(ctx, resp, req)
 		// Verify results
@@ -185,7 +185,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
-		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			activity = withNewId(activity)
 			return nil
@@ -212,7 +212,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testMyNote))
-		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().WrapInCreate(ctx, toDeserializedForm(testMyNote), mustParse(testMyOutboxIRI)).DoAndReturn(func(c context.Context, t vocab.Type, u *url.URL) (vocab.ActivityStreamsCreate, error) {
 			return wrappedInCreate(t), nil
 		})
@@ -240,7 +240,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
-		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			activity = withNewId(activity)
 			return nil
@@ -265,7 +265,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
-		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			activity = withNewId(activity)
 			return nil
@@ -306,7 +306,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		req := toAPRequest(toGetOutboxRequest())
 		delegate.EXPECT().AuthenticateGetOutbox(ctx, resp, req).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) (bool, error) {
 			resp.WriteHeader(http.StatusForbidden)
-			return true, nil
+			return false, nil
 		})
 		// Run the test
 		handled, err := a.GetOutbox(ctx, resp, req)
@@ -322,7 +322,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		delegate, clock, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toGetOutboxRequest())
-		delegate.EXPECT().AuthenticateGetOutbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticateGetOutbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().GetOutbox(ctx, req).Return(testOrderedCollectionUniqueElems, nil)
 		clock.EXPECT().Now().Return(now())
 		// Run the test
@@ -381,7 +381,7 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		req := toAPRequest(toPostInboxRequest(testCreate))
 		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) (bool, error) {
 			resp.WriteHeader(http.StatusForbidden)
-			return true, nil
+			return false, nil
 		})
 		// Run the test
 		handled, err := a.PostInbox(ctx, resp, req)
@@ -397,7 +397,7 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxUnknownRequest())
-		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(true, nil)
 		// Run the test
 		handled, err := a.PostInbox(ctx, resp, req)
 		// Verify results
@@ -412,7 +412,7 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
-		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(true, nil)
 		// Run the test
 		handled, err := a.PostInbox(ctx, resp, req)
 		// Verify results
@@ -427,10 +427,10 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxRequest(testCreate))
-		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, activity Activity) (bool, error) {
 			resp.WriteHeader(http.StatusForbidden)
-			return true, nil
+			return false, nil
 		})
 		// Run the test
 		handled, err := a.PostInbox(ctx, resp, req)
@@ -446,8 +446,8 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxRequest(testCreate))
-		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(false, nil)
-		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(true, nil)
+		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(true, nil)
 		delegate.EXPECT().PostInbox(ctx, mustParse(testMyInboxIRI), toDeserializedForm(testCreate)).Return(nil)
 		delegate.EXPECT().InboxForwarding(ctx, mustParse(testMyInboxIRI), toDeserializedForm(testCreate)).Return(nil)
 		// Run the test
@@ -464,8 +464,8 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxRequest(testCreate))
-		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(false, nil)
-		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(true, nil)
+		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(true, nil)
 		delegate.EXPECT().PostInbox(ctx, mustParse(testMyInboxIRI), toDeserializedForm(testCreate)).Return(ErrObjectRequired)
 		// Run the test
 		handled, err := a.PostInbox(ctx, resp, req)
@@ -481,8 +481,8 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxRequest(testCreate))
-		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(false, nil)
-		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(true, nil)
+		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(true, nil)
 		delegate.EXPECT().PostInbox(ctx, mustParse(testMyInboxIRI), toDeserializedForm(testCreate)).Return(ErrTargetRequired)
 		// Run the test
 		handled, err := a.PostInbox(ctx, resp, req)
@@ -514,7 +514,7 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		req := toAPRequest(toGetInboxRequest())
 		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) (bool, error) {
 			resp.WriteHeader(http.StatusForbidden)
-			return true, nil
+			return false, nil
 		})
 		// Run the test
 		handled, err := a.GetInbox(ctx, resp, req)
@@ -530,7 +530,7 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		delegate, clock, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toGetInboxRequest())
-		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().GetInbox(ctx, req).Return(testOrderedCollectionUniqueElems, nil)
 		clock.EXPECT().Now().Return(now())
 		// Run the test
@@ -554,7 +554,7 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		delegate, clock, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toGetInboxRequest())
-		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().GetInbox(ctx, req).Return(testOrderedCollectionDupedElems, nil)
 		clock.EXPECT().Now().Return(now())
 		// Run the test
@@ -617,7 +617,7 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		req := toAPRequest(toGetOutboxRequest())
 		delegate.EXPECT().AuthenticateGetOutbox(ctx, resp, req).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) (bool, error) {
 			resp.WriteHeader(http.StatusForbidden)
-			return true, nil
+			return false, nil
 		})
 		// Run the test
 		handled, err := a.GetOutbox(ctx, resp, req)
@@ -633,7 +633,7 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		delegate, clock, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toGetOutboxRequest())
-		delegate.EXPECT().AuthenticateGetOutbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticateGetOutbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().GetOutbox(ctx, req).Return(testOrderedCollectionUniqueElems, nil)
 		clock.EXPECT().Now().Return(now())
 		// Run the test
@@ -676,8 +676,8 @@ func TestBaseActor(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxRequest(testCreate))
-		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(false, nil)
-		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(true, nil)
+		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(true, nil)
 		delegate.EXPECT().PostInbox(ctx, mustParse(testMyInboxIRI), toDeserializedForm(testCreate)).Return(nil)
 		delegate.EXPECT().InboxForwarding(ctx, mustParse(testMyInboxIRI), toDeserializedForm(testCreate)).Return(nil)
 		// Run the test
@@ -694,7 +694,7 @@ func TestBaseActor(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
-		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			activity = withNewId(activity)
 			return nil
@@ -721,7 +721,7 @@ func TestBaseActor(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
-		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(false, nil)
+		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(true, nil)
 		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			activity = withNewId(activity)
 			return nil

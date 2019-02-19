@@ -31,17 +31,17 @@ type DelegateActor interface {
 	// If an error is returned, it is passed back to the caller of
 	// PostInbox. In this case, the implementation must not write a
 	// response to the ResponseWriter as is expected that the client will
-	// do so when handling the error. The 'shouldReturn' is ignored.
+	// do so when handling the error. The 'authenticated' is ignored.
 	//
 	// If no error is returned, but authentication or authorization fails,
-	// then shouldReturn must be true and error nil. It is expected that
+	// then authenticated must be false and error nil. It is expected that
 	// the implementation handles writing to the ResponseWriter in this
 	// case.
 	//
 	// Finally, if the authentication and authorization succeeds, then
-	// shouldReturn must be false and error nil. The request will continue
+	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (shouldReturn bool, err error)
+	AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
 	// AuthenticateGetInbox delegates the authentication of a GET to an
 	// inbox.
 	//
@@ -51,17 +51,17 @@ type DelegateActor interface {
 	// If an error is returned, it is passed back to the caller of
 	// GetInbox. In this case, the implementation must not write a
 	// response to the ResponseWriter as is expected that the client will
-	// do so when handling the error. The 'shouldReturn' is ignored.
+	// do so when handling the error. The 'authenticated' is ignored.
 	//
 	// If no error is returned, but authentication or authorization fails,
-	// then shouldReturn must be true and error nil. It is expected that
+	// then authenticated must be false and error nil. It is expected that
 	// the implementation handles writing to the ResponseWriter in this
 	// case.
 	//
 	// Finally, if the authentication and authorization succeeds, then
-	// shouldReturn must be false and error nil. The request will continue
+	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticateGetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (shouldReturn bool, err error)
+	AuthenticateGetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
 	// AuthorizePostInbox delegates the authorization of an activity that
 	// has been sent by POST to an inbox.
 	//
@@ -70,16 +70,16 @@ type DelegateActor interface {
 	// If an error is returned, it is passed back to the caller of
 	// PostInbox. In this case, the implementation must not write a
 	// response to the ResponseWriter as is expected that the client will
-	// do so when handling the error. The 'shouldReturn' is ignored.
+	// do so when handling the error. The 'authorized' is ignored.
 	//
-	// If no error is returned, but authorization fails, then shouldReturn
-	// must be true and error nil. It is expected that the implementation
+	// If no error is returned, but authorization fails, then authorized
+	// must be false and error nil. It is expected that the implementation
 	// handles writing to the ResponseWriter in this case.
 	//
 	// Finally, if the authentication and authorization succeeds, then
-	// shouldReturn must be false and error nil. The request will continue
+	// authorized must be true and error nil. The request will continue
 	// to be processed.
-	AuthorizePostInbox(c context.Context, w http.ResponseWriter, activity Activity) (shouldReturn bool, err error)
+	AuthorizePostInbox(c context.Context, w http.ResponseWriter, activity Activity) (authorized bool, err error)
 	// PostInbox delegates the side effects of adding to the inbox and
 	// determining if it is a request that should be blocked.
 	//
@@ -155,17 +155,17 @@ type DelegateActor interface {
 	// If an error is returned, it is passed back to the caller of
 	// PostOutbox. In this case, the implementation must not write a
 	// response to the ResponseWriter as is expected that the client will
-	// do so when handling the error. The 'shouldReturn' is ignored.
+	// do so when handling the error. The 'authenticated' is ignored.
 	//
 	// If no error is returned, but authentication or authorization fails,
-	// then shouldReturn must be true and error nil. It is expected that
+	// then authenticated must be false and error nil. It is expected that
 	// the implementation handles writing to the ResponseWriter in this
 	// case.
 	//
 	// Finally, if the authentication and authorization succeeds, then
-	// shouldReturn must be false and error nil. The request will continue
+	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (shouldReturn bool, err error)
+	AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
 	// AuthenticateGetOutbox delegates the authentication of a GET to an
 	// outbox.
 	//
@@ -175,17 +175,17 @@ type DelegateActor interface {
 	// If an error is returned, it is passed back to the caller of
 	// GetOutbox. In this case, the implementation must not write a
 	// response to the ResponseWriter as is expected that the client will
-	// do so when handling the error. The 'shouldReturn' is ignored.
+	// do so when handling the error. The 'authenticated' is ignored.
 	//
 	// If no error is returned, but authentication or authorization fails,
-	// then shouldReturn must be true and error nil. It is expected that
+	// then authenticated must be false and error nil. It is expected that
 	// the implementation handles writing to the ResponseWriter in this
 	// case.
 	//
 	// Finally, if the authentication and authorization succeeds, then
-	// shouldReturn must be false and error nil. The request will continue
+	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticateGetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (shouldReturn bool, err error)
+	AuthenticateGetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
 	// WrapInCreate wraps the provided object in a Create ActivityStreams
 	// activity. The provided URL is the actor's outbox endpoint.
 	//

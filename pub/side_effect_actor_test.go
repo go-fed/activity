@@ -141,7 +141,7 @@ func TestAuthorizePostInbox(t *testing.T) {
 		// Run
 		b, err := a.AuthorizePostInbox(ctx, resp, testCreate)
 		// Verify
-		assertEqual(t, b, false)
+		assertEqual(t, b, true)
 		assertEqual(t, err, nil)
 	})
 	t.Run("ActorNotAuthorized", func(t *testing.T) {
@@ -153,7 +153,7 @@ func TestAuthorizePostInbox(t *testing.T) {
 		// Run
 		b, err := a.AuthorizePostInbox(ctx, resp, testCreate)
 		// Verify
-		assertEqual(t, b, true)
+		assertEqual(t, b, false)
 		assertEqual(t, err, nil)
 	})
 	t.Run("AllActorsAuthorized", func(t *testing.T) {
@@ -165,7 +165,7 @@ func TestAuthorizePostInbox(t *testing.T) {
 		// Run
 		b, err := a.AuthorizePostInbox(ctx, resp, testCreate2)
 		// Verify
-		assertEqual(t, b, false)
+		assertEqual(t, b, true)
 		assertEqual(t, err, nil)
 	})
 	t.Run("OneActorNotAuthorized", func(t *testing.T) {
@@ -177,7 +177,7 @@ func TestAuthorizePostInbox(t *testing.T) {
 		// Run
 		b, err := a.AuthorizePostInbox(ctx, resp, testCreate2)
 		// Verify
-		assertEqual(t, b, true)
+		assertEqual(t, b, false)
 		assertEqual(t, err, nil)
 	})
 }

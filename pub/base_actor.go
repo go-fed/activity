@@ -154,10 +154,10 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 		return true, nil
 	}
 	// Check the peer request is authentic.
-	shouldReturn, err := b.delegate.AuthenticatePostInbox(c, w, r)
+	authenticated, err := b.delegate.AuthenticatePostInbox(c, w, r)
 	if err != nil {
 		return true, err
-	} else if shouldReturn {
+	} else if !authenticated {
 		return true, nil
 	}
 	// Begin processing the request, but have not yet applied
@@ -188,10 +188,10 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 		return true, nil
 	}
 	// Check authorization of the activity.
-	shouldReturn, err = b.delegate.AuthorizePostInbox(c, w, activity)
+	authorized, err := b.delegate.AuthorizePostInbox(c, w, activity)
 	if err != nil {
 		return true, err
-	} else if shouldReturn {
+	} else if !authorized {
 		return true, nil
 	}
 	// Post the activity to the actor's inbox and trigger side effects for
@@ -230,10 +230,10 @@ func (b *baseActor) GetInbox(c context.Context, w http.ResponseWriter, r *http.R
 		return false, nil
 	}
 	// Delegate authenticating and authorizing the request.
-	shouldReturn, err := b.delegate.AuthenticateGetInbox(c, w, r)
+	authenticated, err := b.delegate.AuthenticateGetInbox(c, w, r)
 	if err != nil {
 		return true, err
-	} else if shouldReturn {
+	} else if !authenticated {
 		return true, nil
 	}
 	// Everything is good to begin processing the request.
@@ -283,10 +283,10 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		return true, nil
 	}
 	// Delegate authenticating and authorizing the request.
-	shouldReturn, err := b.delegate.AuthenticatePostOutbox(c, w, r)
+	authenticated, err := b.delegate.AuthenticatePostOutbox(c, w, r)
 	if err != nil {
 		return true, err
-	} else if shouldReturn {
+	} else if !authenticated {
 		return true, nil
 	}
 	// Everything is good to begin processing the request.
@@ -370,10 +370,10 @@ func (b *baseActor) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 		return false, nil
 	}
 	// Delegate authenticating and authorizing the request.
-	shouldReturn, err := b.delegate.AuthenticateGetOutbox(c, w, r)
+	authenticated, err := b.delegate.AuthenticateGetOutbox(c, w, r)
 	if err != nil {
 		return true, err
-	} else if shouldReturn {
+	} else if !authenticated {
 		return true, nil
 	}
 	// Everything is good to begin processing the request.

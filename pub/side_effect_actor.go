@@ -30,22 +30,22 @@ type sideEffectActor struct {
 }
 
 // AuthenticatePostInbox defers to the delegate to authenticate the request.
-func (a *sideEffectActor) AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (shouldReturn bool, err error) {
+func (a *sideEffectActor) AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error) {
 	return a.s2s.AuthenticatePostInbox(c, w, r)
 }
 
 // AuthenticateGetInbox defers to the delegate to authenticate the request.
-func (a *sideEffectActor) AuthenticateGetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (shouldReturn bool, err error) {
+func (a *sideEffectActor) AuthenticateGetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error) {
 	return a.common.AuthenticateGetInbox(c, w, r)
 }
 
 // AuthenticatePostOutbox defers to the delegate to authenticate the request.
-func (a *sideEffectActor) AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (shouldReturn bool, err error) {
+func (a *sideEffectActor) AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error) {
 	return a.c2s.AuthenticatePostOutbox(c, w, r)
 }
 
 // AuthenticateGetOutbox defers to the delegate to authenticate the request.
-func (a *sideEffectActor) AuthenticateGetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (shouldReturn bool, err error) {
+func (a *sideEffectActor) AuthenticateGetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error) {
 	return a.common.AuthenticateGetOutbox(c, w, r)
 }
 
@@ -64,7 +64,8 @@ func (a *sideEffectActor) GetInbox(c context.Context, r *http.Request) (vocab.Ac
 
 // AuthorizePostInbox defers to the federating protocol whether the peer request
 // is authorized based on the actors' ids.
-func (a *sideEffectActor) AuthorizePostInbox(c context.Context, w http.ResponseWriter, activity Activity) (shouldReturn bool, err error) {
+func (a *sideEffectActor) AuthorizePostInbox(c context.Context, w http.ResponseWriter, activity Activity) (authorized bool, err error) {
+	authorized = false
 	actor := activity.GetActivityStreamsActor()
 	var iris []*url.URL
 	for i := 0; i < actor.Len(); i++ {
@@ -79,12 +80,14 @@ func (a *sideEffectActor) AuthorizePostInbox(c context.Context, w http.ResponseW
 		}
 	}
 	// Determine if the actor(s) sending this request are blocked.
-	if shouldReturn, err = a.s2s.Blocked(c, iris); err != nil {
+	var blocked bool
+	if blocked, err = a.s2s.Blocked(c, iris); err != nil {
 		return
-	} else if shouldReturn {
+	} else if blocked {
 		w.WriteHeader(http.StatusForbidden)
 		return
 	}
+	authorized = true
 	return
 }
 

@@ -22,17 +22,17 @@ type FederatingProtocol interface {
 	// If an error is returned, it is passed back to the caller of
 	// PostInbox. In this case, the implementation must not write a
 	// response to the ResponseWriter as is expected that the client will
-	// do so when handling the error. The 'shouldReturn' is ignored.
+	// do so when handling the error. The 'authenticated' is ignored.
 	//
 	// If no error is returned, but authentication or authorization fails,
-	// then shouldReturn must be true and error nil. It is expected that
+	// then authenticated must be false and error nil. It is expected that
 	// the implementation handles writing to the ResponseWriter in this
 	// case.
 	//
 	// Finally, if the authentication and authorization succeeds, then
-	// shouldReturn must be false and error nil. The request will continue
+	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (shouldReturn bool, err error)
+	AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
 	// Blocked should determine whether to permit a set of actors given by
 	// their ids are able to interact with this particular end user due to
 	// being blocked or other application-specific logic.
@@ -41,11 +41,11 @@ type FederatingProtocol interface {
 	// PostInbox.
 	//
 	// If no error is returned, but authentication or authorization fails,
-	// then shouldReturn must be true and error nil. An http.StatusForbidden
+	// then blocked must be true and error nil. An http.StatusForbidden
 	// will be written in the wresponse.
 	//
 	// Finally, if the authentication and authorization succeeds, then
-	// shouldReturn must be false and error nil. The request will continue
+	// blocked must be false and error nil. The request will continue
 	// to be processed.
 	Blocked(c context.Context, actorIRIs []*url.URL) (blocked bool, err error)
 	// Callbacks returns the application logic that handles ActivityStreams
