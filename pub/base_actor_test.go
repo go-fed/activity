@@ -77,7 +77,10 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toGetInboxRequest())
-		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).Return(true, nil)
+		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) (bool, error) {
+			resp.WriteHeader(http.StatusForbidden)
+			return true, nil
+		})
 		// Run the test
 		handled, err := a.GetInbox(ctx, resp, req)
 		// Verify results
@@ -149,7 +152,10 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
-		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(true, nil)
+		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) (bool, error) {
+			resp.WriteHeader(http.StatusForbidden)
+			return true, nil
+		})
 		// Run the test
 		handled, err := a.PostOutbox(ctx, resp, req)
 		// Verify results
@@ -298,7 +304,10 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toGetOutboxRequest())
-		delegate.EXPECT().AuthenticateGetOutbox(ctx, resp, req).Return(true, nil)
+		delegate.EXPECT().AuthenticateGetOutbox(ctx, resp, req).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) (bool, error) {
+			resp.WriteHeader(http.StatusForbidden)
+			return true, nil
+		})
 		// Run the test
 		handled, err := a.GetOutbox(ctx, resp, req)
 		// Verify results
@@ -370,7 +379,10 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxRequest(testCreate))
-		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(true, nil)
+		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) (bool, error) {
+			resp.WriteHeader(http.StatusForbidden)
+			return true, nil
+		})
 		// Run the test
 		handled, err := a.PostInbox(ctx, resp, req)
 		// Verify results
@@ -416,7 +428,10 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxRequest(testCreate))
 		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(false, nil)
-		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(true, nil)
+		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, activity Activity) (bool, error) {
+			resp.WriteHeader(http.StatusForbidden)
+			return true, nil
+		})
 		// Run the test
 		handled, err := a.PostInbox(ctx, resp, req)
 		// Verify results
@@ -497,7 +512,10 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toGetInboxRequest())
-		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).Return(true, nil)
+		delegate.EXPECT().AuthenticateGetInbox(ctx, resp, req).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) (bool, error) {
+			resp.WriteHeader(http.StatusForbidden)
+			return true, nil
+		})
 		// Run the test
 		handled, err := a.GetInbox(ctx, resp, req)
 		// Verify results
@@ -597,7 +615,10 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		delegate, _, a := setupFn(ctl)
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toGetOutboxRequest())
-		delegate.EXPECT().AuthenticateGetOutbox(ctx, resp, req).Return(true, nil)
+		delegate.EXPECT().AuthenticateGetOutbox(ctx, resp, req).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) (bool, error) {
+			resp.WriteHeader(http.StatusForbidden)
+			return true, nil
+		})
 		// Run the test
 		handled, err := a.GetOutbox(ctx, resp, req)
 		// Verify results

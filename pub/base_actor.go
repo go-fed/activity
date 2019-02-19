@@ -158,7 +158,6 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	if err != nil {
 		return true, err
 	} else if shouldReturn {
-		w.WriteHeader(http.StatusForbidden)
 		return true, nil
 	}
 	// Begin processing the request, but have not yet applied
@@ -193,7 +192,6 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	if err != nil {
 		return true, err
 	} else if shouldReturn {
-		w.WriteHeader(http.StatusForbidden)
 		return true, nil
 	}
 	// Post the activity to the actor's inbox and trigger side effects for
@@ -236,7 +234,6 @@ func (b *baseActor) GetInbox(c context.Context, w http.ResponseWriter, r *http.R
 	if err != nil {
 		return true, err
 	} else if shouldReturn {
-		w.WriteHeader(http.StatusForbidden)
 		return true, nil
 	}
 	// Everything is good to begin processing the request.
@@ -290,7 +287,6 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	if err != nil {
 		return true, err
 	} else if shouldReturn {
-		w.WriteHeader(http.StatusForbidden)
 		return true, nil
 	}
 	// Everything is good to begin processing the request.
@@ -378,7 +374,6 @@ func (b *baseActor) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 	if err != nil {
 		return true, err
 	} else if shouldReturn {
-		w.WriteHeader(http.StatusForbidden)
 		return true, nil
 	}
 	// Everything is good to begin processing the request.
