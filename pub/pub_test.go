@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/streams/vocab"
 	"net/http"
@@ -18,6 +19,7 @@ const (
 	testMyOutboxIRI          = "https://example.com/addison/outbox"
 	testFederatedActivityIRI = "https://other.example.com/activity/1"
 	testFederatedActorIRI    = "https://other.example.com/dakota"
+	testFederatedActorIRI2   = "https://other.example.com/addison"
 	testNoteId1              = "https://example.com/note/1"
 	testNoteId2              = "https://example.com/note/2"
 	testNewActivityIRI       = "https://example.com/new/1"
@@ -54,12 +56,16 @@ func assertNotEqual(t *testing.T, a, b interface{}) {
 }
 
 var (
+	// testErr is a test error.
+	testErr = errors.New("test error")
 	// testNote is a test Note from a federated peer.
 	testFederatedNote vocab.ActivityStreamsNote
 	// testNote is a test Note owned by this server.
 	testMyNote vocab.ActivityStreamsNote
 	// testCreate is a test Create Activity.
 	testCreate vocab.ActivityStreamsCreate
+	// testCreate2 is a test Create Activity with two actors.
+	testCreate2 vocab.ActivityStreamsCreate
 	// testCreateNoId is a test Create Activity without an 'id' set.
 	testCreateNoId vocab.ActivityStreamsCreate
 	// testOrderedCollectionUniqueElems is a collection with only unique
@@ -111,6 +117,20 @@ func setupData() {
 		op := streams.NewActivityStreamsObjectProperty()
 		op.AppendActivityStreamsNote(testFederatedNote)
 		testCreate.SetActivityStreamsObject(op)
+	}()
+	// testCreate2
+	func() {
+		testCreate2 = streams.NewActivityStreamsCreate()
+		id := streams.NewActivityStreamsIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		testCreate2.SetActivityStreamsId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		actor.AppendIRI(mustParse(testFederatedActorIRI2))
+		testCreate2.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(testFederatedNote)
+		testCreate2.SetActivityStreamsObject(op)
 	}()
 	// testCreateNoId
 	func() {
