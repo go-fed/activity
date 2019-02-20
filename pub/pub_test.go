@@ -15,14 +15,15 @@ import (
 )
 
 const (
-	testMyInboxIRI           = "https://example.com/addison/inbox"
-	testMyOutboxIRI          = "https://example.com/addison/outbox"
-	testFederatedActivityIRI = "https://other.example.com/activity/1"
-	testFederatedActorIRI    = "https://other.example.com/dakota"
-	testFederatedActorIRI2   = "https://other.example.com/addison"
-	testNoteId1              = "https://example.com/note/1"
-	testNoteId2              = "https://example.com/note/2"
-	testNewActivityIRI       = "https://example.com/new/1"
+	testMyInboxIRI            = "https://example.com/addison/inbox"
+	testMyOutboxIRI           = "https://example.com/addison/outbox"
+	testFederatedActivityIRI  = "https://other.example.com/activity/1"
+	testFederatedActivityIRI2 = "https://other.example.com/activity/2"
+	testFederatedActorIRI     = "https://other.example.com/dakota"
+	testFederatedActorIRI2    = "https://other.example.com/addison"
+	testNoteId1               = "https://example.com/note/1"
+	testNoteId2               = "https://example.com/note/2"
+	testNewActivityIRI        = "https://example.com/new/1"
 )
 
 // mustParse parses a URL or panics.
@@ -79,6 +80,17 @@ var (
 	// testOrderedCollectionDedupedElemsString is the JSON-LD version of the
 	// testOrderedCollectionDedupedElems value with duplicates removed
 	testOrderedCollectionDedupedElemsString string
+	// testEmptyOrderedCollection is an empty OrderedCollectionPage.
+	testEmptyOrderedCollection vocab.ActivityStreamsOrderedCollectionPage
+	// testOrderedCollectionWithFederatedId has the federated Activity id.
+	testOrderedCollectionWithFederatedId vocab.ActivityStreamsOrderedCollectionPage
+	// testListen is a test Listen Activity.
+	testListen vocab.ActivityStreamsListen
+	// testOrderedCollectionWithFederatedId2 has the second federated
+	// Activity id.
+	testOrderedCollectionWithFederatedId2 vocab.ActivityStreamsOrderedCollectionPage
+	// testOrderedCollectionWithBothFederatedIds has both federated Activity id.
+	testOrderedCollectionWithBothFederatedIds vocab.ActivityStreamsOrderedCollectionPage
 )
 
 // The test data cannot be created at init time since that is when the hooks of
@@ -94,6 +106,9 @@ func setupData() {
 		content := streams.NewActivityStreamsContentProperty()
 		content.AppendXMLSchemaString("This is a simple note being federated.")
 		testFederatedNote.SetActivityStreamsContent(content)
+		id := streams.NewActivityStreamsIdProperty()
+		id.Set(mustParse(testNoteId1))
+		testFederatedNote.SetActivityStreamsId(id)
 	}()
 	// testMyNote
 	func() {
@@ -161,6 +176,45 @@ func setupData() {
 		oi.AppendIRI(mustParse(testNoteId1))
 		testOrderedCollectionDupedElems.SetActivityStreamsOrderedItems(oi)
 		testOrderedCollectionDedupedElemsString = `{"@context":"https://www.w3.org/TR/activitystreams-vocabulary","orderedItems":"https://example.com/note/1","type":"OrderedCollectionPage"}`
+	}()
+	// testEmptyOrderedCollection
+	func() {
+		testEmptyOrderedCollection = streams.NewActivityStreamsOrderedCollectionPage()
+	}()
+	// testOrderedCollectionWithFederatedId
+	func() {
+		testOrderedCollectionWithFederatedId = streams.NewActivityStreamsOrderedCollectionPage()
+		oi := streams.NewActivityStreamsOrderedItemsProperty()
+		oi.AppendIRI(mustParse(testFederatedActivityIRI))
+		testOrderedCollectionWithFederatedId.SetActivityStreamsOrderedItems(oi)
+	}()
+	// testListen
+	func() {
+		testListen = streams.NewActivityStreamsListen()
+		id := streams.NewActivityStreamsIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		testListen.SetActivityStreamsId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		testListen.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(testFederatedNote)
+		testListen.SetActivityStreamsObject(op)
+	}()
+	// testOrderedCollectionWithFederatedId2
+	func() {
+		testOrderedCollectionWithFederatedId2 = streams.NewActivityStreamsOrderedCollectionPage()
+		oi := streams.NewActivityStreamsOrderedItemsProperty()
+		oi.AppendIRI(mustParse(testFederatedActivityIRI2))
+		testOrderedCollectionWithFederatedId2.SetActivityStreamsOrderedItems(oi)
+	}()
+	// testOrderedCollectionWithBothFederatedIds
+	func() {
+		testOrderedCollectionWithBothFederatedIds = streams.NewActivityStreamsOrderedCollectionPage()
+		oi := streams.NewActivityStreamsOrderedItemsProperty()
+		oi.AppendIRI(mustParse(testFederatedActivityIRI))
+		oi.AppendIRI(mustParse(testFederatedActivityIRI2))
+		testOrderedCollectionWithBothFederatedIds.SetActivityStreamsOrderedItems(oi)
 	}()
 }
 

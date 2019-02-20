@@ -2,6 +2,7 @@ package pub
 
 import (
 	"context"
+	"github.com/go-fed/activity/streams/vocab"
 	"github.com/golang/mock/gomock"
 	"net/http/httptest"
 	"net/url"
@@ -11,10 +12,10 @@ import (
 // TestPassThroughMethods tests the methods that pass-through to other
 // dependency-injected types.
 func TestPassThroughMethods(t *testing.T) {
-	setupData()
 	ctx := context.Background()
 	resp := httptest.NewRecorder()
 	setupFn := func(ctl *gomock.Controller) (c *MockCommonBehavior, fp *MockFederatingProtocol, sp *MockSocialProtocol, db *MockDatabase, cl *MockClock, a DelegateActor) {
+		setupData()
 		c = NewMockCommonBehavior(ctl)
 		fp = NewMockFederatingProtocol(ctl)
 		sp = NewMockSocialProtocol(ctl)
@@ -22,10 +23,10 @@ func TestPassThroughMethods(t *testing.T) {
 		cl = NewMockClock(ctl)
 		a = &sideEffectActor{
 			common: c,
-			s2s: fp,
-			c2s: sp,
-			db: db,
-			clock: cl,
+			s2s:    fp,
+			c2s:    sp,
+			db:     db,
+			clock:  cl,
 		}
 		return
 	}
@@ -113,10 +114,10 @@ func TestPassThroughMethods(t *testing.T) {
 // TestAuthorizePostInbox tests the Authorization for a federated message, which
 // is only based on blocks.
 func TestAuthorizePostInbox(t *testing.T) {
-	setupData()
 	ctx := context.Background()
 	resp := httptest.NewRecorder()
 	setupFn := func(ctl *gomock.Controller) (c *MockCommonBehavior, fp *MockFederatingProtocol, sp *MockSocialProtocol, db *MockDatabase, cl *MockClock, a DelegateActor) {
+		setupData()
 		c = NewMockCommonBehavior(ctl)
 		fp = NewMockFederatingProtocol(ctl)
 		sp = NewMockSocialProtocol(ctl)
@@ -124,10 +125,10 @@ func TestAuthorizePostInbox(t *testing.T) {
 		cl = NewMockClock(ctl)
 		a = &sideEffectActor{
 			common: c,
-			s2s: fp,
-			c2s: sp,
-			db: db,
-			clock: cl,
+			s2s:    fp,
+			c2s:    sp,
+			db:     db,
+			clock:  cl,
 		}
 		return
 	}
@@ -185,23 +186,160 @@ func TestAuthorizePostInbox(t *testing.T) {
 // TestPostInbox ensures that the main application side effects of receiving a
 // federated message occur.
 func TestPostInbox(t *testing.T) {
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (c *MockCommonBehavior, fp *MockFederatingProtocol, sp *MockSocialProtocol, db *MockDatabase, cl *MockClock, a DelegateActor) {
+		setupData()
+		c = NewMockCommonBehavior(ctl)
+		fp = NewMockFederatingProtocol(ctl)
+		sp = NewMockSocialProtocol(ctl)
+		db = NewMockDatabase(ctl)
+		cl = NewMockClock(ctl)
+		a = &sideEffectActor{
+			common: c,
+			s2s:    fp,
+			c2s:    sp,
+			db:     db,
+			clock:  cl,
+		}
+		return
+	}
+	// Run tests
 	t.Run("AddsToEmptyInbox", func(t *testing.T) {
-		t.Fail()
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, fp, _, db, _, a := setupFn(ctl)
+		inboxIRI := mustParse(testMyInboxIRI)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, inboxIRI),
+			db.EXPECT().InboxContains(ctx, inboxIRI, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().GetInbox(ctx, inboxIRI).Return(testEmptyOrderedCollection, nil),
+			db.EXPECT().SetInbox(ctx, testOrderedCollectionWithFederatedId).Return(nil),
+			db.EXPECT().Unlock(ctx, inboxIRI),
+		)
+		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, nil)
+		fp.EXPECT().DefaultCallback(ctx, testListen).Return(nil)
+		// Run
+		err := a.PostInbox(ctx, inboxIRI, testListen)
+		// Verify
+		assertEqual(t, err, nil)
 	})
-	t.Run("DoesNotAddToInboxIfDuplicate", func(t *testing.T) {
-		t.Fail()
+	t.Run("DoesNotAddToInboxNorDoSideEffectsIfDuplicate", func(t *testing.T) {
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, db, _, a := setupFn(ctl)
+		inboxIRI := mustParse(testMyInboxIRI)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, inboxIRI),
+			db.EXPECT().InboxContains(ctx, inboxIRI, mustParse(testFederatedActivityIRI)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, inboxIRI),
+		)
+		// Run
+		err := a.PostInbox(ctx, inboxIRI, testListen)
+		// Verify
+		assertEqual(t, err, nil)
 	})
 	t.Run("AddsToInbox", func(t *testing.T) {
-		t.Fail()
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, fp, _, db, _, a := setupFn(ctl)
+		inboxIRI := mustParse(testMyInboxIRI)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, inboxIRI),
+			db.EXPECT().InboxContains(ctx, inboxIRI, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().GetInbox(ctx, inboxIRI).Return(testOrderedCollectionWithFederatedId2, nil),
+			db.EXPECT().SetInbox(ctx, testOrderedCollectionWithBothFederatedIds).Return(nil),
+			db.EXPECT().Unlock(ctx, inboxIRI),
+		)
+		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, nil)
+		fp.EXPECT().DefaultCallback(ctx, testListen).Return(nil)
+		// Run
+		err := a.PostInbox(ctx, inboxIRI, testListen)
+		// Verify
+		assertEqual(t, err, nil)
 	})
 	t.Run("ResolvesToCustomFunction", func(t *testing.T) {
-		t.Fail()
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, fp, _, db, _, a := setupFn(ctl)
+		inboxIRI := mustParse(testMyInboxIRI)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, inboxIRI),
+			db.EXPECT().InboxContains(ctx, inboxIRI, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().GetInbox(ctx, inboxIRI).Return(testEmptyOrderedCollection, nil),
+			db.EXPECT().SetInbox(ctx, testOrderedCollectionWithFederatedId).Return(nil),
+			db.EXPECT().Unlock(ctx, inboxIRI),
+		)
+		pass := false
+		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, []interface{}{
+			func(c context.Context, a vocab.ActivityStreamsListen) error {
+				pass = true
+				return nil
+			},
+		})
+		// Run
+		err := a.PostInbox(ctx, inboxIRI, testListen)
+		// Verify
+		assertEqual(t, err, nil)
+		assertEqual(t, pass, true)
 	})
 	t.Run("ResolvesToOverriddenFunction", func(t *testing.T) {
-		t.Fail()
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, fp, _, db, _, a := setupFn(ctl)
+		inboxIRI := mustParse(testMyInboxIRI)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, inboxIRI),
+			db.EXPECT().InboxContains(ctx, inboxIRI, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().GetInbox(ctx, inboxIRI).Return(testEmptyOrderedCollection, nil),
+			db.EXPECT().SetInbox(ctx, testOrderedCollectionWithFederatedId).Return(nil),
+			db.EXPECT().Unlock(ctx, inboxIRI),
+		)
+		pass := false
+		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, []interface{}{
+			func(c context.Context, a vocab.ActivityStreamsCreate) error {
+				pass = true
+				return nil
+			},
+		})
+		// Run
+		err := a.PostInbox(ctx, inboxIRI, testCreate)
+		// Verify
+		assertEqual(t, err, nil)
+		assertEqual(t, pass, true)
 	})
 	t.Run("ResolvesToDefaultFunction", func(t *testing.T) {
-		t.Fail()
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, fp, _, db, _, a := setupFn(ctl)
+		inboxIRI := mustParse(testMyInboxIRI)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, inboxIRI),
+			db.EXPECT().InboxContains(ctx, inboxIRI, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().GetInbox(ctx, inboxIRI).Return(testEmptyOrderedCollection, nil),
+			db.EXPECT().SetInbox(ctx, testOrderedCollectionWithFederatedId).Return(nil),
+			db.EXPECT().Unlock(ctx, inboxIRI),
+		)
+		pass := false
+		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{
+			Create: func(c context.Context, a vocab.ActivityStreamsCreate) error {
+				pass = true
+				return nil
+			},
+		}, nil)
+		db.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		db.EXPECT().Create(ctx, testFederatedNote)
+		db.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		// Run
+		err := a.PostInbox(ctx, inboxIRI, testCreate)
+		// Verify
+		assertEqual(t, err, nil)
+		assertEqual(t, pass, true)
 	})
 }
 

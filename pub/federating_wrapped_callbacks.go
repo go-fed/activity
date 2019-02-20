@@ -250,7 +250,7 @@ func (w FederatingWrappedCallbacks) create(c context.Context, a vocab.ActivitySt
 			if err != nil {
 				return err
 			}
-		} else {
+		} else if t == nil {
 			return fmt.Errorf("cannot handle federated create: object is neither a value nor IRI")
 		}
 		id, err := GetId(t)
@@ -509,7 +509,7 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 				if err != nil {
 					return err
 				}
-			} else {
+			} else if t == nil {
 				return fmt.Errorf("cannot handle federated create: object is neither a value nor IRI")
 			}
 			// Ensure it is a Follow.

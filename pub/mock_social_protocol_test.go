@@ -65,6 +65,20 @@ func (mr *MockSocialProtocolMockRecorder) Callbacks(c interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Callbacks", reflect.TypeOf((*MockSocialProtocol)(nil).Callbacks), c)
 }
 
+// DefaultCallback mocks base method
+func (m *MockSocialProtocol) DefaultCallback(c context.Context, activity Activity) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DefaultCallback", c, activity)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DefaultCallback indicates an expected call of DefaultCallback
+func (mr *MockSocialProtocolMockRecorder) DefaultCallback(c, activity interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DefaultCallback", reflect.TypeOf((*MockSocialProtocol)(nil).DefaultCallback), c, activity)
+}
+
 // GetOutbox mocks base method
 func (m *MockSocialProtocol) GetOutbox(c context.Context, r *http.Request) (vocab.ActivityStreamsOrderedCollectionPage, error) {
 	m.ctrl.T.Helper()

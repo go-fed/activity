@@ -105,12 +105,17 @@ func (a *sideEffectActor) PostInbox(c context.Context, inboxIRI *url.URL, activi
 		wrapped.db = a.db
 		wrapped.inboxIRI = inboxIRI
 		wrapped.newTransport = a.common.NewTransport
-		res, err := streams.NewTypeResolver(wrapped.callbacks(other))
+		res, err := streams.NewTypeResolver(wrapped.callbacks(other)...)
 		if err != nil {
 			return err
 		}
-		if err = res.Resolve(c, activity); err != nil {
+		if err = res.Resolve(c, activity); err != nil && !streams.IsUnmatchedErr(err) {
 			return err
+		} else if streams.IsUnmatchedErr(err) {
+			err = a.s2s.DefaultCallback(c, activity)
+			if err != nil {
+				return err
+			}
 		}
 	}
 	return nil
@@ -291,7 +296,7 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 //
 // This implementation assumes all types are meant to be delivered except for
 // the ActivityStreams Block type.
-func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outboxIRI *url.URL, rawJSON map[string]interface{}) (deliverable bool, e error) {
+func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outboxIRI *url.URL, rawJSON map[string]interface{}) (deliverable bool, err error) {
 	wrapped, other := a.c2s.Callbacks(c)
 	// Populate side channels.
 	wrapped.db = a.db
@@ -300,12 +305,19 @@ func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outbo
 	wrapped.clock = a.clock
 	wrapped.newTransport = a.common.NewTransport
 	wrapped.deliverable = &deliverable
-	res, err := streams.NewTypeResolver(wrapped.callbacks(other))
+	var res *streams.TypeResolver
+	res, err = streams.NewTypeResolver(wrapped.callbacks(other)...)
 	if err != nil {
 		return
 	}
-	if err = res.Resolve(c, activity); err != nil {
+	if err = res.Resolve(c, activity); err != nil && !streams.IsUnmatchedErr(err) {
 		return
+	} else if streams.IsUnmatchedErr(err) {
+		deliverable = true
+		err = a.c2s.DefaultCallback(c, activity)
+		if err != nil {
+			return
+		}
 	}
 	err = a.addToOutbox(c, outboxIRI, activity)
 	return

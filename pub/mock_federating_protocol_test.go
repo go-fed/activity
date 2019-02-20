@@ -81,6 +81,20 @@ func (mr *MockFederatingProtocolMockRecorder) Callbacks(c interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Callbacks", reflect.TypeOf((*MockFederatingProtocol)(nil).Callbacks), c)
 }
 
+// DefaultCallback mocks base method
+func (m *MockFederatingProtocol) DefaultCallback(c context.Context, activity Activity) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DefaultCallback", c, activity)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DefaultCallback indicates an expected call of DefaultCallback
+func (mr *MockFederatingProtocolMockRecorder) DefaultCallback(c, activity interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DefaultCallback", reflect.TypeOf((*MockFederatingProtocol)(nil).DefaultCallback), c, activity)
+}
+
 // MaxInboxForwardingRecursionDepth mocks base method
 func (m *MockFederatingProtocol) MaxInboxForwardingRecursionDepth(c context.Context) int {
 	m.ctrl.T.Helper()

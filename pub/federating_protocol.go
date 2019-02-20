@@ -64,7 +64,18 @@ type FederatingProtocol interface {
 	// To override the default behavior, instead supply the function in
 	// 'other', which does not guarantee the application will be compliant
 	// with the ActivityPub Social Protocol.
+	//
+	// Applications are not expected to handle every single ActivityStreams
+	// type and extension. The unhandled ones are passed to DefaultCallback.
 	Callbacks(c context.Context) (wrapped FederatingWrappedCallbacks, other []interface{})
+	// DefaultCallback is called for types that go-fed can deserialize but
+	// are not handled by the application's callbacks returned in the
+	// Callbacks method.
+	//
+	// Applications are not expected to handle every single ActivityStreams
+	// type and extension, so the unhandled ones are passed to
+	// DefaultCallback.
+	DefaultCallback(c context.Context, activity Activity) error
 	// MaxInboxForwardingRecursionDepth determines how deep to search within
 	// an activity to determine if inbox forwarding needs to occur.
 	//
