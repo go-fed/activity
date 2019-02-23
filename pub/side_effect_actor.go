@@ -160,28 +160,34 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 	//    this server.
 	var r []*url.URL
 	to := activity.GetActivityStreamsTo()
-	for iter := to.Begin(); iter != to.End(); iter = iter.Next() {
-		val, err := ToId(iter)
-		if err != nil {
-			return err
+	if to != nil {
+		for iter := to.Begin(); iter != to.End(); iter = iter.Next() {
+			val, err := ToId(iter)
+			if err != nil {
+				return err
+			}
+			r = append(r, val)
 		}
-		r = append(r, val)
 	}
 	cc := activity.GetActivityStreamsCc()
-	for iter := cc.Begin(); iter != cc.End(); iter = iter.Next() {
-		val, err := ToId(iter)
-		if err != nil {
-			return err
+	if cc != nil {
+		for iter := cc.Begin(); iter != cc.End(); iter = iter.Next() {
+			val, err := ToId(iter)
+			if err != nil {
+				return err
+			}
+			r = append(r, val)
 		}
-		r = append(r, val)
 	}
 	audience := activity.GetActivityStreamsAudience()
-	for iter := audience.Begin(); iter != audience.End(); iter = iter.Next() {
-		val, err := ToId(iter)
-		if err != nil {
-			return err
+	if audience != nil {
+		for iter := audience.Begin(); iter != audience.End(); iter = iter.Next() {
+			val, err := ToId(iter)
+			if err != nil {
+				return err
+			}
+			r = append(r, val)
 		}
-		r = append(r, val)
 	}
 	// Find all IRIs owned by this server. We need to find all of them so
 	// that forwarding can properly occur.

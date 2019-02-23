@@ -345,41 +345,217 @@ func TestPostInbox(t *testing.T) {
 
 // TestInboxForwarding ensures that the inbox forwarding logic is correct.
 func TestInboxForwarding(t *testing.T) {
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (c *MockCommonBehavior, fp *MockFederatingProtocol, sp *MockSocialProtocol, db *MockDatabase, cl *MockClock, a DelegateActor) {
+		setupData()
+		c = NewMockCommonBehavior(ctl)
+		fp = NewMockFederatingProtocol(ctl)
+		sp = NewMockSocialProtocol(ctl)
+		db = NewMockDatabase(ctl)
+		cl = NewMockClock(ctl)
+		a = &sideEffectActor{
+			common: c,
+			s2s:    fp,
+			c2s:    sp,
+			db:     db,
+			clock:  cl,
+		}
+		return
+	}
 	t.Run("DoesNotForwardIfAlreadyExists", func(t *testing.T) {
-		t.Fail()
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, db, _, a := setupFn(ctl)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Exists(ctx, mustParse(testFederatedActivityIRI)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testFederatedActivityIRI)),
+		)
+		// Run
+		err := a.InboxForwarding(ctx, mustParse(testMyInboxIRI), testListen)
+		// Verify
+		assertEqual(t, err, nil)
 	})
 	t.Run("DoesNotForwardIfToCollectionNotOwned", func(t *testing.T) {
-		t.Fail()
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, db, _, a := setupFn(ctl)
+		input := addToIds(testListen)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Exists(ctx, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().Create(ctx, input).Return(nil),
+			db.EXPECT().Unlock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testToIRI)),
+			db.EXPECT().Owns(ctx, mustParse(testToIRI)).Return(false, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testToIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testToIRI2)),
+			db.EXPECT().Owns(ctx, mustParse(testToIRI2)).Return(false, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testToIRI2)),
+		)
+		// Run
+		err := a.InboxForwarding(ctx, mustParse(testMyInboxIRI), input)
+		// Verify
+		assertEqual(t, err, nil)
 	})
 	t.Run("DoesNotForwardIfCcCollectionNotOwned", func(t *testing.T) {
-		t.Fail()
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, db, _, a := setupFn(ctl)
+		input := mustAddCcIds(testListen)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Exists(ctx, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().Create(ctx, input).Return(nil),
+			db.EXPECT().Unlock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testCcIRI)),
+			db.EXPECT().Owns(ctx, mustParse(testCcIRI)).Return(false, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testCcIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testCcIRI2)),
+			db.EXPECT().Owns(ctx, mustParse(testCcIRI2)).Return(false, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testCcIRI2)),
+		)
+		// Run
+		err := a.InboxForwarding(ctx, mustParse(testMyInboxIRI), input)
+		// Verify
+		assertEqual(t, err, nil)
 	})
 	t.Run("DoesNotForwardIfAudienceCollectionNotOwned", func(t *testing.T) {
-		t.Fail()
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, db, _, a := setupFn(ctl)
+		input := mustAddAudienceIds(testListen)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Exists(ctx, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().Create(ctx, input).Return(nil),
+			db.EXPECT().Unlock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI)),
+			db.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(false, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Owns(ctx, mustParse(testAudienceIRI2)).Return(false, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI2)),
+		)
+		// Run
+		err := a.InboxForwarding(ctx, mustParse(testMyInboxIRI), input)
+		// Verify
+		assertEqual(t, err, nil)
 	})
 	t.Run("DoesNotForwardIfToOwnedButNotCollection", func(t *testing.T) {
-		t.Fail()
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, db, _, a := setupFn(ctl)
+		input := addToIds(testListen)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Exists(ctx, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().Create(ctx, input).Return(nil),
+			db.EXPECT().Unlock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testToIRI)),
+			db.EXPECT().Owns(ctx, mustParse(testToIRI)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testToIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testToIRI2)),
+			db.EXPECT().Owns(ctx, mustParse(testToIRI2)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testToIRI2)),
+			db.EXPECT().Lock(ctx, mustParse(testToIRI)),
+			db.EXPECT().Get(ctx, mustParse(testToIRI)).Return(testPerson, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testToIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testToIRI2)),
+			db.EXPECT().Get(ctx, mustParse(testToIRI2)).Return(testService, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testToIRI2)),
+			// Deferred
+			db.EXPECT().Unlock(ctx, mustParse(testToIRI2)),
+			db.EXPECT().Unlock(ctx, mustParse(testToIRI)),
+		)
+		// Run
+		err := a.InboxForwarding(ctx, mustParse(testMyInboxIRI), input)
+		// Verify
+		assertEqual(t, err, nil)
 	})
 	t.Run("DoesNotForwardIfCcOwnedButNotCollection", func(t *testing.T) {
-		t.Fail()
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, db, _, a := setupFn(ctl)
+		input := mustAddCcIds(testListen)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Exists(ctx, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().Create(ctx, input).Return(nil),
+			db.EXPECT().Unlock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testCcIRI)),
+			db.EXPECT().Owns(ctx, mustParse(testCcIRI)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testCcIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testCcIRI2)),
+			db.EXPECT().Owns(ctx, mustParse(testCcIRI2)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testCcIRI2)),
+			db.EXPECT().Lock(ctx, mustParse(testCcIRI)),
+			db.EXPECT().Get(ctx, mustParse(testCcIRI)).Return(testPerson, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testCcIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testCcIRI2)),
+			db.EXPECT().Get(ctx, mustParse(testCcIRI2)).Return(testService, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testCcIRI2)),
+			// Deferred
+			db.EXPECT().Unlock(ctx, mustParse(testCcIRI2)),
+			db.EXPECT().Unlock(ctx, mustParse(testCcIRI)),
+		)
+		// Run
+		err := a.InboxForwarding(ctx, mustParse(testMyInboxIRI), input)
+		// Verify
+		assertEqual(t, err, nil)
 	})
 	t.Run("DoesNotForwardIfAudienceOwnedButNotCollection", func(t *testing.T) {
-		t.Fail()
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, db, _, a := setupFn(ctl)
+		input := mustAddAudienceIds(testListen)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Exists(ctx, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().Create(ctx, input).Return(nil),
+			db.EXPECT().Unlock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI)),
+			db.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Owns(ctx, mustParse(testAudienceIRI2)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI)),
+			db.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(testPerson, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Get(ctx, mustParse(testAudienceIRI2)).Return(testService, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI2)),
+			// Deferred
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI)),
+		)
+		// Run
+		err := a.InboxForwarding(ctx, mustParse(testMyInboxIRI), input)
+		// Verify
+		assertEqual(t, err, nil)
 	})
 	t.Run("DoesNotForwardIfNoChainIsOwned", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("ForwardsToRecipients", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("ForwardsToRecipientsIfChainIsNested", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("DoesNotForwardIfChainIsNestedTooDeep", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("ForwardsToRecipientsIfChainNeedsDereferencing", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 }
 
@@ -387,19 +563,19 @@ func TestInboxForwarding(t *testing.T) {
 // social protocol message occur.
 func TestPostOutbox(t *testing.T) {
 	t.Run("AddsToEmptyOutbox", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("AddsToOutbox", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("ResolvesToCustomFunction", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("ResolvesToOverriddenFunction", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("ResolvesToDefaultFunction", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 }
 
@@ -407,13 +583,13 @@ func TestPostOutbox(t *testing.T) {
 // of its 'object' property values if it is a Create activity.
 func TestAddNewIds(t *testing.T) {
 	t.Run("AddsIdToActivity", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("AddsIdsToObjectsIfCreateActivity", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("DoesNotAddIdsToObjectsIfNotCreateActivity", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 }
 
@@ -421,49 +597,49 @@ func TestAddNewIds(t *testing.T) {
 // the ActivityPub specification.
 func TestDeliver(t *testing.T) {
 	t.Run("SendToRecipientsInTo", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("SendToRecipientsInBto", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("SendToRecipientsInCc", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("SendToRecipientsInBcc", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("SendToRecipientsInAudience", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("DoesNotSendToPublicIRI", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("RecursivelyResolveCollectionActors", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("RecursivelyResolveOrderedCollectionActors", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("DoesNotRecursivelyResolveCollectionActorsIfExceedingMaxDepth", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("DoesNotSendIfMoreThanOneAttributedTo", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("DoesNotSendIfThisActorIsNotInAttributedTo", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("DedupesRecipients", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("StripsBto", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("StripsBcc", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("ReturnsErrorIfAnyTransportRequestsFail", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 }
 
@@ -471,27 +647,27 @@ func TestDeliver(t *testing.T) {
 // properly wrapped in a Create Activity.
 func TestWrapInCreate(t *testing.T) {
 	t.Run("CreateHasTo", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("CreateHasCc", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("CreateHasBto", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("CreateHasBcc", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("CreateHasAudience", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("CreateHasPublished", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("CreateHasActor", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 	t.Run("CreateHasObject", func(t *testing.T) {
-		t.Fail()
+		t.Errorf("Not yet implemented.")
 	})
 }

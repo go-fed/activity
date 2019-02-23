@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/streams/vocab"
 	"net/http"
@@ -24,6 +25,14 @@ const (
 	testNoteId1               = "https://example.com/note/1"
 	testNoteId2               = "https://example.com/note/2"
 	testNewActivityIRI        = "https://example.com/new/1"
+	testToIRI = "https://maybe.example.com/to/1"
+	testToIRI2 = "https://maybe.example.com/to/2"
+	testCcIRI = "https://maybe.example.com/cc/1"
+	testCcIRI2 = "https://maybe.example.com/cc/2"
+	testAudienceIRI = "https://maybe.example.com/audience/1"
+	testAudienceIRI2 = "https://maybe.example.com/audience/2"
+	testPersonIRI = "https://maybe.example.com/person"
+	testServiceIRI = "https://maybe.example.com/service"
 )
 
 // mustParse parses a URL or panics.
@@ -91,6 +100,10 @@ var (
 	testOrderedCollectionWithFederatedId2 vocab.ActivityStreamsOrderedCollectionPage
 	// testOrderedCollectionWithBothFederatedIds has both federated Activity id.
 	testOrderedCollectionWithBothFederatedIds vocab.ActivityStreamsOrderedCollectionPage
+	// testPerson is a Person.
+	testPerson vocab.ActivityStreamsPerson
+	// testService is a Service.
+	testService vocab.ActivityStreamsService
 )
 
 // The test data cannot be created at init time since that is when the hooks of
@@ -216,6 +229,20 @@ func setupData() {
 		oi.AppendIRI(mustParse(testFederatedActivityIRI2))
 		testOrderedCollectionWithBothFederatedIds.SetActivityStreamsOrderedItems(oi)
 	}()
+	// testPerson
+	func () {
+		testPerson = streams.NewActivityStreamsPerson()
+		id := streams.NewActivityStreamsIdProperty()
+		id.Set(mustParse(testPersonIRI))
+		testPerson.SetActivityStreamsId(id)
+	}()
+	// testService
+	func () {
+		testService = streams.NewActivityStreamsService()
+		id := streams.NewActivityStreamsIdProperty()
+		id.Set(mustParse(testServiceIRI))
+		testService.SetActivityStreamsId(id)
+	} ()
 }
 
 // wrappedInCreate returns a Create activity wrapping the given type.
@@ -363,4 +390,39 @@ func toGetInboxRequest() *http.Request {
 // toGetOutboxRequest creates a new GET HTTP request.
 func toGetOutboxRequest() *http.Request {
 	return httptest.NewRequest("GET", testMyOutboxIRI, nil)
+}
+
+// addToIds adds two IRIs to the 'to' property
+func addToIds(t Activity) Activity {
+	to := streams.NewActivityStreamsToProperty()
+	to.AppendIRI(mustParse(testToIRI))
+	to.AppendIRI(mustParse(testToIRI2))
+	t.SetActivityStreamsTo(to)
+	return t
+}
+
+// mustAddCcIds adds two IRIs to the 'cc' property
+func mustAddCcIds(t Activity) Activity {
+	if ccer, ok := t.(ccer); ok {
+		cc := streams.NewActivityStreamsCcProperty()
+		cc.AppendIRI(mustParse(testCcIRI))
+		cc.AppendIRI(mustParse(testCcIRI2))
+		ccer.SetActivityStreamsCc(cc)
+	} else {
+		panic(fmt.Sprintf("activity is not ccer: %T", t))
+	}
+	return t
+}
+
+// mustAddAudienceIds adds two IRIs to the 'audience' property
+func mustAddAudienceIds(t Activity) Activity {
+	if audiencer, ok := t.(audiencer); ok {
+		aud := streams.NewActivityStreamsAudienceProperty()
+		aud.AppendIRI(mustParse(testAudienceIRI))
+		aud.AppendIRI(mustParse(testAudienceIRI2))
+		audiencer.SetActivityStreamsAudience(aud)
+	} else {
+		panic(fmt.Sprintf("activity is not audiencer: %T", t))
+	}
+	return t
 }
