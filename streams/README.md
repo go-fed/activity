@@ -15,7 +15,7 @@ functions live in `github.com/go-fed/streams`.
 To create a type and set properties:
 
 ```golang
-var actorURL *url.URL
+var actorURL *url.URL = // ...
 
 // A new "Create" Activity.
 create := streams.NewActivityStreamsCreate()
@@ -32,8 +32,8 @@ To process properties on a type:
 // Returns true if the "Update" has at least one "object" with an IRI value.
 func hasObjectWithIRIValue(update vocab.ActivityStreamsUpdate) bool {
   objectProperty := update.GetActivityStreamsObject()
-  // Any property may be nil if it was empty in the original JSON or simply not
-  // set after creation.
+  // Any property may be nil if it was either empty in the original JSON or
+  // never set on the golang type.
   if objectProperty == nil {
     return false
   }
@@ -42,7 +42,7 @@ func hasObjectWithIRIValue(update vocab.ActivityStreamsUpdate) bool {
   // versus a non-functional one.
   //
   // While it may be easy to ignore multiple values in other languages
-  // (accidentally, or purposefully), go-fed is designed to make it hard to do
+  // (accidentally or purposefully), go-fed is designed to make it hard to do
   // so.
   for iter := objectProperty.Begin(); iter != objectProperty.End(); iter = iter.Next() {
     // If this particular value is an IRI, return true.
@@ -56,8 +56,9 @@ func hasObjectWithIRIValue(update vocab.ActivityStreamsUpdate) bool {
 ```
 
 The ActivityStreams type hierarchy of "extends" and "disjoint" is not the same
-as Object Oriented inheritance. Helper functions are provided to guarantee that
-an application's logic is sound:
+as the Object Oriented definition of inheritance. It is also not the same as
+golang's interface duck-typing. Helper functions are provided to guarantee that
+an application's logic can correctly apply the type hierarchy.
 
 ```golang
 thing := // Pick a type from streams.NewActivityStreams<Type>()
@@ -81,11 +82,13 @@ the interesting concrete type:
 //   func(context.Context, <TypeInterface>) error
 createCallback := func(c context.Context, create vocab.ActivityStreamsCreate) error {
   // Do something with 'create'
-  return error
+  fmt.Printf("createCallback called: %T\n", create)
+  return nil
 }
 updateCallback := func(c context.Context, update vocab.ActivityStreamsUpdate) error {
   // Do something with 'update'
-  return error
+  fmt.Printf("updateCallback called: %T\n", update)
+  return nil
 }
 jsonResolver, err := streams.NewJSONResolver(createCallback, updateCallback)
 if err != nil {
