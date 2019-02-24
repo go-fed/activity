@@ -1,188 +1,240 @@
 # pub
 
-Implements both the SocialAPI and FederateAPI in the ActivityPub specification.
+Implements the Social and Federating Protocols in the ActivityPub specification.
 
-## Disclaimer
+## Preview Release
 
-This library is designed with flexibility in mind. The cost of doing so is that
-writing an ActivityPub application requires a lot of careful considerations that
-are not trivial. ActivityPub is an Application transport layer that is also tied
-to a specific data model, making retrofits nontrivial as well.
+v1.0.0 still has a lot of unit tests that need to be written. Please run
+`go test -v` to see the latest state of unit testing.
 
 ## How To Use
 
-There are two ActivityPub APIs: the SocialAPI between a user and your
-ActivityPub server, and the FederateAPI between your ActivityPub server and
-another server peer. This library lets you choose one or both.
-
-*Lightning intro to ActivityPub: ActivityPub uses ActivityStreams as data. This
-lives in `go-fed/activity/vocab`. ActivityPub has a concept of `actors` who can
-send, receive, and read their messages. When sending and receiving messages from
-a client (such as on their phone) to an ActivityPub server, it is via the
-SocialAPI. When it is between two ActivityPub servers, it is via the
-FederateAPI.*
-
-Next, there are two kinds of ActivityPub requests to handle:
-
-1. Requests that `GET` or `POST` to stuff owned by an `actor` like their `inbox`
- or `outbox`.
-1. Requests that `GET` ActivityStream objects hosted on your server.
-
-The first is the most complex, and requires the creation of a `Pubber`. It is
-created depending on which APIs are to be supported:
-
-```golang
-// Only support SocialAPI
-s := pub.NewSocialPubber(...)
-// Only support FederateAPI
-f := pub.NewFederatingPubber(...)
-// Support both APIs
-sf := pub.NewPubber(...)
+```
+go get github.com/go-fed/activity
 ```
 
-Note that *only* the creation of the `Pubber` is affected by the decision of
-which API to support. Once created, the `Pubber` should be used in the same
-manner regardless of the API it is supporting. This allows your application
-to easily adopt one API first and migrate to both later by simply changing how
-the `Pubber` is created.
-
-To use the `Pubber`, call its methods in the HTTP handlers responsible for an
-`actor`'s `inbox` and `outbox`:
+The root of all ActivityPub behavior is the `Actor`:
 
 ```golang
-// Given:
-//     var myPubber pub.Pubber
+// Only support Social protocol
+actor := pub.NewSocialActor(
+  myAppsCommonBehavior,
+  myAppsSocialProtocol,
+  myAppsDatabase,
+  myAppsClock)
+// OR
+//
+// Only support Federating protocol
+actor = pub.NewFederatingActor(
+  myAppsCommonBehavior,
+  myAppsFederatingProtocol,
+  myAppsDatabase,
+  myAppsClock)
+// OR
+//
+// Support both Social and Federating protocol.
+actor = pub.NewActor(
+  myAppsCommonBehavior,
+  myAppsSocialProtocol,
+  myAppsFederatingProtocol,
+  myAppsDatabase,
+  myAppsClock)
+```
+
+Next, hook the `Actor` into the HTTP server:
+
+```golang
+// The application's actor
+var actor pub.Actor
 var outboxHandler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {
   c := context.Background()
-  // Populate c with application specific information
+  // Populate c with request-specific information
   if handled, err := myPubber.PostOutbox(c, w, r); err != nil {
     // Write to w
+    return
   } else if handled {
     return
-  }
-  if handled, err := myPubber.GetOutbox(c, w, r); err != nil {
+  } else if handled, err := myPubber.GetOutbox(c, w, r); err != nil {
     // Write to w
+    return
   } else if handled {
     return
   }
-  // Handle non-ActivityPub request, such as responding with an HTML
-  // representation with correct view permissions.
+  // else:
+  //
+  // Handle non-ActivityPub request, such as serving a webpage.
 }
 var inboxHandler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {
   c := context.Background()
-  // Populate c with application specific information
+  // Populate c with request-specific information
   if handled, err := myPubber.PostInbox(c, w, r); err != nil {
     // Write to w
+    return
   } else if handled {
     return
-  }
-  if handled, err := myPubber.GetInbox(c, w, r); err != nil {
+  } else if handled, err := myPubber.GetInbox(c, w, r); err != nil {
     // Write to w
+    return
   } else if handled {
     return
   }
-  // Handle non-ActivityPub request, such as responding with an HTML
-  // representation with correct view permissions.
+  // else:
+  //
+  // Handle non-ActivityPub request, such as serving a webpage.
 }
+// Add the handlers to a HTTP server
+serveMux := http.NewServeMux()
+serveMux.HandleFunc("/actor/outbox", outboxHandler)
+serveMux.HandleFunc("/actor/inbox", inboxHandler)
+var server http.Server
+server.Handler = serveMux
 ```
 
-Finally, to handle the second kind of request, use the `HandlerFunc` within HTTP
-handler functions in a similar way. There are two ways to create `HandlerFunc`,
-which depend on decisions we will address later:
+To serve ActivityStreams data:
 
 ```golang
-asHandler := pub.ServeActivityPubObject(...)
-var activityStreamHandler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {
+myHander := pub.NewActivityStreamsHandler(
+  myAppsAuthenticateFunc,
+  myAppsDatabase,
+  myAppsClock)
+var activityStreamsHandler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {
   c := context.Background()
-  // Populate c with application specific information
-  if handled, err := asHandler(c, w, r); err != nil {
+  // Populate c with request-specific information
+  if handled, err := myHandler(c, w, r); err != nil {
     // Write to w
+    return
   } else if handled {
     return
   }
-  // Handle non-ActivityPub request, such as responding with an HTML
-  // representation with correct view permissions.
+  // else:
+  //
+  // Handle non-ActivityPub request, such as serving a webpage.
+}
+serveMux.HandleFunc("/some/data/like/a/note", activityStreamsHandler)
+```
+
+### Dependency Injection
+
+Package `pub` relies on dependency injection to provide out-of-the-box support
+for ActivityPub. The interfaces to be satisfied are:
+
+* `CommonBehavior` - Behavior needed regardless of which Protocol is used.
+* `SocialProtocol` - Behavior needed for the Social Protocol.
+* `FederatingProtocol` - Behavior needed for the Federating Protocol.
+* `Database` - The data store abstraction, not tied to the `database/sql`
+package.
+* `Clock` - The server's internal clock.
+* `Transport` - Responsible for the network that serves requests and deliveries
+of ActivityStreams data.
+
+These implementations form the core of an application's behavior without
+worrying about the particulars and pitfalls of the ActivityPub protocol.
+Implementing these interfaces gives you greater assurance about being
+ActivityPub compliant.
+
+### Application Logic
+
+The `SocialProtocol` and `FederatingProtocol` are responsible for returning
+callback functions compatible with `streams.TypeResolver`. They also return
+`SocialWrappedCallbacks` and `FederatingWrappedCallbacks`, which are nothing
+more than a bundle of default behaviors for types like `Create`, `Update`, and
+so on.
+
+Applications will want to focus on implementing their specific behaviors in the
+callbacks, and has fine-grained control over customization:
+
+```golang
+// Implements the FederatingProtocol interface.
+func (m *myAppsFederatingProtocol) Callbacks(c context.Context) (wrapped FederatingWrappedCallbacks, other []interface{}) {
+  // The context 'c' has request-specific logic and can be used to apply complex
+  // logic building the right behaviors, if desired.
+  //
+  // 'c' will later be passed through to the callbacks created below.
+  wrapped = &FederatingWrappedCallbacks{
+    Create: func(ctx context.Context, create vocab.ActivityStreamsCreate) error {
+      // This function is wrapped by default behavior.
+      //
+      // More application specific logic can be written here.
+      //
+      // 'ctx' will have request-specific information from the HTTP handler. It
+      // is the same as the 'c' passed to the Callbacks method.
+      // 'create' has already triggered the recommended ActivityPub side effect
+      // behavior. The application can process it further as needed.
+      return nil
+    },
+  }
+  // These must be compatible with streams.TypeResolver
+  other = []interface{}{
+    // The FederatingWrappedCallbacks has default behavior for an "Update" type,
+    // but since we are providing this behavior in "other" and not in the
+    // FederatingWrappedCallbacks.Update member, we will entirely replace the
+    // go-fed provided default behavior. Be careful that this still implements
+    // ActivityPub properly.
+    func(ctx context.Context, update vocab.ActivityStreamsUpdate) error {
+      // This function is NOT wrapped by default behavior.
+      //
+      // Application specific logic can be written here.
+      //
+      // 'ctx' will have request-specific information from the HTTP handler. It
+      // is the same as the 'c' passed to the Callbacks method.
+      // 'update' has NOT triggered the recommended ActivityPub side effect
+      // behavior. The application should do so in addition to any other custom
+      // side effects required.
+      return nil
+    },
+    // The "Listen" type has no default suggested behavior in ActivityPub, so
+    // this just makes this application able to handle "Listen" activities.
+    func(ctx context.Context, listen vocab.ActivityStreamsListen) error {
+      // This function is NOT wrapped by default behavior. There's not a
+      // FederatingWrappedCallbacks.Listen member to wrap.
+      //
+      // Application specific logic can be written here.
+      //
+      // 'ctx' will have request-specific information from the HTTP handler. It
+      // is the same as the 'c' passed to the Callbacks method.
+      // 'listen' can be processed with side effects as the application needs.
+      return nil
+    },
+  }
+  return
 }
 ```
 
-That's all that's required to support ActivityPub.
+The `pub` package supports applications that grow into more custom solutions by
+overriding the default behaviors as needed.
 
-## How To Create
+### ActivityStreams Extensions: Future-Proofing An Application
 
-You may have noticed that using the library is deceptively straightforward. This
-is because *creating* the `Pubber` and `HandlerFunc` types is not trivial and
-requires forethought.
+Package `pub` relies on the `streams.TypeResolver` and `streams.JSONResolver`
+code generated types. As new ActivityStreams extensions are developed and their
+code is generated, `pub` will automatically pick up support for these
+extensions.
 
-There are a lot of interfaces that must be satisfied in order to have a complete
-working ActivityPub server.
+The steps to rapidly implement a new extension are:
 
-Note that `context.Context` is passed everywhere possible, to allow your
-implementation to keep a request-specific context throughout the lifecycle of
-an ActivityPub request.
+1. Generate an OWL definition of the ActivityStreams extension.
+2. Run `astool` to autogenerate the golang types in the `streams` package.
+3. Implement the application's callbacks in the `FederatingProtocol.Callbacks`
+or `SocialProtocol.Callbacks` for the new behaviors needed.
+4. Build `pub` against the application's code and the newly generated `streams`
+code. No code changes in `pub` are required.
 
-### Application Interface
+### DelegateActor
 
-Regardless of which of the SocialAPI and FederateAPI chosen, the `Application`
-interface contains the set of core methods fundamental to the functionality of
-this library. It contains a lot of the storage fetching and writing, all of
-which is keyed by `*url.URL`. To protect against race conditions, this library
-will inform whether it is fetching data to read-only or fetching for read-or-
-write.
+For those that need a near-complete custom ActivityPub solution, or want to have
+that possibility in the future after adopting go-fed, the `DelegateActor`
+interface can be used to obtain an `Actor`:
 
-Note that under some conditions, ActivityPub verifies the peer's request. It
-does so using HTTP Signatures. However, this requires knowing the other party's
-public key, and fetching this remotely is do-able. However, this library assumes
-this server already has it locally; at this time it is up to implementations to
-remotely fetch it if needed.
+```golang
+// Use custom ActivityPub implementation
+actor = pub.NewCustomActor(
+  myAppsDelegateActor,
+  isSocialProtocolEnabled,
+  isFederatedProtocolEnabled,
+  myAppsClock)
+```
 
-### SocialAPI and FederateAPI Interfaces
-
-These interfaces capture additional behaviors required by the SocialAPI and the
-FederateAPI.
-
-The SocialAPI can additionally provide a mechanism for client authentication and
-authorization using frameworks like Oauth 2.0. Such frameworks are not natively
-supported in this library and must be supplied.
-
-### Callbacker Interface
-
-One of these is needed per ActivityPub API supported. For example, if both the
-SocialAPI and FederateAPI are supported, then two of these are needed.
-
-Upon receiving one of these activities from a `POST` to the inbox or outbox, the
-correct callbacker will be called to handle either a SocialAPI activity or a
-FederateAPI activity.
-
-This is where the bulk of implementation-specific logic is expected to reside.
-
-Do note that for some of these activities, default actions will already occur.
-For example, if receiving an `Accept` in response to a sent `Follow`, this
-library automatically handles adding the correct actor into the correct
-`following` collection. This means a lot of the social and federate
-functionality is provided out of the box.
-
-### Deliverer Interface
-
-This is an optional interface. Since this library needs to send HTTP requests,
-it would be unwise for it to provide no way of allowing implementations to
-rate limit, persist across downtime, back off, etc. This interface is satisfied
-by the `go-fed/activity/deliverer` package which has an implementation that can
-remember to send requests across downtime.
-
-If an implementation does not care to have this level of control, a synchronous
-implementation is very straightforward to make.
-
-### Other Interfaces
-
-Other interfaces such as `Typer` and `PubObject` are meant to limit modification
-scope or require minimal ActivityStream compatibility to be used by this
-library. As long as the `go-fed/activity/vocab` or `go-fed/activity/streams_old`
-packages are being used, these interfaces will be natively supported.
-
-## Other Considerations
-
-Please see the README for `go-fed/activity` for the status of the latest
-official implementation report.
-
-The [go-fed.org](https://go-fed.org) website has a tutorial and documentation
-for this library.
+It does not guarantee that an implementation adheres to the ActivityPub
+specification. It acts as a stepping stone for applications that want to build
+up to a fully custom solution and not be locked into the `pub` package
+implementation.

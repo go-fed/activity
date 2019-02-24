@@ -2,25 +2,17 @@
 
 `go get github.com/go-fed/activity`
 
-This repository contains three libraries for use in your golang applications:
+This repository contains two libraries and a tool:
 
-* `vocab`: An ActivityStreams Vocabulary library
-* `streams`: A convenience library for the ActivityStreams Vocabulary
-* `pub`: ActivityPub SocialAPI (Client-to-Server) and FederateAPI
-  (Server-to-Server)
-
-This repository supports `vgo` and is remotely verifiable.
-
-This library is biased. It forgoes understanding JSON-LD in exchange for static
-typing. It provides a large amount of default behavior to let Social,
-Federated, or both kinds of ActivityPub applications just work.
-
-The [go-fed.org](https://go-fed.org) website has a tutorial. It also hosts godoc
-documentation for every version of this library.
+* `astool`: A linked-data aware tool to generate golang native types for any
+ActivityStreams vocabulary.
+* `streams`: The ActivityStreams native types generated with the `astool`.
+* `pub`: ActivityPub Social Protocol (Client-to-Server or C2S) and Federating
+Protocol (Server-to-Server or S2S)
 
 ## Status
 
-**0.4.0** ([Semantic Versioning](https://semver.org/))
+**Preview (unstable) 1.0.0** ([Semantic Versioning](https://semver.org/))
 
 An [official implementation report](https://activitypub.rocks/implementation-report/)
 was last submitted for version **0.2.0** [here](https://github.com/w3c/activitypub/issues/318).
@@ -31,9 +23,7 @@ Please see CHANGELOG for changes between versions.
 
 ## Getting Started
 
-See each subdirectory for its own README for further elaboration. The
-recommended reading order is `vocab`, `streams`, and then `pub`. Others are
-optional.
+See `astool`, `streams`, or `pub` for their own README.
 
 ## How can I get help, file issues, or contribute?
 
@@ -43,6 +33,10 @@ Please see the CONTRIBUTING.md file!
 
 I took great care to add numerous tests using examples directly from
 specifications, official test repositories, and my own end-to-end tests.
+
+**v1.0.0** still has a lot of unit tests to be written. Bug fixes and small
+backwards-incompatible behavior is expected before it is blessed as being
+released.
 
 ## Who is using this library currently?
 
@@ -54,19 +48,7 @@ specifications, official test repositories, and my own end-to-end tests.
 
 ## How do I use these libraries?
 
-There is a [tutorial](https://go-fed.org/tutorial) available at
-[https://go-fed.org](https://go-fed.org).
-
-Please see each subdirectory for its own README for further elaboration. The
-recommended reading order is `vocab`, `streams`, and then `pub`. Others are
-optional.
-
-Passing familiarity with ActivityStreams and ActivityPub is recommended.
-
-## Other Libraries
-
-* `tools` - Code generation wizardry and ActivityPub-spec-as-data.
-* `deliverer` - Provides an asynchronous `Deliverer` for use with the `pub` lib
+Please see each subdirectory for its own README for further elaboration.
 
 ## FAQ
 
@@ -85,3 +67,6 @@ Please see the CONTRIBUTING.md file!
 I would like to thank those that have worked hard to create the technologies
 and standards that created the opportunity to implement this suite of
 libraries.
+
+Thanks to those who have been early adopters with v0 and/or provided early
+feedback.
