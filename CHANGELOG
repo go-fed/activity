@@ -1,3 +1,16 @@
+master 2019-02-24
+
+* Removed 'tools'.
+* Removed 'vocab'.
+* Removed 'deliver'.
+* Created the new 'astool' for code-generating any ActivityStreams vocabulary.
+* The 'streams' package has entirely been redesigned and regenerated.
+* The 'pub' package has been redesigned to be extensible, and has had concepts
+      previously abstracted, such as security, removed in favor of opaque
+      methods that are up to the application to implement.
+* This succinct summary betrays the size, scope, and effort into rethinking
+      this ActivityPub library.
+
 v0.4.0 2018-11-17
 
 * The 'streams' package now has constructors for each of its generated types.
