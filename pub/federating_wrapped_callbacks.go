@@ -488,6 +488,8 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 		// Unlock must be called by now and every branch above.
 		//
 		// Determine if we are in a follow on the 'object' property.
+		//
+		// TODO: Handle Accept multiple Follow.
 		var maybeMyFollowIRI *url.URL
 		for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
 			t := iter.GetType()
@@ -546,6 +548,13 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 		if maybeMyFollowIRI != nil {
 			// Verify our Follow request exists and the peer didn't
 			// fabricate it.
+			actors := a.GetActivityStreamsActor()
+			if actors == nil || actors.Len() == 0 {
+				return fmt.Errorf("an Accept with a Follow has no actors")
+			}
+			// This may be a duplicate check if we dereferenced the
+			// Follow above. TODO: Separate this logic to avoid
+			// redundancy.
 			//
 			// Use an anonymous function to properly scope the
 			// database lock, immediately call it.
@@ -566,6 +575,7 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 					return fmt.Errorf("a Follow in an Accept does not satisfy the Activity interface")
 				}
 				// Ensure that we are one of the actors on the Follow.
+				ok = false
 				actors := follow.GetActivityStreamsActor()
 				for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
 					id, err := ToId(iter)
@@ -573,19 +583,44 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 						return err
 					}
 					if id.String() == actorIRI.String() {
-						return nil
+						ok = true
+						break
 					}
 				}
-				return fmt.Errorf("peer gave an Accept wrapping a Follow but we are not the actor on that Follow")
+				if !ok {
+					return fmt.Errorf("peer gave an Accept wrapping a Follow but we are not the actor on that Follow")
+				}
+				// Build map of original Accept actors
+				acceptActors := make(map[string]bool)
+				for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
+					id, err := ToId(iter)
+					if err != nil {
+						return err
+					}
+					acceptActors[id.String()] = false
+				}
+				// Verify all actor(s) were on the original Follow.
+				followObj := follow.GetActivityStreamsObject()
+				for iter := followObj.Begin(); iter != followObj.End(); iter = iter.Next() {
+					id, err := ToId(iter)
+					if err != nil {
+						return err
+					}
+					if _, ok := acceptActors[id.String()]; ok {
+						acceptActors[id.String()] = true
+					}
+				}
+				for _, found := range acceptActors {
+					if !found {
+						return fmt.Errorf("peer gave an Accept wrapping a Follow but was not an object in the original Follow")
+					}
+				}
+				return nil
 			}()
 			if err != nil {
 				return err
 			}
 			// Add the peer to our following collection.
-			actors := a.GetActivityStreamsActor()
-			if actors == nil || actors.Len() == 0 {
-				return fmt.Errorf("an Accept with a Follow has no actors")
-			}
 			if err := w.db.Lock(c, actorIRI); err != nil {
 				return err
 			}

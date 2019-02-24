@@ -25,14 +25,14 @@ const (
 	testNoteId1               = "https://example.com/note/1"
 	testNoteId2               = "https://example.com/note/2"
 	testNewActivityIRI        = "https://example.com/new/1"
-	testToIRI = "https://maybe.example.com/to/1"
-	testToIRI2 = "https://maybe.example.com/to/2"
-	testCcIRI = "https://maybe.example.com/cc/1"
-	testCcIRI2 = "https://maybe.example.com/cc/2"
-	testAudienceIRI = "https://maybe.example.com/audience/1"
-	testAudienceIRI2 = "https://maybe.example.com/audience/2"
-	testPersonIRI = "https://maybe.example.com/person"
-	testServiceIRI = "https://maybe.example.com/service"
+	testToIRI                 = "https://maybe.example.com/to/1"
+	testToIRI2                = "https://maybe.example.com/to/2"
+	testCcIRI                 = "https://maybe.example.com/cc/1"
+	testCcIRI2                = "https://maybe.example.com/cc/2"
+	testAudienceIRI           = "https://maybe.example.com/audience/1"
+	testAudienceIRI2          = "https://maybe.example.com/audience/2"
+	testPersonIRI             = "https://maybe.example.com/person"
+	testServiceIRI            = "https://maybe.example.com/service"
 )
 
 // mustParse parses a URL or panics.
@@ -230,19 +230,19 @@ func setupData() {
 		testOrderedCollectionWithBothFederatedIds.SetActivityStreamsOrderedItems(oi)
 	}()
 	// testPerson
-	func () {
+	func() {
 		testPerson = streams.NewActivityStreamsPerson()
 		id := streams.NewActivityStreamsIdProperty()
 		id.Set(mustParse(testPersonIRI))
 		testPerson.SetActivityStreamsId(id)
 	}()
 	// testService
-	func () {
+	func() {
 		testService = streams.NewActivityStreamsService()
 		id := streams.NewActivityStreamsIdProperty()
 		id.Set(mustParse(testServiceIRI))
 		testService.SetActivityStreamsId(id)
-	} ()
+	}()
 }
 
 // wrappedInCreate returns a Create activity wrapping the given type.

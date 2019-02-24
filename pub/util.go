@@ -896,6 +896,8 @@ func add(c context.Context,
 			for _, objId := range opIds {
 				iProp.AppendIRI(objId)
 			}
+		} else {
+			return fmt.Errorf("target in Add is neither a Collection nor an OrderedCollection")
 		}
 		err = db.Update(c, tp)
 		if err != nil {
@@ -987,6 +989,8 @@ func remove(c context.Context,
 					}
 				}
 			}
+		} else {
+			return fmt.Errorf("target in Remove is neither a Collection nor an OrderedCollection")
 		}
 		err = db.Update(c, tp)
 		if err != nil {
