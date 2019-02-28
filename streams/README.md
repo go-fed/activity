@@ -5,7 +5,7 @@ ActivityStreams vocabularies automatically code-generated with `astool`.
 ## How To Use
 
 ```
-go get github.com/go-fed/streams
+go get github.com/go-fed/activity
 ```
 
 All generated types and properties are interfaces in
