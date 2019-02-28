@@ -21,6 +21,8 @@ const (
 	pathFlag = "path"
 	specFlag = "spec"
 	helpText = `
+Usage: astool [-spec=<file>] [-path=<gopath prefix>] <directory>
+
 The ActivityStreams tool (astool) is used to generate ActivityStreams types,
 properties, and values from an OWL2 RDF specification. The tool generates the
 code necessary to create interfaces and functions that solve the problems of
@@ -32,7 +34,7 @@ The tool generates files in the current working directory, and creates
 subpackages as needed. To generate the code for a specification, pass the OWL
 ontology defined as JSON-LD to the tool:
 
-    astool -spec specification.jsonld
+    astool -spec specification.jsonld ./gen/to/subdir
 
 The @context provided in the ActivityStreams specification may be insufficient
 for this tool to use to generate code. However, if this tool is able to use the
@@ -43,13 +45,13 @@ This tool will automatically detect the correct Go prefix path to use if used
 in a subdirectory under GOPATH. If used outside of GOPATH, the prefix to the
 current working directory must be provided:
 
-    astool -spec specification.jsonld -path path/to/my/module/cwd
+    astool -spec specification.jsonld -path path/to/my/module/cwd .
 
 If a specification builds off of a previous specification, they must be provided
 in the order of root to dependency, with the ActivityStreams Core & Extended
 Types specification as the root:
 
-    astool -spec activitystreams.jsonld -spec derived_extension.jsonld
+    astool -spec activitystreams.jsonld -spec derived_extension.jsonld .
 
 The following directories are generated in the current working directory (cwd)
 given a particular specification for a <vocabulary>:
@@ -138,7 +140,7 @@ include the missing definition.
 Experimental support for generating the code as a module is provided by settting
 the 'path' flag, which will prefix all generated code with the 'path':
 
-    astool -spec specification.jsonld -path mymodule
+    astool -spec specification.jsonld -path mymodule ./subdir
 
 `
 )
@@ -228,6 +230,8 @@ type CommandLineFlags struct {
 	path  settableString
 	// Additional data
 	pathAutoDetected bool
+	// Destination on the file system for the code generation
+	destination string
 }
 
 // NewCommandLineFlags defines the flags expected to be used by this tool. Calls
@@ -241,6 +245,11 @@ func NewCommandLineFlags() (*CommandLineFlags, error) {
 		"Package path to use for all generated package paths. If using GOPATH, this is automatically detected as $GOPATH/<path>/ when generating in a subdirectory. Cannot be explicitly set to be empty.")
 	flag.Var(&(c.specs), specFlag, "Input JSON-LD specification used to generate Go code.")
 	flag.Parse()
+	args := flag.Args()
+	if len(args) != 1 {
+		return nil, fmt.Errorf("astool requires a destination directory")
+	}
+	c.destination = args[0]
 	return c, c.Validate()
 }
 
@@ -285,6 +294,9 @@ func (c *CommandLineFlags) Validate() error {
 	if len(c.path.String()) == 0 {
 		return fmt.Errorf("%q flag must not be empty", pathFlag)
 	}
+	if !strings.HasPrefix(c.destination, "." + string(os.PathSeparator)) && c.destination != "." {
+		return fmt.Errorf("destination directory must be a relative path")
+	}
 	return nil
 }
 
@@ -307,6 +319,11 @@ func (c *CommandLineFlags) ReadSpecs() (j []rdf.JSONLD, err error) {
 	return
 }
 
+// CreateDestination creates the destination path
+func (c *CommandLineFlags) CreateDestination() error {
+	return os.MkdirAll(c.destination, 0777)
+}
+
 // AutoDetectedPath returns true if the path flag was auto-detected.
 func (c *CommandLineFlags) AutoDetectedPath() bool {
 	return c.pathAutoDetected
@@ -315,6 +332,24 @@ func (c *CommandLineFlags) AutoDetectedPath() bool {
 // Path returns the path flag.
 func (c *CommandLineFlags) Path() string {
 	return c.path.String()
+}
+
+// NewPackageManager creates the correct package manager for the flag inputs.
+func (c *CommandLineFlags) NewPackageManager() *gen.PackageManager {
+	g := gen.NewPackageManager(c.Path(), "")
+	subdirs := strings.Split(
+		// Trim "./" prefix as well as "trim" (aka remove) the sole "."
+		// path.
+		strings.TrimPrefix(
+			// Trim "." first
+			strings.TrimPrefix(c.destination, "."),
+			// Then trim "/"
+			string(os.PathSeparator)),
+		string(os.PathSeparator))
+	for _, subdir := range subdirs {
+		g = g.Sub(subdir)
+	}
+	return g
 }
 
 func main() {
@@ -328,6 +363,12 @@ func main() {
 	// Print auto-determined values
 	if cmd.AutoDetectedPath() {
 		fmt.Printf("Auto-detected path: %s\n", cmd.Path())
+	}
+
+	// Create the destination directory
+	if err := cmd.CreateDestination(); err != nil {
+		fmt.Println(err)
+		return
 	}
 
 	// Read input specification files
@@ -348,7 +389,7 @@ func main() {
 	// Convert to generated code
 	fmt.Printf("Converting %d types, properties, and values...\n", p.Size())
 	c := &convert.Converter{
-		GenRoot:       gen.NewPackageManager(cmd.Path(), ""),
+		GenRoot:       cmd.NewPackageManager(),
 		PackagePolicy: convert.IndividualUnderRoot,
 	}
 	f, err := c.Convert(p)
@@ -359,10 +400,16 @@ func main() {
 	// Write generated code
 	fmt.Printf("Writing %d files...\n", len(f))
 	for _, file := range f {
-		if e := os.MkdirAll("./"+file.Directory, 0777); e != nil {
+		dir := file.Directory
+		// If the cwd ("." or "./") are specified as the
+		// destination, then the directory may be empty. The cwd does
+		// not need to have MkdirAll called on it.
+		if dir == "" {
+			dir = "."
+		} else if e := os.MkdirAll(dir, 0777); e != nil {
 			panic(e)
 		}
-		if e := file.F.Save("./" + file.Directory + "/" + file.FileName); e != nil {
+		if e := file.F.Save(dir + string(os.PathSeparator) + file.FileName); e != nil {
 			panic(e)
 		}
 	}
