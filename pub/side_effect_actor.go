@@ -51,10 +51,7 @@ func (a *sideEffectActor) AuthenticateGetOutbox(c context.Context, w http.Respon
 
 // GetOutbox delegates to the SocialProtocol.
 func (a *sideEffectActor) GetOutbox(c context.Context, r *http.Request) (vocab.ActivityStreamsOrderedCollectionPage, error) {
-	// Compiler bug? Cannot directly return here:
-	// cannot use <T> as type vocab.ActivityStreamsOrderedCollectionPage in return argument
-	v1, v2 := a.c2s.GetOutbox(c, r)
-	return v1, v2
+	return a.c2s.GetOutbox(c, r)
 }
 
 // GetInbox delegates to the FederatingProtocol.
