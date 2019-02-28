@@ -297,7 +297,7 @@ func (c *CommandLineFlags) Validate() error {
 	if strings.Contains(c.destination, "..") {
 		return fmt.Errorf("destination with '..' in path is not supported")
 	}
-	if !strings.HasPrefix(c.destination, "." + string(os.PathSeparator)) && c.destination != "." {
+	if !strings.HasPrefix(c.destination, "."+string(os.PathSeparator)) && c.destination != "." {
 		return fmt.Errorf("destination directory must be a relative path")
 	}
 	return nil
