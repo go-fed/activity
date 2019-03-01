@@ -1,4 +1,4 @@
-module go-fed/activity
+module github.com/go-fed/activity
 
 go 1.12
 
