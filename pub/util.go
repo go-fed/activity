@@ -241,45 +241,49 @@ func GetId(t vocab.Type) (*url.URL, error) {
 func getInboxForwardingValues(o vocab.Type) (t []vocab.Type, iri []*url.URL) {
 	// 'inReplyTo'
 	if i, ok := o.(inReplyToer); ok {
-		irt := i.GetActivityStreamsInReplyTo()
-		for iter := irt.Begin(); iter != irt.End(); iter = iter.Next() {
-			if tv := iter.GetType(); tv != nil {
-				t = append(t, tv)
-			} else {
-				iri = append(iri, iter.GetIRI())
+		if irt := i.GetActivityStreamsInReplyTo(); irt != nil {
+			for iter := irt.Begin(); iter != irt.End(); iter = iter.Next() {
+				if tv := iter.GetType(); tv != nil {
+					t = append(t, tv)
+				} else {
+					iri = append(iri, iter.GetIRI())
+				}
 			}
 		}
 	}
 	// 'tag'
 	if i, ok := o.(tagger); ok {
-		tag := i.GetActivityStreamsTag()
-		for iter := tag.Begin(); iter != tag.End(); iter = iter.Next() {
-			if tv := iter.GetType(); tv != nil {
-				t = append(t, tv)
-			} else {
-				iri = append(iri, iter.GetIRI())
+		if tag := i.GetActivityStreamsTag(); tag != nil {
+			for iter := tag.Begin(); iter != tag.End(); iter = iter.Next() {
+				if tv := iter.GetType(); tv != nil {
+					t = append(t, tv)
+				} else {
+					iri = append(iri, iter.GetIRI())
+				}
 			}
 		}
 	}
 	// 'object'
 	if i, ok := o.(objecter); ok {
-		obj := i.GetActivityStreamsObject()
-		for iter := obj.Begin(); iter != obj.End(); iter = iter.Next() {
-			if tv := iter.GetType(); tv != nil {
-				t = append(t, tv)
-			} else {
-				iri = append(iri, iter.GetIRI())
+		if obj := i.GetActivityStreamsObject(); obj != nil {
+			for iter := obj.Begin(); iter != obj.End(); iter = iter.Next() {
+				if tv := iter.GetType(); tv != nil {
+					t = append(t, tv)
+				} else {
+					iri = append(iri, iter.GetIRI())
+				}
 			}
 		}
 	}
 	// 'target'
 	if i, ok := o.(targeter); ok {
-		tar := i.GetActivityStreamsTarget()
-		for iter := tar.Begin(); iter != tar.End(); iter = iter.Next() {
-			if tv := iter.GetType(); tv != nil {
-				t = append(t, tv)
-			} else {
-				iri = append(iri, iter.GetIRI())
+		if tar := i.GetActivityStreamsTarget(); tar != nil {
+			for iter := tar.Begin(); iter != tar.End(); iter = iter.Next() {
+				if tv := iter.GetType(); tv != nil {
+					t = append(t, tv)
+				} else {
+					iri = append(iri, iter.GetIRI())
+				}
 			}
 		}
 	}

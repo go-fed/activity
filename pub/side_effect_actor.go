@@ -8,7 +8,6 @@ import (
 	"github.com/go-fed/activity/streams/vocab"
 	"net/http"
 	"net/url"
-	"strings"
 )
 
 // sideEffectActor must satisfy the DelegateActor interface.
@@ -403,21 +402,7 @@ func (a *sideEffectActor) deliverToRecipients(c context.Context, boxIRI *url.URL
 	if err != nil {
 		return err
 	}
-	mErr := make(map[string]error)
-	for _, to := range recipients {
-		err := tp.Deliver(c, b, to)
-		if err != nil {
-			mErr[to.String()] = err
-		}
-	}
-	if len(mErr) > 0 {
-		s := make([]string, 0, len(mErr))
-		for k, v := range mErr {
-			s = append(s, fmt.Sprintf("%s=%s", k, v.Error()))
-		}
-		return fmt.Errorf("requests failed: %s", strings.Join(s, ";"))
-	}
-	return nil
+	return tp.BatchDeliver(c, b, recipients)
 }
 
 // addToOutbox adds the activity to the outbox and creates the activity in the
@@ -512,32 +497,12 @@ func (a *sideEffectActor) hasInboxForwardingValues(c context.Context, inboxIRI *
 	if maxDepth > 0 && currDepth >= maxDepth {
 		return false, nil
 	}
-	// Determine if we own the 'id' for this value.
-	id, err := GetId(val)
-	if err != nil {
-		return false, err
-	}
-	err = a.db.Lock(c, id)
-	if err != nil {
-		return false, err
-	}
-	// WARNING: Unlock is not deferred
-	if owns, err := a.db.Owns(c, id); err != nil {
-		a.db.Unlock(c, id)
-		return false, err
-	} else if owns {
-		a.db.Unlock(c, id)
-		return true, nil
-	}
-	a.db.Unlock(c, id)
-	// Unlock by this point and in every branch above
-	//
 	// Determine if we own the 'id' of any values on the properties we care
 	// about.
 	types, iris := getInboxForwardingValues(val)
 	// For IRIs, simply check if we own them.
 	for _, iri := range iris {
-		err = a.db.Lock(c, iri)
+		err := a.db.Lock(c, iri)
 		if err != nil {
 			return false, err
 		}
@@ -551,9 +516,31 @@ func (a *sideEffectActor) hasInboxForwardingValues(c context.Context, inboxIRI *
 		}
 		a.db.Unlock(c, iri)
 		// Unlock by this point and in every branch above
-		//
-		// Attempt to dereference the IRI instead, and add it to the
-		// types we need to examine.
+	}
+	// For embedded literals, check the id.
+	for _, val := range types {
+		id, err := GetId(val)
+		if err != nil {
+			return false, err
+		}
+		err = a.db.Lock(c, id)
+		if err != nil {
+			return false, err
+		}
+		// WARNING: Unlock is not deferred
+		if owns, err := a.db.Owns(c, id); err != nil {
+			a.db.Unlock(c, id)
+			return false, err
+		} else if owns {
+			a.db.Unlock(c, id)
+			return true, nil
+		}
+		a.db.Unlock(c, id)
+		// Unlock by this point and in every branch above
+	}
+	// Recur Preparation: Try fetching the IRIs so we can recur into them.
+	for _, iri := range iris {
+		// Dereferencing the IRI.
 		tport, err := a.common.NewTransport(c, inboxIRI, goFedUserAgent())
 		if err != nil {
 			return false, err
@@ -576,7 +563,7 @@ func (a *sideEffectActor) hasInboxForwardingValues(c context.Context, inboxIRI *
 		}
 		types = append(types, t)
 	}
-	// For embedded literals, recur.
+	// Recur.
 	for _, nextVal := range types {
 		if has, err := a.hasInboxForwardingValues(c, inboxIRI, nextVal, maxDepth, currDepth+1); err != nil {
 			return false, err
