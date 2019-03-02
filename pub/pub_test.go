@@ -22,6 +22,8 @@ const (
 	testFederatedActivityIRI2 = "https://other.example.com/activity/2"
 	testFederatedActorIRI     = "https://other.example.com/dakota"
 	testFederatedActorIRI2    = "https://other.example.com/addison"
+	testFederatedActorIRI3    = "https://other.example.com/sam"
+	testFederatedActorIRI4    = "https://other.example.com/jessie"
 	testNoteId1               = "https://example.com/note/1"
 	testNoteId2               = "https://example.com/note/2"
 	testNewActivityIRI        = "https://example.com/new/1"
@@ -33,6 +35,8 @@ const (
 	testAudienceIRI2          = "https://maybe.example.com/audience/2"
 	testPersonIRI             = "https://maybe.example.com/person"
 	testServiceIRI            = "https://maybe.example.com/service"
+	testTagIRI                = "https://example.com/tag/1"
+	testTagIRI2               = "https://example.com/tag/2"
 )
 
 // mustParse parses a URL or panics.
@@ -104,6 +108,10 @@ var (
 	testPerson vocab.ActivityStreamsPerson
 	// testService is a Service.
 	testService vocab.ActivityStreamsService
+	// testCollectionOfActors is a collection of actors.
+	testCollectionOfActors vocab.ActivityStreamsCollectionPage
+	// testOrderedCollectionOfActors is an ordered collection of actors.
+	testOrderedCollectionOfActors vocab.ActivityStreamsOrderedCollectionPage
 )
 
 // The test data cannot be created at init time since that is when the hooks of
@@ -243,6 +251,22 @@ func setupData() {
 		id.Set(mustParse(testServiceIRI))
 		testService.SetActivityStreamsId(id)
 	}()
+	// testCollectionOfActors
+	func() {
+		testCollectionOfActors = streams.NewActivityStreamsCollectionPage()
+		i := streams.NewActivityStreamsItemsProperty()
+		i.AppendIRI(mustParse(testFederatedActorIRI))
+		i.AppendIRI(mustParse(testFederatedActorIRI2))
+		testCollectionOfActors.SetActivityStreamsItems(i)
+	}()
+	// testOrderedCollectionOfActors
+	func() {
+		testOrderedCollectionOfActors = streams.NewActivityStreamsOrderedCollectionPage()
+		oi := streams.NewActivityStreamsOrderedItemsProperty()
+		oi.AppendIRI(mustParse(testFederatedActorIRI3))
+		oi.AppendIRI(mustParse(testFederatedActorIRI4))
+		testOrderedCollectionOfActors.SetActivityStreamsOrderedItems(oi)
+	}()
 }
 
 // wrappedInCreate returns a Create activity wrapping the given type.
@@ -252,6 +276,16 @@ func wrappedInCreate(t vocab.Type) vocab.ActivityStreamsCreate {
 	op.AppendType(t)
 	create.SetActivityStreamsObject(op)
 	return create
+}
+
+// mustSerializeToBytes serializes a type to bytes or panics.
+func mustSerializeToBytes(t vocab.Type) []byte {
+	m := mustSerialize(t)
+	b, err := json.Marshal(m)
+	if err != nil {
+		panic(err)
+	}
+	return b
 }
 
 // mustSerialize serializes a type or panics.
@@ -425,4 +459,31 @@ func mustAddAudienceIds(t Activity) Activity {
 		panic(fmt.Sprintf("activity is not audiencer: %T", t))
 	}
 	return t
+}
+
+// setTagger is an ActivityStreams type with a 'tag' property
+type setTagger interface {
+	SetActivityStreamsTag(vocab.ActivityStreamsTagProperty)
+}
+
+// mustAddTagIds adds two IRIs to the 'tag' property
+func mustAddTagIds(t Activity) Activity {
+	if st, ok := t.(setTagger); ok {
+		tag := streams.NewActivityStreamsTagProperty()
+		tag.AppendIRI(mustParse(testTagIRI))
+		tag.AppendIRI(mustParse(testTagIRI2))
+		st.SetActivityStreamsTag(tag)
+	} else {
+		panic(fmt.Sprintf("activity is not setTagger: %T", t))
+	}
+	return t
+}
+
+// newObjectWithId creates a generic object with a given id.
+func newObjectWithId(id string) vocab.ActivityStreamsObject {
+	obj := streams.NewActivityStreamsObject()
+	i := streams.NewActivityStreamsIdProperty()
+	i.Set(mustParse(id))
+	obj.SetActivityStreamsId(i)
+	return obj
 }

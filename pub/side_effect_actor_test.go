@@ -543,12 +543,118 @@ func TestInboxForwarding(t *testing.T) {
 		assertEqual(t, err, nil)
 	})
 	t.Run("DoesNotForwardIfNoChainIsOwned", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		cm, fp, _, db, _, a := setupFn(ctl)
+		input := mustAddTagIds(
+			mustAddAudienceIds(testListen))
+		mockTPortTag := NewMockTransport(ctl)
+		mockTPortTag2 := NewMockTransport(ctl)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Exists(ctx, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().Create(ctx, input).Return(nil),
+			db.EXPECT().Unlock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI)),
+			db.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Owns(ctx, mustParse(testAudienceIRI2)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI)),
+			db.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(testOrderedCollectionOfActors, nil),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Get(ctx, mustParse(testAudienceIRI2)).Return(testCollectionOfActors, nil),
+			fp.EXPECT().MaxInboxForwardingRecursionDepth(ctx).Return(0),
+			// hasInboxForwardingValues
+			db.EXPECT().Lock(ctx, mustParse(testTagIRI)),
+			db.EXPECT().Owns(ctx, mustParse(testTagIRI)).Return(false, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testTagIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testTagIRI2)),
+			db.EXPECT().Owns(ctx, mustParse(testTagIRI2)).Return(false, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testTagIRI2)),
+			db.EXPECT().Lock(ctx, mustParse(testNoteId1)),
+			db.EXPECT().Owns(ctx, mustParse(testNoteId1)).Return(false, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testNoteId1)),
+			cm.EXPECT().NewTransport(ctx, mustParse(testMyInboxIRI), goFedUserAgent()).Return(mockTPortTag, nil),
+			mockTPortTag.EXPECT().Dereference(ctx, mustParse(testTagIRI)).Return(mustSerializeToBytes(newObjectWithId(testTagIRI)), nil),
+			cm.EXPECT().NewTransport(ctx, mustParse(testMyInboxIRI), goFedUserAgent()).Return(mockTPortTag2, nil),
+			mockTPortTag2.EXPECT().Dereference(ctx, mustParse(testTagIRI2)).Return(mustSerializeToBytes(newObjectWithId(testTagIRI2)), nil),
+			// Deferred
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI)),
+		)
+		// Run
+		err := a.InboxForwarding(ctx, mustParse(testMyInboxIRI), input)
+		// Verify
+		assertEqual(t, err, nil)
 	})
 	t.Run("ForwardsToRecipients", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		cm, fp, _, db, _, a := setupFn(ctl)
+		input := mustAddTagIds(
+			mustAddAudienceIds(testListen))
+		tPort := NewMockTransport(ctl)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Exists(ctx, mustParse(testFederatedActivityIRI)).Return(false, nil),
+			db.EXPECT().Create(ctx, input).Return(nil),
+			db.EXPECT().Unlock(ctx, mustParse(testFederatedActivityIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI)),
+			db.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI)),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Owns(ctx, mustParse(testAudienceIRI2)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI)),
+			db.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(testOrderedCollectionOfActors, nil),
+			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Get(ctx, mustParse(testAudienceIRI2)).Return(testCollectionOfActors, nil),
+			fp.EXPECT().MaxInboxForwardingRecursionDepth(ctx).Return(0),
+			// hasInboxForwardingValues
+			db.EXPECT().Lock(ctx, mustParse(testTagIRI)),
+			db.EXPECT().Owns(ctx, mustParse(testTagIRI)).Return(true, nil),
+			db.EXPECT().Unlock(ctx, mustParse(testTagIRI)),
+			// after hasInboxForwardingValues
+			fp.EXPECT().FilterForwarding(
+				ctx,
+				[]*url.URL{
+					mustParse(testAudienceIRI),
+					mustParse(testAudienceIRI2),
+				},
+				input,
+			).Return(
+				[]*url.URL{
+					mustParse(testAudienceIRI),
+				},
+				nil,
+			),
+			// deliverToRecipients
+			cm.EXPECT().NewTransport(ctx, mustParse(testMyInboxIRI), goFedUserAgent()).Return(tPort, nil),
+			tPort.EXPECT().BatchDeliver(
+				ctx,
+				mustSerializeToBytes(input),
+				[]*url.URL{
+					mustParse(testFederatedActorIRI3),
+					mustParse(testFederatedActorIRI4),
+				},
+			),
+			// Deferred
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI2)),
+			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI)),
+		)
+		// Run
+		err := a.InboxForwarding(ctx, mustParse(testMyInboxIRI), input)
+		// Verify
+		assertEqual(t, err, nil)
 	})
 	t.Run("ForwardsToRecipientsIfChainIsNested", func(t *testing.T) {
+		t.Errorf("Not yet implemented.")
+	})
+	t.Run("ForwardsToRecipientsAfterDereferencing", func(t *testing.T) {
 		t.Errorf("Not yet implemented.")
 	})
 	t.Run("DoesNotForwardIfChainIsNestedTooDeep", func(t *testing.T) {
