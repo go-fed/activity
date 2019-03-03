@@ -27,6 +27,7 @@ const (
 	testNoteId1               = "https://example.com/note/1"
 	testNoteId2               = "https://example.com/note/2"
 	testNewActivityIRI        = "https://example.com/new/1"
+	testNewActivityIRI2       = "https://example.com/new/2"
 	testToIRI                 = "https://maybe.example.com/to/1"
 	testToIRI2                = "https://maybe.example.com/to/2"
 	testCcIRI                 = "https://maybe.example.com/cc/1"
@@ -78,6 +79,8 @@ var (
 	testFederatedNote vocab.ActivityStreamsNote
 	// testNote is a test Note owned by this server.
 	testMyNote vocab.ActivityStreamsNote
+	// testMyCreate is a test Create Activity.
+	testMyCreate vocab.ActivityStreamsCreate
 	// testCreate is a test Create Activity.
 	testCreate vocab.ActivityStreamsCreate
 	// testCreate2 is a test Create Activity with two actors.
@@ -97,8 +100,16 @@ var (
 	testOrderedCollectionDedupedElemsString string
 	// testEmptyOrderedCollection is an empty OrderedCollectionPage.
 	testEmptyOrderedCollection vocab.ActivityStreamsOrderedCollectionPage
+	// testOrderedCollectionWithNewId has the new id
+	testOrderedCollectionWithNewId vocab.ActivityStreamsOrderedCollectionPage
+	// testOrderedCollectionWithNewId has the second new id
+	testOrderedCollectionWithNewId2 vocab.ActivityStreamsOrderedCollectionPage
+	// testOrderedCollectionWithBothNewIds has both new ids.
+	testOrderedCollectionWithBothNewIds vocab.ActivityStreamsOrderedCollectionPage
 	// testOrderedCollectionWithFederatedId has the federated Activity id.
 	testOrderedCollectionWithFederatedId vocab.ActivityStreamsOrderedCollectionPage
+	// testMyListen is a test Listen C2S Activity.
+	testMyListen vocab.ActivityStreamsListen
 	// testListen is a test Listen Activity.
 	testListen vocab.ActivityStreamsListen
 	// testOrderedCollectionWithFederatedId2 has the second federated
@@ -144,6 +155,19 @@ func setupData() {
 		content := streams.NewActivityStreamsContentProperty()
 		content.AppendXMLSchemaString("This is a simple note of mine.")
 		testMyNote.SetActivityStreamsContent(content)
+		id := streams.NewActivityStreamsIdProperty()
+		id.Set(mustParse(testNoteId1))
+		testMyNote.SetActivityStreamsId(id)
+	}()
+	// testMyCreate
+	func() {
+		testMyCreate = streams.NewActivityStreamsCreate()
+		id := streams.NewActivityStreamsIdProperty()
+		id.Set(mustParse(testNewActivityIRI))
+		testMyCreate.SetActivityStreamsId(id)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(testMyNote)
+		testMyCreate.SetActivityStreamsObject(op)
 	}()
 	// testCreate
 	func() {
@@ -206,12 +230,44 @@ func setupData() {
 	func() {
 		testEmptyOrderedCollection = streams.NewActivityStreamsOrderedCollectionPage()
 	}()
+	// testOrderedCollectionWithNewId
+	func() {
+		testOrderedCollectionWithNewId = streams.NewActivityStreamsOrderedCollectionPage()
+		oi := streams.NewActivityStreamsOrderedItemsProperty()
+		oi.AppendIRI(mustParse(testNewActivityIRI))
+		testOrderedCollectionWithNewId.SetActivityStreamsOrderedItems(oi)
+	}()
+	// testOrderedCollectionWithNewId2
+	func() {
+		testOrderedCollectionWithNewId2 = streams.NewActivityStreamsOrderedCollectionPage()
+		oi := streams.NewActivityStreamsOrderedItemsProperty()
+		oi.AppendIRI(mustParse(testNewActivityIRI2))
+		testOrderedCollectionWithNewId2.SetActivityStreamsOrderedItems(oi)
+	}()
+	// testOrderedCollectionWithBothNewIds
+	func() {
+		testOrderedCollectionWithBothNewIds = streams.NewActivityStreamsOrderedCollectionPage()
+		oi := streams.NewActivityStreamsOrderedItemsProperty()
+		oi.AppendIRI(mustParse(testNewActivityIRI))
+		oi.AppendIRI(mustParse(testNewActivityIRI2))
+		testOrderedCollectionWithBothNewIds.SetActivityStreamsOrderedItems(oi)
+	}()
 	// testOrderedCollectionWithFederatedId
 	func() {
 		testOrderedCollectionWithFederatedId = streams.NewActivityStreamsOrderedCollectionPage()
 		oi := streams.NewActivityStreamsOrderedItemsProperty()
 		oi.AppendIRI(mustParse(testFederatedActivityIRI))
 		testOrderedCollectionWithFederatedId.SetActivityStreamsOrderedItems(oi)
+	}()
+	// testMyListen
+	func() {
+		testMyListen = streams.NewActivityStreamsListen()
+		id := streams.NewActivityStreamsIdProperty()
+		id.Set(mustParse(testNewActivityIRI))
+		testMyListen.SetActivityStreamsId(id)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(testMyNote)
+		testMyListen.SetActivityStreamsObject(op)
 	}()
 	// testListen
 	func() {

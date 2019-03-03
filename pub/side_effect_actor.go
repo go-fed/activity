@@ -306,7 +306,8 @@ func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outbo
 	wrapped.rawActivity = rawJSON
 	wrapped.clock = a.clock
 	wrapped.newTransport = a.common.NewTransport
-	wrapped.deliverable = &deliverable
+	undeliverable := false
+	wrapped.undeliverable = &undeliverable
 	var res *streams.TypeResolver
 	res, err = streams.NewTypeResolver(wrapped.callbacks(other)...)
 	if err != nil {
@@ -320,6 +321,8 @@ func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outbo
 		if err != nil {
 			return
 		}
+	} else {
+		deliverable = !undeliverable
 	}
 	err = a.addToOutbox(c, outboxIRI, activity)
 	return

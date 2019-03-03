@@ -830,20 +830,159 @@ func TestInboxForwarding(t *testing.T) {
 // TestPostOutbox ensures that the main application side effects of receiving a
 // social protocol message occur.
 func TestPostOutbox(t *testing.T) {
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (c *MockCommonBehavior, fp *MockFederatingProtocol, sp *MockSocialProtocol, db *MockDatabase, cl *MockClock, a DelegateActor) {
+		setupData()
+		c = NewMockCommonBehavior(ctl)
+		fp = NewMockFederatingProtocol(ctl)
+		sp = NewMockSocialProtocol(ctl)
+		db = NewMockDatabase(ctl)
+		cl = NewMockClock(ctl)
+		a = &sideEffectActor{
+			common: c,
+			s2s:    fp,
+			c2s:    sp,
+			db:     db,
+			clock:  cl,
+		}
+		return
+	}
 	t.Run("AddsToEmptyOutbox", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, sp, db, _, a := setupFn(ctl)
+		outboxIRI := mustParse(testMyOutboxIRI)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testNewActivityIRI)),
+			db.EXPECT().Create(ctx, testMyListen),
+			db.EXPECT().Unlock(ctx, mustParse(testNewActivityIRI)),
+			db.EXPECT().Lock(ctx, outboxIRI),
+			db.EXPECT().GetOutbox(ctx, outboxIRI).Return(testEmptyOrderedCollection, nil),
+			db.EXPECT().SetOutbox(ctx, testOrderedCollectionWithNewId).Return(nil),
+			db.EXPECT().Unlock(ctx, outboxIRI),
+		)
+		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, nil)
+		sp.EXPECT().DefaultCallback(ctx, testMyListen).Return(nil)
+		// Run
+		deliverable, err := a.PostOutbox(ctx, testMyListen, outboxIRI, mustSerialize(testMyListen))
+		// Verify
+		assertEqual(t, err, nil)
+		assertEqual(t, deliverable, true)
 	})
 	t.Run("AddsToOutbox", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, sp, db, _, a := setupFn(ctl)
+		outboxIRI := mustParse(testMyOutboxIRI)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testNewActivityIRI)),
+			db.EXPECT().Create(ctx, testMyListen),
+			db.EXPECT().Unlock(ctx, mustParse(testNewActivityIRI)),
+			db.EXPECT().Lock(ctx, outboxIRI),
+			db.EXPECT().GetOutbox(ctx, outboxIRI).Return(testOrderedCollectionWithNewId2, nil),
+			db.EXPECT().SetOutbox(ctx, testOrderedCollectionWithBothNewIds).Return(nil),
+			db.EXPECT().Unlock(ctx, outboxIRI),
+		)
+		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, nil)
+		sp.EXPECT().DefaultCallback(ctx, testMyListen).Return(nil)
+		// Run
+		deliverable, err := a.PostOutbox(ctx, testMyListen, outboxIRI, mustSerialize(testMyListen))
+		// Verify
+		assertEqual(t, err, nil)
+		assertEqual(t, deliverable, true)
 	})
 	t.Run("ResolvesToCustomFunction", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, sp, db, _, a := setupFn(ctl)
+		outboxIRI := mustParse(testMyOutboxIRI)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testNewActivityIRI)),
+			db.EXPECT().Create(ctx, testMyListen),
+			db.EXPECT().Unlock(ctx, mustParse(testNewActivityIRI)),
+			db.EXPECT().Lock(ctx, outboxIRI),
+			db.EXPECT().GetOutbox(ctx, outboxIRI).Return(testEmptyOrderedCollection, nil),
+			db.EXPECT().SetOutbox(ctx, testOrderedCollectionWithNewId).Return(nil),
+			db.EXPECT().Unlock(ctx, outboxIRI),
+		)
+		pass := false
+		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, []interface{}{
+			func(c context.Context, a vocab.ActivityStreamsListen) error {
+				pass = true
+				return nil
+			},
+		})
+		// Run
+		deliverable, err := a.PostOutbox(ctx, testMyListen, outboxIRI, mustSerialize(testMyListen))
+		// Verify
+		assertEqual(t, err, nil)
+		assertEqual(t, deliverable, true)
+		assertEqual(t, pass, true)
 	})
 	t.Run("ResolvesToOverriddenFunction", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, sp, db, _, a := setupFn(ctl)
+		outboxIRI := mustParse(testMyOutboxIRI)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testNewActivityIRI)),
+			db.EXPECT().Create(ctx, testMyCreate),
+			db.EXPECT().Unlock(ctx, mustParse(testNewActivityIRI)),
+			db.EXPECT().Lock(ctx, outboxIRI),
+			db.EXPECT().GetOutbox(ctx, outboxIRI).Return(testEmptyOrderedCollection, nil),
+			db.EXPECT().SetOutbox(ctx, testOrderedCollectionWithNewId).Return(nil),
+			db.EXPECT().Unlock(ctx, outboxIRI),
+		)
+		pass := false
+		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, []interface{}{
+			func(c context.Context, a vocab.ActivityStreamsCreate) error {
+				pass = true
+				return nil
+			},
+		})
+		// Run
+		deliverable, err := a.PostOutbox(ctx, testMyCreate, outboxIRI, mustSerialize(testMyCreate))
+		// Verify
+		assertEqual(t, err, nil)
+		assertEqual(t, deliverable, true)
+		assertEqual(t, pass, true)
 	})
 	t.Run("ResolvesToDefaultFunction", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, sp, db, _, a := setupFn(ctl)
+		outboxIRI := mustParse(testMyInboxIRI)
+		gomock.InOrder(
+			db.EXPECT().Lock(ctx, mustParse(testNewActivityIRI)),
+			db.EXPECT().Create(ctx, testMyCreate),
+			db.EXPECT().Unlock(ctx, mustParse(testNewActivityIRI)),
+			db.EXPECT().Lock(ctx, outboxIRI),
+			db.EXPECT().GetOutbox(ctx, outboxIRI).Return(testEmptyOrderedCollection, nil),
+			db.EXPECT().SetOutbox(ctx, testOrderedCollectionWithNewId).Return(nil),
+			db.EXPECT().Unlock(ctx, outboxIRI),
+		)
+		pass := false
+		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{
+			Create: func(c context.Context, a vocab.ActivityStreamsCreate) error {
+				pass = true
+				return nil
+			},
+		}, nil)
+		db.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		db.EXPECT().Create(ctx, testMyNote)
+		db.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		// Run
+		deliverable, err := a.PostOutbox(ctx, testMyCreate, outboxIRI, mustSerialize(testMyCreate))
+		// Verify
+		// Verify
+		assertEqual(t, err, nil)
+		assertEqual(t, deliverable, true)
+		assertEqual(t, pass, true)
 	})
 }
 

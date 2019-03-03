@@ -573,12 +573,13 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 	objsBcc := make([]map[string]*url.URL, o.Len())
 	objsAudience := make([]map[string]*url.URL, o.Len())
 	for i := 0; i < o.Len(); i++ {
+		iter := o.At(i)
 		// Phase 1: Acquire all existing recipients on the object.
 		//
 		// Object to
 		objsTo[i] = make(map[string]*url.URL)
 		var oTo vocab.ActivityStreamsToProperty
-		if tr, ok := o.At(i).(toer); !ok {
+		if tr, ok := iter.GetType().(toer); !ok {
 			return fmt.Errorf("the Create object at %d has no 'to' property", i)
 		} else {
 			oTo = tr.GetActivityStreamsTo()
@@ -597,7 +598,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 		// Object bto
 		objsBto[i] = make(map[string]*url.URL)
 		var oBto vocab.ActivityStreamsBtoProperty
-		if tr, ok := o.At(i).(btoer); !ok {
+		if tr, ok := iter.GetType().(btoer); !ok {
 			return fmt.Errorf("the Create object at %d has no 'bto' property", i)
 		} else {
 			oBto = tr.GetActivityStreamsBto()
@@ -616,7 +617,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 		// Object cc
 		objsCc[i] = make(map[string]*url.URL)
 		var oCc vocab.ActivityStreamsCcProperty
-		if tr, ok := o.At(i).(ccer); !ok {
+		if tr, ok := iter.GetType().(ccer); !ok {
 			return fmt.Errorf("the Create object at %d has no 'cc' property", i)
 		} else {
 			oCc = tr.GetActivityStreamsCc()
@@ -635,7 +636,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 		// Object bcc
 		objsBcc[i] = make(map[string]*url.URL)
 		var oBcc vocab.ActivityStreamsBccProperty
-		if tr, ok := o.At(i).(bccer); !ok {
+		if tr, ok := iter.GetType().(bccer); !ok {
 			return fmt.Errorf("the Create object at %d has no 'bcc' property", i)
 		} else {
 			oBcc = tr.GetActivityStreamsBcc()
@@ -654,7 +655,7 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 		// Object audience
 		objsAudience[i] = make(map[string]*url.URL)
 		var oAudience vocab.ActivityStreamsAudienceProperty
-		if tr, ok := o.At(i).(audiencer); !ok {
+		if tr, ok := iter.GetType().(audiencer); !ok {
 			return fmt.Errorf("the Create object at %d has no 'audience' property", i)
 		} else {
 			oAudience = tr.GetActivityStreamsAudience()

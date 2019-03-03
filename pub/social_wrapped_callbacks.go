@@ -99,9 +99,12 @@ type SocialWrappedCallbacks struct {
 	clock Clock
 	// newTransport creates a new Transport.
 	newTransport func(c context.Context, actorBoxIRI *url.URL, gofedAgent string) (t Transport, err error)
-	// deliverable is a sidechannel out, indicating if the handled activity
-	// should be delivered to a peer.
-	deliverable *bool
+	// undeliverable is a sidechannel out, indicating if the handled activity
+	// should not be delivered to a peer.
+	//
+	// Its provided default value will always be used when a custom function
+	// is called.
+	undeliverable *bool
 }
 
 // callbacks returns the WrappedCallbacks members into a single interface slice
@@ -175,20 +178,23 @@ func (w SocialWrappedCallbacks) callbacks(fns []interface{}) []interface{} {
 
 // create implements the social Create activity side effects.
 func (w SocialWrappedCallbacks) create(c context.Context, a vocab.ActivityStreamsCreate) error {
-	*w.deliverable = true
+	*w.undeliverable = false
 	op := a.GetActivityStreamsObject()
 	if op == nil || op.Len() == 0 {
 		return ErrObjectRequired
 	}
 	// Obtain all actor IRIs.
 	actors := a.GetActivityStreamsActor()
-	createActorIds := make(map[string]*url.URL, actors.Len())
-	for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
-		id, err := ToId(iter)
-		if err != nil {
-			return err
+	createActorIds := make(map[string]*url.URL, 0)
+	if actors != nil {
+		createActorIds = make(map[string]*url.URL, actors.Len())
+		for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
+			id, err := ToId(iter)
+			if err != nil {
+				return err
+			}
+			createActorIds[id.String()] = id
 		}
-		createActorIds[id.String()] = id
 	}
 	// Obtain each object's 'attributedTo' IRIs.
 	objectAttributedToIds := make([]map[string]*url.URL, op.Len())
@@ -274,7 +280,7 @@ func (w SocialWrappedCallbacks) create(c context.Context, a vocab.ActivityStream
 
 // update implements the social Update activity side effects.
 func (w SocialWrappedCallbacks) update(c context.Context, a vocab.ActivityStreamsUpdate) error {
-	*w.deliverable = true
+	*w.undeliverable = false
 	op := a.GetActivityStreamsObject()
 	if op == nil || op.Len() == 0 {
 		return ErrObjectRequired
@@ -344,7 +350,7 @@ func (w SocialWrappedCallbacks) update(c context.Context, a vocab.ActivityStream
 
 // deleteFn implements the social Delete activity side effects.
 func (w SocialWrappedCallbacks) deleteFn(c context.Context, a vocab.ActivityStreamsDelete) error {
-	*w.deliverable = true
+	*w.undeliverable = false
 	op := a.GetActivityStreamsObject()
 	if op == nil || op.Len() == 0 {
 		return ErrObjectRequired
@@ -389,7 +395,7 @@ func (w SocialWrappedCallbacks) deleteFn(c context.Context, a vocab.ActivityStre
 
 // follow implements the social Follow activity side effects.
 func (w SocialWrappedCallbacks) follow(c context.Context, a vocab.ActivityStreamsFollow) error {
-	*w.deliverable = true
+	*w.undeliverable = false
 	op := a.GetActivityStreamsObject()
 	if op == nil || op.Len() == 0 {
 		return ErrObjectRequired
@@ -402,7 +408,7 @@ func (w SocialWrappedCallbacks) follow(c context.Context, a vocab.ActivityStream
 
 // add implements the social Add activity side effects.
 func (w SocialWrappedCallbacks) add(c context.Context, a vocab.ActivityStreamsAdd) error {
-	*w.deliverable = true
+	*w.undeliverable = false
 	op := a.GetActivityStreamsObject()
 	if op == nil || op.Len() == 0 {
 		return ErrObjectRequired
@@ -422,7 +428,7 @@ func (w SocialWrappedCallbacks) add(c context.Context, a vocab.ActivityStreamsAd
 
 // remove implements the social Remove activity side effects.
 func (w SocialWrappedCallbacks) remove(c context.Context, a vocab.ActivityStreamsRemove) error {
-	*w.deliverable = true
+	*w.undeliverable = false
 	op := a.GetActivityStreamsObject()
 	if op == nil || op.Len() == 0 {
 		return ErrObjectRequired
@@ -442,7 +448,7 @@ func (w SocialWrappedCallbacks) remove(c context.Context, a vocab.ActivityStream
 
 // like implements the social Like activity side effects.
 func (w SocialWrappedCallbacks) like(c context.Context, a vocab.ActivityStreamsLike) error {
-	*w.deliverable = true
+	*w.undeliverable = false
 	op := a.GetActivityStreamsObject()
 	if op == nil || op.Len() == 0 {
 		return ErrObjectRequired
@@ -493,7 +499,7 @@ func (w SocialWrappedCallbacks) like(c context.Context, a vocab.ActivityStreamsL
 
 // undo implements the social Undo activity side effects.
 func (w SocialWrappedCallbacks) undo(c context.Context, a vocab.ActivityStreamsUndo) error {
-	*w.deliverable = true
+	*w.undeliverable = false
 	op := a.GetActivityStreamsObject()
 	if op == nil || op.Len() == 0 {
 		return ErrObjectRequired
@@ -510,7 +516,7 @@ func (w SocialWrappedCallbacks) undo(c context.Context, a vocab.ActivityStreamsU
 
 // block implements the social Block activity side effects.
 func (w SocialWrappedCallbacks) block(c context.Context, a vocab.ActivityStreamsBlock) error {
-	*w.deliverable = false
+	*w.undeliverable = true
 	op := a.GetActivityStreamsObject()
 	if op == nil || op.Len() == 0 {
 		return ErrObjectRequired
