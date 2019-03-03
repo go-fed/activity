@@ -37,6 +37,8 @@ const (
 	testServiceIRI            = "https://maybe.example.com/service"
 	testTagIRI                = "https://example.com/tag/1"
 	testTagIRI2               = "https://example.com/tag/2"
+	inReplyToIRI              = "https://example.com/inReplyTo/1"
+	inReplyToIRI2             = "https://example.com/inReplyTo/2"
 )
 
 // mustParse parses a URL or panics.
@@ -112,6 +114,8 @@ var (
 	testCollectionOfActors vocab.ActivityStreamsCollectionPage
 	// testOrderedCollectionOfActors is an ordered collection of actors.
 	testOrderedCollectionOfActors vocab.ActivityStreamsOrderedCollectionPage
+	// testNestedInReplyTo is an Activity with an 'object' with an 'inReplyTo'
+	testNestedInReplyTo vocab.ActivityStreamsListen
 )
 
 // The test data cannot be created at init time since that is when the hooks of
@@ -266,6 +270,35 @@ func setupData() {
 		oi.AppendIRI(mustParse(testFederatedActorIRI3))
 		oi.AppendIRI(mustParse(testFederatedActorIRI4))
 		testOrderedCollectionOfActors.SetActivityStreamsOrderedItems(oi)
+	}()
+	// testNestedInReplyTo
+	func() {
+		testNestedInReplyTo = streams.NewActivityStreamsListen()
+		id := streams.NewActivityStreamsIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		testNestedInReplyTo.SetActivityStreamsId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		testNestedInReplyTo.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		// Note
+		note := streams.NewActivityStreamsNote()
+		name := streams.NewActivityStreamsNameProperty()
+		name.AppendXMLSchemaString("A Federated Note")
+		note.SetActivityStreamsName(name)
+		content := streams.NewActivityStreamsContentProperty()
+		content.AppendXMLSchemaString("This is a simple note being federated.")
+		note.SetActivityStreamsContent(content)
+		noteId := streams.NewActivityStreamsIdProperty()
+		noteId.Set(mustParse(testNoteId1))
+		note.SetActivityStreamsId(noteId)
+		irt := streams.NewActivityStreamsInReplyToProperty()
+		irt.AppendIRI(mustParse(inReplyToIRI))
+		irt.AppendIRI(mustParse(inReplyToIRI2))
+		note.SetActivityStreamsInReplyTo(irt)
+		// Listen
+		op.AppendActivityStreamsNote(note)
+		testNestedInReplyTo.SetActivityStreamsObject(op)
 	}()
 }
 
@@ -479,6 +512,24 @@ func mustAddTagIds(t Activity) Activity {
 	return t
 }
 
+// setInReplyToer is an ActivityStreams type with a 'inReplyTo' property
+type setInReplyToer interface {
+	SetActivityStreamsInReplyTo(vocab.ActivityStreamsInReplyToProperty)
+}
+
+// mustAddInReplyToIds adds two IRIs to the 'inReplyTo' property
+func mustAddInReplyToIds(t Activity) Activity {
+	if st, ok := t.(setInReplyToer); ok {
+		irt := streams.NewActivityStreamsInReplyToProperty()
+		irt.AppendIRI(mustParse(inReplyToIRI))
+		irt.AppendIRI(mustParse(inReplyToIRI2))
+		st.SetActivityStreamsInReplyTo(irt)
+	} else {
+		panic(fmt.Sprintf("activity is not setInReplyToer: %T", t))
+	}
+	return t
+}
+
 // newObjectWithId creates a generic object with a given id.
 func newObjectWithId(id string) vocab.ActivityStreamsObject {
 	obj := streams.NewActivityStreamsObject()
@@ -486,4 +537,13 @@ func newObjectWithId(id string) vocab.ActivityStreamsObject {
 	i.Set(mustParse(id))
 	obj.SetActivityStreamsId(i)
 	return obj
+}
+
+// newActivityWithId creates a generic Activity with a given id.
+func newActivityWithId(id string) vocab.ActivityStreamsActivity {
+	a := streams.NewActivityStreamsActivity()
+	i := streams.NewActivityStreamsIdProperty()
+	i.Set(mustParse(id))
+	a.SetActivityStreamsId(i)
+	return a
 }
