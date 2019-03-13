@@ -989,14 +989,88 @@ func TestPostOutbox(t *testing.T) {
 // TestAddNewIds ensures that new 'id' properties are set on an activity and all
 // of its 'object' property values if it is a Create activity.
 func TestAddNewIds(t *testing.T) {
-	t.Run("AddsIdToActivity", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (c *MockCommonBehavior, fp *MockFederatingProtocol, sp *MockSocialProtocol, db *MockDatabase, cl *MockClock, a DelegateActor) {
+		setupData()
+		c = NewMockCommonBehavior(ctl)
+		fp = NewMockFederatingProtocol(ctl)
+		sp = NewMockSocialProtocol(ctl)
+		db = NewMockDatabase(ctl)
+		cl = NewMockClock(ctl)
+		a = &sideEffectActor{
+			common: c,
+			s2s:    fp,
+			c2s:    sp,
+			db:     db,
+			clock:  cl,
+		}
+		return
+	}
+	t.Run("AddsIdToActivityWithoutId", func(t *testing.T) {
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, db, _, a := setupFn(ctl)
+		db.EXPECT().NewId(ctx, testMyListenNoId).Return(mustParse(testNewActivityIRI2), nil)
+		// Run
+		err := a.AddNewIds(ctx, testMyListenNoId)
+		// Verify
+		assertEqual(t, err, nil)
+		resultId := testMyListenNoId.GetActivityStreamsId()
+		assertNotEqual(t, resultId, nil)
+		assertEqual(t, resultId.Get().String(), mustParse(testNewActivityIRI2).String())
+	})
+	t.Run("AddsIdToActivityWithId", func(t *testing.T) {
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, db, _, a := setupFn(ctl)
+		db.EXPECT().NewId(ctx, testMyListen).Return(mustParse(testNewActivityIRI2), nil)
+		// Run
+		err := a.AddNewIds(ctx, testMyListen)
+		// Verify
+		assertEqual(t, err, nil)
+		resultId := testMyListen.GetActivityStreamsId()
+		assertNotEqual(t, resultId, nil)
+		assertEqual(t, resultId.Get().String(), mustParse(testNewActivityIRI2).String())
 	})
 	t.Run("AddsIdsToObjectsIfCreateActivity", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, db, _, a := setupFn(ctl)
+		db.EXPECT().NewId(ctx, testMyCreate).Return(mustParse(testNewActivityIRI2), nil)
+		db.EXPECT().NewId(ctx, testMyNote).Return(mustParse(testNewActivityIRI3), nil)
+		// Run
+		err := a.AddNewIds(ctx, testMyCreate)
+		// Verify
+		assertEqual(t, err, nil)
+		op := testMyCreate.GetActivityStreamsObject()
+		assertNotEqual(t, op, nil)
+		assertEqual(t, op.Len(), 1)
+		n := op.At(0).GetActivityStreamsNote()
+		assertNotEqual(t, n, nil)
+		noteId := n.GetActivityStreamsId()
+		assertNotEqual(t, noteId, nil)
+		assertEqual(t, noteId.Get().String(), mustParse(testNewActivityIRI3).String())
 	})
 	t.Run("DoesNotAddIdsToObjectsIfNotCreateActivity", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, db, _, a := setupFn(ctl)
+		db.EXPECT().NewId(ctx, testMyListenNoId).Return(mustParse(testNewActivityIRI2), nil)
+		// Run
+		err := a.AddNewIds(ctx, testMyListenNoId)
+		// Verify
+		assertEqual(t, err, nil)
+		op := testMyListenNoId.GetActivityStreamsObject()
+		assertNotEqual(t, op, nil)
+		assertEqual(t, op.Len(), 1)
+		n := op.At(0).GetActivityStreamsNote()
+		assertNotEqual(t, n, nil)
+		noteId := n.GetActivityStreamsId()
+		assertEqual(t, noteId, nil)
 	})
 }
 

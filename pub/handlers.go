@@ -88,7 +88,7 @@ func NewActivityStreamsHandler(authFn AuthenticateFunc, db Database, clock Clock
 		// Construct the response.
 		addResponseHeaders(w.Header(), clock, raw)
 		// Write the response.
-		if streams.ActivityStreamsTombstoneIsExtendedBy(t) {
+		if streams.IsOrExtendsActivityStreamsTombstone(t) {
 			w.WriteHeader(http.StatusGone)
 		} else {
 			w.WriteHeader(http.StatusOK)

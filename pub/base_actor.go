@@ -312,7 +312,7 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	}
 	// If the value is not an Activity or type extending from Activity, then
 	// we need to wrap it in a Create Activity.
-	if !IsAnActivityType(asValue) {
+	if !streams.IsOrExtendsActivityStreamsActivity(asValue) {
 		asValue, err = b.delegate.WrapInCreate(c, asValue, r.URL)
 		if err != nil {
 			return true, err

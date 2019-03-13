@@ -225,14 +225,14 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 		if err != nil {
 			return err
 		}
-		if streams.ActivityStreamsOrderedCollectionIsExtendedBy(t) {
+		if streams.IsOrExtendsActivityStreamsOrderedCollection(t) {
 			if im, ok := t.(orderedItemser); ok {
 				oCol[iri.String()] = im
 				colIRIs = append(colIRIs, iri)
 			} else {
 				a.db.Unlock(c, iri)
 			}
-		} else if streams.ActivityStreamsCollectionIsExtendedBy(t) {
+		} else if streams.IsOrExtendsActivityStreamsCollection(t) {
 			if im, ok := t.(itemser); ok {
 				col[iri.String()] = im
 				colIRIs = append(colIRIs, iri)
@@ -338,7 +338,7 @@ func (a *sideEffectActor) AddNewIds(c context.Context, activity Activity) error 
 	activityId := streams.NewActivityStreamsIdProperty()
 	activityId.Set(id)
 	activity.SetActivityStreamsId(activityId)
-	if streams.ActivityStreamsCreateIsExtendedBy(activity) {
+	if streams.IsOrExtendsActivityStreamsCreate(activity) {
 		o, ok := activity.(objecter)
 		if !ok {
 			return fmt.Errorf("cannot add new id for Create: %T has no object property", activity)

@@ -28,6 +28,7 @@ const (
 	testNoteId2               = "https://example.com/note/2"
 	testNewActivityIRI        = "https://example.com/new/1"
 	testNewActivityIRI2       = "https://example.com/new/2"
+	testNewActivityIRI3       = "https://example.com/new/3"
 	testToIRI                 = "https://maybe.example.com/to/1"
 	testToIRI2                = "https://maybe.example.com/to/2"
 	testCcIRI                 = "https://maybe.example.com/cc/1"
@@ -77,8 +78,10 @@ var (
 	testErr = errors.New("test error")
 	// testNote is a test Note from a federated peer.
 	testFederatedNote vocab.ActivityStreamsNote
-	// testNote is a test Note owned by this server.
+	// testMyNote is a test Note owned by this server.
 	testMyNote vocab.ActivityStreamsNote
+	// testMyNoteNoId is a test Note owned by this server.
+	testMyNoteNoId vocab.ActivityStreamsNote
 	// testMyCreate is a test Create Activity.
 	testMyCreate vocab.ActivityStreamsCreate
 	// testCreate is a test Create Activity.
@@ -110,6 +113,8 @@ var (
 	testOrderedCollectionWithFederatedId vocab.ActivityStreamsOrderedCollectionPage
 	// testMyListen is a test Listen C2S Activity.
 	testMyListen vocab.ActivityStreamsListen
+	// testMyListenNoId is a test Listen C2S Activity without an id.
+	testMyListenNoId vocab.ActivityStreamsListen
 	// testListen is a test Listen Activity.
 	testListen vocab.ActivityStreamsListen
 	// testOrderedCollectionWithFederatedId2 has the second federated
@@ -158,6 +163,16 @@ func setupData() {
 		id := streams.NewActivityStreamsIdProperty()
 		id.Set(mustParse(testNoteId1))
 		testMyNote.SetActivityStreamsId(id)
+	}()
+	// testMyNoteNoId
+	func() {
+		testMyNoteNoId = streams.NewActivityStreamsNote()
+		name := streams.NewActivityStreamsNameProperty()
+		name.AppendXMLSchemaString("My Note")
+		testMyNoteNoId.SetActivityStreamsName(name)
+		content := streams.NewActivityStreamsContentProperty()
+		content.AppendXMLSchemaString("This is a simple note of mine.")
+		testMyNoteNoId.SetActivityStreamsContent(content)
 	}()
 	// testMyCreate
 	func() {
@@ -268,6 +283,13 @@ func setupData() {
 		op := streams.NewActivityStreamsObjectProperty()
 		op.AppendActivityStreamsNote(testMyNote)
 		testMyListen.SetActivityStreamsObject(op)
+	}()
+	// testMyListenNoId
+	func() {
+		testMyListenNoId = streams.NewActivityStreamsListen()
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(testMyNoteNoId)
+		testMyListenNoId.SetActivityStreamsObject(op)
 	}()
 	// testListen
 	func() {

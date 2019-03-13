@@ -515,7 +515,7 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 				return fmt.Errorf("cannot handle federated create: object is neither a value nor IRI")
 			}
 			// Ensure it is a Follow.
-			if !streams.ActivityStreamsFollowIsExtendedBy(t) {
+			if !streams.IsOrExtendsActivityStreamsFollow(t) {
 				continue
 			}
 			follow, ok := t.(Activity)
@@ -567,7 +567,7 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 				if err != nil {
 					return err
 				}
-				if !streams.ActivityStreamsFollowIsExtendedBy(t) {
+				if !streams.IsOrExtendsActivityStreamsFollow(t) {
 					return fmt.Errorf("peer gave an Accept wrapping a Follow but provided a non-Follow id")
 				}
 				follow, ok := t.(Activity)

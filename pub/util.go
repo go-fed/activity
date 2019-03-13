@@ -16,12 +16,6 @@ import (
 	"time"
 )
 
-// IsAnActivityType returns true if the ActivityStreams value is an Activity or
-// extends from the Activity type.
-func IsAnActivityType(value vocab.Type) bool {
-	return value.GetTypeName() == streams.ActivityStreamsActivityName || streams.ActivityStreamsActivityIsExtendedBy(value)
-}
-
 var (
 	// ErrObjectRequired indicates the activity needs its object property
 	// set. Can be returned by DelegateActor's PostInbox or PostOutbox so a
@@ -875,7 +869,7 @@ func add(c context.Context,
 		if err != nil {
 			return err
 		}
-		if streams.ActivityStreamsOrderedCollectionIsExtendedBy(tp) {
+		if streams.IsOrExtendsActivityStreamsOrderedCollection(tp) {
 			oi, ok := tp.(orderedItemser)
 			if !ok {
 				return fmt.Errorf("type extending from OrderedCollection cannot convert to orderedItemser interface")
@@ -888,7 +882,7 @@ func add(c context.Context,
 			for _, objId := range opIds {
 				oiProp.AppendIRI(objId)
 			}
-		} else if streams.ActivityStreamsCollectionIsExtendedBy(tp) {
+		} else if streams.IsOrExtendsActivityStreamsCollection(tp) {
 			i, ok := tp.(itemser)
 			if !ok {
 				return fmt.Errorf("type extending from Collection cannot convert to itemser interface")
@@ -956,7 +950,7 @@ func remove(c context.Context,
 		if err != nil {
 			return err
 		}
-		if streams.ActivityStreamsOrderedCollectionIsExtendedBy(tp) {
+		if streams.IsOrExtendsActivityStreamsOrderedCollection(tp) {
 			oi, ok := tp.(orderedItemser)
 			if !ok {
 				return fmt.Errorf("type extending from OrderedCollection cannot convert to orderedItemser interface")
@@ -975,7 +969,7 @@ func remove(c context.Context,
 					}
 				}
 			}
-		} else if streams.ActivityStreamsCollectionIsExtendedBy(tp) {
+		} else if streams.IsOrExtendsActivityStreamsCollection(tp) {
 			i, ok := tp.(itemser)
 			if !ok {
 				return fmt.Errorf("type extending from Collection cannot convert to itemser interface")
