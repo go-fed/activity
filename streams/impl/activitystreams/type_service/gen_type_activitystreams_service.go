@@ -401,6 +401,15 @@ func DeserializeService(m map[string]interface{}, aliasMap map[string]string) (*
 	return this, nil
 }
 
+// IsOrExtendsService returns true if the other provided type is the Service type
+// or extends from the Service type.
+func IsOrExtendsService(other vocab.Type) bool {
+	if other.GetTypeName() == "Service" {
+		return true
+	}
+	return this.ServiceIsExtendedBy(other)
+}
+
 // NewActivityStreamsService creates a new Service type
 func NewActivityStreamsService() *ActivityStreamsService {
 	typeProp := typePropertyConstructor()
@@ -425,7 +434,8 @@ func ServiceIsDisjointWith(other vocab.Type) bool {
 }
 
 // ServiceIsExtendedBy returns true if the other provided type extends from the
-// Service type.
+// Service type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsService" variant instead.
 func ServiceIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

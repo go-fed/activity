@@ -90,7 +90,8 @@ func DeleteIsDisjointWith(other vocab.Type) bool {
 }
 
 // DeleteIsExtendedBy returns true if the other provided type extends from the
-// Delete type.
+// Delete type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsDelete" variant instead.
 func DeleteIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
@@ -410,6 +411,15 @@ func DeserializeDelete(m map[string]interface{}, aliasMap map[string]string) (*A
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsDelete returns true if the other provided type is the Delete type or
+// extends from the Delete type.
+func IsOrExtendsDelete(other vocab.Type) bool {
+	if other.GetTypeName() == "Delete" {
+		return true
+	}
+	return this.DeleteIsExtendedBy(other)
 }
 
 // NewActivityStreamsDelete creates a new Delete type

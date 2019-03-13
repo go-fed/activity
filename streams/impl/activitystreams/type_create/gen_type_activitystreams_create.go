@@ -89,7 +89,8 @@ func CreateIsDisjointWith(other vocab.Type) bool {
 }
 
 // CreateIsExtendedBy returns true if the other provided type extends from the
-// Create type.
+// Create type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsCreate" variant instead.
 func CreateIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
@@ -409,6 +410,15 @@ func DeserializeCreate(m map[string]interface{}, aliasMap map[string]string) (*A
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsCreate returns true if the other provided type is the Create type or
+// extends from the Create type.
+func IsOrExtendsCreate(other vocab.Type) bool {
+	if other.GetTypeName() == "Create" {
+		return true
+	}
+	return this.CreateIsExtendedBy(other)
 }
 
 // NewActivityStreamsCreate creates a new Create type

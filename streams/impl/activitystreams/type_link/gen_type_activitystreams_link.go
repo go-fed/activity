@@ -185,6 +185,15 @@ func DeserializeLink(m map[string]interface{}, aliasMap map[string]string) (*Act
 	return this, nil
 }
 
+// IsOrExtendsLink returns true if the other provided type is the Link type or
+// extends from the Link type.
+func IsOrExtendsLink(other vocab.Type) bool {
+	if other.GetTypeName() == "Link" {
+		return true
+	}
+	return this.LinkIsExtendedBy(other)
+}
+
 // LinkIsDisjointWith returns true if the other provided type is disjoint with the
 // Link type.
 func LinkIsDisjointWith(other vocab.Type) bool {
@@ -198,7 +207,8 @@ func LinkIsDisjointWith(other vocab.Type) bool {
 }
 
 // LinkIsExtendedBy returns true if the other provided type extends from the Link
-// type.
+// type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsLink" variant instead.
 func LinkIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"Mention"}
 	for _, ext := range extensions {

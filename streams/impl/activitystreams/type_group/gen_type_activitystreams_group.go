@@ -414,10 +414,20 @@ func GroupIsDisjointWith(other vocab.Type) bool {
 }
 
 // GroupIsExtendedBy returns true if the other provided type extends from the
-// Group type.
+// Group type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsGroup" variant instead.
 func GroupIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
+}
+
+// IsOrExtendsGroup returns true if the other provided type is the Group type or
+// extends from the Group type.
+func IsOrExtendsGroup(other vocab.Type) bool {
+	if other.GetTypeName() == "Group" {
+		return true
+	}
+	return this.GroupIsExtendedBy(other)
 }
 
 // NewActivityStreamsGroup creates a new Group type

@@ -391,6 +391,15 @@ func DeserializeUpdate(m map[string]interface{}, aliasMap map[string]string) (*A
 	return this, nil
 }
 
+// IsOrExtendsUpdate returns true if the other provided type is the Update type or
+// extends from the Update type.
+func IsOrExtendsUpdate(other vocab.Type) bool {
+	if other.GetTypeName() == "Update" {
+		return true
+	}
+	return this.UpdateIsExtendedBy(other)
+}
+
 // NewActivityStreamsUpdate creates a new Update type
 func NewActivityStreamsUpdate() *ActivityStreamsUpdate {
 	typeProp := typePropertyConstructor()
@@ -415,7 +424,8 @@ func UpdateIsDisjointWith(other vocab.Type) bool {
 }
 
 // UpdateIsExtendedBy returns true if the other provided type extends from the
-// Update type.
+// Update type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsUpdate" variant instead.
 func UpdateIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

@@ -94,7 +94,8 @@ func AnnounceIsDisjointWith(other vocab.Type) bool {
 }
 
 // AnnounceIsExtendedBy returns true if the other provided type extends from the
-// Announce type.
+// Announce type. Note that it returns false if the types are the same; see
+// the "IsOrExtendsAnnounce" variant instead.
 func AnnounceIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
@@ -414,6 +415,15 @@ func DeserializeAnnounce(m map[string]interface{}, aliasMap map[string]string) (
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsAnnounce returns true if the other provided type is the Announce
+// type or extends from the Announce type.
+func IsOrExtendsAnnounce(other vocab.Type) bool {
+	if other.GetTypeName() == "Announce" {
+		return true
+	}
+	return this.AnnounceIsExtendedBy(other)
 }
 
 // NewActivityStreamsAnnounce creates a new Announce type

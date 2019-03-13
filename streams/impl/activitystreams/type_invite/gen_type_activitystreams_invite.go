@@ -415,10 +415,20 @@ func InviteIsDisjointWith(other vocab.Type) bool {
 }
 
 // InviteIsExtendedBy returns true if the other provided type extends from the
-// Invite type.
+// Invite type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsInvite" variant instead.
 func InviteIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
+}
+
+// IsOrExtendsInvite returns true if the other provided type is the Invite type or
+// extends from the Invite type.
+func IsOrExtendsInvite(other vocab.Type) bool {
+	if other.GetTypeName() == "Invite" {
+		return true
+	}
+	return this.InviteIsExtendedBy(other)
 }
 
 // NewActivityStreamsInvite creates a new Invite type

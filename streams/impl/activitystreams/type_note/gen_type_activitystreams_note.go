@@ -345,6 +345,15 @@ func DeserializeNote(m map[string]interface{}, aliasMap map[string]string) (*Act
 	return this, nil
 }
 
+// IsOrExtendsNote returns true if the other provided type is the Note type or
+// extends from the Note type.
+func IsOrExtendsNote(other vocab.Type) bool {
+	if other.GetTypeName() == "Note" {
+		return true
+	}
+	return this.NoteIsExtendedBy(other)
+}
+
 // NewActivityStreamsNote creates a new Note type
 func NewActivityStreamsNote() *ActivityStreamsNote {
 	typeProp := typePropertyConstructor()
@@ -369,7 +378,8 @@ func NoteIsDisjointWith(other vocab.Type) bool {
 }
 
 // NoteIsExtendedBy returns true if the other provided type extends from the Note
-// type.
+// type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsNote" variant instead.
 func NoteIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

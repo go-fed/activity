@@ -388,6 +388,15 @@ func DeserializeRead(m map[string]interface{}, aliasMap map[string]string) (*Act
 	return this, nil
 }
 
+// IsOrExtendsRead returns true if the other provided type is the Read type or
+// extends from the Read type.
+func IsOrExtendsRead(other vocab.Type) bool {
+	if other.GetTypeName() == "Read" {
+		return true
+	}
+	return this.ReadIsExtendedBy(other)
+}
+
 // NewActivityStreamsRead creates a new Read type
 func NewActivityStreamsRead() *ActivityStreamsRead {
 	typeProp := typePropertyConstructor()
@@ -412,7 +421,8 @@ func ReadIsDisjointWith(other vocab.Type) bool {
 }
 
 // ReadIsExtendedBy returns true if the other provided type extends from the Read
-// type.
+// type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsRead" variant instead.
 func ReadIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

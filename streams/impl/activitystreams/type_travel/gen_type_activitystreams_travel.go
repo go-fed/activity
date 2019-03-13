@@ -389,6 +389,15 @@ func DeserializeTravel(m map[string]interface{}, aliasMap map[string]string) (*A
 	return this, nil
 }
 
+// IsOrExtendsTravel returns true if the other provided type is the Travel type or
+// extends from the Travel type.
+func IsOrExtendsTravel(other vocab.Type) bool {
+	if other.GetTypeName() == "Travel" {
+		return true
+	}
+	return this.TravelIsExtendedBy(other)
+}
+
 // NewActivityStreamsTravel creates a new Travel type
 func NewActivityStreamsTravel() *ActivityStreamsTravel {
 	typeProp := typePropertyConstructor()
@@ -413,7 +422,8 @@ func TravelIsDisjointWith(other vocab.Type) bool {
 }
 
 // TravelIsExtendedBy returns true if the other provided type extends from the
-// Travel type.
+// Travel type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsTravel" variant instead.
 func TravelIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

@@ -421,6 +421,15 @@ func DeserializeQuestion(m map[string]interface{}, aliasMap map[string]string) (
 	return this, nil
 }
 
+// IsOrExtendsQuestion returns true if the other provided type is the Question
+// type or extends from the Question type.
+func IsOrExtendsQuestion(other vocab.Type) bool {
+	if other.GetTypeName() == "Question" {
+		return true
+	}
+	return this.QuestionIsExtendedBy(other)
+}
+
 // NewActivityStreamsQuestion creates a new Question type
 func NewActivityStreamsQuestion() *ActivityStreamsQuestion {
 	typeProp := typePropertyConstructor()
@@ -445,7 +454,8 @@ func QuestionIsDisjointWith(other vocab.Type) bool {
 }
 
 // QuestionIsExtendedBy returns true if the other provided type extends from the
-// Question type.
+// Question type. Note that it returns false if the types are the same; see
+// the "IsOrExtendsQuestion" variant instead.
 func QuestionIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

@@ -396,6 +396,15 @@ func DeserializeOffer(m map[string]interface{}, aliasMap map[string]string) (*Ac
 	return this, nil
 }
 
+// IsOrExtendsOffer returns true if the other provided type is the Offer type or
+// extends from the Offer type.
+func IsOrExtendsOffer(other vocab.Type) bool {
+	if other.GetTypeName() == "Offer" {
+		return true
+	}
+	return this.OfferIsExtendedBy(other)
+}
+
 // NewActivityStreamsOffer creates a new Offer type
 func NewActivityStreamsOffer() *ActivityStreamsOffer {
 	typeProp := typePropertyConstructor()
@@ -420,7 +429,8 @@ func OfferIsDisjointWith(other vocab.Type) bool {
 }
 
 // OfferIsExtendedBy returns true if the other provided type extends from the
-// Offer type.
+// Offer type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsOffer" variant instead.
 func OfferIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"Invite"}
 	for _, ext := range extensions {

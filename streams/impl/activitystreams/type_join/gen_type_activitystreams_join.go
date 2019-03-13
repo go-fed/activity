@@ -392,6 +392,15 @@ func DeserializeJoin(m map[string]interface{}, aliasMap map[string]string) (*Act
 	return this, nil
 }
 
+// IsOrExtendsJoin returns true if the other provided type is the Join type or
+// extends from the Join type.
+func IsOrExtendsJoin(other vocab.Type) bool {
+	if other.GetTypeName() == "Join" {
+		return true
+	}
+	return this.JoinIsExtendedBy(other)
+}
+
 // JoinIsDisjointWith returns true if the other provided type is disjoint with the
 // Join type.
 func JoinIsDisjointWith(other vocab.Type) bool {
@@ -405,7 +414,8 @@ func JoinIsDisjointWith(other vocab.Type) bool {
 }
 
 // JoinIsExtendedBy returns true if the other provided type extends from the Join
-// type.
+// type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsJoin" variant instead.
 func JoinIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

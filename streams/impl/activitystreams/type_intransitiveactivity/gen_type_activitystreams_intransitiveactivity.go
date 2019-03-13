@@ -398,7 +398,9 @@ func IntransitiveActivityIsDisjointWith(other vocab.Type) bool {
 }
 
 // IntransitiveActivityIsExtendedBy returns true if the other provided type
-// extends from the IntransitiveActivity type.
+// extends from the IntransitiveActivity type. Note that it returns false if
+// the types are the same; see the "IsOrExtendsIntransitiveActivity" variant
+// instead.
 func IntransitiveActivityIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"Arrive", "Question", "Travel"}
 	for _, ext := range extensions {
@@ -407,6 +409,15 @@ func IntransitiveActivityIsExtendedBy(other vocab.Type) bool {
 		}
 	}
 	return false
+}
+
+// IsOrExtendsIntransitiveActivity returns true if the other provided type is the
+// IntransitiveActivity type or extends from the IntransitiveActivity type.
+func IsOrExtendsIntransitiveActivity(other vocab.Type) bool {
+	if other.GetTypeName() == "IntransitiveActivity" {
+		return true
+	}
+	return this.IntransitiveActivityIsExtendedBy(other)
 }
 
 // NewActivityStreamsIntransitiveActivity creates a new IntransitiveActivity type

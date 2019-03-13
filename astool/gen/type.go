@@ -17,6 +17,7 @@ const (
 	extendedByMethod           = "IsExtendedBy"
 	extendingMethod            = "IsExtending"
 	extendsMethod              = "Extends"
+	isAMethod                  = "IsOrExtends"
 	disjointWithMethod         = "IsDisjointWith"
 	typeNameMethod             = "GetTypeName"
 	vocabURIMethod             = "VocabularyURI"
@@ -345,6 +346,13 @@ func (t *TypeGenerator) extendedByFnName() string {
 	return fmt.Sprintf("%s%s", t.TypeName(), extendedByMethod)
 }
 
+// isATypeFnName determines the name of the IsA function, which determines if
+// this Type is the same as the other one or if another ActivityStreams type
+// extends this one.
+func (t *TypeGenerator) isATypeFnName() string {
+	return fmt.Sprintf("%s%s", isAMethod, t.TypeName())
+}
+
 // disjointWithFnName determines the name of the DisjointWith function, which
 // determines if another ActivityStreams type is disjoint with this one.
 func (t *TypeGenerator) disjointWithFnName() string {
@@ -397,6 +405,7 @@ func (t *TypeGenerator) Definition() *codegen.Struct {
 			),
 			[]*codegen.Function{
 				constructor,
+				t.isATypeDefinition(),
 				t.extendedByDefinition(),
 				extendsFn,
 				t.disjointWithDefinition(),
@@ -587,6 +596,30 @@ func (t *TypeGenerator) getAllChildrenExtendedBy(s []string, tg *TypeGenerator) 
 	return s
 }
 
+// isATypeDefinition generates the golang function for determining if another
+// ActivityStreams type is this type or extends this type. It requires the Type
+// interface.
+func (t *TypeGenerator) isATypeDefinition() *codegen.Function {
+	return codegen.NewCommentedFunction(
+		t.PrivatePackage().Path(),
+		t.isATypeFnName(),
+		[]jen.Code{jen.Id("other").Qual(t.PublicPackage().Path(), typeInterfaceName)},
+		[]jen.Code{jen.Bool()},
+		[]jen.Code{
+			jen.If(
+				jen.Id("other").Dot(typeNameMethod).Call().Op("==").Lit(t.TypeName()),
+			).Block(
+				jen.Return(jen.True()),
+			),
+			jen.Return(
+				jen.Id(codegen.This()).Dot(t.extendedByFnName()).Call(
+					jen.Id("other"),
+				),
+			),
+		},
+		fmt.Sprintf("%s returns true if the other provided type is the %s type or extends from the %s type.", t.isATypeFnName(), t.TypeName(), t.TypeName()))
+}
+
 // extendedByDefinition generates the golang function for determining if
 // another ActivityStreams type extends this type. It requires the Type
 // interface.
@@ -617,7 +650,7 @@ func (t *TypeGenerator) extendedByDefinition() *codegen.Function {
 		[]jen.Code{jen.Id("other").Qual(t.PublicPackage().Path(), typeInterfaceName)},
 		[]jen.Code{jen.Bool()},
 		impl,
-		fmt.Sprintf("%s returns true if the other provided type extends from the %s type.", t.extendedByFnName(), t.TypeName()))
+		fmt.Sprintf("%s returns true if the other provided type extends from the %s type. Note that it returns false if the types are the same; see the %q variant instead.", t.extendedByFnName(), t.TypeName(), t.isATypeFnName()))
 }
 
 // getAllChildrenDisjointWith recursivley determines all the child types that this

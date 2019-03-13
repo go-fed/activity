@@ -394,6 +394,15 @@ func DeserializeUndo(m map[string]interface{}, aliasMap map[string]string) (*Act
 	return this, nil
 }
 
+// IsOrExtendsUndo returns true if the other provided type is the Undo type or
+// extends from the Undo type.
+func IsOrExtendsUndo(other vocab.Type) bool {
+	if other.GetTypeName() == "Undo" {
+		return true
+	}
+	return this.UndoIsExtendedBy(other)
+}
+
 // NewActivityStreamsUndo creates a new Undo type
 func NewActivityStreamsUndo() *ActivityStreamsUndo {
 	typeProp := typePropertyConstructor()
@@ -418,7 +427,8 @@ func UndoIsDisjointWith(other vocab.Type) bool {
 }
 
 // UndoIsExtendedBy returns true if the other provided type extends from the Undo
-// type.
+// type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsUndo" variant instead.
 func UndoIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

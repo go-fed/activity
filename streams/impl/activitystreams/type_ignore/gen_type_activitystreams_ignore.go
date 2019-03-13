@@ -402,7 +402,8 @@ func IgnoreIsDisjointWith(other vocab.Type) bool {
 }
 
 // IgnoreIsExtendedBy returns true if the other provided type extends from the
-// Ignore type.
+// Ignore type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsIgnore" variant instead.
 func IgnoreIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"Block"}
 	for _, ext := range extensions {
@@ -411,6 +412,15 @@ func IgnoreIsExtendedBy(other vocab.Type) bool {
 		}
 	}
 	return false
+}
+
+// IsOrExtendsIgnore returns true if the other provided type is the Ignore type or
+// extends from the Ignore type.
+func IsOrExtendsIgnore(other vocab.Type) bool {
+	if other.GetTypeName() == "Ignore" {
+		return true
+	}
+	return this.IgnoreIsExtendedBy(other)
 }
 
 // NewActivityStreamsIgnore creates a new Ignore type

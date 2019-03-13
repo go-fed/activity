@@ -407,10 +407,20 @@ func FollowIsDisjointWith(other vocab.Type) bool {
 }
 
 // FollowIsExtendedBy returns true if the other provided type extends from the
-// Follow type.
+// Follow type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsFollow" variant instead.
 func FollowIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
+}
+
+// IsOrExtendsFollow returns true if the other provided type is the Follow type or
+// extends from the Follow type.
+func IsOrExtendsFollow(other vocab.Type) bool {
+	if other.GetTypeName() == "Follow" {
+		return true
+	}
+	return this.FollowIsExtendedBy(other)
 }
 
 // NewActivityStreamsFollow creates a new Follow type

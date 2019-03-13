@@ -85,7 +85,8 @@ func BlockIsDisjointWith(other vocab.Type) bool {
 }
 
 // BlockIsExtendedBy returns true if the other provided type extends from the
-// Block type.
+// Block type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsBlock" variant instead.
 func BlockIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
@@ -405,6 +406,15 @@ func DeserializeBlock(m map[string]interface{}, aliasMap map[string]string) (*Ac
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsBlock returns true if the other provided type is the Block type or
+// extends from the Block type.
+func IsOrExtendsBlock(other vocab.Type) bool {
+	if other.GetTypeName() == "Block" {
+		return true
+	}
+	return this.BlockIsExtendedBy(other)
 }
 
 // NewActivityStreamsBlock creates a new Block type

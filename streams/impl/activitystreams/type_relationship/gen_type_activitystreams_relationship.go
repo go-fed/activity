@@ -370,6 +370,15 @@ func DeserializeRelationship(m map[string]interface{}, aliasMap map[string]strin
 	return this, nil
 }
 
+// IsOrExtendsRelationship returns true if the other provided type is the
+// Relationship type or extends from the Relationship type.
+func IsOrExtendsRelationship(other vocab.Type) bool {
+	if other.GetTypeName() == "Relationship" {
+		return true
+	}
+	return this.RelationshipIsExtendedBy(other)
+}
+
 // NewActivityStreamsRelationship creates a new Relationship type
 func NewActivityStreamsRelationship() *ActivityStreamsRelationship {
 	typeProp := typePropertyConstructor()
@@ -394,7 +403,8 @@ func RelationshipIsDisjointWith(other vocab.Type) bool {
 }
 
 // RelationshipIsExtendedBy returns true if the other provided type extends from
-// the Relationship type.
+// the Relationship type. Note that it returns false if the types are the
+// same; see the "IsOrExtendsRelationship" variant instead.
 func RelationshipIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

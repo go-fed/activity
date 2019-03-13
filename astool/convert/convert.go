@@ -877,7 +877,7 @@ func (c *Converter) packageManager(s, vocabName string) (pkg *gen.PackageManager
 // are the ones typically used by developers.
 func (c *Converter) rootFiles(pkg gen.Package, vocabName string, v vocabulary, m *gen.ManagerGenerator) (f []*File, e error) {
 	pg := gen.NewPackageGenerator(c.typePropertyVocabName, m, c.typeProperty)
-	typeCtors, propCtors, ext, disj, extBy := pg.RootDefinitions(vocabName, v.typeArray(), v.propArray())
+	typeCtors, propCtors, ext, disj, extBy, isA := pg.RootDefinitions(vocabName, v.typeArray(), v.propArray())
 	lowerVocabName := strings.ToLower(vocabName)
 	if file := funcsToFile(pkg, typeCtors, fmt.Sprintf("gen_pkg_%s_type_constructors.go", lowerVocabName)); file != nil {
 		f = append(f, file)
@@ -892,6 +892,9 @@ func (c *Converter) rootFiles(pkg gen.Package, vocabName string, v vocabulary, m
 		f = append(f, file)
 	}
 	if file := funcsToFile(pkg, extBy, fmt.Sprintf("gen_pkg_%s_extendedby.go", lowerVocabName)); file != nil {
+		f = append(f, file)
+	}
+	if file := funcsToFile(pkg, isA, fmt.Sprintf("gen_pkg_%s_isorextends.go", lowerVocabName)); file != nil {
 		f = append(f, file)
 	}
 	return

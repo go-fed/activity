@@ -395,6 +395,15 @@ func DeserializeTentativeReject(m map[string]interface{}, aliasMap map[string]st
 	return this, nil
 }
 
+// IsOrExtendsTentativeReject returns true if the other provided type is the
+// TentativeReject type or extends from the TentativeReject type.
+func IsOrExtendsTentativeReject(other vocab.Type) bool {
+	if other.GetTypeName() == "TentativeReject" {
+		return true
+	}
+	return this.TentativeRejectIsExtendedBy(other)
+}
+
 // NewActivityStreamsTentativeReject creates a new TentativeReject type
 func NewActivityStreamsTentativeReject() *ActivityStreamsTentativeReject {
 	typeProp := typePropertyConstructor()
@@ -419,7 +428,8 @@ func TentativeRejectIsDisjointWith(other vocab.Type) bool {
 }
 
 // TentativeRejectIsExtendedBy returns true if the other provided type extends
-// from the TentativeReject type.
+// from the TentativeReject type. Note that it returns false if the types are
+// the same; see the "IsOrExtendsTentativeReject" variant instead.
 func TentativeRejectIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

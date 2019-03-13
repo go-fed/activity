@@ -429,6 +429,15 @@ func DeserializeOrderedCollectionPage(m map[string]interface{}, aliasMap map[str
 	return this, nil
 }
 
+// IsOrExtendsOrderedCollectionPage returns true if the other provided type is the
+// OrderedCollectionPage type or extends from the OrderedCollectionPage type.
+func IsOrExtendsOrderedCollectionPage(other vocab.Type) bool {
+	if other.GetTypeName() == "OrderedCollectionPage" {
+		return true
+	}
+	return this.OrderedCollectionPageIsExtendedBy(other)
+}
+
 // NewActivityStreamsOrderedCollectionPage creates a new OrderedCollectionPage type
 func NewActivityStreamsOrderedCollectionPage() *ActivityStreamsOrderedCollectionPage {
 	typeProp := typePropertyConstructor()
@@ -453,7 +462,9 @@ func OrderedCollectionPageIsDisjointWith(other vocab.Type) bool {
 }
 
 // OrderedCollectionPageIsExtendedBy returns true if the other provided type
-// extends from the OrderedCollectionPage type.
+// extends from the OrderedCollectionPage type. Note that it returns false if
+// the types are the same; see the "IsOrExtendsOrderedCollectionPage" variant
+// instead.
 func OrderedCollectionPageIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

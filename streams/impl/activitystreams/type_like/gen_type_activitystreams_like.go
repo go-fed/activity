@@ -389,6 +389,15 @@ func DeserializeLike(m map[string]interface{}, aliasMap map[string]string) (*Act
 	return this, nil
 }
 
+// IsOrExtendsLike returns true if the other provided type is the Like type or
+// extends from the Like type.
+func IsOrExtendsLike(other vocab.Type) bool {
+	if other.GetTypeName() == "Like" {
+		return true
+	}
+	return this.LikeIsExtendedBy(other)
+}
+
 // LikeIsDisjointWith returns true if the other provided type is disjoint with the
 // Like type.
 func LikeIsDisjointWith(other vocab.Type) bool {
@@ -402,7 +411,8 @@ func LikeIsDisjointWith(other vocab.Type) bool {
 }
 
 // LikeIsExtendedBy returns true if the other provided type extends from the Like
-// type.
+// type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsLike" variant instead.
 func LikeIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

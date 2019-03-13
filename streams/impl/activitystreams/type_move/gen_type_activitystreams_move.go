@@ -397,6 +397,15 @@ func DeserializeMove(m map[string]interface{}, aliasMap map[string]string) (*Act
 	return this, nil
 }
 
+// IsOrExtendsMove returns true if the other provided type is the Move type or
+// extends from the Move type.
+func IsOrExtendsMove(other vocab.Type) bool {
+	if other.GetTypeName() == "Move" {
+		return true
+	}
+	return this.MoveIsExtendedBy(other)
+}
+
 // MoveIsDisjointWith returns true if the other provided type is disjoint with the
 // Move type.
 func MoveIsDisjointWith(other vocab.Type) bool {
@@ -410,7 +419,8 @@ func MoveIsDisjointWith(other vocab.Type) bool {
 }
 
 // MoveIsExtendedBy returns true if the other provided type extends from the Move
-// type.
+// type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsMove" variant instead.
 func MoveIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

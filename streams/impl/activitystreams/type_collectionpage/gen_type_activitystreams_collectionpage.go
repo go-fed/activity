@@ -97,7 +97,8 @@ func CollectionPageIsDisjointWith(other vocab.Type) bool {
 }
 
 // CollectionPageIsExtendedBy returns true if the other provided type extends from
-// the CollectionPage type.
+// the CollectionPage type. Note that it returns false if the types are the
+// same; see the "IsOrExtendsCollectionPage" variant instead.
 func CollectionPageIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"OrderedCollectionPage"}
 	for _, ext := range extensions {
@@ -443,6 +444,15 @@ func DeserializeCollectionPage(m map[string]interface{}, aliasMap map[string]str
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsCollectionPage returns true if the other provided type is the
+// CollectionPage type or extends from the CollectionPage type.
+func IsOrExtendsCollectionPage(other vocab.Type) bool {
+	if other.GetTypeName() == "CollectionPage" {
+		return true
+	}
+	return this.CollectionPageIsExtendedBy(other)
 }
 
 // NewActivityStreamsCollectionPage creates a new CollectionPage type

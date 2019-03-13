@@ -358,10 +358,20 @@ func EventIsDisjointWith(other vocab.Type) bool {
 }
 
 // EventIsExtendedBy returns true if the other provided type extends from the
-// Event type.
+// Event type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsEvent" variant instead.
 func EventIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
+}
+
+// IsOrExtendsEvent returns true if the other provided type is the Event type or
+// extends from the Event type.
+func IsOrExtendsEvent(other vocab.Type) bool {
+	if other.GetTypeName() == "Event" {
+		return true
+	}
+	return this.EventIsExtendedBy(other)
 }
 
 // NewActivityStreamsEvent creates a new Event type

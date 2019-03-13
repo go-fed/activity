@@ -388,6 +388,15 @@ func DeserializeListen(m map[string]interface{}, aliasMap map[string]string) (*A
 	return this, nil
 }
 
+// IsOrExtendsListen returns true if the other provided type is the Listen type or
+// extends from the Listen type.
+func IsOrExtendsListen(other vocab.Type) bool {
+	if other.GetTypeName() == "Listen" {
+		return true
+	}
+	return this.ListenIsExtendedBy(other)
+}
+
 // ListenIsDisjointWith returns true if the other provided type is disjoint with
 // the Listen type.
 func ListenIsDisjointWith(other vocab.Type) bool {
@@ -401,7 +410,8 @@ func ListenIsDisjointWith(other vocab.Type) bool {
 }
 
 // ListenIsExtendedBy returns true if the other provided type extends from the
-// Listen type.
+// Listen type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsListen" variant instead.
 func ListenIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

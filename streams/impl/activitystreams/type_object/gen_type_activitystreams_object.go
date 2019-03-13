@@ -342,6 +342,15 @@ func DeserializeObject(m map[string]interface{}, aliasMap map[string]string) (*A
 	return this, nil
 }
 
+// IsOrExtendsObject returns true if the other provided type is the Object type or
+// extends from the Object type.
+func IsOrExtendsObject(other vocab.Type) bool {
+	if other.GetTypeName() == "Object" {
+		return true
+	}
+	return this.ObjectIsExtendedBy(other)
+}
+
 // NewActivityStreamsObject creates a new Object type
 func NewActivityStreamsObject() *ActivityStreamsObject {
 	typeProp := typePropertyConstructor()
@@ -366,7 +375,8 @@ func ObjectIsDisjointWith(other vocab.Type) bool {
 }
 
 // ObjectIsExtendedBy returns true if the other provided type extends from the
-// Object type.
+// Object type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsObject" variant instead.
 func ObjectIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"Accept", "Activity", "Add", "Announce", "Application", "Arrive", "Article", "Audio", "Block", "Collection", "CollectionPage", "Create", "Delete", "Dislike", "Document", "Event", "Flag", "Follow", "Group", "Ignore", "Image", "IntransitiveActivity", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Note", "Offer", "OrderedCollection", "OrderedCollectionPage", "OrderedCollectionPage", "Organization", "Page", "Person", "Place", "Profile", "Question", "Read", "Reject", "Relationship", "Remove", "Service", "TentativeAccept", "TentativeReject", "Tombstone", "Travel", "Undo", "Update", "Video", "View"}
 	for _, ext := range extensions {

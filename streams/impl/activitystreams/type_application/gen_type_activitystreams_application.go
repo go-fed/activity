@@ -82,7 +82,8 @@ func ApplicationIsDisjointWith(other vocab.Type) bool {
 }
 
 // ApplicationIsExtendedBy returns true if the other provided type extends from
-// the Application type.
+// the Application type. Note that it returns false if the types are the same;
+// see the "IsOrExtendsApplication" variant instead.
 func ApplicationIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
@@ -418,6 +419,15 @@ func DeserializeApplication(m map[string]interface{}, aliasMap map[string]string
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsApplication returns true if the other provided type is the
+// Application type or extends from the Application type.
+func IsOrExtendsApplication(other vocab.Type) bool {
+	if other.GetTypeName() == "Application" {
+		return true
+	}
+	return this.ApplicationIsExtendedBy(other)
 }
 
 // NewActivityStreamsApplication creates a new Application type

@@ -378,6 +378,15 @@ func DeserializeTombstone(m map[string]interface{}, aliasMap map[string]string) 
 	return this, nil
 }
 
+// IsOrExtendsTombstone returns true if the other provided type is the Tombstone
+// type or extends from the Tombstone type.
+func IsOrExtendsTombstone(other vocab.Type) bool {
+	if other.GetTypeName() == "Tombstone" {
+		return true
+	}
+	return this.TombstoneIsExtendedBy(other)
+}
+
 // NewActivityStreamsTombstone creates a new Tombstone type
 func NewActivityStreamsTombstone() *ActivityStreamsTombstone {
 	typeProp := typePropertyConstructor()
@@ -402,7 +411,8 @@ func TombstoneIsDisjointWith(other vocab.Type) bool {
 }
 
 // TombstoneIsExtendedBy returns true if the other provided type extends from the
-// Tombstone type.
+// Tombstone type. Note that it returns false if the types are the same; see
+// the "IsOrExtendsTombstone" variant instead.
 func TombstoneIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

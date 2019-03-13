@@ -93,7 +93,8 @@ func CollectionIsDisjointWith(other vocab.Type) bool {
 }
 
 // CollectionIsExtendedBy returns true if the other provided type extends from the
-// Collection type.
+// Collection type. Note that it returns false if the types are the same; see
+// the "IsOrExtendsCollection" variant instead.
 func CollectionIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"CollectionPage", "OrderedCollection", "OrderedCollectionPage", "OrderedCollectionPage"}
 	for _, ext := range extensions {
@@ -418,6 +419,15 @@ func DeserializeCollection(m map[string]interface{}, aliasMap map[string]string)
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsCollection returns true if the other provided type is the Collection
+// type or extends from the Collection type.
+func IsOrExtendsCollection(other vocab.Type) bool {
+	if other.GetTypeName() == "Collection" {
+		return true
+	}
+	return this.CollectionIsExtendedBy(other)
 }
 
 // NewActivityStreamsCollection creates a new Collection type

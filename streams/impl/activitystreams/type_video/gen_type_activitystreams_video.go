@@ -345,6 +345,15 @@ func DeserializeVideo(m map[string]interface{}, aliasMap map[string]string) (*Ac
 	return this, nil
 }
 
+// IsOrExtendsVideo returns true if the other provided type is the Video type or
+// extends from the Video type.
+func IsOrExtendsVideo(other vocab.Type) bool {
+	if other.GetTypeName() == "Video" {
+		return true
+	}
+	return this.VideoIsExtendedBy(other)
+}
+
 // NewActivityStreamsVideo creates a new Video type
 func NewActivityStreamsVideo() *ActivityStreamsVideo {
 	typeProp := typePropertyConstructor()
@@ -369,7 +378,8 @@ func VideoIsDisjointWith(other vocab.Type) bool {
 }
 
 // VideoIsExtendedBy returns true if the other provided type extends from the
-// Video type.
+// Video type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsVideo" variant instead.
 func VideoIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

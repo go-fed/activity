@@ -395,6 +395,15 @@ func DeserializeTentativeAccept(m map[string]interface{}, aliasMap map[string]st
 	return this, nil
 }
 
+// IsOrExtendsTentativeAccept returns true if the other provided type is the
+// TentativeAccept type or extends from the TentativeAccept type.
+func IsOrExtendsTentativeAccept(other vocab.Type) bool {
+	if other.GetTypeName() == "TentativeAccept" {
+		return true
+	}
+	return this.TentativeAcceptIsExtendedBy(other)
+}
+
 // NewActivityStreamsTentativeAccept creates a new TentativeAccept type
 func NewActivityStreamsTentativeAccept() *ActivityStreamsTentativeAccept {
 	typeProp := typePropertyConstructor()
@@ -419,7 +428,8 @@ func TentativeAcceptIsDisjointWith(other vocab.Type) bool {
 }
 
 // TentativeAcceptIsExtendedBy returns true if the other provided type extends
-// from the TentativeAccept type.
+// from the TentativeAccept type. Note that it returns false if the types are
+// the same; see the "IsOrExtendsTentativeAccept" variant instead.
 func TentativeAcceptIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

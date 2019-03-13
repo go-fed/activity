@@ -357,6 +357,15 @@ func DeserializeProfile(m map[string]interface{}, aliasMap map[string]string) (*
 	return this, nil
 }
 
+// IsOrExtendsProfile returns true if the other provided type is the Profile type
+// or extends from the Profile type.
+func IsOrExtendsProfile(other vocab.Type) bool {
+	if other.GetTypeName() == "Profile" {
+		return true
+	}
+	return this.ProfileIsExtendedBy(other)
+}
+
 // NewActivityStreamsProfile creates a new Profile type
 func NewActivityStreamsProfile() *ActivityStreamsProfile {
 	typeProp := typePropertyConstructor()
@@ -381,7 +390,8 @@ func ProfileIsDisjointWith(other vocab.Type) bool {
 }
 
 // ProfileIsExtendedBy returns true if the other provided type extends from the
-// Profile type.
+// Profile type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsProfile" variant instead.
 func ProfileIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

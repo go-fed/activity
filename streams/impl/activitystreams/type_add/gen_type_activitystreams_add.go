@@ -112,7 +112,8 @@ func AddIsDisjointWith(other vocab.Type) bool {
 }
 
 // AddIsExtendedBy returns true if the other provided type extends from the Add
-// type.
+// type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsAdd" variant instead.
 func AddIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
@@ -432,6 +433,15 @@ func DeserializeAdd(m map[string]interface{}, aliasMap map[string]string) (*Acti
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsAdd returns true if the other provided type is the Add type or
+// extends from the Add type.
+func IsOrExtendsAdd(other vocab.Type) bool {
+	if other.GetTypeName() == "Add" {
+		return true
+	}
+	return this.AddIsExtendedBy(other)
 }
 
 // NewActivityStreamsAdd creates a new Add type

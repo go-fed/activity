@@ -183,6 +183,15 @@ func DeserializeMention(m map[string]interface{}, aliasMap map[string]string) (*
 	return this, nil
 }
 
+// IsOrExtendsMention returns true if the other provided type is the Mention type
+// or extends from the Mention type.
+func IsOrExtendsMention(other vocab.Type) bool {
+	if other.GetTypeName() == "Mention" {
+		return true
+	}
+	return this.MentionIsExtendedBy(other)
+}
+
 // MentionIsDisjointWith returns true if the other provided type is disjoint with
 // the Mention type.
 func MentionIsDisjointWith(other vocab.Type) bool {
@@ -196,7 +205,8 @@ func MentionIsDisjointWith(other vocab.Type) bool {
 }
 
 // MentionIsExtendedBy returns true if the other provided type extends from the
-// Mention type.
+// Mention type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsMention" variant instead.
 func MentionIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

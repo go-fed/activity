@@ -80,7 +80,8 @@ func AudioIsDisjointWith(other vocab.Type) bool {
 }
 
 // AudioIsExtendedBy returns true if the other provided type extends from the
-// Audio type.
+// Audio type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsAudio" variant instead.
 func AudioIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
@@ -365,6 +366,15 @@ func DeserializeAudio(m map[string]interface{}, aliasMap map[string]string) (*Ac
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsAudio returns true if the other provided type is the Audio type or
+// extends from the Audio type.
+func IsOrExtendsAudio(other vocab.Type) bool {
+	if other.GetTypeName() == "Audio" {
+		return true
+	}
+	return this.AudioIsExtendedBy(other)
 }
 
 // NewActivityStreamsAudio creates a new Audio type

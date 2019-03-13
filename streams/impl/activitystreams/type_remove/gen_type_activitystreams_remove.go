@@ -411,6 +411,15 @@ func DeserializeRemove(m map[string]interface{}, aliasMap map[string]string) (*A
 	return this, nil
 }
 
+// IsOrExtendsRemove returns true if the other provided type is the Remove type or
+// extends from the Remove type.
+func IsOrExtendsRemove(other vocab.Type) bool {
+	if other.GetTypeName() == "Remove" {
+		return true
+	}
+	return this.RemoveIsExtendedBy(other)
+}
+
 // NewActivityStreamsRemove creates a new Remove type
 func NewActivityStreamsRemove() *ActivityStreamsRemove {
 	typeProp := typePropertyConstructor()
@@ -435,7 +444,8 @@ func RemoveIsDisjointWith(other vocab.Type) bool {
 }
 
 // RemoveIsExtendedBy returns true if the other provided type extends from the
-// Remove type.
+// Remove type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsRemove" variant instead.
 func RemoveIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

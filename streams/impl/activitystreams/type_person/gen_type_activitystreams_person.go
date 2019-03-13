@@ -401,6 +401,15 @@ func DeserializePerson(m map[string]interface{}, aliasMap map[string]string) (*A
 	return this, nil
 }
 
+// IsOrExtendsPerson returns true if the other provided type is the Person type or
+// extends from the Person type.
+func IsOrExtendsPerson(other vocab.Type) bool {
+	if other.GetTypeName() == "Person" {
+		return true
+	}
+	return this.PersonIsExtendedBy(other)
+}
+
 // NewActivityStreamsPerson creates a new Person type
 func NewActivityStreamsPerson() *ActivityStreamsPerson {
 	typeProp := typePropertyConstructor()
@@ -425,7 +434,8 @@ func PersonIsDisjointWith(other vocab.Type) bool {
 }
 
 // PersonIsExtendedBy returns true if the other provided type extends from the
-// Person type.
+// Person type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsPerson" variant instead.
 func PersonIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

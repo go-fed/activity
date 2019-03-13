@@ -398,10 +398,20 @@ func DislikeIsDisjointWith(other vocab.Type) bool {
 }
 
 // DislikeIsExtendedBy returns true if the other provided type extends from the
-// Dislike type.
+// Dislike type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsDislike" variant instead.
 func DislikeIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
+}
+
+// IsOrExtendsDislike returns true if the other provided type is the Dislike type
+// or extends from the Dislike type.
+func IsOrExtendsDislike(other vocab.Type) bool {
+	if other.GetTypeName() == "Dislike" {
+		return true
+	}
+	return this.DislikeIsExtendedBy(other)
 }
 
 // NewActivityStreamsDislike creates a new Dislike type

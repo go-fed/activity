@@ -78,7 +78,8 @@ func ArticleIsDisjointWith(other vocab.Type) bool {
 }
 
 // ArticleIsExtendedBy returns true if the other provided type extends from the
-// Article type.
+// Article type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsArticle" variant instead.
 func ArticleIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
@@ -363,6 +364,15 @@ func DeserializeArticle(m map[string]interface{}, aliasMap map[string]string) (*
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsArticle returns true if the other provided type is the Article type
+// or extends from the Article type.
+func IsOrExtendsArticle(other vocab.Type) bool {
+	if other.GetTypeName() == "Article" {
+		return true
+	}
+	return this.ArticleIsExtendedBy(other)
 }
 
 // NewActivityStreamsArticle creates a new Article type

@@ -93,7 +93,8 @@ func ArriveIsDisjointWith(other vocab.Type) bool {
 }
 
 // ArriveIsExtendedBy returns true if the other provided type extends from the
-// Arrive type.
+// Arrive type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsArrive" variant instead.
 func ArriveIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
@@ -406,6 +407,15 @@ func DeserializeArrive(m map[string]interface{}, aliasMap map[string]string) (*A
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsArrive returns true if the other provided type is the Arrive type or
+// extends from the Arrive type.
+func IsOrExtendsArrive(other vocab.Type) bool {
+	if other.GetTypeName() == "Arrive" {
+		return true
+	}
+	return this.ArriveIsExtendedBy(other)
 }
 
 // NewActivityStreamsArrive creates a new Arrive type

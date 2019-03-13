@@ -401,6 +401,15 @@ func DeserializeOrganization(m map[string]interface{}, aliasMap map[string]strin
 	return this, nil
 }
 
+// IsOrExtendsOrganization returns true if the other provided type is the
+// Organization type or extends from the Organization type.
+func IsOrExtendsOrganization(other vocab.Type) bool {
+	if other.GetTypeName() == "Organization" {
+		return true
+	}
+	return this.OrganizationIsExtendedBy(other)
+}
+
 // NewActivityStreamsOrganization creates a new Organization type
 func NewActivityStreamsOrganization() *ActivityStreamsOrganization {
 	typeProp := typePropertyConstructor()
@@ -425,7 +434,8 @@ func OrganizationIsDisjointWith(other vocab.Type) bool {
 }
 
 // OrganizationIsExtendedBy returns true if the other provided type extends from
-// the Organization type.
+// the Organization type. Note that it returns false if the types are the
+// same; see the "IsOrExtendsOrganization" variant instead.
 func OrganizationIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

@@ -80,7 +80,8 @@ func ActivityIsDisjointWith(other vocab.Type) bool {
 }
 
 // ActivityIsExtendedBy returns true if the other provided type extends from the
-// Activity type.
+// Activity type. Note that it returns false if the types are the same; see
+// the "IsOrExtendsActivity" variant instead.
 func ActivityIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"Accept", "Add", "Announce", "Arrive", "Block", "Create", "Delete", "Dislike", "Flag", "Follow", "Ignore", "IntransitiveActivity", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Offer", "Question", "Read", "Reject", "Remove", "TentativeAccept", "TentativeReject", "Travel", "Undo", "Update", "View"}
 	for _, ext := range extensions {
@@ -417,6 +418,15 @@ func DeserializeActivity(m map[string]interface{}, aliasMap map[string]string) (
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsActivity returns true if the other provided type is the Activity
+// type or extends from the Activity type.
+func IsOrExtendsActivity(other vocab.Type) bool {
+	if other.GetTypeName() == "Activity" {
+		return true
+	}
+	return this.ActivityIsExtendedBy(other)
 }
 
 // NewActivityStreamsActivity creates a new Activity type

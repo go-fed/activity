@@ -395,6 +395,15 @@ func DeserializeOrderedCollection(m map[string]interface{}, aliasMap map[string]
 	return this, nil
 }
 
+// IsOrExtendsOrderedCollection returns true if the other provided type is the
+// OrderedCollection type or extends from the OrderedCollection type.
+func IsOrExtendsOrderedCollection(other vocab.Type) bool {
+	if other.GetTypeName() == "OrderedCollection" {
+		return true
+	}
+	return this.OrderedCollectionIsExtendedBy(other)
+}
+
 // NewActivityStreamsOrderedCollection creates a new OrderedCollection type
 func NewActivityStreamsOrderedCollection() *ActivityStreamsOrderedCollection {
 	typeProp := typePropertyConstructor()
@@ -419,7 +428,8 @@ func OrderedCollectionIsDisjointWith(other vocab.Type) bool {
 }
 
 // OrderedCollectionIsExtendedBy returns true if the other provided type extends
-// from the OrderedCollection type.
+// from the OrderedCollection type. Note that it returns false if the types
+// are the same; see the "IsOrExtendsOrderedCollection" variant instead.
 func OrderedCollectionIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"OrderedCollectionPage"}
 	for _, ext := range extensions {

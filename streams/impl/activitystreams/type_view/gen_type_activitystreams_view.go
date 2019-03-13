@@ -391,6 +391,15 @@ func DeserializeView(m map[string]interface{}, aliasMap map[string]string) (*Act
 	return this, nil
 }
 
+// IsOrExtendsView returns true if the other provided type is the View type or
+// extends from the View type.
+func IsOrExtendsView(other vocab.Type) bool {
+	if other.GetTypeName() == "View" {
+		return true
+	}
+	return this.ViewIsExtendedBy(other)
+}
+
 // NewActivityStreamsView creates a new View type
 func NewActivityStreamsView() *ActivityStreamsView {
 	typeProp := typePropertyConstructor()
@@ -415,7 +424,8 @@ func ViewIsDisjointWith(other vocab.Type) bool {
 }
 
 // ViewIsExtendedBy returns true if the other provided type extends from the View
-// type.
+// type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsView" variant instead.
 func ViewIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

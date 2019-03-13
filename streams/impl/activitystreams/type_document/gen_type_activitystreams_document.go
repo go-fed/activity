@@ -357,7 +357,8 @@ func DocumentIsDisjointWith(other vocab.Type) bool {
 }
 
 // DocumentIsExtendedBy returns true if the other provided type extends from the
-// Document type.
+// Document type. Note that it returns false if the types are the same; see
+// the "IsOrExtendsDocument" variant instead.
 func DocumentIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"Audio", "Image", "Page", "Video"}
 	for _, ext := range extensions {
@@ -366,6 +367,15 @@ func DocumentIsExtendedBy(other vocab.Type) bool {
 		}
 	}
 	return false
+}
+
+// IsOrExtendsDocument returns true if the other provided type is the Document
+// type or extends from the Document type.
+func IsOrExtendsDocument(other vocab.Type) bool {
+	if other.GetTypeName() == "Document" {
+		return true
+	}
+	return this.DocumentIsExtendedBy(other)
 }
 
 // NewActivityStreamsDocument creates a new Document type

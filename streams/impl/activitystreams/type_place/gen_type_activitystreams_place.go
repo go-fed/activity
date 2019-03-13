@@ -394,6 +394,15 @@ func DeserializePlace(m map[string]interface{}, aliasMap map[string]string) (*Ac
 	return this, nil
 }
 
+// IsOrExtendsPlace returns true if the other provided type is the Place type or
+// extends from the Place type.
+func IsOrExtendsPlace(other vocab.Type) bool {
+	if other.GetTypeName() == "Place" {
+		return true
+	}
+	return this.PlaceIsExtendedBy(other)
+}
+
 // NewActivityStreamsPlace creates a new Place type
 func NewActivityStreamsPlace() *ActivityStreamsPlace {
 	typeProp := typePropertyConstructor()
@@ -418,7 +427,8 @@ func PlaceIsDisjointWith(other vocab.Type) bool {
 }
 
 // PlaceIsExtendedBy returns true if the other provided type extends from the
-// Place type.
+// Place type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsPlace" variant instead.
 func PlaceIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

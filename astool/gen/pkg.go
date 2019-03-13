@@ -238,7 +238,7 @@ func (t *PackageGenerator) InitDefinitions(pkg Package, tgs []*TypeGenerator, pg
 }
 
 // RootDefinitions creates functions needed at the root level of the package declarations.
-func (t *PackageGenerator) RootDefinitions(vocabName string, tgs []*TypeGenerator, pgs []*PropertyGenerator) (typeCtors, propCtors, ext, disj, extBy []*codegen.Function) {
+func (t *PackageGenerator) RootDefinitions(vocabName string, tgs []*TypeGenerator, pgs []*PropertyGenerator) (typeCtors, propCtors, ext, disj, extBy, isA []*codegen.Function) {
 	return rootDefinitions(vocabName, t.m, tgs, pgs)
 }
 
@@ -337,7 +337,7 @@ func publicTypeDefinitions(tgs []*TypeGenerator) (typeI *codegen.Interface) {
 
 // rootDefinitions creates common functions needed at the root level of the
 // package declarations.
-func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (typeCtors, propCtors, ext, disj, extBy []*codegen.Function) {
+func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator, pgs []*PropertyGenerator) (typeCtors, propCtors, ext, disj, extBy, isA []*codegen.Function) {
 	// Type constructors
 	for _, tg := range tgs {
 		typeCtors = append(typeCtors, codegen.NewCommentedFunction(
@@ -355,6 +355,22 @@ func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator
 	// Property Constructors
 	for _, pg := range pgs {
 		propCtors = append(propCtors, toPublicConstructor(vocabName, m, pg))
+	}
+	// Is
+	for _, tg := range tgs {
+		f := tg.isATypeDefinition()
+		name := fmt.Sprintf("%s%s%s", isAMethod, vocabName, tg.TypeName())
+		isA = append(isA, codegen.NewCommentedFunction(
+			m.pkg.Path(),
+			name,
+			[]jen.Code{jen.Id("other").Qual(tg.PublicPackage().Path(), typeInterfaceName)},
+			[]jen.Code{jen.Bool()},
+			[]jen.Code{
+				jen.Return(
+					f.Call(jen.Id("other")),
+				),
+			},
+			fmt.Sprintf("%s returns true if the other provided type is the %s type or extends from the %s type.", name, tg.TypeName(), tg.TypeName())))
 	}
 	// Extends
 	for _, tg := range tgs {
@@ -402,7 +418,7 @@ func rootDefinitions(vocabName string, m *ManagerGenerator, tgs []*TypeGenerator
 					f.Call(jen.Id("other")),
 				),
 			},
-			fmt.Sprintf("%s returns true if the other's type extends from %s.", name, tg.TypeName())))
+			fmt.Sprintf("%s returns true if the other's type extends from %s. Note that it returns false if the types are the same; see the %q variant instead.", name, tg.TypeName(), isAMethod)))
 	}
 	return
 }

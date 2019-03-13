@@ -403,10 +403,20 @@ func FlagIsDisjointWith(other vocab.Type) bool {
 }
 
 // FlagIsExtendedBy returns true if the other provided type extends from the Flag
-// type.
+// type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsFlag" variant instead.
 func FlagIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
+}
+
+// IsOrExtendsFlag returns true if the other provided type is the Flag type or
+// extends from the Flag type.
+func IsOrExtendsFlag(other vocab.Type) bool {
+	if other.GetTypeName() == "Flag" {
+		return true
+	}
+	return this.FlagIsExtendedBy(other)
 }
 
 // NewActivityStreamsFlag creates a new Flag type

@@ -384,10 +384,20 @@ func ImageIsDisjointWith(other vocab.Type) bool {
 }
 
 // ImageIsExtendedBy returns true if the other provided type extends from the
-// Image type.
+// Image type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsImage" variant instead.
 func ImageIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
+}
+
+// IsOrExtendsImage returns true if the other provided type is the Image type or
+// extends from the Image type.
+func IsOrExtendsImage(other vocab.Type) bool {
+	if other.GetTypeName() == "Image" {
+		return true
+	}
+	return this.ImageIsExtendedBy(other)
 }
 
 // NewActivityStreamsImage creates a new Image type

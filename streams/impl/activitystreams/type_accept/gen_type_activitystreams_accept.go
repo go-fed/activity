@@ -100,7 +100,8 @@ func AcceptIsDisjointWith(other vocab.Type) bool {
 }
 
 // AcceptIsExtendedBy returns true if the other provided type extends from the
-// Accept type.
+// Accept type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsAccept" variant instead.
 func AcceptIsExtendedBy(other vocab.Type) bool {
 	extensions := []string{"TentativeAccept"}
 	for _, ext := range extensions {
@@ -437,6 +438,15 @@ func DeserializeAccept(m map[string]interface{}, aliasMap map[string]string) (*A
 	// End: Unknown deserialization
 
 	return this, nil
+}
+
+// IsOrExtendsAccept returns true if the other provided type is the Accept type or
+// extends from the Accept type.
+func IsOrExtendsAccept(other vocab.Type) bool {
+	if other.GetTypeName() == "Accept" {
+		return true
+	}
+	return this.AcceptIsExtendedBy(other)
 }
 
 // NewActivityStreamsAccept creates a new Accept type

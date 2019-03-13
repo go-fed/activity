@@ -344,6 +344,15 @@ func DeserializePage(m map[string]interface{}, aliasMap map[string]string) (*Act
 	return this, nil
 }
 
+// IsOrExtendsPage returns true if the other provided type is the Page type or
+// extends from the Page type.
+func IsOrExtendsPage(other vocab.Type) bool {
+	if other.GetTypeName() == "Page" {
+		return true
+	}
+	return this.PageIsExtendedBy(other)
+}
+
 // NewActivityStreamsPage creates a new Page type
 func NewActivityStreamsPage() *ActivityStreamsPage {
 	typeProp := typePropertyConstructor()
@@ -368,7 +377,8 @@ func PageIsDisjointWith(other vocab.Type) bool {
 }
 
 // PageIsExtendedBy returns true if the other provided type extends from the Page
-// type.
+// type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsPage" variant instead.
 func PageIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false

@@ -59,325 +59,379 @@ import (
 )
 
 // ActivityStreamsAcceptIsExtendedBy returns true if the other's type extends from
-// Accept.
+// Accept. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsAcceptIsExtendedBy(other vocab.Type) bool {
 	return typeaccept.AcceptIsExtendedBy(other)
 }
 
 // ActivityStreamsActivityIsExtendedBy returns true if the other's type extends
-// from Activity.
+// from Activity. Note that it returns false if the types are the same; see
+// the "IsOrExtends" variant instead.
 func ActivityStreamsActivityIsExtendedBy(other vocab.Type) bool {
 	return typeactivity.ActivityIsExtendedBy(other)
 }
 
 // ActivityStreamsAddIsExtendedBy returns true if the other's type extends from
-// Add.
+// Add. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsAddIsExtendedBy(other vocab.Type) bool {
 	return typeadd.AddIsExtendedBy(other)
 }
 
 // ActivityStreamsAnnounceIsExtendedBy returns true if the other's type extends
-// from Announce.
+// from Announce. Note that it returns false if the types are the same; see
+// the "IsOrExtends" variant instead.
 func ActivityStreamsAnnounceIsExtendedBy(other vocab.Type) bool {
 	return typeannounce.AnnounceIsExtendedBy(other)
 }
 
 // ActivityStreamsApplicationIsExtendedBy returns true if the other's type extends
-// from Application.
+// from Application. Note that it returns false if the types are the same; see
+// the "IsOrExtends" variant instead.
 func ActivityStreamsApplicationIsExtendedBy(other vocab.Type) bool {
 	return typeapplication.ApplicationIsExtendedBy(other)
 }
 
 // ActivityStreamsArriveIsExtendedBy returns true if the other's type extends from
-// Arrive.
+// Arrive. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsArriveIsExtendedBy(other vocab.Type) bool {
 	return typearrive.ArriveIsExtendedBy(other)
 }
 
 // ActivityStreamsArticleIsExtendedBy returns true if the other's type extends
-// from Article.
+// from Article. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsArticleIsExtendedBy(other vocab.Type) bool {
 	return typearticle.ArticleIsExtendedBy(other)
 }
 
 // ActivityStreamsAudioIsExtendedBy returns true if the other's type extends from
-// Audio.
+// Audio. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsAudioIsExtendedBy(other vocab.Type) bool {
 	return typeaudio.AudioIsExtendedBy(other)
 }
 
 // ActivityStreamsBlockIsExtendedBy returns true if the other's type extends from
-// Block.
+// Block. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsBlockIsExtendedBy(other vocab.Type) bool {
 	return typeblock.BlockIsExtendedBy(other)
 }
 
 // ActivityStreamsCollectionIsExtendedBy returns true if the other's type extends
-// from Collection.
+// from Collection. Note that it returns false if the types are the same; see
+// the "IsOrExtends" variant instead.
 func ActivityStreamsCollectionIsExtendedBy(other vocab.Type) bool {
 	return typecollection.CollectionIsExtendedBy(other)
 }
 
 // ActivityStreamsCollectionPageIsExtendedBy returns true if the other's type
-// extends from CollectionPage.
+// extends from CollectionPage. Note that it returns false if the types are
+// the same; see the "IsOrExtends" variant instead.
 func ActivityStreamsCollectionPageIsExtendedBy(other vocab.Type) bool {
 	return typecollectionpage.CollectionPageIsExtendedBy(other)
 }
 
 // ActivityStreamsCreateIsExtendedBy returns true if the other's type extends from
-// Create.
+// Create. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsCreateIsExtendedBy(other vocab.Type) bool {
 	return typecreate.CreateIsExtendedBy(other)
 }
 
 // ActivityStreamsDeleteIsExtendedBy returns true if the other's type extends from
-// Delete.
+// Delete. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsDeleteIsExtendedBy(other vocab.Type) bool {
 	return typedelete.DeleteIsExtendedBy(other)
 }
 
 // ActivityStreamsDislikeIsExtendedBy returns true if the other's type extends
-// from Dislike.
+// from Dislike. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsDislikeIsExtendedBy(other vocab.Type) bool {
 	return typedislike.DislikeIsExtendedBy(other)
 }
 
 // ActivityStreamsDocumentIsExtendedBy returns true if the other's type extends
-// from Document.
+// from Document. Note that it returns false if the types are the same; see
+// the "IsOrExtends" variant instead.
 func ActivityStreamsDocumentIsExtendedBy(other vocab.Type) bool {
 	return typedocument.DocumentIsExtendedBy(other)
 }
 
 // ActivityStreamsEventIsExtendedBy returns true if the other's type extends from
-// Event.
+// Event. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsEventIsExtendedBy(other vocab.Type) bool {
 	return typeevent.EventIsExtendedBy(other)
 }
 
 // ActivityStreamsFlagIsExtendedBy returns true if the other's type extends from
-// Flag.
+// Flag. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsFlagIsExtendedBy(other vocab.Type) bool {
 	return typeflag.FlagIsExtendedBy(other)
 }
 
 // ActivityStreamsFollowIsExtendedBy returns true if the other's type extends from
-// Follow.
+// Follow. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsFollowIsExtendedBy(other vocab.Type) bool {
 	return typefollow.FollowIsExtendedBy(other)
 }
 
 // ActivityStreamsGroupIsExtendedBy returns true if the other's type extends from
-// Group.
+// Group. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsGroupIsExtendedBy(other vocab.Type) bool {
 	return typegroup.GroupIsExtendedBy(other)
 }
 
 // ActivityStreamsIgnoreIsExtendedBy returns true if the other's type extends from
-// Ignore.
+// Ignore. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsIgnoreIsExtendedBy(other vocab.Type) bool {
 	return typeignore.IgnoreIsExtendedBy(other)
 }
 
 // ActivityStreamsImageIsExtendedBy returns true if the other's type extends from
-// Image.
+// Image. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsImageIsExtendedBy(other vocab.Type) bool {
 	return typeimage.ImageIsExtendedBy(other)
 }
 
 // ActivityStreamsIntransitiveActivityIsExtendedBy returns true if the other's
-// type extends from IntransitiveActivity.
+// type extends from IntransitiveActivity. Note that it returns false if the
+// types are the same; see the "IsOrExtends" variant instead.
 func ActivityStreamsIntransitiveActivityIsExtendedBy(other vocab.Type) bool {
 	return typeintransitiveactivity.IntransitiveActivityIsExtendedBy(other)
 }
 
 // ActivityStreamsInviteIsExtendedBy returns true if the other's type extends from
-// Invite.
+// Invite. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsInviteIsExtendedBy(other vocab.Type) bool {
 	return typeinvite.InviteIsExtendedBy(other)
 }
 
 // ActivityStreamsJoinIsExtendedBy returns true if the other's type extends from
-// Join.
+// Join. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsJoinIsExtendedBy(other vocab.Type) bool {
 	return typejoin.JoinIsExtendedBy(other)
 }
 
 // ActivityStreamsLeaveIsExtendedBy returns true if the other's type extends from
-// Leave.
+// Leave. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsLeaveIsExtendedBy(other vocab.Type) bool {
 	return typeleave.LeaveIsExtendedBy(other)
 }
 
 // ActivityStreamsLikeIsExtendedBy returns true if the other's type extends from
-// Like.
+// Like. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsLikeIsExtendedBy(other vocab.Type) bool {
 	return typelike.LikeIsExtendedBy(other)
 }
 
 // ActivityStreamsLinkIsExtendedBy returns true if the other's type extends from
-// Link.
+// Link. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsLinkIsExtendedBy(other vocab.Type) bool {
 	return typelink.LinkIsExtendedBy(other)
 }
 
 // ActivityStreamsListenIsExtendedBy returns true if the other's type extends from
-// Listen.
+// Listen. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsListenIsExtendedBy(other vocab.Type) bool {
 	return typelisten.ListenIsExtendedBy(other)
 }
 
 // ActivityStreamsMentionIsExtendedBy returns true if the other's type extends
-// from Mention.
+// from Mention. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsMentionIsExtendedBy(other vocab.Type) bool {
 	return typemention.MentionIsExtendedBy(other)
 }
 
 // ActivityStreamsMoveIsExtendedBy returns true if the other's type extends from
-// Move.
+// Move. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsMoveIsExtendedBy(other vocab.Type) bool {
 	return typemove.MoveIsExtendedBy(other)
 }
 
 // ActivityStreamsNoteIsExtendedBy returns true if the other's type extends from
-// Note.
+// Note. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsNoteIsExtendedBy(other vocab.Type) bool {
 	return typenote.NoteIsExtendedBy(other)
 }
 
 // ActivityStreamsObjectIsExtendedBy returns true if the other's type extends from
-// Object.
+// Object. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsObjectIsExtendedBy(other vocab.Type) bool {
 	return typeobject.ObjectIsExtendedBy(other)
 }
 
 // ActivityStreamsOfferIsExtendedBy returns true if the other's type extends from
-// Offer.
+// Offer. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsOfferIsExtendedBy(other vocab.Type) bool {
 	return typeoffer.OfferIsExtendedBy(other)
 }
 
 // ActivityStreamsOrderedCollectionIsExtendedBy returns true if the other's type
-// extends from OrderedCollection.
+// extends from OrderedCollection. Note that it returns false if the types are
+// the same; see the "IsOrExtends" variant instead.
 func ActivityStreamsOrderedCollectionIsExtendedBy(other vocab.Type) bool {
 	return typeorderedcollection.OrderedCollectionIsExtendedBy(other)
 }
 
 // ActivityStreamsOrderedCollectionPageIsExtendedBy returns true if the other's
-// type extends from OrderedCollectionPage.
+// type extends from OrderedCollectionPage. Note that it returns false if the
+// types are the same; see the "IsOrExtends" variant instead.
 func ActivityStreamsOrderedCollectionPageIsExtendedBy(other vocab.Type) bool {
 	return typeorderedcollectionpage.OrderedCollectionPageIsExtendedBy(other)
 }
 
 // ActivityStreamsOrganizationIsExtendedBy returns true if the other's type
-// extends from Organization.
+// extends from Organization. Note that it returns false if the types are the
+// same; see the "IsOrExtends" variant instead.
 func ActivityStreamsOrganizationIsExtendedBy(other vocab.Type) bool {
 	return typeorganization.OrganizationIsExtendedBy(other)
 }
 
 // ActivityStreamsPageIsExtendedBy returns true if the other's type extends from
-// Page.
+// Page. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsPageIsExtendedBy(other vocab.Type) bool {
 	return typepage.PageIsExtendedBy(other)
 }
 
 // ActivityStreamsPersonIsExtendedBy returns true if the other's type extends from
-// Person.
+// Person. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsPersonIsExtendedBy(other vocab.Type) bool {
 	return typeperson.PersonIsExtendedBy(other)
 }
 
 // ActivityStreamsPlaceIsExtendedBy returns true if the other's type extends from
-// Place.
+// Place. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsPlaceIsExtendedBy(other vocab.Type) bool {
 	return typeplace.PlaceIsExtendedBy(other)
 }
 
 // ActivityStreamsProfileIsExtendedBy returns true if the other's type extends
-// from Profile.
+// from Profile. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsProfileIsExtendedBy(other vocab.Type) bool {
 	return typeprofile.ProfileIsExtendedBy(other)
 }
 
 // ActivityStreamsQuestionIsExtendedBy returns true if the other's type extends
-// from Question.
+// from Question. Note that it returns false if the types are the same; see
+// the "IsOrExtends" variant instead.
 func ActivityStreamsQuestionIsExtendedBy(other vocab.Type) bool {
 	return typequestion.QuestionIsExtendedBy(other)
 }
 
 // ActivityStreamsReadIsExtendedBy returns true if the other's type extends from
-// Read.
+// Read. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsReadIsExtendedBy(other vocab.Type) bool {
 	return typeread.ReadIsExtendedBy(other)
 }
 
 // ActivityStreamsRejectIsExtendedBy returns true if the other's type extends from
-// Reject.
+// Reject. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsRejectIsExtendedBy(other vocab.Type) bool {
 	return typereject.RejectIsExtendedBy(other)
 }
 
 // ActivityStreamsRelationshipIsExtendedBy returns true if the other's type
-// extends from Relationship.
+// extends from Relationship. Note that it returns false if the types are the
+// same; see the "IsOrExtends" variant instead.
 func ActivityStreamsRelationshipIsExtendedBy(other vocab.Type) bool {
 	return typerelationship.RelationshipIsExtendedBy(other)
 }
 
 // ActivityStreamsRemoveIsExtendedBy returns true if the other's type extends from
-// Remove.
+// Remove. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsRemoveIsExtendedBy(other vocab.Type) bool {
 	return typeremove.RemoveIsExtendedBy(other)
 }
 
 // ActivityStreamsServiceIsExtendedBy returns true if the other's type extends
-// from Service.
+// from Service. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsServiceIsExtendedBy(other vocab.Type) bool {
 	return typeservice.ServiceIsExtendedBy(other)
 }
 
 // ActivityStreamsTentativeAcceptIsExtendedBy returns true if the other's type
-// extends from TentativeAccept.
+// extends from TentativeAccept. Note that it returns false if the types are
+// the same; see the "IsOrExtends" variant instead.
 func ActivityStreamsTentativeAcceptIsExtendedBy(other vocab.Type) bool {
 	return typetentativeaccept.TentativeAcceptIsExtendedBy(other)
 }
 
 // ActivityStreamsTentativeRejectIsExtendedBy returns true if the other's type
-// extends from TentativeReject.
+// extends from TentativeReject. Note that it returns false if the types are
+// the same; see the "IsOrExtends" variant instead.
 func ActivityStreamsTentativeRejectIsExtendedBy(other vocab.Type) bool {
 	return typetentativereject.TentativeRejectIsExtendedBy(other)
 }
 
 // ActivityStreamsTombstoneIsExtendedBy returns true if the other's type extends
-// from Tombstone.
+// from Tombstone. Note that it returns false if the types are the same; see
+// the "IsOrExtends" variant instead.
 func ActivityStreamsTombstoneIsExtendedBy(other vocab.Type) bool {
 	return typetombstone.TombstoneIsExtendedBy(other)
 }
 
 // ActivityStreamsTravelIsExtendedBy returns true if the other's type extends from
-// Travel.
+// Travel. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsTravelIsExtendedBy(other vocab.Type) bool {
 	return typetravel.TravelIsExtendedBy(other)
 }
 
 // ActivityStreamsUndoIsExtendedBy returns true if the other's type extends from
-// Undo.
+// Undo. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsUndoIsExtendedBy(other vocab.Type) bool {
 	return typeundo.UndoIsExtendedBy(other)
 }
 
 // ActivityStreamsUpdateIsExtendedBy returns true if the other's type extends from
-// Update.
+// Update. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsUpdateIsExtendedBy(other vocab.Type) bool {
 	return typeupdate.UpdateIsExtendedBy(other)
 }
 
 // ActivityStreamsVideoIsExtendedBy returns true if the other's type extends from
-// Video.
+// Video. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsVideoIsExtendedBy(other vocab.Type) bool {
 	return typevideo.VideoIsExtendedBy(other)
 }
 
 // ActivityStreamsViewIsExtendedBy returns true if the other's type extends from
-// View.
+// View. Note that it returns false if the types are the same; see the
+// "IsOrExtends" variant instead.
 func ActivityStreamsViewIsExtendedBy(other vocab.Type) bool {
 	return typeview.ViewIsExtendedBy(other)
 }

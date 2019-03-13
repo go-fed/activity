@@ -406,6 +406,15 @@ func DeserializeLeave(m map[string]interface{}, aliasMap map[string]string) (*Ac
 	return this, nil
 }
 
+// IsOrExtendsLeave returns true if the other provided type is the Leave type or
+// extends from the Leave type.
+func IsOrExtendsLeave(other vocab.Type) bool {
+	if other.GetTypeName() == "Leave" {
+		return true
+	}
+	return this.LeaveIsExtendedBy(other)
+}
+
 // LeaveIsDisjointWith returns true if the other provided type is disjoint with
 // the Leave type.
 func LeaveIsDisjointWith(other vocab.Type) bool {
@@ -419,7 +428,8 @@ func LeaveIsDisjointWith(other vocab.Type) bool {
 }
 
 // LeaveIsExtendedBy returns true if the other provided type extends from the
-// Leave type.
+// Leave type. Note that it returns false if the types are the same; see the
+// "IsOrExtendsLeave" variant instead.
 func LeaveIsExtendedBy(other vocab.Type) bool {
 	// Shortcut implementation: is not extended by anything.
 	return false
