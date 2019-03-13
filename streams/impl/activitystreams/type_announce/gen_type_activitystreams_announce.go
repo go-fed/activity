@@ -423,7 +423,7 @@ func IsOrExtendsAnnounce(other vocab.Type) bool {
 	if other.GetTypeName() == "Announce" {
 		return true
 	}
-	return this.AnnounceIsExtendedBy(other)
+	return AnnounceIsExtendedBy(other)
 }
 
 // NewActivityStreamsAnnounce creates a new Announce type

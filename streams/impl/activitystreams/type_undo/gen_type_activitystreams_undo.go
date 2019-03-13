@@ -400,7 +400,7 @@ func IsOrExtendsUndo(other vocab.Type) bool {
 	if other.GetTypeName() == "Undo" {
 		return true
 	}
-	return this.UndoIsExtendedBy(other)
+	return UndoIsExtendedBy(other)
 }
 
 // NewActivityStreamsUndo creates a new Undo type

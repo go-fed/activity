@@ -403,7 +403,7 @@ func IsOrExtendsMove(other vocab.Type) bool {
 	if other.GetTypeName() == "Move" {
 		return true
 	}
-	return this.MoveIsExtendedBy(other)
+	return MoveIsExtendedBy(other)
 }
 
 // MoveIsDisjointWith returns true if the other provided type is disjoint with the

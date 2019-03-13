@@ -397,7 +397,7 @@ func IsOrExtendsImage(other vocab.Type) bool {
 	if other.GetTypeName() == "Image" {
 		return true
 	}
-	return this.ImageIsExtendedBy(other)
+	return ImageIsExtendedBy(other)
 }
 
 // NewActivityStreamsImage creates a new Image type

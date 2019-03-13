@@ -372,7 +372,7 @@ func IsOrExtendsArticle(other vocab.Type) bool {
 	if other.GetTypeName() == "Article" {
 		return true
 	}
-	return this.ArticleIsExtendedBy(other)
+	return ArticleIsExtendedBy(other)
 }
 
 // NewActivityStreamsArticle creates a new Article type

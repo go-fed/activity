@@ -394,7 +394,7 @@ func IsOrExtendsListen(other vocab.Type) bool {
 	if other.GetTypeName() == "Listen" {
 		return true
 	}
-	return this.ListenIsExtendedBy(other)
+	return ListenIsExtendedBy(other)
 }
 
 // ListenIsDisjointWith returns true if the other provided type is disjoint with

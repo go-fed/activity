@@ -374,7 +374,7 @@ func IsOrExtendsAudio(other vocab.Type) bool {
 	if other.GetTypeName() == "Audio" {
 		return true
 	}
-	return this.AudioIsExtendedBy(other)
+	return AudioIsExtendedBy(other)
 }
 
 // NewActivityStreamsAudio creates a new Audio type

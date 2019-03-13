@@ -419,7 +419,7 @@ func IsOrExtendsDelete(other vocab.Type) bool {
 	if other.GetTypeName() == "Delete" {
 		return true
 	}
-	return this.DeleteIsExtendedBy(other)
+	return DeleteIsExtendedBy(other)
 }
 
 // NewActivityStreamsDelete creates a new Delete type

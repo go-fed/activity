@@ -411,7 +411,7 @@ func IsOrExtendsDislike(other vocab.Type) bool {
 	if other.GetTypeName() == "Dislike" {
 		return true
 	}
-	return this.DislikeIsExtendedBy(other)
+	return DislikeIsExtendedBy(other)
 }
 
 // NewActivityStreamsDislike creates a new Dislike type

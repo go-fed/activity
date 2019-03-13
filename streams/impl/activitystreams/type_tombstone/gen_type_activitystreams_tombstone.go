@@ -384,7 +384,7 @@ func IsOrExtendsTombstone(other vocab.Type) bool {
 	if other.GetTypeName() == "Tombstone" {
 		return true
 	}
-	return this.TombstoneIsExtendedBy(other)
+	return TombstoneIsExtendedBy(other)
 }
 
 // NewActivityStreamsTombstone creates a new Tombstone type

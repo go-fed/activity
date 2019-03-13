@@ -407,7 +407,7 @@ func IsOrExtendsPerson(other vocab.Type) bool {
 	if other.GetTypeName() == "Person" {
 		return true
 	}
-	return this.PersonIsExtendedBy(other)
+	return PersonIsExtendedBy(other)
 }
 
 // NewActivityStreamsPerson creates a new Person type

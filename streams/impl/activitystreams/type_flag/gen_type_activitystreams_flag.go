@@ -416,7 +416,7 @@ func IsOrExtendsFlag(other vocab.Type) bool {
 	if other.GetTypeName() == "Flag" {
 		return true
 	}
-	return this.FlagIsExtendedBy(other)
+	return FlagIsExtendedBy(other)
 }
 
 // NewActivityStreamsFlag creates a new Flag type

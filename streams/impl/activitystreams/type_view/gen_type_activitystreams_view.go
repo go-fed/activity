@@ -397,7 +397,7 @@ func IsOrExtendsView(other vocab.Type) bool {
 	if other.GetTypeName() == "View" {
 		return true
 	}
-	return this.ViewIsExtendedBy(other)
+	return ViewIsExtendedBy(other)
 }
 
 // NewActivityStreamsView creates a new View type

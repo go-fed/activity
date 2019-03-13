@@ -351,7 +351,7 @@ func IsOrExtendsVideo(other vocab.Type) bool {
 	if other.GetTypeName() == "Video" {
 		return true
 	}
-	return this.VideoIsExtendedBy(other)
+	return VideoIsExtendedBy(other)
 }
 
 // NewActivityStreamsVideo creates a new Video type

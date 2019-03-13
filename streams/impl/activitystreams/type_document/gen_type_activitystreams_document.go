@@ -375,7 +375,7 @@ func IsOrExtendsDocument(other vocab.Type) bool {
 	if other.GetTypeName() == "Document" {
 		return true
 	}
-	return this.DocumentIsExtendedBy(other)
+	return DocumentIsExtendedBy(other)
 }
 
 // NewActivityStreamsDocument creates a new Document type

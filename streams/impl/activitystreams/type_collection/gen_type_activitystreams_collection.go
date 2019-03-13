@@ -427,7 +427,7 @@ func IsOrExtendsCollection(other vocab.Type) bool {
 	if other.GetTypeName() == "Collection" {
 		return true
 	}
-	return this.CollectionIsExtendedBy(other)
+	return CollectionIsExtendedBy(other)
 }
 
 // NewActivityStreamsCollection creates a new Collection type

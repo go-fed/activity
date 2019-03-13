@@ -426,7 +426,7 @@ func IsOrExtendsActivity(other vocab.Type) bool {
 	if other.GetTypeName() == "Activity" {
 		return true
 	}
-	return this.ActivityIsExtendedBy(other)
+	return ActivityIsExtendedBy(other)
 }
 
 // NewActivityStreamsActivity creates a new Activity type

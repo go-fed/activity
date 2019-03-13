@@ -441,7 +441,7 @@ func IsOrExtendsAdd(other vocab.Type) bool {
 	if other.GetTypeName() == "Add" {
 		return true
 	}
-	return this.AddIsExtendedBy(other)
+	return AddIsExtendedBy(other)
 }
 
 // NewActivityStreamsAdd creates a new Add type

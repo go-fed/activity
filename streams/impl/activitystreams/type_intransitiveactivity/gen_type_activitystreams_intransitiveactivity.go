@@ -417,7 +417,7 @@ func IsOrExtendsIntransitiveActivity(other vocab.Type) bool {
 	if other.GetTypeName() == "IntransitiveActivity" {
 		return true
 	}
-	return this.IntransitiveActivityIsExtendedBy(other)
+	return IntransitiveActivityIsExtendedBy(other)
 }
 
 // NewActivityStreamsIntransitiveActivity creates a new IntransitiveActivity type

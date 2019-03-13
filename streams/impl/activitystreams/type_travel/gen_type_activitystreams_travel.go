@@ -395,7 +395,7 @@ func IsOrExtendsTravel(other vocab.Type) bool {
 	if other.GetTypeName() == "Travel" {
 		return true
 	}
-	return this.TravelIsExtendedBy(other)
+	return TravelIsExtendedBy(other)
 }
 
 // NewActivityStreamsTravel creates a new Travel type

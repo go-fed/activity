@@ -402,7 +402,7 @@ func IsOrExtendsReject(other vocab.Type) bool {
 	if other.GetTypeName() == "Reject" {
 		return true
 	}
-	return this.RejectIsExtendedBy(other)
+	return RejectIsExtendedBy(other)
 }
 
 // NewActivityStreamsReject creates a new Reject type

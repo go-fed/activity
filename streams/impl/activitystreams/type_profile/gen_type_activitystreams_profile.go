@@ -363,7 +363,7 @@ func IsOrExtendsProfile(other vocab.Type) bool {
 	if other.GetTypeName() == "Profile" {
 		return true
 	}
-	return this.ProfileIsExtendedBy(other)
+	return ProfileIsExtendedBy(other)
 }
 
 // NewActivityStreamsProfile creates a new Profile type

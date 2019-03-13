@@ -415,7 +415,7 @@ func IsOrExtendsArrive(other vocab.Type) bool {
 	if other.GetTypeName() == "Arrive" {
 		return true
 	}
-	return this.ArriveIsExtendedBy(other)
+	return ArriveIsExtendedBy(other)
 }
 
 // NewActivityStreamsArrive creates a new Arrive type

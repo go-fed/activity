@@ -412,7 +412,7 @@ func IsOrExtendsLeave(other vocab.Type) bool {
 	if other.GetTypeName() == "Leave" {
 		return true
 	}
-	return this.LeaveIsExtendedBy(other)
+	return LeaveIsExtendedBy(other)
 }
 
 // LeaveIsDisjointWith returns true if the other provided type is disjoint with

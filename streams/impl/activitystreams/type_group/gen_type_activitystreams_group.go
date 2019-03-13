@@ -427,7 +427,7 @@ func IsOrExtendsGroup(other vocab.Type) bool {
 	if other.GetTypeName() == "Group" {
 		return true
 	}
-	return this.GroupIsExtendedBy(other)
+	return GroupIsExtendedBy(other)
 }
 
 // NewActivityStreamsGroup creates a new Group type

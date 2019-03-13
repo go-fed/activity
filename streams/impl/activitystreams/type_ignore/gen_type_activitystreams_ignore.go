@@ -420,7 +420,7 @@ func IsOrExtendsIgnore(other vocab.Type) bool {
 	if other.GetTypeName() == "Ignore" {
 		return true
 	}
-	return this.IgnoreIsExtendedBy(other)
+	return IgnoreIsExtendedBy(other)
 }
 
 // NewActivityStreamsIgnore creates a new Ignore type

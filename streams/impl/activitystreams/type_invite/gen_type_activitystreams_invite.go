@@ -428,7 +428,7 @@ func IsOrExtendsInvite(other vocab.Type) bool {
 	if other.GetTypeName() == "Invite" {
 		return true
 	}
-	return this.InviteIsExtendedBy(other)
+	return InviteIsExtendedBy(other)
 }
 
 // NewActivityStreamsInvite creates a new Invite type

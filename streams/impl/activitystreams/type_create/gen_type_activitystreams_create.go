@@ -418,7 +418,7 @@ func IsOrExtendsCreate(other vocab.Type) bool {
 	if other.GetTypeName() == "Create" {
 		return true
 	}
-	return this.CreateIsExtendedBy(other)
+	return CreateIsExtendedBy(other)
 }
 
 // NewActivityStreamsCreate creates a new Create type

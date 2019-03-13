@@ -407,7 +407,7 @@ func IsOrExtendsOrganization(other vocab.Type) bool {
 	if other.GetTypeName() == "Organization" {
 		return true
 	}
-	return this.OrganizationIsExtendedBy(other)
+	return OrganizationIsExtendedBy(other)
 }
 
 // NewActivityStreamsOrganization creates a new Organization type

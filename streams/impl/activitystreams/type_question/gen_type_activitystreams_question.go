@@ -427,7 +427,7 @@ func IsOrExtendsQuestion(other vocab.Type) bool {
 	if other.GetTypeName() == "Question" {
 		return true
 	}
-	return this.QuestionIsExtendedBy(other)
+	return QuestionIsExtendedBy(other)
 }
 
 // NewActivityStreamsQuestion creates a new Question type

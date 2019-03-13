@@ -351,7 +351,7 @@ func IsOrExtendsNote(other vocab.Type) bool {
 	if other.GetTypeName() == "Note" {
 		return true
 	}
-	return this.NoteIsExtendedBy(other)
+	return NoteIsExtendedBy(other)
 }
 
 // NewActivityStreamsNote creates a new Note type

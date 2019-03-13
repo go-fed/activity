@@ -452,7 +452,7 @@ func IsOrExtendsCollectionPage(other vocab.Type) bool {
 	if other.GetTypeName() == "CollectionPage" {
 		return true
 	}
-	return this.CollectionPageIsExtendedBy(other)
+	return CollectionPageIsExtendedBy(other)
 }
 
 // NewActivityStreamsCollectionPage creates a new CollectionPage type

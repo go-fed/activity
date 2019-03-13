@@ -612,7 +612,7 @@ func (t *TypeGenerator) isATypeDefinition() *codegen.Function {
 				jen.Return(jen.True()),
 			),
 			jen.Return(
-				jen.Id(codegen.This()).Dot(t.extendedByFnName()).Call(
+				t.extendedByDefinition().Call(
 					jen.Id("other"),
 				),
 			),

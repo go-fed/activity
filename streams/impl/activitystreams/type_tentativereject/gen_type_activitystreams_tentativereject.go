@@ -401,7 +401,7 @@ func IsOrExtendsTentativeReject(other vocab.Type) bool {
 	if other.GetTypeName() == "TentativeReject" {
 		return true
 	}
-	return this.TentativeRejectIsExtendedBy(other)
+	return TentativeRejectIsExtendedBy(other)
 }
 
 // NewActivityStreamsTentativeReject creates a new TentativeReject type

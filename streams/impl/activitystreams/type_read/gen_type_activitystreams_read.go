@@ -394,7 +394,7 @@ func IsOrExtendsRead(other vocab.Type) bool {
 	if other.GetTypeName() == "Read" {
 		return true
 	}
-	return this.ReadIsExtendedBy(other)
+	return ReadIsExtendedBy(other)
 }
 
 // NewActivityStreamsRead creates a new Read type

@@ -401,7 +401,7 @@ func IsOrExtendsOrderedCollection(other vocab.Type) bool {
 	if other.GetTypeName() == "OrderedCollection" {
 		return true
 	}
-	return this.OrderedCollectionIsExtendedBy(other)
+	return OrderedCollectionIsExtendedBy(other)
 }
 
 // NewActivityStreamsOrderedCollection creates a new OrderedCollection type

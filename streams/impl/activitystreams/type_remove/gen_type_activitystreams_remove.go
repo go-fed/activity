@@ -417,7 +417,7 @@ func IsOrExtendsRemove(other vocab.Type) bool {
 	if other.GetTypeName() == "Remove" {
 		return true
 	}
-	return this.RemoveIsExtendedBy(other)
+	return RemoveIsExtendedBy(other)
 }
 
 // NewActivityStreamsRemove creates a new Remove type

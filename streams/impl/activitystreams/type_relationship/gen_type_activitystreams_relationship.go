@@ -376,7 +376,7 @@ func IsOrExtendsRelationship(other vocab.Type) bool {
 	if other.GetTypeName() == "Relationship" {
 		return true
 	}
-	return this.RelationshipIsExtendedBy(other)
+	return RelationshipIsExtendedBy(other)
 }
 
 // NewActivityStreamsRelationship creates a new Relationship type

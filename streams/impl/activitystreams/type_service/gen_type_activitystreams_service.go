@@ -407,7 +407,7 @@ func IsOrExtendsService(other vocab.Type) bool {
 	if other.GetTypeName() == "Service" {
 		return true
 	}
-	return this.ServiceIsExtendedBy(other)
+	return ServiceIsExtendedBy(other)
 }
 
 // NewActivityStreamsService creates a new Service type

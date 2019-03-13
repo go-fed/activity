@@ -191,7 +191,7 @@ func IsOrExtendsLink(other vocab.Type) bool {
 	if other.GetTypeName() == "Link" {
 		return true
 	}
-	return this.LinkIsExtendedBy(other)
+	return LinkIsExtendedBy(other)
 }
 
 // LinkIsDisjointWith returns true if the other provided type is disjoint with the

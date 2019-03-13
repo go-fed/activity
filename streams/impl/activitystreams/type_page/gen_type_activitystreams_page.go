@@ -350,7 +350,7 @@ func IsOrExtendsPage(other vocab.Type) bool {
 	if other.GetTypeName() == "Page" {
 		return true
 	}
-	return this.PageIsExtendedBy(other)
+	return PageIsExtendedBy(other)
 }
 
 // NewActivityStreamsPage creates a new Page type

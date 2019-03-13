@@ -420,7 +420,7 @@ func IsOrExtendsFollow(other vocab.Type) bool {
 	if other.GetTypeName() == "Follow" {
 		return true
 	}
-	return this.FollowIsExtendedBy(other)
+	return FollowIsExtendedBy(other)
 }
 
 // NewActivityStreamsFollow creates a new Follow type

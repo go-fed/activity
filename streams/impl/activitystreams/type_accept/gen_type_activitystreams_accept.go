@@ -446,7 +446,7 @@ func IsOrExtendsAccept(other vocab.Type) bool {
 	if other.GetTypeName() == "Accept" {
 		return true
 	}
-	return this.AcceptIsExtendedBy(other)
+	return AcceptIsExtendedBy(other)
 }
 
 // NewActivityStreamsAccept creates a new Accept type

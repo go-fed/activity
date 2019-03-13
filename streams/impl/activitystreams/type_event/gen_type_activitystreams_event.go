@@ -371,7 +371,7 @@ func IsOrExtendsEvent(other vocab.Type) bool {
 	if other.GetTypeName() == "Event" {
 		return true
 	}
-	return this.EventIsExtendedBy(other)
+	return EventIsExtendedBy(other)
 }
 
 // NewActivityStreamsEvent creates a new Event type

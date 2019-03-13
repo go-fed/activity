@@ -400,7 +400,7 @@ func IsOrExtendsPlace(other vocab.Type) bool {
 	if other.GetTypeName() == "Place" {
 		return true
 	}
-	return this.PlaceIsExtendedBy(other)
+	return PlaceIsExtendedBy(other)
 }
 
 // NewActivityStreamsPlace creates a new Place type

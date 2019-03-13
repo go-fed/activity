@@ -427,7 +427,7 @@ func IsOrExtendsApplication(other vocab.Type) bool {
 	if other.GetTypeName() == "Application" {
 		return true
 	}
-	return this.ApplicationIsExtendedBy(other)
+	return ApplicationIsExtendedBy(other)
 }
 
 // NewActivityStreamsApplication creates a new Application type

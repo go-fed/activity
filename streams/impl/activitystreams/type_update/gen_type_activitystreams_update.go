@@ -397,7 +397,7 @@ func IsOrExtendsUpdate(other vocab.Type) bool {
 	if other.GetTypeName() == "Update" {
 		return true
 	}
-	return this.UpdateIsExtendedBy(other)
+	return UpdateIsExtendedBy(other)
 }
 
 // NewActivityStreamsUpdate creates a new Update type

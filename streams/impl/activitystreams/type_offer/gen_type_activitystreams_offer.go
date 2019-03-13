@@ -402,7 +402,7 @@ func IsOrExtendsOffer(other vocab.Type) bool {
 	if other.GetTypeName() == "Offer" {
 		return true
 	}
-	return this.OfferIsExtendedBy(other)
+	return OfferIsExtendedBy(other)
 }
 
 // NewActivityStreamsOffer creates a new Offer type

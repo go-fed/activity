@@ -435,7 +435,7 @@ func IsOrExtendsOrderedCollectionPage(other vocab.Type) bool {
 	if other.GetTypeName() == "OrderedCollectionPage" {
 		return true
 	}
-	return this.OrderedCollectionPageIsExtendedBy(other)
+	return OrderedCollectionPageIsExtendedBy(other)
 }
 
 // NewActivityStreamsOrderedCollectionPage creates a new OrderedCollectionPage type

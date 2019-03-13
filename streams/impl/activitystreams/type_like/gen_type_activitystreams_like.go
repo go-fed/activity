@@ -395,7 +395,7 @@ func IsOrExtendsLike(other vocab.Type) bool {
 	if other.GetTypeName() == "Like" {
 		return true
 	}
-	return this.LikeIsExtendedBy(other)
+	return LikeIsExtendedBy(other)
 }
 
 // LikeIsDisjointWith returns true if the other provided type is disjoint with the

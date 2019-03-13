@@ -348,7 +348,7 @@ func IsOrExtendsObject(other vocab.Type) bool {
 	if other.GetTypeName() == "Object" {
 		return true
 	}
-	return this.ObjectIsExtendedBy(other)
+	return ObjectIsExtendedBy(other)
 }
 
 // NewActivityStreamsObject creates a new Object type

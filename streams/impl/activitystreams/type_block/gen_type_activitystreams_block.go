@@ -414,7 +414,7 @@ func IsOrExtendsBlock(other vocab.Type) bool {
 	if other.GetTypeName() == "Block" {
 		return true
 	}
-	return this.BlockIsExtendedBy(other)
+	return BlockIsExtendedBy(other)
 }
 
 // NewActivityStreamsBlock creates a new Block type

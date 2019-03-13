@@ -189,7 +189,7 @@ func IsOrExtendsMention(other vocab.Type) bool {
 	if other.GetTypeName() == "Mention" {
 		return true
 	}
-	return this.MentionIsExtendedBy(other)
+	return MentionIsExtendedBy(other)
 }
 
 // MentionIsDisjointWith returns true if the other provided type is disjoint with

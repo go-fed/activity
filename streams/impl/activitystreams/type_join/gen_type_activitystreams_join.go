@@ -398,7 +398,7 @@ func IsOrExtendsJoin(other vocab.Type) bool {
 	if other.GetTypeName() == "Join" {
 		return true
 	}
-	return this.JoinIsExtendedBy(other)
+	return JoinIsExtendedBy(other)
 }
 
 // JoinIsDisjointWith returns true if the other provided type is disjoint with the
