@@ -364,7 +364,7 @@ func (a *sideEffectActor) AddNewIds(c context.Context, activity Activity) error 
 // deliver will complete the peer-to-peer sending of a federated message to
 // another server.
 //
-// Must only be called if both social and federated protocols are supported.
+// Must be called if at least the federated protocol is supported.
 func (a *sideEffectActor) Deliver(c context.Context, outboxIRI *url.URL, activity Activity) error {
 	recipients, err := a.prepare(c, outboxIRI, activity)
 	if err != nil {

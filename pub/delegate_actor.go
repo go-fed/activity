@@ -140,7 +140,7 @@ type DelegateActor interface {
 	// Deliver sends a federated message. Called only if federation is
 	// enabled.
 	//
-	// Only called if the Social API and Federated Protocol is enabled.
+	// Called if the Federated Protocol is enabled.
 	//
 	// The provided url is the outbox of the sender. The Activity contains
 	// the information about the intended recipients.

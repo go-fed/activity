@@ -3,6 +3,7 @@ package pub
 import (
 	"context"
 	"net/http"
+	"net/url"
 )
 
 // Actor represents ActivityPub's actor concept. It conceptually has an inbox
@@ -89,4 +90,19 @@ type Actor interface {
 	// serializing this OrderedCollection and responding with the correct
 	// headers and http.StatusOK.
 	GetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
+}
+
+// FederatingActor is an Actor that allows programmatically delivering an
+// Activity to a federating peer.
+type FederatingActor interface {
+	Actor
+	// Deliver sends a federated message.
+	//
+	// The provided url must be the outbox of the sender for identity
+	// purposes only. It is up to the caller to ensure that the provided
+	// activity has been added to the outbox.
+	//
+	// Note that this function will only behave as expected if the
+	// implementation has been constructed to support federation.
+	Deliver(c context.Context, outbox *url.URL, activity Activity) error
 }

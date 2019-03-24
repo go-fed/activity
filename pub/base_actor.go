@@ -7,6 +7,7 @@ import (
 	"github.com/go-fed/activity/streams"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 )
 
 // baseActor must satisfy the Actor interface.
@@ -33,6 +34,18 @@ type baseActor struct {
 	enableFederatedProtocol bool
 	// clock simply tracks the current time.
 	clock Clock
+}
+
+// baseActorFederating must satisfy the FederatingActor interface.
+var _ FederatingActor = &baseActorFederating{}
+
+// baseActorFederating is a baseActor that also satisfies the FederatingActor
+// interface.
+//
+// The baseActor is preserved as an Actor which will not successfully cast to a
+// FederatingActor.
+type baseActorFederating struct {
+	baseActor
 }
 
 // NewSocialActor builds a new Actor concept that handles only the Social
@@ -78,16 +91,18 @@ func NewSocialActor(c CommonBehavior,
 func NewFederatingActor(c CommonBehavior,
 	s2s FederatingProtocol,
 	db Database,
-	clock Clock) Actor {
-	return &baseActor{
-		delegate: &sideEffectActor{
-			common: c,
-			s2s:    s2s,
-			db:     db,
-			clock:  clock,
+	clock Clock) FederatingActor {
+	return &baseActorFederating{
+		baseActor{
+			delegate: &sideEffectActor{
+				common: c,
+				s2s:    s2s,
+				db:     db,
+				clock:  clock,
+			},
+			enableFederatedProtocol: true,
+			clock:                   clock,
 		},
-		enableFederatedProtocol: true,
-		clock:                   clock,
 	}
 }
 
@@ -104,18 +119,20 @@ func NewActor(c CommonBehavior,
 	c2s SocialProtocol,
 	s2s FederatingProtocol,
 	db Database,
-	clock Clock) Actor {
-	return &baseActor{
-		delegate: &sideEffectActor{
-			common: c,
-			c2s:    c2s,
-			s2s:    s2s,
-			db:     db,
-			clock:  clock,
+	clock Clock) FederatingActor {
+	return &baseActorFederating{
+		baseActor{
+			delegate: &sideEffectActor{
+				common: c,
+				c2s:    c2s,
+				s2s:    s2s,
+				db:     db,
+				clock:  clock,
+			},
+			enableSocialProtocol:    true,
+			enableFederatedProtocol: true,
+			clock:                   clock,
 		},
-		enableSocialProtocol:    true,
-		enableFederatedProtocol: true,
-		clock:                   clock,
 	}
 }
 
@@ -130,12 +147,14 @@ func NewActor(c CommonBehavior,
 // Use with due care.
 func NewCustomActor(delegate DelegateActor,
 	enableSocialProtocol, enableFederatedProtocol bool,
-	clock Clock) Actor {
-	return &baseActor{
-		delegate:                delegate,
-		enableSocialProtocol:    enableSocialProtocol,
-		enableFederatedProtocol: enableFederatedProtocol,
-		clock:                   clock,
+	clock Clock) FederatingActor {
+	return &baseActorFederating{
+		baseActor{
+			delegate:                delegate,
+			enableSocialProtocol:    enableSocialProtocol,
+			enableFederatedProtocol: enableFederatedProtocol,
+			clock:                   clock,
+		},
 	}
 }
 
@@ -402,4 +421,9 @@ func (b *baseActor) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 		return true, fmt.Errorf("ResponseWriter.Write wrote %d of %d bytes", n, len(raw))
 	}
 	return true, nil
+}
+
+// Deliver delegates directly to the delegate actor.
+func (b *baseActorFederating) Deliver(c context.Context, outbox *url.URL, activity Activity) error {
+	return b.delegate.Deliver(c, outbox, activity)
 }
