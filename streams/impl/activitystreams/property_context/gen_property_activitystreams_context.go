@@ -5211,6 +5211,18 @@ func (this *ActivityStreamsContextProperty) SetIRI(idx int, v *url.URL) {
 	}
 }
 
+// SetType sets an arbitrary type value to the specified index of the property
+// "context". Invalidates all iterators. Returns an error if the type is not a
+// valid one to set for this property. Panics if the index is out of bounds.
+func (this *ActivityStreamsContextProperty) SetType(idx int, t vocab.Type) error {
+	n := &ActivityStreamsContextPropertyIterator{myIdx: idx}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	(this.properties)[idx] = n
+	return nil
+}
+
 // Swap swaps the location of values at two indices for the "context" property.
 func (this ActivityStreamsContextProperty) Swap(i, j int) {
 	this.properties[i], this.properties[j] = this.properties[j], this.properties[i]

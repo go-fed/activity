@@ -695,6 +695,18 @@ func (this *ActivityStreamsImageProperty) SetIRI(idx int, v *url.URL) {
 	}
 }
 
+// SetType sets an arbitrary type value to the specified index of the property
+// "image". Invalidates all iterators. Returns an error if the type is not a
+// valid one to set for this property. Panics if the index is out of bounds.
+func (this *ActivityStreamsImageProperty) SetType(idx int, t vocab.Type) error {
+	n := &ActivityStreamsImagePropertyIterator{myIdx: idx}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	(this.properties)[idx] = n
+	return nil
+}
+
 // Swap swaps the location of values at two indices for the "image" property.
 func (this ActivityStreamsImageProperty) Swap(i, j int) {
 	this.properties[i], this.properties[j] = this.properties[j], this.properties[i]

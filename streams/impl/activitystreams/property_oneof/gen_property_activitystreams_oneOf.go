@@ -5201,6 +5201,18 @@ func (this *ActivityStreamsOneOfProperty) SetIRI(idx int, v *url.URL) {
 	}
 }
 
+// SetType sets an arbitrary type value to the specified index of the property
+// "oneOf". Invalidates all iterators. Returns an error if the type is not a
+// valid one to set for this property. Panics if the index is out of bounds.
+func (this *ActivityStreamsOneOfProperty) SetType(idx int, t vocab.Type) error {
+	n := &ActivityStreamsOneOfPropertyIterator{myIdx: idx}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	(this.properties)[idx] = n
+	return nil
+}
+
 // Swap swaps the location of values at two indices for the "oneOf" property.
 func (this ActivityStreamsOneOfProperty) Swap(i, j int) {
 	this.properties[i], this.properties[j] = this.properties[j], this.properties[i]

@@ -5201,6 +5201,18 @@ func (this *ActivityStreamsAnyOfProperty) SetIRI(idx int, v *url.URL) {
 	}
 }
 
+// SetType sets an arbitrary type value to the specified index of the property
+// "anyOf". Invalidates all iterators. Returns an error if the type is not a
+// valid one to set for this property. Panics if the index is out of bounds.
+func (this *ActivityStreamsAnyOfProperty) SetType(idx int, t vocab.Type) error {
+	n := &ActivityStreamsAnyOfPropertyIterator{myIdx: idx}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	(this.properties)[idx] = n
+	return nil
+}
+
 // Swap swaps the location of values at two indices for the "anyOf" property.
 func (this ActivityStreamsAnyOfProperty) Swap(i, j int) {
 	this.properties[i], this.properties[j] = this.properties[j], this.properties[i]

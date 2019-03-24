@@ -1350,6 +1350,11 @@ type ActivityStreamsTargetProperty interface {
 	// SetIRI sets an IRI value to be at the specified index for the property
 	// "target". Panics if the index is out of bounds.
 	SetIRI(idx int, v *url.URL)
+	// SetType sets an arbitrary type value to the specified index of the
+	// property "target". Invalidates all iterators. Returns an error if
+	// the type is not a valid one to set for this property. Panics if the
+	// index is out of bounds.
+	SetType(idx int, t Type) error
 	// Swap swaps the location of values at two indices for the "target"
 	// property.
 	Swap(i, j int)

@@ -5250,6 +5250,19 @@ func (this *ActivityStreamsOrderedItemsProperty) SetIRI(idx int, v *url.URL) {
 	}
 }
 
+// SetType sets an arbitrary type value to the specified index of the property
+// "orderedItems". Invalidates all iterators. Returns an error if the type is
+// not a valid one to set for this property. Panics if the index is out of
+// bounds.
+func (this *ActivityStreamsOrderedItemsProperty) SetType(idx int, t vocab.Type) error {
+	n := &ActivityStreamsOrderedItemsPropertyIterator{myIdx: idx}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	(this.properties)[idx] = n
+	return nil
+}
+
 // Swap swaps the location of values at two indices for the "orderedItems"
 // property.
 func (this ActivityStreamsOrderedItemsProperty) Swap(i, j int) {

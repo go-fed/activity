@@ -5201,6 +5201,18 @@ func (this *ActivityStreamsActorProperty) SetIRI(idx int, v *url.URL) {
 	}
 }
 
+// SetType sets an arbitrary type value to the specified index of the property
+// "actor". Invalidates all iterators. Returns an error if the type is not a
+// valid one to set for this property. Panics if the index is out of bounds.
+func (this *ActivityStreamsActorProperty) SetType(idx int, t vocab.Type) error {
+	n := &ActivityStreamsActorPropertyIterator{myIdx: idx}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	(this.properties)[idx] = n
+	return nil
+}
+
 // Swap swaps the location of values at two indices for the "actor" property.
 func (this ActivityStreamsActorProperty) Swap(i, j int) {
 	this.properties[i], this.properties[j] = this.properties[j], this.properties[i]
