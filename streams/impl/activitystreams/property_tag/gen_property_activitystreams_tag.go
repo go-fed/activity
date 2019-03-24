@@ -3338,7 +3338,11 @@ func (this *ActivityStreamsTagProperty) AppendIRI(v *url.URL) {
 // property "tag". Invalidates iterators that are traversing using Prev.
 // Returns an error if the type is not a valid one to set for this property.
 func (this *ActivityStreamsTagProperty) AppendType(t vocab.Type) error {
-	n := &ActivityStreamsTagPropertyIterator{myIdx: this.Len()}
+	n := &ActivityStreamsTagPropertyIterator{
+		alias:  this.alias,
+		myIdx:  this.Len(),
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}
@@ -3372,6 +3376,962 @@ func (this ActivityStreamsTagProperty) Empty() bool {
 // iterator's Next method and this property's Begin method to iterate from
 // front to back through all values.
 func (this ActivityStreamsTagProperty) End() vocab.ActivityStreamsTagPropertyIterator {
+	return nil
+}
+
+// InsertActivityStreamsAccept inserts a Accept value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsAccept(idx int, v vocab.ActivityStreamsAccept) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsAcceptMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsActivity inserts a Activity value at the specified index
+// for a property "tag". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsActivity(idx int, v vocab.ActivityStreamsActivity) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsActivityMember: v,
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsAdd inserts a Add value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsAdd(idx int, v vocab.ActivityStreamsAdd) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsAddMember: v,
+		alias:                    this.alias,
+		myIdx:                    idx,
+		parent:                   this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsAnnounce inserts a Announce value at the specified index
+// for a property "tag". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsAnnounce(idx int, v vocab.ActivityStreamsAnnounce) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsAnnounceMember: v,
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsApplication inserts a Application value at the specified
+// index for a property "tag". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsApplication(idx int, v vocab.ActivityStreamsApplication) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsApplicationMember: v,
+		alias:                            this.alias,
+		myIdx:                            idx,
+		parent:                           this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsArrive inserts a Arrive value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsArrive(idx int, v vocab.ActivityStreamsArrive) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsArriveMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsArticle inserts a Article value at the specified index for
+// a property "tag". Existing elements at that index and higher are shifted
+// back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsArticle(idx int, v vocab.ActivityStreamsArticle) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsArticleMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsAudio inserts a Audio value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsAudio(idx int, v vocab.ActivityStreamsAudio) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsAudioMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsBlock inserts a Block value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsBlock(idx int, v vocab.ActivityStreamsBlock) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsBlockMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsCollection inserts a Collection value at the specified
+// index for a property "tag". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsCollection(idx int, v vocab.ActivityStreamsCollection) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsCollectionMember: v,
+		alias:                           this.alias,
+		myIdx:                           idx,
+		parent:                          this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsCollectionPage inserts a CollectionPage value at the
+// specified index for a property "tag". Existing elements at that index and
+// higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsCollectionPage(idx int, v vocab.ActivityStreamsCollectionPage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsCollectionPageMember: v,
+		alias:                               this.alias,
+		myIdx:                               idx,
+		parent:                              this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsCreate inserts a Create value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsCreate(idx int, v vocab.ActivityStreamsCreate) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsCreateMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsDelete inserts a Delete value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsDelete(idx int, v vocab.ActivityStreamsDelete) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsDeleteMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsDislike inserts a Dislike value at the specified index for
+// a property "tag". Existing elements at that index and higher are shifted
+// back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsDislike(idx int, v vocab.ActivityStreamsDislike) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsDislikeMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsDocument inserts a Document value at the specified index
+// for a property "tag". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsDocument(idx int, v vocab.ActivityStreamsDocument) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsDocumentMember: v,
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsEvent inserts a Event value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsEvent(idx int, v vocab.ActivityStreamsEvent) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsEventMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsFlag inserts a Flag value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsFlag(idx int, v vocab.ActivityStreamsFlag) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsFlagMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsFollow inserts a Follow value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsFollow(idx int, v vocab.ActivityStreamsFollow) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsFollowMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsGroup inserts a Group value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsGroup(idx int, v vocab.ActivityStreamsGroup) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsGroupMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsIgnore inserts a Ignore value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsIgnore(idx int, v vocab.ActivityStreamsIgnore) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsIgnoreMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsImage inserts a Image value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsImage(idx int, v vocab.ActivityStreamsImage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsImageMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsIntransitiveActivity inserts a IntransitiveActivity value
+// at the specified index for a property "tag". Existing elements at that
+// index and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsIntransitiveActivity(idx int, v vocab.ActivityStreamsIntransitiveActivity) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsIntransitiveActivityMember: v,
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsInvite inserts a Invite value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsInvite(idx int, v vocab.ActivityStreamsInvite) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsInviteMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsJoin inserts a Join value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsJoin(idx int, v vocab.ActivityStreamsJoin) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsJoinMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsLeave inserts a Leave value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsLeave(idx int, v vocab.ActivityStreamsLeave) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsLeaveMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsLike inserts a Like value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsLike(idx int, v vocab.ActivityStreamsLike) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsLikeMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsLink inserts a Link value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsLink(idx int, v vocab.ActivityStreamsLink) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsLinkMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsListen inserts a Listen value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsListen(idx int, v vocab.ActivityStreamsListen) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsListenMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsMention inserts a Mention value at the specified index for
+// a property "tag". Existing elements at that index and higher are shifted
+// back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsMention(idx int, v vocab.ActivityStreamsMention) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsMentionMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsMove inserts a Move value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsMove(idx int, v vocab.ActivityStreamsMove) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsMoveMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsNote inserts a Note value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsNote(idx int, v vocab.ActivityStreamsNote) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsNoteMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsObject inserts a Object value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsObject(idx int, v vocab.ActivityStreamsObject) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsObjectMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOffer inserts a Offer value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsOffer(idx int, v vocab.ActivityStreamsOffer) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsOfferMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOrderedCollection inserts a OrderedCollection value at the
+// specified index for a property "tag". Existing elements at that index and
+// higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsOrderedCollection(idx int, v vocab.ActivityStreamsOrderedCollection) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsOrderedCollectionMember: v,
+		alias:                                  this.alias,
+		myIdx:                                  idx,
+		parent:                                 this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOrderedCollectionPage inserts a OrderedCollectionPage
+// value at the specified index for a property "tag". Existing elements at
+// that index and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsOrderedCollectionPage(idx int, v vocab.ActivityStreamsOrderedCollectionPage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsOrderedCollectionPageMember: v,
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOrganization inserts a Organization value at the specified
+// index for a property "tag". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsOrganization(idx int, v vocab.ActivityStreamsOrganization) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsOrganizationMember: v,
+		alias:                             this.alias,
+		myIdx:                             idx,
+		parent:                            this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsPage inserts a Page value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsPage(idx int, v vocab.ActivityStreamsPage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsPageMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsPerson inserts a Person value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsPerson(idx int, v vocab.ActivityStreamsPerson) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsPersonMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsPlace inserts a Place value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsPlace(idx int, v vocab.ActivityStreamsPlace) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsPlaceMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsProfile inserts a Profile value at the specified index for
+// a property "tag". Existing elements at that index and higher are shifted
+// back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsProfile(idx int, v vocab.ActivityStreamsProfile) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsProfileMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsQuestion inserts a Question value at the specified index
+// for a property "tag". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsQuestion(idx int, v vocab.ActivityStreamsQuestion) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsQuestionMember: v,
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsRead inserts a Read value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsRead(idx int, v vocab.ActivityStreamsRead) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsReadMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsReject inserts a Reject value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsReject(idx int, v vocab.ActivityStreamsReject) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsRejectMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsRelationship inserts a Relationship value at the specified
+// index for a property "tag". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsRelationship(idx int, v vocab.ActivityStreamsRelationship) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsRelationshipMember: v,
+		alias:                             this.alias,
+		myIdx:                             idx,
+		parent:                            this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsRemove inserts a Remove value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsRemove(idx int, v vocab.ActivityStreamsRemove) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsRemoveMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsService inserts a Service value at the specified index for
+// a property "tag". Existing elements at that index and higher are shifted
+// back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsService(idx int, v vocab.ActivityStreamsService) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsServiceMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsTentativeAccept inserts a TentativeAccept value at the
+// specified index for a property "tag". Existing elements at that index and
+// higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsTentativeAccept(idx int, v vocab.ActivityStreamsTentativeAccept) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsTentativeAcceptMember: v,
+		alias:                                this.alias,
+		myIdx:                                idx,
+		parent:                               this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsTentativeReject inserts a TentativeReject value at the
+// specified index for a property "tag". Existing elements at that index and
+// higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsTentativeReject(idx int, v vocab.ActivityStreamsTentativeReject) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsTentativeRejectMember: v,
+		alias:                                this.alias,
+		myIdx:                                idx,
+		parent:                               this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsTombstone inserts a Tombstone value at the specified index
+// for a property "tag". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsTombstone(idx int, v vocab.ActivityStreamsTombstone) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsTombstoneMember: v,
+		alias:                          this.alias,
+		myIdx:                          idx,
+		parent:                         this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsTravel inserts a Travel value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsTravel(idx int, v vocab.ActivityStreamsTravel) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsTravelMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsUndo inserts a Undo value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsUndo(idx int, v vocab.ActivityStreamsUndo) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsUndoMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsUpdate inserts a Update value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsUpdate(idx int, v vocab.ActivityStreamsUpdate) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsUpdateMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsVideo inserts a Video value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsVideo(idx int, v vocab.ActivityStreamsVideo) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsVideoMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsView inserts a View value at the specified index for a
+// property "tag". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertActivityStreamsView(idx int, v vocab.ActivityStreamsView) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		activitystreamsViewMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// Insert inserts an IRI value at the specified index for a property "tag".
+// Existing elements at that index and higher are shifted back once.
+// Invalidates all iterators.
+func (this *ActivityStreamsTagProperty) InsertIRI(idx int, v *url.URL) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsTagPropertyIterator{
+		alias:  this.alias,
+		iri:    v,
+		myIdx:  idx,
+		parent: this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "tag". Invalidates all iterators. Returns an error if the type is
+// not a valid one to set for this property.
+func (this *ActivityStreamsTagProperty) InsertType(idx int, t vocab.Type) error {
+	n := &ActivityStreamsTagPropertyIterator{
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = n
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
 	return nil
 }
 
@@ -4441,7 +5401,11 @@ func (this *ActivityStreamsTagProperty) PrependIRI(v *url.URL) {
 // property "tag". Invalidates all iterators. Returns an error if the type is
 // not a valid one to set for this property.
 func (this *ActivityStreamsTagProperty) PrependType(t vocab.Type) error {
-	n := &ActivityStreamsTagPropertyIterator{myIdx: 0}
+	n := &ActivityStreamsTagPropertyIterator{
+		alias:  this.alias,
+		myIdx:  0,
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}
@@ -5203,7 +6167,11 @@ func (this *ActivityStreamsTagProperty) SetIRI(idx int, v *url.URL) {
 // "tag". Invalidates all iterators. Returns an error if the type is not a
 // valid one to set for this property. Panics if the index is out of bounds.
 func (this *ActivityStreamsTagProperty) SetType(idx int, t vocab.Type) error {
-	n := &ActivityStreamsTagPropertyIterator{myIdx: idx}
+	n := &ActivityStreamsTagPropertyIterator{
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}

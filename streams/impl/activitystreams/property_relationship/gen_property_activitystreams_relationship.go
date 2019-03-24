@@ -3271,7 +3271,11 @@ func (this *ActivityStreamsRelationshipProperty) AppendIRI(v *url.URL) {
 // Prev. Returns an error if the type is not a valid one to set for this
 // property.
 func (this *ActivityStreamsRelationshipProperty) AppendType(t vocab.Type) error {
-	n := &ActivityStreamsRelationshipPropertyIterator{myIdx: this.Len()}
+	n := &ActivityStreamsRelationshipPropertyIterator{
+		alias:  this.alias,
+		myIdx:  this.Len(),
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}
@@ -3305,6 +3309,929 @@ func (this ActivityStreamsRelationshipProperty) Empty() bool {
 // iterator's Next method and this property's Begin method to iterate from
 // front to back through all values.
 func (this ActivityStreamsRelationshipProperty) End() vocab.ActivityStreamsRelationshipPropertyIterator {
+	return nil
+}
+
+// InsertActivityStreamsAccept inserts a Accept value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsAccept(idx int, v vocab.ActivityStreamsAccept) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsAcceptMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsActivity inserts a Activity value at the specified index
+// for a property "relationship". Existing elements at that index and higher
+// are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsActivity(idx int, v vocab.ActivityStreamsActivity) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsActivityMember: v,
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsAdd inserts a Add value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsAdd(idx int, v vocab.ActivityStreamsAdd) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsAddMember: v,
+		alias:                    this.alias,
+		myIdx:                    idx,
+		parent:                   this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsAnnounce inserts a Announce value at the specified index
+// for a property "relationship". Existing elements at that index and higher
+// are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsAnnounce(idx int, v vocab.ActivityStreamsAnnounce) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsAnnounceMember: v,
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsApplication inserts a Application value at the specified
+// index for a property "relationship". Existing elements at that index and
+// higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsApplication(idx int, v vocab.ActivityStreamsApplication) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsApplicationMember: v,
+		alias:                            this.alias,
+		myIdx:                            idx,
+		parent:                           this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsArrive inserts a Arrive value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsArrive(idx int, v vocab.ActivityStreamsArrive) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsArriveMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsArticle inserts a Article value at the specified index for
+// a property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsArticle(idx int, v vocab.ActivityStreamsArticle) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsArticleMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsAudio inserts a Audio value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsAudio(idx int, v vocab.ActivityStreamsAudio) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsAudioMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsBlock inserts a Block value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsBlock(idx int, v vocab.ActivityStreamsBlock) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsBlockMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsCollection inserts a Collection value at the specified
+// index for a property "relationship". Existing elements at that index and
+// higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsCollection(idx int, v vocab.ActivityStreamsCollection) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsCollectionMember: v,
+		alias:                           this.alias,
+		myIdx:                           idx,
+		parent:                          this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsCollectionPage inserts a CollectionPage value at the
+// specified index for a property "relationship". Existing elements at that
+// index and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsCollectionPage(idx int, v vocab.ActivityStreamsCollectionPage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsCollectionPageMember: v,
+		alias:                               this.alias,
+		myIdx:                               idx,
+		parent:                              this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsCreate inserts a Create value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsCreate(idx int, v vocab.ActivityStreamsCreate) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsCreateMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsDelete inserts a Delete value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsDelete(idx int, v vocab.ActivityStreamsDelete) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsDeleteMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsDislike inserts a Dislike value at the specified index for
+// a property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsDislike(idx int, v vocab.ActivityStreamsDislike) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsDislikeMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsDocument inserts a Document value at the specified index
+// for a property "relationship". Existing elements at that index and higher
+// are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsDocument(idx int, v vocab.ActivityStreamsDocument) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsDocumentMember: v,
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsEvent inserts a Event value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsEvent(idx int, v vocab.ActivityStreamsEvent) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsEventMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsFlag inserts a Flag value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsFlag(idx int, v vocab.ActivityStreamsFlag) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsFlagMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsFollow inserts a Follow value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsFollow(idx int, v vocab.ActivityStreamsFollow) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsFollowMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsGroup inserts a Group value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsGroup(idx int, v vocab.ActivityStreamsGroup) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsGroupMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsIgnore inserts a Ignore value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsIgnore(idx int, v vocab.ActivityStreamsIgnore) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsIgnoreMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsImage inserts a Image value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsImage(idx int, v vocab.ActivityStreamsImage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsImageMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsIntransitiveActivity inserts a IntransitiveActivity value
+// at the specified index for a property "relationship". Existing elements at
+// that index and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsIntransitiveActivity(idx int, v vocab.ActivityStreamsIntransitiveActivity) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsIntransitiveActivityMember: v,
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsInvite inserts a Invite value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsInvite(idx int, v vocab.ActivityStreamsInvite) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsInviteMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsJoin inserts a Join value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsJoin(idx int, v vocab.ActivityStreamsJoin) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsJoinMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsLeave inserts a Leave value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsLeave(idx int, v vocab.ActivityStreamsLeave) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsLeaveMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsLike inserts a Like value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsLike(idx int, v vocab.ActivityStreamsLike) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsLikeMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsListen inserts a Listen value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsListen(idx int, v vocab.ActivityStreamsListen) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsListenMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsMove inserts a Move value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsMove(idx int, v vocab.ActivityStreamsMove) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsMoveMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsNote inserts a Note value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsNote(idx int, v vocab.ActivityStreamsNote) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsNoteMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsObject inserts a Object value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsObject(idx int, v vocab.ActivityStreamsObject) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsObjectMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOffer inserts a Offer value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsOffer(idx int, v vocab.ActivityStreamsOffer) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsOfferMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOrderedCollection inserts a OrderedCollection value at the
+// specified index for a property "relationship". Existing elements at that
+// index and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsOrderedCollection(idx int, v vocab.ActivityStreamsOrderedCollection) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsOrderedCollectionMember: v,
+		alias:                                  this.alias,
+		myIdx:                                  idx,
+		parent:                                 this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOrderedCollectionPage inserts a OrderedCollectionPage
+// value at the specified index for a property "relationship". Existing
+// elements at that index and higher are shifted back once. Invalidates all
+// iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsOrderedCollectionPage(idx int, v vocab.ActivityStreamsOrderedCollectionPage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsOrderedCollectionPageMember: v,
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOrganization inserts a Organization value at the specified
+// index for a property "relationship". Existing elements at that index and
+// higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsOrganization(idx int, v vocab.ActivityStreamsOrganization) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsOrganizationMember: v,
+		alias:                             this.alias,
+		myIdx:                             idx,
+		parent:                            this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsPage inserts a Page value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsPage(idx int, v vocab.ActivityStreamsPage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsPageMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsPerson inserts a Person value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsPerson(idx int, v vocab.ActivityStreamsPerson) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsPersonMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsPlace inserts a Place value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsPlace(idx int, v vocab.ActivityStreamsPlace) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsPlaceMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsProfile inserts a Profile value at the specified index for
+// a property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsProfile(idx int, v vocab.ActivityStreamsProfile) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsProfileMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsQuestion inserts a Question value at the specified index
+// for a property "relationship". Existing elements at that index and higher
+// are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsQuestion(idx int, v vocab.ActivityStreamsQuestion) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsQuestionMember: v,
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsRead inserts a Read value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsRead(idx int, v vocab.ActivityStreamsRead) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsReadMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsReject inserts a Reject value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsReject(idx int, v vocab.ActivityStreamsReject) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsRejectMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsRelationship inserts a Relationship value at the specified
+// index for a property "relationship". Existing elements at that index and
+// higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsRelationship(idx int, v vocab.ActivityStreamsRelationship) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsRelationshipMember: v,
+		alias:                             this.alias,
+		myIdx:                             idx,
+		parent:                            this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsRemove inserts a Remove value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsRemove(idx int, v vocab.ActivityStreamsRemove) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsRemoveMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsService inserts a Service value at the specified index for
+// a property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsService(idx int, v vocab.ActivityStreamsService) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsServiceMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsTentativeAccept inserts a TentativeAccept value at the
+// specified index for a property "relationship". Existing elements at that
+// index and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsTentativeAccept(idx int, v vocab.ActivityStreamsTentativeAccept) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsTentativeAcceptMember: v,
+		alias:                                this.alias,
+		myIdx:                                idx,
+		parent:                               this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsTentativeReject inserts a TentativeReject value at the
+// specified index for a property "relationship". Existing elements at that
+// index and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsTentativeReject(idx int, v vocab.ActivityStreamsTentativeReject) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsTentativeRejectMember: v,
+		alias:                                this.alias,
+		myIdx:                                idx,
+		parent:                               this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsTombstone inserts a Tombstone value at the specified index
+// for a property "relationship". Existing elements at that index and higher
+// are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsTombstone(idx int, v vocab.ActivityStreamsTombstone) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsTombstoneMember: v,
+		alias:                          this.alias,
+		myIdx:                          idx,
+		parent:                         this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsTravel inserts a Travel value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsTravel(idx int, v vocab.ActivityStreamsTravel) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsTravelMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsUndo inserts a Undo value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsUndo(idx int, v vocab.ActivityStreamsUndo) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsUndoMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsUpdate inserts a Update value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsUpdate(idx int, v vocab.ActivityStreamsUpdate) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsUpdateMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsVideo inserts a Video value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsVideo(idx int, v vocab.ActivityStreamsVideo) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsVideoMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsView inserts a View value at the specified index for a
+// property "relationship". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertActivityStreamsView(idx int, v vocab.ActivityStreamsView) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		activitystreamsViewMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// Insert inserts an IRI value at the specified index for a property
+// "relationship". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsRelationshipProperty) InsertIRI(idx int, v *url.URL) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
+		alias:  this.alias,
+		iri:    v,
+		myIdx:  idx,
+		parent: this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "relationship". Invalidates all iterators. Returns an error if the
+// type is not a valid one to set for this property.
+func (this *ActivityStreamsRelationshipProperty) InsertType(idx int, t vocab.Type) error {
+	n := &ActivityStreamsRelationshipPropertyIterator{
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = n
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
 	return nil
 }
 
@@ -4340,7 +5267,11 @@ func (this *ActivityStreamsRelationshipProperty) PrependIRI(v *url.URL) {
 // property "relationship". Invalidates all iterators. Returns an error if the
 // type is not a valid one to set for this property.
 func (this *ActivityStreamsRelationshipProperty) PrependType(t vocab.Type) error {
-	n := &ActivityStreamsRelationshipPropertyIterator{myIdx: 0}
+	n := &ActivityStreamsRelationshipPropertyIterator{
+		alias:  this.alias,
+		myIdx:  0,
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}
@@ -5077,7 +6008,11 @@ func (this *ActivityStreamsRelationshipProperty) SetIRI(idx int, v *url.URL) {
 // not a valid one to set for this property. Panics if the index is out of
 // bounds.
 func (this *ActivityStreamsRelationshipProperty) SetType(idx int, t vocab.Type) error {
-	n := &ActivityStreamsRelationshipPropertyIterator{myIdx: idx}
+	n := &ActivityStreamsRelationshipPropertyIterator{
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}

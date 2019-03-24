@@ -935,6 +935,236 @@ type ActivityStreamsObjectProperty interface {
 	// the iterator's Next method and this property's Begin method to
 	// iterate from front to back through all values.
 	End() ActivityStreamsObjectPropertyIterator
+	// InsertActivityStreamsAccept inserts a Accept value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsAccept(idx int, v ActivityStreamsAccept)
+	// InsertActivityStreamsActivity inserts a Activity value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsActivity(idx int, v ActivityStreamsActivity)
+	// InsertActivityStreamsAdd inserts a Add value at the specified index for
+	// a property "object". Existing elements at that index and higher are
+	// shifted back once. Invalidates all iterators.
+	InsertActivityStreamsAdd(idx int, v ActivityStreamsAdd)
+	// InsertActivityStreamsAnnounce inserts a Announce value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsAnnounce(idx int, v ActivityStreamsAnnounce)
+	// InsertActivityStreamsApplication inserts a Application value at the
+	// specified index for a property "object". Existing elements at that
+	// index and higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsApplication(idx int, v ActivityStreamsApplication)
+	// InsertActivityStreamsArrive inserts a Arrive value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsArrive(idx int, v ActivityStreamsArrive)
+	// InsertActivityStreamsArticle inserts a Article value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsArticle(idx int, v ActivityStreamsArticle)
+	// InsertActivityStreamsAudio inserts a Audio value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsAudio(idx int, v ActivityStreamsAudio)
+	// InsertActivityStreamsBlock inserts a Block value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsBlock(idx int, v ActivityStreamsBlock)
+	// InsertActivityStreamsCollection inserts a Collection value at the
+	// specified index for a property "object". Existing elements at that
+	// index and higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsCollection(idx int, v ActivityStreamsCollection)
+	// InsertActivityStreamsCollectionPage inserts a CollectionPage value at
+	// the specified index for a property "object". Existing elements at
+	// that index and higher are shifted back once. Invalidates all
+	// iterators.
+	InsertActivityStreamsCollectionPage(idx int, v ActivityStreamsCollectionPage)
+	// InsertActivityStreamsCreate inserts a Create value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsCreate(idx int, v ActivityStreamsCreate)
+	// InsertActivityStreamsDelete inserts a Delete value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsDelete(idx int, v ActivityStreamsDelete)
+	// InsertActivityStreamsDislike inserts a Dislike value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsDislike(idx int, v ActivityStreamsDislike)
+	// InsertActivityStreamsDocument inserts a Document value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsDocument(idx int, v ActivityStreamsDocument)
+	// InsertActivityStreamsEvent inserts a Event value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsEvent(idx int, v ActivityStreamsEvent)
+	// InsertActivityStreamsFlag inserts a Flag value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsFlag(idx int, v ActivityStreamsFlag)
+	// InsertActivityStreamsFollow inserts a Follow value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsFollow(idx int, v ActivityStreamsFollow)
+	// InsertActivityStreamsGroup inserts a Group value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsGroup(idx int, v ActivityStreamsGroup)
+	// InsertActivityStreamsIgnore inserts a Ignore value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsIgnore(idx int, v ActivityStreamsIgnore)
+	// InsertActivityStreamsImage inserts a Image value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsImage(idx int, v ActivityStreamsImage)
+	// InsertActivityStreamsIntransitiveActivity inserts a
+	// IntransitiveActivity value at the specified index for a property
+	// "object". Existing elements at that index and higher are shifted
+	// back once. Invalidates all iterators.
+	InsertActivityStreamsIntransitiveActivity(idx int, v ActivityStreamsIntransitiveActivity)
+	// InsertActivityStreamsInvite inserts a Invite value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsInvite(idx int, v ActivityStreamsInvite)
+	// InsertActivityStreamsJoin inserts a Join value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsJoin(idx int, v ActivityStreamsJoin)
+	// InsertActivityStreamsLeave inserts a Leave value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsLeave(idx int, v ActivityStreamsLeave)
+	// InsertActivityStreamsLike inserts a Like value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsLike(idx int, v ActivityStreamsLike)
+	// InsertActivityStreamsLink inserts a Link value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsLink(idx int, v ActivityStreamsLink)
+	// InsertActivityStreamsListen inserts a Listen value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsListen(idx int, v ActivityStreamsListen)
+	// InsertActivityStreamsMention inserts a Mention value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsMention(idx int, v ActivityStreamsMention)
+	// InsertActivityStreamsMove inserts a Move value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsMove(idx int, v ActivityStreamsMove)
+	// InsertActivityStreamsNote inserts a Note value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsNote(idx int, v ActivityStreamsNote)
+	// InsertActivityStreamsObject inserts a Object value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsObject(idx int, v ActivityStreamsObject)
+	// InsertActivityStreamsOffer inserts a Offer value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsOffer(idx int, v ActivityStreamsOffer)
+	// InsertActivityStreamsOrderedCollection inserts a OrderedCollection
+	// value at the specified index for a property "object". Existing
+	// elements at that index and higher are shifted back once.
+	// Invalidates all iterators.
+	InsertActivityStreamsOrderedCollection(idx int, v ActivityStreamsOrderedCollection)
+	// InsertActivityStreamsOrderedCollectionPage inserts a
+	// OrderedCollectionPage value at the specified index for a property
+	// "object". Existing elements at that index and higher are shifted
+	// back once. Invalidates all iterators.
+	InsertActivityStreamsOrderedCollectionPage(idx int, v ActivityStreamsOrderedCollectionPage)
+	// InsertActivityStreamsOrganization inserts a Organization value at the
+	// specified index for a property "object". Existing elements at that
+	// index and higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsOrganization(idx int, v ActivityStreamsOrganization)
+	// InsertActivityStreamsPage inserts a Page value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsPage(idx int, v ActivityStreamsPage)
+	// InsertActivityStreamsPerson inserts a Person value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsPerson(idx int, v ActivityStreamsPerson)
+	// InsertActivityStreamsPlace inserts a Place value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsPlace(idx int, v ActivityStreamsPlace)
+	// InsertActivityStreamsProfile inserts a Profile value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsProfile(idx int, v ActivityStreamsProfile)
+	// InsertActivityStreamsQuestion inserts a Question value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsQuestion(idx int, v ActivityStreamsQuestion)
+	// InsertActivityStreamsRead inserts a Read value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsRead(idx int, v ActivityStreamsRead)
+	// InsertActivityStreamsReject inserts a Reject value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsReject(idx int, v ActivityStreamsReject)
+	// InsertActivityStreamsRelationship inserts a Relationship value at the
+	// specified index for a property "object". Existing elements at that
+	// index and higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsRelationship(idx int, v ActivityStreamsRelationship)
+	// InsertActivityStreamsRemove inserts a Remove value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsRemove(idx int, v ActivityStreamsRemove)
+	// InsertActivityStreamsService inserts a Service value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsService(idx int, v ActivityStreamsService)
+	// InsertActivityStreamsTentativeAccept inserts a TentativeAccept value at
+	// the specified index for a property "object". Existing elements at
+	// that index and higher are shifted back once. Invalidates all
+	// iterators.
+	InsertActivityStreamsTentativeAccept(idx int, v ActivityStreamsTentativeAccept)
+	// InsertActivityStreamsTentativeReject inserts a TentativeReject value at
+	// the specified index for a property "object". Existing elements at
+	// that index and higher are shifted back once. Invalidates all
+	// iterators.
+	InsertActivityStreamsTentativeReject(idx int, v ActivityStreamsTentativeReject)
+	// InsertActivityStreamsTombstone inserts a Tombstone value at the
+	// specified index for a property "object". Existing elements at that
+	// index and higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsTombstone(idx int, v ActivityStreamsTombstone)
+	// InsertActivityStreamsTravel inserts a Travel value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsTravel(idx int, v ActivityStreamsTravel)
+	// InsertActivityStreamsUndo inserts a Undo value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsUndo(idx int, v ActivityStreamsUndo)
+	// InsertActivityStreamsUpdate inserts a Update value at the specified
+	// index for a property "object". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsUpdate(idx int, v ActivityStreamsUpdate)
+	// InsertActivityStreamsVideo inserts a Video value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsVideo(idx int, v ActivityStreamsVideo)
+	// InsertActivityStreamsView inserts a View value at the specified index
+	// for a property "object". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertActivityStreamsView(idx int, v ActivityStreamsView)
+	// Insert inserts an IRI value at the specified index for a property
+	// "object". Existing elements at that index and higher are shifted
+	// back once. Invalidates all iterators.
+	InsertIRI(idx int, v *url.URL)
+	// PrependType prepends an arbitrary type value to the front of a list of
+	// the property "object". Invalidates all iterators. Returns an error
+	// if the type is not a valid one to set for this property.
+	InsertType(idx int, t Type) error
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or

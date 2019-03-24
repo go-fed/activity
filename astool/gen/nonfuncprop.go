@@ -170,6 +170,54 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					),
 				},
 				fmt.Sprintf("%s prepends a %s value to the front of a list of the property %q. Invalidates all iterators.", prependMethodName, kind.Name.LowerName, p.PropertyName())))
+		// Insert Method
+		insertDict := jen.Dict{}
+		for k, v := range dict {
+			insertDict[k] = v
+		}
+		insertDict[jen.Id(myIndexMemberName)] = jen.Id("idx")
+		insertMethodName := fmt.Sprintf("%s%s%s", insertMethod, kind.Vocab, p.kindCamelName(i))
+		methods = append(methods,
+			codegen.NewCommentedPointerMethod(
+				p.GetPrivatePackage().Path(),
+				insertMethodName,
+				p.StructName(),
+				[]jen.Code{
+					jen.Id("idx").Int(),
+					jen.Id("v").Add(kind.ConcreteKind),
+				},
+				/*ret=*/ nil,
+				[]jen.Code{
+					jen.Id(codegen.This()).Dot(propertiesName).Op("=").Append(
+						jen.Id(codegen.This()).Dot(propertiesName),
+						jen.Nil(),
+					),
+					jen.Copy(
+						jen.Id(codegen.This()).Dot(propertiesName).Index(
+							jen.Id("idx").Op("+").Lit(1),
+							jen.Empty(),
+						),
+						jen.Id(codegen.This()).Dot(propertiesName).Index(
+							jen.Id("idx"),
+							jen.Empty(),
+						),
+					),
+					jen.Id(codegen.This()).Dot(propertiesName).Index(
+						jen.Id("idx"),
+					).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(
+						insertDict,
+					),
+					jen.For(
+						jen.Id("i").Op(":=").Id("idx"),
+						jen.Id("i").Op("<").Id(codegen.This()).Dot(lenMethod).Call(),
+						jen.Id("i").Op("++"),
+					).Block(
+						jen.Parens(
+							jen.Id(codegen.This()).Dot(propertiesName),
+						).Index(jen.Id("i")).Dot(myIndexMemberName).Op("=").Id("i"),
+					),
+				},
+				fmt.Sprintf("%s inserts a %s value at the specified index for a property %q. Existing elements at that index and higher are shifted back once. Invalidates all iterators.", insertMethodName, kind.Name.LowerName, p.PropertyName())))
 		// Append Method
 		appendDict := jen.Dict{}
 		for k, v := range dict {
@@ -227,7 +275,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 			jen.Return(lessCall),
 		)
 	}
-	// IRI Prepend, Append, Set, and Less logic
+	// IRI Prepend, Insert, Append, Set, and Less logic
 	methods = append(methods,
 		codegen.NewCommentedPointerMethod(
 			p.GetPrivatePackage().Path(),
@@ -258,6 +306,52 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 				),
 			},
 			fmt.Sprintf("%sIRI prepends an IRI value to the front of a list of the property %q.", prependMethod, p.PropertyName())))
+	methods = append(methods,
+		codegen.NewCommentedPointerMethod(
+			p.GetPrivatePackage().Path(),
+			fmt.Sprintf("%sIRI", insertMethod),
+			p.StructName(),
+			[]jen.Code{
+				jen.Id("idx").Int(),
+				jen.Id("v").Op("*").Qual("net/url", "URL"),
+			},
+			/*ret=*/ nil,
+			[]jen.Code{
+				jen.Id(codegen.This()).Dot(propertiesName).Op("=").Append(
+					jen.Id(codegen.This()).Dot(propertiesName),
+					jen.Nil(),
+				),
+				jen.Copy(
+					jen.Id(codegen.This()).Dot(propertiesName).Index(
+						jen.Id("idx").Op("+").Lit(1),
+						jen.Empty(),
+					),
+					jen.Id(codegen.This()).Dot(propertiesName).Index(
+						jen.Id("idx"),
+						jen.Empty(),
+					),
+				),
+				jen.Id(codegen.This()).Dot(propertiesName).Index(
+					jen.Id("idx"),
+				).Op("=").Op("&").Id(p.iteratorTypeName().CamelName).Values(
+					jen.Dict{
+						p.thisIRI():               jen.Id("v"),
+						jen.Id(parentMemberName):  jen.Id(codegen.This()),
+						jen.Id(myIndexMemberName): jen.Id("idx"),
+						jen.Id(aliasMember):       jen.Id(codegen.This()).Dot(aliasMember),
+					},
+				),
+				jen.For(
+					jen.Id("i").Op(":=").Id("idx"),
+					jen.Id("i").Op("<").Id(codegen.This()).Dot(lenMethod).Call(),
+					jen.Id("i").Op("++"),
+				).Block(
+					jen.Parens(
+						jen.Id(codegen.This()).Dot(propertiesName),
+					).Index(jen.Id("i")).Dot(myIndexMemberName).Op("=").Id("i"),
+				),
+			},
+			fmt.Sprintf("%s inserts an IRI value at the specified index for a property %q. Existing elements at that index and higher are shifted back once. Invalidates all iterators.", insertMethod, p.PropertyName())))
 	methods = append(methods,
 		codegen.NewCommentedPointerMethod(
 			p.GetPrivatePackage().Path(),
@@ -571,6 +665,8 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					).Values(
 						jen.Dict{
 							jen.Id(myIndexMemberName): jen.Id("idx"),
+							jen.Id(parentMemberName):  jen.Id(codegen.This()),
+							jen.Id(aliasMember):       jen.Id(codegen.This()).Dot(aliasMember),
 						},
 					),
 					jen.If(
@@ -585,7 +681,6 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					),
 					jen.Parens(jen.Id(codegen.This()).Dot(propertiesName)).Index(jen.Id("idx")).Op("=").Id("n"),
 					jen.Return(jen.Nil()),
-
 				},
 				fmt.Sprintf("%s%s sets an arbitrary type value to the specified index of the property %q. Invalidates all iterators. Returns an error if the type is not a valid one to set for this property. Panics if the index is out of bounds.", setMethod, typeInterfaceName, p.PropertyName())))
 		// PrependType Method
@@ -603,6 +698,8 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					).Values(
 						jen.Dict{
 							jen.Id(myIndexMemberName): jen.Lit(0),
+							jen.Id(parentMemberName):  jen.Id(codegen.This()),
+							jen.Id(aliasMember):       jen.Id(codegen.This()).Dot(aliasMember),
 						},
 					),
 					jen.If(
@@ -635,6 +732,68 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					jen.Return(jen.Nil()),
 				},
 				fmt.Sprintf("%s%s prepends an arbitrary type value to the front of a list of the property %q. Invalidates all iterators. Returns an error if the type is not a valid one to set for this property.", prependMethod, typeInterfaceName, p.PropertyName())))
+		// InsertType Method
+		methods = append(methods,
+			codegen.NewCommentedPointerMethod(
+				p.GetPrivatePackage().Path(),
+				fmt.Sprintf("%s%s", insertMethod, typeInterfaceName),
+				p.StructName(),
+				// Requires the property and type public path to be the same.
+				[]jen.Code{
+					jen.Id("idx").Int(),
+					jen.Id("t").Qual(p.GetPublicPackage().Path(), typeInterfaceName),
+				},
+				[]jen.Code{jen.Error()},
+				[]jen.Code{
+					jen.Id("n").Op(":=").Op("&").Id(
+						p.iteratorTypeName().CamelName,
+					).Values(
+						jen.Dict{
+							jen.Id(myIndexMemberName): jen.Id("idx"),
+							jen.Id(parentMemberName):  jen.Id(codegen.This()),
+							jen.Id(aliasMember):       jen.Id(codegen.This()).Dot(aliasMember),
+						},
+					),
+					jen.If(
+						jen.Err().Op(":=").Id("n").Dot(
+							fmt.Sprintf("Set%s", typeInterfaceName),
+						).Call(
+							jen.Id("t"),
+						),
+						jen.Err().Op("!=").Nil(),
+					).Block(
+						jen.Return(jen.Err()),
+					),
+					jen.Id(codegen.This()).Dot(propertiesName).Op("=").Append(
+						jen.Id(codegen.This()).Dot(propertiesName),
+						jen.Nil(),
+					),
+					jen.Copy(
+						jen.Id(codegen.This()).Dot(propertiesName).Index(
+							jen.Id("idx").Op("+").Lit(1),
+							jen.Empty(),
+						),
+						jen.Id(codegen.This()).Dot(propertiesName).Index(
+							jen.Id("idx"),
+							jen.Empty(),
+						),
+					),
+					jen.Id(codegen.This()).Dot(propertiesName).Index(
+						jen.Id("idx"),
+					).Op("=").Id("n"),
+					jen.For(
+						jen.Id("i").Op(":=").Id("idx"),
+						jen.Id("i").Op("<").Id(codegen.This()).Dot(lenMethod).Call(),
+						jen.Id("i").Op("++"),
+					).Block(
+						jen.Parens(
+							jen.Id(codegen.This()).Dot(propertiesName),
+						).Index(jen.Id("i")).Dot(myIndexMemberName).Op("=").Id("i"),
+					),
+					jen.Return(jen.Nil()),
+				},
+				fmt.Sprintf("%s%s prepends an arbitrary type value to the front of a list of the property %q. Invalidates all iterators. Returns an error if the type is not a valid one to set for this property.", prependMethod, typeInterfaceName, p.PropertyName())))
+
 		// AppendType
 		methods = append(methods,
 			codegen.NewCommentedPointerMethod(
@@ -650,6 +809,8 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 					).Values(
 						jen.Dict{
 							jen.Id(myIndexMemberName): jen.Id(codegen.This()).Dot(lenMethod).Call(),
+							jen.Id(parentMemberName):  jen.Id(codegen.This()),
+							jen.Id(aliasMember):       jen.Id(codegen.This()).Dot(aliasMember),
 						},
 					),
 					jen.If(

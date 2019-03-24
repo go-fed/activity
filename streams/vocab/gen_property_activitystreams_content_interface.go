@@ -136,6 +136,18 @@ type ActivityStreamsContentProperty interface {
 	// the iterator's Next method and this property's Begin method to
 	// iterate from front to back through all values.
 	End() ActivityStreamsContentPropertyIterator
+	// Insert inserts an IRI value at the specified index for a property
+	// "content". Existing elements at that index and higher are shifted
+	// back once. Invalidates all iterators.
+	InsertIRI(idx int, v *url.URL)
+	// InsertRDFLangString inserts a langString value at the specified index
+	// for a property "content". Existing elements at that index and
+	// higher are shifted back once. Invalidates all iterators.
+	InsertRDFLangString(idx int, v map[string]string)
+	// InsertXMLSchemaString inserts a string value at the specified index for
+	// a property "content". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertXMLSchemaString(idx int, v string)
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or

@@ -3349,7 +3349,11 @@ func (this *ActivityStreamsGeneratorProperty) AppendIRI(v *url.URL) {
 // property "generator". Invalidates iterators that are traversing using Prev.
 // Returns an error if the type is not a valid one to set for this property.
 func (this *ActivityStreamsGeneratorProperty) AppendType(t vocab.Type) error {
-	n := &ActivityStreamsGeneratorPropertyIterator{myIdx: this.Len()}
+	n := &ActivityStreamsGeneratorPropertyIterator{
+		alias:  this.alias,
+		myIdx:  this.Len(),
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}
@@ -3383,6 +3387,962 @@ func (this ActivityStreamsGeneratorProperty) Empty() bool {
 // iterator's Next method and this property's Begin method to iterate from
 // front to back through all values.
 func (this ActivityStreamsGeneratorProperty) End() vocab.ActivityStreamsGeneratorPropertyIterator {
+	return nil
+}
+
+// InsertActivityStreamsAccept inserts a Accept value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsAccept(idx int, v vocab.ActivityStreamsAccept) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsAcceptMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsActivity inserts a Activity value at the specified index
+// for a property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsActivity(idx int, v vocab.ActivityStreamsActivity) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsActivityMember: v,
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsAdd inserts a Add value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsAdd(idx int, v vocab.ActivityStreamsAdd) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsAddMember: v,
+		alias:                    this.alias,
+		myIdx:                    idx,
+		parent:                   this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsAnnounce inserts a Announce value at the specified index
+// for a property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsAnnounce(idx int, v vocab.ActivityStreamsAnnounce) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsAnnounceMember: v,
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsApplication inserts a Application value at the specified
+// index for a property "generator". Existing elements at that index and
+// higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsApplication(idx int, v vocab.ActivityStreamsApplication) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsApplicationMember: v,
+		alias:                            this.alias,
+		myIdx:                            idx,
+		parent:                           this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsArrive inserts a Arrive value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsArrive(idx int, v vocab.ActivityStreamsArrive) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsArriveMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsArticle inserts a Article value at the specified index for
+// a property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsArticle(idx int, v vocab.ActivityStreamsArticle) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsArticleMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsAudio inserts a Audio value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsAudio(idx int, v vocab.ActivityStreamsAudio) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsAudioMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsBlock inserts a Block value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsBlock(idx int, v vocab.ActivityStreamsBlock) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsBlockMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsCollection inserts a Collection value at the specified
+// index for a property "generator". Existing elements at that index and
+// higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsCollection(idx int, v vocab.ActivityStreamsCollection) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsCollectionMember: v,
+		alias:                           this.alias,
+		myIdx:                           idx,
+		parent:                          this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsCollectionPage inserts a CollectionPage value at the
+// specified index for a property "generator". Existing elements at that index
+// and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsCollectionPage(idx int, v vocab.ActivityStreamsCollectionPage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsCollectionPageMember: v,
+		alias:                               this.alias,
+		myIdx:                               idx,
+		parent:                              this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsCreate inserts a Create value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsCreate(idx int, v vocab.ActivityStreamsCreate) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsCreateMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsDelete inserts a Delete value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsDelete(idx int, v vocab.ActivityStreamsDelete) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsDeleteMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsDislike inserts a Dislike value at the specified index for
+// a property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsDislike(idx int, v vocab.ActivityStreamsDislike) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsDislikeMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsDocument inserts a Document value at the specified index
+// for a property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsDocument(idx int, v vocab.ActivityStreamsDocument) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsDocumentMember: v,
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsEvent inserts a Event value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsEvent(idx int, v vocab.ActivityStreamsEvent) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsEventMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsFlag inserts a Flag value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsFlag(idx int, v vocab.ActivityStreamsFlag) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsFlagMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsFollow inserts a Follow value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsFollow(idx int, v vocab.ActivityStreamsFollow) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsFollowMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsGroup inserts a Group value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsGroup(idx int, v vocab.ActivityStreamsGroup) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsGroupMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsIgnore inserts a Ignore value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsIgnore(idx int, v vocab.ActivityStreamsIgnore) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsIgnoreMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsImage inserts a Image value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsImage(idx int, v vocab.ActivityStreamsImage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsImageMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsIntransitiveActivity inserts a IntransitiveActivity value
+// at the specified index for a property "generator". Existing elements at
+// that index and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsIntransitiveActivity(idx int, v vocab.ActivityStreamsIntransitiveActivity) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsIntransitiveActivityMember: v,
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsInvite inserts a Invite value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsInvite(idx int, v vocab.ActivityStreamsInvite) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsInviteMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsJoin inserts a Join value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsJoin(idx int, v vocab.ActivityStreamsJoin) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsJoinMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsLeave inserts a Leave value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsLeave(idx int, v vocab.ActivityStreamsLeave) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsLeaveMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsLike inserts a Like value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsLike(idx int, v vocab.ActivityStreamsLike) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsLikeMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsLink inserts a Link value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsLink(idx int, v vocab.ActivityStreamsLink) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsLinkMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsListen inserts a Listen value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsListen(idx int, v vocab.ActivityStreamsListen) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsListenMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsMention inserts a Mention value at the specified index for
+// a property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsMention(idx int, v vocab.ActivityStreamsMention) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsMentionMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsMove inserts a Move value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsMove(idx int, v vocab.ActivityStreamsMove) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsMoveMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsNote inserts a Note value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsNote(idx int, v vocab.ActivityStreamsNote) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsNoteMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsObject inserts a Object value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsObject(idx int, v vocab.ActivityStreamsObject) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsObjectMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOffer inserts a Offer value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsOffer(idx int, v vocab.ActivityStreamsOffer) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsOfferMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOrderedCollection inserts a OrderedCollection value at the
+// specified index for a property "generator". Existing elements at that index
+// and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsOrderedCollection(idx int, v vocab.ActivityStreamsOrderedCollection) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsOrderedCollectionMember: v,
+		alias:                                  this.alias,
+		myIdx:                                  idx,
+		parent:                                 this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOrderedCollectionPage inserts a OrderedCollectionPage
+// value at the specified index for a property "generator". Existing elements
+// at that index and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsOrderedCollectionPage(idx int, v vocab.ActivityStreamsOrderedCollectionPage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsOrderedCollectionPageMember: v,
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOrganization inserts a Organization value at the specified
+// index for a property "generator". Existing elements at that index and
+// higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsOrganization(idx int, v vocab.ActivityStreamsOrganization) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsOrganizationMember: v,
+		alias:                             this.alias,
+		myIdx:                             idx,
+		parent:                            this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsPage inserts a Page value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsPage(idx int, v vocab.ActivityStreamsPage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsPageMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsPerson inserts a Person value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsPerson(idx int, v vocab.ActivityStreamsPerson) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsPersonMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsPlace inserts a Place value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsPlace(idx int, v vocab.ActivityStreamsPlace) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsPlaceMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsProfile inserts a Profile value at the specified index for
+// a property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsProfile(idx int, v vocab.ActivityStreamsProfile) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsProfileMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsQuestion inserts a Question value at the specified index
+// for a property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsQuestion(idx int, v vocab.ActivityStreamsQuestion) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsQuestionMember: v,
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsRead inserts a Read value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsRead(idx int, v vocab.ActivityStreamsRead) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsReadMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsReject inserts a Reject value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsReject(idx int, v vocab.ActivityStreamsReject) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsRejectMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsRelationship inserts a Relationship value at the specified
+// index for a property "generator". Existing elements at that index and
+// higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsRelationship(idx int, v vocab.ActivityStreamsRelationship) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsRelationshipMember: v,
+		alias:                             this.alias,
+		myIdx:                             idx,
+		parent:                            this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsRemove inserts a Remove value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsRemove(idx int, v vocab.ActivityStreamsRemove) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsRemoveMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsService inserts a Service value at the specified index for
+// a property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsService(idx int, v vocab.ActivityStreamsService) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsServiceMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsTentativeAccept inserts a TentativeAccept value at the
+// specified index for a property "generator". Existing elements at that index
+// and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsTentativeAccept(idx int, v vocab.ActivityStreamsTentativeAccept) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsTentativeAcceptMember: v,
+		alias:                                this.alias,
+		myIdx:                                idx,
+		parent:                               this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsTentativeReject inserts a TentativeReject value at the
+// specified index for a property "generator". Existing elements at that index
+// and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsTentativeReject(idx int, v vocab.ActivityStreamsTentativeReject) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsTentativeRejectMember: v,
+		alias:                                this.alias,
+		myIdx:                                idx,
+		parent:                               this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsTombstone inserts a Tombstone value at the specified index
+// for a property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsTombstone(idx int, v vocab.ActivityStreamsTombstone) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsTombstoneMember: v,
+		alias:                          this.alias,
+		myIdx:                          idx,
+		parent:                         this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsTravel inserts a Travel value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsTravel(idx int, v vocab.ActivityStreamsTravel) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsTravelMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsUndo inserts a Undo value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsUndo(idx int, v vocab.ActivityStreamsUndo) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsUndoMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsUpdate inserts a Update value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsUpdate(idx int, v vocab.ActivityStreamsUpdate) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsUpdateMember: v,
+		alias:                       this.alias,
+		myIdx:                       idx,
+		parent:                      this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsVideo inserts a Video value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsVideo(idx int, v vocab.ActivityStreamsVideo) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsVideoMember: v,
+		alias:                      this.alias,
+		myIdx:                      idx,
+		parent:                     this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsView inserts a View value at the specified index for a
+// property "generator". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertActivityStreamsView(idx int, v vocab.ActivityStreamsView) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		activitystreamsViewMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// Insert inserts an IRI value at the specified index for a property "generator".
+// Existing elements at that index and higher are shifted back once.
+// Invalidates all iterators.
+func (this *ActivityStreamsGeneratorProperty) InsertIRI(idx int, v *url.URL) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsGeneratorPropertyIterator{
+		alias:  this.alias,
+		iri:    v,
+		myIdx:  idx,
+		parent: this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "generator". Invalidates all iterators. Returns an error if the
+// type is not a valid one to set for this property.
+func (this *ActivityStreamsGeneratorProperty) InsertType(idx int, t vocab.Type) error {
+	n := &ActivityStreamsGeneratorPropertyIterator{
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = n
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
 	return nil
 }
 
@@ -4453,7 +5413,11 @@ func (this *ActivityStreamsGeneratorProperty) PrependIRI(v *url.URL) {
 // property "generator". Invalidates all iterators. Returns an error if the
 // type is not a valid one to set for this property.
 func (this *ActivityStreamsGeneratorProperty) PrependType(t vocab.Type) error {
-	n := &ActivityStreamsGeneratorPropertyIterator{myIdx: 0}
+	n := &ActivityStreamsGeneratorPropertyIterator{
+		alias:  this.alias,
+		myIdx:  0,
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}
@@ -5215,7 +6179,11 @@ func (this *ActivityStreamsGeneratorProperty) SetIRI(idx int, v *url.URL) {
 // "generator". Invalidates all iterators. Returns an error if the type is not
 // a valid one to set for this property. Panics if the index is out of bounds.
 func (this *ActivityStreamsGeneratorProperty) SetType(idx int, t vocab.Type) error {
-	n := &ActivityStreamsGeneratorPropertyIterator{myIdx: idx}
+	n := &ActivityStreamsGeneratorPropertyIterator{
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}

@@ -481,7 +481,11 @@ func (this *ActivityStreamsStreamsProperty) AppendIRI(v *url.URL) {
 // property "streams". Invalidates iterators that are traversing using Prev.
 // Returns an error if the type is not a valid one to set for this property.
 func (this *ActivityStreamsStreamsProperty) AppendType(t vocab.Type) error {
-	n := &ActivityStreamsStreamsPropertyIterator{myIdx: this.Len()}
+	n := &ActivityStreamsStreamsPropertyIterator{
+		alias:  this.alias,
+		myIdx:  this.Len(),
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}
@@ -515,6 +519,112 @@ func (this ActivityStreamsStreamsProperty) Empty() bool {
 // iterator's Next method and this property's Begin method to iterate from
 // front to back through all values.
 func (this ActivityStreamsStreamsProperty) End() vocab.ActivityStreamsStreamsPropertyIterator {
+	return nil
+}
+
+// InsertActivityStreamsCollection inserts a Collection value at the specified
+// index for a property "streams". Existing elements at that index and higher
+// are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsStreamsProperty) InsertActivityStreamsCollection(idx int, v vocab.ActivityStreamsCollection) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsStreamsPropertyIterator{
+		activitystreamsCollectionMember: v,
+		alias:                           this.alias,
+		myIdx:                           idx,
+		parent:                          this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsCollectionPage inserts a CollectionPage value at the
+// specified index for a property "streams". Existing elements at that index
+// and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsStreamsProperty) InsertActivityStreamsCollectionPage(idx int, v vocab.ActivityStreamsCollectionPage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsStreamsPropertyIterator{
+		activitystreamsCollectionPageMember: v,
+		alias:                               this.alias,
+		myIdx:                               idx,
+		parent:                              this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOrderedCollection inserts a OrderedCollection value at the
+// specified index for a property "streams". Existing elements at that index
+// and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsStreamsProperty) InsertActivityStreamsOrderedCollection(idx int, v vocab.ActivityStreamsOrderedCollection) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsStreamsPropertyIterator{
+		activitystreamsOrderedCollectionMember: v,
+		alias:                                  this.alias,
+		myIdx:                                  idx,
+		parent:                                 this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsOrderedCollectionPage inserts a OrderedCollectionPage
+// value at the specified index for a property "streams". Existing elements at
+// that index and higher are shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsStreamsProperty) InsertActivityStreamsOrderedCollectionPage(idx int, v vocab.ActivityStreamsOrderedCollectionPage) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsStreamsPropertyIterator{
+		activitystreamsOrderedCollectionPageMember: v,
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// Insert inserts an IRI value at the specified index for a property "streams".
+// Existing elements at that index and higher are shifted back once.
+// Invalidates all iterators.
+func (this *ActivityStreamsStreamsProperty) InsertIRI(idx int, v *url.URL) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsStreamsPropertyIterator{
+		alias:  this.alias,
+		iri:    v,
+		myIdx:  idx,
+		parent: this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "streams". Invalidates all iterators. Returns an error if the type
+// is not a valid one to set for this property.
+func (this *ActivityStreamsStreamsProperty) InsertType(idx int, t vocab.Type) error {
+	n := &ActivityStreamsStreamsPropertyIterator{
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = n
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
 	return nil
 }
 
@@ -684,7 +794,11 @@ func (this *ActivityStreamsStreamsProperty) PrependIRI(v *url.URL) {
 // property "streams". Invalidates all iterators. Returns an error if the type
 // is not a valid one to set for this property.
 func (this *ActivityStreamsStreamsProperty) PrependType(t vocab.Type) error {
-	n := &ActivityStreamsStreamsPropertyIterator{myIdx: 0}
+	n := &ActivityStreamsStreamsPropertyIterator{
+		alias:  this.alias,
+		myIdx:  0,
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}
@@ -796,7 +910,11 @@ func (this *ActivityStreamsStreamsProperty) SetIRI(idx int, v *url.URL) {
 // "streams". Invalidates all iterators. Returns an error if the type is not a
 // valid one to set for this property. Panics if the index is out of bounds.
 func (this *ActivityStreamsStreamsProperty) SetType(idx int, t vocab.Type) error {
-	n := &ActivityStreamsStreamsPropertyIterator{myIdx: idx}
+	n := &ActivityStreamsStreamsPropertyIterator{
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}

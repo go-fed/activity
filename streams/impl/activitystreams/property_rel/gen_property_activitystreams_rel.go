@@ -312,6 +312,41 @@ func (this ActivityStreamsRelProperty) End() vocab.ActivityStreamsRelPropertyIte
 	return nil
 }
 
+// Insert inserts an IRI value at the specified index for a property "rel".
+// Existing elements at that index and higher are shifted back once.
+// Invalidates all iterators.
+func (this *ActivityStreamsRelProperty) InsertIRI(idx int, v *url.URL) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelPropertyIterator{
+		alias:  this.alias,
+		iri:    v,
+		myIdx:  idx,
+		parent: this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertRFCRfc5988 inserts a rfc5988 value at the specified index for a property
+// "rel". Existing elements at that index and higher are shifted back once.
+// Invalidates all iterators.
+func (this *ActivityStreamsRelProperty) InsertRFCRfc5988(idx int, v string) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsRelPropertyIterator{
+		alias:            this.alias,
+		hasRfc5988Member: true,
+		myIdx:            idx,
+		parent:           this,
+		rfcRfc5988Member: v,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.

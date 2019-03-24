@@ -378,7 +378,11 @@ func (this *ActivityStreamsUrlProperty) AppendIRI(v *url.URL) {
 // property "url". Invalidates iterators that are traversing using Prev.
 // Returns an error if the type is not a valid one to set for this property.
 func (this *ActivityStreamsUrlProperty) AppendType(t vocab.Type) error {
-	n := &ActivityStreamsUrlPropertyIterator{myIdx: this.Len()}
+	n := &ActivityStreamsUrlPropertyIterator{
+		alias:  this.alias,
+		myIdx:  this.Len(),
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}
@@ -424,6 +428,95 @@ func (this ActivityStreamsUrlProperty) Empty() bool {
 // front to back through all values.
 func (this ActivityStreamsUrlProperty) End() vocab.ActivityStreamsUrlPropertyIterator {
 	return nil
+}
+
+// InsertActivityStreamsLink inserts a Link value at the specified index for a
+// property "url". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsUrlProperty) InsertActivityStreamsLink(idx int, v vocab.ActivityStreamsLink) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsUrlPropertyIterator{
+		activitystreamsLinkMember: v,
+		alias:                     this.alias,
+		myIdx:                     idx,
+		parent:                    this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertActivityStreamsMention inserts a Mention value at the specified index for
+// a property "url". Existing elements at that index and higher are shifted
+// back once. Invalidates all iterators.
+func (this *ActivityStreamsUrlProperty) InsertActivityStreamsMention(idx int, v vocab.ActivityStreamsMention) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsUrlPropertyIterator{
+		activitystreamsMentionMember: v,
+		alias:                        this.alias,
+		myIdx:                        idx,
+		parent:                       this,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// Insert inserts an IRI value at the specified index for a property "url".
+// Existing elements at that index and higher are shifted back once.
+// Invalidates all iterators.
+func (this *ActivityStreamsUrlProperty) InsertIRI(idx int, v *url.URL) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsUrlPropertyIterator{
+		alias:                 this.alias,
+		myIdx:                 idx,
+		parent:                this,
+		xmlschemaAnyURIMember: v,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// PrependType prepends an arbitrary type value to the front of a list of the
+// property "url". Invalidates all iterators. Returns an error if the type is
+// not a valid one to set for this property.
+func (this *ActivityStreamsUrlProperty) InsertType(idx int, t vocab.Type) error {
+	n := &ActivityStreamsUrlPropertyIterator{
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
+	if err := n.SetType(t); err != nil {
+		return err
+	}
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = n
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+	return nil
+}
+
+// InsertXMLSchemaAnyURI inserts a anyURI value at the specified index for a
+// property "url". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsUrlProperty) InsertXMLSchemaAnyURI(idx int, v *url.URL) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsUrlPropertyIterator{
+		alias:                 this.alias,
+		myIdx:                 idx,
+		parent:                this,
+		xmlschemaAnyURIMember: v,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
 }
 
 // JSONLDContext returns the JSONLD URIs required in the context string for this
@@ -558,7 +651,11 @@ func (this *ActivityStreamsUrlProperty) PrependIRI(v *url.URL) {
 // property "url". Invalidates all iterators. Returns an error if the type is
 // not a valid one to set for this property.
 func (this *ActivityStreamsUrlProperty) PrependType(t vocab.Type) error {
-	n := &ActivityStreamsUrlPropertyIterator{myIdx: 0}
+	n := &ActivityStreamsUrlPropertyIterator{
+		alias:  this.alias,
+		myIdx:  0,
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}
@@ -658,7 +755,11 @@ func (this *ActivityStreamsUrlProperty) SetIRI(idx int, v *url.URL) {
 // "url". Invalidates all iterators. Returns an error if the type is not a
 // valid one to set for this property. Panics if the index is out of bounds.
 func (this *ActivityStreamsUrlProperty) SetType(idx int, t vocab.Type) error {
-	n := &ActivityStreamsUrlPropertyIterator{myIdx: idx}
+	n := &ActivityStreamsUrlPropertyIterator{
+		alias:  this.alias,
+		myIdx:  idx,
+		parent: this,
+	}
 	if err := n.SetType(t); err != nil {
 		return err
 	}

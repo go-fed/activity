@@ -22,6 +22,7 @@ const (
 	setIRIMethod              = "SetIRI"
 	appendMethod              = "Append"
 	prependMethod             = "Prepend"
+	insertMethod              = "Insert"
 	removeMethod              = "Remove"
 	lenMethod                 = "Len"
 	swapMethod                = "Swap"
