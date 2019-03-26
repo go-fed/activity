@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-fed/activity/streams"
+	"github.com/go-fed/activity/streams/vocab"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -329,50 +330,18 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		w.WriteHeader(http.StatusBadRequest)
 		return true, nil
 	}
-	// If the value is not an Activity or type extending from Activity, then
-	// we need to wrap it in a Create Activity.
-	if !streams.IsOrExtendsActivityStreamsActivity(asValue) {
-		asValue, err = b.delegate.WrapInCreate(c, asValue, r.URL)
-		if err != nil {
-			return true, err
-		}
-	}
-	// At this point, this should be a safe conversion. If this error is
-	// triggered, then there is either a bug in the delegation of
-	// WrapInCreate, behavior is not lining up in the generated ExtendedBy
-	// code, or something else is incorrect with the type system.
-	activity, ok := asValue.(Activity)
-	if !ok {
-		return true, fmt.Errorf("activity streams value is not an Activity: %T", asValue)
-	}
-	// Delegate generating new IDs for the activity and all new objects.
-	if err = b.delegate.AddNewIds(c, activity); err != nil {
-		return true, err
-	}
-	// Post the activity to the actor's outbox and trigger side effects for
-	// that particular Activity type.
-	deliverable, err := b.delegate.PostOutbox(c, activity, r.URL, m)
-	if err != nil {
-		// Special case: We know it is a bad request if the object or
-		// target properties needed to be populated, but weren't.
-		//
-		// Send the rejection to the peer.
-		if err == ErrObjectRequired || err == ErrTargetRequired {
-			w.WriteHeader(http.StatusBadRequest)
-			return true, nil
-		}
-		return true, err
-	}
-	// Request has been processed and all side effects internal to this
-	// application server have finished. Begin side effects affecting other
-	// servers and/or the client who sent this request.
+	// The HTTP request steps are complete, complete the rest of the outbox
+	// and delivery process.
+	activity, err := b.deliver(c, r.URL, asValue, m)
+	// Special case: We know it is a bad request if the object or
+	// target properties needed to be populated, but weren't.
 	//
-	// If we are federating and the type is a deliverable one, then deliver
-	// the activity to federating peers.
-	if b.enableFederatedProtocol && deliverable {
-		if err := b.delegate.Deliver(c, r.URL, activity); err != nil {
-			return true, err
-		}
+	// Send the rejection to the client.
+	if err == ErrObjectRequired || err == ErrTargetRequired {
+		w.WriteHeader(http.StatusBadRequest)
+		return true, nil
+	} else if err != nil {
+		return true, err
 	}
 	// Respond to the request with the new Activity's IRI location.
 	w.Header().Set(locationHeader, activity.GetActivityStreamsId().Get().String())
@@ -423,7 +392,67 @@ func (b *baseActor) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 	return true, nil
 }
 
-// Deliver delegates directly to the delegate actor.
-func (b *baseActorFederating) Deliver(c context.Context, outbox *url.URL, activity Activity) error {
-	return b.delegate.Deliver(c, outbox, activity)
+// deliver delegates all outbox handling steps and optionally will federate the
+// activity if the federated protocol is enabled.
+//
+// This function is not exported so an Actor that only supports C2S cannot be
+// type casted to a FederatingActor. It doesn't exactly fit the Send method
+// signature anyways.
+//
+// Note: 'm' is nilable.
+func (b *baseActor) deliver(c context.Context, outbox *url.URL, asValue vocab.Type, m map[string]interface{}) (activity Activity, err error) {
+	// If the value is not an Activity or type extending from Activity, then
+	// we need to wrap it in a Create Activity.
+	if !streams.IsOrExtendsActivityStreamsActivity(asValue) {
+		asValue, err = b.delegate.WrapInCreate(c, asValue, outbox)
+		if err != nil {
+			return
+		}
+	}
+	// At this point, this should be a safe conversion. If this error is
+	// triggered, then there is either a bug in the delegation of
+	// WrapInCreate, behavior is not lining up in the generated ExtendedBy
+	// code, or something else is incorrect with the type system.
+	var ok bool
+	activity, ok = asValue.(Activity)
+	if !ok {
+		err = fmt.Errorf("activity streams value is not an Activity: %T", asValue)
+		return
+	}
+	// Delegate generating new IDs for the activity and all new objects.
+	if err = b.delegate.AddNewIds(c, activity); err != nil {
+		return
+	}
+	// Post the activity to the actor's outbox and trigger side effects for
+	// that particular Activity type.
+	//
+	// Since 'm' is nil-able and side effects may need access to literal nil
+	// values, such as for Update activities, ensure 'm' is non-nil.
+	if m == nil {
+		m, err = asValue.Serialize()
+		if err != nil {
+			return
+		}
+	}
+	deliverable, err := b.delegate.PostOutbox(c, activity, outbox, m)
+	if err != nil {
+		return
+	}
+	// Request has been processed and all side effects internal to this
+	// application server have finished. Begin side effects affecting other
+	// servers and/or the client who sent this request.
+	//
+	// If we are federating and the type is a deliverable one, then deliver
+	// the activity to federating peers.
+	if b.enableFederatedProtocol && deliverable {
+		if err = b.delegate.Deliver(c, outbox, activity); err != nil {
+			return
+		}
+	}
+	return
+}
+
+// Send is programmatically accessible if the federated protocol is enabled.
+func (b *baseActorFederating) Send(c context.Context, outbox *url.URL, t vocab.Type) (Activity, error) {
+	return b.deliver(c, outbox, t, nil)
 }

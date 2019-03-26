@@ -1,6 +1,7 @@
 package pub
 
 import (
+	"github.com/go-fed/activity/streams/vocab"
 	"context"
 	"net/http"
 	"net/url"
@@ -96,13 +97,18 @@ type Actor interface {
 // Activity to a federating peer.
 type FederatingActor interface {
 	Actor
-	// Deliver sends a federated message.
+	// Send a federated activity.
 	//
-	// The provided url must be the outbox of the sender for identity
-	// purposes only. It is up to the caller to ensure that the provided
-	// activity has been added to the outbox.
+	// The provided url must be the outbox of the sender. All processing of
+	// the activity occurs similarly to the C2S flow:
+	//   - If t is not an Activity, it is wrapped in a Create activity.
+	//   - A new ID is generated for the activity
+	//   - The activity is added to the specified outbox
+	//   - The activity is prepared and delivered to recipients
 	//
 	// Note that this function will only behave as expected if the
-	// implementation has been constructed to support federation.
-	Deliver(c context.Context, outbox *url.URL, activity Activity) error
+	// implementation has been constructed to support federation. This
+	// method will guaranteed work for non-custom Actors. For custom actors,
+	// care should be used to not call this method if only C2S is supported.
+	Send(c context.Context, outbox *url.URL, t vocab.Type) (Activity, error)
 }
