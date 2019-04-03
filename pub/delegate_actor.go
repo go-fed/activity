@@ -115,7 +115,9 @@ type DelegateActor interface {
 	// PostOutbox delegates the logic for side effects and adding to the
 	// outbox.
 	//
-	// Only called if the Social API is enabled.
+	// Always called, regardless whether the Federated Protocol or Social
+	// API is enabled. In the case of the Social API being enabled, side
+	// effects of the Activity must occur.
 	//
 	// The delegate is responsible for adding the activity to the database's
 	// general storage for independent retrieval, and not just within the

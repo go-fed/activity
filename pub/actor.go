@@ -1,8 +1,8 @@
 package pub
 
 import (
-	"github.com/go-fed/activity/streams/vocab"
 	"context"
+	"github.com/go-fed/activity/streams/vocab"
 	"net/http"
 	"net/url"
 )
@@ -102,9 +102,9 @@ type FederatingActor interface {
 	// The provided url must be the outbox of the sender. All processing of
 	// the activity occurs similarly to the C2S flow:
 	//   - If t is not an Activity, it is wrapped in a Create activity.
-	//   - A new ID is generated for the activity
-	//   - The activity is added to the specified outbox
-	//   - The activity is prepared and delivered to recipients
+	//   - A new ID is generated for the activity.
+	//   - The activity is added to the specified outbox.
+	//   - The activity is prepared and delivered to recipients.
 	//
 	// Note that this function will only behave as expected if the
 	// implementation has been constructed to support federation. This

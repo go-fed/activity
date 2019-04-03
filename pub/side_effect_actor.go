@@ -63,6 +63,10 @@ func (a *sideEffectActor) GetInbox(c context.Context, r *http.Request) (vocab.Ac
 func (a *sideEffectActor) AuthorizePostInbox(c context.Context, w http.ResponseWriter, activity Activity) (authorized bool, err error) {
 	authorized = false
 	actor := activity.GetActivityStreamsActor()
+	if actor == nil {
+		err = fmt.Errorf("no actors in post to inbox")
+		return
+	}
 	var iris []*url.URL
 	for i := 0; i < actor.Len(); i++ {
 		iter := actor.At(i)
@@ -299,30 +303,34 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 // This implementation assumes all types are meant to be delivered except for
 // the ActivityStreams Block type.
 func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outboxIRI *url.URL, rawJSON map[string]interface{}) (deliverable bool, err error) {
-	wrapped, other := a.c2s.Callbacks(c)
-	// Populate side channels.
-	wrapped.db = a.db
-	wrapped.outboxIRI = outboxIRI
-	wrapped.rawActivity = rawJSON
-	wrapped.clock = a.clock
-	wrapped.newTransport = a.common.NewTransport
-	undeliverable := false
-	wrapped.undeliverable = &undeliverable
-	var res *streams.TypeResolver
-	res, err = streams.NewTypeResolver(wrapped.callbacks(other)...)
-	if err != nil {
-		return
-	}
-	if err = res.Resolve(c, activity); err != nil && !streams.IsUnmatchedErr(err) {
-		return
-	} else if streams.IsUnmatchedErr(err) {
-		deliverable = true
-		err = a.c2s.DefaultCallback(c, activity)
+	// TODO: Determine this if c2s is nil
+	deliverable = true
+	if a.c2s != nil {
+		wrapped, other := a.c2s.Callbacks(c)
+		// Populate side channels.
+		wrapped.db = a.db
+		wrapped.outboxIRI = outboxIRI
+		wrapped.rawActivity = rawJSON
+		wrapped.clock = a.clock
+		wrapped.newTransport = a.common.NewTransport
+		undeliverable := false
+		wrapped.undeliverable = &undeliverable
+		var res *streams.TypeResolver
+		res, err = streams.NewTypeResolver(wrapped.callbacks(other)...)
 		if err != nil {
 			return
 		}
-	} else {
-		deliverable = !undeliverable
+		if err = res.Resolve(c, activity); err != nil && !streams.IsUnmatchedErr(err) {
+			return
+		} else if streams.IsUnmatchedErr(err) {
+			deliverable = true
+			err = a.c2s.DefaultCallback(c, activity)
+			if err != nil {
+				return
+			}
+		} else {
+			deliverable = !undeliverable
+		}
 	}
 	err = a.addToOutbox(c, outboxIRI, activity)
 	return
