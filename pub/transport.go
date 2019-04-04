@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"context"
 	"crypto"
+	"crypto/sha256"
+	"encoding/base64"
 	"fmt"
 	"github.com/go-fed/httpsig"
 	"io/ioutil"
@@ -54,7 +56,8 @@ type HttpSigTransport struct {
 	appAgent   string
 	gofedAgent string
 	clock      Clock
-	signer     httpsig.Signer
+	getSigner     httpsig.Signer
+	postSigner     httpsig.Signer
 	pubKeyId   string
 	privKey    crypto.PrivateKey
 }
@@ -78,7 +81,7 @@ func NewHttpSigTransport(
 	client HttpClient,
 	appAgent string,
 	clock Clock,
-	signer httpsig.Signer,
+	getSigner, postSigner httpsig.Signer,
 	pubKeyId string,
 	privKey crypto.PrivateKey) *HttpSigTransport {
 	return &HttpSigTransport{
@@ -86,7 +89,8 @@ func NewHttpSigTransport(
 		appAgent:   appAgent,
 		gofedAgent: goFedUserAgent(),
 		clock:      clock,
-		signer:     signer,
+		getSigner:     getSigner,
+		postSigner:     postSigner,
 		pubKeyId:   pubKeyId,
 		privKey:    privKey,
 	}
@@ -104,7 +108,7 @@ func (h HttpSigTransport) Dereference(c context.Context, iri *url.URL) ([]byte, 
 	req.Header.Add("Accept-Charset", "utf-8")
 	req.Header.Add("Date", h.clock.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
 	req.Header.Add("User-Agent", fmt.Sprintf("%s %s", h.appAgent, h.gofedAgent))
-	err = h.signer.SignRequest(h.privKey, h.pubKeyId, req)
+	err = h.getSigner.SignRequest(h.privKey, h.pubKeyId, req)
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +137,11 @@ func (h HttpSigTransport) Deliver(c context.Context, b []byte, to *url.URL) erro
 	req.Header.Add("Accept-Charset", "utf-8")
 	req.Header.Add("Date", h.clock.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
 	req.Header.Add("User-Agent", fmt.Sprintf("%s %s", h.appAgent, h.gofedAgent))
-	err = h.signer.SignRequest(h.privKey, h.pubKeyId, req)
+	sum := sha256.Sum256(b)
+	req.Header.Add("Digest",
+		fmt.Sprintf("SHA-256=%s",
+		base64.StdEncoding.EncodeToString(sum[:])))
+	err = h.postSigner.SignRequest(h.privKey, h.pubKeyId, req)
 	if err != nil {
 		return err
 	}
