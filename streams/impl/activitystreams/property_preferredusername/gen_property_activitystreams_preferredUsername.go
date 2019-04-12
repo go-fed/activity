@@ -28,7 +28,7 @@ type ActivityStreamsPreferredUsernameProperty struct {
 // binary format.
 func DeserializePreferredUsernameProperty(m map[string]interface{}, aliasMap map[string]string) (*ActivityStreamsPreferredUsernameProperty, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
+	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
 		alias = a
 	}
 	propName := "preferredUsername"
@@ -171,7 +171,7 @@ func (this ActivityStreamsPreferredUsernameProperty) IsXMLSchemaString() bool {
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
 func (this ActivityStreamsPreferredUsernameProperty) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/TR/activitystreams-vocabulary": this.alias}
+	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
 	var child map[string]string
 
 	/*

@@ -25,7 +25,7 @@ type ActivityStreamsFollowingProperty struct {
 // representation that has been unmarshalled from a text or binary format.
 func DeserializeFollowingProperty(m map[string]interface{}, aliasMap map[string]string) (*ActivityStreamsFollowingProperty, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
+	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
 		alias = a
 	}
 	propName := "following"
@@ -203,7 +203,7 @@ func (this ActivityStreamsFollowingProperty) IsIRI() bool {
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
 func (this ActivityStreamsFollowingProperty) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/TR/activitystreams-vocabulary": this.alias}
+	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
 	var child map[string]string
 	if this.IsActivityStreamsOrderedCollection() {
 		child = this.GetActivityStreamsOrderedCollection().JSONLDContext()

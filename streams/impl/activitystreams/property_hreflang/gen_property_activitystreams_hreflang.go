@@ -21,7 +21,7 @@ type ActivityStreamsHreflangProperty struct {
 // representation that has been unmarshalled from a text or binary format.
 func DeserializeHreflangProperty(m map[string]interface{}, aliasMap map[string]string) (*ActivityStreamsHreflangProperty, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
+	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
 		alias = a
 	}
 	propName := "hreflang"
@@ -105,7 +105,7 @@ func (this ActivityStreamsHreflangProperty) IsRFCBcp47() bool {
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
 func (this ActivityStreamsHreflangProperty) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/TR/activitystreams-vocabulary": this.alias}
+	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
 	var child map[string]string
 
 	/*

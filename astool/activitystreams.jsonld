@@ -30,7 +30,7 @@
       }
     }
   ],
-  "id": "https://www.w3.org/TR/activitystreams-vocabulary",
+  "id": "https://www.w3.org/ns/activitystreams",
   "type": "owl:Ontology",
   "name": "ActivityStreams",
   "sections": {

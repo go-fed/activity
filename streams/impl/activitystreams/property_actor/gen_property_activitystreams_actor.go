@@ -83,7 +83,7 @@ func NewActivityStreamsActorPropertyIterator() *ActivityStreamsActorPropertyIter
 // element that has been unmarshalled from a text or binary format.
 func deserializeActivityStreamsActorPropertyIterator(i interface{}, aliasMap map[string]string) (*ActivityStreamsActorPropertyIterator, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
+	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
 		alias = a
 	}
 	if s, ok := i.(string); ok {
@@ -1437,7 +1437,7 @@ func (this ActivityStreamsActorPropertyIterator) IsIRI() bool {
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
 func (this ActivityStreamsActorPropertyIterator) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/TR/activitystreams-vocabulary": this.alias}
+	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
 	var child map[string]string
 	if this.IsActivityStreamsObject() {
 		child = this.GetActivityStreamsObject().JSONLDContext()
@@ -2677,7 +2677,7 @@ type ActivityStreamsActorProperty struct {
 // representation that has been unmarshalled from a text or binary format.
 func DeserializeActorProperty(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsActorProperty, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
+	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
 		alias = a
 	}
 	propName := "actor"
@@ -4341,7 +4341,7 @@ func (this *ActivityStreamsActorProperty) InsertType(idx int, t vocab.Type) erro
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
 func (this ActivityStreamsActorProperty) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/TR/activitystreams-vocabulary": this.alias}
+	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
 	for _, elem := range this.properties {
 		child := elem.JSONLDContext()
 		/*

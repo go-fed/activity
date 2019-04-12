@@ -212,9 +212,9 @@ func (this JSONResolver) Resolve(ctx context.Context, m map[string]interface{}) 
 	aliasMap := toAliasMap(rawContext)
 	// Begin: Private lambda to handle a single string "type" value. Makes code generation easier.
 	handleFn := func(typeString string) error {
-		ActivityStreamsAlias, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]
+		ActivityStreamsAlias, ok := aliasMap["https://www.w3.org/ns/activitystreams"]
 		if !ok {
-			ActivityStreamsAlias, _ = aliasMap["http://www.w3.org/TR/activitystreams-vocabulary"]
+			ActivityStreamsAlias, _ = aliasMap["http://www.w3.org/ns/activitystreams"]
 		}
 		if len(ActivityStreamsAlias) > 0 {
 			ActivityStreamsAlias += ":"

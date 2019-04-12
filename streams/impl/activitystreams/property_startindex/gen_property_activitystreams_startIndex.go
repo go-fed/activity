@@ -21,7 +21,7 @@ type ActivityStreamsStartIndexProperty struct {
 // representation that has been unmarshalled from a text or binary format.
 func DeserializeStartIndexProperty(m map[string]interface{}, aliasMap map[string]string) (*ActivityStreamsStartIndexProperty, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
+	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
 		alias = a
 	}
 	propName := "startIndex"
@@ -106,7 +106,7 @@ func (this ActivityStreamsStartIndexProperty) IsXMLSchemaNonNegativeInteger() bo
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
 func (this ActivityStreamsStartIndexProperty) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/TR/activitystreams-vocabulary": this.alias}
+	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
 	var child map[string]string
 
 	/*

@@ -34,7 +34,7 @@ func NewActivityStreamsSummaryPropertyIterator() *ActivityStreamsSummaryProperty
 // element that has been unmarshalled from a text or binary format.
 func deserializeActivityStreamsSummaryPropertyIterator(i interface{}, aliasMap map[string]string) (*ActivityStreamsSummaryPropertyIterator, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
+	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
 		alias = a
 	}
 	if s, ok := i.(string); ok {
@@ -148,7 +148,7 @@ func (this ActivityStreamsSummaryPropertyIterator) IsXMLSchemaString() bool {
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
 func (this ActivityStreamsSummaryPropertyIterator) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/TR/activitystreams-vocabulary": this.alias}
+	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
 	var child map[string]string
 
 	/*
@@ -297,7 +297,7 @@ type ActivityStreamsSummaryProperty struct {
 // representation that has been unmarshalled from a text or binary format.
 func DeserializeSummaryProperty(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsSummaryProperty, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
+	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
 		alias = a
 	}
 	propName := "summary"
@@ -462,7 +462,7 @@ func (this *ActivityStreamsSummaryProperty) InsertXMLSchemaString(idx int, v str
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
 func (this ActivityStreamsSummaryProperty) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/TR/activitystreams-vocabulary": this.alias}
+	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
 	for _, elem := range this.properties {
 		child := elem.JSONLDContext()
 		/*

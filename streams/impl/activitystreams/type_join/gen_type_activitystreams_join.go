@@ -81,7 +81,7 @@ func ActivityStreamsJoinExtends(other vocab.Type) bool {
 func DeserializeJoin(m map[string]interface{}, aliasMap map[string]string) (*ActivityStreamsJoin, error) {
 	alias := ""
 	aliasPrefix := ""
-	if a, ok := aliasMap["https://www.w3.org/TR/activitystreams-vocabulary"]; ok {
+	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
 		alias = a
 		aliasPrefix = a + ":"
 	}
@@ -675,7 +675,7 @@ func (this ActivityStreamsJoin) IsExtending(other vocab.Type) bool {
 // type and the specific properties that are set. The value in the map is the
 // alias used to import the type and its properties.
 func (this ActivityStreamsJoin) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/TR/activitystreams-vocabulary": this.alias}
+	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
 	m = this.helperJSONLDContext(this.ActivityStreamsActor, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsAltitude, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsAttachment, m)
@@ -1759,7 +1759,7 @@ func (this *ActivityStreamsJoin) SetActivityStreamsUrl(i vocab.ActivityStreamsUr
 
 // VocabularyURI returns the vocabulary's URI as a string.
 func (this ActivityStreamsJoin) VocabularyURI() string {
-	return "https://www.w3.org/TR/activitystreams-vocabulary"
+	return "https://www.w3.org/ns/activitystreams"
 }
 
 // helperJSONLDContext obtains the context uris and their aliases from a property,
