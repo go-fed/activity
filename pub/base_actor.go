@@ -217,7 +217,8 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	// Post the activity to the actor's inbox and trigger side effects for
 	// that particular Activity type. It is up to the delegate to resolve
 	// the given map.
-	err = b.delegate.PostInbox(c, r.URL, activity)
+	inboxId := requestId(r)
+	err = b.delegate.PostInbox(c, inboxId, activity)
 	if err != nil {
 		// Special case: We know it is a bad request if the object or
 		// target properties needed to be populated, but weren't.
@@ -231,7 +232,7 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	}
 	// Our side effects are complete, now delegate determining whether to
 	// do inbox forwarding, as well as the action to do it.
-	if err := b.delegate.InboxForwarding(c, r.URL, activity); err != nil {
+	if err := b.delegate.InboxForwarding(c, inboxId, activity); err != nil {
 		return true, err
 	}
 	// Request has been processed. Begin responding to the request.
@@ -332,7 +333,8 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	}
 	// The HTTP request steps are complete, complete the rest of the outbox
 	// and delivery process.
-	activity, err := b.deliver(c, r.URL, asValue, m)
+	outboxId := requestId(r)
+	activity, err := b.deliver(c, outboxId, asValue, m)
 	// Special case: We know it is a bad request if the object or
 	// target properties needed to be populated, but weren't.
 	//

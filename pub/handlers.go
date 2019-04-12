@@ -58,7 +58,7 @@ func NewActivityStreamsHandler(authFn AuthenticateFunc, db Database, clock Clock
 		} else if shouldReturn {
 			return
 		}
-		id := r.URL
+		id := requestId(r)
 		// Lock and obtain a copy of the requested ActivityStreams value
 		err = db.Lock(c, id)
 		if err != nil {
