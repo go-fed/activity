@@ -48,14 +48,14 @@ func (a *sideEffectActor) AuthenticateGetOutbox(c context.Context, w http.Respon
 	return a.common.AuthenticateGetOutbox(c, w, r)
 }
 
-// GetOutbox delegates to the SocialProtocol.
+// GetOutbox delegates to the FederatingProtocol.
 func (a *sideEffectActor) GetOutbox(c context.Context, r *http.Request) (vocab.ActivityStreamsOrderedCollectionPage, error) {
-	return a.c2s.GetOutbox(c, r)
+	return a.s2s.GetOutbox(c, r)
 }
 
-// GetInbox delegates to the FederatingProtocol.
+// GetInbox delegates to the SocialProtocol.
 func (a *sideEffectActor) GetInbox(c context.Context, r *http.Request) (vocab.ActivityStreamsOrderedCollectionPage, error) {
-	return a.s2s.GetInbox(c, r)
+	return a.c2s.GetInbox(c, r)
 }
 
 // AuthorizePostInbox defers to the federating protocol whether the peer request
