@@ -40,4 +40,6 @@ type Activity interface {
 	SetActivityStreamsObject(i vocab.ActivityStreamsObjectProperty)
 	// SetActivityStreamsTo sets the "to" property.
 	SetActivityStreamsTo(i vocab.ActivityStreamsToProperty)
+	// SetActivityStreamsAttributedTo sets the "attributedTo" property.
+	SetActivityStreamsAttributedTo(i vocab.ActivityStreamsAttributedToProperty)
 }

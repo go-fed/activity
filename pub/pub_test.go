@@ -229,7 +229,7 @@ func setupData() {
 		oi.AppendIRI(mustParse(testNoteId1))
 		oi.AppendIRI(mustParse(testNoteId2))
 		testOrderedCollectionUniqueElems.SetActivityStreamsOrderedItems(oi)
-		testOrderedCollectionUniqueElemsString = `{"@context":"https://www.w3.org/TR/activitystreams-vocabulary","orderedItems":["https://example.com/note/1","https://example.com/note/2"],"type":"OrderedCollectionPage"}`
+		testOrderedCollectionUniqueElemsString = `{"@context":"https://www.w3.org/ns/activitystreams","orderedItems":["https://example.com/note/1","https://example.com/note/2"],"type":"OrderedCollectionPage"}`
 	}()
 	// testOrderedCollectionDupedElems and
 	// testOrderedCollectionDedupedElemsString
@@ -239,7 +239,7 @@ func setupData() {
 		oi.AppendIRI(mustParse(testNoteId1))
 		oi.AppendIRI(mustParse(testNoteId1))
 		testOrderedCollectionDupedElems.SetActivityStreamsOrderedItems(oi)
-		testOrderedCollectionDedupedElemsString = `{"@context":"https://www.w3.org/TR/activitystreams-vocabulary","orderedItems":"https://example.com/note/1","type":"OrderedCollectionPage"}`
+		testOrderedCollectionDedupedElemsString = `{"@context":"https://www.w3.org/ns/activitystreams","orderedItems":"https://example.com/note/1","type":"OrderedCollectionPage"}`
 	}()
 	// testEmptyOrderedCollection
 	func() {

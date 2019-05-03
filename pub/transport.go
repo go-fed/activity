@@ -56,8 +56,8 @@ type HttpSigTransport struct {
 	appAgent   string
 	gofedAgent string
 	clock      Clock
-	getSigner     httpsig.Signer
-	postSigner     httpsig.Signer
+	getSigner  httpsig.Signer
+	postSigner httpsig.Signer
 	pubKeyId   string
 	privKey    crypto.PrivateKey
 }
@@ -89,8 +89,8 @@ func NewHttpSigTransport(
 		appAgent:   appAgent,
 		gofedAgent: goFedUserAgent(),
 		clock:      clock,
-		getSigner:     getSigner,
-		postSigner:     postSigner,
+		getSigner:  getSigner,
+		postSigner: postSigner,
 		pubKeyId:   pubKeyId,
 		privKey:    privKey,
 	}
@@ -140,7 +140,7 @@ func (h HttpSigTransport) Deliver(c context.Context, b []byte, to *url.URL) erro
 	sum := sha256.Sum256(b)
 	req.Header.Add("Digest",
 		fmt.Sprintf("SHA-256=%s",
-		base64.StdEncoding.EncodeToString(sum[:])))
+			base64.StdEncoding.EncodeToString(sum[:])))
 	err = h.postSigner.SignRequest(h.privKey, h.pubKeyId, req)
 	if err != nil {
 		return err
@@ -150,6 +150,7 @@ func (h HttpSigTransport) Deliver(c context.Context, b []byte, to *url.URL) erro
 		return err
 	}
 	defer resp.Body.Close()
+	// TODO: Other 20X response codes could be OK, too.
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("POST request to %s failed (%d): %s", to.String(), resp.StatusCode, resp.Status)
 	}
@@ -172,12 +173,13 @@ func (h HttpSigTransport) BatchDeliver(c context.Context, b []byte, recipients [
 	}
 	wg.Wait()
 	errs := make([]string, 0, len(recipients))
+outer:
 	for {
 		select {
 		case e := <-errCh:
 			errs = append(errs, e.Error())
 		default:
-			break
+			break outer
 		}
 	}
 	if len(errs) > 0 {

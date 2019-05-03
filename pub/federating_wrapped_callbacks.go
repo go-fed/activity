@@ -131,6 +131,8 @@ type FederatingWrappedCallbacks struct {
 	db Database
 	// inboxIRI is the inboxIRI that is handling this callback.
 	inboxIRI *url.URL
+	// deliver delivers an outgoing message.
+	deliver func(c context.Context, outboxIRI *url.URL, activity Activity) error
 	// newTransport creates a new Transport.
 	newTransport func(c context.Context, actorBoxIRI *url.URL, gofedAgent string) (t Transport, err error)
 }
@@ -422,6 +424,10 @@ func (w FederatingWrappedCallbacks) follow(c context.Context, a vocab.ActivitySt
 			to.AppendIRI(id)
 			recipients = append(recipients, id)
 		}
+		// Set the 'attributedTo' property on the activity.
+		attrTo := streams.NewActivityStreamsAttributedToProperty()
+		attrTo.AppendIRI(actorIRI)
+		response.SetActivityStreamsAttributedTo(attrTo)
 		if w.OnFollow == OnFollowAutomaticallyAccept {
 			// If automatically accepting, then also update our
 			// followers collection with the new actors.
@@ -448,19 +454,16 @@ func (w FederatingWrappedCallbacks) follow(c context.Context, a vocab.ActivitySt
 			w.db.Unlock(c, actorIRI)
 			// Unlock must be called by now and every branch above.
 		}
-		m, err := serialize(response)
+		// Lock without defer!
+		w.db.Lock(c, w.inboxIRI)
+		outboxIRI, err := w.db.OutboxForInbox(c, w.inboxIRI)
 		if err != nil {
+			w.db.Unlock(c, w.inboxIRI)
 			return err
 		}
-		b, err := json.Marshal(m)
-		if err != nil {
-			return err
-		}
-		t, err := w.newTransport(c, w.inboxIRI, goFedUserAgent())
-		if err != nil {
-			return err
-		}
-		if err := t.BatchDeliver(c, b, recipients); err != nil {
+		w.db.Unlock(c, w.inboxIRI)
+		// Everything must be unlocked by now.
+		if err := w.deliver(c, outboxIRI, response); err != nil {
 			return err
 		}
 	}

@@ -2,7 +2,6 @@ package pub
 
 import (
 	"context"
-	"github.com/go-fed/activity/streams/vocab"
 	"net/http"
 )
 
@@ -62,13 +61,4 @@ type SocialProtocol interface {
 	// type and extension, so the unhandled ones are passed to
 	// DefaultCallback.
 	DefaultCallback(c context.Context, activity Activity) error
-	// GetOutbox returns the OrderedCollection inbox of the actor for this
-	// context. It is up to the implementation to provide the correct
-	// collection for the kind of authorization given in the request.
-	//
-	// AuthenticateGetOutbox will be called prior to this.
-	//
-	// Always called, regardless whether the Federated Protocol or Social
-	// API is enabled.
-	GetOutbox(c context.Context, r *http.Request) (vocab.ActivityStreamsOrderedCollectionPage, error)
 }

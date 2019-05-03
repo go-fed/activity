@@ -50,7 +50,7 @@ func (a *sideEffectActor) AuthenticateGetOutbox(c context.Context, w http.Respon
 
 // GetOutbox delegates to the SocialProtocol.
 func (a *sideEffectActor) GetOutbox(c context.Context, r *http.Request) (vocab.ActivityStreamsOrderedCollectionPage, error) {
-	return a.c2s.GetOutbox(c, r)
+	return a.common.GetOutbox(c, r)
 }
 
 // GetInbox delegates to the FederatingProtocol.
@@ -105,6 +105,7 @@ func (a *sideEffectActor) PostInbox(c context.Context, inboxIRI *url.URL, activi
 		wrapped.db = a.db
 		wrapped.inboxIRI = inboxIRI
 		wrapped.newTransport = a.common.NewTransport
+		wrapped.deliver = a.Deliver
 		res, err := streams.NewTypeResolver(wrapped.callbacks(other)...)
 		if err != nil {
 			return err
@@ -224,7 +225,7 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 		if err != nil {
 			return err
 		}
-		defer a.db.Unlock(c, iri)
+		// WARNING: Not Unlocked
 		t, err := a.db.Get(c, iri)
 		if err != nil {
 			return err
@@ -233,6 +234,7 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 			if im, ok := t.(orderedItemser); ok {
 				oCol[iri.String()] = im
 				colIRIs = append(colIRIs, iri)
+				defer a.db.Unlock(c, iri)
 			} else {
 				a.db.Unlock(c, iri)
 			}
@@ -240,6 +242,7 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 			if im, ok := t.(itemser); ok {
 				col[iri.String()] = im
 				colIRIs = append(colIRIs, iri)
+				defer a.db.Unlock(c, iri)
 			} else {
 				a.db.Unlock(c, iri)
 			}
@@ -275,22 +278,24 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 	recipients := make([]*url.URL, 0, len(toSend))
 	for _, iri := range toSend {
 		if c, ok := col[iri.String()]; ok {
-			it := c.GetActivityStreamsItems()
-			for iter := it.Begin(); iter != it.End(); iter = iter.Next() {
-				id, err := ToId(iter)
-				if err != nil {
-					return err
+			if it := c.GetActivityStreamsItems(); it != nil {
+				for iter := it.Begin(); iter != it.End(); iter = iter.Next() {
+					id, err := ToId(iter)
+					if err != nil {
+						return err
+					}
+					recipients = append(recipients, id)
 				}
-				recipients = append(recipients, id)
 			}
 		} else if oc, ok := oCol[iri.String()]; ok {
-			oit := oc.GetActivityStreamsOrderedItems()
-			for iter := oit.Begin(); iter != oit.End(); iter = iter.Next() {
-				id, err := ToId(iter)
-				if err != nil {
-					return err
+			if oit := oc.GetActivityStreamsOrderedItems(); oit != nil {
+				for iter := oit.Begin(); iter != oit.End(); iter = iter.Next() {
+					id, err := ToId(iter)
+					if err != nil {
+						return err
+					}
+					recipients = append(recipients, id)
 				}
-				recipients = append(recipients, id)
 			}
 		}
 	}
@@ -351,19 +356,20 @@ func (a *sideEffectActor) AddNewIds(c context.Context, activity Activity) error 
 		if !ok {
 			return fmt.Errorf("cannot add new id for Create: %T has no object property", activity)
 		}
-		oProp := o.GetActivityStreamsObject()
-		for iter := oProp.Begin(); iter != oProp.End(); iter = iter.Next() {
-			t := iter.GetType()
-			if t == nil {
-				return fmt.Errorf("cannot add new id for object in Create: object is not embedded as a value literal")
+		if oProp := o.GetActivityStreamsObject(); oProp != nil {
+			for iter := oProp.Begin(); iter != oProp.End(); iter = iter.Next() {
+				t := iter.GetType()
+				if t == nil {
+					return fmt.Errorf("cannot add new id for object in Create: object is not embedded as a value literal")
+				}
+				id, err = a.db.NewId(c, t)
+				if err != nil {
+					return err
+				}
+				objId := streams.NewActivityStreamsIdProperty()
+				objId.Set(id)
+				t.SetActivityStreamsId(objId)
 			}
-			id, err = a.db.NewId(c, t)
-			if err != nil {
-				return err
-			}
-			objId := streams.NewActivityStreamsIdProperty()
-			objId.Set(id)
-			t.SetActivityStreamsId(objId)
 		}
 	}
 	return nil
@@ -675,15 +681,6 @@ func (a *sideEffectActor) prepare(c context.Context, outboxIRI *url.URL, activit
 		return
 	}
 	a.db.Unlock(c, outboxIRI)
-	// Make sure this matches the 'attributedTo' on the activity.
-	attrTo := activity.GetActivityStreamsAttributedTo()
-	if attrTo.Len() != 1 {
-		return nil, fmt.Errorf("federated c2s object does not have exactly one attributedTo value: %d", attrTo.Len())
-	} else if attrToIRI, err := ToId(attrTo.At(0)); err != nil {
-		return nil, err
-	} else if attrToIRI.String() != actorIRI.String() {
-		return nil, fmt.Errorf("federated c2s object attributedTo value does not match this actor")
-	}
 	// Get the inbox on the sender.
 	err = a.db.Lock(c, actorIRI)
 	if err != nil {
@@ -724,6 +721,8 @@ func (a *sideEffectActor) resolveInboxes(c context.Context, t Transport, r []*ur
 	for _, u := range r {
 		var act vocab.Type
 		var more []*url.URL
+		// TODO: Determine if more logic is needed here for inaccessible
+		// collections owned by peer servers.
 		act, more, err = a.dereferenceForResolvingInboxes(c, t, u)
 		if err != nil {
 			return
@@ -733,7 +732,9 @@ func (a *sideEffectActor) resolveInboxes(c context.Context, t Transport, r []*ur
 		if err != nil {
 			return
 		}
-		actors = append(actors, act)
+		if act != nil {
+			actors = append(actors, act)
+		}
 		actors = append(actors, recurActors...)
 	}
 	return
@@ -741,6 +742,9 @@ func (a *sideEffectActor) resolveInboxes(c context.Context, t Transport, r []*ur
 
 // dereferenceForResolvingInboxes dereferences an IRI solely for finding an
 // actor's inbox IRI to deliver to.
+//
+// The returned actor could be nil, if it wasn't an actor (ex: a Collection or
+// OrderedCollection).
 func (a *sideEffectActor) dereferenceForResolvingInboxes(c context.Context, t Transport, actorIRI *url.URL) (actor vocab.Type, moreActorIRIs []*url.URL, err error) {
 	var resp []byte
 	resp, err = t.Dereference(c, actorIRI)
@@ -758,25 +762,29 @@ func (a *sideEffectActor) dereferenceForResolvingInboxes(c context.Context, t Tr
 	// Attempt to see if the 'actor' is really some sort of type that has
 	// an 'items' or 'orderedItems' property.
 	if v, ok := actor.(itemser); ok {
-		i := v.GetActivityStreamsItems()
-		for iter := i.Begin(); iter != i.End(); iter = iter.Next() {
-			var id *url.URL
-			id, err = ToId(iter)
-			if err != nil {
-				return
+		if i := v.GetActivityStreamsItems(); i != nil {
+			for iter := i.Begin(); iter != i.End(); iter = iter.Next() {
+				var id *url.URL
+				id, err = ToId(iter)
+				if err != nil {
+					return
+				}
+				moreActorIRIs = append(moreActorIRIs, id)
 			}
-			moreActorIRIs = append(moreActorIRIs, id)
 		}
+		actor = nil
 	} else if v, ok := actor.(orderedItemser); ok {
-		i := v.GetActivityStreamsOrderedItems()
-		for iter := i.Begin(); iter != i.End(); iter = iter.Next() {
-			var id *url.URL
-			id, err = ToId(iter)
-			if err != nil {
-				return
+		if i := v.GetActivityStreamsOrderedItems(); i != nil {
+			for iter := i.Begin(); iter != i.End(); iter = iter.Next() {
+				var id *url.URL
+				id, err = ToId(iter)
+				if err != nil {
+					return
+				}
+				moreActorIRIs = append(moreActorIRIs, id)
 			}
-			moreActorIRIs = append(moreActorIRIs, id)
 		}
+		actor = nil
 	}
 	return
 }

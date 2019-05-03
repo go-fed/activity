@@ -87,9 +87,9 @@ func TestPassThroughMethods(t *testing.T) {
 		// Setup
 		ctl := gomock.NewController(t)
 		defer ctl.Finish()
-		_, _, sp, _, _, a := setupFn(ctl)
+		c, _, _, _, _, a := setupFn(ctl)
 		req := toAPRequest(toGetOutboxRequest())
-		sp.EXPECT().GetOutbox(ctx, req).Return(testOrderedCollectionUniqueElems, testErr)
+		c.EXPECT().GetOutbox(ctx, req).Return(testOrderedCollectionUniqueElems, testErr)
 		// Run
 		p, err := a.GetOutbox(ctx, req)
 		// Verify
@@ -469,9 +469,6 @@ func TestInboxForwarding(t *testing.T) {
 			db.EXPECT().Lock(ctx, mustParse(testToIRI2)),
 			db.EXPECT().Get(ctx, mustParse(testToIRI2)).Return(testService, nil),
 			db.EXPECT().Unlock(ctx, mustParse(testToIRI2)),
-			// Deferred
-			db.EXPECT().Unlock(ctx, mustParse(testToIRI2)),
-			db.EXPECT().Unlock(ctx, mustParse(testToIRI)),
 		)
 		// Run
 		err := a.InboxForwarding(ctx, mustParse(testMyInboxIRI), input)
@@ -501,9 +498,6 @@ func TestInboxForwarding(t *testing.T) {
 			db.EXPECT().Lock(ctx, mustParse(testCcIRI2)),
 			db.EXPECT().Get(ctx, mustParse(testCcIRI2)).Return(testService, nil),
 			db.EXPECT().Unlock(ctx, mustParse(testCcIRI2)),
-			// Deferred
-			db.EXPECT().Unlock(ctx, mustParse(testCcIRI2)),
-			db.EXPECT().Unlock(ctx, mustParse(testCcIRI)),
 		)
 		// Run
 		err := a.InboxForwarding(ctx, mustParse(testMyInboxIRI), input)
@@ -533,9 +527,6 @@ func TestInboxForwarding(t *testing.T) {
 			db.EXPECT().Lock(ctx, mustParse(testAudienceIRI2)),
 			db.EXPECT().Get(ctx, mustParse(testAudienceIRI2)).Return(testService, nil),
 			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI2)),
-			// Deferred
-			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI2)),
-			db.EXPECT().Unlock(ctx, mustParse(testAudienceIRI)),
 		)
 		// Run
 		err := a.InboxForwarding(ctx, mustParse(testMyInboxIRI), input)

@@ -6,6 +6,7 @@ package pub
 
 import (
 	context "context"
+	vocab "github.com/go-fed/activity/streams/vocab"
 	gomock "github.com/golang/mock/gomock"
 	http "net/http"
 	url "net/url"
@@ -63,6 +64,21 @@ func (m *MockCommonBehavior) AuthenticateGetOutbox(c context.Context, w http.Res
 func (mr *MockCommonBehaviorMockRecorder) AuthenticateGetOutbox(c, w, r interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AuthenticateGetOutbox", reflect.TypeOf((*MockCommonBehavior)(nil).AuthenticateGetOutbox), c, w, r)
+}
+
+// GetOutbox mocks base method
+func (m *MockCommonBehavior) GetOutbox(c context.Context, r *http.Request) (vocab.ActivityStreamsOrderedCollectionPage, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetOutbox", c, r)
+	ret0, _ := ret[0].(vocab.ActivityStreamsOrderedCollectionPage)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetOutbox indicates an expected call of GetOutbox
+func (mr *MockCommonBehaviorMockRecorder) GetOutbox(c, r interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOutbox", reflect.TypeOf((*MockCommonBehavior)(nil).GetOutbox), c, r)
 }
 
 // NewTransport mocks base method

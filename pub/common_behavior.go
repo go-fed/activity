@@ -2,6 +2,7 @@ package pub
 
 import (
 	"context"
+	"github.com/go-fed/activity/streams/vocab"
 	"net/http"
 	"net/url"
 )
@@ -52,6 +53,15 @@ type CommonBehavior interface {
 	// authenticated must be true and error nil. The request will continue
 	// to be processed.
 	AuthenticateGetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
+	// GetOutbox returns the OrderedCollection inbox of the actor for this
+	// context. It is up to the implementation to provide the correct
+	// collection for the kind of authorization given in the request.
+	//
+	// AuthenticateGetOutbox will be called prior to this.
+	//
+	// Always called, regardless whether the Federated Protocol or Social
+	// API is enabled.
+	GetOutbox(c context.Context, r *http.Request) (vocab.ActivityStreamsOrderedCollectionPage, error)
 	// NewTransport returns a new Transport on behalf of a specific actor.
 	//
 	// The actorBoxIRI will be either the inbox or outbox of an actor who is

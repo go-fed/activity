@@ -152,6 +152,21 @@ func (mr *MockDatabaseMockRecorder) ActorForInbox(c, inboxIRI interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActorForInbox", reflect.TypeOf((*MockDatabase)(nil).ActorForInbox), c, inboxIRI)
 }
 
+// OutboxForInbox mocks base method
+func (m *MockDatabase) OutboxForInbox(c context.Context, inboxIRI *url.URL) (*url.URL, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "OutboxForInbox", c, inboxIRI)
+	ret0, _ := ret[0].(*url.URL)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// OutboxForInbox indicates an expected call of OutboxForInbox
+func (mr *MockDatabaseMockRecorder) OutboxForInbox(c, inboxIRI interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OutboxForInbox", reflect.TypeOf((*MockDatabase)(nil).OutboxForInbox), c, inboxIRI)
+}
+
 // Exists mocks base method
 func (m *MockDatabase) Exists(c context.Context, id *url.URL) (bool, error) {
 	m.ctrl.T.Helper()

@@ -53,6 +53,11 @@ type Database interface {
 	//
 	// The library makes this call only after acquiring a lock first.
 	ActorForInbox(c context.Context, inboxIRI *url.URL) (actorIRI *url.URL, err error)
+	// OutboxForInbox fetches the corresponding actor's outbox IRI for the
+	// actor's inbox IRI.
+	//
+	// The library makes this call only after acquiring a lock first.
+	OutboxForInbox(c context.Context, inboxIRI *url.URL) (outboxIRI *url.URL, err error)
 	// Exists returns true if the database has an entry for the specified
 	// id. It may not be owned by this application instance.
 	//
