@@ -131,6 +131,9 @@ type FederatingWrappedCallbacks struct {
 	db Database
 	// inboxIRI is the inboxIRI that is handling this callback.
 	inboxIRI *url.URL
+	// addNewIds creates new 'id' entries on an activity and its objects if
+	// it is a Create activity.
+	addNewIds func(c context.Context, activity Activity) error
 	// deliver delivers an outgoing message.
 	deliver func(c context.Context, outboxIRI *url.URL, activity Activity) error
 	// newTransport creates a new Transport.
@@ -424,10 +427,6 @@ func (w FederatingWrappedCallbacks) follow(c context.Context, a vocab.ActivitySt
 			to.AppendIRI(id)
 			recipients = append(recipients, id)
 		}
-		// Set the 'attributedTo' property on the activity.
-		attrTo := streams.NewActivityStreamsAttributedToProperty()
-		attrTo.AppendIRI(actorIRI)
-		response.SetActivityStreamsAttributedTo(attrTo)
 		if w.OnFollow == OnFollowAutomaticallyAccept {
 			// If automatically accepting, then also update our
 			// followers collection with the new actors.
@@ -463,7 +462,9 @@ func (w FederatingWrappedCallbacks) follow(c context.Context, a vocab.ActivitySt
 		}
 		w.db.Unlock(c, w.inboxIRI)
 		// Everything must be unlocked by now.
-		if err := w.deliver(c, outboxIRI, response); err != nil {
+		if err := w.addNewIds(c, response); err != nil {
+			return err
+		} else if err := w.deliver(c, outboxIRI, response); err != nil {
 			return err
 		}
 	}

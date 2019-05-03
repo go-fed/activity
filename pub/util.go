@@ -126,6 +126,8 @@ const (
 
 // addJSONLDContext adds the context vocabularies contained within the type
 // into the JSON-LD @context field, and aliases them appropriately.
+//
+// TODO: This probably belongs in the streams package as a public method.
 func serialize(a vocab.Type) (m map[string]interface{}, e error) {
 	m, e = a.Serialize()
 	if e != nil {
@@ -159,6 +161,17 @@ func serialize(a vocab.Type) (m map[string]interface{}, e error) {
 	}
 	// TODO: Update the context instead if it already exists
 	m[jsonLDContext] = contextValue
+	// Delete any existing `@context` in child maps.
+	var cleanFnRecur func(map[string]interface{})
+	cleanFnRecur = func(r map[string]interface{}) {
+		for _, v := range r {
+			if n, ok := v.(map[string]interface{}); ok {
+				delete(n, jsonLDContext)
+				cleanFnRecur(n)
+			}
+		}
+	}
+	cleanFnRecur(m)
 	return
 }
 

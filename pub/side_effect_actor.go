@@ -106,6 +106,7 @@ func (a *sideEffectActor) PostInbox(c context.Context, inboxIRI *url.URL, activi
 		wrapped.inboxIRI = inboxIRI
 		wrapped.newTransport = a.common.NewTransport
 		wrapped.deliver = a.Deliver
+		wrapped.addNewIds = a.AddNewIds
 		res, err := streams.NewTypeResolver(wrapped.callbacks(other)...)
 		if err != nil {
 			return err
