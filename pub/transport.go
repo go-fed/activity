@@ -21,6 +21,14 @@ const (
 	acceptHeaderValue = "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
 )
 
+// isSuccess returns true if the HTTP status code is either OK, Created, or
+// Accepted.
+func isSuccess(code int) bool {
+	return code == http.StatusOK ||
+		code == http.StatusCreated ||
+		code == http.StatusAccepted
+}
+
 // Transport makes ActivityStreams calls to other servers in order to send or
 // receive ActivityStreams data.
 //
@@ -150,8 +158,7 @@ func (h HttpSigTransport) Deliver(c context.Context, b []byte, to *url.URL) erro
 		return err
 	}
 	defer resp.Body.Close()
-	// TODO: Other 20X response codes could be OK, too.
-	if resp.StatusCode != http.StatusOK {
+	if !isSuccess(resp.StatusCode) {
 		return fmt.Errorf("POST request to %s failed (%d): %s", to.String(), resp.StatusCode, resp.Status)
 	}
 	return nil
