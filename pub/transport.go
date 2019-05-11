@@ -60,14 +60,16 @@ var _ Transport = &HttpSigTransport{}
 //
 // Only one request is tried per call.
 type HttpSigTransport struct {
-	client     HttpClient
-	appAgent   string
-	gofedAgent string
-	clock      Clock
-	getSigner  httpsig.Signer
-	postSigner httpsig.Signer
-	pubKeyId   string
-	privKey    crypto.PrivateKey
+	client       HttpClient
+	appAgent     string
+	gofedAgent   string
+	clock        Clock
+	getSigner    httpsig.Signer
+	getSignerMu  *sync.Mutex
+	postSigner   httpsig.Signer
+	postSignerMu *sync.Mutex
+	pubKeyId     string
+	privKey      crypto.PrivateKey
 }
 
 // NewHttpSigTransport returns a new Transport.
@@ -93,14 +95,16 @@ func NewHttpSigTransport(
 	pubKeyId string,
 	privKey crypto.PrivateKey) *HttpSigTransport {
 	return &HttpSigTransport{
-		client:     client,
-		appAgent:   appAgent,
-		gofedAgent: goFedUserAgent(),
-		clock:      clock,
-		getSigner:  getSigner,
-		postSigner: postSigner,
-		pubKeyId:   pubKeyId,
-		privKey:    privKey,
+		client:       client,
+		appAgent:     appAgent,
+		gofedAgent:   goFedUserAgent(),
+		clock:        clock,
+		getSigner:    getSigner,
+		getSignerMu:  &sync.Mutex{},
+		postSigner:   postSigner,
+		postSignerMu: &sync.Mutex{},
+		pubKeyId:     pubKeyId,
+		privKey:      privKey,
 	}
 }
 
@@ -116,7 +120,9 @@ func (h HttpSigTransport) Dereference(c context.Context, iri *url.URL) ([]byte, 
 	req.Header.Add("Accept-Charset", "utf-8")
 	req.Header.Add("Date", h.clock.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
 	req.Header.Add("User-Agent", fmt.Sprintf("%s %s", h.appAgent, h.gofedAgent))
+	h.getSignerMu.Lock()
 	err = h.getSigner.SignRequest(h.privKey, h.pubKeyId, req)
+	h.getSignerMu.Unlock()
 	if err != nil {
 		return nil, err
 	}
@@ -149,7 +155,9 @@ func (h HttpSigTransport) Deliver(c context.Context, b []byte, to *url.URL) erro
 	req.Header.Add("Digest",
 		fmt.Sprintf("SHA-256=%s",
 			base64.StdEncoding.EncodeToString(sum[:])))
+	h.postSignerMu.Lock()
 	err = h.postSigner.SignRequest(h.privKey, h.pubKeyId, req)
+	h.postSignerMu.Unlock()
 	if err != nil {
 		return err
 	}
