@@ -23,6 +23,40 @@ import (
 // that do not require implementing a DelegateActor so that the ActivityPub
 // implementation is completely provided out of the box.
 type DelegateActor interface {
+	// Hook callback after parsing the request body for a federated request
+	// to the Actor's inbox.
+	//
+	// Can be used to set contextual information based on the Activity
+	// received.
+	//
+	// Only called if the Federated Protocol is enabled.
+	//
+	// Warning: Neither authentication nor authorization has taken place at
+	// this time. Doing anything beyond setting contextual information is
+	// strongly discouraged.
+	//
+	// If an error is returned, it is passed back to the caller of
+	// PostInbox. In this case, the DelegateActor implementation must not
+	// write a response to the ResponseWriter as is expected that the caller
+	// to PostInbox will do so when handling the error.
+	PostInboxRequestBodyHook(c context.Context, r *http.Request, activity Activity) error
+	// Hook callback after parsing the request body for a client request
+	// to the Actor's outbox.
+	//
+	// Can be used to set contextual information based on the
+	// ActivityStreams object received.
+	//
+	// Only called if the Social API is enabled.
+	//
+	// Warning: Neither authentication nor authorization has taken place at
+	// this time. Doing anything beyond setting contextual information is
+	// strongly discouraged.
+	//
+	// If an error is returned, it is passed back to the caller of
+	// PostOutbox. In this case, the DelegateActor implementation must not
+	// write a response to the ResponseWriter as is expected that the caller
+	// to PostOutbox will do so when handling the error.
+	PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) error
 	// AuthenticatePostInbox delegates the authentication of a POST to an
 	// inbox.
 	//

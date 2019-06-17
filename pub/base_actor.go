@@ -207,6 +207,10 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 		w.WriteHeader(http.StatusBadRequest)
 		return true, nil
 	}
+	// Allow server implementations to set context data with a hook.
+	if err = b.delegate.PostInboxRequestBodyHook(c, r, activity); err != nil {
+		return true, err
+	}
 	// Check authorization of the activity.
 	authorized, err := b.delegate.AuthorizePostInbox(c, w, activity)
 	if err != nil {
@@ -330,6 +334,10 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		// Respond with bad request -- we do not understand the type.
 		w.WriteHeader(http.StatusBadRequest)
 		return true, nil
+	}
+	// Allow server implementations to set context data with a hook.
+	if err = b.delegate.PostOutboxRequestBodyHook(c, r, asValue); err != nil {
+		return true, err
 	}
 	// The HTTP request steps are complete, complete the rest of the outbox
 	// and delivery process.

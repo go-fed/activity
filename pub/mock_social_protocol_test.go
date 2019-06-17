@@ -6,6 +6,7 @@ package pub
 
 import (
 	context "context"
+	vocab "github.com/go-fed/activity/streams/vocab"
 	gomock "github.com/golang/mock/gomock"
 	http "net/http"
 	reflect "reflect"
@@ -34,6 +35,20 @@ func (m *MockSocialProtocol) EXPECT() *MockSocialProtocolMockRecorder {
 	return m.recorder
 }
 
+// PostOutboxRequestBodyHook mocks base method
+func (m *MockSocialProtocol) PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "PostOutboxRequestBodyHook", c, r, data)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PostOutboxRequestBodyHook indicates an expected call of PostOutboxRequestBodyHook
+func (mr *MockSocialProtocolMockRecorder) PostOutboxRequestBodyHook(c, r, data interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PostOutboxRequestBodyHook", reflect.TypeOf((*MockSocialProtocol)(nil).PostOutboxRequestBodyHook), c, r, data)
+}
+
 // AuthenticatePostOutbox mocks base method
 func (m *MockSocialProtocol) AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error) {
 	m.ctrl.T.Helper()
@@ -50,12 +65,13 @@ func (mr *MockSocialProtocolMockRecorder) AuthenticatePostOutbox(c, w, r interfa
 }
 
 // Callbacks mocks base method
-func (m *MockSocialProtocol) Callbacks(c context.Context) (SocialWrappedCallbacks, []interface{}) {
+func (m *MockSocialProtocol) Callbacks(c context.Context) (SocialWrappedCallbacks, []interface{}, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Callbacks", c)
 	ret0, _ := ret[0].(SocialWrappedCallbacks)
 	ret1, _ := ret[1].([]interface{})
-	return ret0, ret1
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
 }
 
 // Callbacks indicates an expected call of Callbacks

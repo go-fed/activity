@@ -16,6 +16,23 @@ import (
 // It is passed to the library as a dependency injection from the client
 // application.
 type FederatingProtocol interface {
+	// Hook callback after parsing the request body for a federated request
+	// to the Actor's inbox.
+	//
+	// Can be used to set contextual information based on the Activity
+	// received.
+	//
+	// Only called if the Federated Protocol is enabled.
+	//
+	// Warning: Neither authentication nor authorization has taken place at
+	// this time. Doing anything beyond setting contextual information is
+	// strongly discouraged.
+	//
+	// If an error is returned, it is passed back to the caller of
+	// PostInbox. In this case, the DelegateActor implementation must not
+	// write a response to the ResponseWriter as is expected that the caller
+	// to PostInbox will do so when handling the error.
+	PostInboxRequestBodyHook(c context.Context, r *http.Request, activity Activity) error
 	// AuthenticatePostInbox delegates the authentication of a POST to an
 	// inbox.
 	//
@@ -67,7 +84,7 @@ type FederatingProtocol interface {
 	//
 	// Applications are not expected to handle every single ActivityStreams
 	// type and extension. The unhandled ones are passed to DefaultCallback.
-	Callbacks(c context.Context) (wrapped FederatingWrappedCallbacks, other []interface{})
+	Callbacks(c context.Context) (wrapped FederatingWrappedCallbacks, other []interface{}, err error)
 	// DefaultCallback is called for types that go-fed can deserialize but
 	// are not handled by the application's callbacks returned in the
 	// Callbacks method.

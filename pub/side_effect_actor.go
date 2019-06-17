@@ -28,6 +28,16 @@ type sideEffectActor struct {
 	clock  Clock
 }
 
+// PostInboxRequestBodyHook defers to the delegate.
+func (a *sideEffectActor) PostInboxRequestBodyHook(c context.Context, r *http.Request, activity Activity) error {
+	return a.s2s.PostInboxRequestBodyHook(c, r, activity)
+}
+
+// PostOutboxRequestBodyHook defers to the delegate.
+func (a *sideEffectActor) PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) error {
+	return a.c2s.PostOutboxRequestBodyHook(c, r, data)
+}
+
 // AuthenticatePostInbox defers to the delegate to authenticate the request.
 func (a *sideEffectActor) AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error) {
 	return a.s2s.AuthenticatePostInbox(c, w, r)
@@ -100,7 +110,10 @@ func (a *sideEffectActor) PostInbox(c context.Context, inboxIRI *url.URL, activi
 		return err
 	}
 	if isNew {
-		wrapped, other := a.s2s.Callbacks(c)
+		wrapped, other, err := a.s2s.Callbacks(c)
+		if err != nil {
+			return err
+		}
 		// Populate side channels.
 		wrapped.db = a.db
 		wrapped.inboxIRI = inboxIRI
@@ -312,7 +325,12 @@ func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outbo
 	// TODO: Determine this if c2s is nil
 	deliverable = true
 	if a.c2s != nil {
-		wrapped, other := a.c2s.Callbacks(c)
+		var wrapped SocialWrappedCallbacks
+		var other []interface{}
+		wrapped, other, err = a.c2s.Callbacks(c)
+		if err != nil {
+			return
+		}
 		// Populate side channels.
 		wrapped.db = a.db
 		wrapped.outboxIRI = outboxIRI

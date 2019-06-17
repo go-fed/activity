@@ -2,6 +2,7 @@ package pub
 
 import (
 	"context"
+	"github.com/go-fed/activity/streams/vocab"
 	"net/http"
 )
 
@@ -14,6 +15,23 @@ import (
 // It is passed to the library as a dependency injection from the client
 // application.
 type SocialProtocol interface {
+	// Hook callback after parsing the request body for a client request
+	// to the Actor's outbox.
+	//
+	// Can be used to set contextual information based on the
+	// ActivityStreams object received.
+	//
+	// Only called if the Social API is enabled.
+	//
+	// Warning: Neither authentication nor authorization has taken place at
+	// this time. Doing anything beyond setting contextual information is
+	// strongly discouraged.
+	//
+	// If an error is returned, it is passed back to the caller of
+	// PostOutbox. In this case, the DelegateActor implementation must not
+	// write a response to the ResponseWriter as is expected that the caller
+	// to PostOutbox will do so when handling the error.
+	PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) error
 	// AuthenticatePostOutbox delegates the authentication of a POST to an
 	// outbox.
 	//
@@ -52,7 +70,7 @@ type SocialProtocol interface {
 	//
 	// Applications are not expected to handle every single ActivityStreams
 	// type and extension. The unhandled ones are passed to DefaultCallback.
-	Callbacks(c context.Context) (wrapped SocialWrappedCallbacks, other []interface{})
+	Callbacks(c context.Context) (wrapped SocialWrappedCallbacks, other []interface{}, err error)
 	// DefaultCallback is called for types that go-fed can deserialize but
 	// are not handled by the application's callbacks returned in the
 	// Callbacks method.

@@ -36,6 +36,20 @@ func (m *MockFederatingProtocol) EXPECT() *MockFederatingProtocolMockRecorder {
 	return m.recorder
 }
 
+// PostInboxRequestBodyHook mocks base method
+func (m *MockFederatingProtocol) PostInboxRequestBodyHook(c context.Context, r *http.Request, activity Activity) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "PostInboxRequestBodyHook", c, r, activity)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PostInboxRequestBodyHook indicates an expected call of PostInboxRequestBodyHook
+func (mr *MockFederatingProtocolMockRecorder) PostInboxRequestBodyHook(c, r, activity interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PostInboxRequestBodyHook", reflect.TypeOf((*MockFederatingProtocol)(nil).PostInboxRequestBodyHook), c, r, activity)
+}
+
 // AuthenticatePostInbox mocks base method
 func (m *MockFederatingProtocol) AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error) {
 	m.ctrl.T.Helper()
@@ -67,12 +81,13 @@ func (mr *MockFederatingProtocolMockRecorder) Blocked(c, actorIRIs interface{}) 
 }
 
 // Callbacks mocks base method
-func (m *MockFederatingProtocol) Callbacks(c context.Context) (FederatingWrappedCallbacks, []interface{}) {
+func (m *MockFederatingProtocol) Callbacks(c context.Context) (FederatingWrappedCallbacks, []interface{}, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Callbacks", c)
 	ret0, _ := ret[0].(FederatingWrappedCallbacks)
 	ret1, _ := ret[1].([]interface{})
-	return ret0, ret1
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
 }
 
 // Callbacks indicates an expected call of Callbacks
