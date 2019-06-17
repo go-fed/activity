@@ -36,11 +36,12 @@ func (m *MockSocialProtocol) EXPECT() *MockSocialProtocolMockRecorder {
 }
 
 // PostOutboxRequestBodyHook mocks base method
-func (m *MockSocialProtocol) PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) error {
+func (m *MockSocialProtocol) PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) (context.Context, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PostOutboxRequestBodyHook", c, r, data)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(context.Context)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // PostOutboxRequestBodyHook indicates an expected call of PostOutboxRequestBodyHook

@@ -37,11 +37,12 @@ func (m *MockDelegateActor) EXPECT() *MockDelegateActorMockRecorder {
 }
 
 // PostInboxRequestBodyHook mocks base method
-func (m *MockDelegateActor) PostInboxRequestBodyHook(c context.Context, r *http.Request, activity Activity) error {
+func (m *MockDelegateActor) PostInboxRequestBodyHook(c context.Context, r *http.Request, activity Activity) (context.Context, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PostInboxRequestBodyHook", c, r, activity)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(context.Context)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // PostInboxRequestBodyHook indicates an expected call of PostInboxRequestBodyHook
@@ -51,11 +52,12 @@ func (mr *MockDelegateActorMockRecorder) PostInboxRequestBodyHook(c, r, activity
 }
 
 // PostOutboxRequestBodyHook mocks base method
-func (m *MockDelegateActor) PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) error {
+func (m *MockDelegateActor) PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) (context.Context, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PostOutboxRequestBodyHook", c, r, data)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(context.Context)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // PostOutboxRequestBodyHook indicates an expected call of PostOutboxRequestBodyHook

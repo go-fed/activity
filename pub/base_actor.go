@@ -208,7 +208,8 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 		return true, nil
 	}
 	// Allow server implementations to set context data with a hook.
-	if err = b.delegate.PostInboxRequestBodyHook(c, r, activity); err != nil {
+	c, err = b.delegate.PostInboxRequestBodyHook(c, r, activity)
+	if err != nil {
 		return true, err
 	}
 	// Check authorization of the activity.
@@ -336,7 +337,8 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		return true, nil
 	}
 	// Allow server implementations to set context data with a hook.
-	if err = b.delegate.PostOutboxRequestBodyHook(c, r, asValue); err != nil {
+	c, err = b.delegate.PostOutboxRequestBodyHook(c, r, asValue)
+	if err != nil {
 		return true, err
 	}
 	// The HTTP request steps are complete, complete the rest of the outbox

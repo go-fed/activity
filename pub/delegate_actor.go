@@ -39,7 +39,7 @@ type DelegateActor interface {
 	// PostInbox. In this case, the DelegateActor implementation must not
 	// write a response to the ResponseWriter as is expected that the caller
 	// to PostInbox will do so when handling the error.
-	PostInboxRequestBodyHook(c context.Context, r *http.Request, activity Activity) error
+	PostInboxRequestBodyHook(c context.Context, r *http.Request, activity Activity) (context.Context, error)
 	// Hook callback after parsing the request body for a client request
 	// to the Actor's outbox.
 	//
@@ -56,7 +56,7 @@ type DelegateActor interface {
 	// PostOutbox. In this case, the DelegateActor implementation must not
 	// write a response to the ResponseWriter as is expected that the caller
 	// to PostOutbox will do so when handling the error.
-	PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) error
+	PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) (context.Context, error)
 	// AuthenticatePostInbox delegates the authentication of a POST to an
 	// inbox.
 	//

@@ -31,7 +31,7 @@ type SocialProtocol interface {
 	// PostOutbox. In this case, the DelegateActor implementation must not
 	// write a response to the ResponseWriter as is expected that the caller
 	// to PostOutbox will do so when handling the error.
-	PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) error
+	PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) (context.Context, error)
 	// AuthenticatePostOutbox delegates the authentication of a POST to an
 	// outbox.
 	//

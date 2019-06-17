@@ -29,12 +29,12 @@ type sideEffectActor struct {
 }
 
 // PostInboxRequestBodyHook defers to the delegate.
-func (a *sideEffectActor) PostInboxRequestBodyHook(c context.Context, r *http.Request, activity Activity) error {
+func (a *sideEffectActor) PostInboxRequestBodyHook(c context.Context, r *http.Request, activity Activity) (context.Context, error) {
 	return a.s2s.PostInboxRequestBodyHook(c, r, activity)
 }
 
 // PostOutboxRequestBodyHook defers to the delegate.
-func (a *sideEffectActor) PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) error {
+func (a *sideEffectActor) PostOutboxRequestBodyHook(c context.Context, r *http.Request, data vocab.Type) (context.Context, error) {
 	return a.c2s.PostOutboxRequestBodyHook(c, r, data)
 }
 

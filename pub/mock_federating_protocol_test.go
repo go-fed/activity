@@ -37,11 +37,12 @@ func (m *MockFederatingProtocol) EXPECT() *MockFederatingProtocolMockRecorder {
 }
 
 // PostInboxRequestBodyHook mocks base method
-func (m *MockFederatingProtocol) PostInboxRequestBodyHook(c context.Context, r *http.Request, activity Activity) error {
+func (m *MockFederatingProtocol) PostInboxRequestBodyHook(c context.Context, r *http.Request, activity Activity) (context.Context, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PostInboxRequestBodyHook", c, r, activity)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(context.Context)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // PostInboxRequestBodyHook indicates an expected call of PostInboxRequestBodyHook
