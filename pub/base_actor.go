@@ -275,7 +275,7 @@ func (b *baseActor) GetInbox(c context.Context, w http.ResponseWriter, r *http.R
 	// Request has been processed. Begin responding to the request.
 	//
 	// Serialize the OrderedCollection.
-	m, err := serialize(oc)
+	m, err := streams.Serialize(oc)
 	if err != nil {
 		return true, err
 	}
@@ -384,7 +384,7 @@ func (b *baseActor) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 	// Request has been processed. Begin responding to the request.
 	//
 	// Serialize the OrderedCollection.
-	m, err := serialize(oc)
+	m, err := streams.Serialize(oc)
 	if err != nil {
 		return true, err
 	}

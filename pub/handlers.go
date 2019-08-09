@@ -77,7 +77,7 @@ func NewActivityStreamsHandler(authFn AuthenticateFunc, db Database, clock Clock
 		// Remove sensitive fields.
 		clearSensitiveFields(t)
 		// Serialize the fetched value.
-		m, err := serialize(t)
+		m, err := streams.Serialize(t)
 		if err != nil {
 			return
 		}

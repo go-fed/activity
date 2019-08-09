@@ -426,7 +426,7 @@ func (a *sideEffectActor) WrapInCreate(c context.Context, obj vocab.Type, outbox
 // deliverToRecipients will take a prepared Activity and send it to specific
 // recipients on behalf of an actor.
 func (a *sideEffectActor) deliverToRecipients(c context.Context, boxIRI *url.URL, activity Activity, recipients []*url.URL) error {
-	m, err := serialize(activity)
+	m, err := streams.Serialize(activity)
 	if err != nil {
 		return err
 	}
