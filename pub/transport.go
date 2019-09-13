@@ -121,7 +121,7 @@ func (h HttpSigTransport) Dereference(c context.Context, iri *url.URL) ([]byte, 
 	req.Header.Add("Date", h.clock.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
 	req.Header.Add("User-Agent", fmt.Sprintf("%s %s", h.appAgent, h.gofedAgent))
 	h.getSignerMu.Lock()
-	err = h.getSigner.SignRequest(h.privKey, h.pubKeyId, req)
+	err = h.getSigner.SignRequest(h.privKey, h.pubKeyId, req, nil)
 	h.getSignerMu.Unlock()
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (h HttpSigTransport) Deliver(c context.Context, b []byte, to *url.URL) erro
 		fmt.Sprintf("SHA-256=%s",
 			base64.StdEncoding.EncodeToString(sum[:])))
 	h.postSignerMu.Lock()
-	err = h.postSigner.SignRequest(h.privKey, h.pubKeyId, req)
+	err = h.postSigner.SignRequest(h.privKey, h.pubKeyId, req, b)
 	h.postSignerMu.Unlock()
 	if err != nil {
 		return err
