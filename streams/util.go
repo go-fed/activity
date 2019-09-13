@@ -60,5 +60,3 @@ func Serialize(a vocab.Type) (m map[string]interface{}, e error) {
 	cleanFnRecur(m)
 	return
 }
-
-
