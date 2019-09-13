@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"context"
 	"crypto"
-	"crypto/sha256"
-	"encoding/base64"
 	"fmt"
 	"github.com/go-fed/httpsig"
 	"io/ioutil"
@@ -151,10 +149,6 @@ func (h HttpSigTransport) Deliver(c context.Context, b []byte, to *url.URL) erro
 	req.Header.Add("Accept-Charset", "utf-8")
 	req.Header.Add("Date", h.clock.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
 	req.Header.Add("User-Agent", fmt.Sprintf("%s %s", h.appAgent, h.gofedAgent))
-	sum := sha256.Sum256(b)
-	req.Header.Add("Digest",
-		fmt.Sprintf("SHA-256=%s",
-			base64.StdEncoding.EncodeToString(sum[:])))
 	h.postSignerMu.Lock()
 	err = h.postSigner.SignRequest(h.privKey, h.pubKeyId, req, b)
 	h.postSignerMu.Unlock()
