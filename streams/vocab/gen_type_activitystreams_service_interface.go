@@ -92,6 +92,9 @@ type ActivityStreamsService interface {
 	// GetActivityStreamsPreview returns the "preview" property if it exists,
 	// and nil otherwise.
 	GetActivityStreamsPreview() ActivityStreamsPreviewProperty
+	// GetActivityStreamsPublicKey returns the "publicKey" property if it
+	// exists, and nil otherwise.
+	GetActivityStreamsPublicKey() ActivityStreamsPublicKeyProperty
 	// GetActivityStreamsPublished returns the "published" property if it
 	// exists, and nil otherwise.
 	GetActivityStreamsPublished() ActivityStreamsPublishedProperty
@@ -205,6 +208,8 @@ type ActivityStreamsService interface {
 	SetActivityStreamsPreferredUsername(i ActivityStreamsPreferredUsernameProperty)
 	// SetActivityStreamsPreview sets the "preview" property.
 	SetActivityStreamsPreview(i ActivityStreamsPreviewProperty)
+	// SetActivityStreamsPublicKey sets the "publicKey" property.
+	SetActivityStreamsPublicKey(i ActivityStreamsPublicKeyProperty)
 	// SetActivityStreamsPublished sets the "published" property.
 	SetActivityStreamsPublished(i ActivityStreamsPublishedProperty)
 	// SetActivityStreamsReplies sets the "replies" property.

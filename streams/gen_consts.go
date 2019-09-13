@@ -120,6 +120,9 @@ var ActivityStreamsPlaceName string = "Place"
 // ActivityStreamsProfileName is the string literal of the name for the Profile type in the ActivityStreams vocabulary.
 var ActivityStreamsProfileName string = "Profile"
 
+// ActivityStreamsPublicKeyName is the string literal of the name for the PublicKey type in the ActivityStreams vocabulary.
+var ActivityStreamsPublicKeyName string = "PublicKey"
+
 // ActivityStreamsQuestionName is the string literal of the name for the Question type in the ActivityStreams vocabulary.
 var ActivityStreamsQuestionName string = "Question"
 
@@ -309,6 +312,9 @@ var ActivityStreamsOriginPropertyName string = "origin"
 // ActivityStreamsOutboxPropertyName is the string literal of the name for the outbox property in the ActivityStreams vocabulary.
 var ActivityStreamsOutboxPropertyName string = "outbox"
 
+// ActivityStreamsOwnerPropertyName is the string literal of the name for the owner property in the ActivityStreams vocabulary.
+var ActivityStreamsOwnerPropertyName string = "owner"
+
 // ActivityStreamsPartOfPropertyName is the string literal of the name for the partOf property in the ActivityStreams vocabulary.
 var ActivityStreamsPartOfPropertyName string = "partOf"
 
@@ -323,6 +329,12 @@ var ActivityStreamsPrevPropertyName string = "prev"
 
 // ActivityStreamsPreviewPropertyName is the string literal of the name for the preview property in the ActivityStreams vocabulary.
 var ActivityStreamsPreviewPropertyName string = "preview"
+
+// ActivityStreamsPublicKeyPropertyName is the string literal of the name for the publicKey property in the ActivityStreams vocabulary.
+var ActivityStreamsPublicKeyPropertyName string = "publicKey"
+
+// ActivityStreamsPublicKeyPemPropertyName is the string literal of the name for the publicKeyPem property in the ActivityStreams vocabulary.
+var ActivityStreamsPublicKeyPemPropertyName string = "publicKeyPem"
 
 // ActivityStreamsPublishedPropertyName is the string literal of the name for the published property in the ActivityStreams vocabulary.
 var ActivityStreamsPublishedPropertyName string = "published"

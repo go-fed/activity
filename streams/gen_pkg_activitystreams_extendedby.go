@@ -41,6 +41,7 @@ import (
 	typeperson "github.com/go-fed/activity/streams/impl/activitystreams/type_person"
 	typeplace "github.com/go-fed/activity/streams/impl/activitystreams/type_place"
 	typeprofile "github.com/go-fed/activity/streams/impl/activitystreams/type_profile"
+	typepublickey "github.com/go-fed/activity/streams/impl/activitystreams/type_publickey"
 	typequestion "github.com/go-fed/activity/streams/impl/activitystreams/type_question"
 	typeread "github.com/go-fed/activity/streams/impl/activitystreams/type_read"
 	typereject "github.com/go-fed/activity/streams/impl/activitystreams/type_reject"
@@ -336,6 +337,13 @@ func ActivityStreamsPlaceIsExtendedBy(other vocab.Type) bool {
 // "IsOrExtends" variant instead.
 func ActivityStreamsProfileIsExtendedBy(other vocab.Type) bool {
 	return typeprofile.ProfileIsExtendedBy(other)
+}
+
+// ActivityStreamsPublicKeyIsExtendedBy returns true if the other's type extends
+// from PublicKey. Note that it returns false if the types are the same; see
+// the "IsOrExtends" variant instead.
+func ActivityStreamsPublicKeyIsExtendedBy(other vocab.Type) bool {
+	return typepublickey.PublicKeyIsExtendedBy(other)
 }
 
 // ActivityStreamsQuestionIsExtendedBy returns true if the other's type extends

@@ -167,6 +167,9 @@ func ToType(c context.Context, m map[string]interface{}) (t vocab.Type, err erro
 	}, func(ctx context.Context, i vocab.ActivityStreamsProfile) error {
 		t = i
 		return nil
+	}, func(ctx context.Context, i vocab.ActivityStreamsPublicKey) error {
+		t = i
+		return nil
 	}, func(ctx context.Context, i vocab.ActivityStreamsQuestion) error {
 		t = i
 		return nil

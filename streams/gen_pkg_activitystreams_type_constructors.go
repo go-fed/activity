@@ -41,6 +41,7 @@ import (
 	typeperson "github.com/go-fed/activity/streams/impl/activitystreams/type_person"
 	typeplace "github.com/go-fed/activity/streams/impl/activitystreams/type_place"
 	typeprofile "github.com/go-fed/activity/streams/impl/activitystreams/type_profile"
+	typepublickey "github.com/go-fed/activity/streams/impl/activitystreams/type_publickey"
 	typequestion "github.com/go-fed/activity/streams/impl/activitystreams/type_question"
 	typeread "github.com/go-fed/activity/streams/impl/activitystreams/type_read"
 	typereject "github.com/go-fed/activity/streams/impl/activitystreams/type_reject"
@@ -259,6 +260,11 @@ func NewActivityStreamsPlace() vocab.ActivityStreamsPlace {
 // NewActivityStreamsProfile creates a new ActivityStreamsProfile
 func NewActivityStreamsProfile() vocab.ActivityStreamsProfile {
 	return typeprofile.NewActivityStreamsProfile()
+}
+
+// NewActivityStreamsPublicKey creates a new ActivityStreamsPublicKey
+func NewActivityStreamsPublicKey() vocab.ActivityStreamsPublicKey {
+	return typepublickey.NewActivityStreamsPublicKey()
 }
 
 // NewActivityStreamsQuestion creates a new ActivityStreamsQuestion

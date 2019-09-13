@@ -41,6 +41,7 @@ import (
 	typeperson "github.com/go-fed/activity/streams/impl/activitystreams/type_person"
 	typeplace "github.com/go-fed/activity/streams/impl/activitystreams/type_place"
 	typeprofile "github.com/go-fed/activity/streams/impl/activitystreams/type_profile"
+	typepublickey "github.com/go-fed/activity/streams/impl/activitystreams/type_publickey"
 	typequestion "github.com/go-fed/activity/streams/impl/activitystreams/type_question"
 	typeread "github.com/go-fed/activity/streams/impl/activitystreams/type_read"
 	typereject "github.com/go-fed/activity/streams/impl/activitystreams/type_reject"
@@ -296,6 +297,12 @@ func ActivityStreamsPlaceIsDisjointWith(other vocab.Type) bool {
 // the other's type.
 func ActivityStreamsProfileIsDisjointWith(other vocab.Type) bool {
 	return typeprofile.ProfileIsDisjointWith(other)
+}
+
+// ActivityStreamsPublicKeyIsDisjointWith returns true if PublicKey is disjoint
+// with the other's type.
+func ActivityStreamsPublicKeyIsDisjointWith(other vocab.Type) bool {
+	return typepublickey.PublicKeyIsDisjointWith(other)
 }
 
 // ActivityStreamsQuestionIsDisjointWith returns true if Question is disjoint with
