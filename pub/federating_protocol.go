@@ -49,7 +49,7 @@ type FederatingProtocol interface {
 	// Finally, if the authentication and authorization succeeds, then
 	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
+	AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error)
 	// Blocked should determine whether to permit a set of actors given by
 	// their ids are able to interact with this particular end user due to
 	// being blocked or other application-specific logic.

@@ -401,7 +401,7 @@ func mustSerializeToBytes(t vocab.Type) []byte {
 
 // mustSerialize serializes a type or panics.
 func mustSerialize(t vocab.Type) map[string]interface{} {
-	m, err := serialize(t)
+	m, err := streams.Serialize(t)
 	if err != nil {
 		panic(err)
 	}
@@ -474,7 +474,7 @@ func toAPRequest(r *http.Request) *http.Request {
 // toPostInboxRequest creates a new POST HTTP request with the given type as
 // the payload.
 func toPostInboxRequest(t vocab.Type) *http.Request {
-	m, err := serialize(t)
+	m, err := streams.Serialize(t)
 	if err != nil {
 		panic(err)
 	}
@@ -489,7 +489,7 @@ func toPostInboxRequest(t vocab.Type) *http.Request {
 // toPostOutboxRequest creates a new POST HTTP request with the given type as
 // the payload.
 func toPostOutboxRequest(t vocab.Type) *http.Request {
-	m, err := serialize(t)
+	m, err := streams.Serialize(t)
 	if err != nil {
 		panic(err)
 	}

@@ -174,7 +174,7 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 		return true, nil
 	}
 	// Check the peer request is authentic.
-	authenticated, err := b.delegate.AuthenticatePostInbox(c, w, r)
+	c, authenticated, err := b.delegate.AuthenticatePostInbox(c, w, r)
 	if err != nil {
 		return true, err
 	} else if !authenticated {
@@ -256,7 +256,7 @@ func (b *baseActor) GetInbox(c context.Context, w http.ResponseWriter, r *http.R
 		return false, nil
 	}
 	// Delegate authenticating and authorizing the request.
-	authenticated, err := b.delegate.AuthenticateGetInbox(c, w, r)
+	c, authenticated, err := b.delegate.AuthenticateGetInbox(c, w, r)
 	if err != nil {
 		return true, err
 	} else if !authenticated {
@@ -309,7 +309,7 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		return true, nil
 	}
 	// Delegate authenticating and authorizing the request.
-	authenticated, err := b.delegate.AuthenticatePostOutbox(c, w, r)
+	c, authenticated, err := b.delegate.AuthenticatePostOutbox(c, w, r)
 	if err != nil {
 		return true, err
 	} else if !authenticated {
@@ -370,7 +370,7 @@ func (b *baseActor) GetOutbox(c context.Context, w http.ResponseWriter, r *http.
 		return false, nil
 	}
 	// Delegate authenticating and authorizing the request.
-	authenticated, err := b.delegate.AuthenticateGetOutbox(c, w, r)
+	c, authenticated, err := b.delegate.AuthenticateGetOutbox(c, w, r)
 	if err != nil {
 		return true, err
 	} else if !authenticated {

@@ -39,22 +39,22 @@ func (a *sideEffectActor) PostOutboxRequestBodyHook(c context.Context, r *http.R
 }
 
 // AuthenticatePostInbox defers to the delegate to authenticate the request.
-func (a *sideEffectActor) AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error) {
+func (a *sideEffectActor) AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error) {
 	return a.s2s.AuthenticatePostInbox(c, w, r)
 }
 
 // AuthenticateGetInbox defers to the delegate to authenticate the request.
-func (a *sideEffectActor) AuthenticateGetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error) {
+func (a *sideEffectActor) AuthenticateGetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error) {
 	return a.common.AuthenticateGetInbox(c, w, r)
 }
 
 // AuthenticatePostOutbox defers to the delegate to authenticate the request.
-func (a *sideEffectActor) AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error) {
+func (a *sideEffectActor) AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error) {
 	return a.c2s.AuthenticatePostOutbox(c, w, r)
 }
 
 // AuthenticateGetOutbox defers to the delegate to authenticate the request.
-func (a *sideEffectActor) AuthenticateGetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error) {
+func (a *sideEffectActor) AuthenticateGetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error) {
 	return a.common.AuthenticateGetOutbox(c, w, r)
 }
 

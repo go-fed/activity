@@ -50,7 +50,7 @@ type SocialProtocol interface {
 	// Finally, if the authentication and authorization succeeds, then
 	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
+	AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error)
 	// Callbacks returns the application logic that handles ActivityStreams
 	// received from C2S clients.
 	//

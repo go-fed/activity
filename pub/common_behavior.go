@@ -32,7 +32,7 @@ type CommonBehavior interface {
 	// Finally, if the authentication and authorization succeeds, then
 	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticateGetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
+	AuthenticateGetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error)
 	// AuthenticateGetOutbox delegates the authentication of a GET to an
 	// outbox.
 	//
@@ -52,7 +52,7 @@ type CommonBehavior interface {
 	// Finally, if the authentication and authorization succeeds, then
 	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticateGetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
+	AuthenticateGetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error)
 	// GetOutbox returns the OrderedCollection inbox of the actor for this
 	// context. It is up to the implementation to provide the correct
 	// collection for the kind of authorization given in the request.

@@ -37,9 +37,9 @@ func TestPassThroughMethods(t *testing.T) {
 		defer ctl.Finish()
 		_, fp, _, _, _, a := setupFn(ctl)
 		req := toAPRequest(toPostInboxRequest(testCreate))
-		fp.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(true, testErr)
+		fp.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(ctx, true, testErr)
 		// Run
-		b, err := a.AuthenticatePostInbox(ctx, resp, req)
+		_, b, err := a.AuthenticatePostInbox(ctx, resp, req)
 		// Verify
 		assertEqual(t, b, true)
 		assertEqual(t, err, testErr)
@@ -50,9 +50,9 @@ func TestPassThroughMethods(t *testing.T) {
 		defer ctl.Finish()
 		c, _, _, _, _, a := setupFn(ctl)
 		req := toAPRequest(toGetInboxRequest())
-		c.EXPECT().AuthenticateGetInbox(ctx, resp, req).Return(true, testErr)
+		c.EXPECT().AuthenticateGetInbox(ctx, resp, req).Return(ctx, true, testErr)
 		// Run
-		b, err := a.AuthenticateGetInbox(ctx, resp, req)
+		_, b, err := a.AuthenticateGetInbox(ctx, resp, req)
 		// Verify
 		assertEqual(t, b, true)
 		assertEqual(t, err, testErr)
@@ -63,9 +63,9 @@ func TestPassThroughMethods(t *testing.T) {
 		defer ctl.Finish()
 		_, _, sp, _, _, a := setupFn(ctl)
 		req := toAPRequest(toPostOutboxRequest(testCreate))
-		sp.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(true, testErr)
+		sp.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(ctx, true, testErr)
 		// Run
-		b, err := a.AuthenticatePostOutbox(ctx, resp, req)
+		_, b, err := a.AuthenticatePostOutbox(ctx, resp, req)
 		// Verify
 		assertEqual(t, b, true)
 		assertEqual(t, err, testErr)
@@ -76,9 +76,9 @@ func TestPassThroughMethods(t *testing.T) {
 		defer ctl.Finish()
 		c, _, _, _, _, a := setupFn(ctl)
 		req := toAPRequest(toGetOutboxRequest())
-		c.EXPECT().AuthenticateGetOutbox(ctx, resp, req).Return(true, testErr)
+		c.EXPECT().AuthenticateGetOutbox(ctx, resp, req).Return(ctx, true, testErr)
 		// Run
-		b, err := a.AuthenticateGetOutbox(ctx, resp, req)
+		_, b, err := a.AuthenticateGetOutbox(ctx, resp, req)
 		// Verify
 		assertEqual(t, b, true)
 		assertEqual(t, err, testErr)

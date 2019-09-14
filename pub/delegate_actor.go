@@ -75,7 +75,7 @@ type DelegateActor interface {
 	// Finally, if the authentication and authorization succeeds, then
 	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
+	AuthenticatePostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error)
 	// AuthenticateGetInbox delegates the authentication of a GET to an
 	// inbox.
 	//
@@ -95,7 +95,7 @@ type DelegateActor interface {
 	// Finally, if the authentication and authorization succeeds, then
 	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticateGetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
+	AuthenticateGetInbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error)
 	// AuthorizePostInbox delegates the authorization of an activity that
 	// has been sent by POST to an inbox.
 	//
@@ -201,7 +201,7 @@ type DelegateActor interface {
 	// Finally, if the authentication and authorization succeeds, then
 	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
+	AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error)
 	// AuthenticateGetOutbox delegates the authentication of a GET to an
 	// outbox.
 	//
@@ -221,7 +221,7 @@ type DelegateActor interface {
 	// Finally, if the authentication and authorization succeeds, then
 	// authenticated must be true and error nil. The request will continue
 	// to be processed.
-	AuthenticateGetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (authenticated bool, err error)
+	AuthenticateGetOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error)
 	// WrapInCreate wraps the provided object in a Create ActivityStreams
 	// activity. The provided URL is the actor's outbox endpoint.
 	//
