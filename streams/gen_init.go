@@ -127,6 +127,10 @@ import (
 	typeupdate "github.com/go-fed/activity/streams/impl/activitystreams/type_update"
 	typevideo "github.com/go-fed/activity/streams/impl/activitystreams/type_video"
 	typeview "github.com/go-fed/activity/streams/impl/activitystreams/type_view"
+	propertyowner "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_owner"
+	propertypublickey "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_publickey"
+	propertypublickeypem "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_publickeypem"
+	typepublickey "github.com/go-fed/activity/streams/impl/w3idsecurityv1/type_publickey"
 )
 
 var mgr *Manager
@@ -268,6 +272,10 @@ func init() {
 	typeupdate.SetManager(mgr)
 	typevideo.SetManager(mgr)
 	typeview.SetManager(mgr)
+	propertyowner.SetManager(mgr)
+	propertypublickey.SetManager(mgr)
+	propertypublickeypem.SetManager(mgr)
+	typepublickey.SetManager(mgr)
 	typeaccept.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typeactivity.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typeadd.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
@@ -322,4 +330,5 @@ func init() {
 	typeupdate.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typevideo.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typeview.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
+	typepublickey.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 }

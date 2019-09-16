@@ -120,6 +120,9 @@ var ActivityStreamsPlaceName string = "Place"
 // ActivityStreamsProfileName is the string literal of the name for the Profile type in the ActivityStreams vocabulary.
 var ActivityStreamsProfileName string = "Profile"
 
+// W3IDSecurityV1PublicKeyName is the string literal of the name for the PublicKey type in the W3IDSecurityV1 vocabulary.
+var W3IDSecurityV1PublicKeyName string = "PublicKey"
+
 // ActivityStreamsQuestionName is the string literal of the name for the Question type in the ActivityStreams vocabulary.
 var ActivityStreamsQuestionName string = "Question"
 
@@ -309,6 +312,9 @@ var ActivityStreamsOriginPropertyName string = "origin"
 // ActivityStreamsOutboxPropertyName is the string literal of the name for the outbox property in the ActivityStreams vocabulary.
 var ActivityStreamsOutboxPropertyName string = "outbox"
 
+// W3IDSecurityV1OwnerPropertyName is the string literal of the name for the owner property in the W3IDSecurityV1 vocabulary.
+var W3IDSecurityV1OwnerPropertyName string = "owner"
+
 // ActivityStreamsPartOfPropertyName is the string literal of the name for the partOf property in the ActivityStreams vocabulary.
 var ActivityStreamsPartOfPropertyName string = "partOf"
 
@@ -323,6 +329,12 @@ var ActivityStreamsPrevPropertyName string = "prev"
 
 // ActivityStreamsPreviewPropertyName is the string literal of the name for the preview property in the ActivityStreams vocabulary.
 var ActivityStreamsPreviewPropertyName string = "preview"
+
+// W3IDSecurityV1PublicKeyPropertyName is the string literal of the name for the publicKey property in the W3IDSecurityV1 vocabulary.
+var W3IDSecurityV1PublicKeyPropertyName string = "publicKey"
+
+// W3IDSecurityV1PublicKeyPemPropertyName is the string literal of the name for the publicKeyPem property in the W3IDSecurityV1 vocabulary.
+var W3IDSecurityV1PublicKeyPemPropertyName string = "publicKeyPem"
 
 // ActivityStreamsPublishedPropertyName is the string literal of the name for the published property in the ActivityStreams vocabulary.
 var ActivityStreamsPublishedPropertyName string = "published"

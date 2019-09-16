@@ -53,6 +53,7 @@ type ActivityStreamsFormerTypePropertyIterator struct {
 	activitystreamsPersonMember                vocab.ActivityStreamsPerson
 	activitystreamsPlaceMember                 vocab.ActivityStreamsPlace
 	activitystreamsProfileMember               vocab.ActivityStreamsProfile
+	w3idsecurityv1PublicKeyMember              vocab.W3IDSecurityV1PublicKey
 	activitystreamsQuestionMember              vocab.ActivityStreamsQuestion
 	activitystreamsReadMember                  vocab.ActivityStreamsRead
 	activitystreamsRejectMember                vocab.ActivityStreamsReject
@@ -326,6 +327,12 @@ func deserializeActivityStreamsFormerTypePropertyIterator(i interface{}, aliasMa
 			this := &ActivityStreamsFormerTypePropertyIterator{
 				activitystreamsProfileMember: v,
 				alias:                        alias,
+			}
+			return this, nil
+		} else if v, err := mgr.DeserializePublicKeyW3IDSecurityV1()(m, aliasMap); err == nil {
+			this := &ActivityStreamsFormerTypePropertyIterator{
+				alias:                         alias,
+				w3idsecurityv1PublicKeyMember: v,
 			}
 			return this, nil
 		} else if v, err := mgr.DeserializeQuestionActivityStreams()(m, aliasMap); err == nil {
@@ -916,6 +923,9 @@ func (this ActivityStreamsFormerTypePropertyIterator) GetType() vocab.Type {
 	if this.IsActivityStreamsProfile() {
 		return this.GetActivityStreamsProfile()
 	}
+	if this.IsW3IDSecurityV1PublicKey() {
+		return this.GetW3IDSecurityV1PublicKey()
+	}
 	if this.IsActivityStreamsQuestion() {
 		return this.GetActivityStreamsQuestion()
 	}
@@ -960,6 +970,13 @@ func (this ActivityStreamsFormerTypePropertyIterator) GetType() vocab.Type {
 	}
 
 	return nil
+}
+
+// GetW3IDSecurityV1PublicKey returns the value of this property. When
+// IsW3IDSecurityV1PublicKey returns false, GetW3IDSecurityV1PublicKey will
+// return an arbitrary value.
+func (this ActivityStreamsFormerTypePropertyIterator) GetW3IDSecurityV1PublicKey() vocab.W3IDSecurityV1PublicKey {
+	return this.w3idsecurityv1PublicKeyMember
 }
 
 // GetXMLSchemaString returns the value of this property. When IsXMLSchemaString
@@ -1009,6 +1026,7 @@ func (this ActivityStreamsFormerTypePropertyIterator) HasAny() bool {
 		this.IsActivityStreamsPerson() ||
 		this.IsActivityStreamsPlace() ||
 		this.IsActivityStreamsProfile() ||
+		this.IsW3IDSecurityV1PublicKey() ||
 		this.IsActivityStreamsQuestion() ||
 		this.IsActivityStreamsRead() ||
 		this.IsActivityStreamsReject() ||
@@ -1401,6 +1419,13 @@ func (this ActivityStreamsFormerTypePropertyIterator) IsIRI() bool {
 	return this.iri != nil
 }
 
+// IsW3IDSecurityV1PublicKey returns true if this property has a type of
+// "PublicKey". When true, use the GetW3IDSecurityV1PublicKey and
+// SetW3IDSecurityV1PublicKey methods to access and set this property.
+func (this ActivityStreamsFormerTypePropertyIterator) IsW3IDSecurityV1PublicKey() bool {
+	return this.w3idsecurityv1PublicKeyMember != nil
+}
+
 // IsXMLSchemaString returns true if this property has a type of "string". When
 // true, use the GetXMLSchemaString and SetXMLSchemaString methods to access
 // and set this property.
@@ -1490,6 +1515,8 @@ func (this ActivityStreamsFormerTypePropertyIterator) JSONLDContext() map[string
 		child = this.GetActivityStreamsPlace().JSONLDContext()
 	} else if this.IsActivityStreamsProfile() {
 		child = this.GetActivityStreamsProfile().JSONLDContext()
+	} else if this.IsW3IDSecurityV1PublicKey() {
+		child = this.GetW3IDSecurityV1PublicKey().JSONLDContext()
 	} else if this.IsActivityStreamsQuestion() {
 		child = this.GetActivityStreamsQuestion().JSONLDContext()
 	} else if this.IsActivityStreamsRead() {
@@ -1651,47 +1678,50 @@ func (this ActivityStreamsFormerTypePropertyIterator) KindIndex() int {
 	if this.IsActivityStreamsProfile() {
 		return 38
 	}
-	if this.IsActivityStreamsQuestion() {
+	if this.IsW3IDSecurityV1PublicKey() {
 		return 39
 	}
-	if this.IsActivityStreamsRead() {
+	if this.IsActivityStreamsQuestion() {
 		return 40
 	}
-	if this.IsActivityStreamsReject() {
+	if this.IsActivityStreamsRead() {
 		return 41
 	}
-	if this.IsActivityStreamsRelationship() {
+	if this.IsActivityStreamsReject() {
 		return 42
 	}
-	if this.IsActivityStreamsRemove() {
+	if this.IsActivityStreamsRelationship() {
 		return 43
 	}
-	if this.IsActivityStreamsService() {
+	if this.IsActivityStreamsRemove() {
 		return 44
 	}
-	if this.IsActivityStreamsTentativeAccept() {
+	if this.IsActivityStreamsService() {
 		return 45
 	}
-	if this.IsActivityStreamsTentativeReject() {
+	if this.IsActivityStreamsTentativeAccept() {
 		return 46
 	}
-	if this.IsActivityStreamsTombstone() {
+	if this.IsActivityStreamsTentativeReject() {
 		return 47
 	}
-	if this.IsActivityStreamsTravel() {
+	if this.IsActivityStreamsTombstone() {
 		return 48
 	}
-	if this.IsActivityStreamsUndo() {
+	if this.IsActivityStreamsTravel() {
 		return 49
 	}
-	if this.IsActivityStreamsUpdate() {
+	if this.IsActivityStreamsUndo() {
 		return 50
 	}
-	if this.IsActivityStreamsVideo() {
+	if this.IsActivityStreamsUpdate() {
 		return 51
 	}
-	if this.IsActivityStreamsView() {
+	if this.IsActivityStreamsVideo() {
 		return 52
+	}
+	if this.IsActivityStreamsView() {
+		return 53
 	}
 	if this.IsIRI() {
 		return -2
@@ -1788,6 +1818,8 @@ func (this ActivityStreamsFormerTypePropertyIterator) LessThan(o vocab.ActivityS
 		return this.GetActivityStreamsPlace().LessThan(o.GetActivityStreamsPlace())
 	} else if this.IsActivityStreamsProfile() {
 		return this.GetActivityStreamsProfile().LessThan(o.GetActivityStreamsProfile())
+	} else if this.IsW3IDSecurityV1PublicKey() {
+		return this.GetW3IDSecurityV1PublicKey().LessThan(o.GetW3IDSecurityV1PublicKey())
 	} else if this.IsActivityStreamsQuestion() {
 		return this.GetActivityStreamsQuestion().LessThan(o.GetActivityStreamsQuestion())
 	} else if this.IsActivityStreamsRead() {
@@ -2370,6 +2402,10 @@ func (this *ActivityStreamsFormerTypePropertyIterator) SetType(t vocab.Type) err
 		this.SetActivityStreamsProfile(v)
 		return nil
 	}
+	if v, ok := t.(vocab.W3IDSecurityV1PublicKey); ok {
+		this.SetW3IDSecurityV1PublicKey(v)
+		return nil
+	}
 	if v, ok := t.(vocab.ActivityStreamsQuestion); ok {
 		this.SetActivityStreamsQuestion(v)
 		return nil
@@ -2430,6 +2466,13 @@ func (this *ActivityStreamsFormerTypePropertyIterator) SetType(t vocab.Type) err
 	return fmt.Errorf("illegal type to set on ActivityStreamsFormerType property: %T", t)
 }
 
+// SetW3IDSecurityV1PublicKey sets the value of this property. Calling
+// IsW3IDSecurityV1PublicKey afterwards returns true.
+func (this *ActivityStreamsFormerTypePropertyIterator) SetW3IDSecurityV1PublicKey(v vocab.W3IDSecurityV1PublicKey) {
+	this.clear()
+	this.w3idsecurityv1PublicKeyMember = v
+}
+
 // SetXMLSchemaString sets the value of this property. Calling IsXMLSchemaString
 // afterwards returns true.
 func (this *ActivityStreamsFormerTypePropertyIterator) SetXMLSchemaString(v string) {
@@ -2480,6 +2523,7 @@ func (this *ActivityStreamsFormerTypePropertyIterator) clear() {
 	this.activitystreamsPersonMember = nil
 	this.activitystreamsPlaceMember = nil
 	this.activitystreamsProfileMember = nil
+	this.w3idsecurityv1PublicKeyMember = nil
 	this.activitystreamsQuestionMember = nil
 	this.activitystreamsReadMember = nil
 	this.activitystreamsRejectMember = nil
@@ -2581,6 +2625,8 @@ func (this ActivityStreamsFormerTypePropertyIterator) serialize() (interface{}, 
 		return this.GetActivityStreamsPlace().Serialize()
 	} else if this.IsActivityStreamsProfile() {
 		return this.GetActivityStreamsProfile().Serialize()
+	} else if this.IsW3IDSecurityV1PublicKey() {
+		return this.GetW3IDSecurityV1PublicKey().Serialize()
 	} else if this.IsActivityStreamsQuestion() {
 		return this.GetActivityStreamsQuestion().Serialize()
 	} else if this.IsActivityStreamsRead() {
@@ -3287,6 +3333,18 @@ func (this *ActivityStreamsFormerTypeProperty) AppendType(t vocab.Type) error {
 	}
 	this.properties = append(this.properties, n)
 	return nil
+}
+
+// AppendW3IDSecurityV1PublicKey appends a PublicKey value to the back of a list
+// of the property "formerType". Invalidates iterators that are traversing
+// using Prev.
+func (this *ActivityStreamsFormerTypeProperty) AppendW3IDSecurityV1PublicKey(v vocab.W3IDSecurityV1PublicKey) {
+	this.properties = append(this.properties, &ActivityStreamsFormerTypePropertyIterator{
+		alias:                         this.alias,
+		myIdx:                         this.Len(),
+		parent:                        this,
+		w3idsecurityv1PublicKeyMember: v,
+	})
 }
 
 // AppendXMLSchemaString appends a string value to the back of a list of the
@@ -4252,6 +4310,23 @@ func (this *ActivityStreamsFormerTypeProperty) InsertType(idx int, t vocab.Type)
 	return nil
 }
 
+// InsertW3IDSecurityV1PublicKey inserts a PublicKey value at the specified index
+// for a property "formerType". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsFormerTypeProperty) InsertW3IDSecurityV1PublicKey(idx int, v vocab.W3IDSecurityV1PublicKey) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsFormerTypePropertyIterator{
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+		w3idsecurityv1PublicKeyMember: v,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
 // InsertXMLSchemaString inserts a string value at the specified index for a
 // property "formerType". Existing elements at that index and higher are
 // shifted back once. Invalidates all iterators.
@@ -4467,58 +4542,62 @@ func (this ActivityStreamsFormerTypeProperty) Less(i, j int) bool {
 			rhs := this.properties[j].GetActivityStreamsProfile()
 			return lhs.LessThan(rhs)
 		} else if idx1 == 39 {
+			lhs := this.properties[i].GetW3IDSecurityV1PublicKey()
+			rhs := this.properties[j].GetW3IDSecurityV1PublicKey()
+			return lhs.LessThan(rhs)
+		} else if idx1 == 40 {
 			lhs := this.properties[i].GetActivityStreamsQuestion()
 			rhs := this.properties[j].GetActivityStreamsQuestion()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 40 {
+		} else if idx1 == 41 {
 			lhs := this.properties[i].GetActivityStreamsRead()
 			rhs := this.properties[j].GetActivityStreamsRead()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 41 {
+		} else if idx1 == 42 {
 			lhs := this.properties[i].GetActivityStreamsReject()
 			rhs := this.properties[j].GetActivityStreamsReject()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 42 {
+		} else if idx1 == 43 {
 			lhs := this.properties[i].GetActivityStreamsRelationship()
 			rhs := this.properties[j].GetActivityStreamsRelationship()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 43 {
+		} else if idx1 == 44 {
 			lhs := this.properties[i].GetActivityStreamsRemove()
 			rhs := this.properties[j].GetActivityStreamsRemove()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 44 {
+		} else if idx1 == 45 {
 			lhs := this.properties[i].GetActivityStreamsService()
 			rhs := this.properties[j].GetActivityStreamsService()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 45 {
+		} else if idx1 == 46 {
 			lhs := this.properties[i].GetActivityStreamsTentativeAccept()
 			rhs := this.properties[j].GetActivityStreamsTentativeAccept()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 46 {
+		} else if idx1 == 47 {
 			lhs := this.properties[i].GetActivityStreamsTentativeReject()
 			rhs := this.properties[j].GetActivityStreamsTentativeReject()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 47 {
+		} else if idx1 == 48 {
 			lhs := this.properties[i].GetActivityStreamsTombstone()
 			rhs := this.properties[j].GetActivityStreamsTombstone()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 48 {
+		} else if idx1 == 49 {
 			lhs := this.properties[i].GetActivityStreamsTravel()
 			rhs := this.properties[j].GetActivityStreamsTravel()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 49 {
+		} else if idx1 == 50 {
 			lhs := this.properties[i].GetActivityStreamsUndo()
 			rhs := this.properties[j].GetActivityStreamsUndo()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 50 {
+		} else if idx1 == 51 {
 			lhs := this.properties[i].GetActivityStreamsUpdate()
 			rhs := this.properties[j].GetActivityStreamsUpdate()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 51 {
+		} else if idx1 == 52 {
 			lhs := this.properties[i].GetActivityStreamsVideo()
 			rhs := this.properties[j].GetActivityStreamsVideo()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 52 {
+		} else if idx1 == 53 {
 			lhs := this.properties[i].GetActivityStreamsView()
 			rhs := this.properties[j].GetActivityStreamsView()
 			return lhs.LessThan(rhs)
@@ -5320,6 +5399,20 @@ func (this *ActivityStreamsFormerTypeProperty) PrependType(t vocab.Type) error {
 	return nil
 }
 
+// PrependW3IDSecurityV1PublicKey prepends a PublicKey value to the front of a
+// list of the property "formerType". Invalidates all iterators.
+func (this *ActivityStreamsFormerTypeProperty) PrependW3IDSecurityV1PublicKey(v vocab.W3IDSecurityV1PublicKey) {
+	this.properties = append([]*ActivityStreamsFormerTypePropertyIterator{{
+		alias:                         this.alias,
+		myIdx:                         0,
+		parent:                        this,
+		w3idsecurityv1PublicKeyMember: v,
+	}}, this.properties...)
+	for i := 1; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
 // PrependXMLSchemaString prepends a string value to the front of a list of the
 // property "formerType". Invalidates all iterators.
 func (this *ActivityStreamsFormerTypeProperty) PrependXMLSchemaString(v string) {
@@ -6071,6 +6164,19 @@ func (this *ActivityStreamsFormerTypeProperty) SetType(idx int, t vocab.Type) er
 	}
 	(this.properties)[idx] = n
 	return nil
+}
+
+// SetW3IDSecurityV1PublicKey sets a PublicKey value to be at the specified index
+// for the property "formerType". Panics if the index is out of bounds.
+// Invalidates all iterators.
+func (this *ActivityStreamsFormerTypeProperty) SetW3IDSecurityV1PublicKey(idx int, v vocab.W3IDSecurityV1PublicKey) {
+	(this.properties)[idx].parent = nil
+	(this.properties)[idx] = &ActivityStreamsFormerTypePropertyIterator{
+		alias:                         this.alias,
+		myIdx:                         idx,
+		parent:                        this,
+		w3idsecurityv1PublicKeyMember: v,
+	}
 }
 
 // SetXMLSchemaString sets a string value to be at the specified index for the

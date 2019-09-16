@@ -135,6 +135,9 @@ type ActivityStreamsGroup interface {
 	// implementation, but routine ActivityPub applications should not use
 	// this to bypass the code generation tool.
 	GetUnknownProperties() map[string]interface{}
+	// GetW3IDSecurityV1PublicKey returns the "publicKey" property if it
+	// exists, and nil otherwise.
+	GetW3IDSecurityV1PublicKey() W3IDSecurityV1PublicKeyProperty
 	// IsExtending returns true if the Group type extends from the other type.
 	IsExtending(other Type) bool
 	// JSONLDContext returns the JSONLD URIs required in the context string
@@ -226,6 +229,8 @@ type ActivityStreamsGroup interface {
 	SetActivityStreamsUpdated(i ActivityStreamsUpdatedProperty)
 	// SetActivityStreamsUrl sets the "url" property.
 	SetActivityStreamsUrl(i ActivityStreamsUrlProperty)
+	// SetW3IDSecurityV1PublicKey sets the "publicKey" property.
+	SetW3IDSecurityV1PublicKey(i W3IDSecurityV1PublicKeyProperty)
 	// VocabularyURI returns the vocabulary's URI as a string.
 	VocabularyURI() string
 }

@@ -52,6 +52,7 @@ type ActivityStreamsSubjectProperty struct {
 	activitystreamsPersonMember                vocab.ActivityStreamsPerson
 	activitystreamsPlaceMember                 vocab.ActivityStreamsPlace
 	activitystreamsProfileMember               vocab.ActivityStreamsProfile
+	w3idsecurityv1PublicKeyMember              vocab.W3IDSecurityV1PublicKey
 	activitystreamsQuestionMember              vocab.ActivityStreamsQuestion
 	activitystreamsReadMember                  vocab.ActivityStreamsRead
 	activitystreamsRejectMember                vocab.ActivityStreamsReject
@@ -339,6 +340,12 @@ func DeserializeSubjectProperty(m map[string]interface{}, aliasMap map[string]st
 					alias:                        alias,
 				}
 				return this, nil
+			} else if v, err := mgr.DeserializePublicKeyW3IDSecurityV1()(m, aliasMap); err == nil {
+				this := &ActivityStreamsSubjectProperty{
+					alias:                         alias,
+					w3idsecurityv1PublicKeyMember: v,
+				}
+				return this, nil
 			} else if v, err := mgr.DeserializeQuestionActivityStreams()(m, aliasMap); err == nil {
 				this := &ActivityStreamsSubjectProperty{
 					activitystreamsQuestionMember: v,
@@ -482,6 +489,7 @@ func (this *ActivityStreamsSubjectProperty) Clear() {
 	this.activitystreamsPersonMember = nil
 	this.activitystreamsPlaceMember = nil
 	this.activitystreamsProfileMember = nil
+	this.w3idsecurityv1PublicKeyMember = nil
 	this.activitystreamsQuestionMember = nil
 	this.activitystreamsReadMember = nil
 	this.activitystreamsRejectMember = nil
@@ -1007,6 +1015,9 @@ func (this ActivityStreamsSubjectProperty) GetType() vocab.Type {
 	if this.IsActivityStreamsProfile() {
 		return this.GetActivityStreamsProfile()
 	}
+	if this.IsW3IDSecurityV1PublicKey() {
+		return this.GetW3IDSecurityV1PublicKey()
+	}
 	if this.IsActivityStreamsQuestion() {
 		return this.GetActivityStreamsQuestion()
 	}
@@ -1053,6 +1064,13 @@ func (this ActivityStreamsSubjectProperty) GetType() vocab.Type {
 	return nil
 }
 
+// GetW3IDSecurityV1PublicKey returns the value of this property. When
+// IsW3IDSecurityV1PublicKey returns false, GetW3IDSecurityV1PublicKey will
+// return an arbitrary value.
+func (this ActivityStreamsSubjectProperty) GetW3IDSecurityV1PublicKey() vocab.W3IDSecurityV1PublicKey {
+	return this.w3idsecurityv1PublicKeyMember
+}
+
 // HasAny returns true if any of the different values is set.
 func (this ActivityStreamsSubjectProperty) HasAny() bool {
 	return this.IsActivityStreamsLink() ||
@@ -1095,6 +1113,7 @@ func (this ActivityStreamsSubjectProperty) HasAny() bool {
 		this.IsActivityStreamsPerson() ||
 		this.IsActivityStreamsPlace() ||
 		this.IsActivityStreamsProfile() ||
+		this.IsW3IDSecurityV1PublicKey() ||
 		this.IsActivityStreamsQuestion() ||
 		this.IsActivityStreamsRead() ||
 		this.IsActivityStreamsReject() ||
@@ -1501,6 +1520,13 @@ func (this ActivityStreamsSubjectProperty) IsIRI() bool {
 	return this.iri != nil
 }
 
+// IsW3IDSecurityV1PublicKey returns true if this property has a type of
+// "PublicKey". When true, use the GetW3IDSecurityV1PublicKey and
+// SetW3IDSecurityV1PublicKey methods to access and set this property.
+func (this ActivityStreamsSubjectProperty) IsW3IDSecurityV1PublicKey() bool {
+	return this.w3idsecurityv1PublicKeyMember != nil
+}
+
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
@@ -1587,6 +1613,8 @@ func (this ActivityStreamsSubjectProperty) JSONLDContext() map[string]string {
 		child = this.GetActivityStreamsPlace().JSONLDContext()
 	} else if this.IsActivityStreamsProfile() {
 		child = this.GetActivityStreamsProfile().JSONLDContext()
+	} else if this.IsW3IDSecurityV1PublicKey() {
+		child = this.GetW3IDSecurityV1PublicKey().JSONLDContext()
 	} else if this.IsActivityStreamsQuestion() {
 		child = this.GetActivityStreamsQuestion().JSONLDContext()
 	} else if this.IsActivityStreamsRead() {
@@ -1751,47 +1779,50 @@ func (this ActivityStreamsSubjectProperty) KindIndex() int {
 	if this.IsActivityStreamsProfile() {
 		return 39
 	}
-	if this.IsActivityStreamsQuestion() {
+	if this.IsW3IDSecurityV1PublicKey() {
 		return 40
 	}
-	if this.IsActivityStreamsRead() {
+	if this.IsActivityStreamsQuestion() {
 		return 41
 	}
-	if this.IsActivityStreamsReject() {
+	if this.IsActivityStreamsRead() {
 		return 42
 	}
-	if this.IsActivityStreamsRelationship() {
+	if this.IsActivityStreamsReject() {
 		return 43
 	}
-	if this.IsActivityStreamsRemove() {
+	if this.IsActivityStreamsRelationship() {
 		return 44
 	}
-	if this.IsActivityStreamsService() {
+	if this.IsActivityStreamsRemove() {
 		return 45
 	}
-	if this.IsActivityStreamsTentativeAccept() {
+	if this.IsActivityStreamsService() {
 		return 46
 	}
-	if this.IsActivityStreamsTentativeReject() {
+	if this.IsActivityStreamsTentativeAccept() {
 		return 47
 	}
-	if this.IsActivityStreamsTombstone() {
+	if this.IsActivityStreamsTentativeReject() {
 		return 48
 	}
-	if this.IsActivityStreamsTravel() {
+	if this.IsActivityStreamsTombstone() {
 		return 49
 	}
-	if this.IsActivityStreamsUndo() {
+	if this.IsActivityStreamsTravel() {
 		return 50
 	}
-	if this.IsActivityStreamsUpdate() {
+	if this.IsActivityStreamsUndo() {
 		return 51
 	}
-	if this.IsActivityStreamsVideo() {
+	if this.IsActivityStreamsUpdate() {
 		return 52
 	}
-	if this.IsActivityStreamsView() {
+	if this.IsActivityStreamsVideo() {
 		return 53
+	}
+	if this.IsActivityStreamsView() {
+		return 54
 	}
 	if this.IsIRI() {
 		return -2
@@ -1890,6 +1921,8 @@ func (this ActivityStreamsSubjectProperty) LessThan(o vocab.ActivityStreamsSubje
 		return this.GetActivityStreamsPlace().LessThan(o.GetActivityStreamsPlace())
 	} else if this.IsActivityStreamsProfile() {
 		return this.GetActivityStreamsProfile().LessThan(o.GetActivityStreamsProfile())
+	} else if this.IsW3IDSecurityV1PublicKey() {
+		return this.GetW3IDSecurityV1PublicKey().LessThan(o.GetW3IDSecurityV1PublicKey())
 	} else if this.IsActivityStreamsQuestion() {
 		return this.GetActivityStreamsQuestion().LessThan(o.GetActivityStreamsQuestion())
 	} else if this.IsActivityStreamsRead() {
@@ -2014,6 +2047,8 @@ func (this ActivityStreamsSubjectProperty) Serialize() (interface{}, error) {
 		return this.GetActivityStreamsPlace().Serialize()
 	} else if this.IsActivityStreamsProfile() {
 		return this.GetActivityStreamsProfile().Serialize()
+	} else if this.IsW3IDSecurityV1PublicKey() {
+		return this.GetW3IDSecurityV1PublicKey().Serialize()
 	} else if this.IsActivityStreamsQuestion() {
 		return this.GetActivityStreamsQuestion().Serialize()
 	} else if this.IsActivityStreamsRead() {
@@ -2595,6 +2630,10 @@ func (this *ActivityStreamsSubjectProperty) SetType(t vocab.Type) error {
 		this.SetActivityStreamsProfile(v)
 		return nil
 	}
+	if v, ok := t.(vocab.W3IDSecurityV1PublicKey); ok {
+		this.SetW3IDSecurityV1PublicKey(v)
+		return nil
+	}
 	if v, ok := t.(vocab.ActivityStreamsQuestion); ok {
 		this.SetActivityStreamsQuestion(v)
 		return nil
@@ -2653,4 +2692,11 @@ func (this *ActivityStreamsSubjectProperty) SetType(t vocab.Type) error {
 	}
 
 	return fmt.Errorf("illegal type to set on subject property: %T", t)
+}
+
+// SetW3IDSecurityV1PublicKey sets the value of this property. Calling
+// IsW3IDSecurityV1PublicKey afterwards returns true.
+func (this *ActivityStreamsSubjectProperty) SetW3IDSecurityV1PublicKey(v vocab.W3IDSecurityV1PublicKey) {
+	this.Clear()
+	this.w3idsecurityv1PublicKeyMember = v
 }

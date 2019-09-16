@@ -127,6 +127,10 @@ import (
 	typeupdate "github.com/go-fed/activity/streams/impl/activitystreams/type_update"
 	typevideo "github.com/go-fed/activity/streams/impl/activitystreams/type_video"
 	typeview "github.com/go-fed/activity/streams/impl/activitystreams/type_view"
+	propertyowner "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_owner"
+	propertypublickey "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_publickey"
+	propertypublickeypem "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_publickeypem"
+	typepublickey "github.com/go-fed/activity/streams/impl/w3idsecurityv1/type_publickey"
 	vocab "github.com/go-fed/activity/streams/vocab"
 )
 
@@ -1215,6 +1219,19 @@ func (this Manager) DeserializeOutboxPropertyActivityStreams() func(map[string]i
 	}
 }
 
+// DeserializeOwnerPropertyW3IDSecurityV1 returns the deserialization method for
+// the "W3IDSecurityV1OwnerProperty" non-functional property in the vocabulary
+// "W3IDSecurityV1"
+func (this Manager) DeserializeOwnerPropertyW3IDSecurityV1() func(map[string]interface{}, map[string]string) (vocab.W3IDSecurityV1OwnerProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.W3IDSecurityV1OwnerProperty, error) {
+		i, err := propertyowner.DeserializeOwnerProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
 // DeserializePageActivityStreams returns the deserialization method for the
 // "ActivityStreamsPage" non-functional property in the vocabulary
 // "ActivityStreams"
@@ -1312,6 +1329,45 @@ func (this Manager) DeserializePreviewPropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeProfileActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsProfile, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsProfile, error) {
 		i, err := typeprofile.DeserializeProfile(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializePublicKeyPemPropertyW3IDSecurityV1 returns the deserialization
+// method for the "W3IDSecurityV1PublicKeyPemProperty" non-functional property
+// in the vocabulary "W3IDSecurityV1"
+func (this Manager) DeserializePublicKeyPemPropertyW3IDSecurityV1() func(map[string]interface{}, map[string]string) (vocab.W3IDSecurityV1PublicKeyPemProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.W3IDSecurityV1PublicKeyPemProperty, error) {
+		i, err := propertypublickeypem.DeserializePublicKeyPemProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializePublicKeyPropertyW3IDSecurityV1 returns the deserialization method
+// for the "W3IDSecurityV1PublicKeyProperty" non-functional property in the
+// vocabulary "W3IDSecurityV1"
+func (this Manager) DeserializePublicKeyPropertyW3IDSecurityV1() func(map[string]interface{}, map[string]string) (vocab.W3IDSecurityV1PublicKeyProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.W3IDSecurityV1PublicKeyProperty, error) {
+		i, err := propertypublickey.DeserializePublicKeyProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializePublicKeyW3IDSecurityV1 returns the deserialization method for the
+// "W3IDSecurityV1PublicKey" non-functional property in the vocabulary
+// "W3IDSecurityV1"
+func (this Manager) DeserializePublicKeyW3IDSecurityV1() func(map[string]interface{}, map[string]string) (vocab.W3IDSecurityV1PublicKey, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.W3IDSecurityV1PublicKey, error) {
+		i, err := typepublickey.DeserializePublicKey(m, aliasMap)
 		if i == nil {
 			return nil, err
 		}

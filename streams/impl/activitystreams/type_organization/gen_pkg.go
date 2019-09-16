@@ -123,6 +123,10 @@ type privateManager interface {
 	// method for the "ActivityStreamsPreviewProperty" non-functional
 	// property in the vocabulary "ActivityStreams"
 	DeserializePreviewPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsPreviewProperty, error)
+	// DeserializePublicKeyPropertyW3IDSecurityV1 returns the deserialization
+	// method for the "W3IDSecurityV1PublicKeyProperty" non-functional
+	// property in the vocabulary "W3IDSecurityV1"
+	DeserializePublicKeyPropertyW3IDSecurityV1() func(map[string]interface{}, map[string]string) (vocab.W3IDSecurityV1PublicKeyProperty, error)
 	// DeserializePublishedPropertyActivityStreams returns the deserialization
 	// method for the "ActivityStreamsPublishedProperty" non-functional
 	// property in the vocabulary "ActivityStreams"
