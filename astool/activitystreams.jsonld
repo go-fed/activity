@@ -1731,14 +1731,6 @@
           "disjointWith": [],
           "name": "Tombstone",
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-tombstone"
-        },
-        {
-          "id": "https://www.w3.org/ns/activitystreams#PublicKey",
-          "type": "owl:Class",
-          "notes": "A public key represents a public cryptographical key for a user",
-          "disjointWith": [],
-          "name": "PublicKey",
-          "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-publicKey"
         }
       ]
     },
@@ -1774,11 +1766,6 @@
                 "type": "owl:Class",
                 "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
-              },
-              {
-                "type": "owl:Class",
-                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-publicKey",
-                "name": "PublicKey"
               }
             ]
           },
@@ -1818,11 +1805,6 @@
                 "type": "owl:Class",
                 "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
                 "name": "Link"
-              },
-              {
-                "type": "owl:Class",
-                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-publicKey",
-                "name": "PublicKey"
               }
             ]
           },
@@ -5450,107 +5432,6 @@
           },
           "name": "preferredUsername",
           "url": "https://www.w3.org/TR/activitypub/#preferredUsername"
-        },
-        {
-          "id": "https://www.w3.org/TR/activitypub/#publicKey",
-          "type": [
-            "rdf:Property",
-            "owl:FunctionalProperty"
-          ],
-          "notes": "The public key for an ActivityStreams actor",
-          "domain": {
-            "type": "owl:Class",
-            "unionOf": [
-              {
-                "type": "owl:Class",
-                "url": "https://www.w3.org/ns/activitystreams#Application",
-                "name": "Application"
-              },
-              {
-                "type": "owl:Class",
-                "url": "https://www.w3.org/ns/activitystreams#Group",
-                "name": "Group"
-              },
-              {
-                "type": "owl:Class",
-                "url": "https://www.w3.org/ns/activitystreams#Organization",
-                "name": "Organization"
-              },
-              {
-                "type": "owl:Class",
-                "url": "https://www.w3.org/ns/activitystreams#Person",
-                "name": "Person"
-              },
-              {
-                "type": "owl:Class",
-                "url": "https://www.w3.org/ns/activitystreams#Service",
-                "name": "Service"
-              }
-            ]
-          },
-          "isDefinedBy": "https://www.w3.org/TR/activitypub/#publicKey",
-          "range": {
-            "type": "owl:Class",
-            "unionOf": [
-              {
-                "type": "owl:Class",
-                "url": "https://www.w3.org/ns/activitystreams#PublicKey",
-                "name": "PublicKey"
-              }
-            ]
-          },
-          "name": "publicKey",
-          "url": "https://www.w3.org/TR/activitypub/#publicKey"
-        },
-        {
-          "id": "https://www.w3.org/TR/activitypub/#owner",
-          "type": [
-            "rdf:Property",
-            "owl:FunctionalProperty"
-          ],
-          "notes": "The owner of the public key for an ActivityStreams actor",
-          "domain": {
-            "type": "owl:Class",
-            "unionOf": [
-              {
-                "type": "owl:Class",
-                "url": "https://www.w3.org/ns/activitystreams#PublicKey",
-                "name": "PublicKey"
-              }
-            ]
-          },
-          "isDefinedBy": "https://www.w3.org/TR/activitypub/#owner",
-          "range": {
-            "type": "owl:Class",
-            "unionOf": "xsd:anyURI"
-          },
-          "name": "owner",
-          "url": "https://www.w3.org/TR/activitypub/#owner"
-        },
-        {
-          "id": "https://www.w3.org/TR/activitypub/#publicKeyPem",
-          "type": [
-            "rdf:Property",
-            "owl:FunctionalProperty"
-          ],
-          "notes": "The public key PEM encoded data for an ActivityStreams actor",
-          "domain": {
-            "type": "owl:Class",
-            "unionOf": [
-              {
-                "type": "owl:Class",
-                "url": "https://www.w3.org/ns/activitystreams#PublicKey",
-                "name": "PublicKey"
-              }
-            ]
-          },
-          "isDefinedBy": "https://www.w3.org/TR/activitypub/#publicKeyPem",
-          "range": {
-            "type": "owl:Class",
-            "unionOf": "xsd:string"
-          },
-          "name": "publicKeyPem",
-          "url": "https://www.w3.org/TR/activitypub/#publicKeyPem"
         }
       ]
     }

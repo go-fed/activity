@@ -42,7 +42,6 @@ type ActivityStreamsOrganization struct {
 	ActivityStreamsOutbox            vocab.ActivityStreamsOutboxProperty
 	ActivityStreamsPreferredUsername vocab.ActivityStreamsPreferredUsernameProperty
 	ActivityStreamsPreview           vocab.ActivityStreamsPreviewProperty
-	ActivityStreamsPublicKey         vocab.ActivityStreamsPublicKeyProperty
 	ActivityStreamsPublished         vocab.ActivityStreamsPublishedProperty
 	ActivityStreamsReplies           vocab.ActivityStreamsRepliesProperty
 	ActivityStreamsShares            vocab.ActivityStreamsSharesProperty
@@ -247,11 +246,6 @@ func DeserializeOrganization(m map[string]interface{}, aliasMap map[string]strin
 	} else if p != nil {
 		this.ActivityStreamsPreview = p
 	}
-	if p, err := mgr.DeserializePublicKeyPropertyActivityStreams()(m, aliasMap); err != nil {
-		return nil, err
-	} else if p != nil {
-		this.ActivityStreamsPublicKey = p
-	}
 	if p, err := mgr.DeserializePublishedPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -373,8 +367,6 @@ func DeserializeOrganization(m map[string]interface{}, aliasMap map[string]strin
 		} else if k == "preferredUsernameMap" {
 			continue
 		} else if k == "preview" {
-			continue
-		} else if k == "publicKey" {
 			continue
 		} else if k == "published" {
 			continue
@@ -615,12 +607,6 @@ func (this ActivityStreamsOrganization) GetActivityStreamsPreview() vocab.Activi
 	return this.ActivityStreamsPreview
 }
 
-// GetActivityStreamsPublicKey returns the "publicKey" property if it exists, and
-// nil otherwise.
-func (this ActivityStreamsOrganization) GetActivityStreamsPublicKey() vocab.ActivityStreamsPublicKeyProperty {
-	return this.ActivityStreamsPublicKey
-}
-
 // GetActivityStreamsPublished returns the "published" property if it exists, and
 // nil otherwise.
 func (this ActivityStreamsOrganization) GetActivityStreamsPublished() vocab.ActivityStreamsPublishedProperty {
@@ -739,7 +725,6 @@ func (this ActivityStreamsOrganization) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.ActivityStreamsOutbox, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsPreferredUsername, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsPreview, m)
-	m = this.helperJSONLDContext(this.ActivityStreamsPublicKey, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsPublished, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsReplies, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsShares, m)
@@ -1139,20 +1124,6 @@ func (this ActivityStreamsOrganization) LessThan(o vocab.ActivityStreamsOrganiza
 	} // Else: Both are nil
 	// Compare property "preview"
 	if lhs, rhs := this.ActivityStreamsPreview, o.GetActivityStreamsPreview(); lhs != nil && rhs != nil {
-		if lhs.LessThan(rhs) {
-			return true
-		} else if rhs.LessThan(lhs) {
-			return false
-		}
-	} else if lhs == nil && rhs != nil {
-		// Nil is less than anything else
-		return true
-	} else if rhs != nil && rhs == nil {
-		// Anything else is greater than nil
-		return false
-	} // Else: Both are nil
-	// Compare property "publicKey"
-	if lhs, rhs := this.ActivityStreamsPublicKey, o.GetActivityStreamsPublicKey(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1566,14 +1537,6 @@ func (this ActivityStreamsOrganization) Serialize() (map[string]interface{}, err
 			m[this.ActivityStreamsPreview.Name()] = i
 		}
 	}
-	// Maybe serialize property "publicKey"
-	if this.ActivityStreamsPublicKey != nil {
-		if i, err := this.ActivityStreamsPublicKey.Serialize(); err != nil {
-			return nil, err
-		} else if i != nil {
-			m[this.ActivityStreamsPublicKey.Name()] = i
-		}
-	}
 	// Maybe serialize property "published"
 	if this.ActivityStreamsPublished != nil {
 		if i, err := this.ActivityStreamsPublished.Serialize(); err != nil {
@@ -1814,11 +1777,6 @@ func (this *ActivityStreamsOrganization) SetActivityStreamsPreferredUsername(i v
 // SetActivityStreamsPreview sets the "preview" property.
 func (this *ActivityStreamsOrganization) SetActivityStreamsPreview(i vocab.ActivityStreamsPreviewProperty) {
 	this.ActivityStreamsPreview = i
-}
-
-// SetActivityStreamsPublicKey sets the "publicKey" property.
-func (this *ActivityStreamsOrganization) SetActivityStreamsPublicKey(i vocab.ActivityStreamsPublicKeyProperty) {
-	this.ActivityStreamsPublicKey = i
 }
 
 // SetActivityStreamsPublished sets the "published" property.

@@ -41,7 +41,6 @@ import (
 	typeperson "github.com/go-fed/activity/streams/impl/activitystreams/type_person"
 	typeplace "github.com/go-fed/activity/streams/impl/activitystreams/type_place"
 	typeprofile "github.com/go-fed/activity/streams/impl/activitystreams/type_profile"
-	typepublickey "github.com/go-fed/activity/streams/impl/activitystreams/type_publickey"
 	typequestion "github.com/go-fed/activity/streams/impl/activitystreams/type_question"
 	typeread "github.com/go-fed/activity/streams/impl/activitystreams/type_read"
 	typereject "github.com/go-fed/activity/streams/impl/activitystreams/type_reject"
@@ -300,12 +299,6 @@ func IsOrExtendsActivityStreamsPlace(other vocab.Type) bool {
 // the Profile type or extends from the Profile type.
 func IsOrExtendsActivityStreamsProfile(other vocab.Type) bool {
 	return typeprofile.IsOrExtendsProfile(other)
-}
-
-// IsOrExtendsActivityStreamsPublicKey returns true if the other provided type is
-// the PublicKey type or extends from the PublicKey type.
-func IsOrExtendsActivityStreamsPublicKey(other vocab.Type) bool {
-	return typepublickey.IsOrExtendsPublicKey(other)
 }
 
 // IsOrExtendsActivityStreamsQuestion returns true if the other provided type is

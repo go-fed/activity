@@ -48,13 +48,10 @@ import (
 	propertyordereditems "github.com/go-fed/activity/streams/impl/activitystreams/property_ordereditems"
 	propertyorigin "github.com/go-fed/activity/streams/impl/activitystreams/property_origin"
 	propertyoutbox "github.com/go-fed/activity/streams/impl/activitystreams/property_outbox"
-	propertyowner "github.com/go-fed/activity/streams/impl/activitystreams/property_owner"
 	propertypartof "github.com/go-fed/activity/streams/impl/activitystreams/property_partof"
 	propertypreferredusername "github.com/go-fed/activity/streams/impl/activitystreams/property_preferredusername"
 	propertyprev "github.com/go-fed/activity/streams/impl/activitystreams/property_prev"
 	propertypreview "github.com/go-fed/activity/streams/impl/activitystreams/property_preview"
-	propertypublickey "github.com/go-fed/activity/streams/impl/activitystreams/property_publickey"
-	propertypublickeypem "github.com/go-fed/activity/streams/impl/activitystreams/property_publickeypem"
 	propertypublished "github.com/go-fed/activity/streams/impl/activitystreams/property_published"
 	propertyradius "github.com/go-fed/activity/streams/impl/activitystreams/property_radius"
 	propertyrel "github.com/go-fed/activity/streams/impl/activitystreams/property_rel"
@@ -116,7 +113,6 @@ import (
 	typeperson "github.com/go-fed/activity/streams/impl/activitystreams/type_person"
 	typeplace "github.com/go-fed/activity/streams/impl/activitystreams/type_place"
 	typeprofile "github.com/go-fed/activity/streams/impl/activitystreams/type_profile"
-	typepublickey "github.com/go-fed/activity/streams/impl/activitystreams/type_publickey"
 	typequestion "github.com/go-fed/activity/streams/impl/activitystreams/type_question"
 	typeread "github.com/go-fed/activity/streams/impl/activitystreams/type_read"
 	typereject "github.com/go-fed/activity/streams/impl/activitystreams/type_reject"
@@ -1219,19 +1215,6 @@ func (this Manager) DeserializeOutboxPropertyActivityStreams() func(map[string]i
 	}
 }
 
-// DeserializeOwnerPropertyActivityStreams returns the deserialization method for
-// the "ActivityStreamsOwnerProperty" non-functional property in the
-// vocabulary "ActivityStreams"
-func (this Manager) DeserializeOwnerPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsOwnerProperty, error) {
-	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsOwnerProperty, error) {
-		i, err := propertyowner.DeserializeOwnerProperty(m, aliasMap)
-		if i == nil {
-			return nil, err
-		}
-		return i, err
-	}
-}
-
 // DeserializePageActivityStreams returns the deserialization method for the
 // "ActivityStreamsPage" non-functional property in the vocabulary
 // "ActivityStreams"
@@ -1329,45 +1312,6 @@ func (this Manager) DeserializePreviewPropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeProfileActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsProfile, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsProfile, error) {
 		i, err := typeprofile.DeserializeProfile(m, aliasMap)
-		if i == nil {
-			return nil, err
-		}
-		return i, err
-	}
-}
-
-// DeserializePublicKeyActivityStreams returns the deserialization method for the
-// "ActivityStreamsPublicKey" non-functional property in the vocabulary
-// "ActivityStreams"
-func (this Manager) DeserializePublicKeyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsPublicKey, error) {
-	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsPublicKey, error) {
-		i, err := typepublickey.DeserializePublicKey(m, aliasMap)
-		if i == nil {
-			return nil, err
-		}
-		return i, err
-	}
-}
-
-// DeserializePublicKeyPemPropertyActivityStreams returns the deserialization
-// method for the "ActivityStreamsPublicKeyPemProperty" non-functional
-// property in the vocabulary "ActivityStreams"
-func (this Manager) DeserializePublicKeyPemPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsPublicKeyPemProperty, error) {
-	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsPublicKeyPemProperty, error) {
-		i, err := propertypublickeypem.DeserializePublicKeyPemProperty(m, aliasMap)
-		if i == nil {
-			return nil, err
-		}
-		return i, err
-	}
-}
-
-// DeserializePublicKeyPropertyActivityStreams returns the deserialization method
-// for the "ActivityStreamsPublicKeyProperty" non-functional property in the
-// vocabulary "ActivityStreams"
-func (this Manager) DeserializePublicKeyPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsPublicKeyProperty, error) {
-	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsPublicKeyProperty, error) {
-		i, err := propertypublickey.DeserializePublicKeyProperty(m, aliasMap)
 		if i == nil {
 			return nil, err
 		}

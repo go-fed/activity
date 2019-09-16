@@ -48,13 +48,10 @@ import (
 	propertyordereditems "github.com/go-fed/activity/streams/impl/activitystreams/property_ordereditems"
 	propertyorigin "github.com/go-fed/activity/streams/impl/activitystreams/property_origin"
 	propertyoutbox "github.com/go-fed/activity/streams/impl/activitystreams/property_outbox"
-	propertyowner "github.com/go-fed/activity/streams/impl/activitystreams/property_owner"
 	propertypartof "github.com/go-fed/activity/streams/impl/activitystreams/property_partof"
 	propertypreferredusername "github.com/go-fed/activity/streams/impl/activitystreams/property_preferredusername"
 	propertyprev "github.com/go-fed/activity/streams/impl/activitystreams/property_prev"
 	propertypreview "github.com/go-fed/activity/streams/impl/activitystreams/property_preview"
-	propertypublickey "github.com/go-fed/activity/streams/impl/activitystreams/property_publickey"
-	propertypublickeypem "github.com/go-fed/activity/streams/impl/activitystreams/property_publickeypem"
 	propertypublished "github.com/go-fed/activity/streams/impl/activitystreams/property_published"
 	propertyradius "github.com/go-fed/activity/streams/impl/activitystreams/property_radius"
 	propertyrel "github.com/go-fed/activity/streams/impl/activitystreams/property_rel"
@@ -361,12 +358,6 @@ func NewActivityStreamsOutboxProperty() vocab.ActivityStreamsOutboxProperty {
 	return propertyoutbox.NewActivityStreamsOutboxProperty()
 }
 
-// NewActivityStreamsActivityStreamsOwnerProperty creates a new
-// ActivityStreamsOwnerProperty
-func NewActivityStreamsOwnerProperty() vocab.ActivityStreamsOwnerProperty {
-	return propertyowner.NewActivityStreamsOwnerProperty()
-}
-
 // NewActivityStreamsActivityStreamsPartOfProperty creates a new
 // ActivityStreamsPartOfProperty
 func NewActivityStreamsPartOfProperty() vocab.ActivityStreamsPartOfProperty {
@@ -389,18 +380,6 @@ func NewActivityStreamsPrevProperty() vocab.ActivityStreamsPrevProperty {
 // ActivityStreamsPreviewProperty
 func NewActivityStreamsPreviewProperty() vocab.ActivityStreamsPreviewProperty {
 	return propertypreview.NewActivityStreamsPreviewProperty()
-}
-
-// NewActivityStreamsActivityStreamsPublicKeyProperty creates a new
-// ActivityStreamsPublicKeyProperty
-func NewActivityStreamsPublicKeyProperty() vocab.ActivityStreamsPublicKeyProperty {
-	return propertypublickey.NewActivityStreamsPublicKeyProperty()
-}
-
-// NewActivityStreamsActivityStreamsPublicKeyPemProperty creates a new
-// ActivityStreamsPublicKeyPemProperty
-func NewActivityStreamsPublicKeyPemProperty() vocab.ActivityStreamsPublicKeyPemProperty {
-	return propertypublickeypem.NewActivityStreamsPublicKeyPemProperty()
 }
 
 // NewActivityStreamsActivityStreamsPublishedProperty creates a new
