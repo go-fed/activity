@@ -3,7 +3,7 @@ package vocab
 import "net/url"
 
 // The public key PEM encoded data for an ActivityStreams actor
-type ActivityStreamsPublicKeyPemProperty interface {
+type W3IDSecurityV1PublicKeyPemProperty interface {
 	// Clear ensures no value of this property is set. Calling
 	// IsXMLSchemaString afterwards will return false.
 	Clear()
@@ -32,7 +32,7 @@ type ActivityStreamsPublicKeyPemProperty interface {
 	// stable comparison. Applications should not use this because it is
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
-	LessThan(o ActivityStreamsPublicKeyPemProperty) bool
+	LessThan(o W3IDSecurityV1PublicKeyPemProperty) bool
 	// Name returns the name of this property: "publicKeyPem".
 	Name() string
 	// Serialize converts this into an interface representation suitable for

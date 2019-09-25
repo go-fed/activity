@@ -92,9 +92,6 @@ type ActivityStreamsApplication interface {
 	// GetActivityStreamsPreview returns the "preview" property if it exists,
 	// and nil otherwise.
 	GetActivityStreamsPreview() ActivityStreamsPreviewProperty
-	// GetActivityStreamsPublicKey returns the "publicKey" property if it
-	// exists, and nil otherwise.
-	GetActivityStreamsPublicKey() ActivityStreamsPublicKeyProperty
 	// GetActivityStreamsPublished returns the "published" property if it
 	// exists, and nil otherwise.
 	GetActivityStreamsPublished() ActivityStreamsPublishedProperty
@@ -138,6 +135,9 @@ type ActivityStreamsApplication interface {
 	// implementation, but routine ActivityPub applications should not use
 	// this to bypass the code generation tool.
 	GetUnknownProperties() map[string]interface{}
+	// GetW3IDSecurityV1PublicKey returns the "publicKey" property if it
+	// exists, and nil otherwise.
+	GetW3IDSecurityV1PublicKey() W3IDSecurityV1PublicKeyProperty
 	// IsExtending returns true if the Application type extends from the other
 	// type.
 	IsExtending(other Type) bool
@@ -208,8 +208,6 @@ type ActivityStreamsApplication interface {
 	SetActivityStreamsPreferredUsername(i ActivityStreamsPreferredUsernameProperty)
 	// SetActivityStreamsPreview sets the "preview" property.
 	SetActivityStreamsPreview(i ActivityStreamsPreviewProperty)
-	// SetActivityStreamsPublicKey sets the "publicKey" property.
-	SetActivityStreamsPublicKey(i ActivityStreamsPublicKeyProperty)
 	// SetActivityStreamsPublished sets the "published" property.
 	SetActivityStreamsPublished(i ActivityStreamsPublishedProperty)
 	// SetActivityStreamsReplies sets the "replies" property.
@@ -232,6 +230,8 @@ type ActivityStreamsApplication interface {
 	SetActivityStreamsUpdated(i ActivityStreamsUpdatedProperty)
 	// SetActivityStreamsUrl sets the "url" property.
 	SetActivityStreamsUrl(i ActivityStreamsUrlProperty)
+	// SetW3IDSecurityV1PublicKey sets the "publicKey" property.
+	SetW3IDSecurityV1PublicKey(i W3IDSecurityV1PublicKeyProperty)
 	// VocabularyURI returns the vocabulary's URI as a string.
 	VocabularyURI() string
 }

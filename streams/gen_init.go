@@ -48,13 +48,10 @@ import (
 	propertyordereditems "github.com/go-fed/activity/streams/impl/activitystreams/property_ordereditems"
 	propertyorigin "github.com/go-fed/activity/streams/impl/activitystreams/property_origin"
 	propertyoutbox "github.com/go-fed/activity/streams/impl/activitystreams/property_outbox"
-	propertyowner "github.com/go-fed/activity/streams/impl/activitystreams/property_owner"
 	propertypartof "github.com/go-fed/activity/streams/impl/activitystreams/property_partof"
 	propertypreferredusername "github.com/go-fed/activity/streams/impl/activitystreams/property_preferredusername"
 	propertyprev "github.com/go-fed/activity/streams/impl/activitystreams/property_prev"
 	propertypreview "github.com/go-fed/activity/streams/impl/activitystreams/property_preview"
-	propertypublickey "github.com/go-fed/activity/streams/impl/activitystreams/property_publickey"
-	propertypublickeypem "github.com/go-fed/activity/streams/impl/activitystreams/property_publickeypem"
 	propertypublished "github.com/go-fed/activity/streams/impl/activitystreams/property_published"
 	propertyradius "github.com/go-fed/activity/streams/impl/activitystreams/property_radius"
 	propertyrel "github.com/go-fed/activity/streams/impl/activitystreams/property_rel"
@@ -116,7 +113,6 @@ import (
 	typeperson "github.com/go-fed/activity/streams/impl/activitystreams/type_person"
 	typeplace "github.com/go-fed/activity/streams/impl/activitystreams/type_place"
 	typeprofile "github.com/go-fed/activity/streams/impl/activitystreams/type_profile"
-	typepublickey "github.com/go-fed/activity/streams/impl/activitystreams/type_publickey"
 	typequestion "github.com/go-fed/activity/streams/impl/activitystreams/type_question"
 	typeread "github.com/go-fed/activity/streams/impl/activitystreams/type_read"
 	typereject "github.com/go-fed/activity/streams/impl/activitystreams/type_reject"
@@ -131,6 +127,10 @@ import (
 	typeupdate "github.com/go-fed/activity/streams/impl/activitystreams/type_update"
 	typevideo "github.com/go-fed/activity/streams/impl/activitystreams/type_video"
 	typeview "github.com/go-fed/activity/streams/impl/activitystreams/type_view"
+	propertyowner "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_owner"
+	propertypublickey "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_publickey"
+	propertypublickeypem "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_publickeypem"
+	typepublickey "github.com/go-fed/activity/streams/impl/w3idsecurityv1/type_publickey"
 )
 
 var mgr *Manager
@@ -193,13 +193,10 @@ func init() {
 	propertyordereditems.SetManager(mgr)
 	propertyorigin.SetManager(mgr)
 	propertyoutbox.SetManager(mgr)
-	propertyowner.SetManager(mgr)
 	propertypartof.SetManager(mgr)
 	propertypreferredusername.SetManager(mgr)
 	propertyprev.SetManager(mgr)
 	propertypreview.SetManager(mgr)
-	propertypublickey.SetManager(mgr)
-	propertypublickeypem.SetManager(mgr)
 	propertypublished.SetManager(mgr)
 	propertyradius.SetManager(mgr)
 	propertyrel.SetManager(mgr)
@@ -261,7 +258,6 @@ func init() {
 	typeperson.SetManager(mgr)
 	typeplace.SetManager(mgr)
 	typeprofile.SetManager(mgr)
-	typepublickey.SetManager(mgr)
 	typequestion.SetManager(mgr)
 	typeread.SetManager(mgr)
 	typereject.SetManager(mgr)
@@ -276,6 +272,10 @@ func init() {
 	typeupdate.SetManager(mgr)
 	typevideo.SetManager(mgr)
 	typeview.SetManager(mgr)
+	propertyowner.SetManager(mgr)
+	propertypublickey.SetManager(mgr)
+	propertypublickeypem.SetManager(mgr)
+	typepublickey.SetManager(mgr)
 	typeaccept.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typeactivity.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typeadd.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
@@ -316,7 +316,6 @@ func init() {
 	typeperson.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typeplace.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typeprofile.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
-	typepublickey.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typequestion.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typeread.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typereject.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
@@ -331,4 +330,5 @@ func init() {
 	typeupdate.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typevideo.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 	typeview.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
+	typepublickey.SetTypePropertyConstructor(NewActivityStreamsTypeProperty)
 }

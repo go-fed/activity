@@ -7,9 +7,9 @@ import (
 	"net/url"
 )
 
-// ActivityStreamsOwnerProperty is the functional property "owner". It is
-// permitted to be a single nilable value type.
-type ActivityStreamsOwnerProperty struct {
+// W3IDSecurityV1OwnerProperty is the functional property "owner". It is permitted
+// to be a single nilable value type.
+type W3IDSecurityV1OwnerProperty struct {
 	xmlschemaAnyURIMember *url.URL
 	unknown               interface{}
 	alias                 string
@@ -17,9 +17,9 @@ type ActivityStreamsOwnerProperty struct {
 
 // DeserializeOwnerProperty creates a "owner" property from an interface
 // representation that has been unmarshalled from a text or binary format.
-func DeserializeOwnerProperty(m map[string]interface{}, aliasMap map[string]string) (*ActivityStreamsOwnerProperty, error) {
+func DeserializeOwnerProperty(m map[string]interface{}, aliasMap map[string]string) (*W3IDSecurityV1OwnerProperty, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
+	if a, ok := aliasMap["https://w3id.org/security/v1"]; ok {
 		alias = a
 	}
 	propName := "owner"
@@ -31,13 +31,13 @@ func DeserializeOwnerProperty(m map[string]interface{}, aliasMap map[string]stri
 
 	if ok {
 		if v, err := anyuri.DeserializeAnyURI(i); err == nil {
-			this := &ActivityStreamsOwnerProperty{
+			this := &W3IDSecurityV1OwnerProperty{
 				alias:                 alias,
 				xmlschemaAnyURIMember: v,
 			}
 			return this, nil
 		}
-		this := &ActivityStreamsOwnerProperty{
+		this := &W3IDSecurityV1OwnerProperty{
 			alias:   alias,
 			unknown: i,
 		}
@@ -46,50 +46,50 @@ func DeserializeOwnerProperty(m map[string]interface{}, aliasMap map[string]stri
 	return nil, nil
 }
 
-// NewActivityStreamsOwnerProperty creates a new owner property.
-func NewActivityStreamsOwnerProperty() *ActivityStreamsOwnerProperty {
-	return &ActivityStreamsOwnerProperty{alias: ""}
+// NewW3IDSecurityV1OwnerProperty creates a new owner property.
+func NewW3IDSecurityV1OwnerProperty() *W3IDSecurityV1OwnerProperty {
+	return &W3IDSecurityV1OwnerProperty{alias: "widsv"}
 }
 
 // Clear ensures no value of this property is set. Calling IsXMLSchemaAnyURI
 // afterwards will return false.
-func (this *ActivityStreamsOwnerProperty) Clear() {
+func (this *W3IDSecurityV1OwnerProperty) Clear() {
 	this.unknown = nil
 	this.xmlschemaAnyURIMember = nil
 }
 
 // Get returns the value of this property. When IsXMLSchemaAnyURI returns false,
 // Get will return any arbitrary value.
-func (this ActivityStreamsOwnerProperty) Get() *url.URL {
+func (this W3IDSecurityV1OwnerProperty) Get() *url.URL {
 	return this.xmlschemaAnyURIMember
 }
 
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
 // return any arbitrary value.
-func (this ActivityStreamsOwnerProperty) GetIRI() *url.URL {
+func (this W3IDSecurityV1OwnerProperty) GetIRI() *url.URL {
 	return this.xmlschemaAnyURIMember
 }
 
 // HasAny returns true if the value or IRI is set.
-func (this ActivityStreamsOwnerProperty) HasAny() bool {
+func (this W3IDSecurityV1OwnerProperty) HasAny() bool {
 	return this.IsXMLSchemaAnyURI()
 }
 
 // IsIRI returns true if this property is an IRI.
-func (this ActivityStreamsOwnerProperty) IsIRI() bool {
+func (this W3IDSecurityV1OwnerProperty) IsIRI() bool {
 	return this.xmlschemaAnyURIMember != nil
 }
 
 // IsXMLSchemaAnyURI returns true if this property is set and not an IRI.
-func (this ActivityStreamsOwnerProperty) IsXMLSchemaAnyURI() bool {
+func (this W3IDSecurityV1OwnerProperty) IsXMLSchemaAnyURI() bool {
 	return this.xmlschemaAnyURIMember != nil
 }
 
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
-func (this ActivityStreamsOwnerProperty) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
+func (this W3IDSecurityV1OwnerProperty) JSONLDContext() map[string]string {
+	m := map[string]string{"https://w3id.org/security/v1": this.alias}
 	var child map[string]string
 
 	/*
@@ -106,7 +106,7 @@ func (this ActivityStreamsOwnerProperty) JSONLDContext() map[string]string {
 // KindIndex computes an arbitrary value for indexing this kind of value. This is
 // a leaky API detail only for folks looking to replace the go-fed
 // implementation. Applications should not use this method.
-func (this ActivityStreamsOwnerProperty) KindIndex() int {
+func (this W3IDSecurityV1OwnerProperty) KindIndex() int {
 	if this.IsXMLSchemaAnyURI() {
 		return 0
 	}
@@ -120,7 +120,7 @@ func (this ActivityStreamsOwnerProperty) KindIndex() int {
 // comparison. Applications should not use this because it is only meant to
 // help alternative implementations to go-fed to be able to normalize
 // nonfunctional properties.
-func (this ActivityStreamsOwnerProperty) LessThan(o vocab.ActivityStreamsOwnerProperty) bool {
+func (this W3IDSecurityV1OwnerProperty) LessThan(o vocab.W3IDSecurityV1OwnerProperty) bool {
 	if this.IsIRI() {
 		// IRIs are always less than other values, none, or unknowns
 		return true
@@ -145,7 +145,7 @@ func (this ActivityStreamsOwnerProperty) LessThan(o vocab.ActivityStreamsOwnerPr
 }
 
 // Name returns the name of this property: "owner".
-func (this ActivityStreamsOwnerProperty) Name() string {
+func (this W3IDSecurityV1OwnerProperty) Name() string {
 	return "owner"
 }
 
@@ -153,7 +153,7 @@ func (this ActivityStreamsOwnerProperty) Name() string {
 // marshalling into a text or binary format. Applications should not need this
 // function as most typical use cases serialize types instead of individual
 // properties. It is exposed for alternatives to go-fed implementations to use.
-func (this ActivityStreamsOwnerProperty) Serialize() (interface{}, error) {
+func (this W3IDSecurityV1OwnerProperty) Serialize() (interface{}, error) {
 	if this.IsXMLSchemaAnyURI() {
 		return anyuri.SerializeAnyURI(this.Get())
 	}
@@ -162,14 +162,14 @@ func (this ActivityStreamsOwnerProperty) Serialize() (interface{}, error) {
 
 // Set sets the value of this property. Calling IsXMLSchemaAnyURI afterwards will
 // return true.
-func (this *ActivityStreamsOwnerProperty) Set(v *url.URL) {
+func (this *W3IDSecurityV1OwnerProperty) Set(v *url.URL) {
 	this.Clear()
 	this.xmlschemaAnyURIMember = v
 }
 
 // SetIRI sets the value of this property. Calling IsIRI afterwards will return
 // true.
-func (this *ActivityStreamsOwnerProperty) SetIRI(v *url.URL) {
+func (this *W3IDSecurityV1OwnerProperty) SetIRI(v *url.URL) {
 	this.Clear()
 	this.Set(v)
 }

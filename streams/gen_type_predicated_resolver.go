@@ -107,7 +107,7 @@ func NewTypePredicatedResolver(delegate Resolver, predicate interface{}) (*TypeP
 		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsProfile) (bool, error):
 		// Do nothing, this predicate has a correct signature.
-	case func(context.Context, vocab.ActivityStreamsPublicKey) (bool, error):
+	case func(context.Context, vocab.W3IDSecurityV1PublicKey) (bool, error):
 		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsQuestion) (bool, error):
 		// Do nothing, this predicate has a correct signature.
@@ -596,9 +596,9 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
-	} else if o.VocabularyURI() == "https://www.w3.org/ns/activitystreams" && o.GetTypeName() == "PublicKey" {
-		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsPublicKey) (bool, error)); ok {
-			if v, ok := o.(vocab.ActivityStreamsPublicKey); ok {
+	} else if o.VocabularyURI() == "https://w3id.org/security/v1" && o.GetTypeName() == "PublicKey" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.W3IDSecurityV1PublicKey) (bool, error)); ok {
+			if v, ok := o.(vocab.W3IDSecurityV1PublicKey); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.

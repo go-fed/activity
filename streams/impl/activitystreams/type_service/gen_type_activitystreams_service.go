@@ -42,7 +42,7 @@ type ActivityStreamsService struct {
 	ActivityStreamsOutbox            vocab.ActivityStreamsOutboxProperty
 	ActivityStreamsPreferredUsername vocab.ActivityStreamsPreferredUsernameProperty
 	ActivityStreamsPreview           vocab.ActivityStreamsPreviewProperty
-	ActivityStreamsPublicKey         vocab.ActivityStreamsPublicKeyProperty
+	W3IDSecurityV1PublicKey          vocab.W3IDSecurityV1PublicKeyProperty
 	ActivityStreamsPublished         vocab.ActivityStreamsPublishedProperty
 	ActivityStreamsReplies           vocab.ActivityStreamsRepliesProperty
 	ActivityStreamsShares            vocab.ActivityStreamsSharesProperty
@@ -247,10 +247,10 @@ func DeserializeService(m map[string]interface{}, aliasMap map[string]string) (*
 	} else if p != nil {
 		this.ActivityStreamsPreview = p
 	}
-	if p, err := mgr.DeserializePublicKeyPropertyActivityStreams()(m, aliasMap); err != nil {
+	if p, err := mgr.DeserializePublicKeyPropertyW3IDSecurityV1()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
-		this.ActivityStreamsPublicKey = p
+		this.W3IDSecurityV1PublicKey = p
 	}
 	if p, err := mgr.DeserializePublishedPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -615,12 +615,6 @@ func (this ActivityStreamsService) GetActivityStreamsPreview() vocab.ActivityStr
 	return this.ActivityStreamsPreview
 }
 
-// GetActivityStreamsPublicKey returns the "publicKey" property if it exists, and
-// nil otherwise.
-func (this ActivityStreamsService) GetActivityStreamsPublicKey() vocab.ActivityStreamsPublicKeyProperty {
-	return this.ActivityStreamsPublicKey
-}
-
 // GetActivityStreamsPublished returns the "published" property if it exists, and
 // nil otherwise.
 func (this ActivityStreamsService) GetActivityStreamsPublished() vocab.ActivityStreamsPublishedProperty {
@@ -701,6 +695,12 @@ func (this ActivityStreamsService) GetUnknownProperties() map[string]interface{}
 	return this.unknown
 }
 
+// GetW3IDSecurityV1PublicKey returns the "publicKey" property if it exists, and
+// nil otherwise.
+func (this ActivityStreamsService) GetW3IDSecurityV1PublicKey() vocab.W3IDSecurityV1PublicKeyProperty {
+	return this.W3IDSecurityV1PublicKey
+}
+
 // IsExtending returns true if the Service type extends from the other type.
 func (this ActivityStreamsService) IsExtending(other vocab.Type) bool {
 	return ActivityStreamsServiceExtends(other)
@@ -739,7 +739,7 @@ func (this ActivityStreamsService) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.ActivityStreamsOutbox, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsPreferredUsername, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsPreview, m)
-	m = this.helperJSONLDContext(this.ActivityStreamsPublicKey, m)
+	m = this.helperJSONLDContext(this.W3IDSecurityV1PublicKey, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsPublished, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsReplies, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsShares, m)
@@ -1152,7 +1152,7 @@ func (this ActivityStreamsService) LessThan(o vocab.ActivityStreamsService) bool
 		return false
 	} // Else: Both are nil
 	// Compare property "publicKey"
-	if lhs, rhs := this.ActivityStreamsPublicKey, o.GetActivityStreamsPublicKey(); lhs != nil && rhs != nil {
+	if lhs, rhs := this.W3IDSecurityV1PublicKey, o.GetW3IDSecurityV1PublicKey(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1567,11 +1567,11 @@ func (this ActivityStreamsService) Serialize() (map[string]interface{}, error) {
 		}
 	}
 	// Maybe serialize property "publicKey"
-	if this.ActivityStreamsPublicKey != nil {
-		if i, err := this.ActivityStreamsPublicKey.Serialize(); err != nil {
+	if this.W3IDSecurityV1PublicKey != nil {
+		if i, err := this.W3IDSecurityV1PublicKey.Serialize(); err != nil {
 			return nil, err
 		} else if i != nil {
-			m[this.ActivityStreamsPublicKey.Name()] = i
+			m[this.W3IDSecurityV1PublicKey.Name()] = i
 		}
 	}
 	// Maybe serialize property "published"
@@ -1816,11 +1816,6 @@ func (this *ActivityStreamsService) SetActivityStreamsPreview(i vocab.ActivitySt
 	this.ActivityStreamsPreview = i
 }
 
-// SetActivityStreamsPublicKey sets the "publicKey" property.
-func (this *ActivityStreamsService) SetActivityStreamsPublicKey(i vocab.ActivityStreamsPublicKeyProperty) {
-	this.ActivityStreamsPublicKey = i
-}
-
 // SetActivityStreamsPublished sets the "published" property.
 func (this *ActivityStreamsService) SetActivityStreamsPublished(i vocab.ActivityStreamsPublishedProperty) {
 	this.ActivityStreamsPublished = i
@@ -1874,6 +1869,11 @@ func (this *ActivityStreamsService) SetActivityStreamsUpdated(i vocab.ActivitySt
 // SetActivityStreamsUrl sets the "url" property.
 func (this *ActivityStreamsService) SetActivityStreamsUrl(i vocab.ActivityStreamsUrlProperty) {
 	this.ActivityStreamsUrl = i
+}
+
+// SetW3IDSecurityV1PublicKey sets the "publicKey" property.
+func (this *ActivityStreamsService) SetW3IDSecurityV1PublicKey(i vocab.W3IDSecurityV1PublicKeyProperty) {
+	this.W3IDSecurityV1PublicKey = i
 }
 
 // VocabularyURI returns the vocabulary's URI as a string.

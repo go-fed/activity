@@ -3,7 +3,7 @@ package vocab
 import "net/url"
 
 // The owner of the public key for an ActivityStreams actor
-type ActivityStreamsOwnerProperty interface {
+type W3IDSecurityV1OwnerProperty interface {
 	// Clear ensures no value of this property is set. Calling
 	// IsXMLSchemaAnyURI afterwards will return false.
 	Clear()
@@ -32,7 +32,7 @@ type ActivityStreamsOwnerProperty interface {
 	// stable comparison. Applications should not use this because it is
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
-	LessThan(o ActivityStreamsOwnerProperty) bool
+	LessThan(o W3IDSecurityV1OwnerProperty) bool
 	// Name returns the name of this property: "owner".
 	Name() string
 	// Serialize converts this into an interface representation suitable for

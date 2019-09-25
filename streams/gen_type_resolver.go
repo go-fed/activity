@@ -106,7 +106,7 @@ func NewTypeResolver(callbacks ...interface{}) (*TypeResolver, error) {
 			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsProfile) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ActivityStreamsPublicKey) error:
+		case func(context.Context, vocab.W3IDSecurityV1PublicKey) error:
 			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsQuestion) error:
 			// Do nothing, this callback has a correct signature.
@@ -511,9 +511,9 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
-		} else if o.VocabularyURI() == "https://www.w3.org/ns/activitystreams" && o.GetTypeName() == "PublicKey" {
-			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsPublicKey) error); ok {
-				if v, ok := o.(vocab.ActivityStreamsPublicKey); ok {
+		} else if o.VocabularyURI() == "https://w3id.org/security/v1" && o.GetTypeName() == "PublicKey" {
+			if fn, ok := i.(func(context.Context, vocab.W3IDSecurityV1PublicKey) error); ok {
+				if v, ok := o.(vocab.W3IDSecurityV1PublicKey); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.

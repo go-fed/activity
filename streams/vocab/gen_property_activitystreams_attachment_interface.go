@@ -230,6 +230,10 @@ type ActivityStreamsAttachmentPropertyIterator interface {
 	// the value is not an ActivityStreams type, such as an IRI or another
 	// value.
 	GetType() Type
+	// GetW3IDSecurityV1PublicKey returns the value of this property. When
+	// IsW3IDSecurityV1PublicKey returns false, GetW3IDSecurityV1PublicKey
+	// will return an arbitrary value.
+	GetW3IDSecurityV1PublicKey() W3IDSecurityV1PublicKey
 	// HasAny returns true if any of the different values is set.
 	HasAny() bool
 	// IsActivityStreamsAccept returns true if this property has a type of
@@ -467,6 +471,10 @@ type ActivityStreamsAttachmentPropertyIterator interface {
 	// IsIRI returns true if this property is an IRI. When true, use GetIRI
 	// and SetIRI to access and set this property
 	IsIRI() bool
+	// IsW3IDSecurityV1PublicKey returns true if this property has a type of
+	// "PublicKey". When true, use the GetW3IDSecurityV1PublicKey and
+	// SetW3IDSecurityV1PublicKey methods to access and set this property.
+	IsW3IDSecurityV1PublicKey() bool
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or
@@ -658,6 +666,9 @@ type ActivityStreamsAttachmentPropertyIterator interface {
 	// SetType attempts to set the property for the arbitrary type. Returns an
 	// error if it is not a valid type to set on this property.
 	SetType(t Type) error
+	// SetW3IDSecurityV1PublicKey sets the value of this property. Calling
+	// IsW3IDSecurityV1PublicKey afterwards returns true.
+	SetW3IDSecurityV1PublicKey(v W3IDSecurityV1PublicKey)
 }
 
 // Identifies a resource attached or related to an object that potentially
@@ -899,6 +910,10 @@ type ActivityStreamsAttachmentProperty interface {
 	// traversing using Prev. Returns an error if the type is not a valid
 	// one to set for this property.
 	AppendType(t Type) error
+	// AppendW3IDSecurityV1PublicKey appends a PublicKey value to the back of
+	// a list of the property "attachment". Invalidates iterators that are
+	// traversing using Prev.
+	AppendW3IDSecurityV1PublicKey(v W3IDSecurityV1PublicKey)
 	// At returns the property value for the specified index. Panics if the
 	// index is out of bounds.
 	At(index int) ActivityStreamsAttachmentPropertyIterator
@@ -1147,6 +1162,11 @@ type ActivityStreamsAttachmentProperty interface {
 	// the property "attachment". Invalidates all iterators. Returns an
 	// error if the type is not a valid one to set for this property.
 	InsertType(idx int, t Type) error
+	// InsertW3IDSecurityV1PublicKey inserts a PublicKey value at the
+	// specified index for a property "attachment". Existing elements at
+	// that index and higher are shifted back once. Invalidates all
+	// iterators.
+	InsertW3IDSecurityV1PublicKey(idx int, v W3IDSecurityV1PublicKey)
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or
@@ -1349,6 +1369,9 @@ type ActivityStreamsAttachmentProperty interface {
 	// the property "attachment". Invalidates all iterators. Returns an
 	// error if the type is not a valid one to set for this property.
 	PrependType(t Type) error
+	// PrependW3IDSecurityV1PublicKey prepends a PublicKey value to the front
+	// of a list of the property "attachment". Invalidates all iterators.
+	PrependW3IDSecurityV1PublicKey(v W3IDSecurityV1PublicKey)
 	// Remove deletes an element at the specified index from a list of the
 	// property "attachment", regardless of its type. Panics if the index
 	// is out of bounds. Invalidates all iterators.
@@ -1583,6 +1606,10 @@ type ActivityStreamsAttachmentProperty interface {
 	// if the type is not a valid one to set for this property. Panics if
 	// the index is out of bounds.
 	SetType(idx int, t Type) error
+	// SetW3IDSecurityV1PublicKey sets a PublicKey value to be at the
+	// specified index for the property "attachment". Panics if the index
+	// is out of bounds. Invalidates all iterators.
+	SetW3IDSecurityV1PublicKey(idx int, v W3IDSecurityV1PublicKey)
 	// Swap swaps the location of values at two indices for the "attachment"
 	// property.
 	Swap(i, j int)

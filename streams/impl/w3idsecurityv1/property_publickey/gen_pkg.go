@@ -7,10 +7,10 @@ var mgr privateManager
 // privateManager abstracts the code-generated manager that provides access to
 // concrete implementations.
 type privateManager interface {
-	// DeserializePublicKeyActivityStreams returns the deserialization method
-	// for the "ActivityStreamsPublicKey" non-functional property in the
-	// vocabulary "ActivityStreams"
-	DeserializePublicKeyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsPublicKey, error)
+	// DeserializePublicKeyW3IDSecurityV1 returns the deserialization method
+	// for the "W3IDSecurityV1PublicKey" non-functional property in the
+	// vocabulary "W3IDSecurityV1"
+	DeserializePublicKeyW3IDSecurityV1() func(map[string]interface{}, map[string]string) (vocab.W3IDSecurityV1PublicKey, error)
 }
 
 // SetManager sets the manager package-global variable. For internal use only, do

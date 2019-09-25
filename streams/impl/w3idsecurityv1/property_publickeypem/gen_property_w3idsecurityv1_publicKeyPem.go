@@ -7,9 +7,9 @@ import (
 	"net/url"
 )
 
-// ActivityStreamsPublicKeyPemProperty is the functional property "publicKeyPem".
+// W3IDSecurityV1PublicKeyPemProperty is the functional property "publicKeyPem".
 // It is permitted to be a single default-valued value type.
-type ActivityStreamsPublicKeyPemProperty struct {
+type W3IDSecurityV1PublicKeyPemProperty struct {
 	xmlschemaStringMember string
 	hasStringMember       bool
 	unknown               interface{}
@@ -20,9 +20,9 @@ type ActivityStreamsPublicKeyPemProperty struct {
 // DeserializePublicKeyPemProperty creates a "publicKeyPem" property from an
 // interface representation that has been unmarshalled from a text or binary
 // format.
-func DeserializePublicKeyPemProperty(m map[string]interface{}, aliasMap map[string]string) (*ActivityStreamsPublicKeyPemProperty, error) {
+func DeserializePublicKeyPemProperty(m map[string]interface{}, aliasMap map[string]string) (*W3IDSecurityV1PublicKeyPemProperty, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
+	if a, ok := aliasMap["https://w3id.org/security/v1"]; ok {
 		alias = a
 	}
 	propName := "publicKeyPem"
@@ -38,7 +38,7 @@ func DeserializePublicKeyPemProperty(m map[string]interface{}, aliasMap map[stri
 			// If error exists, don't error out -- skip this and treat as unknown string ([]byte) at worst
 			// Also, if no scheme exists, don't treat it as a URL -- net/url is greedy
 			if err == nil && len(u.Scheme) > 0 {
-				this := &ActivityStreamsPublicKeyPemProperty{
+				this := &W3IDSecurityV1PublicKeyPemProperty{
 					alias: alias,
 					iri:   u,
 				}
@@ -46,14 +46,14 @@ func DeserializePublicKeyPemProperty(m map[string]interface{}, aliasMap map[stri
 			}
 		}
 		if v, err := string1.DeserializeString(i); err == nil {
-			this := &ActivityStreamsPublicKeyPemProperty{
+			this := &W3IDSecurityV1PublicKeyPemProperty{
 				alias:                 alias,
 				hasStringMember:       true,
 				xmlschemaStringMember: v,
 			}
 			return this, nil
 		}
-		this := &ActivityStreamsPublicKeyPemProperty{
+		this := &W3IDSecurityV1PublicKeyPemProperty{
 			alias:   alias,
 			unknown: i,
 		}
@@ -62,14 +62,14 @@ func DeserializePublicKeyPemProperty(m map[string]interface{}, aliasMap map[stri
 	return nil, nil
 }
 
-// NewActivityStreamsPublicKeyPemProperty creates a new publicKeyPem property.
-func NewActivityStreamsPublicKeyPemProperty() *ActivityStreamsPublicKeyPemProperty {
-	return &ActivityStreamsPublicKeyPemProperty{alias: ""}
+// NewW3IDSecurityV1PublicKeyPemProperty creates a new publicKeyPem property.
+func NewW3IDSecurityV1PublicKeyPemProperty() *W3IDSecurityV1PublicKeyPemProperty {
+	return &W3IDSecurityV1PublicKeyPemProperty{alias: "widsv"}
 }
 
 // Clear ensures no value of this property is set. Calling IsXMLSchemaString
 // afterwards will return false.
-func (this *ActivityStreamsPublicKeyPemProperty) Clear() {
+func (this *W3IDSecurityV1PublicKeyPemProperty) Clear() {
 	this.unknown = nil
 	this.iri = nil
 	this.hasStringMember = false
@@ -77,36 +77,36 @@ func (this *ActivityStreamsPublicKeyPemProperty) Clear() {
 
 // Get returns the value of this property. When IsXMLSchemaString returns false,
 // Get will return any arbitrary value.
-func (this ActivityStreamsPublicKeyPemProperty) Get() string {
+func (this W3IDSecurityV1PublicKeyPemProperty) Get() string {
 	return this.xmlschemaStringMember
 }
 
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
 // return any arbitrary value.
-func (this ActivityStreamsPublicKeyPemProperty) GetIRI() *url.URL {
+func (this W3IDSecurityV1PublicKeyPemProperty) GetIRI() *url.URL {
 	return this.iri
 }
 
 // HasAny returns true if the value or IRI is set.
-func (this ActivityStreamsPublicKeyPemProperty) HasAny() bool {
+func (this W3IDSecurityV1PublicKeyPemProperty) HasAny() bool {
 	return this.IsXMLSchemaString() || this.iri != nil
 }
 
 // IsIRI returns true if this property is an IRI.
-func (this ActivityStreamsPublicKeyPemProperty) IsIRI() bool {
+func (this W3IDSecurityV1PublicKeyPemProperty) IsIRI() bool {
 	return this.iri != nil
 }
 
 // IsXMLSchemaString returns true if this property is set and not an IRI.
-func (this ActivityStreamsPublicKeyPemProperty) IsXMLSchemaString() bool {
+func (this W3IDSecurityV1PublicKeyPemProperty) IsXMLSchemaString() bool {
 	return this.hasStringMember
 }
 
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
-func (this ActivityStreamsPublicKeyPemProperty) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
+func (this W3IDSecurityV1PublicKeyPemProperty) JSONLDContext() map[string]string {
+	m := map[string]string{"https://w3id.org/security/v1": this.alias}
 	var child map[string]string
 
 	/*
@@ -123,7 +123,7 @@ func (this ActivityStreamsPublicKeyPemProperty) JSONLDContext() map[string]strin
 // KindIndex computes an arbitrary value for indexing this kind of value. This is
 // a leaky API detail only for folks looking to replace the go-fed
 // implementation. Applications should not use this method.
-func (this ActivityStreamsPublicKeyPemProperty) KindIndex() int {
+func (this W3IDSecurityV1PublicKeyPemProperty) KindIndex() int {
 	if this.IsXMLSchemaString() {
 		return 0
 	}
@@ -137,7 +137,7 @@ func (this ActivityStreamsPublicKeyPemProperty) KindIndex() int {
 // comparison. Applications should not use this because it is only meant to
 // help alternative implementations to go-fed to be able to normalize
 // nonfunctional properties.
-func (this ActivityStreamsPublicKeyPemProperty) LessThan(o vocab.ActivityStreamsPublicKeyPemProperty) bool {
+func (this W3IDSecurityV1PublicKeyPemProperty) LessThan(o vocab.W3IDSecurityV1PublicKeyPemProperty) bool {
 	// LessThan comparison for if either or both are IRIs.
 	if this.IsIRI() && o.IsIRI() {
 		return this.iri.String() < o.GetIRI().String()
@@ -165,7 +165,7 @@ func (this ActivityStreamsPublicKeyPemProperty) LessThan(o vocab.ActivityStreams
 }
 
 // Name returns the name of this property: "publicKeyPem".
-func (this ActivityStreamsPublicKeyPemProperty) Name() string {
+func (this W3IDSecurityV1PublicKeyPemProperty) Name() string {
 	return "publicKeyPem"
 }
 
@@ -173,7 +173,7 @@ func (this ActivityStreamsPublicKeyPemProperty) Name() string {
 // marshalling into a text or binary format. Applications should not need this
 // function as most typical use cases serialize types instead of individual
 // properties. It is exposed for alternatives to go-fed implementations to use.
-func (this ActivityStreamsPublicKeyPemProperty) Serialize() (interface{}, error) {
+func (this W3IDSecurityV1PublicKeyPemProperty) Serialize() (interface{}, error) {
 	if this.IsXMLSchemaString() {
 		return string1.SerializeString(this.Get())
 	} else if this.IsIRI() {
@@ -184,7 +184,7 @@ func (this ActivityStreamsPublicKeyPemProperty) Serialize() (interface{}, error)
 
 // Set sets the value of this property. Calling IsXMLSchemaString afterwards will
 // return true.
-func (this *ActivityStreamsPublicKeyPemProperty) Set(v string) {
+func (this *W3IDSecurityV1PublicKeyPemProperty) Set(v string) {
 	this.Clear()
 	this.xmlschemaStringMember = v
 	this.hasStringMember = true
@@ -192,7 +192,7 @@ func (this *ActivityStreamsPublicKeyPemProperty) Set(v string) {
 
 // SetIRI sets the value of this property. Calling IsIRI afterwards will return
 // true.
-func (this *ActivityStreamsPublicKeyPemProperty) SetIRI(v *url.URL) {
+func (this *W3IDSecurityV1PublicKeyPemProperty) SetIRI(v *url.URL) {
 	this.Clear()
 	this.iri = v
 }

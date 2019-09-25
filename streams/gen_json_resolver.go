@@ -109,7 +109,7 @@ func NewJSONResolver(callbacks ...interface{}) (*JSONResolver, error) {
 			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsProfile) error:
 			// Do nothing, this callback has a correct signature.
-		case func(context.Context, vocab.ActivityStreamsPublicKey) error:
+		case func(context.Context, vocab.W3IDSecurityV1PublicKey) error:
 			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsQuestion) error:
 			// Do nothing, this callback has a correct signature.
@@ -164,7 +164,6 @@ func toAliasMap(i interface{}) (m map[string]string) {
 	switch v := i.(type) {
 	case string:
 		// Single entry, no alias.
-
 		if ok, http, https := toHttpHttpsFn(v); ok {
 			m[http] = ""
 			m[https] = ""
@@ -173,7 +172,6 @@ func toAliasMap(i interface{}) (m map[string]string) {
 		}
 	case []interface{}:
 		// Recursively apply.
-
 		for _, elem := range v {
 			r := toAliasMap(elem)
 			for k, val := range r {
@@ -182,7 +180,6 @@ func toAliasMap(i interface{}) (m map[string]string) {
 		}
 	case map[string]interface{}:
 		// Map any aliases.
-
 		for k, val := range v {
 			// Only handle string aliases.
 			switch conc := val.(type) {
@@ -220,6 +217,13 @@ func (this JSONResolver) Resolve(ctx context.Context, m map[string]interface{}) 
 		}
 		if len(ActivityStreamsAlias) > 0 {
 			ActivityStreamsAlias += ":"
+		}
+		W3IDSecurityV1Alias, ok := aliasMap["https://w3id.org/security/v1"]
+		if !ok {
+			W3IDSecurityV1Alias, _ = aliasMap["http://w3id.org/security/v1"]
+		}
+		if len(W3IDSecurityV1Alias) > 0 {
+			W3IDSecurityV1Alias += ":"
 		}
 
 		if typeString == ActivityStreamsAlias+"Accept" {
@@ -662,13 +666,13 @@ func (this JSONResolver) Resolve(ctx context.Context, m map[string]interface{}) 
 				}
 			}
 			return ErrNoCallbackMatch
-		} else if typeString == ActivityStreamsAlias+"PublicKey" {
-			v, err := mgr.DeserializePublicKeyActivityStreams()(m, aliasMap)
+		} else if typeString == W3IDSecurityV1Alias+"PublicKey" {
+			v, err := mgr.DeserializePublicKeyW3IDSecurityV1()(m, aliasMap)
 			if err != nil {
 				return err
 			}
 			for _, i := range this.callbacks {
-				if fn, ok := i.(func(context.Context, vocab.ActivityStreamsPublicKey) error); ok {
+				if fn, ok := i.(func(context.Context, vocab.W3IDSecurityV1PublicKey) error); ok {
 					return fn(ctx, v)
 				}
 			}

@@ -169,6 +169,10 @@ type privateManager interface {
 	// for the "ActivityStreamsProfile" non-functional property in the
 	// vocabulary "ActivityStreams"
 	DeserializeProfileActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsProfile, error)
+	// DeserializePublicKeyW3IDSecurityV1 returns the deserialization method
+	// for the "W3IDSecurityV1PublicKey" non-functional property in the
+	// vocabulary "W3IDSecurityV1"
+	DeserializePublicKeyW3IDSecurityV1() func(map[string]interface{}, map[string]string) (vocab.W3IDSecurityV1PublicKey, error)
 	// DeserializeQuestionActivityStreams returns the deserialization method
 	// for the "ActivityStreamsQuestion" non-functional property in the
 	// vocabulary "ActivityStreams"
