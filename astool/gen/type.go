@@ -1072,6 +1072,10 @@ func (t *TypeGenerator) getAllManagerMethods() (m []*codegen.Method) {
 
 // constructorFn creates a constructor for this type.
 func (t *TypeGenerator) constructorFn() *codegen.Function {
+	typeName := jen.Lit(t.TypeName())
+	if len(t.vocabAlias) > 0 {
+		typeName = jen.Lit(t.vocabAlias).Op("+").Lit(":").Op("+").Lit(t.TypeName())
+	}
 	return codegen.NewCommentedFunction(
 		t.PrivatePackage().Path(),
 		fmt.Sprintf("%s%s", constructorName, t.StructName()),
@@ -1081,7 +1085,7 @@ func (t *TypeGenerator) constructorFn() *codegen.Function {
 		},
 		[]jen.Code{
 			jen.Id("typeProp").Op(":=").Id(typePropertyConstructorName()).Call(),
-			jen.Id("typeProp").Dot("AppendXMLSchemaString").Call(jen.Lit(t.TypeName())),
+			jen.Id("typeProp").Dot("AppendXMLSchemaString").Call(typeName),
 			jen.Return(
 				jen.Op("&").Qual(t.PrivatePackage().Path(), t.StructName()).Values(
 					jen.Dict{

@@ -1202,8 +1202,16 @@ func (p *FunctionalPropertyGenerator) hasValueKind() bool {
 
 // nameMethod returns the Name method for this functional property.
 func (p *FunctionalPropertyGenerator) nameMethod() *codegen.Method {
-	nameImpl := jen.Return(
-		jen.Lit(p.PropertyName()),
+	nameImpl := jen.If(
+		jen.Len(jen.Id(codegen.This()).Dot(aliasMember)).Op(">").Lit(0),
+	).Block(
+		jen.Return(
+			jen.Id(codegen.This()).Dot(aliasMember).Op("+").Lit(":").Op("+").Lit(p.PropertyName()),
+		),
+	).Else().Block(
+		jen.Return(
+			jen.Lit(p.PropertyName()),
+		),
 	)
 	if p.hasNaturalLanguageMap {
 		nameImpl = jen.If(

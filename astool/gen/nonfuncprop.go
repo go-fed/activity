@@ -1029,8 +1029,16 @@ func (p *NonFunctionalPropertyGenerator) thisIRI() *jen.Statement {
 
 // nameMethod returns the Name method for this non-functional property.
 func (p *NonFunctionalPropertyGenerator) nameMethod() *codegen.Method {
-	nameImpl := jen.Return(
-		jen.Lit(p.PropertyName()),
+	nameImpl := jen.If(
+		jen.Len(jen.Id(codegen.This()).Dot(aliasMember)).Op(">").Lit(0),
+	).Block(
+		jen.Return(
+			jen.Id(codegen.This()).Dot(aliasMember).Op("+").Lit(":").Op("+").Lit(p.PropertyName()),
+		),
+	).Else().Block(
+		jen.Return(
+			jen.Lit(p.PropertyName()),
+		),
 	)
 	if p.hasNaturalLanguageMap {
 		nameImpl = jen.If(
@@ -1056,6 +1064,6 @@ func (p *NonFunctionalPropertyGenerator) nameMethod() *codegen.Method {
 		[]jen.Code{
 			nameImpl,
 		},
-		fmt.Sprintf("%s returns the name of this property: %q.", nameMethod, p.PropertyName()),
+		fmt.Sprintf("%s returns the name of this property (%q) with any alias.", nameMethod, p.PropertyName()),
 	)
 }
