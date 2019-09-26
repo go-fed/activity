@@ -165,7 +165,11 @@ func (this ActivityStreamsLongitudeProperty) LessThan(o vocab.ActivityStreamsLon
 
 // Name returns the name of this property: "longitude".
 func (this ActivityStreamsLongitudeProperty) Name() string {
-	return "longitude"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "longitude"
+	} else {
+		return "longitude"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

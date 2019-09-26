@@ -1195,7 +1195,7 @@ type ActivityStreamsInReplyToProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsInReplyToProperty) bool
-	// Name returns the name of this property: "inReplyTo".
+	// Name returns the name of this property ("inReplyTo") with any alias.
 	Name() string
 	// PrependActivityStreamsAccept prepends a Accept value to the front of a
 	// list of the property "inReplyTo". Invalidates all iterators.

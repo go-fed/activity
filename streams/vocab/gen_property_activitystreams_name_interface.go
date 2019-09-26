@@ -157,7 +157,7 @@ type ActivityStreamsNameProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsNameProperty) bool
-	// Name returns the name of this property: "name".
+	// Name returns the name of this property ("name") with any alias.
 	Name() string
 	// PrependIRI prepends an IRI value to the front of a list of the property
 	// "name".

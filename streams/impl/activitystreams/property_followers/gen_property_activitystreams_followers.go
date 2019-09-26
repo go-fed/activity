@@ -274,7 +274,11 @@ func (this ActivityStreamsFollowersProperty) LessThan(o vocab.ActivityStreamsFol
 
 // Name returns the name of this property: "followers".
 func (this ActivityStreamsFollowersProperty) Name() string {
-	return "followers"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "followers"
+	} else {
+		return "followers"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

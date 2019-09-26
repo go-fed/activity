@@ -165,7 +165,11 @@ func (this ActivityStreamsAccuracyProperty) LessThan(o vocab.ActivityStreamsAccu
 
 // Name returns the name of this property: "accuracy".
 func (this ActivityStreamsAccuracyProperty) Name() string {
-	return "accuracy"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "accuracy"
+	} else {
+		return "accuracy"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

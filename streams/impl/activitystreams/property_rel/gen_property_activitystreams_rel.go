@@ -149,7 +149,11 @@ func (this ActivityStreamsRelPropertyIterator) LessThan(o vocab.ActivityStreamsR
 
 // Name returns the name of this property: "ActivityStreamsRel".
 func (this ActivityStreamsRelPropertyIterator) Name() string {
-	return "ActivityStreamsRel"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "ActivityStreamsRel"
+	} else {
+		return "ActivityStreamsRel"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -421,9 +425,13 @@ func (this ActivityStreamsRelProperty) LessThan(o vocab.ActivityStreamsRelProper
 	return l1 < l2
 }
 
-// Name returns the name of this property: "rel".
+// Name returns the name of this property ("rel") with any alias.
 func (this ActivityStreamsRelProperty) Name() string {
-	return "rel"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "rel"
+	} else {
+		return "rel"
+	}
 }
 
 // PrependIRI prepends an IRI value to the front of a list of the property "rel".

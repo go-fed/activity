@@ -273,7 +273,11 @@ func (this ActivityStreamsNextProperty) LessThan(o vocab.ActivityStreamsNextProp
 
 // Name returns the name of this property: "next".
 func (this ActivityStreamsNextProperty) Name() string {
-	return "next"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "next"
+	} else {
+		return "next"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

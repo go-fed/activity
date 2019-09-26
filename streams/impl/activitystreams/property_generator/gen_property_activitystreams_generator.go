@@ -1890,7 +1890,11 @@ func (this ActivityStreamsGeneratorPropertyIterator) LessThan(o vocab.ActivitySt
 
 // Name returns the name of this property: "ActivityStreamsGenerator".
 func (this ActivityStreamsGeneratorPropertyIterator) Name() string {
-	return "ActivityStreamsGenerator"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "ActivityStreamsGenerator"
+	} else {
+		return "ActivityStreamsGenerator"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -4711,9 +4715,13 @@ func (this ActivityStreamsGeneratorProperty) LessThan(o vocab.ActivityStreamsGen
 	return l1 < l2
 }
 
-// Name returns the name of this property: "generator".
+// Name returns the name of this property ("generator") with any alias.
 func (this ActivityStreamsGeneratorProperty) Name() string {
-	return "generator"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "generator"
+	} else {
+		return "generator"
+	}
 }
 
 // PrependActivityStreamsAccept prepends a Accept value to the front of a list of

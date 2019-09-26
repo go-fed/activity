@@ -166,7 +166,11 @@ func (this ActivityStreamsEndTimeProperty) LessThan(o vocab.ActivityStreamsEndTi
 
 // Name returns the name of this property: "endTime".
 func (this ActivityStreamsEndTimeProperty) Name() string {
-	return "endTime"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "endTime"
+	} else {
+		return "endTime"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

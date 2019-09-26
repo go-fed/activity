@@ -200,7 +200,11 @@ func (this ActivityStreamsUrlPropertyIterator) LessThan(o vocab.ActivityStreamsU
 
 // Name returns the name of this property: "ActivityStreamsUrl".
 func (this ActivityStreamsUrlPropertyIterator) Name() string {
-	return "ActivityStreamsUrl"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "ActivityStreamsUrl"
+	} else {
+		return "ActivityStreamsUrl"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -601,9 +605,13 @@ func (this ActivityStreamsUrlProperty) LessThan(o vocab.ActivityStreamsUrlProper
 	return l1 < l2
 }
 
-// Name returns the name of this property: "url".
+// Name returns the name of this property ("url") with any alias.
 func (this ActivityStreamsUrlProperty) Name() string {
-	return "url"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "url"
+	} else {
+		return "url"
+	}
 }
 
 // PrependActivityStreamsLink prepends a Link value to the front of a list of the

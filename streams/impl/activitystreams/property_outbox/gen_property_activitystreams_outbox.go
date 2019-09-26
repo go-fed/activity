@@ -208,7 +208,11 @@ func (this ActivityStreamsOutboxProperty) LessThan(o vocab.ActivityStreamsOutbox
 
 // Name returns the name of this property: "outbox".
 func (this ActivityStreamsOutboxProperty) Name() string {
-	return "outbox"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "outbox"
+	} else {
+		return "outbox"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

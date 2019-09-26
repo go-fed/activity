@@ -158,7 +158,7 @@ type ActivityStreamsSummaryProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsSummaryProperty) bool
-	// Name returns the name of this property: "summary".
+	// Name returns the name of this property ("summary") with any alias.
 	Name() string
 	// PrependIRI prepends an IRI value to the front of a list of the property
 	// "summary".

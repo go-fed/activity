@@ -1890,7 +1890,11 @@ func (this ActivityStreamsTargetPropertyIterator) LessThan(o vocab.ActivityStrea
 
 // Name returns the name of this property: "ActivityStreamsTarget".
 func (this ActivityStreamsTargetPropertyIterator) Name() string {
-	return "ActivityStreamsTarget"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "ActivityStreamsTarget"
+	} else {
+		return "ActivityStreamsTarget"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -4702,9 +4706,13 @@ func (this ActivityStreamsTargetProperty) LessThan(o vocab.ActivityStreamsTarget
 	return l1 < l2
 }
 
-// Name returns the name of this property: "target".
+// Name returns the name of this property ("target") with any alias.
 func (this ActivityStreamsTargetProperty) Name() string {
-	return "target"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "target"
+	} else {
+		return "target"
+	}
 }
 
 // PrependActivityStreamsAccept prepends a Accept value to the front of a list of

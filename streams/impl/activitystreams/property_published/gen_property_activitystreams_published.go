@@ -166,7 +166,11 @@ func (this ActivityStreamsPublishedProperty) LessThan(o vocab.ActivityStreamsPub
 
 // Name returns the name of this property: "published".
 func (this ActivityStreamsPublishedProperty) Name() string {
-	return "published"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "published"
+	} else {
+		return "published"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

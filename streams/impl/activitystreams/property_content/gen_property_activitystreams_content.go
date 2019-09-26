@@ -536,7 +536,7 @@ func (this ActivityStreamsContentProperty) LessThan(o vocab.ActivityStreamsConte
 	return l1 < l2
 }
 
-// Name returns the name of this property: "content".
+// Name returns the name of this property ("content") with any alias.
 func (this ActivityStreamsContentProperty) Name() string {
 	if this.Len() == 1 && this.At(0).IsRDFLangString() {
 		return "contentMap"

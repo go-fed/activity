@@ -166,7 +166,11 @@ func (this ActivityStreamsHeightProperty) LessThan(o vocab.ActivityStreamsHeight
 
 // Name returns the name of this property: "height".
 func (this ActivityStreamsHeightProperty) Name() string {
-	return "height"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "height"
+	} else {
+		return "height"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

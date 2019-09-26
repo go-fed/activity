@@ -171,7 +171,11 @@ func (this ActivityStreamsUnitsProperty) LessThan(o vocab.ActivityStreamsUnitsPr
 
 // Name returns the name of this property: "units".
 func (this ActivityStreamsUnitsProperty) Name() string {
-	return "units"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "units"
+	} else {
+		return "units"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

@@ -166,7 +166,11 @@ func (this ActivityStreamsStartIndexProperty) LessThan(o vocab.ActivityStreamsSt
 
 // Name returns the name of this property: "startIndex".
 func (this ActivityStreamsStartIndexProperty) Name() string {
-	return "startIndex"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "startIndex"
+	} else {
+		return "startIndex"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

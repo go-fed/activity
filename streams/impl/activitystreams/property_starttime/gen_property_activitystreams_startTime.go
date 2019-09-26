@@ -166,7 +166,11 @@ func (this ActivityStreamsStartTimeProperty) LessThan(o vocab.ActivityStreamsSta
 
 // Name returns the name of this property: "startTime".
 func (this ActivityStreamsStartTimeProperty) Name() string {
-	return "startTime"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "startTime"
+	} else {
+		return "startTime"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

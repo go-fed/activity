@@ -274,7 +274,11 @@ func (this ActivityStreamsRepliesProperty) LessThan(o vocab.ActivityStreamsRepli
 
 // Name returns the name of this property: "replies".
 func (this ActivityStreamsRepliesProperty) Name() string {
-	return "replies"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "replies"
+	} else {
+		return "replies"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

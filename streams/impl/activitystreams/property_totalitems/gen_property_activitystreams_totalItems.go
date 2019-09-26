@@ -166,7 +166,11 @@ func (this ActivityStreamsTotalItemsProperty) LessThan(o vocab.ActivityStreamsTo
 
 // Name returns the name of this property: "totalItems".
 func (this ActivityStreamsTotalItemsProperty) Name() string {
-	return "totalItems"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "totalItems"
+	} else {
+		return "totalItems"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

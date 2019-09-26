@@ -1959,7 +1959,11 @@ func (this ActivityStreamsSubjectProperty) LessThan(o vocab.ActivityStreamsSubje
 
 // Name returns the name of this property: "subject".
 func (this ActivityStreamsSubjectProperty) Name() string {
-	return "subject"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "subject"
+	} else {
+		return "subject"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

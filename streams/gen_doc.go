@@ -1,7 +1,7 @@
-// Package streams contains constructors and functions necessary for applications
-// to serialize, deserialize, and use ActivityStreams types in Go. This
-// package is code-generated and subject to the same license as the go-fed
-// tool used to generate it.
+// Package  contains constructors and functions necessary for applications to
+// serialize, deserialize, and use ActivityStreams types in Go. This package
+// is code-generated and subject to the same license as the go-fed tool used
+// to generate it.
 //
 // This package is useful to three classes of developers: end-user-application
 // developers, specification writers creating an ActivityStream Extension, and

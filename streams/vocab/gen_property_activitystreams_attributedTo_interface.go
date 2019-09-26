@@ -1204,7 +1204,7 @@ type ActivityStreamsAttributedToProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsAttributedToProperty) bool
-	// Name returns the name of this property: "attributedTo".
+	// Name returns the name of this property ("attributedTo") with any alias.
 	Name() string
 	// PrependActivityStreamsAccept prepends a Accept value to the front of a
 	// list of the property "attributedTo". Invalidates all iterators.

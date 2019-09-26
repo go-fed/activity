@@ -1889,7 +1889,11 @@ func (this ActivityStreamsBccPropertyIterator) LessThan(o vocab.ActivityStreamsB
 
 // Name returns the name of this property: "ActivityStreamsBcc".
 func (this ActivityStreamsBccPropertyIterator) Name() string {
-	return "ActivityStreamsBcc"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "ActivityStreamsBcc"
+	} else {
+		return "ActivityStreamsBcc"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -4699,9 +4703,13 @@ func (this ActivityStreamsBccProperty) LessThan(o vocab.ActivityStreamsBccProper
 	return l1 < l2
 }
 
-// Name returns the name of this property: "bcc".
+// Name returns the name of this property ("bcc") with any alias.
 func (this ActivityStreamsBccProperty) Name() string {
-	return "bcc"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "bcc"
+	} else {
+		return "bcc"
+	}
 }
 
 // PrependActivityStreamsAccept prepends a Accept value to the front of a list of

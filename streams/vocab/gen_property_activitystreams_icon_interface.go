@@ -193,7 +193,7 @@ type ActivityStreamsIconProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsIconProperty) bool
-	// Name returns the name of this property: "icon".
+	// Name returns the name of this property ("icon") with any alias.
 	Name() string
 	// PrependActivityStreamsImage prepends a Image value to the front of a
 	// list of the property "icon". Invalidates all iterators.

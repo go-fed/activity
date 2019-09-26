@@ -353,7 +353,7 @@ func IsOrExtendsPublicKey(other vocab.Type) bool {
 // NewW3IDSecurityV1PublicKey creates a new PublicKey type
 func NewW3IDSecurityV1PublicKey() *W3IDSecurityV1PublicKey {
 	typeProp := typePropertyConstructor()
-	typeProp.AppendXMLSchemaString("PublicKey")
+	typeProp.AppendXMLSchemaString("widsv" + ":" + "PublicKey")
 	return &W3IDSecurityV1PublicKey{
 		ActivityStreamsType: typeProp,
 		alias:               "widsv",

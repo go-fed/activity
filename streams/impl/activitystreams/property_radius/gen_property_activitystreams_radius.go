@@ -165,7 +165,11 @@ func (this ActivityStreamsRadiusProperty) LessThan(o vocab.ActivityStreamsRadius
 
 // Name returns the name of this property: "radius".
 func (this ActivityStreamsRadiusProperty) Name() string {
-	return "radius"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "radius"
+	} else {
+		return "radius"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

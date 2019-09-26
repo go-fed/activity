@@ -166,7 +166,11 @@ func (this ActivityStreamsWidthProperty) LessThan(o vocab.ActivityStreamsWidthPr
 
 // Name returns the name of this property: "width".
 func (this ActivityStreamsWidthProperty) Name() string {
-	return "width"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "width"
+	} else {
+		return "width"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

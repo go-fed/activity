@@ -274,7 +274,11 @@ func (this ActivityStreamsLikedProperty) LessThan(o vocab.ActivityStreamsLikedPr
 
 // Name returns the name of this property: "liked".
 func (this ActivityStreamsLikedProperty) Name() string {
-	return "liked"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "liked"
+	} else {
+		return "liked"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

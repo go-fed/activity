@@ -273,7 +273,11 @@ func (this ActivityStreamsFirstProperty) LessThan(o vocab.ActivityStreamsFirstPr
 
 // Name returns the name of this property: "first".
 func (this ActivityStreamsFirstProperty) Name() string {
-	return "first"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "first"
+	} else {
+		return "first"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

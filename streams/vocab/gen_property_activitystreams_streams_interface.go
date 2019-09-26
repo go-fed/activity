@@ -185,7 +185,7 @@ type ActivityStreamsStreamsProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsStreamsProperty) bool
-	// Name returns the name of this property: "streams".
+	// Name returns the name of this property ("streams") with any alias.
 	Name() string
 	// PrependActivityStreamsCollection prepends a Collection value to the
 	// front of a list of the property "streams". Invalidates all

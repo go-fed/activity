@@ -189,7 +189,7 @@ type ActivityStreamsUrlProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsUrlProperty) bool
-	// Name returns the name of this property: "url".
+	// Name returns the name of this property ("url") with any alias.
 	Name() string
 	// PrependActivityStreamsLink prepends a Link value to the front of a list
 	// of the property "url". Invalidates all iterators.

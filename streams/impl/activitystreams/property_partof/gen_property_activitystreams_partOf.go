@@ -340,7 +340,11 @@ func (this ActivityStreamsPartOfProperty) LessThan(o vocab.ActivityStreamsPartOf
 
 // Name returns the name of this property: "partOf".
 func (this ActivityStreamsPartOfProperty) Name() string {
-	return "partOf"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "partOf"
+	} else {
+		return "partOf"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

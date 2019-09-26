@@ -156,7 +156,11 @@ func (this ActivityStreamsTypePropertyIterator) LessThan(o vocab.ActivityStreams
 
 // Name returns the name of this property: "ActivityStreamsType".
 func (this ActivityStreamsTypePropertyIterator) Name() string {
-	return "ActivityStreamsType"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "ActivityStreamsType"
+	} else {
+		return "ActivityStreamsType"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -466,9 +470,13 @@ func (this ActivityStreamsTypeProperty) LessThan(o vocab.ActivityStreamsTypeProp
 	return l1 < l2
 }
 
-// Name returns the name of this property: "type".
+// Name returns the name of this property ("type") with any alias.
 func (this ActivityStreamsTypeProperty) Name() string {
-	return "type"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "type"
+	} else {
+		return "type"
+	}
 }
 
 // PrependIRI prepends an IRI value to the front of a list of the property "type".

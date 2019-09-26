@@ -1155,7 +1155,7 @@ type ActivityStreamsRelationshipProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsRelationshipProperty) bool
-	// Name returns the name of this property: "relationship".
+	// Name returns the name of this property ("relationship") with any alias.
 	Name() string
 	// PrependActivityStreamsAccept prepends a Accept value to the front of a
 	// list of the property "relationship". Invalidates all iterators.

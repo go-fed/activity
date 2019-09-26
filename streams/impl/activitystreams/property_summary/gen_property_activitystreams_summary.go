@@ -536,7 +536,7 @@ func (this ActivityStreamsSummaryProperty) LessThan(o vocab.ActivityStreamsSumma
 	return l1 < l2
 }
 
-// Name returns the name of this property: "summary".
+// Name returns the name of this property ("summary") with any alias.
 func (this ActivityStreamsSummaryProperty) Name() string {
 	if this.Len() == 1 && this.At(0).IsRDFLangString() {
 		return "summaryMap"

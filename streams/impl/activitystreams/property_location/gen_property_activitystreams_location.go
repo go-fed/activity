@@ -1890,7 +1890,11 @@ func (this ActivityStreamsLocationPropertyIterator) LessThan(o vocab.ActivityStr
 
 // Name returns the name of this property: "ActivityStreamsLocation".
 func (this ActivityStreamsLocationPropertyIterator) Name() string {
-	return "ActivityStreamsLocation"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "ActivityStreamsLocation"
+	} else {
+		return "ActivityStreamsLocation"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -4711,9 +4715,13 @@ func (this ActivityStreamsLocationProperty) LessThan(o vocab.ActivityStreamsLoca
 	return l1 < l2
 }
 
-// Name returns the name of this property: "location".
+// Name returns the name of this property ("location") with any alias.
 func (this ActivityStreamsLocationProperty) Name() string {
-	return "location"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "location"
+	} else {
+		return "location"
+	}
 }
 
 // PrependActivityStreamsAccept prepends a Accept value to the front of a list of

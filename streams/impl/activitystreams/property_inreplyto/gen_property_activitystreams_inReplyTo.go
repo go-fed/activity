@@ -1890,7 +1890,11 @@ func (this ActivityStreamsInReplyToPropertyIterator) LessThan(o vocab.ActivitySt
 
 // Name returns the name of this property: "ActivityStreamsInReplyTo".
 func (this ActivityStreamsInReplyToPropertyIterator) Name() string {
-	return "ActivityStreamsInReplyTo"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "ActivityStreamsInReplyTo"
+	} else {
+		return "ActivityStreamsInReplyTo"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -4711,9 +4715,13 @@ func (this ActivityStreamsInReplyToProperty) LessThan(o vocab.ActivityStreamsInR
 	return l1 < l2
 }
 
-// Name returns the name of this property: "inReplyTo".
+// Name returns the name of this property ("inReplyTo") with any alias.
 func (this ActivityStreamsInReplyToProperty) Name() string {
-	return "inReplyTo"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "inReplyTo"
+	} else {
+		return "inReplyTo"
+	}
 }
 
 // PrependActivityStreamsAccept prepends a Accept value to the front of a list of

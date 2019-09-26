@@ -1893,7 +1893,11 @@ func (this ActivityStreamsDescribesProperty) LessThan(o vocab.ActivityStreamsDes
 
 // Name returns the name of this property: "describes".
 func (this ActivityStreamsDescribesProperty) Name() string {
-	return "describes"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "describes"
+	} else {
+		return "describes"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

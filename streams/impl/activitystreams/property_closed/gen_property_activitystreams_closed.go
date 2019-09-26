@@ -1951,7 +1951,11 @@ func (this ActivityStreamsClosedPropertyIterator) LessThan(o vocab.ActivityStrea
 
 // Name returns the name of this property: "ActivityStreamsClosed".
 func (this ActivityStreamsClosedPropertyIterator) Name() string {
-	return "ActivityStreamsClosed"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "ActivityStreamsClosed"
+	} else {
+		return "ActivityStreamsClosed"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -4853,9 +4857,13 @@ func (this ActivityStreamsClosedProperty) LessThan(o vocab.ActivityStreamsClosed
 	return l1 < l2
 }
 
-// Name returns the name of this property: "closed".
+// Name returns the name of this property ("closed") with any alias.
 func (this ActivityStreamsClosedProperty) Name() string {
-	return "closed"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "closed"
+	} else {
+		return "closed"
+	}
 }
 
 // PrependActivityStreamsAccept prepends a Accept value to the front of a list of

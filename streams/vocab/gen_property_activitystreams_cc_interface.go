@@ -1176,7 +1176,7 @@ type ActivityStreamsCcProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsCcProperty) bool
-	// Name returns the name of this property: "cc".
+	// Name returns the name of this property ("cc") with any alias.
 	Name() string
 	// PrependActivityStreamsAccept prepends a Accept value to the front of a
 	// list of the property "cc". Invalidates all iterators.

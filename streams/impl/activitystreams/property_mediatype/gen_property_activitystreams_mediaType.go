@@ -165,7 +165,11 @@ func (this ActivityStreamsMediaTypeProperty) LessThan(o vocab.ActivityStreamsMed
 
 // Name returns the name of this property: "mediaType".
 func (this ActivityStreamsMediaTypeProperty) Name() string {
-	return "mediaType"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "mediaType"
+	} else {
+		return "mediaType"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

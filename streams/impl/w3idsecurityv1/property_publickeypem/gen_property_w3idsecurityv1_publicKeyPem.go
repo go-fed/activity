@@ -166,7 +166,11 @@ func (this W3IDSecurityV1PublicKeyPemProperty) LessThan(o vocab.W3IDSecurityV1Pu
 
 // Name returns the name of this property: "publicKeyPem".
 func (this W3IDSecurityV1PublicKeyPemProperty) Name() string {
-	return "publicKeyPem"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "publicKeyPem"
+	} else {
+		return "publicKeyPem"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

@@ -1216,7 +1216,7 @@ type ActivityStreamsClosedProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsClosedProperty) bool
-	// Name returns the name of this property: "closed".
+	// Name returns the name of this property ("closed") with any alias.
 	Name() string
 	// PrependActivityStreamsAccept prepends a Accept value to the front of a
 	// list of the property "closed". Invalidates all iterators.

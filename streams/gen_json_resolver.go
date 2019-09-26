@@ -164,6 +164,7 @@ func toAliasMap(i interface{}) (m map[string]string) {
 	switch v := i.(type) {
 	case string:
 		// Single entry, no alias.
+
 		if ok, http, https := toHttpHttpsFn(v); ok {
 			m[http] = ""
 			m[https] = ""
@@ -172,6 +173,7 @@ func toAliasMap(i interface{}) (m map[string]string) {
 		}
 	case []interface{}:
 		// Recursively apply.
+
 		for _, elem := range v {
 			r := toAliasMap(elem)
 			for k, val := range r {
@@ -180,6 +182,7 @@ func toAliasMap(i interface{}) (m map[string]string) {
 		}
 	case map[string]interface{}:
 		// Map any aliases.
+
 		for k, val := range v {
 			// Only handle string aliases.
 			switch conc := val.(type) {

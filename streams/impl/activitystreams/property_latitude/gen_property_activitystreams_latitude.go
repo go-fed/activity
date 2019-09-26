@@ -165,7 +165,11 @@ func (this ActivityStreamsLatitudeProperty) LessThan(o vocab.ActivityStreamsLati
 
 // Name returns the name of this property: "latitude".
 func (this ActivityStreamsLatitudeProperty) Name() string {
-	return "latitude"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "latitude"
+	} else {
+		return "latitude"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

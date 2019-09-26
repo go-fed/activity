@@ -165,7 +165,11 @@ func (this ActivityStreamsHreflangProperty) LessThan(o vocab.ActivityStreamsHref
 
 // Name returns the name of this property: "hreflang".
 func (this ActivityStreamsHreflangProperty) Name() string {
-	return "hreflang"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "hreflang"
+	} else {
+		return "hreflang"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

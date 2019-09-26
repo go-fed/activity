@@ -161,7 +161,11 @@ func (this W3IDSecurityV1PublicKeyPropertyIterator) LessThan(o vocab.W3IDSecurit
 
 // Name returns the name of this property: "W3IDSecurityV1PublicKey".
 func (this W3IDSecurityV1PublicKeyPropertyIterator) Name() string {
-	return "W3IDSecurityV1PublicKey"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "W3IDSecurityV1PublicKey"
+	} else {
+		return "W3IDSecurityV1PublicKey"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -479,9 +483,13 @@ func (this W3IDSecurityV1PublicKeyProperty) LessThan(o vocab.W3IDSecurityV1Publi
 	return l1 < l2
 }
 
-// Name returns the name of this property: "publicKey".
+// Name returns the name of this property ("publicKey") with any alias.
 func (this W3IDSecurityV1PublicKeyProperty) Name() string {
-	return "publicKey"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "publicKey"
+	} else {
+		return "publicKey"
+	}
 }
 
 // PrependIRI prepends an IRI value to the front of a list of the property

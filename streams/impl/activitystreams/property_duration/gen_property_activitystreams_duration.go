@@ -166,7 +166,11 @@ func (this ActivityStreamsDurationProperty) LessThan(o vocab.ActivityStreamsDura
 
 // Name returns the name of this property: "duration".
 func (this ActivityStreamsDurationProperty) Name() string {
-	return "duration"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "duration"
+	} else {
+		return "duration"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

@@ -166,7 +166,11 @@ func (this ActivityStreamsUpdatedProperty) LessThan(o vocab.ActivityStreamsUpdat
 
 // Name returns the name of this property: "updated".
 func (this ActivityStreamsUpdatedProperty) Name() string {
-	return "updated"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "updated"
+	} else {
+		return "updated"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

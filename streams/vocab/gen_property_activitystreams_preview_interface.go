@@ -1184,7 +1184,7 @@ type ActivityStreamsPreviewProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsPreviewProperty) bool
-	// Name returns the name of this property: "preview".
+	// Name returns the name of this property ("preview") with any alias.
 	Name() string
 	// PrependActivityStreamsAccept prepends a Accept value to the front of a
 	// list of the property "preview". Invalidates all iterators.

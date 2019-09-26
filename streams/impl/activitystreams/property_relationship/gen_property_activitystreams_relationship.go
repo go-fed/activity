@@ -1826,7 +1826,11 @@ func (this ActivityStreamsRelationshipPropertyIterator) LessThan(o vocab.Activit
 
 // Name returns the name of this property: "ActivityStreamsRelationship".
 func (this ActivityStreamsRelationshipPropertyIterator) Name() string {
-	return "ActivityStreamsRelationship"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "ActivityStreamsRelationship"
+	} else {
+		return "ActivityStreamsRelationship"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -4592,9 +4596,13 @@ func (this ActivityStreamsRelationshipProperty) LessThan(o vocab.ActivityStreams
 	return l1 < l2
 }
 
-// Name returns the name of this property: "relationship".
+// Name returns the name of this property ("relationship") with any alias.
 func (this ActivityStreamsRelationshipProperty) Name() string {
-	return "relationship"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "relationship"
+	} else {
+		return "relationship"
+	}
 }
 
 // PrependActivityStreamsAccept prepends a Accept value to the front of a list of

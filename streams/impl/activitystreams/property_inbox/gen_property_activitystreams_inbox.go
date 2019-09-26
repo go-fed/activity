@@ -208,7 +208,11 @@ func (this ActivityStreamsInboxProperty) LessThan(o vocab.ActivityStreamsInboxPr
 
 // Name returns the name of this property: "inbox".
 func (this ActivityStreamsInboxProperty) Name() string {
-	return "inbox"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "inbox"
+	} else {
+		return "inbox"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

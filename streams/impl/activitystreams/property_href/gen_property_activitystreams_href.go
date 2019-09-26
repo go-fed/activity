@@ -146,7 +146,11 @@ func (this ActivityStreamsHrefProperty) LessThan(o vocab.ActivityStreamsHrefProp
 
 // Name returns the name of this property: "href".
 func (this ActivityStreamsHrefProperty) Name() string {
-	return "href"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "href"
+	} else {
+		return "href"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

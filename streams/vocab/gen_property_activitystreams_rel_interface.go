@@ -113,7 +113,7 @@ type ActivityStreamsRelProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsRelProperty) bool
-	// Name returns the name of this property: "rel".
+	// Name returns the name of this property ("rel") with any alias.
 	Name() string
 	// PrependIRI prepends an IRI value to the front of a list of the property
 	// "rel".

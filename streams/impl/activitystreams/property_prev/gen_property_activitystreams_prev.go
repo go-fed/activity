@@ -273,7 +273,11 @@ func (this ActivityStreamsPrevProperty) LessThan(o vocab.ActivityStreamsPrevProp
 
 // Name returns the name of this property: "prev".
 func (this ActivityStreamsPrevProperty) Name() string {
-	return "prev"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "prev"
+	} else {
+		return "prev"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

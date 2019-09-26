@@ -146,7 +146,11 @@ func (this W3IDSecurityV1OwnerProperty) LessThan(o vocab.W3IDSecurityV1OwnerProp
 
 // Name returns the name of this property: "owner".
 func (this W3IDSecurityV1OwnerProperty) Name() string {
-	return "owner"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "owner"
+	} else {
+		return "owner"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

@@ -186,7 +186,7 @@ type ActivityStreamsImageProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsImageProperty) bool
-	// Name returns the name of this property: "image".
+	// Name returns the name of this property ("image") with any alias.
 	Name() string
 	// PrependActivityStreamsImage prepends a Image value to the front of a
 	// list of the property "image". Invalidates all iterators.

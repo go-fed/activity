@@ -221,7 +221,11 @@ func (this ActivityStreamsImagePropertyIterator) LessThan(o vocab.ActivityStream
 
 // Name returns the name of this property: "ActivityStreamsImage".
 func (this ActivityStreamsImagePropertyIterator) Name() string {
-	return "ActivityStreamsImage"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "ActivityStreamsImage"
+	} else {
+		return "ActivityStreamsImage"
+	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
@@ -629,9 +633,13 @@ func (this ActivityStreamsImageProperty) LessThan(o vocab.ActivityStreamsImagePr
 	return l1 < l2
 }
 
-// Name returns the name of this property: "image".
+// Name returns the name of this property ("image") with any alias.
 func (this ActivityStreamsImageProperty) Name() string {
-	return "image"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "image"
+	} else {
+		return "image"
+	}
 }
 
 // PrependActivityStreamsImage prepends a Image value to the front of a list of

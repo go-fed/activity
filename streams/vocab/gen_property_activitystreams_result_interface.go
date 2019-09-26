@@ -1185,7 +1185,7 @@ type ActivityStreamsResultProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsResultProperty) bool
-	// Name returns the name of this property: "result".
+	// Name returns the name of this property ("result") with any alias.
 	Name() string
 	// PrependActivityStreamsAccept prepends a Accept value to the front of a
 	// list of the property "result". Invalidates all iterators.

@@ -274,7 +274,11 @@ func (this ActivityStreamsSharesProperty) LessThan(o vocab.ActivityStreamsShares
 
 // Name returns the name of this property: "shares".
 func (this ActivityStreamsSharesProperty) Name() string {
-	return "shares"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "shares"
+	} else {
+		return "shares"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

@@ -1188,7 +1188,7 @@ type ActivityStreamsAttachmentProperty interface {
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
 	LessThan(o ActivityStreamsAttachmentProperty) bool
-	// Name returns the name of this property: "attachment".
+	// Name returns the name of this property ("attachment") with any alias.
 	Name() string
 	// PrependActivityStreamsAccept prepends a Accept value to the front of a
 	// list of the property "attachment". Invalidates all iterators.

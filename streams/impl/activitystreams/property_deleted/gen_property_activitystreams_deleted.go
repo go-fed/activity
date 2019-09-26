@@ -166,7 +166,11 @@ func (this ActivityStreamsDeletedProperty) LessThan(o vocab.ActivityStreamsDelet
 
 // Name returns the name of this property: "deleted".
 func (this ActivityStreamsDeletedProperty) Name() string {
-	return "deleted"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "deleted"
+	} else {
+		return "deleted"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for

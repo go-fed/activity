@@ -273,7 +273,11 @@ func (this ActivityStreamsCurrentProperty) LessThan(o vocab.ActivityStreamsCurre
 
 // Name returns the name of this property: "current".
 func (this ActivityStreamsCurrentProperty) Name() string {
-	return "current"
+	if len(this.alias) > 0 {
+		return this.alias + ":" + "current"
+	} else {
+		return "current"
+	}
 }
 
 // Serialize converts this into an interface representation suitable for
