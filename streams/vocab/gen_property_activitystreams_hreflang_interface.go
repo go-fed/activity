@@ -10,7 +10,7 @@ import "net/url"
 //     "hreflang": "en",
 //     "mediaType": "text/html",
 //     "name": "Previous",
-//     "type": "owl:Class",
+//     "type": "Link",
 //     "url": "http://example.org/abc"
 //   }
 type ActivityStreamsHreflangProperty interface {

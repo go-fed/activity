@@ -8,7 +8,7 @@ import "net/url"
 // Example 120 (https://www.w3.org/TR/activitystreams-vocabulary/#ex136-jsonld):
 //   {
 //     "height": 100,
-//     "type": "owl:Class",
+//     "type": "Link",
 //     "url": "http://example.org/image.png",
 //     "width": 100
 //   }

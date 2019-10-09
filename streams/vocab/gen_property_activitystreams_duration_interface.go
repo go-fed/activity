@@ -7,9 +7,9 @@ import (
 
 // When the object describes a time-bound resource, such as an audio or video, a
 // meeting, etc, the duration property indicates the object's approximate
-// duration. The value MUST be expressed as an xsd:duration as defined by [
-// xmlschema11-2], section 3.3.6 (e.g. a period of 5 seconds is represented as
-// "PT5S").
+// duration. The value MUST be expressed as an xsd:duration as defined by
+// [xmlschema11-2], section 3.3.6 (e.g. a period of 5 seconds is represented
+// as "PT5S").
 //
 // Example 119 (https://www.w3.org/TR/activitystreams-vocabulary/#ex134-jsonld):
 //   {

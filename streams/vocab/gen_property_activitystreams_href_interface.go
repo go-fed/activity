@@ -8,7 +8,7 @@ import "net/url"
 //   {
 //     "mediaType": "text/html",
 //     "name": "Previous",
-//     "type": "owl:Class",
+//     "type": "Link",
 //     "url": "http://example.org/abc"
 //   }
 type ActivityStreamsHrefProperty interface {

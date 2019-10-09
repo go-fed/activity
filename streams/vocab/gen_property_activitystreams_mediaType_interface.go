@@ -12,7 +12,7 @@ import "net/url"
 //     "hreflang": "en",
 //     "mediaType": "text/html",
 //     "name": "Next",
-//     "type": "owl:Class",
+//     "type": "Link",
 //     "url": "http://example.org/abc"
 //   }
 type ActivityStreamsMediaTypeProperty interface {

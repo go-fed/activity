@@ -61,7 +61,7 @@ type ActivityStreamsRelPropertyIterator interface {
 //       "canonical",
 //       "preview"
 //     ],
-//     "type": "owl:Class",
+//     "type": "Link",
 //     "url": "http://example.org/abc"
 //   }
 type ActivityStreamsRelProperty interface {

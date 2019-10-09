@@ -9,12 +9,12 @@ package vocab
 //     "url": [
 //       {
 //         "mediaType": "image/jpeg",
-//         "type": "owl:Class",
+//         "type": "Link",
 //         "url": "http://example.org/image.jpeg"
 //       },
 //       {
 //         "mediaType": "image/png",
-//         "type": "owl:Class",
+//         "type": "Link",
 //         "url": "http://example.org/image.png"
 //       }
 //     ]
