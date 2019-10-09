@@ -1150,7 +1150,7 @@
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex2-jsonld",
             "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "owl:Class",
+              "type": "Link",
               "url": "http://example.org/abc",
               "hreflang": "en",
               "mediaType": "text/html",
@@ -1158,7 +1158,7 @@
             },
             "name": "Example 2"
           },
-          "notes": "A Link is an indirect, qualified reference to a resource identified by a URL. The fundamental model for links is established by [ RFC5988]. Many of the properties defined by the Activity Vocabulary allow values that are either instances of Object or Link. When a Link is used, it establishes a qualified relation connecting the subject (the containing object) to the resource identified by the href. Properties of the Link are properties of the reference as opposed to properties of the resource.",
+          "notes": "A Link is an indirect, qualified reference to a resource identified by a URL. The fundamental model for links is established by [RFC5988]. Many of the properties defined by the Activity Vocabulary allow values that are either instances of Object or Link. When a Link is used, it establishes a qualified relation connecting the subject (the containing object) to the resource identified by the href. Properties of the Link are properties of the reference as opposed to properties of the resource.",
           "disjointWith": {
             "type": "owl:Class",
             "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
@@ -1489,12 +1489,12 @@
               "name": "Cat Jumping on Wagon",
               "url": [
                 {
-                  "type": "owl:Class",
+                  "type": "Link",
                   "url": "http://example.org/image.jpeg",
                   "mediaType": "image/jpeg"
                 },
                 {
-                  "type": "owl:Class",
+                  "type": "Link",
                   "url": "http://example.org/image.png",
                   "mediaType": "image/png"
                 }
@@ -3963,7 +3963,7 @@
             },
             "name": "Example 119"
           },
-          "notes": "When the object describes a time-bound resource, such as an audio or video, a meeting, etc, the duration property indicates the object's approximate duration. The value MUST be expressed as an xsd:duration as defined by [ xmlschema11-2], section 3.3.6 (e.g. a period of 5 seconds is represented as \"PT5S\").",
+          "notes": "When the object describes a time-bound resource, such as an audio or video, a meeting, etc, the duration property indicates the object's approximate duration. The value MUST be expressed as an xsd:duration as defined by [xmlschema11-2], section 3.3.6 (e.g. a period of 5 seconds is represented as \"PT5S\").",
           "domain": {
             "type": "owl:Class",
             "unionOf": {
@@ -3990,7 +3990,7 @@
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex136-jsonld",
             "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "owl:Class",
+              "type": "Link",
               "height": 100,
               "url": "http://example.org/image.png",
               "width": 100
@@ -4031,7 +4031,7 @@
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex137-jsonld",
             "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "owl:Class",
+              "type": "Link",
               "url": "http://example.org/abc",
               "mediaType": "text/html",
               "name": "Previous"
@@ -4065,7 +4065,7 @@
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex138-jsonld",
             "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "owl:Class",
+              "type": "Link",
               "url": "http://example.org/abc",
               "hreflang": "en",
               "mediaType": "text/html",
@@ -4228,7 +4228,7 @@
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex142-jsonld",
             "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "owl:Class",
+              "type": "Link",
               "url": "http://example.org/abc",
               "hreflang": "en",
               "mediaType": "text/html",
@@ -4408,7 +4408,7 @@
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex149-jsonld",
             "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "owl:Class",
+              "type": "Link",
               "url": "http://example.org/abc",
               "hreflang": "en",
               "mediaType": "text/html",
@@ -4666,7 +4666,7 @@
             "id": "https://www.w3.org/TR/activitystreams-vocabulary/#ex159-jsonld",
             "type": "http://schema.org/CreativeWork",
             "mainEntity": {
-              "type": "owl:Class",
+              "type": "Link",
               "height": 100,
               "url": "http://example.org/image.png",
               "width": 100
