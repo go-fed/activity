@@ -20,7 +20,7 @@ type W3IDSecurityV1PublicKeyPropertyIterator struct {
 // NewW3IDSecurityV1PublicKeyPropertyIterator creates a new
 // W3IDSecurityV1PublicKey property.
 func NewW3IDSecurityV1PublicKeyPropertyIterator() *W3IDSecurityV1PublicKeyPropertyIterator {
-	return &W3IDSecurityV1PublicKeyPropertyIterator{alias: "widsv"}
+	return &W3IDSecurityV1PublicKeyPropertyIterator{alias: ""}
 }
 
 // deserializeW3IDSecurityV1PublicKeyPropertyIterator creates an iterator from an
@@ -284,7 +284,7 @@ func DeserializePublicKeyProperty(m map[string]interface{}, aliasMap map[string]
 
 // NewW3IDSecurityV1PublicKeyProperty creates a new publicKey property.
 func NewW3IDSecurityV1PublicKeyProperty() *W3IDSecurityV1PublicKeyProperty {
-	return &W3IDSecurityV1PublicKeyProperty{alias: "widsv"}
+	return &W3IDSecurityV1PublicKeyProperty{alias: ""}
 }
 
 // AppendIRI appends an IRI value to the back of a list of the property "publicKey"

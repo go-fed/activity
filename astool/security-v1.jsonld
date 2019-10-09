@@ -41,7 +41,8 @@
         }
       ],
       "name": "PublicKey",
-      "url": "https://w3id.org/security/v1#PublicKey"
+      "url": "https://w3id.org/security/v1#PublicKey",
+      "@wtf_typeless": true
     },
     {
       "id": "https://w3id.org/security/v1#dfn-publickey",

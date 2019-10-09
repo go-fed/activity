@@ -64,7 +64,7 @@ func DeserializePublicKeyPemProperty(m map[string]interface{}, aliasMap map[stri
 
 // NewW3IDSecurityV1PublicKeyPemProperty creates a new publicKeyPem property.
 func NewW3IDSecurityV1PublicKeyPemProperty() *W3IDSecurityV1PublicKeyPemProperty {
-	return &W3IDSecurityV1PublicKeyPemProperty{alias: "widsv"}
+	return &W3IDSecurityV1PublicKeyPemProperty{alias: ""}
 }
 
 // Clear ensures no value of this property is set. Calling IsXMLSchemaString

@@ -10,7 +10,6 @@ import (
 	"net/url"
 	"sort"
 	"strings"
-	"unicode"
 )
 
 const (
@@ -575,6 +574,11 @@ func (c *Converter) convertType(t rdf.VocabularyType,
 			wop = append(wop, property)
 		}
 	}
+	// Special case: this type is actually typeless, so ignore the "type"
+	// property.
+	if t.IsTypeless() {
+		wop = append(wop, c.typeProperty)
+	}
 	// Determine what this type extends
 	var ext []*gen.TypeGenerator
 	for _, ex := range t.Extends {
@@ -639,7 +643,7 @@ func (c *Converter) convertType(t rdf.VocabularyType,
 	tg, e = gen.NewTypeGenerator(
 		v.GetName(),
 		v.URI,
-		vocabNameToAlias(v.GetName()),
+		v.GetWellKnownAlias(),
 		pm,
 		name,
 		comment,
@@ -647,7 +651,8 @@ func (c *Converter) convertType(t rdf.VocabularyType,
 		wop,
 		rangeProps,
 		ext,
-		disjoint)
+		disjoint,
+		t.IsTypeless())
 	return
 }
 
@@ -679,7 +684,7 @@ func (c *Converter) convertFunctionalProperty(p rdf.VocabularyProperty,
 	fp, e = gen.NewFunctionalPropertyGenerator(
 		v.GetName(),
 		v.URI,
-		vocabNameToAlias(v.GetName()),
+		v.GetWellKnownAlias(),
 		pm,
 		toIdentifier(p),
 		comment,
@@ -724,7 +729,7 @@ func (c *Converter) convertNonFunctionalProperty(p rdf.VocabularyProperty,
 	nfp, e = gen.NewNonFunctionalPropertyGenerator(
 		v.GetName(),
 		v.URI,
-		vocabNameToAlias(v.GetName()),
+		v.GetWellKnownAlias(),
 		pm,
 		toIdentifier(p),
 		comment,
@@ -1414,20 +1419,4 @@ func backPopulateProperty(r *rdf.RDFRegistry, p rdf.VocabularyProperty, genRefs 
 		t.AddRangeProperty(fp)
 	}
 	return
-}
-
-// vocabName turns a vocabulary name into an alias based on the capitalization
-// of the name. Note that "ActivityStreams" will not be aliased, it will return
-// an empty string.
-func vocabNameToAlias(name string) string {
-	if strings.ToLower(name) == "activitystreams" {
-		return ""
-	}
-	s := ""
-	for _, r := range name {
-		if unicode.IsUpper(r) {
-			s += string(r)
-		}
-	}
-	return strings.ToLower(s)
 }

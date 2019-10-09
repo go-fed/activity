@@ -143,6 +143,7 @@ type TypeGenerator struct {
 	rangeProperties   []Property
 	extends           []*TypeGenerator
 	disjoint          []*TypeGenerator
+	typeless          bool
 	extendedBy        []*TypeGenerator
 	m                 *ManagerGenerator
 	cacheOnce         sync.Once
@@ -175,7 +176,8 @@ func NewTypeGenerator(vocabName string,
 	pm *PackageManager,
 	typeName, comment string,
 	properties, withoutProperties, rangeProperties []Property,
-	extends, disjoint []*TypeGenerator) (*TypeGenerator, error) {
+	extends, disjoint []*TypeGenerator,
+	typeless bool) (*TypeGenerator, error) {
 	t := &TypeGenerator{
 		vocabName:         vocabName,
 		vocabURI:          vocabURI,
@@ -188,6 +190,7 @@ func NewTypeGenerator(vocabName string,
 		rangeProperties:   rangeProperties,
 		extends:           extends,
 		disjoint:          disjoint,
+		typeless:          typeless,
 	}
 	for _, property := range properties {
 		if err := t.AddPropertyGenerator(property); err != nil {
@@ -745,6 +748,23 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 			jen.Id("m").Index(jen.Id("k")).Op("=").Id("v"),
 		),
 	).Line().Commentf("End: Serialize unknown properties").Line()
+	header := jen.Id("m").Op(":=").Make(
+		jen.Map(jen.String()).Interface(),
+	)
+	if !t.typeless {
+		header = jen.Empty().Add(
+			jen.Id("m").Op(":=").Make(
+				jen.Map(jen.String()).Interface(),
+			).Line(),
+			jen.Id("typeName").Op(":=").Lit(t.TypeName()).Line(),
+			jen.If(
+				jen.Len(jen.Id(codegen.This()).Dot(aliasMember)).Op(">").Lit(0),
+			).Block(
+				jen.Id("typeName").Op("=").Id(codegen.This()).Dot(aliasMember).Op("+").Lit(":").Op("+").Lit(t.TypeName()),
+			).Line(),
+			jen.Id("m").Index(jen.Lit("type")).Op("=").Id("typeName"),
+		)
+	}
 	ser = codegen.NewCommentedValueMethod(
 		t.PrivatePackage().Path(),
 		serializeMethodName,
@@ -752,16 +772,7 @@ func (t *TypeGenerator) serializationMethod() (ser *codegen.Method) {
 		/*params=*/ nil,
 		[]jen.Code{jen.Map(jen.String()).Interface(), jen.Error()},
 		[]jen.Code{
-			jen.Id("m").Op(":=").Make(
-				jen.Map(jen.String()).Interface(),
-			),
-			jen.Id("typeName").Op(":=").Lit(t.TypeName()),
-			jen.If(
-				jen.Len(jen.Id(codegen.This()).Dot(aliasMember)).Op(">").Lit(0),
-			).Block(
-				jen.Id("typeName").Op("=").Id(codegen.This()).Dot(aliasMember).Op("+").Lit(":").Op("+").Lit(t.TypeName()),
-			),
-			jen.Id("m").Index(jen.Lit("type")).Op("=").Id("typeName"),
+			header,
 			serCode,
 			unknownCode,
 			jen.Return(jen.Id("m"), jen.Nil()),
@@ -901,14 +912,29 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 		knownProps,
 		jen.Id(codegen.This()).Dot(unknownMember).Index(jen.Id("k")).Op("=").Id("v"),
 	).Line().Commentf("End: Unknown deserialization").Line()
-	deser = codegen.NewCommentedFunction(
-		t.PrivatePackage().Path(),
-		t.deserializationFnName(),
-		[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("aliasMap").Map(jen.String()).String()},
-		[]jen.Code{jen.Op("*").Id(t.StructName()), jen.Error()},
-		[]jen.Code{
-			jen.Id("alias").Op(":=").Lit(""),
-			jen.Id("aliasPrefix").Op(":=").Lit(""),
+
+	// Type vs typeless, typed needs an "aliasPrefix"
+	header := jen.Empty().Add(
+		jen.Id("alias").Op(":=").Lit("").Line(),
+		jen.If(
+			jen.List(
+				jen.Id("a"),
+				jen.Id("ok"),
+			).Op(":=").Id("aliasMap").Index(jen.Lit(t.vocabURI.String())),
+			jen.Id("ok"),
+		).Block(
+			jen.Id("alias").Op("=").Id("a"),
+		).Line(),
+		jen.Id(codegen.This()).Op(":=").Op("&").Id(t.StructName()).Values(jen.Dict{
+			jen.Id(aliasMember):   jen.Id("alias"),
+			jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface()),
+		}),
+	)
+	typed := jen.Empty()
+	if !t.typeless {
+		header = jen.Empty().Add(
+			jen.Id("alias").Op(":=").Lit("").Line(),
+			jen.Id("aliasPrefix").Op(":=").Lit("").Line(),
 			jen.If(
 				jen.List(
 					jen.Id("a"),
@@ -918,11 +944,13 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 			).Block(
 				jen.Id("alias").Op("=").Id("a"),
 				jen.Id("aliasPrefix").Op("=").Id("a").Op("+").Lit(":"),
-			),
+			).Line(),
 			jen.Id(codegen.This()).Op(":=").Op("&").Id(t.StructName()).Values(jen.Dict{
 				jen.Id(aliasMember):   jen.Id("alias"),
 				jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface()),
 			}),
+		)
+		typed.Add(
 			jen.If(
 				jen.List(
 					jen.Id("typeValue"),
@@ -997,6 +1025,16 @@ func (t *TypeGenerator) deserializationFn() (deser *codegen.Function) {
 					jen.Qual("fmt", "Errorf").Call(jen.Lit("\"type\" property is unrecognized type: %T"), jen.Id("typeValue")),
 				),
 			),
+		)
+	}
+	deser = codegen.NewCommentedFunction(
+		t.PrivatePackage().Path(),
+		t.deserializationFnName(),
+		[]jen.Code{jen.Id("m").Map(jen.String()).Interface(), jen.Id("aliasMap").Map(jen.String()).String()},
+		[]jen.Code{jen.Op("*").Id(t.StructName()), jen.Error()},
+		[]jen.Code{
+			header,
+			typed,
 			deserCode,
 			unknownCode,
 			jen.Return(jen.Id(codegen.This()), jen.Nil()),
@@ -1076,14 +1114,18 @@ func (t *TypeGenerator) constructorFn() *codegen.Function {
 	if len(t.vocabAlias) > 0 {
 		typeName = jen.Lit(t.vocabAlias).Op("+").Lit(":").Op("+").Lit(t.TypeName())
 	}
-	return codegen.NewCommentedFunction(
-		t.PrivatePackage().Path(),
-		fmt.Sprintf("%s%s", constructorName, t.StructName()),
-		/*params=*/ nil,
-		[]jen.Code{
-			jen.Op("*").Qual(t.PrivatePackage().Path(), t.StructName()),
-		},
-		[]jen.Code{
+	body := []jen.Code{
+		jen.Return(
+			jen.Op("&").Qual(t.PrivatePackage().Path(), t.StructName()).Values(
+				jen.Dict{
+					jen.Id(aliasMember):   jen.Lit(t.vocabAlias),
+					jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface(), jen.Lit(0)),
+				},
+			),
+		),
+	}
+	if !t.typeless {
+		body = []jen.Code{
 			jen.Id("typeProp").Op(":=").Id(typePropertyConstructorName()).Call(),
 			jen.Id("typeProp").Dot("AppendXMLSchemaString").Call(typeName),
 			jen.Return(
@@ -1095,7 +1137,16 @@ func (t *TypeGenerator) constructorFn() *codegen.Function {
 					},
 				),
 			),
+		}
+	}
+	return codegen.NewCommentedFunction(
+		t.PrivatePackage().Path(),
+		fmt.Sprintf("%s%s", constructorName, t.StructName()),
+		/*params=*/ nil,
+		[]jen.Code{
+			jen.Op("*").Qual(t.PrivatePackage().Path(), t.StructName()),
 		},
+		body,
 		fmt.Sprintf("%s%s creates a new %s type", constructorName, t.StructName(), t.TypeName()))
 }
 

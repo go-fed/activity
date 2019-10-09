@@ -48,7 +48,7 @@ func DeserializeOwnerProperty(m map[string]interface{}, aliasMap map[string]stri
 
 // NewW3IDSecurityV1OwnerProperty creates a new owner property.
 func NewW3IDSecurityV1OwnerProperty() *W3IDSecurityV1OwnerProperty {
-	return &W3IDSecurityV1OwnerProperty{alias: "widsv"}
+	return &W3IDSecurityV1OwnerProperty{alias: ""}
 }
 
 // Clear ensures no value of this property is set. Calling IsXMLSchemaAnyURI

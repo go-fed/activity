@@ -1,10 +1,6 @@
 package typepublickey
 
-import (
-	"fmt"
-	vocab "github.com/go-fed/activity/streams/vocab"
-	"strings"
-)
+import vocab "github.com/go-fed/activity/streams/vocab"
 
 // A public key represents a public cryptographical key for a user
 type W3IDSecurityV1PublicKey struct {
@@ -39,7 +35,6 @@ type W3IDSecurityV1PublicKey struct {
 	ActivityStreamsSummary      vocab.ActivityStreamsSummaryProperty
 	ActivityStreamsTag          vocab.ActivityStreamsTagProperty
 	ActivityStreamsTo           vocab.ActivityStreamsToProperty
-	ActivityStreamsType         vocab.ActivityStreamsTypeProperty
 	ActivityStreamsUpdated      vocab.ActivityStreamsUpdatedProperty
 	ActivityStreamsUrl          vocab.ActivityStreamsUrlProperty
 	alias                       string
@@ -50,38 +45,14 @@ type W3IDSecurityV1PublicKey struct {
 // been unmarshalled from a text or binary format.
 func DeserializePublicKey(m map[string]interface{}, aliasMap map[string]string) (*W3IDSecurityV1PublicKey, error) {
 	alias := ""
-	aliasPrefix := ""
 	if a, ok := aliasMap["https://w3id.org/security/v1"]; ok {
 		alias = a
-		aliasPrefix = a + ":"
 	}
 	this := &W3IDSecurityV1PublicKey{
 		alias:   alias,
 		unknown: make(map[string]interface{}),
 	}
-	if typeValue, ok := m["type"]; !ok {
-		return nil, fmt.Errorf("no \"type\" property in map")
-	} else if typeString, ok := typeValue.(string); ok {
-		typeName := strings.TrimPrefix(typeString, aliasPrefix)
-		if typeName != "PublicKey" {
-			return nil, fmt.Errorf("\"type\" property is not of %q type: %s", "PublicKey", typeName)
-		}
-		// Fall through, success in finding a proper Type
-	} else if arrType, ok := typeValue.([]interface{}); ok {
-		found := false
-		for _, elemVal := range arrType {
-			if typeString, ok := elemVal.(string); ok && strings.TrimPrefix(typeString, aliasPrefix) == "PublicKey" {
-				found = true
-				break
-			}
-		}
-		if !found {
-			return nil, fmt.Errorf("could not find a \"type\" property of value %q", "PublicKey")
-		}
-		// Fall through, success in finding a proper Type
-	} else {
-		return nil, fmt.Errorf("\"type\" property is unrecognized type: %T", typeValue)
-	}
+
 	// Begin: Known property deserialization
 	if p, err := mgr.DeserializeAltitudePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -238,11 +209,6 @@ func DeserializePublicKey(m map[string]interface{}, aliasMap map[string]string) 
 	} else if p != nil {
 		this.ActivityStreamsTo = p
 	}
-	if p, err := mgr.DeserializeTypePropertyActivityStreams()(m, aliasMap); err != nil {
-		return nil, err
-	} else if p != nil {
-		this.ActivityStreamsType = p
-	}
 	if p, err := mgr.DeserializeUpdatedPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -326,8 +292,6 @@ func DeserializePublicKey(m map[string]interface{}, aliasMap map[string]string) 
 			continue
 		} else if k == "to" {
 			continue
-		} else if k == "type" {
-			continue
 		} else if k == "updated" {
 			continue
 		} else if k == "url" {
@@ -352,12 +316,9 @@ func IsOrExtendsPublicKey(other vocab.Type) bool {
 
 // NewW3IDSecurityV1PublicKey creates a new PublicKey type
 func NewW3IDSecurityV1PublicKey() *W3IDSecurityV1PublicKey {
-	typeProp := typePropertyConstructor()
-	typeProp.AppendXMLSchemaString("widsv" + ":" + "PublicKey")
 	return &W3IDSecurityV1PublicKey{
-		ActivityStreamsType: typeProp,
-		alias:               "widsv",
-		unknown:             make(map[string]interface{}, 0),
+		alias:   "",
+		unknown: make(map[string]interface{}, 0),
 	}
 }
 
@@ -564,12 +525,6 @@ func (this W3IDSecurityV1PublicKey) GetActivityStreamsTo() vocab.ActivityStreams
 	return this.ActivityStreamsTo
 }
 
-// GetActivityStreamsType returns the "type" property if it exists, and nil
-// otherwise.
-func (this W3IDSecurityV1PublicKey) GetActivityStreamsType() vocab.ActivityStreamsTypeProperty {
-	return this.ActivityStreamsType
-}
-
 // GetActivityStreamsUpdated returns the "updated" property if it exists, and nil
 // otherwise.
 func (this W3IDSecurityV1PublicKey) GetActivityStreamsUpdated() vocab.ActivityStreamsUpdatedProperty {
@@ -650,7 +605,6 @@ func (this W3IDSecurityV1PublicKey) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.ActivityStreamsSummary, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsTag, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsTo, m)
-	m = this.helperJSONLDContext(this.ActivityStreamsType, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsUpdated, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsUrl, m)
 
@@ -1095,20 +1049,6 @@ func (this W3IDSecurityV1PublicKey) LessThan(o vocab.W3IDSecurityV1PublicKey) bo
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
-	// Compare property "type"
-	if lhs, rhs := this.ActivityStreamsType, o.GetActivityStreamsType(); lhs != nil && rhs != nil {
-		if lhs.LessThan(rhs) {
-			return true
-		} else if rhs.LessThan(lhs) {
-			return false
-		}
-	} else if lhs == nil && rhs != nil {
-		// Nil is less than anything else
-		return true
-	} else if rhs != nil && rhs == nil {
-		// Anything else is greater than nil
-		return false
-	} // Else: Both are nil
 	// Compare property "updated"
 	if lhs, rhs := this.ActivityStreamsUpdated, o.GetActivityStreamsUpdated(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -1154,11 +1094,6 @@ func (this W3IDSecurityV1PublicKey) LessThan(o vocab.W3IDSecurityV1PublicKey) bo
 // marshalling into a text or binary format.
 func (this W3IDSecurityV1PublicKey) Serialize() (map[string]interface{}, error) {
 	m := make(map[string]interface{})
-	typeName := "PublicKey"
-	if len(this.alias) > 0 {
-		typeName = this.alias + ":" + "PublicKey"
-	}
-	m["type"] = typeName
 	// Begin: Serialize known properties
 	// Maybe serialize property "altitude"
 	if this.ActivityStreamsAltitude != nil {
@@ -1408,14 +1343,6 @@ func (this W3IDSecurityV1PublicKey) Serialize() (map[string]interface{}, error) 
 			m[this.ActivityStreamsTo.Name()] = i
 		}
 	}
-	// Maybe serialize property "type"
-	if this.ActivityStreamsType != nil {
-		if i, err := this.ActivityStreamsType.Serialize(); err != nil {
-			return nil, err
-		} else if i != nil {
-			m[this.ActivityStreamsType.Name()] = i
-		}
-	}
 	// Maybe serialize property "updated"
 	if this.ActivityStreamsUpdated != nil {
 		if i, err := this.ActivityStreamsUpdated.Serialize(); err != nil {
@@ -1589,11 +1516,6 @@ func (this *W3IDSecurityV1PublicKey) SetActivityStreamsTag(i vocab.ActivityStrea
 // SetActivityStreamsTo sets the "to" property.
 func (this *W3IDSecurityV1PublicKey) SetActivityStreamsTo(i vocab.ActivityStreamsToProperty) {
 	this.ActivityStreamsTo = i
-}
-
-// SetActivityStreamsType sets the "type" property.
-func (this *W3IDSecurityV1PublicKey) SetActivityStreamsType(i vocab.ActivityStreamsTypeProperty) {
-	this.ActivityStreamsType = i
 }
 
 // SetActivityStreamsUpdated sets the "updated" property.

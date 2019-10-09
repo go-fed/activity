@@ -84,12 +84,13 @@ func (p ParsedVocabulary) String() string {
 // Vocabulary contains the type, property, and value definitions for a single
 // ActivityStreams or extension vocabulary.
 type Vocabulary struct {
-	Name       string
-	URI        *url.URL
-	Types      map[string]VocabularyType
-	Properties map[string]VocabularyProperty
-	Values     map[string]VocabularyValue
-	Registry   *RDFRegistry
+	Name           string
+	WellKnownAlias string // Hack.
+	URI            *url.URL
+	Types          map[string]VocabularyType
+	Properties     map[string]VocabularyProperty
+	Values         map[string]VocabularyValue
+	Registry       *RDFRegistry
 }
 
 // Size returns the number of types, properties, and values in this vocabulary.
@@ -100,6 +101,11 @@ func (v Vocabulary) Size() int {
 // GetName returns the vocabulary's name.
 func (v Vocabulary) GetName() string {
 	return v.Name
+}
+
+// GetWellKnownAlias returns the vocabulary's name.
+func (v Vocabulary) GetWellKnownAlias() string {
+	return v.WellKnownAlias
 }
 
 // SetName sets the vocabulary's name.
@@ -219,6 +225,7 @@ var (
 // VocabularyType represents a single ActivityStream type in a vocabulary.
 type VocabularyType struct {
 	Name              string
+	Typeless          bool // Hack
 	URI               *url.URL
 	Notes             string
 	DisjointWith      []VocabularyReference
@@ -266,6 +273,11 @@ func (v *VocabularyType) SetNotes(s string) {
 // AddExample adds an example on this type.
 func (v *VocabularyType) AddExample(e *VocabularyExample) {
 	v.Examples = append(v.Examples, *e)
+}
+
+// IsTypeless determines if this type is, in fact, typeless
+func (v *VocabularyType) IsTypeless() bool {
+	return v.Typeless
 }
 
 var (

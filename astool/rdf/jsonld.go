@@ -18,6 +18,8 @@ const (
 	// "@wtf_" prefix due to the reserved '@', the use of the unprofessional
 	// 'wtf', and a style-breaking underscore.
 	withoutPropertySpec = "@wtf_without_property"
+	typelessSpec        = "@wtf_typeless"
+	// TODO: Support WellKnownAlias
 )
 
 // jsonLDNodes contains the well-known set of nodes as defined by the JSON-LD
@@ -67,6 +69,12 @@ func jsonLDNodes(r *RDFRegistry) []RDFNode {
 			Alias:    "",
 			Name:     withoutPropertySpec,
 			Delegate: &withoutProperty{},
+		},
+		&AliasedDelegate{
+			Spec:     "",
+			Alias:    "",
+			Name:     typelessSpec,
+			Delegate: &typeless{},
 		},
 	}
 }
@@ -221,4 +229,36 @@ func (w *withoutProperty) Exit(key string, ctx *ParsingContext) (bool, error) {
 // Apply returns an error.
 func (w *withoutProperty) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
 	return true, fmt.Errorf("hacky withoutProperty cannot be applied")
+}
+
+var _ RDFNode = &typeless{}
+
+// typeless is a hacky-as-hell way to rectify the fact that certain ontologies
+// have classes that do not correspond to the JSON-LD idea of an @type.
+// I didn't even bother looking for an existing RDF concept and instead would
+// rather force myself to suffer in order to prove how awful this is. Waah.
+type typeless struct{}
+
+// Enter returns an error.
+func (t *typeless) Enter(key string, ctx *ParsingContext) (bool, error) {
+	return true, fmt.Errorf("hacky typeless cannot be entered")
+}
+
+// Exit returns an error.
+func (t *typeless) Exit(key string, ctx *ParsingContext) (bool, error) {
+	return true, fmt.Errorf("hacky typeless cannot be exited")
+}
+
+// Apply sets whether this type is actually typeless.
+func (t *typeless) Apply(key string, value interface{}, ctx *ParsingContext) (bool, error) {
+	val, ok := value.(bool)
+	if !ok {
+		return true, fmt.Errorf("hacky typeless value is not a bool")
+	}
+	vt, ok := ctx.Current.(*VocabularyType)
+	if !ok {
+		return true, fmt.Errorf("hacky typeless Current is not *rdf.VocabularyType")
+	}
+	vt.Typeless = val
+	return true, nil
 }

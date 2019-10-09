@@ -89,9 +89,6 @@ type W3IDSecurityV1PublicKey interface {
 	// GetActivityStreamsTo returns the "to" property if it exists, and nil
 	// otherwise.
 	GetActivityStreamsTo() ActivityStreamsToProperty
-	// GetActivityStreamsType returns the "type" property if it exists, and
-	// nil otherwise.
-	GetActivityStreamsType() ActivityStreamsTypeProperty
 	// GetActivityStreamsUpdated returns the "updated" property if it exists,
 	// and nil otherwise.
 	GetActivityStreamsUpdated() ActivityStreamsUpdatedProperty
@@ -185,8 +182,6 @@ type W3IDSecurityV1PublicKey interface {
 	SetActivityStreamsTag(i ActivityStreamsTagProperty)
 	// SetActivityStreamsTo sets the "to" property.
 	SetActivityStreamsTo(i ActivityStreamsToProperty)
-	// SetActivityStreamsType sets the "type" property.
-	SetActivityStreamsType(i ActivityStreamsTypeProperty)
 	// SetActivityStreamsUpdated sets the "updated" property.
 	SetActivityStreamsUpdated(i ActivityStreamsUpdatedProperty)
 	// SetActivityStreamsUrl sets the "url" property.

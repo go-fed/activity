@@ -43,7 +43,10 @@ func Serialize(a vocab.Type) (m map[string]interface{}, e error) {
 				aliases[alias] = vocab
 			}
 		}
-		contextValue = append(arr, aliases)
+		if len(aliases) > 0 {
+			arr = append(arr, aliases)
+		}
+		contextValue = arr
 	}
 	// TODO: Update the context instead if it already exists
 	m[jsonLDContext] = contextValue
