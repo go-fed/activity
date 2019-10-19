@@ -50,6 +50,7 @@ func Serialize(a vocab.Type) (m map[string]interface{}, e error) {
 	}
 	// TODO: Update the context instead if it already exists
 	m[jsonLDContext] = contextValue
+	// TODO: Sort the context based on arbitrary order.
 	// Delete any existing `@context` in child maps.
 	var cleanFnRecur func(map[string]interface{})
 	cleanFnRecur = func(r map[string]interface{}) {

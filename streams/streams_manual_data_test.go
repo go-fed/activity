@@ -5831,3 +5831,140 @@ func example159Type() vocab.ActivityStreamsMove {
 	example159Type.SetActivityStreamsTarget(tobj)
 	return example159Type
 }
+
+const personExampleWithPublicKey = `{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    "https://w3id.org/security/v1"
+  ],
+  "id":"https://mastodon.technology/users/cj",
+  "type":"Person",
+  "following":"https://mastodon.technology/users/cj/following",
+  "followers":"https://mastodon.technology/users/cj/followers",
+  "inbox":"https://mastodon.technology/users/cj/inbox",
+  "outbox":"https://mastodon.technology/users/cj/outbox",
+  "preferredUsername":"cj",
+  "name":"cj",
+  "url":"https://mastodon.technology/@cj",
+  "publicKey": {
+    "id":"https://mastodon.technology/users/cj#main-key",
+    "owner":"https://mastodon.technology/users/cj",
+    "publicKeyPem":"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArYzMmldblHfnAPbwfVIo\nFpV6ej3JUS9boZHJbYh9c3IpumDoDXJyThTx19wM8M04fJljJ74aTp+fZdIng6l3\nswT24dvgahMUoD4/NLrPOjulhIOGfYzGYfTduh6wT+aaxV5w+OPO5plOVgrgS+RK\n9mv5SOQIaSLQGNCc5RSKuea8H4fG/bUiPpCXlqq2iVp0hoc3rI3K2NOErxOeex1B\nzcBLupBiXBB5a4hxwTVMfjmxqEZSuC1xnx2c8R9FpZPmhGovqlVzK/JlTPBU53f/\nDT773fOqr2jLTLfS0VNrI0jYpz0GG687O/FDRi2YR91D9NSs9WFHeuVC/A5mhuMH\npQIDAQAB\n-----END PUBLIC KEY-----\n"
+  }
+}`
+
+func personExampleWithPublicKeyType() vocab.ActivityStreamsPerson {
+	personExampleType := NewActivityStreamsPerson()
+	idIRI := MustParseURL("https://mastodon.technology/users/cj")
+	idProp := NewActivityStreamsIdProperty()
+	idProp.Set(idIRI)
+	personExampleType.SetActivityStreamsId(idProp)
+	followingIRI := MustParseURL("https://mastodon.technology/users/cj/following")
+	followingProp := NewActivityStreamsFollowingProperty()
+	followingProp.SetIRI(followingIRI)
+	personExampleType.SetActivityStreamsFollowing(followingProp)
+	followersIRI := MustParseURL("https://mastodon.technology/users/cj/followers")
+	followersProp := NewActivityStreamsFollowersProperty()
+	followersProp.SetIRI(followersIRI)
+	personExampleType.SetActivityStreamsFollowers(followersProp)
+	inboxIRI := MustParseURL("https://mastodon.technology/users/cj/inbox")
+	inboxProp := NewActivityStreamsInboxProperty()
+	inboxProp.SetIRI(inboxIRI)
+	personExampleType.SetActivityStreamsInbox(inboxProp)
+	outboxIRI := MustParseURL("https://mastodon.technology/users/cj/outbox")
+	outboxProp := NewActivityStreamsOutboxProperty()
+	outboxProp.SetIRI(outboxIRI)
+	personExampleType.SetActivityStreamsOutbox(outboxProp)
+	preferredUsernameProp := NewActivityStreamsPreferredUsernameProperty()
+	preferredUsernameProp.SetXMLSchemaString("cj")
+	personExampleType.SetActivityStreamsPreferredUsername(preferredUsernameProp)
+	nameProp := NewActivityStreamsNameProperty()
+	nameProp.AppendXMLSchemaString("cj")
+	personExampleType.SetActivityStreamsName(nameProp)
+	urlIRI := MustParseURL("https://mastodon.technology/@cj")
+	urlProp := NewActivityStreamsUrlProperty()
+	urlProp.AppendIRI(urlIRI)
+	personExampleType.SetActivityStreamsUrl(urlProp)
+	publicKeyProp := NewW3IDSecurityV1PublicKeyProperty()
+	publicKeyType := NewW3IDSecurityV1PublicKey()
+	pubKeyIdIRI := MustParseURL("https://mastodon.technology/users/cj#main-key")
+	pubKeyIdProp := NewActivityStreamsIdProperty()
+	pubKeyIdProp.Set(pubKeyIdIRI)
+	publicKeyType.SetActivityStreamsId(pubKeyIdProp)
+	ownerIRI := MustParseURL("https://mastodon.technology/users/cj")
+	ownerProp := NewW3IDSecurityV1OwnerProperty()
+	ownerProp.SetIRI(ownerIRI)
+	publicKeyType.SetW3IDSecurityV1Owner(ownerProp)
+	publicKeyPemProp := NewW3IDSecurityV1PublicKeyPemProperty()
+	publicKeyPemProp.Set("-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArYzMmldblHfnAPbwfVIo\nFpV6ej3JUS9boZHJbYh9c3IpumDoDXJyThTx19wM8M04fJljJ74aTp+fZdIng6l3\nswT24dvgahMUoD4/NLrPOjulhIOGfYzGYfTduh6wT+aaxV5w+OPO5plOVgrgS+RK\n9mv5SOQIaSLQGNCc5RSKuea8H4fG/bUiPpCXlqq2iVp0hoc3rI3K2NOErxOeex1B\nzcBLupBiXBB5a4hxwTVMfjmxqEZSuC1xnx2c8R9FpZPmhGovqlVzK/JlTPBU53f/\nDT773fOqr2jLTLfS0VNrI0jYpz0GG687O/FDRi2YR91D9NSs9WFHeuVC/A5mhuMH\npQIDAQAB\n-----END PUBLIC KEY-----\n")
+	publicKeyType.SetW3IDSecurityV1PublicKeyPem(publicKeyPemProp)
+	publicKeyProp.AppendW3IDSecurityV1PublicKey(publicKeyType)
+	personExampleType.SetW3IDSecurityV1PublicKey(publicKeyProp)
+	return personExampleType
+}
+
+type testContextWrapper struct {
+	vocab.Type
+}
+
+func (a *testContextWrapper) JSONLDContext() map[string]string {
+	m := a.Type.JSONLDContext()
+	m["https://schema.org#"] = "schema"
+	m["schema:PropertyValue"] = "PropertyValue"
+	m["schema:value"] = "value"
+	return m
+}
+
+const serviceHasAttachmentWithUnknown = `{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    {
+      "schema": "https://schema.org#",
+      "PropertyValue": "schema:PropertyValue",
+      "value": "schema:value"
+    }
+  ],
+  "id": "https://example.com/service",
+  "type": "Service",
+  "attachment": [
+    {
+      "type": "PropertyValue",
+      "name": "First Object",
+      "value": "test value on first object"
+    },
+    {
+      "type": "PropertyValue",
+      "name": "Second Object",
+      "value": "test value on second object"
+    }
+  ]
+}`
+
+func serviceHasAttachmentWithUnknownType() vocab.ActivityStreamsService {
+	serviceType := NewActivityStreamsService()
+	idProp := NewActivityStreamsIdProperty()
+	idIRI := MustParseURL("https://example.com/service")
+	idProp.Set(idIRI)
+	serviceType.SetActivityStreamsId(idProp)
+	attachmentProp := NewActivityStreamsAttachmentProperty()
+	firstObject := NewActivityStreamsObject()
+	firstObjectTypeProp := NewActivityStreamsTypeProperty()
+	firstObjectTypeProp.AppendXMLSchemaString("PropertyValue")
+	firstObject.SetActivityStreamsType(firstObjectTypeProp)
+	firstObjectNameProp := NewActivityStreamsNameProperty()
+	firstObjectNameProp.AppendXMLSchemaString("First Object")
+	firstObject.SetActivityStreamsName(firstObjectNameProp)
+	firstObject.GetUnknownProperties()["value"] = "test value on first object"
+	attachmentProp.AppendType(&testContextWrapper{firstObject})
+	secondObject := NewActivityStreamsObject()
+	secondObjectTypeProp := NewActivityStreamsTypeProperty()
+	secondObjectTypeProp.AppendXMLSchemaString("PropertyValue")
+	secondObject.SetActivityStreamsType(secondObjectTypeProp)
+	secondObjectNameProp := NewActivityStreamsNameProperty()
+	secondObjectNameProp.AppendXMLSchemaString("Second Object")
+	secondObject.SetActivityStreamsName(secondObjectNameProp)
+	secondObject.GetUnknownProperties()["value"] = "test value on second object"
+	attachmentProp.AppendType(secondObject)
+	serviceType.SetActivityStreamsAttachment(attachmentProp)
+	return serviceType
+}

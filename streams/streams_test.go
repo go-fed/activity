@@ -9,10 +9,6 @@ import (
 	"testing"
 )
 
-type serializer interface {
-	Serialize() (map[string]interface{}, error)
-}
-
 // IsKnownResolverError returns true if it is known that an example from
 // GetTestTable will trigger a JSONResolver error.
 func IsKnownResolverError(t TestTable) (b bool, reason string) {
@@ -38,12 +34,11 @@ func TestJSONResolver(t *testing.T) {
 		name := example.name
 		t.Logf("Testing table test case %q", name)
 		ex := example.expectedJSON
-		resFn := func(s serializer) error {
-			m, err := s.Serialize()
+		resFn := func(s vocab.Type) error {
+			m, err := Serialize(s)
 			if err != nil {
 				return err
 			}
-			m["@context"] = "https://www.w3.org/ns/activitystreams"
 			actual, err := json.Marshal(m)
 			if diff, err := GetJSONDiff(actual, []byte(ex)); err == nil && diff != nil {
 				t.Errorf("%s: Serialize JSON equality is false:\n%s", name, diff)
@@ -243,7 +238,7 @@ func TestJSONResolverErrors(t *testing.T) {
 		name := example.name
 		t.Logf("Testing table test case %q", name)
 		ex := example.expectedJSON
-		resFn := func(s serializer) error { return nil }
+		resFn := func(s vocab.Type) error { return nil }
 		r, err := NewJSONResolver(
 			func(c context.Context, x vocab.ActivityStreamsAccept) error {
 				return resFn(x)
@@ -492,10 +487,10 @@ func TestNulls(t *testing.T) {
 	expectedUpdate.SetActivityStreamsObject(objectNote)
 
 	// Variable to aid in deserialization in tests
-	var actual serializer
+	var actual vocab.Type
 	tables := []struct {
 		name              string
-		expected          serializer
+		expected          vocab.Type
 		callback          interface{}
 		input             string
 		inputWithoutNulls string
