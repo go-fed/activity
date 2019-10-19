@@ -59,7 +59,7 @@ func (p *ParsedVocabulary) GetReference(uri string) (*Vocabulary, error) {
 		return nil, err
 	}
 	if p.References == nil {
-		p.References = make(map[string]*Vocabulary, 0)
+		p.References = make(map[string]*Vocabulary)
 	}
 	if v, ok := p.References[httpSpec]; ok {
 		return v, nil

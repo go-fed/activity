@@ -12,6 +12,7 @@ import (
 	"github.com/go-fed/activity/astool/rdf/rfc"
 	"github.com/go-fed/activity/astool/rdf/schema"
 	"github.com/go-fed/activity/astool/rdf/xsd"
+	"io"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -166,9 +167,7 @@ func mustAddOntology(o rdf.Ontology) {
 // into the registry, before main executes.
 func init() {
 	flag.Usage = func() {
-		fmt.Fprintf(
-			flag.CommandLine.Output(),
-			helpText)
+		_, _ = io.WriteString(flag.CommandLine.Output(), helpText)
 		flag.PrintDefaults()
 	}
 	mustAddOntology(&xsd.XMLOntology{Package: "xml"})
@@ -278,8 +277,7 @@ func (c *CommandLineFlags) detectPath() error {
 	}
 	c.pathAutoDetected = true
 	gopath = strings.Join([]string{gopath, "src", ""}, "/")
-	c.path.Set(strings.TrimPrefix(pwd, gopath))
-	return nil
+	return c.path.Set(strings.TrimPrefix(pwd, gopath))
 }
 
 // Validate applies custom validation logic to flags and returns an error if any

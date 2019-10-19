@@ -290,13 +290,13 @@ func (p *PropertyGenerator) iteratorTypeName() Identifier {
 
 // InterfaceName returns the interface name of the property type.
 func (p *PropertyGenerator) InterfaceName() string {
-	return fmt.Sprintf("%s", p.StructName())
+	return p.StructName()
 }
 
 // parentTypeInterfaceName is useful for iterators that need the base property
 // type's interface name.
 func (p *PropertyGenerator) parentTypeInterfaceName() string {
-	return fmt.Sprintf("%s", strings.TrimSuffix(p.StructName(), "Iterator"))
+	return strings.TrimSuffix(p.StructName(), "Iterator")
 }
 
 // PropertyName returns the name of this property, as defined in
