@@ -425,7 +425,7 @@ func NewActivityStreamsLike() *ActivityStreamsLike {
 	return &ActivityStreamsLike{
 		ActivityStreamsType: typeProp,
 		alias:               "",
-		unknown:             make(map[string]interface{}, 0),
+		unknown:             make(map[string]interface{}),
 	}
 }
 

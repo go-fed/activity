@@ -425,7 +425,7 @@ func NewActivityStreamsOrganization() *ActivityStreamsOrganization {
 	return &ActivityStreamsOrganization{
 		ActivityStreamsType: typeProp,
 		alias:               "",
-		unknown:             make(map[string]interface{}, 0),
+		unknown:             make(map[string]interface{}),
 	}
 }
 

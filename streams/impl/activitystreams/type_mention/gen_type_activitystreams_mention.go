@@ -219,7 +219,7 @@ func NewActivityStreamsMention() *ActivityStreamsMention {
 	return &ActivityStreamsMention{
 		ActivityStreamsType: typeProp,
 		alias:               "",
-		unknown:             make(map[string]interface{}, 0),
+		unknown:             make(map[string]interface{}),
 	}
 }
 

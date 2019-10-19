@@ -424,7 +424,7 @@ func NewActivityStreamsBlock() *ActivityStreamsBlock {
 	return &ActivityStreamsBlock{
 		ActivityStreamsType: typeProp,
 		alias:               "",
-		unknown:             make(map[string]interface{}, 0),
+		unknown:             make(map[string]interface{}),
 	}
 }
 

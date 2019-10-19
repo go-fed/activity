@@ -424,7 +424,7 @@ func NewActivityStreamsListen() *ActivityStreamsListen {
 	return &ActivityStreamsListen{
 		ActivityStreamsType: typeProp,
 		alias:               "",
-		unknown:             make(map[string]interface{}, 0),
+		unknown:             make(map[string]interface{}),
 	}
 }
 

@@ -438,7 +438,7 @@ func NewActivityStreamsInvite() *ActivityStreamsInvite {
 	return &ActivityStreamsInvite{
 		ActivityStreamsType: typeProp,
 		alias:               "",
-		unknown:             make(map[string]interface{}, 0),
+		unknown:             make(map[string]interface{}),
 	}
 }
 

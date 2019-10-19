@@ -40,8 +40,8 @@ func LessLangString(lhs, rhs map[string]string) bool {
 	for k := range rhs {
 		rk = append(rk, k)
 	}
-	sort.Sort(sort.StringSlice(lk))
-	sort.Sort(sort.StringSlice(rk))
+	sort.Strings(lk)
+	sort.Strings(rk)
 	for i := 0; i < len(lk) && i < len(rk); i++ {
 		if lk[i] < rk[i] {
 			return true

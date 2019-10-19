@@ -318,7 +318,7 @@ func IsOrExtendsPublicKey(other vocab.Type) bool {
 func NewW3IDSecurityV1PublicKey() *W3IDSecurityV1PublicKey {
 	return &W3IDSecurityV1PublicKey{
 		alias:   "",
-		unknown: make(map[string]interface{}, 0),
+		unknown: make(map[string]interface{}),
 	}
 }
 
