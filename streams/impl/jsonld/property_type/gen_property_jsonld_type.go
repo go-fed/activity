@@ -8,49 +8,46 @@ import (
 	"net/url"
 )
 
-// ActivityStreamsTypePropertyIterator is an iterator for a property. It is
-// permitted to be one of multiple value types. At most, one type of value can
-// be present, or none at all. Setting a value will clear the other types of
-// values so that only one of the 'Is' methods will return true. It is
-// possible to clear all values, so that this property is empty.
-type ActivityStreamsTypePropertyIterator struct {
+// JSONLDTypePropertyIterator is an iterator for a property. It is permitted to be
+// one of multiple value types. At most, one type of value can be present, or
+// none at all. Setting a value will clear the other types of values so that
+// only one of the 'Is' methods will return true. It is possible to clear all
+// values, so that this property is empty.
+type JSONLDTypePropertyIterator struct {
 	xmlschemaAnyURIMember *url.URL
 	xmlschemaStringMember string
 	hasStringMember       bool
 	unknown               interface{}
 	alias                 string
 	myIdx                 int
-	parent                vocab.ActivityStreamsTypeProperty
+	parent                vocab.JSONLDTypeProperty
 }
 
-// NewActivityStreamsTypePropertyIterator creates a new ActivityStreamsType
-// property.
-func NewActivityStreamsTypePropertyIterator() *ActivityStreamsTypePropertyIterator {
-	return &ActivityStreamsTypePropertyIterator{alias: ""}
+// NewJSONLDTypePropertyIterator creates a new JSONLDType property.
+func NewJSONLDTypePropertyIterator() *JSONLDTypePropertyIterator {
+	return &JSONLDTypePropertyIterator{alias: ""}
 }
 
-// deserializeActivityStreamsTypePropertyIterator creates an iterator from an
-// element that has been unmarshalled from a text or binary format.
-func deserializeActivityStreamsTypePropertyIterator(i interface{}, aliasMap map[string]string) (*ActivityStreamsTypePropertyIterator, error) {
+// deserializeJSONLDTypePropertyIterator creates an iterator from an element that
+// has been unmarshalled from a text or binary format.
+func deserializeJSONLDTypePropertyIterator(i interface{}, aliasMap map[string]string) (*JSONLDTypePropertyIterator, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
-		alias = a
-	}
+
 	if v, err := anyuri.DeserializeAnyURI(i); err == nil {
-		this := &ActivityStreamsTypePropertyIterator{
+		this := &JSONLDTypePropertyIterator{
 			alias:                 alias,
 			xmlschemaAnyURIMember: v,
 		}
 		return this, nil
 	} else if v, err := string1.DeserializeString(i); err == nil {
-		this := &ActivityStreamsTypePropertyIterator{
+		this := &JSONLDTypePropertyIterator{
 			alias:                 alias,
 			hasStringMember:       true,
 			xmlschemaStringMember: v,
 		}
 		return this, nil
 	}
-	this := &ActivityStreamsTypePropertyIterator{
+	this := &JSONLDTypePropertyIterator{
 		alias:   alias,
 		unknown: i,
 	}
@@ -59,53 +56,53 @@ func deserializeActivityStreamsTypePropertyIterator(i interface{}, aliasMap map[
 
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
 // return an arbitrary value.
-func (this ActivityStreamsTypePropertyIterator) GetIRI() *url.URL {
+func (this JSONLDTypePropertyIterator) GetIRI() *url.URL {
 	return this.xmlschemaAnyURIMember
 }
 
 // GetXMLSchemaAnyURI returns the value of this property. When IsXMLSchemaAnyURI
 // returns false, GetXMLSchemaAnyURI will return an arbitrary value.
-func (this ActivityStreamsTypePropertyIterator) GetXMLSchemaAnyURI() *url.URL {
+func (this JSONLDTypePropertyIterator) GetXMLSchemaAnyURI() *url.URL {
 	return this.xmlschemaAnyURIMember
 }
 
 // GetXMLSchemaString returns the value of this property. When IsXMLSchemaString
 // returns false, GetXMLSchemaString will return an arbitrary value.
-func (this ActivityStreamsTypePropertyIterator) GetXMLSchemaString() string {
+func (this JSONLDTypePropertyIterator) GetXMLSchemaString() string {
 	return this.xmlschemaStringMember
 }
 
 // HasAny returns true if any of the different values is set.
-func (this ActivityStreamsTypePropertyIterator) HasAny() bool {
+func (this JSONLDTypePropertyIterator) HasAny() bool {
 	return this.IsXMLSchemaAnyURI() ||
 		this.IsXMLSchemaString()
 }
 
 // IsIRI returns true if this property is an IRI. When true, use GetIRI and SetIRI
 // to access and set this property
-func (this ActivityStreamsTypePropertyIterator) IsIRI() bool {
+func (this JSONLDTypePropertyIterator) IsIRI() bool {
 	return this.xmlschemaAnyURIMember != nil
 }
 
 // IsXMLSchemaAnyURI returns true if this property has a type of "anyURI". When
 // true, use the GetXMLSchemaAnyURI and SetXMLSchemaAnyURI methods to access
 // and set this property.
-func (this ActivityStreamsTypePropertyIterator) IsXMLSchemaAnyURI() bool {
+func (this JSONLDTypePropertyIterator) IsXMLSchemaAnyURI() bool {
 	return this.xmlschemaAnyURIMember != nil
 }
 
 // IsXMLSchemaString returns true if this property has a type of "string". When
 // true, use the GetXMLSchemaString and SetXMLSchemaString methods to access
 // and set this property.
-func (this ActivityStreamsTypePropertyIterator) IsXMLSchemaString() bool {
+func (this JSONLDTypePropertyIterator) IsXMLSchemaString() bool {
 	return this.hasStringMember
 }
 
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
-func (this ActivityStreamsTypePropertyIterator) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
+func (this JSONLDTypePropertyIterator) JSONLDContext() map[string]string {
+	var m map[string]string
 	var child map[string]string
 
 	/*
@@ -122,7 +119,7 @@ func (this ActivityStreamsTypePropertyIterator) JSONLDContext() map[string]strin
 // KindIndex computes an arbitrary value for indexing this kind of value. This is
 // a leaky API detail only for folks looking to replace the go-fed
 // implementation. Applications should not use this method.
-func (this ActivityStreamsTypePropertyIterator) KindIndex() int {
+func (this JSONLDTypePropertyIterator) KindIndex() int {
 	if this.IsXMLSchemaAnyURI() {
 		return 0
 	}
@@ -139,7 +136,7 @@ func (this ActivityStreamsTypePropertyIterator) KindIndex() int {
 // comparison. Applications should not use this because it is only meant to
 // help alternative implementations to go-fed to be able to normalize
 // nonfunctional properties.
-func (this ActivityStreamsTypePropertyIterator) LessThan(o vocab.ActivityStreamsTypePropertyIterator) bool {
+func (this JSONLDTypePropertyIterator) LessThan(o vocab.JSONLDTypePropertyIterator) bool {
 	idx1 := this.KindIndex()
 	idx2 := o.KindIndex()
 	if idx1 < idx2 {
@@ -154,17 +151,17 @@ func (this ActivityStreamsTypePropertyIterator) LessThan(o vocab.ActivityStreams
 	return false
 }
 
-// Name returns the name of this property: "ActivityStreamsType".
-func (this ActivityStreamsTypePropertyIterator) Name() string {
+// Name returns the name of this property: "JSONLDType".
+func (this JSONLDTypePropertyIterator) Name() string {
 	if len(this.alias) > 0 {
-		return this.alias + ":" + "ActivityStreamsType"
+		return this.alias + ":" + "JSONLDType"
 	} else {
-		return "ActivityStreamsType"
+		return "JSONLDType"
 	}
 }
 
 // Next returns the next iterator, or nil if there is no next iterator.
-func (this ActivityStreamsTypePropertyIterator) Next() vocab.ActivityStreamsTypePropertyIterator {
+func (this JSONLDTypePropertyIterator) Next() vocab.JSONLDTypePropertyIterator {
 	if this.myIdx+1 >= this.parent.Len() {
 		return nil
 	} else {
@@ -173,7 +170,7 @@ func (this ActivityStreamsTypePropertyIterator) Next() vocab.ActivityStreamsType
 }
 
 // Prev returns the previous iterator, or nil if there is no previous iterator.
-func (this ActivityStreamsTypePropertyIterator) Prev() vocab.ActivityStreamsTypePropertyIterator {
+func (this JSONLDTypePropertyIterator) Prev() vocab.JSONLDTypePropertyIterator {
 	if this.myIdx-1 < 0 {
 		return nil
 	} else {
@@ -182,21 +179,21 @@ func (this ActivityStreamsTypePropertyIterator) Prev() vocab.ActivityStreamsType
 }
 
 // SetIRI sets the value of this property. Calling IsIRI afterwards returns true.
-func (this *ActivityStreamsTypePropertyIterator) SetIRI(v *url.URL) {
+func (this *JSONLDTypePropertyIterator) SetIRI(v *url.URL) {
 	this.clear()
 	this.SetXMLSchemaAnyURI(v)
 }
 
 // SetXMLSchemaAnyURI sets the value of this property. Calling IsXMLSchemaAnyURI
 // afterwards returns true.
-func (this *ActivityStreamsTypePropertyIterator) SetXMLSchemaAnyURI(v *url.URL) {
+func (this *JSONLDTypePropertyIterator) SetXMLSchemaAnyURI(v *url.URL) {
 	this.clear()
 	this.xmlschemaAnyURIMember = v
 }
 
 // SetXMLSchemaString sets the value of this property. Calling IsXMLSchemaString
 // afterwards returns true.
-func (this *ActivityStreamsTypePropertyIterator) SetXMLSchemaString(v string) {
+func (this *JSONLDTypePropertyIterator) SetXMLSchemaString(v string) {
 	this.clear()
 	this.xmlschemaStringMember = v
 	this.hasStringMember = true
@@ -204,7 +201,7 @@ func (this *ActivityStreamsTypePropertyIterator) SetXMLSchemaString(v string) {
 
 // clear ensures no value of this property is set. Calling HasAny or any of the
 // 'Is' methods afterwards will return false.
-func (this *ActivityStreamsTypePropertyIterator) clear() {
+func (this *JSONLDTypePropertyIterator) clear() {
 	this.xmlschemaAnyURIMember = nil
 	this.hasStringMember = false
 	this.unknown = nil
@@ -214,7 +211,7 @@ func (this *ActivityStreamsTypePropertyIterator) clear() {
 // marshalling into a text or binary format. Applications should not need this
 // function as most typical use cases serialize types instead of individual
 // properties. It is exposed for alternatives to go-fed implementations to use.
-func (this ActivityStreamsTypePropertyIterator) serialize() (interface{}, error) {
+func (this JSONLDTypePropertyIterator) serialize() (interface{}, error) {
 	if this.IsXMLSchemaAnyURI() {
 		return anyuri.SerializeAnyURI(this.GetXMLSchemaAnyURI())
 	} else if this.IsXMLSchemaString() {
@@ -223,20 +220,18 @@ func (this ActivityStreamsTypePropertyIterator) serialize() (interface{}, error)
 	return this.unknown, nil
 }
 
-// ActivityStreamsTypeProperty is the non-functional property "type". It is
-// permitted to have one or more values, and of different value types.
-type ActivityStreamsTypeProperty struct {
-	properties []*ActivityStreamsTypePropertyIterator
+// JSONLDTypeProperty is the non-functional property "type". It is permitted to
+// have one or more values, and of different value types.
+type JSONLDTypeProperty struct {
+	properties []*JSONLDTypePropertyIterator
 	alias      string
 }
 
 // DeserializeTypeProperty creates a "type" property from an interface
 // representation that has been unmarshalled from a text or binary format.
-func DeserializeTypeProperty(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsTypeProperty, error) {
+func DeserializeTypeProperty(m map[string]interface{}, aliasMap map[string]string) (vocab.JSONLDTypeProperty, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
-		alias = a
-	}
+
 	propName := "type"
 	if len(alias) > 0 {
 		propName = fmt.Sprintf("%s:%s", alias, "type")
@@ -244,20 +239,20 @@ func DeserializeTypeProperty(m map[string]interface{}, aliasMap map[string]strin
 	i, ok := m[propName]
 
 	if ok {
-		this := &ActivityStreamsTypeProperty{
+		this := &JSONLDTypeProperty{
 			alias:      alias,
-			properties: []*ActivityStreamsTypePropertyIterator{},
+			properties: []*JSONLDTypePropertyIterator{},
 		}
 		if list, ok := i.([]interface{}); ok {
 			for _, iterator := range list {
-				if p, err := deserializeActivityStreamsTypePropertyIterator(iterator, aliasMap); err != nil {
+				if p, err := deserializeJSONLDTypePropertyIterator(iterator, aliasMap); err != nil {
 					return this, err
 				} else if p != nil {
 					this.properties = append(this.properties, p)
 				}
 			}
 		} else {
-			if p, err := deserializeActivityStreamsTypePropertyIterator(i, aliasMap); err != nil {
+			if p, err := deserializeJSONLDTypePropertyIterator(i, aliasMap); err != nil {
 				return this, err
 			} else if p != nil {
 				this.properties = append(this.properties, p)
@@ -273,14 +268,14 @@ func DeserializeTypeProperty(m map[string]interface{}, aliasMap map[string]strin
 	return nil, nil
 }
 
-// NewActivityStreamsTypeProperty creates a new type property.
-func NewActivityStreamsTypeProperty() *ActivityStreamsTypeProperty {
-	return &ActivityStreamsTypeProperty{alias: ""}
+// NewJSONLDTypeProperty creates a new type property.
+func NewJSONLDTypeProperty() *JSONLDTypeProperty {
+	return &JSONLDTypeProperty{alias: ""}
 }
 
 // AppendIRI appends an IRI value to the back of a list of the property "type"
-func (this *ActivityStreamsTypeProperty) AppendIRI(v *url.URL) {
-	this.properties = append(this.properties, &ActivityStreamsTypePropertyIterator{
+func (this *JSONLDTypeProperty) AppendIRI(v *url.URL) {
+	this.properties = append(this.properties, &JSONLDTypePropertyIterator{
 		alias:                 this.alias,
 		myIdx:                 this.Len(),
 		parent:                this,
@@ -290,8 +285,8 @@ func (this *ActivityStreamsTypeProperty) AppendIRI(v *url.URL) {
 
 // AppendXMLSchemaAnyURI appends a anyURI value to the back of a list of the
 // property "type". Invalidates iterators that are traversing using Prev.
-func (this *ActivityStreamsTypeProperty) AppendXMLSchemaAnyURI(v *url.URL) {
-	this.properties = append(this.properties, &ActivityStreamsTypePropertyIterator{
+func (this *JSONLDTypeProperty) AppendXMLSchemaAnyURI(v *url.URL) {
+	this.properties = append(this.properties, &JSONLDTypePropertyIterator{
 		alias:                 this.alias,
 		myIdx:                 this.Len(),
 		parent:                this,
@@ -301,8 +296,8 @@ func (this *ActivityStreamsTypeProperty) AppendXMLSchemaAnyURI(v *url.URL) {
 
 // AppendXMLSchemaString appends a string value to the back of a list of the
 // property "type". Invalidates iterators that are traversing using Prev.
-func (this *ActivityStreamsTypeProperty) AppendXMLSchemaString(v string) {
-	this.properties = append(this.properties, &ActivityStreamsTypePropertyIterator{
+func (this *JSONLDTypeProperty) AppendXMLSchemaString(v string) {
+	this.properties = append(this.properties, &JSONLDTypePropertyIterator{
 		alias:                 this.alias,
 		hasStringMember:       true,
 		myIdx:                 this.Len(),
@@ -313,14 +308,14 @@ func (this *ActivityStreamsTypeProperty) AppendXMLSchemaString(v string) {
 
 // At returns the property value for the specified index. Panics if the index is
 // out of bounds.
-func (this ActivityStreamsTypeProperty) At(index int) vocab.ActivityStreamsTypePropertyIterator {
+func (this JSONLDTypeProperty) At(index int) vocab.JSONLDTypePropertyIterator {
 	return this.properties[index]
 }
 
 // Begin returns the first iterator, or nil if empty. Can be used with the
 // iterator's Next method and this property's End method to iterate from front
 // to back through all values.
-func (this ActivityStreamsTypeProperty) Begin() vocab.ActivityStreamsTypePropertyIterator {
+func (this JSONLDTypeProperty) Begin() vocab.JSONLDTypePropertyIterator {
 	if this.Empty() {
 		return nil
 	} else {
@@ -329,24 +324,24 @@ func (this ActivityStreamsTypeProperty) Begin() vocab.ActivityStreamsTypePropert
 }
 
 // Empty returns returns true if there are no elements.
-func (this ActivityStreamsTypeProperty) Empty() bool {
+func (this JSONLDTypeProperty) Empty() bool {
 	return this.Len() == 0
 }
 
 // End returns beyond-the-last iterator, which is nil. Can be used with the
 // iterator's Next method and this property's Begin method to iterate from
 // front to back through all values.
-func (this ActivityStreamsTypeProperty) End() vocab.ActivityStreamsTypePropertyIterator {
+func (this JSONLDTypeProperty) End() vocab.JSONLDTypePropertyIterator {
 	return nil
 }
 
 // Insert inserts an IRI value at the specified index for a property "type".
 // Existing elements at that index and higher are shifted back once.
 // Invalidates all iterators.
-func (this *ActivityStreamsTypeProperty) InsertIRI(idx int, v *url.URL) {
+func (this *JSONLDTypeProperty) InsertIRI(idx int, v *url.URL) {
 	this.properties = append(this.properties, nil)
 	copy(this.properties[idx+1:], this.properties[idx:])
-	this.properties[idx] = &ActivityStreamsTypePropertyIterator{
+	this.properties[idx] = &JSONLDTypePropertyIterator{
 		alias:                 this.alias,
 		myIdx:                 idx,
 		parent:                this,
@@ -360,10 +355,10 @@ func (this *ActivityStreamsTypeProperty) InsertIRI(idx int, v *url.URL) {
 // InsertXMLSchemaAnyURI inserts a anyURI value at the specified index for a
 // property "type". Existing elements at that index and higher are shifted
 // back once. Invalidates all iterators.
-func (this *ActivityStreamsTypeProperty) InsertXMLSchemaAnyURI(idx int, v *url.URL) {
+func (this *JSONLDTypeProperty) InsertXMLSchemaAnyURI(idx int, v *url.URL) {
 	this.properties = append(this.properties, nil)
 	copy(this.properties[idx+1:], this.properties[idx:])
-	this.properties[idx] = &ActivityStreamsTypePropertyIterator{
+	this.properties[idx] = &JSONLDTypePropertyIterator{
 		alias:                 this.alias,
 		myIdx:                 idx,
 		parent:                this,
@@ -377,10 +372,10 @@ func (this *ActivityStreamsTypeProperty) InsertXMLSchemaAnyURI(idx int, v *url.U
 // InsertXMLSchemaString inserts a string value at the specified index for a
 // property "type". Existing elements at that index and higher are shifted
 // back once. Invalidates all iterators.
-func (this *ActivityStreamsTypeProperty) InsertXMLSchemaString(idx int, v string) {
+func (this *JSONLDTypeProperty) InsertXMLSchemaString(idx int, v string) {
 	this.properties = append(this.properties, nil)
 	copy(this.properties[idx+1:], this.properties[idx:])
-	this.properties[idx] = &ActivityStreamsTypePropertyIterator{
+	this.properties[idx] = &JSONLDTypePropertyIterator{
 		alias:                 this.alias,
 		hasStringMember:       true,
 		myIdx:                 idx,
@@ -395,8 +390,8 @@ func (this *ActivityStreamsTypeProperty) InsertXMLSchemaString(idx int, v string
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
-func (this ActivityStreamsTypeProperty) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
+func (this JSONLDTypeProperty) JSONLDContext() map[string]string {
+	var m map[string]string
 	for _, elem := range this.properties {
 		child := elem.JSONLDContext()
 		/*
@@ -415,18 +410,18 @@ func (this ActivityStreamsTypeProperty) JSONLDContext() map[string]string {
 // a leaky API method specifically needed only for alternate implementations
 // for go-fed. Applications should not use this method. Panics if the index is
 // out of bounds.
-func (this ActivityStreamsTypeProperty) KindIndex(idx int) int {
+func (this JSONLDTypeProperty) KindIndex(idx int) int {
 	return this.properties[idx].KindIndex()
 }
 
 // Len returns the number of values that exist for the "type" property.
-func (this ActivityStreamsTypeProperty) Len() (length int) {
+func (this JSONLDTypeProperty) Len() (length int) {
 	return len(this.properties)
 }
 
 // Less computes whether another property is less than this one. Mixing types
 // results in a consistent but arbitrary ordering
-func (this ActivityStreamsTypeProperty) Less(i, j int) bool {
+func (this JSONLDTypeProperty) Less(i, j int) bool {
 	idx1 := this.KindIndex(i)
 	idx2 := this.KindIndex(j)
 	if idx1 < idx2 {
@@ -453,7 +448,7 @@ func (this ActivityStreamsTypeProperty) Less(i, j int) bool {
 // comparison. Applications should not use this because it is only meant to
 // help alternative implementations to go-fed to be able to normalize
 // nonfunctional properties.
-func (this ActivityStreamsTypeProperty) LessThan(o vocab.ActivityStreamsTypeProperty) bool {
+func (this JSONLDTypeProperty) LessThan(o vocab.JSONLDTypeProperty) bool {
 	l1 := this.Len()
 	l2 := o.Len()
 	l := l1
@@ -471,7 +466,7 @@ func (this ActivityStreamsTypeProperty) LessThan(o vocab.ActivityStreamsTypeProp
 }
 
 // Name returns the name of this property ("type") with any alias.
-func (this ActivityStreamsTypeProperty) Name() string {
+func (this JSONLDTypeProperty) Name() string {
 	if len(this.alias) > 0 {
 		return this.alias + ":" + "type"
 	} else {
@@ -480,8 +475,8 @@ func (this ActivityStreamsTypeProperty) Name() string {
 }
 
 // PrependIRI prepends an IRI value to the front of a list of the property "type".
-func (this *ActivityStreamsTypeProperty) PrependIRI(v *url.URL) {
-	this.properties = append([]*ActivityStreamsTypePropertyIterator{{
+func (this *JSONLDTypeProperty) PrependIRI(v *url.URL) {
+	this.properties = append([]*JSONLDTypePropertyIterator{{
 		alias:                 this.alias,
 		myIdx:                 0,
 		parent:                this,
@@ -494,8 +489,8 @@ func (this *ActivityStreamsTypeProperty) PrependIRI(v *url.URL) {
 
 // PrependXMLSchemaAnyURI prepends a anyURI value to the front of a list of the
 // property "type". Invalidates all iterators.
-func (this *ActivityStreamsTypeProperty) PrependXMLSchemaAnyURI(v *url.URL) {
-	this.properties = append([]*ActivityStreamsTypePropertyIterator{{
+func (this *JSONLDTypeProperty) PrependXMLSchemaAnyURI(v *url.URL) {
+	this.properties = append([]*JSONLDTypePropertyIterator{{
 		alias:                 this.alias,
 		myIdx:                 0,
 		parent:                this,
@@ -508,8 +503,8 @@ func (this *ActivityStreamsTypeProperty) PrependXMLSchemaAnyURI(v *url.URL) {
 
 // PrependXMLSchemaString prepends a string value to the front of a list of the
 // property "type". Invalidates all iterators.
-func (this *ActivityStreamsTypeProperty) PrependXMLSchemaString(v string) {
-	this.properties = append([]*ActivityStreamsTypePropertyIterator{{
+func (this *JSONLDTypeProperty) PrependXMLSchemaString(v string) {
+	this.properties = append([]*JSONLDTypePropertyIterator{{
 		alias:                 this.alias,
 		hasStringMember:       true,
 		myIdx:                 0,
@@ -524,10 +519,10 @@ func (this *ActivityStreamsTypeProperty) PrependXMLSchemaString(v string) {
 // Remove deletes an element at the specified index from a list of the property
 // "type", regardless of its type. Panics if the index is out of bounds.
 // Invalidates all iterators.
-func (this *ActivityStreamsTypeProperty) Remove(idx int) {
+func (this *JSONLDTypeProperty) Remove(idx int) {
 	(this.properties)[idx].parent = nil
 	copy((this.properties)[idx:], (this.properties)[idx+1:])
-	(this.properties)[len(this.properties)-1] = &ActivityStreamsTypePropertyIterator{}
+	(this.properties)[len(this.properties)-1] = &JSONLDTypePropertyIterator{}
 	this.properties = (this.properties)[:len(this.properties)-1]
 	for i := idx; i < this.Len(); i++ {
 		(this.properties)[i].myIdx = i
@@ -538,7 +533,7 @@ func (this *ActivityStreamsTypeProperty) Remove(idx int) {
 // marshalling into a text or binary format. Applications should not need this
 // function as most typical use cases serialize types instead of individual
 // properties. It is exposed for alternatives to go-fed implementations to use.
-func (this ActivityStreamsTypeProperty) Serialize() (interface{}, error) {
+func (this JSONLDTypeProperty) Serialize() (interface{}, error) {
 	s := make([]interface{}, 0, len(this.properties))
 	for _, iterator := range this.properties {
 		if b, err := iterator.serialize(); err != nil {
@@ -556,9 +551,9 @@ func (this ActivityStreamsTypeProperty) Serialize() (interface{}, error) {
 
 // SetIRI sets an IRI value to be at the specified index for the property "type".
 // Panics if the index is out of bounds.
-func (this *ActivityStreamsTypeProperty) SetIRI(idx int, v *url.URL) {
+func (this *JSONLDTypeProperty) SetIRI(idx int, v *url.URL) {
 	(this.properties)[idx].parent = nil
-	(this.properties)[idx] = &ActivityStreamsTypePropertyIterator{
+	(this.properties)[idx] = &JSONLDTypePropertyIterator{
 		alias:                 this.alias,
 		myIdx:                 idx,
 		parent:                this,
@@ -569,9 +564,9 @@ func (this *ActivityStreamsTypeProperty) SetIRI(idx int, v *url.URL) {
 // SetXMLSchemaAnyURI sets a anyURI value to be at the specified index for the
 // property "type". Panics if the index is out of bounds. Invalidates all
 // iterators.
-func (this *ActivityStreamsTypeProperty) SetXMLSchemaAnyURI(idx int, v *url.URL) {
+func (this *JSONLDTypeProperty) SetXMLSchemaAnyURI(idx int, v *url.URL) {
 	(this.properties)[idx].parent = nil
-	(this.properties)[idx] = &ActivityStreamsTypePropertyIterator{
+	(this.properties)[idx] = &JSONLDTypePropertyIterator{
 		alias:                 this.alias,
 		myIdx:                 idx,
 		parent:                this,
@@ -582,9 +577,9 @@ func (this *ActivityStreamsTypeProperty) SetXMLSchemaAnyURI(idx int, v *url.URL)
 // SetXMLSchemaString sets a string value to be at the specified index for the
 // property "type". Panics if the index is out of bounds. Invalidates all
 // iterators.
-func (this *ActivityStreamsTypeProperty) SetXMLSchemaString(idx int, v string) {
+func (this *JSONLDTypeProperty) SetXMLSchemaString(idx int, v string) {
 	(this.properties)[idx].parent = nil
-	(this.properties)[idx] = &ActivityStreamsTypePropertyIterator{
+	(this.properties)[idx] = &JSONLDTypePropertyIterator{
 		alias:                 this.alias,
 		hasStringMember:       true,
 		myIdx:                 idx,
@@ -594,6 +589,6 @@ func (this *ActivityStreamsTypeProperty) SetXMLSchemaString(idx int, v string) {
 }
 
 // Swap swaps the location of values at two indices for the "type" property.
-func (this ActivityStreamsTypeProperty) Swap(i, j int) {
+func (this JSONLDTypeProperty) Swap(i, j int) {
 	this.properties[i], this.properties[j] = this.properties[j], this.properties[i]
 }

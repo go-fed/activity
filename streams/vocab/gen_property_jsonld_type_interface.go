@@ -2,9 +2,8 @@ package vocab
 
 import "net/url"
 
-// ActivityStreamsTypePropertyIterator represents a single value for the "type"
-// property.
-type ActivityStreamsTypePropertyIterator interface {
+// JSONLDTypePropertyIterator represents a single value for the "type" property.
+type JSONLDTypePropertyIterator interface {
 	// GetIRI returns the IRI of this property. When IsIRI returns false,
 	// GetIRI will return an arbitrary value.
 	GetIRI() *url.URL
@@ -42,14 +41,14 @@ type ActivityStreamsTypePropertyIterator interface {
 	// stable comparison. Applications should not use this because it is
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
-	LessThan(o ActivityStreamsTypePropertyIterator) bool
-	// Name returns the name of this property: "ActivityStreamsType".
+	LessThan(o JSONLDTypePropertyIterator) bool
+	// Name returns the name of this property: "JSONLDType".
 	Name() string
 	// Next returns the next iterator, or nil if there is no next iterator.
-	Next() ActivityStreamsTypePropertyIterator
+	Next() JSONLDTypePropertyIterator
 	// Prev returns the previous iterator, or nil if there is no previous
 	// iterator.
-	Prev() ActivityStreamsTypePropertyIterator
+	Prev() JSONLDTypePropertyIterator
 	// SetIRI sets the value of this property. Calling IsIRI afterwards
 	// returns true.
 	SetIRI(v *url.URL)
@@ -61,14 +60,8 @@ type ActivityStreamsTypePropertyIterator interface {
 	SetXMLSchemaString(v string)
 }
 
-// Identifies the Object or Link type. Multiple values may be specified.
-//
-// Example 62 (https://www.w3.org/TR/activitystreams-vocabulary/#extype-jsonld):
-//   {
-//     "summary": "A foo",
-//     "type": "http://example.org/Foo"
-//   }
-type ActivityStreamsTypeProperty interface {
+// Identifies the schema type(s) of the JSON-LD entity.
+type JSONLDTypeProperty interface {
 	// AppendIRI appends an IRI value to the back of a list of the property
 	// "type"
 	AppendIRI(v *url.URL)
@@ -82,17 +75,17 @@ type ActivityStreamsTypeProperty interface {
 	AppendXMLSchemaString(v string)
 	// At returns the property value for the specified index. Panics if the
 	// index is out of bounds.
-	At(index int) ActivityStreamsTypePropertyIterator
+	At(index int) JSONLDTypePropertyIterator
 	// Begin returns the first iterator, or nil if empty. Can be used with the
 	// iterator's Next method and this property's End method to iterate
 	// from front to back through all values.
-	Begin() ActivityStreamsTypePropertyIterator
+	Begin() JSONLDTypePropertyIterator
 	// Empty returns returns true if there are no elements.
 	Empty() bool
 	// End returns beyond-the-last iterator, which is nil. Can be used with
 	// the iterator's Next method and this property's Begin method to
 	// iterate from front to back through all values.
-	End() ActivityStreamsTypePropertyIterator
+	End() JSONLDTypePropertyIterator
 	// Insert inserts an IRI value at the specified index for a property
 	// "type". Existing elements at that index and higher are shifted back
 	// once. Invalidates all iterators.
@@ -124,7 +117,7 @@ type ActivityStreamsTypeProperty interface {
 	// stable comparison. Applications should not use this because it is
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
-	LessThan(o ActivityStreamsTypeProperty) bool
+	LessThan(o JSONLDTypeProperty) bool
 	// Name returns the name of this property ("type") with any alias.
 	Name() string
 	// PrependIRI prepends an IRI value to the front of a list of the property

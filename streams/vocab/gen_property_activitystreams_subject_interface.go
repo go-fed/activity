@@ -249,10 +249,6 @@ type ActivityStreamsSubjectProperty interface {
 	// the value is not an ActivityStreams type, such as an IRI or another
 	// value.
 	GetType() Type
-	// GetW3IDSecurityV1PublicKey returns the value of this property. When
-	// IsW3IDSecurityV1PublicKey returns false, GetW3IDSecurityV1PublicKey
-	// will return an arbitrary value.
-	GetW3IDSecurityV1PublicKey() W3IDSecurityV1PublicKey
 	// HasAny returns true if any of the different values is set.
 	HasAny() bool
 	// IsActivityStreamsAccept returns true if this property has a type of
@@ -490,10 +486,6 @@ type ActivityStreamsSubjectProperty interface {
 	// IsIRI returns true if this property is an IRI. When true, use GetIRI
 	// and SetIRI to access and set this property
 	IsIRI() bool
-	// IsW3IDSecurityV1PublicKey returns true if this property has a type of
-	// "PublicKey". When true, use the GetW3IDSecurityV1PublicKey and
-	// SetW3IDSecurityV1PublicKey methods to access and set this property.
-	IsW3IDSecurityV1PublicKey() bool
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or
@@ -686,7 +678,4 @@ type ActivityStreamsSubjectProperty interface {
 	// SetType attempts to set the property for the arbitrary type. Returns an
 	// error if it is not a valid type to set on this property.
 	SetType(t Type) error
-	// SetW3IDSecurityV1PublicKey sets the value of this property. Calling
-	// IsW3IDSecurityV1PublicKey afterwards returns true.
-	SetW3IDSecurityV1PublicKey(v W3IDSecurityV1PublicKey)
 }

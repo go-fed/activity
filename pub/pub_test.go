@@ -147,9 +147,9 @@ func setupData() {
 		content := streams.NewActivityStreamsContentProperty()
 		content.AppendXMLSchemaString("This is a simple note being federated.")
 		testFederatedNote.SetActivityStreamsContent(content)
-		id := streams.NewActivityStreamsIdProperty()
+		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testNoteId1))
-		testFederatedNote.SetActivityStreamsId(id)
+		testFederatedNote.SetJSONLDId(id)
 	}()
 	// testMyNote
 	func() {
@@ -160,9 +160,9 @@ func setupData() {
 		content := streams.NewActivityStreamsContentProperty()
 		content.AppendXMLSchemaString("This is a simple note of mine.")
 		testMyNote.SetActivityStreamsContent(content)
-		id := streams.NewActivityStreamsIdProperty()
+		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testNoteId1))
-		testMyNote.SetActivityStreamsId(id)
+		testMyNote.SetJSONLDId(id)
 	}()
 	// testMyNoteNoId
 	func() {
@@ -177,9 +177,9 @@ func setupData() {
 	// testMyCreate
 	func() {
 		testMyCreate = streams.NewActivityStreamsCreate()
-		id := streams.NewActivityStreamsIdProperty()
+		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testNewActivityIRI))
-		testMyCreate.SetActivityStreamsId(id)
+		testMyCreate.SetJSONLDId(id)
 		op := streams.NewActivityStreamsObjectProperty()
 		op.AppendActivityStreamsNote(testMyNote)
 		testMyCreate.SetActivityStreamsObject(op)
@@ -187,9 +187,9 @@ func setupData() {
 	// testCreate
 	func() {
 		testCreate = streams.NewActivityStreamsCreate()
-		id := streams.NewActivityStreamsIdProperty()
+		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testFederatedActivityIRI))
-		testCreate.SetActivityStreamsId(id)
+		testCreate.SetJSONLDId(id)
 		actor := streams.NewActivityStreamsActorProperty()
 		actor.AppendIRI(mustParse(testFederatedActorIRI))
 		testCreate.SetActivityStreamsActor(actor)
@@ -200,9 +200,9 @@ func setupData() {
 	// testCreate2
 	func() {
 		testCreate2 = streams.NewActivityStreamsCreate()
-		id := streams.NewActivityStreamsIdProperty()
+		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testFederatedActivityIRI))
-		testCreate2.SetActivityStreamsId(id)
+		testCreate2.SetJSONLDId(id)
 		actor := streams.NewActivityStreamsActorProperty()
 		actor.AppendIRI(mustParse(testFederatedActorIRI))
 		actor.AppendIRI(mustParse(testFederatedActorIRI2))
@@ -277,9 +277,9 @@ func setupData() {
 	// testMyListen
 	func() {
 		testMyListen = streams.NewActivityStreamsListen()
-		id := streams.NewActivityStreamsIdProperty()
+		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testNewActivityIRI))
-		testMyListen.SetActivityStreamsId(id)
+		testMyListen.SetJSONLDId(id)
 		op := streams.NewActivityStreamsObjectProperty()
 		op.AppendActivityStreamsNote(testMyNote)
 		testMyListen.SetActivityStreamsObject(op)
@@ -294,9 +294,9 @@ func setupData() {
 	// testListen
 	func() {
 		testListen = streams.NewActivityStreamsListen()
-		id := streams.NewActivityStreamsIdProperty()
+		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testFederatedActivityIRI))
-		testListen.SetActivityStreamsId(id)
+		testListen.SetJSONLDId(id)
 		actor := streams.NewActivityStreamsActorProperty()
 		actor.AppendIRI(mustParse(testFederatedActorIRI))
 		testListen.SetActivityStreamsActor(actor)
@@ -322,16 +322,16 @@ func setupData() {
 	// testPerson
 	func() {
 		testPerson = streams.NewActivityStreamsPerson()
-		id := streams.NewActivityStreamsIdProperty()
+		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testPersonIRI))
-		testPerson.SetActivityStreamsId(id)
+		testPerson.SetJSONLDId(id)
 	}()
 	// testService
 	func() {
 		testService = streams.NewActivityStreamsService()
-		id := streams.NewActivityStreamsIdProperty()
+		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testServiceIRI))
-		testService.SetActivityStreamsId(id)
+		testService.SetJSONLDId(id)
 	}()
 	// testCollectionOfActors
 	func() {
@@ -352,9 +352,9 @@ func setupData() {
 	// testNestedInReplyTo
 	func() {
 		testNestedInReplyTo = streams.NewActivityStreamsListen()
-		id := streams.NewActivityStreamsIdProperty()
+		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testFederatedActivityIRI))
-		testNestedInReplyTo.SetActivityStreamsId(id)
+		testNestedInReplyTo.SetJSONLDId(id)
 		actor := streams.NewActivityStreamsActorProperty()
 		actor.AppendIRI(mustParse(testFederatedActorIRI))
 		testNestedInReplyTo.SetActivityStreamsActor(actor)
@@ -367,9 +367,9 @@ func setupData() {
 		content := streams.NewActivityStreamsContentProperty()
 		content.AppendXMLSchemaString("This is a simple note being federated.")
 		note.SetActivityStreamsContent(content)
-		noteId := streams.NewActivityStreamsIdProperty()
+		noteId := streams.NewJSONLDIdProperty()
 		noteId.Set(mustParse(testNoteId1))
-		note.SetActivityStreamsId(noteId)
+		note.SetJSONLDId(noteId)
 		irt := streams.NewActivityStreamsInReplyToProperty()
 		irt.AppendIRI(mustParse(inReplyToIRI))
 		irt.AppendIRI(mustParse(inReplyToIRI2))
@@ -425,9 +425,9 @@ func withNewId(t vocab.Type) Activity {
 	if !ok {
 		panic("activity streams value is not an Activity")
 	}
-	id := streams.NewActivityStreamsIdProperty()
+	id := streams.NewJSONLDIdProperty()
 	id.Set(mustParse(testNewActivityIRI))
-	a.SetActivityStreamsId(id)
+	a.SetJSONLDId(id)
 	return a
 }
 
@@ -611,17 +611,17 @@ func mustAddInReplyToIds(t Activity) Activity {
 // newObjectWithId creates a generic object with a given id.
 func newObjectWithId(id string) vocab.ActivityStreamsObject {
 	obj := streams.NewActivityStreamsObject()
-	i := streams.NewActivityStreamsIdProperty()
+	i := streams.NewJSONLDIdProperty()
 	i.Set(mustParse(id))
-	obj.SetActivityStreamsId(i)
+	obj.SetJSONLDId(i)
 	return obj
 }
 
 // newActivityWithId creates a generic Activity with a given id.
 func newActivityWithId(id string) vocab.ActivityStreamsActivity {
 	a := streams.NewActivityStreamsActivity()
-	i := streams.NewActivityStreamsIdProperty()
+	i := streams.NewJSONLDIdProperty()
 	i.Set(mustParse(id))
-	a.SetActivityStreamsId(i)
+	a.SetJSONLDId(i)
 	return a
 }

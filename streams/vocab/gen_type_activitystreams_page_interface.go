@@ -48,9 +48,6 @@ type ActivityStreamsPage interface {
 	// GetActivityStreamsIcon returns the "icon" property if it exists, and
 	// nil otherwise.
 	GetActivityStreamsIcon() ActivityStreamsIconProperty
-	// GetActivityStreamsId returns the "id" property if it exists, and nil
-	// otherwise.
-	GetActivityStreamsId() ActivityStreamsIdProperty
 	// GetActivityStreamsImage returns the "image" property if it exists, and
 	// nil otherwise.
 	GetActivityStreamsImage() ActivityStreamsImageProperty
@@ -96,15 +93,17 @@ type ActivityStreamsPage interface {
 	// GetActivityStreamsTo returns the "to" property if it exists, and nil
 	// otherwise.
 	GetActivityStreamsTo() ActivityStreamsToProperty
-	// GetActivityStreamsType returns the "type" property if it exists, and
-	// nil otherwise.
-	GetActivityStreamsType() ActivityStreamsTypeProperty
 	// GetActivityStreamsUpdated returns the "updated" property if it exists,
 	// and nil otherwise.
 	GetActivityStreamsUpdated() ActivityStreamsUpdatedProperty
 	// GetActivityStreamsUrl returns the "url" property if it exists, and nil
 	// otherwise.
 	GetActivityStreamsUrl() ActivityStreamsUrlProperty
+	// GetJSONLDId returns the "id" property if it exists, and nil otherwise.
+	GetJSONLDId() JSONLDIdProperty
+	// GetJSONLDType returns the "type" property if it exists, and nil
+	// otherwise.
+	GetJSONLDType() JSONLDTypeProperty
 	// GetTypeName returns the name of this type.
 	GetTypeName() string
 	// GetUnknownProperties returns the unknown properties for the Page type.
@@ -153,8 +152,6 @@ type ActivityStreamsPage interface {
 	SetActivityStreamsGenerator(i ActivityStreamsGeneratorProperty)
 	// SetActivityStreamsIcon sets the "icon" property.
 	SetActivityStreamsIcon(i ActivityStreamsIconProperty)
-	// SetActivityStreamsId sets the "id" property.
-	SetActivityStreamsId(i ActivityStreamsIdProperty)
 	// SetActivityStreamsImage sets the "image" property.
 	SetActivityStreamsImage(i ActivityStreamsImageProperty)
 	// SetActivityStreamsInReplyTo sets the "inReplyTo" property.
@@ -185,12 +182,14 @@ type ActivityStreamsPage interface {
 	SetActivityStreamsTag(i ActivityStreamsTagProperty)
 	// SetActivityStreamsTo sets the "to" property.
 	SetActivityStreamsTo(i ActivityStreamsToProperty)
-	// SetActivityStreamsType sets the "type" property.
-	SetActivityStreamsType(i ActivityStreamsTypeProperty)
 	// SetActivityStreamsUpdated sets the "updated" property.
 	SetActivityStreamsUpdated(i ActivityStreamsUpdatedProperty)
 	// SetActivityStreamsUrl sets the "url" property.
 	SetActivityStreamsUrl(i ActivityStreamsUrlProperty)
+	// SetJSONLDId sets the "id" property.
+	SetJSONLDId(i JSONLDIdProperty)
+	// SetJSONLDType sets the "type" property.
+	SetJSONLDType(i JSONLDTypeProperty)
 	// VocabularyURI returns the vocabulary's URI as a string.
 	VocabularyURI() string
 }

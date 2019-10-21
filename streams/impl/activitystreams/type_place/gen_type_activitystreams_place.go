@@ -39,7 +39,7 @@ type ActivityStreamsPlace struct {
 	ActivityStreamsEndTime      vocab.ActivityStreamsEndTimeProperty
 	ActivityStreamsGenerator    vocab.ActivityStreamsGeneratorProperty
 	ActivityStreamsIcon         vocab.ActivityStreamsIconProperty
-	ActivityStreamsId           vocab.ActivityStreamsIdProperty
+	JSONLDId                    vocab.JSONLDIdProperty
 	ActivityStreamsImage        vocab.ActivityStreamsImageProperty
 	ActivityStreamsInReplyTo    vocab.ActivityStreamsInReplyToProperty
 	ActivityStreamsLatitude     vocab.ActivityStreamsLatitudeProperty
@@ -58,7 +58,7 @@ type ActivityStreamsPlace struct {
 	ActivityStreamsSummary      vocab.ActivityStreamsSummaryProperty
 	ActivityStreamsTag          vocab.ActivityStreamsTagProperty
 	ActivityStreamsTo           vocab.ActivityStreamsToProperty
-	ActivityStreamsType         vocab.ActivityStreamsTypeProperty
+	JSONLDType                  vocab.JSONLDTypeProperty
 	ActivityStreamsUnits        vocab.ActivityStreamsUnitsProperty
 	ActivityStreamsUpdated      vocab.ActivityStreamsUpdatedProperty
 	ActivityStreamsUrl          vocab.ActivityStreamsUrlProperty
@@ -185,10 +185,10 @@ func DeserializePlace(m map[string]interface{}, aliasMap map[string]string) (*Ac
 	} else if p != nil {
 		this.ActivityStreamsIcon = p
 	}
-	if p, err := mgr.DeserializeIdPropertyActivityStreams()(m, aliasMap); err != nil {
+	if p, err := mgr.DeserializeIdPropertyJSONLD()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
-		this.ActivityStreamsId = p
+		this.JSONLDId = p
 	}
 	if p, err := mgr.DeserializeImagePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -280,10 +280,10 @@ func DeserializePlace(m map[string]interface{}, aliasMap map[string]string) (*Ac
 	} else if p != nil {
 		this.ActivityStreamsTo = p
 	}
-	if p, err := mgr.DeserializeTypePropertyActivityStreams()(m, aliasMap); err != nil {
+	if p, err := mgr.DeserializeTypePropertyJSONLD()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
-		this.ActivityStreamsType = p
+		this.JSONLDType = p
 	}
 	if p, err := mgr.DeserializeUnitsPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -408,9 +408,9 @@ func NewActivityStreamsPlace() *ActivityStreamsPlace {
 	typeProp := typePropertyConstructor()
 	typeProp.AppendXMLSchemaString("Place")
 	return &ActivityStreamsPlace{
-		ActivityStreamsType: typeProp,
-		alias:               "",
-		unknown:             make(map[string]interface{}, 0),
+		JSONLDType: typeProp,
+		alias:      "",
+		unknown:    make(map[string]interface{}, 0),
 	}
 }
 
@@ -515,11 +515,6 @@ func (this ActivityStreamsPlace) GetActivityStreamsGenerator() vocab.ActivityStr
 // otherwise.
 func (this ActivityStreamsPlace) GetActivityStreamsIcon() vocab.ActivityStreamsIconProperty {
 	return this.ActivityStreamsIcon
-}
-
-// GetActivityStreamsId returns the "id" property if it exists, and nil otherwise.
-func (this ActivityStreamsPlace) GetActivityStreamsId() vocab.ActivityStreamsIdProperty {
-	return this.ActivityStreamsId
 }
 
 // GetActivityStreamsImage returns the "image" property if it exists, and nil
@@ -629,12 +624,6 @@ func (this ActivityStreamsPlace) GetActivityStreamsTo() vocab.ActivityStreamsToP
 	return this.ActivityStreamsTo
 }
 
-// GetActivityStreamsType returns the "type" property if it exists, and nil
-// otherwise.
-func (this ActivityStreamsPlace) GetActivityStreamsType() vocab.ActivityStreamsTypeProperty {
-	return this.ActivityStreamsType
-}
-
 // GetActivityStreamsUnits returns the "units" property if it exists, and nil
 // otherwise.
 func (this ActivityStreamsPlace) GetActivityStreamsUnits() vocab.ActivityStreamsUnitsProperty {
@@ -651,6 +640,16 @@ func (this ActivityStreamsPlace) GetActivityStreamsUpdated() vocab.ActivityStrea
 // otherwise.
 func (this ActivityStreamsPlace) GetActivityStreamsUrl() vocab.ActivityStreamsUrlProperty {
 	return this.ActivityStreamsUrl
+}
+
+// GetJSONLDId returns the "id" property if it exists, and nil otherwise.
+func (this ActivityStreamsPlace) GetJSONLDId() vocab.JSONLDIdProperty {
+	return this.JSONLDId
+}
+
+// GetJSONLDType returns the "type" property if it exists, and nil otherwise.
+func (this ActivityStreamsPlace) GetJSONLDType() vocab.JSONLDTypeProperty {
+	return this.JSONLDType
 }
 
 // GetTypeName returns the name of this type.
@@ -692,7 +691,7 @@ func (this ActivityStreamsPlace) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.ActivityStreamsEndTime, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsGenerator, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsIcon, m)
-	m = this.helperJSONLDContext(this.ActivityStreamsId, m)
+	m = this.helperJSONLDContext(this.JSONLDId, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsImage, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsInReplyTo, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsLatitude, m)
@@ -711,7 +710,7 @@ func (this ActivityStreamsPlace) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.ActivityStreamsSummary, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsTag, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsTo, m)
-	m = this.helperJSONLDContext(this.ActivityStreamsType, m)
+	m = this.helperJSONLDContext(this.JSONLDType, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsUnits, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsUpdated, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsUrl, m)
@@ -920,7 +919,7 @@ func (this ActivityStreamsPlace) LessThan(o vocab.ActivityStreamsPlace) bool {
 		return false
 	} // Else: Both are nil
 	// Compare property "id"
-	if lhs, rhs := this.ActivityStreamsId, o.GetActivityStreamsId(); lhs != nil && rhs != nil {
+	if lhs, rhs := this.JSONLDId, o.GetJSONLDId(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1186,7 +1185,7 @@ func (this ActivityStreamsPlace) LessThan(o vocab.ActivityStreamsPlace) bool {
 		return false
 	} // Else: Both are nil
 	// Compare property "type"
-	if lhs, rhs := this.ActivityStreamsType, o.GetActivityStreamsType(); lhs != nil && rhs != nil {
+	if lhs, rhs := this.JSONLDType, o.GetJSONLDType(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1377,11 +1376,11 @@ func (this ActivityStreamsPlace) Serialize() (map[string]interface{}, error) {
 		}
 	}
 	// Maybe serialize property "id"
-	if this.ActivityStreamsId != nil {
-		if i, err := this.ActivityStreamsId.Serialize(); err != nil {
+	if this.JSONLDId != nil {
+		if i, err := this.JSONLDId.Serialize(); err != nil {
 			return nil, err
 		} else if i != nil {
-			m[this.ActivityStreamsId.Name()] = i
+			m[this.JSONLDId.Name()] = i
 		}
 	}
 	// Maybe serialize property "image"
@@ -1529,11 +1528,11 @@ func (this ActivityStreamsPlace) Serialize() (map[string]interface{}, error) {
 		}
 	}
 	// Maybe serialize property "type"
-	if this.ActivityStreamsType != nil {
-		if i, err := this.ActivityStreamsType.Serialize(); err != nil {
+	if this.JSONLDType != nil {
+		if i, err := this.JSONLDType.Serialize(); err != nil {
 			return nil, err
 		} else if i != nil {
-			m[this.ActivityStreamsType.Name()] = i
+			m[this.JSONLDType.Name()] = i
 		}
 	}
 	// Maybe serialize property "units"
@@ -1644,11 +1643,6 @@ func (this *ActivityStreamsPlace) SetActivityStreamsIcon(i vocab.ActivityStreams
 	this.ActivityStreamsIcon = i
 }
 
-// SetActivityStreamsId sets the "id" property.
-func (this *ActivityStreamsPlace) SetActivityStreamsId(i vocab.ActivityStreamsIdProperty) {
-	this.ActivityStreamsId = i
-}
-
 // SetActivityStreamsImage sets the "image" property.
 func (this *ActivityStreamsPlace) SetActivityStreamsImage(i vocab.ActivityStreamsImageProperty) {
 	this.ActivityStreamsImage = i
@@ -1739,11 +1733,6 @@ func (this *ActivityStreamsPlace) SetActivityStreamsTo(i vocab.ActivityStreamsTo
 	this.ActivityStreamsTo = i
 }
 
-// SetActivityStreamsType sets the "type" property.
-func (this *ActivityStreamsPlace) SetActivityStreamsType(i vocab.ActivityStreamsTypeProperty) {
-	this.ActivityStreamsType = i
-}
-
 // SetActivityStreamsUnits sets the "units" property.
 func (this *ActivityStreamsPlace) SetActivityStreamsUnits(i vocab.ActivityStreamsUnitsProperty) {
 	this.ActivityStreamsUnits = i
@@ -1757,6 +1746,16 @@ func (this *ActivityStreamsPlace) SetActivityStreamsUpdated(i vocab.ActivityStre
 // SetActivityStreamsUrl sets the "url" property.
 func (this *ActivityStreamsPlace) SetActivityStreamsUrl(i vocab.ActivityStreamsUrlProperty) {
 	this.ActivityStreamsUrl = i
+}
+
+// SetJSONLDId sets the "id" property.
+func (this *ActivityStreamsPlace) SetJSONLDId(i vocab.JSONLDIdProperty) {
+	this.JSONLDId = i
+}
+
+// SetJSONLDType sets the "type" property.
+func (this *ActivityStreamsPlace) SetJSONLDType(i vocab.JSONLDTypeProperty) {
+	this.JSONLDType = i
 }
 
 // VocabularyURI returns the vocabulary's URI as a string.

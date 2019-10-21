@@ -28,7 +28,6 @@ import (
 	propertyhref "github.com/go-fed/activity/streams/impl/activitystreams/property_href"
 	propertyhreflang "github.com/go-fed/activity/streams/impl/activitystreams/property_hreflang"
 	propertyicon "github.com/go-fed/activity/streams/impl/activitystreams/property_icon"
-	propertyid "github.com/go-fed/activity/streams/impl/activitystreams/property_id"
 	propertyimage "github.com/go-fed/activity/streams/impl/activitystreams/property_image"
 	propertyinbox "github.com/go-fed/activity/streams/impl/activitystreams/property_inbox"
 	propertyinreplyto "github.com/go-fed/activity/streams/impl/activitystreams/property_inreplyto"
@@ -68,7 +67,6 @@ import (
 	propertytarget "github.com/go-fed/activity/streams/impl/activitystreams/property_target"
 	propertyto "github.com/go-fed/activity/streams/impl/activitystreams/property_to"
 	propertytotalitems "github.com/go-fed/activity/streams/impl/activitystreams/property_totalitems"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	propertyunits "github.com/go-fed/activity/streams/impl/activitystreams/property_units"
 	propertyupdated "github.com/go-fed/activity/streams/impl/activitystreams/property_updated"
 	propertyurl "github.com/go-fed/activity/streams/impl/activitystreams/property_url"
@@ -127,6 +125,8 @@ import (
 	typeupdate "github.com/go-fed/activity/streams/impl/activitystreams/type_update"
 	typevideo "github.com/go-fed/activity/streams/impl/activitystreams/type_video"
 	typeview "github.com/go-fed/activity/streams/impl/activitystreams/type_view"
+	propertyid "github.com/go-fed/activity/streams/impl/jsonld/property_id"
+	propertytype "github.com/go-fed/activity/streams/impl/jsonld/property_type"
 	propertyowner "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_owner"
 	propertypublickey "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_publickey"
 	propertypublickeypem "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_publickeypem"
@@ -738,11 +738,10 @@ func (this Manager) DeserializeIconPropertyActivityStreams() func(map[string]int
 	}
 }
 
-// DeserializeIdPropertyActivityStreams returns the deserialization method for the
-// "ActivityStreamsIdProperty" non-functional property in the vocabulary
-// "ActivityStreams"
-func (this Manager) DeserializeIdPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsIdProperty, error) {
-	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsIdProperty, error) {
+// DeserializeIdPropertyJSONLD returns the deserialization method for the
+// "JSONLDIdProperty" non-functional property in the vocabulary "JSONLD"
+func (this Manager) DeserializeIdPropertyJSONLD() func(map[string]interface{}, map[string]string) (vocab.JSONLDIdProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.JSONLDIdProperty, error) {
 		i, err := propertyid.DeserializeIdProperty(m, aliasMap)
 		if i == nil {
 			return nil, err
@@ -1713,11 +1712,10 @@ func (this Manager) DeserializeTravelActivityStreams() func(map[string]interface
 	}
 }
 
-// DeserializeTypePropertyActivityStreams returns the deserialization method for
-// the "ActivityStreamsTypeProperty" non-functional property in the vocabulary
-// "ActivityStreams"
-func (this Manager) DeserializeTypePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsTypeProperty, error) {
-	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsTypeProperty, error) {
+// DeserializeTypePropertyJSONLD returns the deserialization method for the
+// "JSONLDTypeProperty" non-functional property in the vocabulary "JSONLD"
+func (this Manager) DeserializeTypePropertyJSONLD() func(map[string]interface{}, map[string]string) (vocab.JSONLDTypeProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.JSONLDTypeProperty, error) {
 		i, err := propertytype.DeserializeTypeProperty(m, aliasMap)
 		if i == nil {
 			return nil, err

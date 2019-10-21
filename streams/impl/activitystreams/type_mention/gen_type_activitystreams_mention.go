@@ -20,13 +20,13 @@ type ActivityStreamsMention struct {
 	ActivityStreamsHeight       vocab.ActivityStreamsHeightProperty
 	ActivityStreamsHref         vocab.ActivityStreamsHrefProperty
 	ActivityStreamsHreflang     vocab.ActivityStreamsHreflangProperty
-	ActivityStreamsId           vocab.ActivityStreamsIdProperty
+	JSONLDId                    vocab.JSONLDIdProperty
 	ActivityStreamsMediaType    vocab.ActivityStreamsMediaTypeProperty
 	ActivityStreamsName         vocab.ActivityStreamsNameProperty
 	ActivityStreamsPreview      vocab.ActivityStreamsPreviewProperty
 	ActivityStreamsRel          vocab.ActivityStreamsRelProperty
 	ActivityStreamsSummary      vocab.ActivityStreamsSummaryProperty
-	ActivityStreamsType         vocab.ActivityStreamsTypeProperty
+	JSONLDType                  vocab.JSONLDTypeProperty
 	ActivityStreamsWidth        vocab.ActivityStreamsWidthProperty
 	alias                       string
 	unknown                     map[string]interface{}
@@ -101,10 +101,10 @@ func DeserializeMention(m map[string]interface{}, aliasMap map[string]string) (*
 	} else if p != nil {
 		this.ActivityStreamsHreflang = p
 	}
-	if p, err := mgr.DeserializeIdPropertyActivityStreams()(m, aliasMap); err != nil {
+	if p, err := mgr.DeserializeIdPropertyJSONLD()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
-		this.ActivityStreamsId = p
+		this.JSONLDId = p
 	}
 	if p, err := mgr.DeserializeMediaTypePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -131,10 +131,10 @@ func DeserializeMention(m map[string]interface{}, aliasMap map[string]string) (*
 	} else if p != nil {
 		this.ActivityStreamsSummary = p
 	}
-	if p, err := mgr.DeserializeTypePropertyActivityStreams()(m, aliasMap); err != nil {
+	if p, err := mgr.DeserializeTypePropertyJSONLD()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
-		this.ActivityStreamsType = p
+		this.JSONLDType = p
 	}
 	if p, err := mgr.DeserializeWidthPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -195,7 +195,7 @@ func IsOrExtendsMention(other vocab.Type) bool {
 // MentionIsDisjointWith returns true if the other provided type is disjoint with
 // the Mention type.
 func MentionIsDisjointWith(other vocab.Type) bool {
-	disjointWith := []string{"Accept", "Activity", "Add", "Announce", "Application", "Arrive", "Article", "Audio", "Block", "Collection", "CollectionPage", "Create", "Delete", "Dislike", "Document", "Event", "Flag", "Follow", "Group", "Ignore", "Image", "IntransitiveActivity", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Note", "Object", "Offer", "OrderedCollection", "OrderedCollectionPage", "OrderedCollectionPage", "Organization", "Page", "Person", "Place", "Profile", "PublicKey", "Question", "Read", "Reject", "Relationship", "Remove", "Service", "TentativeAccept", "TentativeReject", "Tombstone", "Travel", "Undo", "Update", "Video", "View"}
+	disjointWith := []string{"Accept", "Activity", "Add", "Announce", "Application", "Arrive", "Article", "Audio", "Block", "Collection", "CollectionPage", "Create", "Delete", "Dislike", "Document", "Event", "Flag", "Follow", "Group", "Ignore", "Image", "IntransitiveActivity", "Invite", "Join", "Leave", "Like", "Listen", "Move", "Note", "Object", "Offer", "OrderedCollection", "OrderedCollectionPage", "OrderedCollectionPage", "Organization", "Page", "Person", "Place", "Profile", "Question", "Read", "Reject", "Relationship", "Remove", "Service", "TentativeAccept", "TentativeReject", "Tombstone", "Travel", "Undo", "Update", "Video", "View"}
 	for _, disjoint := range disjointWith {
 		if disjoint == other.GetTypeName() {
 			return true
@@ -217,9 +217,9 @@ func NewActivityStreamsMention() *ActivityStreamsMention {
 	typeProp := typePropertyConstructor()
 	typeProp.AppendXMLSchemaString("Mention")
 	return &ActivityStreamsMention{
-		ActivityStreamsType: typeProp,
-		alias:               "",
-		unknown:             make(map[string]interface{}, 0),
+		JSONLDType: typeProp,
+		alias:      "",
+		unknown:    make(map[string]interface{}, 0),
 	}
 }
 
@@ -245,11 +245,6 @@ func (this ActivityStreamsMention) GetActivityStreamsHref() vocab.ActivityStream
 // nil otherwise.
 func (this ActivityStreamsMention) GetActivityStreamsHreflang() vocab.ActivityStreamsHreflangProperty {
 	return this.ActivityStreamsHreflang
-}
-
-// GetActivityStreamsId returns the "id" property if it exists, and nil otherwise.
-func (this ActivityStreamsMention) GetActivityStreamsId() vocab.ActivityStreamsIdProperty {
-	return this.ActivityStreamsId
 }
 
 // GetActivityStreamsMediaType returns the "mediaType" property if it exists, and
@@ -282,16 +277,20 @@ func (this ActivityStreamsMention) GetActivityStreamsSummary() vocab.ActivityStr
 	return this.ActivityStreamsSummary
 }
 
-// GetActivityStreamsType returns the "type" property if it exists, and nil
-// otherwise.
-func (this ActivityStreamsMention) GetActivityStreamsType() vocab.ActivityStreamsTypeProperty {
-	return this.ActivityStreamsType
-}
-
 // GetActivityStreamsWidth returns the "width" property if it exists, and nil
 // otherwise.
 func (this ActivityStreamsMention) GetActivityStreamsWidth() vocab.ActivityStreamsWidthProperty {
 	return this.ActivityStreamsWidth
+}
+
+// GetJSONLDId returns the "id" property if it exists, and nil otherwise.
+func (this ActivityStreamsMention) GetJSONLDId() vocab.JSONLDIdProperty {
+	return this.JSONLDId
+}
+
+// GetJSONLDType returns the "type" property if it exists, and nil otherwise.
+func (this ActivityStreamsMention) GetJSONLDType() vocab.JSONLDTypeProperty {
+	return this.JSONLDType
 }
 
 // GetTypeName returns the name of this type.
@@ -323,13 +322,13 @@ func (this ActivityStreamsMention) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.ActivityStreamsHeight, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsHref, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsHreflang, m)
-	m = this.helperJSONLDContext(this.ActivityStreamsId, m)
+	m = this.helperJSONLDContext(this.JSONLDId, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsMediaType, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsName, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsPreview, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsRel, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsSummary, m)
-	m = this.helperJSONLDContext(this.ActivityStreamsType, m)
+	m = this.helperJSONLDContext(this.JSONLDType, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsWidth, m)
 
 	return m
@@ -396,7 +395,7 @@ func (this ActivityStreamsMention) LessThan(o vocab.ActivityStreamsMention) bool
 		return false
 	} // Else: Both are nil
 	// Compare property "id"
-	if lhs, rhs := this.ActivityStreamsId, o.GetActivityStreamsId(); lhs != nil && rhs != nil {
+	if lhs, rhs := this.JSONLDId, o.GetJSONLDId(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -480,7 +479,7 @@ func (this ActivityStreamsMention) LessThan(o vocab.ActivityStreamsMention) bool
 		return false
 	} // Else: Both are nil
 	// Compare property "type"
-	if lhs, rhs := this.ActivityStreamsType, o.GetActivityStreamsType(); lhs != nil && rhs != nil {
+	if lhs, rhs := this.JSONLDType, o.GetJSONLDType(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -563,11 +562,11 @@ func (this ActivityStreamsMention) Serialize() (map[string]interface{}, error) {
 		}
 	}
 	// Maybe serialize property "id"
-	if this.ActivityStreamsId != nil {
-		if i, err := this.ActivityStreamsId.Serialize(); err != nil {
+	if this.JSONLDId != nil {
+		if i, err := this.JSONLDId.Serialize(); err != nil {
 			return nil, err
 		} else if i != nil {
-			m[this.ActivityStreamsId.Name()] = i
+			m[this.JSONLDId.Name()] = i
 		}
 	}
 	// Maybe serialize property "mediaType"
@@ -611,11 +610,11 @@ func (this ActivityStreamsMention) Serialize() (map[string]interface{}, error) {
 		}
 	}
 	// Maybe serialize property "type"
-	if this.ActivityStreamsType != nil {
-		if i, err := this.ActivityStreamsType.Serialize(); err != nil {
+	if this.JSONLDType != nil {
+		if i, err := this.JSONLDType.Serialize(); err != nil {
 			return nil, err
 		} else if i != nil {
-			m[this.ActivityStreamsType.Name()] = i
+			m[this.JSONLDType.Name()] = i
 		}
 	}
 	// Maybe serialize property "width"
@@ -660,11 +659,6 @@ func (this *ActivityStreamsMention) SetActivityStreamsHreflang(i vocab.ActivityS
 	this.ActivityStreamsHreflang = i
 }
 
-// SetActivityStreamsId sets the "id" property.
-func (this *ActivityStreamsMention) SetActivityStreamsId(i vocab.ActivityStreamsIdProperty) {
-	this.ActivityStreamsId = i
-}
-
 // SetActivityStreamsMediaType sets the "mediaType" property.
 func (this *ActivityStreamsMention) SetActivityStreamsMediaType(i vocab.ActivityStreamsMediaTypeProperty) {
 	this.ActivityStreamsMediaType = i
@@ -690,14 +684,19 @@ func (this *ActivityStreamsMention) SetActivityStreamsSummary(i vocab.ActivitySt
 	this.ActivityStreamsSummary = i
 }
 
-// SetActivityStreamsType sets the "type" property.
-func (this *ActivityStreamsMention) SetActivityStreamsType(i vocab.ActivityStreamsTypeProperty) {
-	this.ActivityStreamsType = i
-}
-
 // SetActivityStreamsWidth sets the "width" property.
 func (this *ActivityStreamsMention) SetActivityStreamsWidth(i vocab.ActivityStreamsWidthProperty) {
 	this.ActivityStreamsWidth = i
+}
+
+// SetJSONLDId sets the "id" property.
+func (this *ActivityStreamsMention) SetJSONLDId(i vocab.JSONLDIdProperty) {
+	this.JSONLDId = i
+}
+
+// SetJSONLDType sets the "type" property.
+func (this *ActivityStreamsMention) SetJSONLDType(i vocab.JSONLDTypeProperty) {
+	this.JSONLDType = i
 }
 
 // VocabularyURI returns the vocabulary's URI as a string.

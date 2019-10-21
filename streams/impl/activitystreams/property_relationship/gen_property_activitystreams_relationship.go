@@ -50,7 +50,6 @@ type ActivityStreamsRelationshipPropertyIterator struct {
 	activitystreamsPersonMember                vocab.ActivityStreamsPerson
 	activitystreamsPlaceMember                 vocab.ActivityStreamsPlace
 	activitystreamsProfileMember               vocab.ActivityStreamsProfile
-	w3idsecurityv1PublicKeyMember              vocab.W3IDSecurityV1PublicKey
 	activitystreamsQuestionMember              vocab.ActivityStreamsQuestion
 	activitystreamsReadMember                  vocab.ActivityStreamsRead
 	activitystreamsRejectMember                vocab.ActivityStreamsReject
@@ -324,12 +323,6 @@ func deserializeActivityStreamsRelationshipPropertyIterator(i interface{}, alias
 			this := &ActivityStreamsRelationshipPropertyIterator{
 				activitystreamsProfileMember: v,
 				alias:                        alias,
-			}
-			return this, nil
-		} else if v, err := mgr.DeserializePublicKeyW3IDSecurityV1()(m, aliasMap); err == nil {
-			this := &ActivityStreamsRelationshipPropertyIterator{
-				alias:                         alias,
-				w3idsecurityv1PublicKeyMember: v,
 			}
 			return this, nil
 		} else if v, err := mgr.DeserializeQuestionActivityStreams()(m, aliasMap); err == nil {
@@ -912,9 +905,6 @@ func (this ActivityStreamsRelationshipPropertyIterator) GetType() vocab.Type {
 	if this.IsActivityStreamsProfile() {
 		return this.GetActivityStreamsProfile()
 	}
-	if this.IsW3IDSecurityV1PublicKey() {
-		return this.GetW3IDSecurityV1PublicKey()
-	}
 	if this.IsActivityStreamsQuestion() {
 		return this.GetActivityStreamsQuestion()
 	}
@@ -961,13 +951,6 @@ func (this ActivityStreamsRelationshipPropertyIterator) GetType() vocab.Type {
 	return nil
 }
 
-// GetW3IDSecurityV1PublicKey returns the value of this property. When
-// IsW3IDSecurityV1PublicKey returns false, GetW3IDSecurityV1PublicKey will
-// return an arbitrary value.
-func (this ActivityStreamsRelationshipPropertyIterator) GetW3IDSecurityV1PublicKey() vocab.W3IDSecurityV1PublicKey {
-	return this.w3idsecurityv1PublicKeyMember
-}
-
 // HasAny returns true if any of the different values is set.
 func (this ActivityStreamsRelationshipPropertyIterator) HasAny() bool {
 	return this.IsActivityStreamsObject() ||
@@ -1008,7 +991,6 @@ func (this ActivityStreamsRelationshipPropertyIterator) HasAny() bool {
 		this.IsActivityStreamsPerson() ||
 		this.IsActivityStreamsPlace() ||
 		this.IsActivityStreamsProfile() ||
-		this.IsW3IDSecurityV1PublicKey() ||
 		this.IsActivityStreamsQuestion() ||
 		this.IsActivityStreamsRead() ||
 		this.IsActivityStreamsReject() ||
@@ -1401,13 +1383,6 @@ func (this ActivityStreamsRelationshipPropertyIterator) IsIRI() bool {
 	return this.iri != nil
 }
 
-// IsW3IDSecurityV1PublicKey returns true if this property has a type of
-// "PublicKey". When true, use the GetW3IDSecurityV1PublicKey and
-// SetW3IDSecurityV1PublicKey methods to access and set this property.
-func (this ActivityStreamsRelationshipPropertyIterator) IsW3IDSecurityV1PublicKey() bool {
-	return this.w3idsecurityv1PublicKeyMember != nil
-}
-
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
@@ -1490,8 +1465,6 @@ func (this ActivityStreamsRelationshipPropertyIterator) JSONLDContext() map[stri
 		child = this.GetActivityStreamsPlace().JSONLDContext()
 	} else if this.IsActivityStreamsProfile() {
 		child = this.GetActivityStreamsProfile().JSONLDContext()
-	} else if this.IsW3IDSecurityV1PublicKey() {
-		child = this.GetW3IDSecurityV1PublicKey().JSONLDContext()
 	} else if this.IsActivityStreamsQuestion() {
 		child = this.GetActivityStreamsQuestion().JSONLDContext()
 	} else if this.IsActivityStreamsRead() {
@@ -1650,50 +1623,47 @@ func (this ActivityStreamsRelationshipPropertyIterator) KindIndex() int {
 	if this.IsActivityStreamsProfile() {
 		return 37
 	}
-	if this.IsW3IDSecurityV1PublicKey() {
+	if this.IsActivityStreamsQuestion() {
 		return 38
 	}
-	if this.IsActivityStreamsQuestion() {
+	if this.IsActivityStreamsRead() {
 		return 39
 	}
-	if this.IsActivityStreamsRead() {
+	if this.IsActivityStreamsReject() {
 		return 40
 	}
-	if this.IsActivityStreamsReject() {
+	if this.IsActivityStreamsRelationship() {
 		return 41
 	}
-	if this.IsActivityStreamsRelationship() {
+	if this.IsActivityStreamsRemove() {
 		return 42
 	}
-	if this.IsActivityStreamsRemove() {
+	if this.IsActivityStreamsService() {
 		return 43
 	}
-	if this.IsActivityStreamsService() {
+	if this.IsActivityStreamsTentativeAccept() {
 		return 44
 	}
-	if this.IsActivityStreamsTentativeAccept() {
+	if this.IsActivityStreamsTentativeReject() {
 		return 45
 	}
-	if this.IsActivityStreamsTentativeReject() {
+	if this.IsActivityStreamsTombstone() {
 		return 46
 	}
-	if this.IsActivityStreamsTombstone() {
+	if this.IsActivityStreamsTravel() {
 		return 47
 	}
-	if this.IsActivityStreamsTravel() {
+	if this.IsActivityStreamsUndo() {
 		return 48
 	}
-	if this.IsActivityStreamsUndo() {
+	if this.IsActivityStreamsUpdate() {
 		return 49
 	}
-	if this.IsActivityStreamsUpdate() {
+	if this.IsActivityStreamsVideo() {
 		return 50
 	}
-	if this.IsActivityStreamsVideo() {
-		return 51
-	}
 	if this.IsActivityStreamsView() {
-		return 52
+		return 51
 	}
 	if this.IsIRI() {
 		return -2
@@ -1788,8 +1758,6 @@ func (this ActivityStreamsRelationshipPropertyIterator) LessThan(o vocab.Activit
 		return this.GetActivityStreamsPlace().LessThan(o.GetActivityStreamsPlace())
 	} else if this.IsActivityStreamsProfile() {
 		return this.GetActivityStreamsProfile().LessThan(o.GetActivityStreamsProfile())
-	} else if this.IsW3IDSecurityV1PublicKey() {
-		return this.GetW3IDSecurityV1PublicKey().LessThan(o.GetW3IDSecurityV1PublicKey())
 	} else if this.IsActivityStreamsQuestion() {
 		return this.GetActivityStreamsQuestion().LessThan(o.GetActivityStreamsQuestion())
 	} else if this.IsActivityStreamsRead() {
@@ -2376,10 +2344,6 @@ func (this *ActivityStreamsRelationshipPropertyIterator) SetType(t vocab.Type) e
 		this.SetActivityStreamsProfile(v)
 		return nil
 	}
-	if v, ok := t.(vocab.W3IDSecurityV1PublicKey); ok {
-		this.SetW3IDSecurityV1PublicKey(v)
-		return nil
-	}
 	if v, ok := t.(vocab.ActivityStreamsQuestion); ok {
 		this.SetActivityStreamsQuestion(v)
 		return nil
@@ -2440,13 +2404,6 @@ func (this *ActivityStreamsRelationshipPropertyIterator) SetType(t vocab.Type) e
 	return fmt.Errorf("illegal type to set on ActivityStreamsRelationship property: %T", t)
 }
 
-// SetW3IDSecurityV1PublicKey sets the value of this property. Calling
-// IsW3IDSecurityV1PublicKey afterwards returns true.
-func (this *ActivityStreamsRelationshipPropertyIterator) SetW3IDSecurityV1PublicKey(v vocab.W3IDSecurityV1PublicKey) {
-	this.clear()
-	this.w3idsecurityv1PublicKeyMember = v
-}
-
 // clear ensures no value of this property is set. Calling HasAny or any of the
 // 'Is' methods afterwards will return false.
 func (this *ActivityStreamsRelationshipPropertyIterator) clear() {
@@ -2488,7 +2445,6 @@ func (this *ActivityStreamsRelationshipPropertyIterator) clear() {
 	this.activitystreamsPersonMember = nil
 	this.activitystreamsPlaceMember = nil
 	this.activitystreamsProfileMember = nil
-	this.w3idsecurityv1PublicKeyMember = nil
 	this.activitystreamsQuestionMember = nil
 	this.activitystreamsReadMember = nil
 	this.activitystreamsRejectMember = nil
@@ -2588,8 +2544,6 @@ func (this ActivityStreamsRelationshipPropertyIterator) serialize() (interface{}
 		return this.GetActivityStreamsPlace().Serialize()
 	} else if this.IsActivityStreamsProfile() {
 		return this.GetActivityStreamsProfile().Serialize()
-	} else if this.IsW3IDSecurityV1PublicKey() {
-		return this.GetW3IDSecurityV1PublicKey().Serialize()
 	} else if this.IsActivityStreamsQuestion() {
 		return this.GetActivityStreamsQuestion().Serialize()
 	} else if this.IsActivityStreamsRead() {
@@ -3331,18 +3285,6 @@ func (this *ActivityStreamsRelationshipProperty) AppendType(t vocab.Type) error 
 	}
 	this.properties = append(this.properties, n)
 	return nil
-}
-
-// AppendW3IDSecurityV1PublicKey appends a PublicKey value to the back of a list
-// of the property "relationship". Invalidates iterators that are traversing
-// using Prev.
-func (this *ActivityStreamsRelationshipProperty) AppendW3IDSecurityV1PublicKey(v vocab.W3IDSecurityV1PublicKey) {
-	this.properties = append(this.properties, &ActivityStreamsRelationshipPropertyIterator{
-		alias:                         this.alias,
-		myIdx:                         this.Len(),
-		parent:                        this,
-		w3idsecurityv1PublicKeyMember: v,
-	})
 }
 
 // At returns the property value for the specified index. Panics if the index is
@@ -4297,23 +4239,6 @@ func (this *ActivityStreamsRelationshipProperty) InsertType(idx int, t vocab.Typ
 	return nil
 }
 
-// InsertW3IDSecurityV1PublicKey inserts a PublicKey value at the specified index
-// for a property "relationship". Existing elements at that index and higher
-// are shifted back once. Invalidates all iterators.
-func (this *ActivityStreamsRelationshipProperty) InsertW3IDSecurityV1PublicKey(idx int, v vocab.W3IDSecurityV1PublicKey) {
-	this.properties = append(this.properties, nil)
-	copy(this.properties[idx+1:], this.properties[idx:])
-	this.properties[idx] = &ActivityStreamsRelationshipPropertyIterator{
-		alias:                         this.alias,
-		myIdx:                         idx,
-		parent:                        this,
-		w3idsecurityv1PublicKeyMember: v,
-	}
-	for i := idx; i < this.Len(); i++ {
-		(this.properties)[i].myIdx = i
-	}
-}
-
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
@@ -4507,62 +4432,58 @@ func (this ActivityStreamsRelationshipProperty) Less(i, j int) bool {
 			rhs := this.properties[j].GetActivityStreamsProfile()
 			return lhs.LessThan(rhs)
 		} else if idx1 == 38 {
-			lhs := this.properties[i].GetW3IDSecurityV1PublicKey()
-			rhs := this.properties[j].GetW3IDSecurityV1PublicKey()
-			return lhs.LessThan(rhs)
-		} else if idx1 == 39 {
 			lhs := this.properties[i].GetActivityStreamsQuestion()
 			rhs := this.properties[j].GetActivityStreamsQuestion()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 40 {
+		} else if idx1 == 39 {
 			lhs := this.properties[i].GetActivityStreamsRead()
 			rhs := this.properties[j].GetActivityStreamsRead()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 41 {
+		} else if idx1 == 40 {
 			lhs := this.properties[i].GetActivityStreamsReject()
 			rhs := this.properties[j].GetActivityStreamsReject()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 42 {
+		} else if idx1 == 41 {
 			lhs := this.properties[i].GetActivityStreamsRelationship()
 			rhs := this.properties[j].GetActivityStreamsRelationship()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 43 {
+		} else if idx1 == 42 {
 			lhs := this.properties[i].GetActivityStreamsRemove()
 			rhs := this.properties[j].GetActivityStreamsRemove()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 44 {
+		} else if idx1 == 43 {
 			lhs := this.properties[i].GetActivityStreamsService()
 			rhs := this.properties[j].GetActivityStreamsService()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 45 {
+		} else if idx1 == 44 {
 			lhs := this.properties[i].GetActivityStreamsTentativeAccept()
 			rhs := this.properties[j].GetActivityStreamsTentativeAccept()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 46 {
+		} else if idx1 == 45 {
 			lhs := this.properties[i].GetActivityStreamsTentativeReject()
 			rhs := this.properties[j].GetActivityStreamsTentativeReject()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 47 {
+		} else if idx1 == 46 {
 			lhs := this.properties[i].GetActivityStreamsTombstone()
 			rhs := this.properties[j].GetActivityStreamsTombstone()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 48 {
+		} else if idx1 == 47 {
 			lhs := this.properties[i].GetActivityStreamsTravel()
 			rhs := this.properties[j].GetActivityStreamsTravel()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 49 {
+		} else if idx1 == 48 {
 			lhs := this.properties[i].GetActivityStreamsUndo()
 			rhs := this.properties[j].GetActivityStreamsUndo()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 50 {
+		} else if idx1 == 49 {
 			lhs := this.properties[i].GetActivityStreamsUpdate()
 			rhs := this.properties[j].GetActivityStreamsUpdate()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 51 {
+		} else if idx1 == 50 {
 			lhs := this.properties[i].GetActivityStreamsVideo()
 			rhs := this.properties[j].GetActivityStreamsVideo()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 52 {
+		} else if idx1 == 51 {
 			lhs := this.properties[i].GetActivityStreamsView()
 			rhs := this.properties[j].GetActivityStreamsView()
 			return lhs.LessThan(rhs)
@@ -5369,20 +5290,6 @@ func (this *ActivityStreamsRelationshipProperty) PrependType(t vocab.Type) error
 	return nil
 }
 
-// PrependW3IDSecurityV1PublicKey prepends a PublicKey value to the front of a
-// list of the property "relationship". Invalidates all iterators.
-func (this *ActivityStreamsRelationshipProperty) PrependW3IDSecurityV1PublicKey(v vocab.W3IDSecurityV1PublicKey) {
-	this.properties = append([]*ActivityStreamsRelationshipPropertyIterator{{
-		alias:                         this.alias,
-		myIdx:                         0,
-		parent:                        this,
-		w3idsecurityv1PublicKeyMember: v,
-	}}, this.properties...)
-	for i := 1; i < this.Len(); i++ {
-		(this.properties)[i].myIdx = i
-	}
-}
-
 // Remove deletes an element at the specified index from a list of the property
 // "relationship", regardless of its type. Panics if the index is out of
 // bounds. Invalidates all iterators.
@@ -6119,19 +6026,6 @@ func (this *ActivityStreamsRelationshipProperty) SetType(idx int, t vocab.Type) 
 	}
 	(this.properties)[idx] = n
 	return nil
-}
-
-// SetW3IDSecurityV1PublicKey sets a PublicKey value to be at the specified index
-// for the property "relationship". Panics if the index is out of bounds.
-// Invalidates all iterators.
-func (this *ActivityStreamsRelationshipProperty) SetW3IDSecurityV1PublicKey(idx int, v vocab.W3IDSecurityV1PublicKey) {
-	(this.properties)[idx].parent = nil
-	(this.properties)[idx] = &ActivityStreamsRelationshipPropertyIterator{
-		alias:                         this.alias,
-		myIdx:                         idx,
-		parent:                        this,
-		w3idsecurityv1PublicKeyMember: v,
-	}
 }
 
 // Swap swaps the location of values at two indices for the "relationship"

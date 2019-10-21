@@ -1007,7 +1007,7 @@ func TestAddNewIds(t *testing.T) {
 		err := a.AddNewIds(ctx, testMyListenNoId)
 		// Verify
 		assertEqual(t, err, nil)
-		resultId := testMyListenNoId.GetActivityStreamsId()
+		resultId := testMyListenNoId.GetJSONLDId()
 		assertNotEqual(t, resultId, nil)
 		assertEqual(t, resultId.Get().String(), mustParse(testNewActivityIRI2).String())
 	})
@@ -1021,7 +1021,7 @@ func TestAddNewIds(t *testing.T) {
 		err := a.AddNewIds(ctx, testMyListen)
 		// Verify
 		assertEqual(t, err, nil)
-		resultId := testMyListen.GetActivityStreamsId()
+		resultId := testMyListen.GetJSONLDId()
 		assertNotEqual(t, resultId, nil)
 		assertEqual(t, resultId.Get().String(), mustParse(testNewActivityIRI2).String())
 	})
@@ -1041,7 +1041,7 @@ func TestAddNewIds(t *testing.T) {
 		assertEqual(t, op.Len(), 1)
 		n := op.At(0).GetActivityStreamsNote()
 		assertNotEqual(t, n, nil)
-		noteId := n.GetActivityStreamsId()
+		noteId := n.GetJSONLDId()
 		assertNotEqual(t, noteId, nil)
 		assertEqual(t, noteId.Get().String(), mustParse(testNewActivityIRI3).String())
 	})
@@ -1060,7 +1060,7 @@ func TestAddNewIds(t *testing.T) {
 		assertEqual(t, op.Len(), 1)
 		n := op.At(0).GetActivityStreamsNote()
 		assertNotEqual(t, n, nil)
-		noteId := n.GetActivityStreamsId()
+		noteId := n.GetJSONLDId()
 		assertEqual(t, noteId, nil)
 	})
 }

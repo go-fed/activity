@@ -83,7 +83,7 @@ func (a *sideEffectActor) AuthorizePostInbox(c context.Context, w http.ResponseW
 		if iter.IsIRI() {
 			iris = append(iris, iter.GetIRI())
 		} else if t := iter.GetType(); t != nil {
-			iris = append(iris, activity.GetActivityStreamsId().Get())
+			iris = append(iris, activity.GetJSONLDId().Get())
 		} else {
 			err = fmt.Errorf("actor at index %d is missing an id", i)
 			return
@@ -145,7 +145,7 @@ func (a *sideEffectActor) InboxForwarding(c context.Context, inboxIRI *url.URL, 
 	// 1. Must be first time we have seen this Activity.
 	//
 	// Obtain the id of the activity
-	id := activity.GetActivityStreamsId()
+	id := activity.GetJSONLDId()
 	// Acquire a lock for the id. To be held for the rest of execution.
 	err := a.db.Lock(c, id.Get())
 	if err != nil {
@@ -367,9 +367,9 @@ func (a *sideEffectActor) AddNewIds(c context.Context, activity Activity) error 
 	if err != nil {
 		return err
 	}
-	activityId := streams.NewActivityStreamsIdProperty()
+	activityId := streams.NewJSONLDIdProperty()
 	activityId.Set(id)
-	activity.SetActivityStreamsId(activityId)
+	activity.SetJSONLDId(activityId)
 	if streams.IsOrExtendsActivityStreamsCreate(activity) {
 		o, ok := activity.(objecter)
 		if !ok {
@@ -385,9 +385,9 @@ func (a *sideEffectActor) AddNewIds(c context.Context, activity Activity) error 
 				if err != nil {
 					return err
 				}
-				objId := streams.NewActivityStreamsIdProperty()
+				objId := streams.NewJSONLDIdProperty()
 				objId.Set(id)
-				t.SetActivityStreamsId(objId)
+				t.SetJSONLDId(objId)
 			}
 		}
 	}
@@ -445,7 +445,7 @@ func (a *sideEffectActor) deliverToRecipients(c context.Context, boxIRI *url.URL
 // internal database as its own entry.
 func (a *sideEffectActor) addToOutbox(c context.Context, outboxIRI *url.URL, activity Activity) error {
 	// Set the activity in the database first.
-	id := activity.GetActivityStreamsId()
+	id := activity.GetJSONLDId()
 	err := a.db.Lock(c, id.Get())
 	if err != nil {
 		return err
@@ -496,7 +496,7 @@ func (a *sideEffectActor) addToInboxIfNew(c context.Context, inboxIRI *url.URL, 
 	}
 	defer a.db.Unlock(c, inboxIRI)
 	// Obtain the id of the activity
-	id := activity.GetActivityStreamsId()
+	id := activity.GetJSONLDId()
 	// If the inbox already contains the URL, early exit.
 	contains, err := a.db.InboxContains(c, inboxIRI, id.Get())
 	if err != nil {

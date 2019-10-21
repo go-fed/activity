@@ -183,7 +183,7 @@ func ToId(i IdProperty) (*url.URL, error) {
 // Returns an error if the id is not set and either the 'href' property is not
 // valid on this type, or it is also not set.
 func GetId(t vocab.Type) (*url.URL, error) {
-	if id := t.GetActivityStreamsId(); id != nil {
+	if id := t.GetJSONLDId(); id != nil {
 		return id.Get(), nil
 	} else if h, ok := t.(hrefer); ok {
 		if href := h.GetActivityStreamsHref(); href != nil {
@@ -711,9 +711,9 @@ func normalizeRecipients(a vocab.ActivityStreamsCreate) error {
 func toTombstone(obj vocab.Type, id *url.URL, now time.Time) vocab.ActivityStreamsTombstone {
 	tomb := streams.NewActivityStreamsTombstone()
 	// id property
-	idProp := streams.NewActivityStreamsIdProperty()
+	idProp := streams.NewJSONLDIdProperty()
 	idProp.Set(id)
-	tomb.SetActivityStreamsId(idProp)
+	tomb.SetJSONLDId(idProp)
 	// formerType property
 	former := streams.NewActivityStreamsFormerTypeProperty()
 	tomb.SetActivityStreamsFormerType(former)

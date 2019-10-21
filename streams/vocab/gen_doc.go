@@ -1,4 +1,4 @@
-// Package vocab contains the interfaces for the W3IDSecurityV1 vocabulary. All
+// Package vocab contains the interfaces for the JSONLD vocabulary. All
 // applications are strongly encouraged to use these interface types instead
 // of the concrete definitions contained in the implementation subpackage.
 // These interfaces allow applications to consume only the types and

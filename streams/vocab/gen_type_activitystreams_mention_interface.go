@@ -22,9 +22,6 @@ type ActivityStreamsMention interface {
 	// GetActivityStreamsHreflang returns the "hreflang" property if it
 	// exists, and nil otherwise.
 	GetActivityStreamsHreflang() ActivityStreamsHreflangProperty
-	// GetActivityStreamsId returns the "id" property if it exists, and nil
-	// otherwise.
-	GetActivityStreamsId() ActivityStreamsIdProperty
 	// GetActivityStreamsMediaType returns the "mediaType" property if it
 	// exists, and nil otherwise.
 	GetActivityStreamsMediaType() ActivityStreamsMediaTypeProperty
@@ -40,12 +37,14 @@ type ActivityStreamsMention interface {
 	// GetActivityStreamsSummary returns the "summary" property if it exists,
 	// and nil otherwise.
 	GetActivityStreamsSummary() ActivityStreamsSummaryProperty
-	// GetActivityStreamsType returns the "type" property if it exists, and
-	// nil otherwise.
-	GetActivityStreamsType() ActivityStreamsTypeProperty
 	// GetActivityStreamsWidth returns the "width" property if it exists, and
 	// nil otherwise.
 	GetActivityStreamsWidth() ActivityStreamsWidthProperty
+	// GetJSONLDId returns the "id" property if it exists, and nil otherwise.
+	GetJSONLDId() JSONLDIdProperty
+	// GetJSONLDType returns the "type" property if it exists, and nil
+	// otherwise.
+	GetJSONLDType() JSONLDTypeProperty
 	// GetTypeName returns the name of this type.
 	GetTypeName() string
 	// GetUnknownProperties returns the unknown properties for the Mention
@@ -77,8 +76,6 @@ type ActivityStreamsMention interface {
 	SetActivityStreamsHref(i ActivityStreamsHrefProperty)
 	// SetActivityStreamsHreflang sets the "hreflang" property.
 	SetActivityStreamsHreflang(i ActivityStreamsHreflangProperty)
-	// SetActivityStreamsId sets the "id" property.
-	SetActivityStreamsId(i ActivityStreamsIdProperty)
 	// SetActivityStreamsMediaType sets the "mediaType" property.
 	SetActivityStreamsMediaType(i ActivityStreamsMediaTypeProperty)
 	// SetActivityStreamsName sets the "name" property.
@@ -89,10 +86,12 @@ type ActivityStreamsMention interface {
 	SetActivityStreamsRel(i ActivityStreamsRelProperty)
 	// SetActivityStreamsSummary sets the "summary" property.
 	SetActivityStreamsSummary(i ActivityStreamsSummaryProperty)
-	// SetActivityStreamsType sets the "type" property.
-	SetActivityStreamsType(i ActivityStreamsTypeProperty)
 	// SetActivityStreamsWidth sets the "width" property.
 	SetActivityStreamsWidth(i ActivityStreamsWidthProperty)
+	// SetJSONLDId sets the "id" property.
+	SetJSONLDId(i JSONLDIdProperty)
+	// SetJSONLDType sets the "type" property.
+	SetJSONLDType(i JSONLDTypeProperty)
 	// VocabularyURI returns the vocabulary's URI as a string.
 	VocabularyURI() string
 }

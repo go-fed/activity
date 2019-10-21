@@ -249,9 +249,6 @@ var ActivityStreamsHreflangPropertyName string = "hreflang"
 // ActivityStreamsIconPropertyName is the string literal of the name for the icon property in the ActivityStreams vocabulary.
 var ActivityStreamsIconPropertyName string = "icon"
 
-// ActivityStreamsIdPropertyName is the string literal of the name for the id property in the ActivityStreams vocabulary.
-var ActivityStreamsIdPropertyName string = "id"
-
 // ActivityStreamsImagePropertyName is the string literal of the name for the image property in the ActivityStreams vocabulary.
 var ActivityStreamsImagePropertyName string = "image"
 
@@ -386,9 +383,6 @@ var ActivityStreamsToPropertyName string = "to"
 
 // ActivityStreamsTotalItemsPropertyName is the string literal of the name for the totalItems property in the ActivityStreams vocabulary.
 var ActivityStreamsTotalItemsPropertyName string = "totalItems"
-
-// ActivityStreamsTypePropertyName is the string literal of the name for the type property in the ActivityStreams vocabulary.
-var ActivityStreamsTypePropertyName string = "type"
 
 // ActivityStreamsUnitsPropertyName is the string literal of the name for the units property in the ActivityStreams vocabulary.
 var ActivityStreamsUnitsPropertyName string = "units"

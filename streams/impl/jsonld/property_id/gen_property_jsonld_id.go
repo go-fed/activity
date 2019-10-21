@@ -7,9 +7,9 @@ import (
 	"net/url"
 )
 
-// ActivityStreamsIdProperty is the functional property "id". It is permitted to
-// be a single nilable value type.
-type ActivityStreamsIdProperty struct {
+// JSONLDIdProperty is the functional property "id". It is permitted to be a
+// single nilable value type.
+type JSONLDIdProperty struct {
 	xmlschemaAnyURIMember *url.URL
 	unknown               interface{}
 	alias                 string
@@ -17,11 +17,9 @@ type ActivityStreamsIdProperty struct {
 
 // DeserializeIdProperty creates a "id" property from an interface representation
 // that has been unmarshalled from a text or binary format.
-func DeserializeIdProperty(m map[string]interface{}, aliasMap map[string]string) (*ActivityStreamsIdProperty, error) {
+func DeserializeIdProperty(m map[string]interface{}, aliasMap map[string]string) (*JSONLDIdProperty, error) {
 	alias := ""
-	if a, ok := aliasMap["https://www.w3.org/ns/activitystreams"]; ok {
-		alias = a
-	}
+
 	propName := "id"
 	if len(alias) > 0 {
 		// Use alias both to find the property, and set within the property.
@@ -31,13 +29,13 @@ func DeserializeIdProperty(m map[string]interface{}, aliasMap map[string]string)
 
 	if ok {
 		if v, err := anyuri.DeserializeAnyURI(i); err == nil {
-			this := &ActivityStreamsIdProperty{
+			this := &JSONLDIdProperty{
 				alias:                 alias,
 				xmlschemaAnyURIMember: v,
 			}
 			return this, nil
 		}
-		this := &ActivityStreamsIdProperty{
+		this := &JSONLDIdProperty{
 			alias:   alias,
 			unknown: i,
 		}
@@ -46,50 +44,50 @@ func DeserializeIdProperty(m map[string]interface{}, aliasMap map[string]string)
 	return nil, nil
 }
 
-// NewActivityStreamsIdProperty creates a new id property.
-func NewActivityStreamsIdProperty() *ActivityStreamsIdProperty {
-	return &ActivityStreamsIdProperty{alias: ""}
+// NewJSONLDIdProperty creates a new id property.
+func NewJSONLDIdProperty() *JSONLDIdProperty {
+	return &JSONLDIdProperty{alias: ""}
 }
 
 // Clear ensures no value of this property is set. Calling IsXMLSchemaAnyURI
 // afterwards will return false.
-func (this *ActivityStreamsIdProperty) Clear() {
+func (this *JSONLDIdProperty) Clear() {
 	this.unknown = nil
 	this.xmlschemaAnyURIMember = nil
 }
 
 // Get returns the value of this property. When IsXMLSchemaAnyURI returns false,
 // Get will return any arbitrary value.
-func (this ActivityStreamsIdProperty) Get() *url.URL {
+func (this JSONLDIdProperty) Get() *url.URL {
 	return this.xmlschemaAnyURIMember
 }
 
 // GetIRI returns the IRI of this property. When IsIRI returns false, GetIRI will
 // return any arbitrary value.
-func (this ActivityStreamsIdProperty) GetIRI() *url.URL {
+func (this JSONLDIdProperty) GetIRI() *url.URL {
 	return this.xmlschemaAnyURIMember
 }
 
 // HasAny returns true if the value or IRI is set.
-func (this ActivityStreamsIdProperty) HasAny() bool {
+func (this JSONLDIdProperty) HasAny() bool {
 	return this.IsXMLSchemaAnyURI()
 }
 
 // IsIRI returns true if this property is an IRI.
-func (this ActivityStreamsIdProperty) IsIRI() bool {
+func (this JSONLDIdProperty) IsIRI() bool {
 	return this.xmlschemaAnyURIMember != nil
 }
 
 // IsXMLSchemaAnyURI returns true if this property is set and not an IRI.
-func (this ActivityStreamsIdProperty) IsXMLSchemaAnyURI() bool {
+func (this JSONLDIdProperty) IsXMLSchemaAnyURI() bool {
 	return this.xmlschemaAnyURIMember != nil
 }
 
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
-func (this ActivityStreamsIdProperty) JSONLDContext() map[string]string {
-	m := map[string]string{"https://www.w3.org/ns/activitystreams": this.alias}
+func (this JSONLDIdProperty) JSONLDContext() map[string]string {
+	var m map[string]string
 	var child map[string]string
 
 	/*
@@ -106,7 +104,7 @@ func (this ActivityStreamsIdProperty) JSONLDContext() map[string]string {
 // KindIndex computes an arbitrary value for indexing this kind of value. This is
 // a leaky API detail only for folks looking to replace the go-fed
 // implementation. Applications should not use this method.
-func (this ActivityStreamsIdProperty) KindIndex() int {
+func (this JSONLDIdProperty) KindIndex() int {
 	if this.IsXMLSchemaAnyURI() {
 		return 0
 	}
@@ -120,7 +118,7 @@ func (this ActivityStreamsIdProperty) KindIndex() int {
 // comparison. Applications should not use this because it is only meant to
 // help alternative implementations to go-fed to be able to normalize
 // nonfunctional properties.
-func (this ActivityStreamsIdProperty) LessThan(o vocab.ActivityStreamsIdProperty) bool {
+func (this JSONLDIdProperty) LessThan(o vocab.JSONLDIdProperty) bool {
 	if this.IsIRI() {
 		// IRIs are always less than other values, none, or unknowns
 		return true
@@ -145,7 +143,7 @@ func (this ActivityStreamsIdProperty) LessThan(o vocab.ActivityStreamsIdProperty
 }
 
 // Name returns the name of this property: "id".
-func (this ActivityStreamsIdProperty) Name() string {
+func (this JSONLDIdProperty) Name() string {
 	if len(this.alias) > 0 {
 		return this.alias + ":" + "id"
 	} else {
@@ -157,7 +155,7 @@ func (this ActivityStreamsIdProperty) Name() string {
 // marshalling into a text or binary format. Applications should not need this
 // function as most typical use cases serialize types instead of individual
 // properties. It is exposed for alternatives to go-fed implementations to use.
-func (this ActivityStreamsIdProperty) Serialize() (interface{}, error) {
+func (this JSONLDIdProperty) Serialize() (interface{}, error) {
 	if this.IsXMLSchemaAnyURI() {
 		return anyuri.SerializeAnyURI(this.Get())
 	}
@@ -166,14 +164,14 @@ func (this ActivityStreamsIdProperty) Serialize() (interface{}, error) {
 
 // Set sets the value of this property. Calling IsXMLSchemaAnyURI afterwards will
 // return true.
-func (this *ActivityStreamsIdProperty) Set(v *url.URL) {
+func (this *JSONLDIdProperty) Set(v *url.URL) {
 	this.Clear()
 	this.xmlschemaAnyURIMember = v
 }
 
 // SetIRI sets the value of this property. Calling IsIRI afterwards will return
 // true.
-func (this *ActivityStreamsIdProperty) SetIRI(v *url.URL) {
+func (this *JSONLDIdProperty) SetIRI(v *url.URL) {
 	this.Clear()
 	this.Set(v)
 }

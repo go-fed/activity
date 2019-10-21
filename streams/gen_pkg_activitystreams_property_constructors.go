@@ -28,7 +28,6 @@ import (
 	propertyhref "github.com/go-fed/activity/streams/impl/activitystreams/property_href"
 	propertyhreflang "github.com/go-fed/activity/streams/impl/activitystreams/property_hreflang"
 	propertyicon "github.com/go-fed/activity/streams/impl/activitystreams/property_icon"
-	propertyid "github.com/go-fed/activity/streams/impl/activitystreams/property_id"
 	propertyimage "github.com/go-fed/activity/streams/impl/activitystreams/property_image"
 	propertyinbox "github.com/go-fed/activity/streams/impl/activitystreams/property_inbox"
 	propertyinreplyto "github.com/go-fed/activity/streams/impl/activitystreams/property_inreplyto"
@@ -68,7 +67,6 @@ import (
 	propertytarget "github.com/go-fed/activity/streams/impl/activitystreams/property_target"
 	propertyto "github.com/go-fed/activity/streams/impl/activitystreams/property_to"
 	propertytotalitems "github.com/go-fed/activity/streams/impl/activitystreams/property_totalitems"
-	propertytype "github.com/go-fed/activity/streams/impl/activitystreams/property_type"
 	propertyunits "github.com/go-fed/activity/streams/impl/activitystreams/property_units"
 	propertyupdated "github.com/go-fed/activity/streams/impl/activitystreams/property_updated"
 	propertyurl "github.com/go-fed/activity/streams/impl/activitystreams/property_url"
@@ -236,12 +234,6 @@ func NewActivityStreamsHreflangProperty() vocab.ActivityStreamsHreflangProperty 
 // ActivityStreamsIconProperty
 func NewActivityStreamsIconProperty() vocab.ActivityStreamsIconProperty {
 	return propertyicon.NewActivityStreamsIconProperty()
-}
-
-// NewActivityStreamsActivityStreamsIdProperty creates a new
-// ActivityStreamsIdProperty
-func NewActivityStreamsIdProperty() vocab.ActivityStreamsIdProperty {
-	return propertyid.NewActivityStreamsIdProperty()
 }
 
 // NewActivityStreamsActivityStreamsImageProperty creates a new
@@ -476,12 +468,6 @@ func NewActivityStreamsToProperty() vocab.ActivityStreamsToProperty {
 // ActivityStreamsTotalItemsProperty
 func NewActivityStreamsTotalItemsProperty() vocab.ActivityStreamsTotalItemsProperty {
 	return propertytotalitems.NewActivityStreamsTotalItemsProperty()
-}
-
-// NewActivityStreamsActivityStreamsTypeProperty creates a new
-// ActivityStreamsTypeProperty
-func NewActivityStreamsTypeProperty() vocab.ActivityStreamsTypeProperty {
-	return propertytype.NewActivityStreamsTypeProperty()
 }
 
 // NewActivityStreamsActivityStreamsUnitsProperty creates a new

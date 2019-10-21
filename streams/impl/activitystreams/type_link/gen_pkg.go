@@ -4,7 +4,7 @@ import vocab "github.com/go-fed/activity/streams/vocab"
 
 var mgr privateManager
 
-var typePropertyConstructor func() vocab.ActivityStreamsTypeProperty
+var typePropertyConstructor func() vocab.JSONLDTypeProperty
 
 // privateManager abstracts the code-generated manager that provides access to
 // concrete implementations.
@@ -26,10 +26,10 @@ type privateManager interface {
 	// method for the "ActivityStreamsHreflangProperty" non-functional
 	// property in the vocabulary "ActivityStreams"
 	DeserializeHreflangPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsHreflangProperty, error)
-	// DeserializeIdPropertyActivityStreams returns the deserialization method
-	// for the "ActivityStreamsIdProperty" non-functional property in the
-	// vocabulary "ActivityStreams"
-	DeserializeIdPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsIdProperty, error)
+	// DeserializeIdPropertyJSONLD returns the deserialization method for the
+	// "JSONLDIdProperty" non-functional property in the vocabulary
+	// "JSONLD"
+	DeserializeIdPropertyJSONLD() func(map[string]interface{}, map[string]string) (vocab.JSONLDIdProperty, error)
 	// DeserializeMediaTypePropertyActivityStreams returns the deserialization
 	// method for the "ActivityStreamsMediaTypeProperty" non-functional
 	// property in the vocabulary "ActivityStreams"
@@ -50,10 +50,10 @@ type privateManager interface {
 	// method for the "ActivityStreamsSummaryProperty" non-functional
 	// property in the vocabulary "ActivityStreams"
 	DeserializeSummaryPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsSummaryProperty, error)
-	// DeserializeTypePropertyActivityStreams returns the deserialization
-	// method for the "ActivityStreamsTypeProperty" non-functional
-	// property in the vocabulary "ActivityStreams"
-	DeserializeTypePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsTypeProperty, error)
+	// DeserializeTypePropertyJSONLD returns the deserialization method for
+	// the "JSONLDTypeProperty" non-functional property in the vocabulary
+	// "JSONLD"
+	DeserializeTypePropertyJSONLD() func(map[string]interface{}, map[string]string) (vocab.JSONLDTypeProperty, error)
 	// DeserializeWidthPropertyActivityStreams returns the deserialization
 	// method for the "ActivityStreamsWidthProperty" non-functional
 	// property in the vocabulary "ActivityStreams"
@@ -84,6 +84,6 @@ func SetManager(m privateManager) {
 // construction time, so users don't have to remember to do so each time. It
 // is dependency injected so other go-fed compatible implementations could
 // inject their own type.
-func SetTypePropertyConstructor(f func() vocab.ActivityStreamsTypeProperty) {
+func SetTypePropertyConstructor(f func() vocab.JSONLDTypeProperty) {
 	typePropertyConstructor = f
 }

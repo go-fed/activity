@@ -203,7 +203,7 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	if !ok {
 		return true, fmt.Errorf("activity streams value is not an Activity: %T", asValue)
 	}
-	if activity.GetActivityStreamsId() == nil {
+	if activity.GetJSONLDId() == nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return true, nil
 	}
@@ -356,7 +356,7 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 		return true, err
 	}
 	// Respond to the request with the new Activity's IRI location.
-	w.Header().Set(locationHeader, activity.GetActivityStreamsId().Get().String())
+	w.Header().Set(locationHeader, activity.GetJSONLDId().Get().String())
 	w.WriteHeader(http.StatusCreated)
 	return true, nil
 }

@@ -2,14 +2,8 @@ package vocab
 
 import "net/url"
 
-// Provides the globally unique identifier for an Object or Link.
-//
-// Example 61 (https://www.w3.org/TR/activitystreams-vocabulary/#exid-jsonld):
-//   {
-//     "id": "http://example.org/foo",
-//     "name": "Foo"
-//   }
-type ActivityStreamsIdProperty interface {
+// Provides the globally unique identifier for JSON-LD entities.
+type JSONLDIdProperty interface {
 	// Clear ensures no value of this property is set. Calling
 	// IsXMLSchemaAnyURI afterwards will return false.
 	Clear()
@@ -38,7 +32,7 @@ type ActivityStreamsIdProperty interface {
 	// stable comparison. Applications should not use this because it is
 	// only meant to help alternative implementations to go-fed to be able
 	// to normalize nonfunctional properties.
-	LessThan(o ActivityStreamsIdProperty) bool
+	LessThan(o JSONLDIdProperty) bool
 	// Name returns the name of this property: "id".
 	Name() string
 	// Serialize converts this into an interface representation suitable for
