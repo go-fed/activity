@@ -59,8 +59,8 @@ func (t *Typedef) Definition() jen.Code {
 	for _, m := range t.methods {
 		ms = append(ms, m.Name())
 	}
-	sort.Sort(sort.StringSlice(fs))
-	sort.Sort(sort.StringSlice(ms))
+	sort.Strings(fs)
+	sort.Strings(ms)
 	// Add the functions and methods in order
 	for _, c := range fs {
 		def = def.Line().Line().Add(t.constructors[c].Definition())

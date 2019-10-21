@@ -1008,7 +1008,8 @@ func (d *duration) Apply(key string, value interface{}, ctx *rdf.ParsingContext)
 							),
 						),
 						jen.Id("re").Op(":=").Qual("regexp", "MustCompile").Call(
-							jen.Lit("P(\\d*Y)?(\\d*M)?(\\d*D)?(T(\\d*H)?(\\d*M)?(\\d*S)?)?"),
+							// raw string, recommended by https://github.com/dave/jennifer/issues/50
+							jen.Op("`P(\\d*Y)?(\\d*M)?(\\d*D)?(T(\\d*H)?(\\d*M)?(\\d*S)?)?`"),
 						),
 						jen.Id("res").Op(":=").Id("re").Dot("FindStringSubmatch").Call(jen.Id("s")),
 						jen.Var().Id("dur").Qual("time", "Duration"),

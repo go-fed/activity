@@ -611,6 +611,7 @@ func parseJSONLDContext(registry *RDFRegistry, input JSONLD) (nodes []RDFNode, e
 		s, ok := i.(string)
 		if !ok {
 			err = fmt.Errorf("single @context value is not a string")
+			return
 		}
 		return registry.getFor(s)
 	}

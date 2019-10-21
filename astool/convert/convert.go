@@ -14,7 +14,6 @@ import (
 
 const (
 	interfacePkg     = "vocab"
-	resolverPkg      = "resolver"
 	typePropertyName = "type"
 )
 
@@ -43,11 +42,11 @@ type vocabulary struct {
 // newVocabulary creates a vocabulary with maps already made.
 func newVocabulary() vocabulary {
 	return vocabulary{
-		Values:     make(map[string]*gen.Kind, 0),
-		FProps:     make(map[string]*gen.FunctionalPropertyGenerator, 0),
-		NFProps:    make(map[string]*gen.NonFunctionalPropertyGenerator, 0),
-		Types:      make(map[string]*gen.TypeGenerator, 0),
-		References: make(map[string]*vocabulary, 0),
+		Values:     make(map[string]*gen.Kind),
+		FProps:     make(map[string]*gen.FunctionalPropertyGenerator),
+		NFProps:    make(map[string]*gen.NonFunctionalPropertyGenerator),
+		Types:      make(map[string]*gen.TypeGenerator),
+		References: make(map[string]*vocabulary),
 	}
 }
 
@@ -274,7 +273,7 @@ func (c *Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 // all vocabularies and results in a flattened converted map.
 func (c *Converter) convertReferenceVocabularyRecursively(skip map[string]bool, p *rdf.ParsedVocabulary, refs map[string]*vocabulary) (v map[string]*vocabulary, e error) {
 	v = make(map[string]*vocabulary)
-	for k, _ := range p.References {
+	for k := range p.References {
 		if skip[k] {
 			continue
 		}

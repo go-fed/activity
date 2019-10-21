@@ -105,7 +105,7 @@ func (p *NonFunctionalPropertyGenerator) Definitions() (*codegen.Struct, *codege
 
 // iteratorInterfaceName gets the interface name for the iterator.
 func (p *NonFunctionalPropertyGenerator) iteratorInterfaceName() string {
-	return fmt.Sprintf("%s", strings.Title(p.iteratorTypeName().CamelName))
+	return strings.Title(p.iteratorTypeName().CamelName)
 }
 
 // elementTypeGenerator produces a FunctionalPropertyGenerator for the iterator

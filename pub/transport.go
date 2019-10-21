@@ -113,7 +113,7 @@ func (h HttpSigTransport) Dereference(c context.Context, iri *url.URL) ([]byte, 
 	if err != nil {
 		return nil, err
 	}
-	req.WithContext(c)
+	req = req.WithContext(c)
 	req.Header.Add(acceptHeader, acceptHeaderValue)
 	req.Header.Add("Accept-Charset", "utf-8")
 	req.Header.Add("Date", h.clock.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
@@ -144,7 +144,7 @@ func (h HttpSigTransport) Deliver(c context.Context, b []byte, to *url.URL) erro
 	if err != nil {
 		return err
 	}
-	req.WithContext(c)
+	req = req.WithContext(c)
 	req.Header.Add(contentTypeHeader, contentTypeHeaderValue)
 	req.Header.Add("Accept-Charset", "utf-8")
 	req.Header.Add("Date", h.clock.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")

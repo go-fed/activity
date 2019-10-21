@@ -24,7 +24,6 @@ const (
 	errorUnhandled                   = "ErrUnhandledType"
 	errorPredicateUnmatched          = "ErrPredicateUnmatched"
 	errorCannotTypeAssert            = "errCannotTypeAssertType"
-	errorCannotTypeAssertPredicate   = "errCannotTypeAssertPredicate"
 	isUnFnName                       = "IsUnmatchedErr"
 	toAliasMapFnName                 = "toAliasMap"
 )
@@ -32,21 +31,20 @@ const (
 // ResolverGenerator generates the code required for the TypeResolver and the
 // PredicateTypeResolver.
 type ResolverGenerator struct {
-	pkg                                Package
-	types                              []*TypeGenerator
-	manGen                             *ManagerGenerator
-	cacheOnce                          sync.Once
-	cachedJSON                         *codegen.Struct
-	cachedTypePredicate                *codegen.Struct
-	cachedType                         *codegen.Struct
-	cachedErrNoMatch                   jen.Code
-	cachedErrUnhandled                 jen.Code
-	cachedErrPredicateUnmatched        jen.Code
-	cachedErrCannotTypeAssert          jen.Code
-	cachedErrCannotTypeAssertPredicate jen.Code
-	cachedFns                          []*codegen.Function
-	cachedASInterface                  *codegen.Interface
-	cachedResolverInterface            *codegen.Interface
+	pkg                         Package
+	types                       []*TypeGenerator
+	manGen                      *ManagerGenerator
+	cacheOnce                   sync.Once
+	cachedJSON                  *codegen.Struct
+	cachedTypePredicate         *codegen.Struct
+	cachedType                  *codegen.Struct
+	cachedErrNoMatch            jen.Code
+	cachedErrUnhandled          jen.Code
+	cachedErrPredicateUnmatched jen.Code
+	cachedErrCannotTypeAssert   jen.Code
+	cachedFns                   []*codegen.Function
+	cachedASInterface           *codegen.Interface
+	cachedResolverInterface     *codegen.Interface
 }
 
 // Creates a new ResolverGenerator for generating all the methods, functions,
@@ -138,7 +136,6 @@ func (r *ResolverGenerator) Definition() (jsonRes, typeRes, typePredRes *codegen
 		r.cachedErrUnhandled = r.errorUnhandled()
 		r.cachedErrPredicateUnmatched = r.errorPredicateUnmatched()
 		r.cachedErrCannotTypeAssert = r.errorCannotTypeAssert()
-		r.cachedErrCannotTypeAssertPredicate = r.errorCannotTypeAssertPredicate()
 		r.cachedFns = r.fns()
 		r.cachedASInterface = r.asInterface()
 		r.cachedResolverInterface = r.resolverInterface()
@@ -148,7 +145,6 @@ func (r *ResolverGenerator) Definition() (jsonRes, typeRes, typePredRes *codegen
 			r.cachedErrUnhandled,
 			r.cachedErrPredicateUnmatched,
 			r.cachedErrCannotTypeAssert,
-			r.cachedErrCannotTypeAssertPredicate,
 		}, r.cachedFns, []*codegen.Interface{
 			r.cachedASInterface,
 			r.cachedResolverInterface,
@@ -182,16 +178,6 @@ func (r *ResolverGenerator) errorCannotTypeAssert() jen.Code {
 			"interface form.",
 		errorCannotTypeAssert,
 	).Line().Var().Id(errorCannotTypeAssert).Error().Op("=").Qual("errors", "New").Call(jen.Lit("activity stream type cannot be asserted to its interface"))
-}
-
-// errorCannotTypeAssertPredicate returns the declaration for the
-// errCannotTypeAssert global value.
-func (r *ResolverGenerator) errorCannotTypeAssertPredicate() jen.Code {
-	return jen.Commentf(
-		"%s indicates that a predicate cannot be type-casted to an "+
-			"expected function signature.",
-		errorCannotTypeAssertPredicate,
-	).Line().Var().Id(errorCannotTypeAssertPredicate).Error().Op("=").Qual("errors", "New").Call(jen.Lit("predicate cannot be type asserted to a known function type"))
 }
 
 // errorPredicateUnmatched returns the declaration for the ErrPredicateUnmatched
@@ -307,10 +293,7 @@ func (r *ResolverGenerator) jsonResolverMethods() (m []*codegen.Method) {
 				jen.If(
 					jen.Op("!").Id("ok"),
 				).Block(
-					jen.List(
-						jen.Id(vocabId),
-						jen.Id("_"),
-					).Op("=").Id("aliasMap").Index(
+					jen.Id(vocabId).Op("=").Id("aliasMap").Index(
 						jen.Lit(vocabHttp.String()),
 					),
 				),

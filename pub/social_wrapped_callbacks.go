@@ -185,7 +185,7 @@ func (w SocialWrappedCallbacks) create(c context.Context, a vocab.ActivityStream
 	}
 	// Obtain all actor IRIs.
 	actors := a.GetActivityStreamsActor()
-	createActorIds := make(map[string]*url.URL, 0)
+	createActorIds := make(map[string]*url.URL)
 	if actors != nil {
 		createActorIds = make(map[string]*url.URL, actors.Len())
 		for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
