@@ -10,12 +10,12 @@ import (
 )
 
 const (
-	xmlName                = "XMLSchema"
-	xmlSpec                = "http://www.w3.org/2001/XMLSchema#"
-	anyURISpec             = "anyURI"
+	XmlName                = "XMLSchema"
+	XmlSpec                = "http://www.w3.org/2001/XMLSchema#"
+	AnyURISpec             = "anyURI"
 	dateTimeSpec           = "dateTime"
 	floatSpec              = "float"
-	stringSpec             = "string"
+	StringSpec             = "string"
 	booleanSpec            = "boolean"
 	nonNegativeIntegerSpec = "nonNegativeInteger"
 	durationSpec           = "duration"
@@ -28,7 +28,7 @@ type XMLOntology struct {
 
 // SpecURI returns the XML URI.
 func (o *XMLOntology) SpecURI() string {
-	return xmlSpec
+	return XmlSpec
 }
 
 // Load the XML Ontology without an alias.
@@ -40,43 +40,43 @@ func (o *XMLOntology) Load() ([]rdf.RDFNode, error) {
 func (o *XMLOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 	return []rdf.RDFNode{
 		&rdf.AliasedDelegate{
-			Spec:     xmlSpec,
+			Spec:     XmlSpec,
 			Alias:    s,
-			Name:     anyURISpec,
+			Name:     AnyURISpec,
 			Delegate: &anyURI{pkg: o.Package},
 		},
 		&rdf.AliasedDelegate{
-			Spec:     xmlSpec,
+			Spec:     XmlSpec,
 			Alias:    s,
 			Name:     dateTimeSpec,
 			Delegate: &dateTime{pkg: o.Package},
 		},
 		&rdf.AliasedDelegate{
-			Spec:     xmlSpec,
+			Spec:     XmlSpec,
 			Alias:    s,
 			Name:     floatSpec,
 			Delegate: &float{pkg: o.Package},
 		},
 		&rdf.AliasedDelegate{
-			Spec:     xmlSpec,
+			Spec:     XmlSpec,
 			Alias:    s,
-			Name:     stringSpec,
+			Name:     StringSpec,
 			Delegate: &xmlString{pkg: o.Package},
 		},
 		&rdf.AliasedDelegate{
-			Spec:     xmlSpec,
+			Spec:     XmlSpec,
 			Alias:    s,
 			Name:     booleanSpec,
 			Delegate: &boolean{pkg: o.Package},
 		},
 		&rdf.AliasedDelegate{
-			Spec:     xmlSpec,
+			Spec:     XmlSpec,
 			Alias:    s,
 			Name:     nonNegativeIntegerSpec,
 			Delegate: &nonNegativeInteger{pkg: o.Package},
 		},
 		&rdf.AliasedDelegate{
-			Spec:     xmlSpec,
+			Spec:     XmlSpec,
 			Alias:    s,
 			Name:     durationSpec,
 			Delegate: &duration{pkg: o.Package},
@@ -87,7 +87,7 @@ func (o *XMLOntology) LoadAsAlias(s string) ([]rdf.RDFNode, error) {
 // LoadSpecificAsAlias loads a specific node with an alias.
 func (o *XMLOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, error) {
 	switch name {
-	case anyURISpec:
+	case AnyURISpec:
 		return []rdf.RDFNode{
 			&rdf.AliasedDelegate{
 				Spec:     "",
@@ -114,7 +114,7 @@ func (o *XMLOntology) LoadSpecificAsAlias(alias, name string) ([]rdf.RDFNode, er
 				Delegate: &float{pkg: o.Package},
 			},
 		}, nil
-	case stringSpec:
+	case StringSpec:
 		return []rdf.RDFNode{
 			&rdf.AliasedDelegate{
 				Spec:     "",
@@ -163,13 +163,13 @@ func (o *XMLOntology) LoadElement(name string, payload map[string]interface{}) (
 func (o *XMLOntology) GetByName(name string) (rdf.RDFNode, error) {
 	name = strings.TrimPrefix(name, o.SpecURI())
 	switch name {
-	case anyURISpec:
+	case AnyURISpec:
 		return &anyURI{pkg: o.Package}, nil
 	case dateTimeSpec:
 		return &dateTime{pkg: o.Package}, nil
 	case floatSpec:
 		return &float{pkg: o.Package}, nil
-	case stringSpec:
+	case StringSpec:
 		return &xmlString{pkg: o.Package}, nil
 	case booleanSpec:
 		return &boolean{pkg: o.Package}, nil
@@ -200,17 +200,17 @@ func (a *anyURI) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds the anyURI value Kind to the XML namespace.
 func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
+	v, err := ctx.GetResultReferenceWithDefaults(XmlSpec, XmlName)
 	if err != nil {
 		return true, err
 	}
-	if len(v.Values[anyURISpec].Name) == 0 {
-		u, err := url.Parse(xmlSpec + anyURISpec)
+	if len(v.Values[AnyURISpec].Name) == 0 {
+		u, err := url.Parse(XmlSpec + AnyURISpec)
 		if err != nil {
 			return true, err
 		}
 		val := &rdf.VocabularyValue{
-			Name:           anyURISpec,
+			Name:           AnyURISpec,
 			URI:            u,
 			DefinitionType: jen.Op("*").Qual("net/url", "URL"),
 			Zero:           "&url.URL{}",
@@ -218,7 +218,7 @@ func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (
 			IsURI:          true,
 			SerializeFn: rdf.SerializeValueFunction(
 				a.pkg,
-				anyURISpec,
+				AnyURISpec,
 				jen.Op("*").Qual("net/url", "URL"),
 				[]jen.Code{
 					jen.Return(
@@ -228,7 +228,7 @@ func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (
 				}),
 			DeserializeFn: rdf.DeserializeValueFunction(
 				a.pkg,
-				anyURISpec,
+				AnyURISpec,
 				jen.Op("*").Qual("net/url", "URL"),
 				[]jen.Code{
 					jen.Var().Id("u").Op("*").Qual("net/url", "URL"),
@@ -273,7 +273,7 @@ func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (
 				}),
 			LessFn: rdf.LessFunction(
 				a.pkg,
-				anyURISpec,
+				AnyURISpec,
 				jen.Op("*").Qual("net/url", "URL"),
 				[]jen.Code{
 					jen.Return(
@@ -281,7 +281,7 @@ func (a *anyURI) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (
 					),
 				}),
 		}
-		if err = v.SetValue(anyURISpec, val); err != nil {
+		if err = v.SetValue(AnyURISpec, val); err != nil {
 			return true, err
 		}
 	}
@@ -307,12 +307,12 @@ func (d *dateTime) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds the xsd:dateTime value Kind to the XML namespace.
 func (d *dateTime) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
+	v, err := ctx.GetResultReferenceWithDefaults(XmlSpec, XmlName)
 	if err != nil {
 		return true, err
 	}
 	if len(v.Values[dateTimeSpec].Name) == 0 {
-		u, err := url.Parse(xmlSpec + dateTimeSpec)
+		u, err := url.Parse(XmlSpec + dateTimeSpec)
 		if err != nil {
 			return true, err
 		}
@@ -417,12 +417,12 @@ func (f *float) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds xsd:float value Kind to the XML namespace.
 func (f *float) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
+	v, err := ctx.GetResultReferenceWithDefaults(XmlSpec, XmlName)
 	if err != nil {
 		return true, err
 	}
 	if len(v.Values[floatSpec].Name) == 0 {
-		u, err := url.Parse(xmlSpec + floatSpec)
+		u, err := url.Parse(XmlSpec + floatSpec)
 		if err != nil {
 			return true, err
 		}
@@ -504,24 +504,24 @@ func (*xmlString) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds xsd:xmlString value Kind to the XML namespace.
 func (s *xmlString) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
+	v, err := ctx.GetResultReferenceWithDefaults(XmlSpec, XmlName)
 	if err != nil {
 		return true, err
 	}
-	if len(v.Values[stringSpec].Name) == 0 {
-		u, err := url.Parse(xmlSpec + stringSpec)
+	if len(v.Values[StringSpec].Name) == 0 {
+		u, err := url.Parse(XmlSpec + StringSpec)
 		if err != nil {
 			return true, err
 		}
 		val := &rdf.VocabularyValue{
-			Name:           stringSpec,
+			Name:           StringSpec,
 			URI:            u,
 			DefinitionType: jen.String(),
 			Zero:           "\"\"",
 			IsNilable:      false,
 			SerializeFn: rdf.SerializeValueFunction(
 				s.pkg,
-				stringSpec,
+				StringSpec,
 				jen.Id("string"),
 				[]jen.Code{
 					jen.Return(
@@ -531,7 +531,7 @@ func (s *xmlString) Apply(key string, value interface{}, ctx *rdf.ParsingContext
 				}),
 			DeserializeFn: rdf.DeserializeValueFunction(
 				s.pkg,
-				stringSpec,
+				StringSpec,
 				jen.Id("string"),
 				[]jen.Code{
 					jen.If(
@@ -557,7 +557,7 @@ func (s *xmlString) Apply(key string, value interface{}, ctx *rdf.ParsingContext
 				}),
 			LessFn: rdf.LessFunction(
 				s.pkg,
-				stringSpec,
+				StringSpec,
 				jen.Id("string"),
 				[]jen.Code{
 					jen.Return(
@@ -565,7 +565,7 @@ func (s *xmlString) Apply(key string, value interface{}, ctx *rdf.ParsingContext
 					),
 				}),
 		}
-		if err = v.SetValue(stringSpec, val); err != nil {
+		if err = v.SetValue(StringSpec, val); err != nil {
 			return true, err
 		}
 	}
@@ -591,12 +591,12 @@ func (*boolean) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 
 // Apply adds boolean value Kind to the XML namespace.
 func (b *boolean) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
+	v, err := ctx.GetResultReferenceWithDefaults(XmlSpec, XmlName)
 	if err != nil {
 		return true, err
 	}
 	if len(v.Values[booleanSpec].Name) == 0 {
-		u, err := url.Parse(xmlSpec + booleanSpec)
+		u, err := url.Parse(XmlSpec + booleanSpec)
 		if err != nil {
 			return true, err
 		}
@@ -709,12 +709,12 @@ func (*nonNegativeInteger) Exit(key string, ctx *rdf.ParsingContext) (bool, erro
 
 // Apply adds xsd:nonNegativeInteger value Kind to the XML namespace.
 func (n *nonNegativeInteger) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
+	v, err := ctx.GetResultReferenceWithDefaults(XmlSpec, XmlName)
 	if err != nil {
 		return true, err
 	}
 	if len(v.Values[nonNegativeIntegerSpec].Name) == 0 {
-		u, err := url.Parse(xmlSpec + nonNegativeIntegerSpec)
+		u, err := url.Parse(XmlSpec + nonNegativeIntegerSpec)
 		if err != nil {
 			return true, err
 		}
@@ -814,12 +814,12 @@ func (*duration) Exit(key string, ctx *rdf.ParsingContext) (bool, error) {
 //
 // Avoid at all costs.
 func (d *duration) Apply(key string, value interface{}, ctx *rdf.ParsingContext) (bool, error) {
-	v, err := ctx.GetResultReferenceWithDefaults(xmlSpec, xmlName)
+	v, err := ctx.GetResultReferenceWithDefaults(XmlSpec, XmlName)
 	if err != nil {
 		return true, err
 	}
 	if len(v.Values[durationSpec].Name) == 0 {
-		u, err := url.Parse(xmlSpec + durationSpec)
+		u, err := url.Parse(XmlSpec + durationSpec)
 		if err != nil {
 			return true, err
 		}

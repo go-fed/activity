@@ -165,11 +165,11 @@ type TypePackageGenerator struct {
 func NewTypePackageGenerator(
 	typeVocabName string,
 	m *ManagerGenerator,
-	typeProperty *PropertyGenerator) *TypePackageGenerator {
+	typeProperty *NonFunctionalPropertyGenerator) *TypePackageGenerator {
 	return &TypePackageGenerator{
 		typeVocabName: typeVocabName,
 		m:             m,
-		typeProperty:  typeProperty,
+		typeProperty:  &typeProperty.PropertyGenerator,
 	}
 }
 
@@ -222,11 +222,11 @@ type PackageGenerator struct {
 }
 
 // NewPackageGenerator creates a new PackageGenerator.
-func NewPackageGenerator(typeVocabName string, m *ManagerGenerator, typeProperty *PropertyGenerator) *PackageGenerator {
+func NewPackageGenerator(typeVocabName string, m *ManagerGenerator, typeProperty *NonFunctionalPropertyGenerator) *PackageGenerator {
 	return &PackageGenerator{
 		typeVocabName: typeVocabName,
 		m:             m,
-		typeProperty:  typeProperty,
+		typeProperty:  &typeProperty.PropertyGenerator,
 	}
 }
 

@@ -7,15 +7,15 @@ import (
 	"github.com/go-fed/activity/astool/codegen"
 	"github.com/go-fed/activity/astool/gen"
 	"github.com/go-fed/activity/astool/rdf"
+	"github.com/go-fed/activity/astool/rdf/xsd"
 	"net/url"
 	"sort"
 	"strings"
 )
 
 const (
-	interfacePkg     = "vocab"
-	resolverPkg      = "resolver"
-	typePropertyName = "type"
+	interfacePkg = "vocab"
+	resolverPkg  = "resolver"
 )
 
 // File is a code-generated file.
@@ -217,16 +217,70 @@ const (
 // implementations. Developers' applications should only rely on the interfaces,
 // which are used internally anyway.
 type Converter struct {
-	GenRoot               *gen.PackageManager
-	PackagePolicy         PackagePolicy
-	typeProperty          *gen.PropertyGenerator
-	typePropertyVocabName string
+	GenRoot       *gen.PackageManager
+	PackagePolicy PackagePolicy
+	// Properties stemming from JSONLD
+	idProperty   *gen.FunctionalPropertyGenerator
+	typeProperty *gen.NonFunctionalPropertyGenerator
 }
 
 // Convert turns a ParsedVocabulary into a set of code-generated files.
 func (c *Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 	v := newVocabulary()
 	done := make(map[string]bool)
+	// Step 0: Create the "@id" and "@type" properties
+	fmt.Println(p.References)
+	var xsdAnyUriKinds []gen.Kind
+	var xsdStringKinds []gen.Kind
+	var xsdAnyUri *url.URL
+	var xsdString *url.URL
+	xsdAnyUri, e = url.Parse(xsd.XmlSpec + xsd.AnyURISpec)
+	if e != nil {
+		return
+	}
+	xsdString, e = url.Parse(xsd.XmlSpec + xsd.StringSpec)
+	if e != nil {
+		return
+	}
+	xsdAnyUriKinds, e = c.propertyKinds(rdf.VocabularyProperty{
+		Range: []rdf.VocabularyReference{{
+			Name:  xsd.AnyURISpec,
+			URI:   xsdAnyUri,
+			Vocab: xsd.XmlSpec,
+		}},
+	}, v.Values, p.Vocab, p.References)
+	if e != nil {
+		return
+	}
+	xsdStringKinds, e = c.propertyKinds(rdf.VocabularyProperty{
+		Range: []rdf.VocabularyReference{{
+			Name:  xsd.StringSpec,
+			URI:   xsdString,
+			Vocab: xsd.XmlSpec,
+		}},
+	}, v.Values, p.Vocab, p.References)
+	if e != nil {
+		return
+	}
+	var idPkg, typePkg *gen.PackageManager
+	idPkg, e = c.propertyPackageManager(rdf.VocabularyProperty{Name:"id"}, gen.JSONLDVocabName)
+	if e != nil {
+		return
+	}
+	c.idProperty, e = gen.NewIdProperty(idPkg, xsdAnyUriKinds[0])
+	if e != nil {
+		return
+	}
+	typePkg, e = c.propertyPackageManager(rdf.VocabularyProperty{Name:"type"}, gen.JSONLDVocabName)
+	if e != nil {
+		return
+	}
+	c.typeProperty, e = gen.NewTypeProperty(typePkg, xsdAnyUriKinds[0], xsdStringKinds[0])
+	if e != nil {
+		return
+	}
+	v.FProps[gen.JSONLDIdName] = c.idProperty
+	v.NFProps[gen.JSONLDTypeName] = c.typeProperty
 	// Step 1: Convert referenced specifications
 	for i, vocabURI := range p.Order {
 		refP := p.Clone()
@@ -329,12 +383,23 @@ func (c *Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		}
 		f = append(f, pkgFiles...)
 	}
+	// JSONLD
+	var files []*File
+	files, e = c.jsonLDToFiles()
+	if e != nil {
+		return
+	}
+	f = append(f, files...)
+	files, e = c.jsonLDRootFiles(pub, v.Manager)
+	if e != nil {
+		return
+	}
+	f = append(f, files...)
 	// This vocabulary
 	for _, v := range v.Values {
 		pkg := c.valuePackage(v)
 		f = append(f, convertValue(pkg, v))
 	}
-	var files []*File
 	files, e = c.toFiles(v)
 	if e != nil {
 		return
@@ -366,6 +431,18 @@ func (c *Converter) convertToFiles(v vocabulary) (f []*File, e error) {
 		FileName:  "gen_manager.go",
 		Directory: pub.WriteDir(),
 	})
+	// JSONLD types
+	var idFiles, typeFiles []*File
+	idFiles, e = c.propertyPackageFiles(&c.idProperty.PropertyGenerator, gen.JSONLDVocabName)
+	if e != nil {
+		return
+	}
+	f = append(f, idFiles...)
+	typeFiles, e = c.propertyPackageFiles(&c.typeProperty.PropertyGenerator, gen.JSONLDVocabName)
+	if e != nil {
+		return
+	}
+	f = append(f, typeFiles...)
 	// Root Package Documentation
 	rootDocFile := jen.NewFilePath(pub.Path())
 	rootDocFile.PackageComment(gen.GenRootPackageComment(pub.Name()))
@@ -409,16 +486,8 @@ func (c *Converter) convertVocabulary(p *rdf.ParsedVocabulary, refs map[string]*
 	for k, prop := range p.Vocab.Properties {
 		if prop.Functional {
 			v.FProps[k], e = c.convertFunctionalProperty(prop, v.Values, p.Vocab, p.References, refs)
-			if c.typeProperty == nil && prop.Name == typePropertyName {
-				c.typeProperty = &(v.FProps[k].PropertyGenerator)
-				c.typePropertyVocabName = v.Name
-			}
 		} else {
 			v.NFProps[k], e = c.convertNonFunctionalProperty(prop, v.Values, p.Vocab, p.References, refs)
-			if c.typeProperty == nil && prop.Name == typePropertyName {
-				c.typeProperty = &(v.NFProps[k].PropertyGenerator)
-				c.typePropertyVocabName = v.Name
-			}
 		}
 		if e != nil {
 			return
@@ -467,8 +536,8 @@ func (c *Converter) convertGenRoot(v *vocabulary) (e error) {
 	v.Manager, e = gen.NewManagerGenerator(
 		c.GenRoot.PublicPackage(),
 		v.allTypeArray(),
-		v.allFuncPropArray(),
-		v.allNonFuncPropArray())
+		append(v.allFuncPropArray(), c.idProperty),
+		append(v.allNonFuncPropArray(), c.typeProperty))
 	return
 }
 
@@ -640,6 +709,8 @@ func (c *Converter) convertType(t rdf.VocabularyType,
 	if len(examples) > 0 {
 		comment = fmt.Sprintf("%s\n\n%s", comment, strings.Join(examples, "\n\n"))
 	}
+	// Always include the type and id JSONLD properties
+	p = append(p, []gen.Property{c.typeProperty, c.idProperty}...)
 	tg, e = gen.NewTypeGenerator(
 		v.GetName(),
 		v.URI,
@@ -878,10 +949,24 @@ func (c *Converter) packageManager(s, vocabName string) (pkg *gen.PackageManager
 	return
 }
 
+// jsonLDRootFiles creates files that are applied for JSONLD.
+//
+// TODO: This function looks a lot like the next one (copy/paste). Deduplicate.
+func (c *Converter) jsonLDRootFiles(pkg gen.Package, m *gen.ManagerGenerator) (f []*File, e error) {
+	pg := gen.NewPackageGenerator(gen.JSONLDVocabName, m, c.typeProperty)
+	_, propCtors, _, _, _, _ := pg.RootDefinitions(gen.JSONLDVocabName, []*gen.TypeGenerator{}, []*gen.PropertyGenerator{&c.typeProperty.PropertyGenerator, &c.idProperty.PropertyGenerator})
+	lowerVocabName := strings.ToLower(gen.JSONLDVocabName)
+	if file := funcsToFile(pkg, propCtors, fmt.Sprintf("gen_pkg_%s_property_constructors.go", lowerVocabName)); file != nil {
+		f = append(f, file)
+	}
+	return
+}
+
+
 // rootFiles creates files that are applied for all vocabularies. These files
 // are the ones typically used by developers.
 func (c *Converter) rootFiles(pkg gen.Package, vocabName string, v vocabulary, m *gen.ManagerGenerator) (f []*File, e error) {
-	pg := gen.NewPackageGenerator(c.typePropertyVocabName, m, c.typeProperty)
+	pg := gen.NewPackageGenerator(gen.JSONLDVocabName, m, c.typeProperty)
 	typeCtors, propCtors, ext, disj, extBy, isA := pg.RootDefinitions(vocabName, v.typeArray(), v.propArray())
 	lowerVocabName := strings.ToLower(vocabName)
 	if file := funcsToFile(pkg, typeCtors, fmt.Sprintf("gen_pkg_%s_type_constructors.go", lowerVocabName)); file != nil {
@@ -908,7 +993,7 @@ func (c *Converter) rootFiles(pkg gen.Package, vocabName string, v vocabulary, m
 // initFile creates the file with the init function that hooks together the
 // runtime Manager.
 func (c *Converter) initFile(pkg gen.Package, root vocabulary, m *gen.ManagerGenerator) (f *File, e error) {
-	pg := gen.NewPackageGenerator(c.typePropertyVocabName, m, c.typeProperty)
+	pg := gen.NewPackageGenerator(gen.JSONLDVocabName, m, c.typeProperty)
 	globalVar, initFn := pg.InitDefinitions(pkg, root.allTypeArray(), root.allPropArray())
 	initFile := jen.NewFilePath(pkg.Path())
 	initFile.Add(globalVar).Line().Add(initFn.Definition()).Line()
@@ -933,7 +1018,7 @@ func (c *Converter) initFile(pkg gen.Package, root vocabulary, m *gen.ManagerGen
 func (c *Converter) packageFiles(v vocabulary, m *gen.ManagerGenerator) (f []*File, e error) {
 	switch c.PackagePolicy {
 	case FlatUnderRoot:
-		pg := gen.NewPackageGenerator(c.typePropertyVocabName, m, c.typeProperty)
+		pg := gen.NewPackageGenerator(gen.JSONLDVocabName, m, c.typeProperty)
 		if tArr := v.typeArray(); len(tArr) > 0 {
 			// Only need one for all types.
 			pubI := pg.PublicDefinitions(tArr)
@@ -1023,7 +1108,7 @@ func (c *Converter) packageFiles(v vocabulary, m *gen.ManagerGenerator) (f []*Fi
 // is being generated in its own package.
 func (c *Converter) typePackageFiles(tg *gen.TypeGenerator, vocabName string, m *gen.ManagerGenerator) (f []*File, e error) {
 	// Only need one for all types.
-	tpg := gen.NewTypePackageGenerator(c.typePropertyVocabName, m, c.typeProperty)
+	tpg := gen.NewTypePackageGenerator(gen.JSONLDVocabName, m, c.typeProperty)
 	pubI := tpg.PublicDefinitions([]*gen.TypeGenerator{tg})
 	// Public
 	pub := tg.PublicPackage()
@@ -1188,6 +1273,67 @@ func (c *Converter) allExtendsAreIn(registry *rdf.RDFRegistry, t rdf.VocabularyT
 		}
 	}
 	return true
+}
+
+// jsonLDToFiles converts id and type to files.
+//
+// TODO: This function and the next are a lot of shared code (copy/paste).
+// Deduplicate it.
+func (c *Converter) jsonLDToFiles() (f []*File, e error) {
+	vName := strings.ToLower(gen.JSONLDVocabName)
+	// type property
+	var typePm *gen.PackageManager
+	typePm, e = c.propertyPackageManager(rdf.VocabularyProperty{Name:"type"}, gen.JSONLDVocabName)
+	if e != nil {
+		return
+	}
+	// Implementation
+	priv := typePm.PrivatePackage()
+	file := jen.NewFilePath(priv.Path())
+	s, t := c.typeProperty.Definitions()
+	file.Add(s.Definition()).Line().Add(t.Definition())
+	f = append(f, &File{
+		F:         file,
+		FileName:  fmt.Sprintf("gen_property_%s_%s.go", vName, c.typeProperty.PropertyName()),
+		Directory: priv.WriteDir(),
+	})
+	// Interface
+	pub := typePm.PublicPackage()
+	file = jen.NewFilePath(pub.Path())
+	for _, intf := range c.typeProperty.InterfaceDefinitions(typePm.PublicPackage()) {
+		file.Add(intf.Definition()).Line()
+	}
+	f = append(f, &File{
+		F:         file,
+		FileName:  fmt.Sprintf("gen_property_%s_%s_interface.go", vName, c.typeProperty.PropertyName()),
+		Directory: pub.WriteDir(),
+	})
+
+	// id property
+	var idPm *gen.PackageManager
+	idPm, e = c.propertyPackageManager(c.idProperty, gen.JSONLDVocabName)
+	if e != nil {
+		return
+	}
+	// Implementation
+	priv = idPm.PrivatePackage()
+	file = jen.NewFilePath(priv.Path())
+	file.Add(c.idProperty.Definition().Definition())
+	f = append(f, &File{
+		F:         file,
+		FileName:  fmt.Sprintf("gen_property_%s_%s.go", vName, c.idProperty.PropertyName()),
+		Directory: priv.WriteDir(),
+	})
+	// Interface
+	pub = idPm.PublicPackage()
+	file = jen.NewFilePath(pub.Path())
+	file.Add(c.idProperty.InterfaceDefinition(idPm.PublicPackage()).Definition())
+	f = append(f, &File{
+		F:         file,
+		FileName:  fmt.Sprintf("gen_property_%s_%s_interface.go", vName, c.idProperty.PropertyName()),
+		Directory: pub.WriteDir(),
+	})
+	return
 }
 
 // toFiles converts a vocabulary's types and properties to files.

@@ -614,6 +614,14 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		},
 		fmt.Sprintf("%s returns beyond-the-last iterator, which is nil. Can be used with the iterator's %s method and this property's %s method to iterate from front to back through all values.", endMethod, nextMethod, beginMethod)))
 	// Context Method
+	mDef := jen.Var().Id("m").Map(jen.String()).String()
+	if p.vocabURI != nil {
+		mDef = jen.Id("m").Op(":=").Map(jen.String()).String().Values(
+			jen.Dict{
+				jen.Lit(p.vocabURI.String()): jen.Id(codegen.This()).Dot(aliasMember),
+			},
+		)
+	}
 	methods = append(methods, codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		contextMethod,
@@ -621,11 +629,7 @@ func (p *NonFunctionalPropertyGenerator) funcs() []*codegen.Method {
 		/*params=*/ nil,
 		[]jen.Code{jen.Map(jen.String()).String()},
 		[]jen.Code{
-			jen.Id("m").Op(":=").Map(jen.String()).String().Values(
-				jen.Dict{
-					jen.Lit(p.vocabURI.String()): jen.Id(codegen.This()).Dot(aliasMember),
-				},
-			),
+			mDef,
 			jen.For(
 				jen.List(
 					jen.Id("_"),
@@ -929,6 +933,18 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 			),
 		)
 	}
+	aliasBlock := jen.Empty()
+	if p.vocabURI != nil {
+		aliasBlock = jen.If(
+			jen.List(
+				jen.Id("a"),
+				jen.Id("ok"),
+			).Op(":=").Id("aliasMap").Index(jen.Lit(p.vocabURI.String())),
+			jen.Id("ok"),
+		).Block(
+			jen.Id("alias").Op("=").Id("a"),
+		)
+	}
 	deserialize := codegen.NewCommentedFunction(
 		p.GetPrivatePackage().Path(),
 		p.DeserializeFnName(),
@@ -936,15 +952,7 @@ func (p *NonFunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, 
 		[]jen.Code{jen.Qual(p.GetPublicPackage().Path(), p.InterfaceName()), jen.Error()},
 		[]jen.Code{
 			jen.Id("alias").Op(":=").Lit(""),
-			jen.If(
-				jen.List(
-					jen.Id("a"),
-					jen.Id("ok"),
-				).Op(":=").Id("aliasMap").Index(jen.Lit(p.vocabURI.String())),
-				jen.Id("ok"),
-			).Block(
-				jen.Id("alias").Op("=").Id("a"),
-			),
+			aliasBlock,
 			jen.Id("propName").Op(":=").Lit(p.PropertyName()),
 			jen.If(
 				jen.Len(jen.Id("alias")).Op(">").Lit(0),

@@ -33,13 +33,6 @@
       "id": "https://w3id.org/security/v1#PublicKey",
       "type": "owl:Class",
       "notes": "A public key represents a public cryptographical key for a user",
-      "subClassOf": [
-        {
-          "type": "owl:Class",
-          "url": "https://www.w3.org/ns/activitystreams#Object",
-          "name": "as:Object"
-        }
-      ],
       "name": "PublicKey",
       "url": "https://w3id.org/security/v1#PublicKey",
       "@wtf_typeless": true

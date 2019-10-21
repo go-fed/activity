@@ -37,10 +37,10 @@ const (
 	//
 	// TODO: Figure out how to obtain these names at code-generation
 	// runtime.
-	typeMember    = "ActivityStreamsType"
-	getIdFunction = "GetActivityStreamsId"
-	setIdFunction = "SetActivityStreamsId"
-	idType        = "ActivityStreamsIdProperty"
+	typeMember    = JSONLDVocabName + jsonLDTypeCamelName
+	getIdFunction = getMethod + JSONLDVocabName + jsonLDIdCamelName
+	setIdFunction = setMethod + JSONLDVocabName + jsonLDIdCamelName
+	idType        = JSONLDVocabName + jsonLDIdCamelName + "Property"
 )
 
 // typePropertyConstructorName returns the package variable name for the

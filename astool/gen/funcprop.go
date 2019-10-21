@@ -436,6 +436,18 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			),
 		)
 	}
+	aliasBlock := jen.Empty()
+	if p.vocabURI != nil {
+		aliasBlock = jen.If(
+			jen.List(
+				jen.Id("a"),
+				jen.Id("ok"),
+			).Op(":=").Id("aliasMap").Index(jen.Lit(p.vocabURI.String())),
+			jen.Id("ok"),
+		).Block(
+			jen.Id("alias").Op("=").Id("a"),
+		)
+	}
 	var deserialize *codegen.Function
 	if p.asIterator {
 		deserialize = codegen.NewCommentedFunction(
@@ -445,15 +457,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 			[]jen.Code{
 				jen.Id("alias").Op(":=").Lit(""),
-				jen.If(
-					jen.List(
-						jen.Id("a"),
-						jen.Id("ok"),
-					).Op(":=").Id("aliasMap").Index(jen.Lit(p.vocabURI.String())),
-					jen.Id("ok"),
-				).Block(
-					jen.Id("alias").Op("=").Id("a"),
-				),
+				aliasBlock,
 				p.wrapDeserializeCode(valueDeserializeFns, typeDeserializeFns),
 			},
 			fmt.Sprintf("%s creates an iterator from an element that has been unmarshalled from a text or binary format.", p.DeserializeFnName()))
@@ -465,15 +469,7 @@ func (p *FunctionalPropertyGenerator) serializationFuncs() (*codegen.Method, *co
 			[]jen.Code{jen.Op("*").Id(p.StructName()), jen.Error()},
 			[]jen.Code{
 				jen.Id("alias").Op(":=").Lit(""),
-				jen.If(
-					jen.List(
-						jen.Id("a"),
-						jen.Id("ok"),
-					).Op(":=").Id("aliasMap").Index(jen.Lit(p.vocabURI.String())),
-					jen.Id("ok"),
-				).Block(
-					jen.Id("alias").Op("=").Id("a"),
-				),
+				aliasBlock,
 				jen.Id("propName").Op(":=").Lit(p.PropertyName()),
 				jen.If(
 					jen.Len(jen.Id("alias")).Op(">").Lit(0),
@@ -1133,6 +1129,14 @@ func (p *FunctionalPropertyGenerator) contextMethod() *codegen.Method {
 			).Block(
 				jen.Id("child").Op("=").Id(codegen.This()).Dot(p.getFnName(i)).Call().Dot(contextMethod).Call()))
 	}
+	mDef := jen.Var().Id("m").Map(jen.String()).String()
+	if p.vocabURI != nil {
+		mDef = jen.Id("m").Op(":=").Map(jen.String()).String().Values(
+			jen.Dict{
+				jen.Lit(p.vocabURI.String()): jen.Id(codegen.This()).Dot(aliasMember),
+			},
+		)
+	}
 	return codegen.NewCommentedValueMethod(
 		p.GetPrivatePackage().Path(),
 		contextMethod,
@@ -1140,11 +1144,7 @@ func (p *FunctionalPropertyGenerator) contextMethod() *codegen.Method {
 		/*params=*/ nil,
 		[]jen.Code{jen.Map(jen.String()).String()},
 		[]jen.Code{
-			jen.Id("m").Op(":=").Map(jen.String()).String().Values(
-				jen.Dict{
-					jen.Lit(p.vocabURI.String()): jen.Id(codegen.This()).Dot(aliasMember),
-				},
-			),
+			mDef,
 			contextKind,
 			jen.Commentf("Since the literal maps in this function are determined at\ncode-generation time, this loop should not overwrite an existing key with a\nnew value."),
 			jen.For(
