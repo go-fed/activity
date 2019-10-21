@@ -270,12 +270,8 @@ func (l *langstring) Apply(key string, value interface{}, ctx *ParsingContext) (
 						jen.Id("k"),
 					),
 				),
-				jen.Qual("sort", "Sort").Call(
-					jen.Qual("sort", "StringSlice").Call(jen.Id("lk")),
-				),
-				jen.Qual("sort", "Sort").Call(
-					jen.Qual("sort", "StringSlice").Call(jen.Id("rk")),
-				),
+				jen.Qual("sort", "Strings").Call(jen.Id("lk")),
+				jen.Qual("sort", "Strings").Call(jen.Id("rk")),
 				jen.For(
 					jen.Id("i").Op(":=").Lit(0),
 					jen.Id("i").Op("<").Len(jen.Id("lk")).Op("&&").Id("i").Op("<").Len(jen.Id("rk")),

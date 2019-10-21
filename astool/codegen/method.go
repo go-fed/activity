@@ -195,7 +195,7 @@ func (m Method) Definition() jen.Code {
 	if len(m.function.comment) > 0 {
 		comment = jen.Commentf(insertNewlines(m.function.comment)).Line()
 	}
-	funcDef := jen.Empty()
+	var funcDef *jen.Statement
 	switch m.member {
 	case pointerMember:
 		funcDef = jen.Func().Params(

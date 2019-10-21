@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/dave/jennifer/jen"
 	"github.com/go-fed/activity/astool/codegen"
-	"sync"
 )
 
 const (
@@ -52,9 +51,6 @@ type ManagerGenerator struct {
 	tgManagedMethods  map[*TypeGenerator]*managedMethods
 	fpManagedMethods  map[*FunctionalPropertyGenerator]*managedMethods
 	nfpManagedMethods map[*NonFunctionalPropertyGenerator]*managedMethods
-	// Cached during manager code generation.
-	cacheOnce    sync.Once
-	cachedStruct *codegen.Struct
 }
 
 // managedMethods caches the specific methods and interfaces mapped to specific

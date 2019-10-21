@@ -447,7 +447,7 @@ func genInit(pkg Package,
 		)
 		callInitsSlice = append(callInitsSlice, key)
 	}
-	sort.Sort(sort.StringSlice(callInitsSlice))
+	sort.Strings(callInitsSlice)
 	callInits := make([]jen.Code, 0, len(callInitsSlice))
 	for _, c := range callInitsSlice {
 		callInits = append(callInits, callInitsMap[c])
@@ -464,7 +464,7 @@ func genInit(pkg Package,
 		)
 		callInitsSlice = append(callInitsSlice, key)
 	}
-	sort.Sort(sort.StringSlice(callInitsSlice))
+	sort.Strings(callInitsSlice)
 	for _, c := range callInitsSlice {
 		callInits = append(callInits, callInitsMap[c])
 	}

@@ -304,7 +304,7 @@ func (t *TypeGenerator) StructName() string {
 
 // InterfaceName returns the interface name for this type.
 func (t *TypeGenerator) InterfaceName() string {
-	return fmt.Sprintf("%s", t.StructName())
+	return t.StructName()
 }
 
 // Extends returns the generators of types that this ActivityStreams type
@@ -450,11 +450,11 @@ func (t *TypeGenerator) allProperties() []Property {
 		}
 	}
 	for ext := range extends {
-		for k, _ := range ext.WithoutProperties() {
+		for k := range ext.WithoutProperties() {
 			delete(p, k)
 		}
 	}
-	for k, _ := range t.WithoutProperties() {
+	for k := range t.WithoutProperties() {
 		delete(p, k)
 	}
 	// Sort the properties into a stable order -- this is important for
@@ -546,7 +546,7 @@ func (t *TypeGenerator) extendsDefinition() (*codegen.Function, *codegen.Method)
 	for _, name := range extends {
 		extendsStr = append(extendsStr, name)
 	}
-	sort.Sort(sort.StringSlice(extendsStr))
+	sort.Strings(extendsStr)
 	extensions := make([]jen.Code, 0, len(extendsStr))
 	for _, name := range extendsStr {
 		extensions = append(extensions, jen.Lit(name))
@@ -595,7 +595,7 @@ func (t *TypeGenerator) getAllChildrenExtendedBy(s []string, tg *TypeGenerator) 
 		s = append(s, e.TypeName())
 		s = t.getAllChildrenExtendedBy(s, e)
 	}
-	sort.Sort(sort.StringSlice(s))
+	sort.Strings(s)
 	return s
 }
 
@@ -1119,7 +1119,7 @@ func (t *TypeGenerator) constructorFn() *codegen.Function {
 			jen.Op("&").Qual(t.PrivatePackage().Path(), t.StructName()).Values(
 				jen.Dict{
 					jen.Id(aliasMember):   jen.Lit(t.vocabAlias),
-					jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface(), jen.Lit(0)),
+					jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface()),
 				},
 			),
 		),
@@ -1132,7 +1132,7 @@ func (t *TypeGenerator) constructorFn() *codegen.Function {
 				jen.Op("&").Qual(t.PrivatePackage().Path(), t.StructName()).Values(
 					jen.Dict{
 						jen.Id(aliasMember):   jen.Lit(t.vocabAlias),
-						jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface(), jen.Lit(0)),
+						jen.Id(unknownMember): jen.Make(jen.Map(jen.String()).Interface()),
 						jen.Id(typeMember):    jen.Id("typeProp"),
 					},
 				),

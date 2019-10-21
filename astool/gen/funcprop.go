@@ -140,7 +140,7 @@ func (p *FunctionalPropertyGenerator) multiTypeClearNonLanguageMapMembers() []je
 // funcs produces the methods needed for the functional property.
 func (p *FunctionalPropertyGenerator) funcs() []*codegen.Method {
 	kindIndexFns := make([]jen.Code, 0, len(p.kinds)+1)
-	for i, _ := range p.kinds {
+	for i := range p.kinds {
 		kindIndexFns = append(kindIndexFns, jen.If(
 			jen.Id(codegen.This()).Dot(p.isMethodName(i)).Call(),
 		).Block(
