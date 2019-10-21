@@ -228,7 +228,6 @@ func (c *Converter) Convert(p *rdf.ParsedVocabulary) (f []*File, e error) {
 	v := newVocabulary()
 	done := make(map[string]bool)
 	// Step 0: Create the "@id" and "@type" properties
-	fmt.Println(p.References)
 	var xsdAnyUriKinds []gen.Kind
 	var xsdStringKinds []gen.Kind
 	var xsdAnyUri *url.URL
