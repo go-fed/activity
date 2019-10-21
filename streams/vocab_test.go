@@ -1315,66 +1315,73 @@ func GetTestTable() []TestTable {
 }
 
 func TestDeserialization(t *testing.T) {
+	deep.CompareUnexportedFields = true
 	for _, r := range GetTestTable() {
-		t.Logf("Testing table test case %q", r.name)
-		// Test Deserialize
-		m := make(map[string]interface{})
-		err := json.Unmarshal([]byte(r.expectedJSON), &m)
-		if err != nil {
-			t.Errorf("%s: Cannot json.Unmarshal: %s", r.name, err)
-			continue
-		}
-		if r.deserializer == nil || r.expectedStruct == nil {
-			t.Logf("%s: No expected struct or deserializer, skipping deserialization test", r.name)
-			continue
-		}
-		// Delete the @context -- it will trigger unwanted differences due to the
-		// Unknown field.
-		delete(m, "@context")
-		actual, err := r.deserializer(m)
-		if err != nil {
-			t.Errorf("%s: Cannot Deserialize: %s", r.name, err)
-			continue
-		}
-		if diff := reflect.DeepEqual(actual, r.expectedStruct); !diff {
-			if r.unknown != nil {
-				t.Logf("%s: Got expected difference due to unknown additions", r.name)
-			} else {
-				deep.CompareUnexportedFields = true
-				deepDiff := deep.Equal(actual, r.expectedStruct)
-				t.Errorf("%s: Deserialize deep equal is false: %s", r.name, deepDiff)
+		r := r // shadow loop variable
+		t.Run(r.name, func(t *testing.T) {
+			// Test Deserialize
+			m := make(map[string]interface{})
+			err := json.Unmarshal([]byte(r.expectedJSON), &m)
+			if err != nil {
+				t.Errorf("Cannot json.Unmarshal: %v", err)
+				return
 			}
-		} else if r.unknown != nil {
-			t.Errorf("%s: Expected a difference when there are unknown types", r.name)
-		}
+			if r.deserializer == nil || r.expectedStruct == nil {
+				t.Skip("No expected struct or deserializer, skipping deserialization test")
+				return
+			}
+			// Delete the @context -- it will trigger unwanted differences due to the
+			// Unknown field.
+			delete(m, "@context")
+			actual, err := r.deserializer(m)
+			if err != nil {
+				t.Errorf("Cannot Deserialize: %v", err)
+				return
+			}
+			if diff := reflect.DeepEqual(actual, r.expectedStruct); !diff {
+				if r.unknown != nil {
+					t.Log("Got expected difference due to unknown additions")
+				} else {
+					deepDiff := deep.Equal(actual, r.expectedStruct)
+					t.Errorf("Deserialize deep equal is false: %v", deepDiff)
+				}
+			} else if r.unknown != nil {
+				t.Error("Expected a difference when there are unknown types")
+			}
+		})
 	}
 }
 
 func TestSerialization(t *testing.T) {
 	for _, r := range GetTestTable() {
-		t.Logf("Testing table test case %q", r.name)
-		m := make(map[string]interface{})
-		var err error
-		if r.expectedStruct != nil {
-			m, err = r.expectedStruct.Serialize()
-			if err != nil {
-				t.Errorf("%s: Cannot Serialize: %s", r.name, err)
-				continue
+		r := r // shadow loop variable
+		t.Run(r.name, func(t *testing.T) {
+			m := make(map[string]interface{})
+			var err error
+			if r.expectedStruct != nil {
+				m, err = r.expectedStruct.Serialize()
+				if err != nil {
+					t.Errorf("Cannot Serialize: %v", err)
+					return
+				}
 			}
-		}
-		if r.unknown != nil {
-			m = r.unknown(m)
-		}
-		m["@context"] = "https://www.w3.org/ns/activitystreams"
-		b, err := json.Marshal(m)
-		if err != nil {
-			t.Errorf("%s: Cannot json.Marshal: %s", r.name, err)
-			continue
-		}
-		if diff, err := GetJSONDiff(b, []byte(r.expectedJSON)); err == nil && diff != nil {
-			t.Errorf("%s: Serialize JSON equality is false:\n%s", r.name, diff)
-		} else if err != nil {
-			t.Errorf("%s: GetJSONDiff returned error: %s", r.name, err)
-		}
+			if r.unknown != nil {
+				m = r.unknown(m)
+			}
+			m["@context"] = "https://www.w3.org/ns/activitystreams"
+			b, err := json.Marshal(m)
+			if err != nil {
+				t.Errorf("Cannot json.Marshal: %v", err)
+				return
+			}
+			if diff, err := GetJSONDiff(b, []byte(r.expectedJSON)); err == nil && diff != nil {
+				t.Error("Serialize JSON equality is false:")
+				for _, d := range diff {
+					t.Log(d)
+				}
+			} else if err != nil {
+				t.Errorf("GetJSONDiff returned error: %v", err)
+			}
+		})
 	}
 }
