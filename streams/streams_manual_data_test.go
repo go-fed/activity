@@ -2087,6 +2087,7 @@ const example61 = `{
 }`
 
 var example61Unknown = func(m map[string]interface{}) map[string]interface{} {
+	m["@context"] = "https://www.w3.org/ns/activitystreams"
 	m["id"] = "http://example.org/foo"
 	m["name"] = "Foo"
 	return m
@@ -2099,6 +2100,7 @@ const example62 = `{
 }`
 
 var example62Unknown = func(m map[string]interface{}) map[string]interface{} {
+	m["@context"] = "https://www.w3.org/ns/activitystreams"
 	m["type"] = "http://example.org/Foo"
 	m["summary"] = "A foo"
 	return m
@@ -5387,6 +5389,7 @@ const example153 = `{
 }`
 
 var example153Unknown = func(m map[string]interface{}) map[string]interface{} {
+	m["@context"] = "https://www.w3.org/ns/activitystreams"
 	m["attributedTo"] = "http://sally.example.org"
 	m["inReplyTo"] = "http://polls.example.org/question/1"
 	m["name"] = "arduino"
@@ -5904,11 +5907,11 @@ func personExampleWithPublicKeyType() vocab.ActivityStreamsPerson {
 }
 
 type testContextWrapper struct {
-	vocab.Type
+	vocab.ActivityStreamsObject
 }
 
 func (a *testContextWrapper) JSONLDContext() map[string]string {
-	m := a.Type.JSONLDContext()
+	m := a.ActivityStreamsObject.JSONLDContext()
 	m["https://schema.org#"] = "schema"
 	m["schema:PropertyValue"] = "PropertyValue"
 	m["schema:value"] = "value"
