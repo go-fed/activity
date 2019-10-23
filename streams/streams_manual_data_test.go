@@ -5837,8 +5837,8 @@ func example159Type() vocab.ActivityStreamsMove {
 
 const personExampleWithPublicKey = `{
   "@context": [
-    "https://www.w3.org/ns/activitystreams",
-    "https://w3id.org/security/v1"
+    "https://w3id.org/security/v1",
+    "https://www.w3.org/ns/activitystreams"
   ],
   "id":"https://mastodon.technology/users/cj",
   "type":"Person",

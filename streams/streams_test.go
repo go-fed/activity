@@ -6,6 +6,7 @@ import (
 	"github.com/go-fed/activity/streams/vocab"
 	"github.com/go-test/deep"
 	"net/url"
+	"sort"
 	"testing"
 )
 
@@ -25,6 +26,42 @@ func IsKnownResolverError(t TestTable) (isError bool, reason string) {
 		isError = false
 	}
 
+	return
+}
+
+// SerializeForTest calls Serialize and stabilizes the @context value for
+// testing purposes.
+func SerializeForTest(a vocab.Type) (m map[string]interface{}, e error) {
+	m, e = Serialize(a)
+	if e != nil {
+		return
+	}
+	ctx, ok := m["@context"]
+	if !ok {
+		return
+	}
+	arr, ok := ctx.([]interface{})
+	if !ok {
+		return
+	}
+	var s []string
+	var o []interface{}
+	for _, v := range arr {
+		if str, ok := v.(string); ok {
+			s = append(s, str)
+		} else {
+			o = append(o, v)
+		}
+	}
+	sort.Sort(sort.StringSlice(s))
+	newArr := make([]interface{}, 0, len(arr))
+	for _, v := range s {
+		newArr = append(newArr, v)
+	}
+	for _, v := range o {
+		newArr = append(newArr, v)
+	}
+	m["@context"] = newArr
 	return
 }
 
@@ -54,7 +91,7 @@ func makeResolver(t *testing.T, tc TestTable, expected []byte) (*JSONResolver, e
 
 	if t != nil {
 		resFn = func(s vocab.Type) error {
-			m, err := Serialize(s)
+			m, err := SerializeForTest(s)
 			if err != nil {
 				return err
 			}
@@ -449,7 +486,7 @@ func TestNulls(t *testing.T) {
 					t.Log(d)
 				}
 			}
-			m, err = Serialize(actual)
+			m, err = SerializeForTest(actual)
 			if err != nil {
 				t.Errorf("Cannot Serialize: %v", err)
 				return

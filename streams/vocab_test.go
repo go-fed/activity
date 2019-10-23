@@ -1367,7 +1367,7 @@ func TestSerialization(t *testing.T) {
 			m := make(map[string]interface{})
 			var err error
 			if r.expectedStruct != nil {
-				m, err = Serialize(r.expectedStruct)
+				m, err = SerializeForTest(r.expectedStruct)
 				if err != nil {
 					t.Errorf("Cannot Serialize: %v", err)
 					return
