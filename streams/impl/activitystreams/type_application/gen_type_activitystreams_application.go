@@ -25,8 +25,10 @@ type ActivityStreamsApplication struct {
 	ActivityStreamsCc                vocab.ActivityStreamsCcProperty
 	ActivityStreamsContent           vocab.ActivityStreamsContentProperty
 	ActivityStreamsContext           vocab.ActivityStreamsContextProperty
+	TootDiscoverable                 vocab.TootDiscoverableProperty
 	ActivityStreamsDuration          vocab.ActivityStreamsDurationProperty
 	ActivityStreamsEndTime           vocab.ActivityStreamsEndTimeProperty
+	TootFeatured                     vocab.TootFeaturedProperty
 	ActivityStreamsFollowers         vocab.ActivityStreamsFollowersProperty
 	ActivityStreamsFollowing         vocab.ActivityStreamsFollowingProperty
 	ActivityStreamsGenerator         vocab.ActivityStreamsGeneratorProperty
@@ -174,6 +176,11 @@ func DeserializeApplication(m map[string]interface{}, aliasMap map[string]string
 	} else if p != nil {
 		this.ActivityStreamsContext = p
 	}
+	if p, err := mgr.DeserializeDiscoverablePropertyToot()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.TootDiscoverable = p
+	}
 	if p, err := mgr.DeserializeDurationPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -183,6 +190,11 @@ func DeserializeApplication(m map[string]interface{}, aliasMap map[string]string
 		return nil, err
 	} else if p != nil {
 		this.ActivityStreamsEndTime = p
+	}
+	if p, err := mgr.DeserializeFeaturedPropertyToot()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.TootFeatured = p
 	}
 	if p, err := mgr.DeserializeFollowersPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -354,9 +366,13 @@ func DeserializeApplication(m map[string]interface{}, aliasMap map[string]string
 			continue
 		} else if k == "context" {
 			continue
+		} else if k == "discoverable" {
+			continue
 		} else if k == "duration" {
 			continue
 		} else if k == "endTime" {
+			continue
+		} else if k == "featured" {
 			continue
 		} else if k == "followers" {
 			continue
@@ -681,6 +697,17 @@ func (this ActivityStreamsApplication) GetJSONLDType() vocab.JSONLDTypeProperty 
 	return this.JSONLDType
 }
 
+// GetTootDiscoverable returns the "discoverable" property if it exists, and nil
+// otherwise.
+func (this ActivityStreamsApplication) GetTootDiscoverable() vocab.TootDiscoverableProperty {
+	return this.TootDiscoverable
+}
+
+// GetTootFeatured returns the "featured" property if it exists, and nil otherwise.
+func (this ActivityStreamsApplication) GetTootFeatured() vocab.TootFeaturedProperty {
+	return this.TootFeatured
+}
+
 // GetTypeName returns the name of this type.
 func (this ActivityStreamsApplication) GetTypeName() string {
 	return "Application"
@@ -721,8 +748,10 @@ func (this ActivityStreamsApplication) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.ActivityStreamsCc, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsContent, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsContext, m)
+	m = this.helperJSONLDContext(this.TootDiscoverable, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsDuration, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsEndTime, m)
+	m = this.helperJSONLDContext(this.TootFeatured, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsFollowers, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsFollowing, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsGenerator, m)
@@ -886,6 +915,20 @@ func (this ActivityStreamsApplication) LessThan(o vocab.ActivityStreamsApplicati
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "discoverable"
+	if lhs, rhs := this.TootDiscoverable, o.GetTootDiscoverable(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "duration"
 	if lhs, rhs := this.ActivityStreamsDuration, o.GetActivityStreamsDuration(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -902,6 +945,20 @@ func (this ActivityStreamsApplication) LessThan(o vocab.ActivityStreamsApplicati
 	} // Else: Both are nil
 	// Compare property "endTime"
 	if lhs, rhs := this.ActivityStreamsEndTime, o.GetActivityStreamsEndTime(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "featured"
+	if lhs, rhs := this.TootFeatured, o.GetTootFeatured(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1415,6 +1472,14 @@ func (this ActivityStreamsApplication) Serialize() (map[string]interface{}, erro
 			m[this.ActivityStreamsContext.Name()] = i
 		}
 	}
+	// Maybe serialize property "discoverable"
+	if this.TootDiscoverable != nil {
+		if i, err := this.TootDiscoverable.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.TootDiscoverable.Name()] = i
+		}
+	}
 	// Maybe serialize property "duration"
 	if this.ActivityStreamsDuration != nil {
 		if i, err := this.ActivityStreamsDuration.Serialize(); err != nil {
@@ -1429,6 +1494,14 @@ func (this ActivityStreamsApplication) Serialize() (map[string]interface{}, erro
 			return nil, err
 		} else if i != nil {
 			m[this.ActivityStreamsEndTime.Name()] = i
+		}
+	}
+	// Maybe serialize property "featured"
+	if this.TootFeatured != nil {
+		if i, err := this.TootFeatured.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.TootFeatured.Name()] = i
 		}
 	}
 	// Maybe serialize property "followers"
@@ -1870,6 +1943,16 @@ func (this *ActivityStreamsApplication) SetJSONLDId(i vocab.JSONLDIdProperty) {
 // SetJSONLDType sets the "type" property.
 func (this *ActivityStreamsApplication) SetJSONLDType(i vocab.JSONLDTypeProperty) {
 	this.JSONLDType = i
+}
+
+// SetTootDiscoverable sets the "discoverable" property.
+func (this *ActivityStreamsApplication) SetTootDiscoverable(i vocab.TootDiscoverableProperty) {
+	this.TootDiscoverable = i
+}
+
+// SetTootFeatured sets the "featured" property.
+func (this *ActivityStreamsApplication) SetTootFeatured(i vocab.TootFeaturedProperty) {
+	this.TootFeatured = i
 }
 
 // SetW3IDSecurityV1PublicKey sets the "publicKey" property.

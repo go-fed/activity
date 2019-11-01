@@ -148,6 +148,9 @@ type ActivityStreamsQuestion interface {
 	// GetJSONLDType returns the "type" property if it exists, and nil
 	// otherwise.
 	GetJSONLDType() JSONLDTypeProperty
+	// GetTootVotersCount returns the "votersCount" property if it exists, and
+	// nil otherwise.
+	GetTootVotersCount() TootVotersCountProperty
 	// GetTypeName returns the name of this type.
 	GetTypeName() string
 	// GetUnknownProperties returns the unknown properties for the Question
@@ -249,6 +252,8 @@ type ActivityStreamsQuestion interface {
 	SetJSONLDId(i JSONLDIdProperty)
 	// SetJSONLDType sets the "type" property.
 	SetJSONLDType(i JSONLDTypeProperty)
+	// SetTootVotersCount sets the "votersCount" property.
+	SetTootVotersCount(i TootVotersCountProperty)
 	// VocabularyURI returns the vocabulary's URI as a string.
 	VocabularyURI() string
 }

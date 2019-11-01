@@ -228,6 +228,13 @@ type ActivityStreamsAttachmentPropertyIterator interface {
 	// GetIRI returns the IRI of this property. When IsIRI returns false,
 	// GetIRI will return an arbitrary value.
 	GetIRI() *url.URL
+	// GetTootEmoji returns the value of this property. When IsTootEmoji
+	// returns false, GetTootEmoji will return an arbitrary value.
+	GetTootEmoji() TootEmoji
+	// GetTootIdentityProof returns the value of this property. When
+	// IsTootIdentityProof returns false, GetTootIdentityProof will return
+	// an arbitrary value.
+	GetTootIdentityProof() TootIdentityProof
 	// GetType returns the value in this property as a Type. Returns nil if
 	// the value is not an ActivityStreams type, such as an IRI or another
 	// value.
@@ -469,6 +476,14 @@ type ActivityStreamsAttachmentPropertyIterator interface {
 	// IsIRI returns true if this property is an IRI. When true, use GetIRI
 	// and SetIRI to access and set this property
 	IsIRI() bool
+	// IsTootEmoji returns true if this property has a type of "Emoji". When
+	// true, use the GetTootEmoji and SetTootEmoji methods to access and
+	// set this property.
+	IsTootEmoji() bool
+	// IsTootIdentityProof returns true if this property has a type of
+	// "IdentityProof". When true, use the GetTootIdentityProof and
+	// SetTootIdentityProof methods to access and set this property.
+	IsTootIdentityProof() bool
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or
@@ -657,6 +672,12 @@ type ActivityStreamsAttachmentPropertyIterator interface {
 	// SetIRI sets the value of this property. Calling IsIRI afterwards
 	// returns true.
 	SetIRI(v *url.URL)
+	// SetTootEmoji sets the value of this property. Calling IsTootEmoji
+	// afterwards returns true.
+	SetTootEmoji(v TootEmoji)
+	// SetTootIdentityProof sets the value of this property. Calling
+	// IsTootIdentityProof afterwards returns true.
+	SetTootIdentityProof(v TootIdentityProof)
 	// SetType attempts to set the property for the arbitrary type. Returns an
 	// error if it is not a valid type to set on this property.
 	SetType(t Type) error
@@ -896,6 +917,14 @@ type ActivityStreamsAttachmentProperty interface {
 	// AppendIRI appends an IRI value to the back of a list of the property
 	// "attachment"
 	AppendIRI(v *url.URL)
+	// AppendTootEmoji appends a Emoji value to the back of a list of the
+	// property "attachment". Invalidates iterators that are traversing
+	// using Prev.
+	AppendTootEmoji(v TootEmoji)
+	// AppendTootIdentityProof appends a IdentityProof value to the back of a
+	// list of the property "attachment". Invalidates iterators that are
+	// traversing using Prev.
+	AppendTootIdentityProof(v TootIdentityProof)
 	// PrependType prepends an arbitrary type value to the front of a list of
 	// the property "attachment". Invalidates iterators that are
 	// traversing using Prev. Returns an error if the type is not a valid
@@ -1145,6 +1174,14 @@ type ActivityStreamsAttachmentProperty interface {
 	// "attachment". Existing elements at that index and higher are
 	// shifted back once. Invalidates all iterators.
 	InsertIRI(idx int, v *url.URL)
+	// InsertTootEmoji inserts a Emoji value at the specified index for a
+	// property "attachment". Existing elements at that index and higher
+	// are shifted back once. Invalidates all iterators.
+	InsertTootEmoji(idx int, v TootEmoji)
+	// InsertTootIdentityProof inserts a IdentityProof value at the specified
+	// index for a property "attachment". Existing elements at that index
+	// and higher are shifted back once. Invalidates all iterators.
+	InsertTootIdentityProof(idx int, v TootIdentityProof)
 	// PrependType prepends an arbitrary type value to the front of a list of
 	// the property "attachment". Invalidates all iterators. Returns an
 	// error if the type is not a valid one to set for this property.
@@ -1347,6 +1384,12 @@ type ActivityStreamsAttachmentProperty interface {
 	// PrependIRI prepends an IRI value to the front of a list of the property
 	// "attachment".
 	PrependIRI(v *url.URL)
+	// PrependTootEmoji prepends a Emoji value to the front of a list of the
+	// property "attachment". Invalidates all iterators.
+	PrependTootEmoji(v TootEmoji)
+	// PrependTootIdentityProof prepends a IdentityProof value to the front of
+	// a list of the property "attachment". Invalidates all iterators.
+	PrependTootIdentityProof(v TootIdentityProof)
 	// PrependType prepends an arbitrary type value to the front of a list of
 	// the property "attachment". Invalidates all iterators. Returns an
 	// error if the type is not a valid one to set for this property.
@@ -1580,6 +1623,14 @@ type ActivityStreamsAttachmentProperty interface {
 	// SetIRI sets an IRI value to be at the specified index for the property
 	// "attachment". Panics if the index is out of bounds.
 	SetIRI(idx int, v *url.URL)
+	// SetTootEmoji sets a Emoji value to be at the specified index for the
+	// property "attachment". Panics if the index is out of bounds.
+	// Invalidates all iterators.
+	SetTootEmoji(idx int, v TootEmoji)
+	// SetTootIdentityProof sets a IdentityProof value to be at the specified
+	// index for the property "attachment". Panics if the index is out of
+	// bounds. Invalidates all iterators.
+	SetTootIdentityProof(idx int, v TootIdentityProof)
 	// SetType sets an arbitrary type value to the specified index of the
 	// property "attachment". Invalidates all iterators. Returns an error
 	// if the type is not a valid one to set for this property. Panics if

@@ -126,6 +126,12 @@ type ActivityStreamsGroup interface {
 	// GetJSONLDType returns the "type" property if it exists, and nil
 	// otherwise.
 	GetJSONLDType() JSONLDTypeProperty
+	// GetTootDiscoverable returns the "discoverable" property if it exists,
+	// and nil otherwise.
+	GetTootDiscoverable() TootDiscoverableProperty
+	// GetTootFeatured returns the "featured" property if it exists, and nil
+	// otherwise.
+	GetTootFeatured() TootFeaturedProperty
 	// GetTypeName returns the name of this type.
 	GetTypeName() string
 	// GetUnknownProperties returns the unknown properties for the Group type.
@@ -230,6 +236,10 @@ type ActivityStreamsGroup interface {
 	SetJSONLDId(i JSONLDIdProperty)
 	// SetJSONLDType sets the "type" property.
 	SetJSONLDType(i JSONLDTypeProperty)
+	// SetTootDiscoverable sets the "discoverable" property.
+	SetTootDiscoverable(i TootDiscoverableProperty)
+	// SetTootFeatured sets the "featured" property.
+	SetTootFeatured(i TootFeaturedProperty)
 	// SetW3IDSecurityV1PublicKey sets the "publicKey" property.
 	SetW3IDSecurityV1PublicKey(i W3IDSecurityV1PublicKeyProperty)
 	// VocabularyURI returns the vocabulary's URI as a string.

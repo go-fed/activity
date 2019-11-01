@@ -127,6 +127,14 @@ import (
 	typeupdate "github.com/go-fed/activity/streams/impl/activitystreams/type_update"
 	typevideo "github.com/go-fed/activity/streams/impl/activitystreams/type_video"
 	typeview "github.com/go-fed/activity/streams/impl/activitystreams/type_view"
+	propertyblurhash "github.com/go-fed/activity/streams/impl/toot/property_blurhash"
+	propertydiscoverable "github.com/go-fed/activity/streams/impl/toot/property_discoverable"
+	propertyfeatured "github.com/go-fed/activity/streams/impl/toot/property_featured"
+	propertysignaturealgorithm "github.com/go-fed/activity/streams/impl/toot/property_signaturealgorithm"
+	propertysignaturevalue "github.com/go-fed/activity/streams/impl/toot/property_signaturevalue"
+	propertyvoterscount "github.com/go-fed/activity/streams/impl/toot/property_voterscount"
+	typeemoji "github.com/go-fed/activity/streams/impl/toot/type_emoji"
+	typeidentityproof "github.com/go-fed/activity/streams/impl/toot/type_identityproof"
 	propertyowner "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_owner"
 	propertypublickey "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_publickey"
 	propertypublickeypem "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_publickeypem"
@@ -270,6 +278,14 @@ func init() {
 	typeupdate.SetManager(mgr)
 	typevideo.SetManager(mgr)
 	typeview.SetManager(mgr)
+	propertyblurhash.SetManager(mgr)
+	propertydiscoverable.SetManager(mgr)
+	propertyfeatured.SetManager(mgr)
+	propertysignaturealgorithm.SetManager(mgr)
+	propertysignaturevalue.SetManager(mgr)
+	propertyvoterscount.SetManager(mgr)
+	typeemoji.SetManager(mgr)
+	typeidentityproof.SetManager(mgr)
 	propertyowner.SetManager(mgr)
 	propertypublickey.SetManager(mgr)
 	propertypublickeypem.SetManager(mgr)
@@ -328,5 +344,7 @@ func init() {
 	typeupdate.SetTypePropertyConstructor(NewJSONLDTypeProperty)
 	typevideo.SetTypePropertyConstructor(NewJSONLDTypeProperty)
 	typeview.SetTypePropertyConstructor(NewJSONLDTypeProperty)
+	typeemoji.SetTypePropertyConstructor(NewJSONLDTypeProperty)
+	typeidentityproof.SetTypePropertyConstructor(NewJSONLDTypeProperty)
 	typepublickey.SetTypePropertyConstructor(NewJSONLDTypeProperty)
 }

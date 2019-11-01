@@ -30,10 +30,12 @@ type ActivityStreamsDescribesProperty struct {
 	activitystreamsDeleteMember                vocab.ActivityStreamsDelete
 	activitystreamsDislikeMember               vocab.ActivityStreamsDislike
 	activitystreamsDocumentMember              vocab.ActivityStreamsDocument
+	tootEmojiMember                            vocab.TootEmoji
 	activitystreamsEventMember                 vocab.ActivityStreamsEvent
 	activitystreamsFlagMember                  vocab.ActivityStreamsFlag
 	activitystreamsFollowMember                vocab.ActivityStreamsFollow
 	activitystreamsGroupMember                 vocab.ActivityStreamsGroup
+	tootIdentityProofMember                    vocab.TootIdentityProof
 	activitystreamsIgnoreMember                vocab.ActivityStreamsIgnore
 	activitystreamsImageMember                 vocab.ActivityStreamsImage
 	activitystreamsIntransitiveActivityMember  vocab.ActivityStreamsIntransitiveActivity
@@ -195,6 +197,12 @@ func DeserializeDescribesProperty(m map[string]interface{}, aliasMap map[string]
 					alias:                         alias,
 				}
 				return this, nil
+			} else if v, err := mgr.DeserializeEmojiToot()(m, aliasMap); err == nil {
+				this := &ActivityStreamsDescribesProperty{
+					alias:           alias,
+					tootEmojiMember: v,
+				}
+				return this, nil
 			} else if v, err := mgr.DeserializeEventActivityStreams()(m, aliasMap); err == nil {
 				this := &ActivityStreamsDescribesProperty{
 					activitystreamsEventMember: v,
@@ -217,6 +225,12 @@ func DeserializeDescribesProperty(m map[string]interface{}, aliasMap map[string]
 				this := &ActivityStreamsDescribesProperty{
 					activitystreamsGroupMember: v,
 					alias:                      alias,
+				}
+				return this, nil
+			} else if v, err := mgr.DeserializeIdentityProofToot()(m, aliasMap); err == nil {
+				this := &ActivityStreamsDescribesProperty{
+					alias:                   alias,
+					tootIdentityProofMember: v,
 				}
 				return this, nil
 			} else if v, err := mgr.DeserializeIgnoreActivityStreams()(m, aliasMap); err == nil {
@@ -446,10 +460,12 @@ func (this *ActivityStreamsDescribesProperty) Clear() {
 	this.activitystreamsDeleteMember = nil
 	this.activitystreamsDislikeMember = nil
 	this.activitystreamsDocumentMember = nil
+	this.tootEmojiMember = nil
 	this.activitystreamsEventMember = nil
 	this.activitystreamsFlagMember = nil
 	this.activitystreamsFollowMember = nil
 	this.activitystreamsGroupMember = nil
+	this.tootIdentityProofMember = nil
 	this.activitystreamsIgnoreMember = nil
 	this.activitystreamsImageMember = nil
 	this.activitystreamsIntransitiveActivityMember = nil
@@ -856,6 +872,19 @@ func (this ActivityStreamsDescribesProperty) GetIRI() *url.URL {
 	return this.iri
 }
 
+// GetTootEmoji returns the value of this property. When IsTootEmoji returns
+// false, GetTootEmoji will return an arbitrary value.
+func (this ActivityStreamsDescribesProperty) GetTootEmoji() vocab.TootEmoji {
+	return this.tootEmojiMember
+}
+
+// GetTootIdentityProof returns the value of this property. When
+// IsTootIdentityProof returns false, GetTootIdentityProof will return an
+// arbitrary value.
+func (this ActivityStreamsDescribesProperty) GetTootIdentityProof() vocab.TootIdentityProof {
+	return this.tootIdentityProofMember
+}
+
 // GetType returns the value in this property as a Type. Returns nil if the value
 // is not an ActivityStreams type, such as an IRI or another value.
 func (this ActivityStreamsDescribesProperty) GetType() vocab.Type {
@@ -907,6 +936,9 @@ func (this ActivityStreamsDescribesProperty) GetType() vocab.Type {
 	if this.IsActivityStreamsDocument() {
 		return this.GetActivityStreamsDocument()
 	}
+	if this.IsTootEmoji() {
+		return this.GetTootEmoji()
+	}
 	if this.IsActivityStreamsEvent() {
 		return this.GetActivityStreamsEvent()
 	}
@@ -918,6 +950,9 @@ func (this ActivityStreamsDescribesProperty) GetType() vocab.Type {
 	}
 	if this.IsActivityStreamsGroup() {
 		return this.GetActivityStreamsGroup()
+	}
+	if this.IsTootIdentityProof() {
+		return this.GetTootIdentityProof()
 	}
 	if this.IsActivityStreamsIgnore() {
 		return this.GetActivityStreamsIgnore()
@@ -1037,10 +1072,12 @@ func (this ActivityStreamsDescribesProperty) HasAny() bool {
 		this.IsActivityStreamsDelete() ||
 		this.IsActivityStreamsDislike() ||
 		this.IsActivityStreamsDocument() ||
+		this.IsTootEmoji() ||
 		this.IsActivityStreamsEvent() ||
 		this.IsActivityStreamsFlag() ||
 		this.IsActivityStreamsFollow() ||
 		this.IsActivityStreamsGroup() ||
+		this.IsTootIdentityProof() ||
 		this.IsActivityStreamsIgnore() ||
 		this.IsActivityStreamsImage() ||
 		this.IsActivityStreamsIntransitiveActivity() ||
@@ -1451,6 +1488,19 @@ func (this ActivityStreamsDescribesProperty) IsIRI() bool {
 	return this.iri != nil
 }
 
+// IsTootEmoji returns true if this property has a type of "Emoji". When true, use
+// the GetTootEmoji and SetTootEmoji methods to access and set this property.
+func (this ActivityStreamsDescribesProperty) IsTootEmoji() bool {
+	return this.tootEmojiMember != nil
+}
+
+// IsTootIdentityProof returns true if this property has a type of
+// "IdentityProof". When true, use the GetTootIdentityProof and
+// SetTootIdentityProof methods to access and set this property.
+func (this ActivityStreamsDescribesProperty) IsTootIdentityProof() bool {
+	return this.tootIdentityProofMember != nil
+}
+
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
@@ -1489,6 +1539,8 @@ func (this ActivityStreamsDescribesProperty) JSONLDContext() map[string]string {
 		child = this.GetActivityStreamsDislike().JSONLDContext()
 	} else if this.IsActivityStreamsDocument() {
 		child = this.GetActivityStreamsDocument().JSONLDContext()
+	} else if this.IsTootEmoji() {
+		child = this.GetTootEmoji().JSONLDContext()
 	} else if this.IsActivityStreamsEvent() {
 		child = this.GetActivityStreamsEvent().JSONLDContext()
 	} else if this.IsActivityStreamsFlag() {
@@ -1497,6 +1549,8 @@ func (this ActivityStreamsDescribesProperty) JSONLDContext() map[string]string {
 		child = this.GetActivityStreamsFollow().JSONLDContext()
 	} else if this.IsActivityStreamsGroup() {
 		child = this.GetActivityStreamsGroup().JSONLDContext()
+	} else if this.IsTootIdentityProof() {
+		child = this.GetTootIdentityProof().JSONLDContext()
 	} else if this.IsActivityStreamsIgnore() {
 		child = this.GetActivityStreamsIgnore().JSONLDContext()
 	} else if this.IsActivityStreamsImage() {
@@ -1625,113 +1679,119 @@ func (this ActivityStreamsDescribesProperty) KindIndex() int {
 	if this.IsActivityStreamsDocument() {
 		return 15
 	}
-	if this.IsActivityStreamsEvent() {
+	if this.IsTootEmoji() {
 		return 16
 	}
-	if this.IsActivityStreamsFlag() {
+	if this.IsActivityStreamsEvent() {
 		return 17
 	}
-	if this.IsActivityStreamsFollow() {
+	if this.IsActivityStreamsFlag() {
 		return 18
 	}
-	if this.IsActivityStreamsGroup() {
+	if this.IsActivityStreamsFollow() {
 		return 19
 	}
-	if this.IsActivityStreamsIgnore() {
+	if this.IsActivityStreamsGroup() {
 		return 20
 	}
-	if this.IsActivityStreamsImage() {
+	if this.IsTootIdentityProof() {
 		return 21
 	}
-	if this.IsActivityStreamsIntransitiveActivity() {
+	if this.IsActivityStreamsIgnore() {
 		return 22
 	}
-	if this.IsActivityStreamsInvite() {
+	if this.IsActivityStreamsImage() {
 		return 23
 	}
-	if this.IsActivityStreamsJoin() {
+	if this.IsActivityStreamsIntransitiveActivity() {
 		return 24
 	}
-	if this.IsActivityStreamsLeave() {
+	if this.IsActivityStreamsInvite() {
 		return 25
 	}
-	if this.IsActivityStreamsLike() {
+	if this.IsActivityStreamsJoin() {
 		return 26
 	}
-	if this.IsActivityStreamsListen() {
+	if this.IsActivityStreamsLeave() {
 		return 27
 	}
-	if this.IsActivityStreamsMove() {
+	if this.IsActivityStreamsLike() {
 		return 28
 	}
-	if this.IsActivityStreamsNote() {
+	if this.IsActivityStreamsListen() {
 		return 29
 	}
-	if this.IsActivityStreamsOffer() {
+	if this.IsActivityStreamsMove() {
 		return 30
 	}
-	if this.IsActivityStreamsOrderedCollection() {
+	if this.IsActivityStreamsNote() {
 		return 31
 	}
-	if this.IsActivityStreamsOrderedCollectionPage() {
+	if this.IsActivityStreamsOffer() {
 		return 32
 	}
-	if this.IsActivityStreamsOrganization() {
+	if this.IsActivityStreamsOrderedCollection() {
 		return 33
 	}
-	if this.IsActivityStreamsPage() {
+	if this.IsActivityStreamsOrderedCollectionPage() {
 		return 34
 	}
-	if this.IsActivityStreamsPerson() {
+	if this.IsActivityStreamsOrganization() {
 		return 35
 	}
-	if this.IsActivityStreamsPlace() {
+	if this.IsActivityStreamsPage() {
 		return 36
 	}
-	if this.IsActivityStreamsProfile() {
+	if this.IsActivityStreamsPerson() {
 		return 37
 	}
-	if this.IsActivityStreamsQuestion() {
+	if this.IsActivityStreamsPlace() {
 		return 38
 	}
-	if this.IsActivityStreamsRead() {
+	if this.IsActivityStreamsProfile() {
 		return 39
 	}
-	if this.IsActivityStreamsReject() {
+	if this.IsActivityStreamsQuestion() {
 		return 40
 	}
-	if this.IsActivityStreamsRelationship() {
+	if this.IsActivityStreamsRead() {
 		return 41
 	}
-	if this.IsActivityStreamsRemove() {
+	if this.IsActivityStreamsReject() {
 		return 42
 	}
-	if this.IsActivityStreamsService() {
+	if this.IsActivityStreamsRelationship() {
 		return 43
 	}
-	if this.IsActivityStreamsTentativeAccept() {
+	if this.IsActivityStreamsRemove() {
 		return 44
 	}
-	if this.IsActivityStreamsTentativeReject() {
+	if this.IsActivityStreamsService() {
 		return 45
 	}
-	if this.IsActivityStreamsTombstone() {
+	if this.IsActivityStreamsTentativeAccept() {
 		return 46
 	}
-	if this.IsActivityStreamsTravel() {
+	if this.IsActivityStreamsTentativeReject() {
 		return 47
 	}
-	if this.IsActivityStreamsUndo() {
+	if this.IsActivityStreamsTombstone() {
 		return 48
 	}
-	if this.IsActivityStreamsUpdate() {
+	if this.IsActivityStreamsTravel() {
 		return 49
 	}
-	if this.IsActivityStreamsVideo() {
+	if this.IsActivityStreamsUndo() {
 		return 50
 	}
-	if this.IsActivityStreamsView() {
+	if this.IsActivityStreamsUpdate() {
 		return 51
+	}
+	if this.IsActivityStreamsVideo() {
+		return 52
+	}
+	if this.IsActivityStreamsView() {
+		return 53
 	}
 	if this.IsIRI() {
 		return -2
@@ -1782,6 +1842,8 @@ func (this ActivityStreamsDescribesProperty) LessThan(o vocab.ActivityStreamsDes
 		return this.GetActivityStreamsDislike().LessThan(o.GetActivityStreamsDislike())
 	} else if this.IsActivityStreamsDocument() {
 		return this.GetActivityStreamsDocument().LessThan(o.GetActivityStreamsDocument())
+	} else if this.IsTootEmoji() {
+		return this.GetTootEmoji().LessThan(o.GetTootEmoji())
 	} else if this.IsActivityStreamsEvent() {
 		return this.GetActivityStreamsEvent().LessThan(o.GetActivityStreamsEvent())
 	} else if this.IsActivityStreamsFlag() {
@@ -1790,6 +1852,8 @@ func (this ActivityStreamsDescribesProperty) LessThan(o vocab.ActivityStreamsDes
 		return this.GetActivityStreamsFollow().LessThan(o.GetActivityStreamsFollow())
 	} else if this.IsActivityStreamsGroup() {
 		return this.GetActivityStreamsGroup().LessThan(o.GetActivityStreamsGroup())
+	} else if this.IsTootIdentityProof() {
+		return this.GetTootIdentityProof().LessThan(o.GetTootIdentityProof())
 	} else if this.IsActivityStreamsIgnore() {
 		return this.GetActivityStreamsIgnore().LessThan(o.GetActivityStreamsIgnore())
 	} else if this.IsActivityStreamsImage() {
@@ -1906,6 +1970,8 @@ func (this ActivityStreamsDescribesProperty) Serialize() (interface{}, error) {
 		return this.GetActivityStreamsDislike().Serialize()
 	} else if this.IsActivityStreamsDocument() {
 		return this.GetActivityStreamsDocument().Serialize()
+	} else if this.IsTootEmoji() {
+		return this.GetTootEmoji().Serialize()
 	} else if this.IsActivityStreamsEvent() {
 		return this.GetActivityStreamsEvent().Serialize()
 	} else if this.IsActivityStreamsFlag() {
@@ -1914,6 +1980,8 @@ func (this ActivityStreamsDescribesProperty) Serialize() (interface{}, error) {
 		return this.GetActivityStreamsFollow().Serialize()
 	} else if this.IsActivityStreamsGroup() {
 		return this.GetActivityStreamsGroup().Serialize()
+	} else if this.IsTootIdentityProof() {
+		return this.GetTootIdentityProof().Serialize()
 	} else if this.IsActivityStreamsIgnore() {
 		return this.GetActivityStreamsIgnore().Serialize()
 	} else if this.IsActivityStreamsImage() {
@@ -2354,6 +2422,20 @@ func (this *ActivityStreamsDescribesProperty) SetIRI(v *url.URL) {
 	this.iri = v
 }
 
+// SetTootEmoji sets the value of this property. Calling IsTootEmoji afterwards
+// returns true.
+func (this *ActivityStreamsDescribesProperty) SetTootEmoji(v vocab.TootEmoji) {
+	this.Clear()
+	this.tootEmojiMember = v
+}
+
+// SetTootIdentityProof sets the value of this property. Calling
+// IsTootIdentityProof afterwards returns true.
+func (this *ActivityStreamsDescribesProperty) SetTootIdentityProof(v vocab.TootIdentityProof) {
+	this.Clear()
+	this.tootIdentityProofMember = v
+}
+
 // SetType attempts to set the property for the arbitrary type. Returns an error
 // if it is not a valid type to set on this property.
 func (this *ActivityStreamsDescribesProperty) SetType(t vocab.Type) error {
@@ -2421,6 +2503,10 @@ func (this *ActivityStreamsDescribesProperty) SetType(t vocab.Type) error {
 		this.SetActivityStreamsDocument(v)
 		return nil
 	}
+	if v, ok := t.(vocab.TootEmoji); ok {
+		this.SetTootEmoji(v)
+		return nil
+	}
 	if v, ok := t.(vocab.ActivityStreamsEvent); ok {
 		this.SetActivityStreamsEvent(v)
 		return nil
@@ -2435,6 +2521,10 @@ func (this *ActivityStreamsDescribesProperty) SetType(t vocab.Type) error {
 	}
 	if v, ok := t.(vocab.ActivityStreamsGroup); ok {
 		this.SetActivityStreamsGroup(v)
+		return nil
+	}
+	if v, ok := t.(vocab.TootIdentityProof); ok {
+		this.SetTootIdentityProof(v)
 		return nil
 	}
 	if v, ok := t.(vocab.ActivityStreamsIgnore); ok {

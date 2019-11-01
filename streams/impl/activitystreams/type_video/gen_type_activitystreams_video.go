@@ -23,6 +23,7 @@ type ActivityStreamsVideo struct {
 	ActivityStreamsAttributedTo vocab.ActivityStreamsAttributedToProperty
 	ActivityStreamsAudience     vocab.ActivityStreamsAudienceProperty
 	ActivityStreamsBcc          vocab.ActivityStreamsBccProperty
+	TootBlurhash                vocab.TootBlurhashProperty
 	ActivityStreamsBto          vocab.ActivityStreamsBtoProperty
 	ActivityStreamsCc           vocab.ActivityStreamsCcProperty
 	ActivityStreamsContent      vocab.ActivityStreamsContentProperty
@@ -127,6 +128,11 @@ func DeserializeVideo(m map[string]interface{}, aliasMap map[string]string) (*Ac
 		return nil, err
 	} else if p != nil {
 		this.ActivityStreamsBcc = p
+	}
+	if p, err := mgr.DeserializeBlurhashPropertyToot()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.TootBlurhash = p
 	}
 	if p, err := mgr.DeserializeBtoPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
@@ -277,6 +283,8 @@ func DeserializeVideo(m map[string]interface{}, aliasMap map[string]string) (*Ac
 		} else if k == "audience" {
 			continue
 		} else if k == "bcc" {
+			continue
+		} else if k == "blurhash" {
 			continue
 		} else if k == "bto" {
 			continue
@@ -575,6 +583,11 @@ func (this ActivityStreamsVideo) GetJSONLDType() vocab.JSONLDTypeProperty {
 	return this.JSONLDType
 }
 
+// GetTootBlurhash returns the "blurhash" property if it exists, and nil otherwise.
+func (this ActivityStreamsVideo) GetTootBlurhash() vocab.TootBlurhashProperty {
+	return this.TootBlurhash
+}
+
 // GetTypeName returns the name of this type.
 func (this ActivityStreamsVideo) GetTypeName() string {
 	return "Video"
@@ -605,6 +618,7 @@ func (this ActivityStreamsVideo) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.ActivityStreamsAttributedTo, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsAudience, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsBcc, m)
+	m = this.helperJSONLDContext(this.TootBlurhash, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsBto, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsCc, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsContent, m)
@@ -698,6 +712,20 @@ func (this ActivityStreamsVideo) LessThan(o vocab.ActivityStreamsVideo) bool {
 	} // Else: Both are nil
 	// Compare property "bcc"
 	if lhs, rhs := this.ActivityStreamsBcc, o.GetActivityStreamsBcc(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
+	// Compare property "blurhash"
+	if lhs, rhs := this.TootBlurhash, o.GetTootBlurhash(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
 			return true
 		} else if rhs.LessThan(lhs) {
@@ -1151,6 +1179,14 @@ func (this ActivityStreamsVideo) Serialize() (map[string]interface{}, error) {
 			m[this.ActivityStreamsBcc.Name()] = i
 		}
 	}
+	// Maybe serialize property "blurhash"
+	if this.TootBlurhash != nil {
+		if i, err := this.TootBlurhash.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.TootBlurhash.Name()] = i
+		}
+	}
 	// Maybe serialize property "bto"
 	if this.ActivityStreamsBto != nil {
 		if i, err := this.ActivityStreamsBto.Serialize(); err != nil {
@@ -1539,6 +1575,11 @@ func (this *ActivityStreamsVideo) SetJSONLDId(i vocab.JSONLDIdProperty) {
 // SetJSONLDType sets the "type" property.
 func (this *ActivityStreamsVideo) SetJSONLDType(i vocab.JSONLDTypeProperty) {
 	this.JSONLDType = i
+}
+
+// SetTootBlurhash sets the "blurhash" property.
+func (this *ActivityStreamsVideo) SetTootBlurhash(i vocab.TootBlurhashProperty) {
+	this.TootBlurhash = i
 }
 
 // VocabularyURI returns the vocabulary's URI as a string.

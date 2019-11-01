@@ -247,6 +247,13 @@ type ActivityStreamsSubjectProperty interface {
 	// GetIRI returns the IRI of this property. When IsIRI returns false,
 	// GetIRI will return an arbitrary value.
 	GetIRI() *url.URL
+	// GetTootEmoji returns the value of this property. When IsTootEmoji
+	// returns false, GetTootEmoji will return an arbitrary value.
+	GetTootEmoji() TootEmoji
+	// GetTootIdentityProof returns the value of this property. When
+	// IsTootIdentityProof returns false, GetTootIdentityProof will return
+	// an arbitrary value.
+	GetTootIdentityProof() TootIdentityProof
 	// GetType returns the value in this property as a Type. Returns nil if
 	// the value is not an ActivityStreams type, such as an IRI or another
 	// value.
@@ -488,6 +495,14 @@ type ActivityStreamsSubjectProperty interface {
 	// IsIRI returns true if this property is an IRI. When true, use GetIRI
 	// and SetIRI to access and set this property
 	IsIRI() bool
+	// IsTootEmoji returns true if this property has a type of "Emoji". When
+	// true, use the GetTootEmoji and SetTootEmoji methods to access and
+	// set this property.
+	IsTootEmoji() bool
+	// IsTootIdentityProof returns true if this property has a type of
+	// "IdentityProof". When true, use the GetTootIdentityProof and
+	// SetTootIdentityProof methods to access and set this property.
+	IsTootIdentityProof() bool
 	// JSONLDContext returns the JSONLD URIs required in the context string
 	// for this property and the specific values that are set. The value
 	// in the map is the alias used to import the property's value or
@@ -677,6 +692,12 @@ type ActivityStreamsSubjectProperty interface {
 	// SetIRI sets the value of this property. Calling IsIRI afterwards
 	// returns true.
 	SetIRI(v *url.URL)
+	// SetTootEmoji sets the value of this property. Calling IsTootEmoji
+	// afterwards returns true.
+	SetTootEmoji(v TootEmoji)
+	// SetTootIdentityProof sets the value of this property. Calling
+	// IsTootIdentityProof afterwards returns true.
+	SetTootIdentityProof(v TootIdentityProof)
 	// SetType attempts to set the property for the arbitrary type. Returns an
 	// error if it is not a valid type to set on this property.
 	SetType(t Type) error

@@ -129,6 +129,14 @@ import (
 	typeview "github.com/go-fed/activity/streams/impl/activitystreams/type_view"
 	propertyid "github.com/go-fed/activity/streams/impl/jsonld/property_id"
 	propertytype "github.com/go-fed/activity/streams/impl/jsonld/property_type"
+	propertyblurhash "github.com/go-fed/activity/streams/impl/toot/property_blurhash"
+	propertydiscoverable "github.com/go-fed/activity/streams/impl/toot/property_discoverable"
+	propertyfeatured "github.com/go-fed/activity/streams/impl/toot/property_featured"
+	propertysignaturealgorithm "github.com/go-fed/activity/streams/impl/toot/property_signaturealgorithm"
+	propertysignaturevalue "github.com/go-fed/activity/streams/impl/toot/property_signaturevalue"
+	propertyvoterscount "github.com/go-fed/activity/streams/impl/toot/property_voterscount"
+	typeemoji "github.com/go-fed/activity/streams/impl/toot/type_emoji"
+	typeidentityproof "github.com/go-fed/activity/streams/impl/toot/type_identityproof"
 	propertyowner "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_owner"
 	propertypublickey "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_publickey"
 	propertypublickeypem "github.com/go-fed/activity/streams/impl/w3idsecurityv1/property_publickeypem"
@@ -363,6 +371,18 @@ func (this Manager) DeserializeBlockActivityStreams() func(map[string]interface{
 	}
 }
 
+// DeserializeBlurhashPropertyToot returns the deserialization method for the
+// "TootBlurhashProperty" non-functional property in the vocabulary "Toot"
+func (this Manager) DeserializeBlurhashPropertyToot() func(map[string]interface{}, map[string]string) (vocab.TootBlurhashProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TootBlurhashProperty, error) {
+		i, err := propertyblurhash.DeserializeBlurhashProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
 // DeserializeBtoPropertyActivityStreams returns the deserialization method for
 // the "ActivityStreamsBtoProperty" non-functional property in the vocabulary
 // "ActivityStreams"
@@ -519,6 +539,18 @@ func (this Manager) DeserializeDescribesPropertyActivityStreams() func(map[strin
 	}
 }
 
+// DeserializeDiscoverablePropertyToot returns the deserialization method for the
+// "TootDiscoverableProperty" non-functional property in the vocabulary "Toot"
+func (this Manager) DeserializeDiscoverablePropertyToot() func(map[string]interface{}, map[string]string) (vocab.TootDiscoverableProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TootDiscoverableProperty, error) {
+		i, err := propertydiscoverable.DeserializeDiscoverableProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
 // DeserializeDislikeActivityStreams returns the deserialization method for the
 // "ActivityStreamsDislike" non-functional property in the vocabulary
 // "ActivityStreams"
@@ -558,6 +590,18 @@ func (this Manager) DeserializeDurationPropertyActivityStreams() func(map[string
 	}
 }
 
+// DeserializeEmojiToot returns the deserialization method for the "TootEmoji"
+// non-functional property in the vocabulary "Toot"
+func (this Manager) DeserializeEmojiToot() func(map[string]interface{}, map[string]string) (vocab.TootEmoji, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TootEmoji, error) {
+		i, err := typeemoji.DeserializeEmoji(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
 // DeserializeEndTimePropertyActivityStreams returns the deserialization method
 // for the "ActivityStreamsEndTimeProperty" non-functional property in the
 // vocabulary "ActivityStreams"
@@ -577,6 +621,18 @@ func (this Manager) DeserializeEndTimePropertyActivityStreams() func(map[string]
 func (this Manager) DeserializeEventActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsEvent, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsEvent, error) {
 		i, err := typeevent.DeserializeEvent(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializeFeaturedPropertyToot returns the deserialization method for the
+// "TootFeaturedProperty" non-functional property in the vocabulary "Toot"
+func (this Manager) DeserializeFeaturedPropertyToot() func(map[string]interface{}, map[string]string) (vocab.TootFeaturedProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TootFeaturedProperty, error) {
+		i, err := propertyfeatured.DeserializeFeaturedProperty(m, aliasMap)
 		if i == nil {
 			return nil, err
 		}
@@ -745,6 +801,18 @@ func (this Manager) DeserializeIconPropertyActivityStreams() func(map[string]int
 func (this Manager) DeserializeIdPropertyJSONLD() func(map[string]interface{}, map[string]string) (vocab.JSONLDIdProperty, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.JSONLDIdProperty, error) {
 		i, err := propertyid.DeserializeIdProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializeIdentityProofToot returns the deserialization method for the
+// "TootIdentityProof" non-functional property in the vocabulary "Toot"
+func (this Manager) DeserializeIdentityProofToot() func(map[string]interface{}, map[string]string) (vocab.TootIdentityProof, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TootIdentityProof, error) {
+		i, err := typeidentityproof.DeserializeIdentityProof(m, aliasMap)
 		if i == nil {
 			return nil, err
 		}
@@ -1545,6 +1613,32 @@ func (this Manager) DeserializeSharesPropertyActivityStreams() func(map[string]i
 	}
 }
 
+// DeserializeSignatureAlgorithmPropertyToot returns the deserialization method
+// for the "TootSignatureAlgorithmProperty" non-functional property in the
+// vocabulary "Toot"
+func (this Manager) DeserializeSignatureAlgorithmPropertyToot() func(map[string]interface{}, map[string]string) (vocab.TootSignatureAlgorithmProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TootSignatureAlgorithmProperty, error) {
+		i, err := propertysignaturealgorithm.DeserializeSignatureAlgorithmProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializeSignatureValuePropertyToot returns the deserialization method for
+// the "TootSignatureValueProperty" non-functional property in the vocabulary
+// "Toot"
+func (this Manager) DeserializeSignatureValuePropertyToot() func(map[string]interface{}, map[string]string) (vocab.TootSignatureValueProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TootSignatureValueProperty, error) {
+		i, err := propertysignaturevalue.DeserializeSignatureValueProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
 // DeserializeStartIndexPropertyActivityStreams returns the deserialization method
 // for the "ActivityStreamsStartIndexProperty" non-functional property in the
 // vocabulary "ActivityStreams"
@@ -1810,6 +1904,18 @@ func (this Manager) DeserializeVideoActivityStreams() func(map[string]interface{
 func (this Manager) DeserializeViewActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsView, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsView, error) {
 		i, err := typeview.DeserializeView(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializeVotersCountPropertyToot returns the deserialization method for the
+// "TootVotersCountProperty" non-functional property in the vocabulary "Toot"
+func (this Manager) DeserializeVotersCountPropertyToot() func(map[string]interface{}, map[string]string) (vocab.TootVotersCountProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TootVotersCountProperty, error) {
+		i, err := propertyvoterscount.DeserializeVotersCountProperty(m, aliasMap)
 		if i == nil {
 			return nil, err
 		}

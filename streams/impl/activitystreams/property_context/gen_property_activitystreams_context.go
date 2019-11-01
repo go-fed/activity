@@ -31,10 +31,12 @@ type ActivityStreamsContextPropertyIterator struct {
 	activitystreamsDeleteMember                vocab.ActivityStreamsDelete
 	activitystreamsDislikeMember               vocab.ActivityStreamsDislike
 	activitystreamsDocumentMember              vocab.ActivityStreamsDocument
+	tootEmojiMember                            vocab.TootEmoji
 	activitystreamsEventMember                 vocab.ActivityStreamsEvent
 	activitystreamsFlagMember                  vocab.ActivityStreamsFlag
 	activitystreamsFollowMember                vocab.ActivityStreamsFollow
 	activitystreamsGroupMember                 vocab.ActivityStreamsGroup
+	tootIdentityProofMember                    vocab.TootIdentityProof
 	activitystreamsIgnoreMember                vocab.ActivityStreamsIgnore
 	activitystreamsImageMember                 vocab.ActivityStreamsImage
 	activitystreamsIntransitiveActivityMember  vocab.ActivityStreamsIntransitiveActivity
@@ -203,6 +205,12 @@ func deserializeActivityStreamsContextPropertyIterator(i interface{}, aliasMap m
 				alias:                         alias,
 			}
 			return this, nil
+		} else if v, err := mgr.DeserializeEmojiToot()(m, aliasMap); err == nil {
+			this := &ActivityStreamsContextPropertyIterator{
+				alias:           alias,
+				tootEmojiMember: v,
+			}
+			return this, nil
 		} else if v, err := mgr.DeserializeEventActivityStreams()(m, aliasMap); err == nil {
 			this := &ActivityStreamsContextPropertyIterator{
 				activitystreamsEventMember: v,
@@ -225,6 +233,12 @@ func deserializeActivityStreamsContextPropertyIterator(i interface{}, aliasMap m
 			this := &ActivityStreamsContextPropertyIterator{
 				activitystreamsGroupMember: v,
 				alias:                      alias,
+			}
+			return this, nil
+		} else if v, err := mgr.DeserializeIdentityProofToot()(m, aliasMap); err == nil {
+			this := &ActivityStreamsContextPropertyIterator{
+				alias:                   alias,
+				tootIdentityProofMember: v,
 			}
 			return this, nil
 		} else if v, err := mgr.DeserializeIgnoreActivityStreams()(m, aliasMap); err == nil {
@@ -818,6 +832,19 @@ func (this ActivityStreamsContextPropertyIterator) GetIRI() *url.URL {
 	return this.iri
 }
 
+// GetTootEmoji returns the value of this property. When IsTootEmoji returns
+// false, GetTootEmoji will return an arbitrary value.
+func (this ActivityStreamsContextPropertyIterator) GetTootEmoji() vocab.TootEmoji {
+	return this.tootEmojiMember
+}
+
+// GetTootIdentityProof returns the value of this property. When
+// IsTootIdentityProof returns false, GetTootIdentityProof will return an
+// arbitrary value.
+func (this ActivityStreamsContextPropertyIterator) GetTootIdentityProof() vocab.TootIdentityProof {
+	return this.tootIdentityProofMember
+}
+
 // GetType returns the value in this property as a Type. Returns nil if the value
 // is not an ActivityStreams type, such as an IRI or another value.
 func (this ActivityStreamsContextPropertyIterator) GetType() vocab.Type {
@@ -872,6 +899,9 @@ func (this ActivityStreamsContextPropertyIterator) GetType() vocab.Type {
 	if this.IsActivityStreamsDocument() {
 		return this.GetActivityStreamsDocument()
 	}
+	if this.IsTootEmoji() {
+		return this.GetTootEmoji()
+	}
 	if this.IsActivityStreamsEvent() {
 		return this.GetActivityStreamsEvent()
 	}
@@ -883,6 +913,9 @@ func (this ActivityStreamsContextPropertyIterator) GetType() vocab.Type {
 	}
 	if this.IsActivityStreamsGroup() {
 		return this.GetActivityStreamsGroup()
+	}
+	if this.IsTootIdentityProof() {
+		return this.GetTootIdentityProof()
 	}
 	if this.IsActivityStreamsIgnore() {
 		return this.GetActivityStreamsIgnore()
@@ -1006,10 +1039,12 @@ func (this ActivityStreamsContextPropertyIterator) HasAny() bool {
 		this.IsActivityStreamsDelete() ||
 		this.IsActivityStreamsDislike() ||
 		this.IsActivityStreamsDocument() ||
+		this.IsTootEmoji() ||
 		this.IsActivityStreamsEvent() ||
 		this.IsActivityStreamsFlag() ||
 		this.IsActivityStreamsFollow() ||
 		this.IsActivityStreamsGroup() ||
+		this.IsTootIdentityProof() ||
 		this.IsActivityStreamsIgnore() ||
 		this.IsActivityStreamsImage() ||
 		this.IsActivityStreamsIntransitiveActivity() ||
@@ -1435,6 +1470,19 @@ func (this ActivityStreamsContextPropertyIterator) IsIRI() bool {
 	return this.iri != nil
 }
 
+// IsTootEmoji returns true if this property has a type of "Emoji". When true, use
+// the GetTootEmoji and SetTootEmoji methods to access and set this property.
+func (this ActivityStreamsContextPropertyIterator) IsTootEmoji() bool {
+	return this.tootEmojiMember != nil
+}
+
+// IsTootIdentityProof returns true if this property has a type of
+// "IdentityProof". When true, use the GetTootIdentityProof and
+// SetTootIdentityProof methods to access and set this property.
+func (this ActivityStreamsContextPropertyIterator) IsTootIdentityProof() bool {
+	return this.tootIdentityProofMember != nil
+}
+
 // JSONLDContext returns the JSONLD URIs required in the context string for this
 // property and the specific values that are set. The value in the map is the
 // alias used to import the property's value or values.
@@ -1475,6 +1523,8 @@ func (this ActivityStreamsContextPropertyIterator) JSONLDContext() map[string]st
 		child = this.GetActivityStreamsDislike().JSONLDContext()
 	} else if this.IsActivityStreamsDocument() {
 		child = this.GetActivityStreamsDocument().JSONLDContext()
+	} else if this.IsTootEmoji() {
+		child = this.GetTootEmoji().JSONLDContext()
 	} else if this.IsActivityStreamsEvent() {
 		child = this.GetActivityStreamsEvent().JSONLDContext()
 	} else if this.IsActivityStreamsFlag() {
@@ -1483,6 +1533,8 @@ func (this ActivityStreamsContextPropertyIterator) JSONLDContext() map[string]st
 		child = this.GetActivityStreamsFollow().JSONLDContext()
 	} else if this.IsActivityStreamsGroup() {
 		child = this.GetActivityStreamsGroup().JSONLDContext()
+	} else if this.IsTootIdentityProof() {
+		child = this.GetTootIdentityProof().JSONLDContext()
 	} else if this.IsActivityStreamsIgnore() {
 		child = this.GetActivityStreamsIgnore().JSONLDContext()
 	} else if this.IsActivityStreamsImage() {
@@ -1616,116 +1668,122 @@ func (this ActivityStreamsContextPropertyIterator) KindIndex() int {
 	if this.IsActivityStreamsDocument() {
 		return 16
 	}
-	if this.IsActivityStreamsEvent() {
+	if this.IsTootEmoji() {
 		return 17
 	}
-	if this.IsActivityStreamsFlag() {
+	if this.IsActivityStreamsEvent() {
 		return 18
 	}
-	if this.IsActivityStreamsFollow() {
+	if this.IsActivityStreamsFlag() {
 		return 19
 	}
-	if this.IsActivityStreamsGroup() {
+	if this.IsActivityStreamsFollow() {
 		return 20
 	}
-	if this.IsActivityStreamsIgnore() {
+	if this.IsActivityStreamsGroup() {
 		return 21
 	}
-	if this.IsActivityStreamsImage() {
+	if this.IsTootIdentityProof() {
 		return 22
 	}
-	if this.IsActivityStreamsIntransitiveActivity() {
+	if this.IsActivityStreamsIgnore() {
 		return 23
 	}
-	if this.IsActivityStreamsInvite() {
+	if this.IsActivityStreamsImage() {
 		return 24
 	}
-	if this.IsActivityStreamsJoin() {
+	if this.IsActivityStreamsIntransitiveActivity() {
 		return 25
 	}
-	if this.IsActivityStreamsLeave() {
+	if this.IsActivityStreamsInvite() {
 		return 26
 	}
-	if this.IsActivityStreamsLike() {
+	if this.IsActivityStreamsJoin() {
 		return 27
 	}
-	if this.IsActivityStreamsListen() {
+	if this.IsActivityStreamsLeave() {
 		return 28
 	}
-	if this.IsActivityStreamsMention() {
+	if this.IsActivityStreamsLike() {
 		return 29
 	}
-	if this.IsActivityStreamsMove() {
+	if this.IsActivityStreamsListen() {
 		return 30
 	}
-	if this.IsActivityStreamsNote() {
+	if this.IsActivityStreamsMention() {
 		return 31
 	}
-	if this.IsActivityStreamsOffer() {
+	if this.IsActivityStreamsMove() {
 		return 32
 	}
-	if this.IsActivityStreamsOrderedCollection() {
+	if this.IsActivityStreamsNote() {
 		return 33
 	}
-	if this.IsActivityStreamsOrderedCollectionPage() {
+	if this.IsActivityStreamsOffer() {
 		return 34
 	}
-	if this.IsActivityStreamsOrganization() {
+	if this.IsActivityStreamsOrderedCollection() {
 		return 35
 	}
-	if this.IsActivityStreamsPage() {
+	if this.IsActivityStreamsOrderedCollectionPage() {
 		return 36
 	}
-	if this.IsActivityStreamsPerson() {
+	if this.IsActivityStreamsOrganization() {
 		return 37
 	}
-	if this.IsActivityStreamsPlace() {
+	if this.IsActivityStreamsPage() {
 		return 38
 	}
-	if this.IsActivityStreamsProfile() {
+	if this.IsActivityStreamsPerson() {
 		return 39
 	}
-	if this.IsActivityStreamsQuestion() {
+	if this.IsActivityStreamsPlace() {
 		return 40
 	}
-	if this.IsActivityStreamsRead() {
+	if this.IsActivityStreamsProfile() {
 		return 41
 	}
-	if this.IsActivityStreamsReject() {
+	if this.IsActivityStreamsQuestion() {
 		return 42
 	}
-	if this.IsActivityStreamsRelationship() {
+	if this.IsActivityStreamsRead() {
 		return 43
 	}
-	if this.IsActivityStreamsRemove() {
+	if this.IsActivityStreamsReject() {
 		return 44
 	}
-	if this.IsActivityStreamsService() {
+	if this.IsActivityStreamsRelationship() {
 		return 45
 	}
-	if this.IsActivityStreamsTentativeAccept() {
+	if this.IsActivityStreamsRemove() {
 		return 46
 	}
-	if this.IsActivityStreamsTentativeReject() {
+	if this.IsActivityStreamsService() {
 		return 47
 	}
-	if this.IsActivityStreamsTombstone() {
+	if this.IsActivityStreamsTentativeAccept() {
 		return 48
 	}
-	if this.IsActivityStreamsTravel() {
+	if this.IsActivityStreamsTentativeReject() {
 		return 49
 	}
-	if this.IsActivityStreamsUndo() {
+	if this.IsActivityStreamsTombstone() {
 		return 50
 	}
-	if this.IsActivityStreamsUpdate() {
+	if this.IsActivityStreamsTravel() {
 		return 51
 	}
-	if this.IsActivityStreamsVideo() {
+	if this.IsActivityStreamsUndo() {
 		return 52
 	}
-	if this.IsActivityStreamsView() {
+	if this.IsActivityStreamsUpdate() {
 		return 53
+	}
+	if this.IsActivityStreamsVideo() {
+		return 54
+	}
+	if this.IsActivityStreamsView() {
+		return 55
 	}
 	if this.IsIRI() {
 		return -2
@@ -1778,6 +1836,8 @@ func (this ActivityStreamsContextPropertyIterator) LessThan(o vocab.ActivityStre
 		return this.GetActivityStreamsDislike().LessThan(o.GetActivityStreamsDislike())
 	} else if this.IsActivityStreamsDocument() {
 		return this.GetActivityStreamsDocument().LessThan(o.GetActivityStreamsDocument())
+	} else if this.IsTootEmoji() {
+		return this.GetTootEmoji().LessThan(o.GetTootEmoji())
 	} else if this.IsActivityStreamsEvent() {
 		return this.GetActivityStreamsEvent().LessThan(o.GetActivityStreamsEvent())
 	} else if this.IsActivityStreamsFlag() {
@@ -1786,6 +1846,8 @@ func (this ActivityStreamsContextPropertyIterator) LessThan(o vocab.ActivityStre
 		return this.GetActivityStreamsFollow().LessThan(o.GetActivityStreamsFollow())
 	} else if this.IsActivityStreamsGroup() {
 		return this.GetActivityStreamsGroup().LessThan(o.GetActivityStreamsGroup())
+	} else if this.IsTootIdentityProof() {
+		return this.GetTootIdentityProof().LessThan(o.GetTootIdentityProof())
 	} else if this.IsActivityStreamsIgnore() {
 		return this.GetActivityStreamsIgnore().LessThan(o.GetActivityStreamsIgnore())
 	} else if this.IsActivityStreamsImage() {
@@ -2269,6 +2331,20 @@ func (this *ActivityStreamsContextPropertyIterator) SetIRI(v *url.URL) {
 	this.iri = v
 }
 
+// SetTootEmoji sets the value of this property. Calling IsTootEmoji afterwards
+// returns true.
+func (this *ActivityStreamsContextPropertyIterator) SetTootEmoji(v vocab.TootEmoji) {
+	this.clear()
+	this.tootEmojiMember = v
+}
+
+// SetTootIdentityProof sets the value of this property. Calling
+// IsTootIdentityProof afterwards returns true.
+func (this *ActivityStreamsContextPropertyIterator) SetTootIdentityProof(v vocab.TootIdentityProof) {
+	this.clear()
+	this.tootIdentityProofMember = v
+}
+
 // SetType attempts to set the property for the arbitrary type. Returns an error
 // if it is not a valid type to set on this property.
 func (this *ActivityStreamsContextPropertyIterator) SetType(t vocab.Type) error {
@@ -2340,6 +2416,10 @@ func (this *ActivityStreamsContextPropertyIterator) SetType(t vocab.Type) error 
 		this.SetActivityStreamsDocument(v)
 		return nil
 	}
+	if v, ok := t.(vocab.TootEmoji); ok {
+		this.SetTootEmoji(v)
+		return nil
+	}
 	if v, ok := t.(vocab.ActivityStreamsEvent); ok {
 		this.SetActivityStreamsEvent(v)
 		return nil
@@ -2354,6 +2434,10 @@ func (this *ActivityStreamsContextPropertyIterator) SetType(t vocab.Type) error 
 	}
 	if v, ok := t.(vocab.ActivityStreamsGroup); ok {
 		this.SetActivityStreamsGroup(v)
+		return nil
+	}
+	if v, ok := t.(vocab.TootIdentityProof); ok {
+		this.SetTootIdentityProof(v)
 		return nil
 	}
 	if v, ok := t.(vocab.ActivityStreamsIgnore); ok {
@@ -2512,10 +2596,12 @@ func (this *ActivityStreamsContextPropertyIterator) clear() {
 	this.activitystreamsDeleteMember = nil
 	this.activitystreamsDislikeMember = nil
 	this.activitystreamsDocumentMember = nil
+	this.tootEmojiMember = nil
 	this.activitystreamsEventMember = nil
 	this.activitystreamsFlagMember = nil
 	this.activitystreamsFollowMember = nil
 	this.activitystreamsGroupMember = nil
+	this.tootIdentityProofMember = nil
 	this.activitystreamsIgnoreMember = nil
 	this.activitystreamsImageMember = nil
 	this.activitystreamsIntransitiveActivityMember = nil
@@ -2592,6 +2678,8 @@ func (this ActivityStreamsContextPropertyIterator) serialize() (interface{}, err
 		return this.GetActivityStreamsDislike().Serialize()
 	} else if this.IsActivityStreamsDocument() {
 		return this.GetActivityStreamsDocument().Serialize()
+	} else if this.IsTootEmoji() {
+		return this.GetTootEmoji().Serialize()
 	} else if this.IsActivityStreamsEvent() {
 		return this.GetActivityStreamsEvent().Serialize()
 	} else if this.IsActivityStreamsFlag() {
@@ -2600,6 +2688,8 @@ func (this ActivityStreamsContextPropertyIterator) serialize() (interface{}, err
 		return this.GetActivityStreamsFollow().Serialize()
 	} else if this.IsActivityStreamsGroup() {
 		return this.GetActivityStreamsGroup().Serialize()
+	} else if this.IsTootIdentityProof() {
+		return this.GetTootIdentityProof().Serialize()
 	} else if this.IsActivityStreamsIgnore() {
 		return this.GetActivityStreamsIgnore().Serialize()
 	} else if this.IsActivityStreamsImage() {
@@ -3348,6 +3438,29 @@ func (this *ActivityStreamsContextProperty) AppendIRI(v *url.URL) {
 		iri:    v,
 		myIdx:  this.Len(),
 		parent: this,
+	})
+}
+
+// AppendTootEmoji appends a Emoji value to the back of a list of the property
+// "context". Invalidates iterators that are traversing using Prev.
+func (this *ActivityStreamsContextProperty) AppendTootEmoji(v vocab.TootEmoji) {
+	this.properties = append(this.properties, &ActivityStreamsContextPropertyIterator{
+		alias:           this.alias,
+		myIdx:           this.Len(),
+		parent:          this,
+		tootEmojiMember: v,
+	})
+}
+
+// AppendTootIdentityProof appends a IdentityProof value to the back of a list of
+// the property "context". Invalidates iterators that are traversing using
+// Prev.
+func (this *ActivityStreamsContextProperty) AppendTootIdentityProof(v vocab.TootIdentityProof) {
+	this.properties = append(this.properties, &ActivityStreamsContextPropertyIterator{
+		alias:                   this.alias,
+		myIdx:                   this.Len(),
+		parent:                  this,
+		tootIdentityProofMember: v,
 	})
 }
 
@@ -4331,6 +4444,40 @@ func (this *ActivityStreamsContextProperty) InsertIRI(idx int, v *url.URL) {
 	}
 }
 
+// InsertTootEmoji inserts a Emoji value at the specified index for a property
+// "context". Existing elements at that index and higher are shifted back
+// once. Invalidates all iterators.
+func (this *ActivityStreamsContextProperty) InsertTootEmoji(idx int, v vocab.TootEmoji) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsContextPropertyIterator{
+		alias:           this.alias,
+		myIdx:           idx,
+		parent:          this,
+		tootEmojiMember: v,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// InsertTootIdentityProof inserts a IdentityProof value at the specified index
+// for a property "context". Existing elements at that index and higher are
+// shifted back once. Invalidates all iterators.
+func (this *ActivityStreamsContextProperty) InsertTootIdentityProof(idx int, v vocab.TootIdentityProof) {
+	this.properties = append(this.properties, nil)
+	copy(this.properties[idx+1:], this.properties[idx:])
+	this.properties[idx] = &ActivityStreamsContextPropertyIterator{
+		alias:                   this.alias,
+		myIdx:                   idx,
+		parent:                  this,
+		tootIdentityProofMember: v,
+	}
+	for i := idx; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
 // PrependType prepends an arbitrary type value to the front of a list of the
 // property "context". Invalidates all iterators. Returns an error if the type
 // is not a valid one to set for this property.
@@ -4461,150 +4608,158 @@ func (this ActivityStreamsContextProperty) Less(i, j int) bool {
 			rhs := this.properties[j].GetActivityStreamsDocument()
 			return lhs.LessThan(rhs)
 		} else if idx1 == 17 {
+			lhs := this.properties[i].GetTootEmoji()
+			rhs := this.properties[j].GetTootEmoji()
+			return lhs.LessThan(rhs)
+		} else if idx1 == 18 {
 			lhs := this.properties[i].GetActivityStreamsEvent()
 			rhs := this.properties[j].GetActivityStreamsEvent()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 18 {
+		} else if idx1 == 19 {
 			lhs := this.properties[i].GetActivityStreamsFlag()
 			rhs := this.properties[j].GetActivityStreamsFlag()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 19 {
+		} else if idx1 == 20 {
 			lhs := this.properties[i].GetActivityStreamsFollow()
 			rhs := this.properties[j].GetActivityStreamsFollow()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 20 {
+		} else if idx1 == 21 {
 			lhs := this.properties[i].GetActivityStreamsGroup()
 			rhs := this.properties[j].GetActivityStreamsGroup()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 21 {
+		} else if idx1 == 22 {
+			lhs := this.properties[i].GetTootIdentityProof()
+			rhs := this.properties[j].GetTootIdentityProof()
+			return lhs.LessThan(rhs)
+		} else if idx1 == 23 {
 			lhs := this.properties[i].GetActivityStreamsIgnore()
 			rhs := this.properties[j].GetActivityStreamsIgnore()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 22 {
+		} else if idx1 == 24 {
 			lhs := this.properties[i].GetActivityStreamsImage()
 			rhs := this.properties[j].GetActivityStreamsImage()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 23 {
+		} else if idx1 == 25 {
 			lhs := this.properties[i].GetActivityStreamsIntransitiveActivity()
 			rhs := this.properties[j].GetActivityStreamsIntransitiveActivity()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 24 {
+		} else if idx1 == 26 {
 			lhs := this.properties[i].GetActivityStreamsInvite()
 			rhs := this.properties[j].GetActivityStreamsInvite()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 25 {
+		} else if idx1 == 27 {
 			lhs := this.properties[i].GetActivityStreamsJoin()
 			rhs := this.properties[j].GetActivityStreamsJoin()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 26 {
+		} else if idx1 == 28 {
 			lhs := this.properties[i].GetActivityStreamsLeave()
 			rhs := this.properties[j].GetActivityStreamsLeave()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 27 {
+		} else if idx1 == 29 {
 			lhs := this.properties[i].GetActivityStreamsLike()
 			rhs := this.properties[j].GetActivityStreamsLike()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 28 {
+		} else if idx1 == 30 {
 			lhs := this.properties[i].GetActivityStreamsListen()
 			rhs := this.properties[j].GetActivityStreamsListen()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 29 {
+		} else if idx1 == 31 {
 			lhs := this.properties[i].GetActivityStreamsMention()
 			rhs := this.properties[j].GetActivityStreamsMention()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 30 {
+		} else if idx1 == 32 {
 			lhs := this.properties[i].GetActivityStreamsMove()
 			rhs := this.properties[j].GetActivityStreamsMove()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 31 {
+		} else if idx1 == 33 {
 			lhs := this.properties[i].GetActivityStreamsNote()
 			rhs := this.properties[j].GetActivityStreamsNote()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 32 {
+		} else if idx1 == 34 {
 			lhs := this.properties[i].GetActivityStreamsOffer()
 			rhs := this.properties[j].GetActivityStreamsOffer()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 33 {
+		} else if idx1 == 35 {
 			lhs := this.properties[i].GetActivityStreamsOrderedCollection()
 			rhs := this.properties[j].GetActivityStreamsOrderedCollection()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 34 {
+		} else if idx1 == 36 {
 			lhs := this.properties[i].GetActivityStreamsOrderedCollectionPage()
 			rhs := this.properties[j].GetActivityStreamsOrderedCollectionPage()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 35 {
+		} else if idx1 == 37 {
 			lhs := this.properties[i].GetActivityStreamsOrganization()
 			rhs := this.properties[j].GetActivityStreamsOrganization()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 36 {
+		} else if idx1 == 38 {
 			lhs := this.properties[i].GetActivityStreamsPage()
 			rhs := this.properties[j].GetActivityStreamsPage()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 37 {
+		} else if idx1 == 39 {
 			lhs := this.properties[i].GetActivityStreamsPerson()
 			rhs := this.properties[j].GetActivityStreamsPerson()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 38 {
+		} else if idx1 == 40 {
 			lhs := this.properties[i].GetActivityStreamsPlace()
 			rhs := this.properties[j].GetActivityStreamsPlace()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 39 {
+		} else if idx1 == 41 {
 			lhs := this.properties[i].GetActivityStreamsProfile()
 			rhs := this.properties[j].GetActivityStreamsProfile()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 40 {
+		} else if idx1 == 42 {
 			lhs := this.properties[i].GetActivityStreamsQuestion()
 			rhs := this.properties[j].GetActivityStreamsQuestion()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 41 {
+		} else if idx1 == 43 {
 			lhs := this.properties[i].GetActivityStreamsRead()
 			rhs := this.properties[j].GetActivityStreamsRead()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 42 {
+		} else if idx1 == 44 {
 			lhs := this.properties[i].GetActivityStreamsReject()
 			rhs := this.properties[j].GetActivityStreamsReject()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 43 {
+		} else if idx1 == 45 {
 			lhs := this.properties[i].GetActivityStreamsRelationship()
 			rhs := this.properties[j].GetActivityStreamsRelationship()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 44 {
+		} else if idx1 == 46 {
 			lhs := this.properties[i].GetActivityStreamsRemove()
 			rhs := this.properties[j].GetActivityStreamsRemove()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 45 {
+		} else if idx1 == 47 {
 			lhs := this.properties[i].GetActivityStreamsService()
 			rhs := this.properties[j].GetActivityStreamsService()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 46 {
+		} else if idx1 == 48 {
 			lhs := this.properties[i].GetActivityStreamsTentativeAccept()
 			rhs := this.properties[j].GetActivityStreamsTentativeAccept()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 47 {
+		} else if idx1 == 49 {
 			lhs := this.properties[i].GetActivityStreamsTentativeReject()
 			rhs := this.properties[j].GetActivityStreamsTentativeReject()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 48 {
+		} else if idx1 == 50 {
 			lhs := this.properties[i].GetActivityStreamsTombstone()
 			rhs := this.properties[j].GetActivityStreamsTombstone()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 49 {
+		} else if idx1 == 51 {
 			lhs := this.properties[i].GetActivityStreamsTravel()
 			rhs := this.properties[j].GetActivityStreamsTravel()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 50 {
+		} else if idx1 == 52 {
 			lhs := this.properties[i].GetActivityStreamsUndo()
 			rhs := this.properties[j].GetActivityStreamsUndo()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 51 {
+		} else if idx1 == 53 {
 			lhs := this.properties[i].GetActivityStreamsUpdate()
 			rhs := this.properties[j].GetActivityStreamsUpdate()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 52 {
+		} else if idx1 == 54 {
 			lhs := this.properties[i].GetActivityStreamsVideo()
 			rhs := this.properties[j].GetActivityStreamsVideo()
 			return lhs.LessThan(rhs)
-		} else if idx1 == 53 {
+		} else if idx1 == 55 {
 			lhs := this.properties[i].GetActivityStreamsView()
 			rhs := this.properties[j].GetActivityStreamsView()
 			return lhs.LessThan(rhs)
@@ -5419,6 +5574,34 @@ func (this *ActivityStreamsContextProperty) PrependIRI(v *url.URL) {
 	}
 }
 
+// PrependTootEmoji prepends a Emoji value to the front of a list of the property
+// "context". Invalidates all iterators.
+func (this *ActivityStreamsContextProperty) PrependTootEmoji(v vocab.TootEmoji) {
+	this.properties = append([]*ActivityStreamsContextPropertyIterator{{
+		alias:           this.alias,
+		myIdx:           0,
+		parent:          this,
+		tootEmojiMember: v,
+	}}, this.properties...)
+	for i := 1; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
+// PrependTootIdentityProof prepends a IdentityProof value to the front of a list
+// of the property "context". Invalidates all iterators.
+func (this *ActivityStreamsContextProperty) PrependTootIdentityProof(v vocab.TootIdentityProof) {
+	this.properties = append([]*ActivityStreamsContextPropertyIterator{{
+		alias:                   this.alias,
+		myIdx:                   0,
+		parent:                  this,
+		tootIdentityProofMember: v,
+	}}, this.properties...)
+	for i := 1; i < this.Len(); i++ {
+		(this.properties)[i].myIdx = i
+	}
+}
+
 // PrependType prepends an arbitrary type value to the front of a list of the
 // property "context". Invalidates all iterators. Returns an error if the type
 // is not a valid one to set for this property.
@@ -6182,6 +6365,31 @@ func (this *ActivityStreamsContextProperty) SetIRI(idx int, v *url.URL) {
 		iri:    v,
 		myIdx:  idx,
 		parent: this,
+	}
+}
+
+// SetTootEmoji sets a Emoji value to be at the specified index for the property
+// "context". Panics if the index is out of bounds. Invalidates all iterators.
+func (this *ActivityStreamsContextProperty) SetTootEmoji(idx int, v vocab.TootEmoji) {
+	(this.properties)[idx].parent = nil
+	(this.properties)[idx] = &ActivityStreamsContextPropertyIterator{
+		alias:           this.alias,
+		myIdx:           idx,
+		parent:          this,
+		tootEmojiMember: v,
+	}
+}
+
+// SetTootIdentityProof sets a IdentityProof value to be at the specified index
+// for the property "context". Panics if the index is out of bounds.
+// Invalidates all iterators.
+func (this *ActivityStreamsContextProperty) SetTootIdentityProof(idx int, v vocab.TootIdentityProof) {
+	(this.properties)[idx].parent = nil
+	(this.properties)[idx] = &ActivityStreamsContextPropertyIterator{
+		alias:                   this.alias,
+		myIdx:                   idx,
+		parent:                  this,
+		tootIdentityProofMember: v,
 	}
 }
 
