@@ -21,21 +21,9 @@ import (
 //
 // If 'isASRequest' is true and there is no error, then the HandlerFunc
 // successfully served the request and wrote to the ResponseWriter.
+//
+// Callers are responsible for authorized access to this resource.
 type HandlerFunc func(c context.Context, w http.ResponseWriter, r *http.Request) (isASRequest bool, err error)
-
-// AuthenticateFunc is responsible for authenticating and authorizing a GET
-// ActivityStreams request.
-//
-// If an error is returned, 'shouldReturn' is ignored. It is expected that the
-// calling function will write to the ResponseWriter while handling the error.
-//
-// If 'shouldReturn' is true and no error is returned, then this function
-// immediately returns to the caller. This function is responsible for writing
-// the authentication or authorization failure on the ResponseWriter.
-//
-// If 'shouldReturn' is false and no error is returned, then processing of the
-// request will continue.
-type AuthenticateFunc func(c context.Context, w http.ResponseWriter, r *http.Request) (shouldReturn bool, err error)
 
 // NewActivityStreamsHandler creates a HandlerFunc to serve ActivityStreams
 // requests which are coming from other clients or servers that wish to obtain
@@ -44,20 +32,13 @@ type AuthenticateFunc func(c context.Context, w http.ResponseWriter, r *http.Req
 // Strips retrieved ActivityStreams values of sensitive fields ('bto' and 'bcc')
 // before responding with them. Sets the appropriate HTTP status code for
 // Tombstone Activities as well.
-func NewActivityStreamsHandler(authFn AuthenticateFunc, db Database, clock Clock) HandlerFunc {
+func NewActivityStreamsHandler(db Database, clock Clock) HandlerFunc {
 	return func(c context.Context, w http.ResponseWriter, r *http.Request) (isASRequest bool, err error) {
 		// Do nothing if it is not an ActivityPub GET request
 		if !isActivityPubGet(r) {
 			return
 		}
 		isASRequest = true
-		// Authenticate the request
-		var shouldReturn bool
-		if shouldReturn, err = authFn(c, w, r); err != nil {
-			return
-		} else if shouldReturn {
-			return
-		}
 		id := requestId(r)
 		// Lock and obtain a copy of the requested ActivityStreams value
 		err = db.Lock(c, id)
