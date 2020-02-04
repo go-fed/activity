@@ -744,7 +744,8 @@ func (a *sideEffectActor) resolveInboxes(c context.Context, t Transport, r []*ur
 		// collections owned by peer servers.
 		act, more, err = a.dereferenceForResolvingInboxes(c, t, u)
 		if err != nil {
-			return
+			// Missing recipient -- skip.
+			continue
 		}
 		var recurActors []vocab.Type
 		recurActors, err = a.resolveInboxes(c, t, more, depth+1, maxDepth)
