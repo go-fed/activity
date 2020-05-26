@@ -266,69 +266,74 @@ func wrapInCreate(ctx context.Context, o vocab.Type, actor *url.URL) (c vocab.Ac
 	}
 	// Copying over properties.
 	if v, ok := o.(toer); ok {
-		activityTo := streams.NewActivityStreamsToProperty()
-		to := v.GetActivityStreamsTo()
-		for iter := to.Begin(); iter != to.End(); iter = iter.Next() {
-			var id *url.URL
-			id, err = ToId(iter)
-			if err != nil {
-				return
+		if to := v.GetActivityStreamsTo(); to != nil {
+			activityTo := streams.NewActivityStreamsToProperty()
+			for iter := to.Begin(); iter != to.End(); iter = iter.Next() {
+				var id *url.URL
+				id, err = ToId(iter)
+				if err != nil {
+					return
+				}
+				activityTo.AppendIRI(id)
 			}
-			activityTo.AppendIRI(id)
+			c.SetActivityStreamsTo(activityTo)
 		}
-		c.SetActivityStreamsTo(activityTo)
 	}
 	if v, ok := o.(btoer); ok {
-		activityBto := streams.NewActivityStreamsBtoProperty()
-		bto := v.GetActivityStreamsBto()
-		for iter := bto.Begin(); iter != bto.End(); iter = iter.Next() {
-			var id *url.URL
-			id, err = ToId(iter)
-			if err != nil {
-				return
+		if bto := v.GetActivityStreamsBto(); bto != nil {
+			activityBto := streams.NewActivityStreamsBtoProperty()
+			for iter := bto.Begin(); iter != bto.End(); iter = iter.Next() {
+				var id *url.URL
+				id, err = ToId(iter)
+				if err != nil {
+					return
+				}
+				activityBto.AppendIRI(id)
 			}
-			activityBto.AppendIRI(id)
+			c.SetActivityStreamsBto(activityBto)
 		}
-		c.SetActivityStreamsBto(activityBto)
 	}
 	if v, ok := o.(ccer); ok {
-		activityCc := streams.NewActivityStreamsCcProperty()
-		cc := v.GetActivityStreamsCc()
-		for iter := cc.Begin(); iter != cc.End(); iter = iter.Next() {
-			var id *url.URL
-			id, err = ToId(iter)
-			if err != nil {
-				return
+		if cc := v.GetActivityStreamsCc(); cc != nil {
+			activityCc := streams.NewActivityStreamsCcProperty()
+			for iter := cc.Begin(); iter != cc.End(); iter = iter.Next() {
+				var id *url.URL
+				id, err = ToId(iter)
+				if err != nil {
+					return
+				}
+				activityCc.AppendIRI(id)
 			}
-			activityCc.AppendIRI(id)
+			c.SetActivityStreamsCc(activityCc)
 		}
-		c.SetActivityStreamsCc(activityCc)
 	}
 	if v, ok := o.(bccer); ok {
-		activityBcc := streams.NewActivityStreamsBccProperty()
-		bcc := v.GetActivityStreamsBcc()
-		for iter := bcc.Begin(); iter != bcc.End(); iter = iter.Next() {
-			var id *url.URL
-			id, err = ToId(iter)
-			if err != nil {
-				return
+		if bcc := v.GetActivityStreamsBcc(); bcc != nil {
+			activityBcc := streams.NewActivityStreamsBccProperty()
+			for iter := bcc.Begin(); iter != bcc.End(); iter = iter.Next() {
+				var id *url.URL
+				id, err = ToId(iter)
+				if err != nil {
+					return
+				}
+				activityBcc.AppendIRI(id)
 			}
-			activityBcc.AppendIRI(id)
+			c.SetActivityStreamsBcc(activityBcc)
 		}
-		c.SetActivityStreamsBcc(activityBcc)
 	}
 	if v, ok := o.(audiencer); ok {
-		activityAudience := streams.NewActivityStreamsAudienceProperty()
-		aud := v.GetActivityStreamsAudience()
-		for iter := aud.Begin(); iter != aud.End(); iter = iter.Next() {
-			var id *url.URL
-			id, err = ToId(iter)
-			if err != nil {
-				return
+		if aud := v.GetActivityStreamsAudience(); aud != nil {
+			activityAudience := streams.NewActivityStreamsAudienceProperty()
+			for iter := aud.Begin(); iter != aud.End(); iter = iter.Next() {
+				var id *url.URL
+				id, err = ToId(iter)
+				if err != nil {
+					return
+				}
+				activityAudience.AppendIRI(id)
 			}
-			activityAudience.AppendIRI(id)
+			c.SetActivityStreamsAudience(activityAudience)
 		}
-		c.SetActivityStreamsAudience(activityAudience)
 	}
 	return
 }
