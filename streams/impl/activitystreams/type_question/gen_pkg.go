@@ -168,6 +168,10 @@ type privateManager interface {
 	// method for the "ActivityStreamsUrlProperty" non-functional property
 	// in the vocabulary "ActivityStreams"
 	DeserializeUrlPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsUrlProperty, error)
+	// DeserializeVotersCountPropertyToot returns the deserialization method
+	// for the "TootVotersCountProperty" non-functional property in the
+	// vocabulary "Toot"
+	DeserializeVotersCountPropertyToot() func(map[string]interface{}, map[string]string) (vocab.TootVotersCountProperty, error)
 }
 
 // jsonldContexter is a private interface to determine the JSON-LD contexts and

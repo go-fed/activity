@@ -48,6 +48,10 @@ type privateManager interface {
 	// method for the "ActivityStreamsContextProperty" non-functional
 	// property in the vocabulary "ActivityStreams"
 	DeserializeContextPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsContextProperty, error)
+	// DeserializeDiscoverablePropertyToot returns the deserialization method
+	// for the "TootDiscoverableProperty" non-functional property in the
+	// vocabulary "Toot"
+	DeserializeDiscoverablePropertyToot() func(map[string]interface{}, map[string]string) (vocab.TootDiscoverableProperty, error)
 	// DeserializeDurationPropertyActivityStreams returns the deserialization
 	// method for the "ActivityStreamsDurationProperty" non-functional
 	// property in the vocabulary "ActivityStreams"
@@ -56,6 +60,10 @@ type privateManager interface {
 	// method for the "ActivityStreamsEndTimeProperty" non-functional
 	// property in the vocabulary "ActivityStreams"
 	DeserializeEndTimePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsEndTimeProperty, error)
+	// DeserializeFeaturedPropertyToot returns the deserialization method for
+	// the "TootFeaturedProperty" non-functional property in the
+	// vocabulary "Toot"
+	DeserializeFeaturedPropertyToot() func(map[string]interface{}, map[string]string) (vocab.TootFeaturedProperty, error)
 	// DeserializeFollowersPropertyActivityStreams returns the deserialization
 	// method for the "ActivityStreamsFollowersProperty" non-functional
 	// property in the vocabulary "ActivityStreams"

@@ -91,6 +91,9 @@ func ToType(c context.Context, m map[string]interface{}) (t vocab.Type, err erro
 	}, func(ctx context.Context, i vocab.ActivityStreamsDocument) error {
 		t = i
 		return nil
+	}, func(ctx context.Context, i vocab.TootEmoji) error {
+		t = i
+		return nil
 	}, func(ctx context.Context, i vocab.ActivityStreamsEvent) error {
 		t = i
 		return nil
@@ -101,6 +104,9 @@ func ToType(c context.Context, m map[string]interface{}) (t vocab.Type, err erro
 		t = i
 		return nil
 	}, func(ctx context.Context, i vocab.ActivityStreamsGroup) error {
+		t = i
+		return nil
+	}, func(ctx context.Context, i vocab.TootIdentityProof) error {
 		t = i
 		return nil
 	}, func(ctx context.Context, i vocab.ActivityStreamsIgnore) error {

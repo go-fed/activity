@@ -61,6 +61,8 @@ func NewJSONResolver(callbacks ...interface{}) (*JSONResolver, error) {
 			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsDocument) error:
 			// Do nothing, this callback has a correct signature.
+		case func(context.Context, vocab.TootEmoji) error:
+			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsEvent) error:
 			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsFlag) error:
@@ -68,6 +70,8 @@ func NewJSONResolver(callbacks ...interface{}) (*JSONResolver, error) {
 		case func(context.Context, vocab.ActivityStreamsFollow) error:
 			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsGroup) error:
+			// Do nothing, this callback has a correct signature.
+		case func(context.Context, vocab.TootIdentityProof) error:
 			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsIgnore) error:
 			// Do nothing, this callback has a correct signature.
@@ -166,7 +170,6 @@ func toAliasMap(i interface{}) (m map[string]string) {
 	switch v := i.(type) {
 	case string:
 		// Single entry, no alias.
-
 		if ok, http, https := toHttpHttpsFn(v); ok {
 			m[http] = ""
 			m[https] = ""
@@ -175,7 +178,6 @@ func toAliasMap(i interface{}) (m map[string]string) {
 		}
 	case []interface{}:
 		// Recursively apply.
-
 		for _, elem := range v {
 			r := toAliasMap(elem)
 			for k, val := range r {
@@ -184,7 +186,6 @@ func toAliasMap(i interface{}) (m map[string]string) {
 		}
 	case map[string]interface{}:
 		// Map any aliases.
-
 		for k, val := range v {
 			// Only handle string aliases.
 			switch conc := val.(type) {
@@ -222,6 +223,13 @@ func (this JSONResolver) Resolve(ctx context.Context, m map[string]interface{}) 
 		}
 		if len(ActivityStreamsAlias) > 0 {
 			ActivityStreamsAlias += ":"
+		}
+		TootAlias, ok := aliasMap["https://joinmastodon.org/ns"]
+		if !ok {
+			TootAlias = aliasMap["http://joinmastodon.org/ns"]
+		}
+		if len(TootAlias) > 0 {
+			TootAlias += ":"
 		}
 		W3IDSecurityV1Alias, ok := aliasMap["https://w3id.org/security/v1"]
 		if !ok {
@@ -396,6 +404,17 @@ func (this JSONResolver) Resolve(ctx context.Context, m map[string]interface{}) 
 				}
 			}
 			return ErrNoCallbackMatch
+		} else if typeString == TootAlias+"Emoji" {
+			v, err := mgr.DeserializeEmojiToot()(m, aliasMap)
+			if err != nil {
+				return err
+			}
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.TootEmoji) error); ok {
+					return fn(ctx, v)
+				}
+			}
+			return ErrNoCallbackMatch
 		} else if typeString == ActivityStreamsAlias+"Event" {
 			v, err := mgr.DeserializeEventActivityStreams()(m, aliasMap)
 			if err != nil {
@@ -436,6 +455,17 @@ func (this JSONResolver) Resolve(ctx context.Context, m map[string]interface{}) 
 			}
 			for _, i := range this.callbacks {
 				if fn, ok := i.(func(context.Context, vocab.ActivityStreamsGroup) error); ok {
+					return fn(ctx, v)
+				}
+			}
+			return ErrNoCallbackMatch
+		} else if typeString == TootAlias+"IdentityProof" {
+			v, err := mgr.DeserializeIdentityProofToot()(m, aliasMap)
+			if err != nil {
+				return err
+			}
+			for _, i := range this.callbacks {
+				if fn, ok := i.(func(context.Context, vocab.TootIdentityProof) error); ok {
 					return fn(ctx, v)
 				}
 			}
