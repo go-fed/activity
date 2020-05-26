@@ -461,7 +461,7 @@ func (w SocialWrappedCallbacks) like(c context.Context, a vocab.ActivityStreamsL
 		return err
 	}
 	// WARNING: Unlock not deferred.
-	actorIRI, err := w.db.ActorForInbox(c, w.outboxIRI)
+	actorIRI, err := w.db.ActorForOutbox(c, w.outboxIRI)
 	if err != nil {
 		w.db.Unlock(c, w.outboxIRI)
 		return err
