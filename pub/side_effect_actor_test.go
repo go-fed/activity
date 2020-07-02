@@ -217,7 +217,7 @@ func TestPostInbox(t *testing.T) {
 			db.EXPECT().SetInbox(ctx, testOrderedCollectionWithFederatedId).Return(nil),
 			db.EXPECT().Unlock(ctx, inboxIRI),
 		)
-		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, nil)
+		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, nil, nil)
 		fp.EXPECT().DefaultCallback(ctx, testListen).Return(nil)
 		// Run
 		err := a.PostInbox(ctx, inboxIRI, testListen)
@@ -253,7 +253,7 @@ func TestPostInbox(t *testing.T) {
 			db.EXPECT().SetInbox(ctx, testOrderedCollectionWithBothFederatedIds).Return(nil),
 			db.EXPECT().Unlock(ctx, inboxIRI),
 		)
-		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, nil)
+		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, nil, nil)
 		fp.EXPECT().DefaultCallback(ctx, testListen).Return(nil)
 		// Run
 		err := a.PostInbox(ctx, inboxIRI, testListen)
@@ -279,7 +279,7 @@ func TestPostInbox(t *testing.T) {
 				pass = true
 				return nil
 			},
-		})
+		}, nil)
 		// Run
 		err := a.PostInbox(ctx, inboxIRI, testListen)
 		// Verify
@@ -305,7 +305,7 @@ func TestPostInbox(t *testing.T) {
 				pass = true
 				return nil
 			},
-		})
+		}, nil)
 		// Run
 		err := a.PostInbox(ctx, inboxIRI, testCreate)
 		// Verify
@@ -331,7 +331,7 @@ func TestPostInbox(t *testing.T) {
 				pass = true
 				return nil
 			},
-		}, nil)
+		}, nil, nil)
 		db.EXPECT().Lock(ctx, mustParse(testNoteId1))
 		db.EXPECT().Create(ctx, testFederatedNote)
 		db.EXPECT().Unlock(ctx, mustParse(testNoteId1))
@@ -853,7 +853,7 @@ func TestPostOutbox(t *testing.T) {
 			db.EXPECT().SetOutbox(ctx, testOrderedCollectionWithNewId).Return(nil),
 			db.EXPECT().Unlock(ctx, outboxIRI),
 		)
-		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, nil)
+		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, nil, nil)
 		sp.EXPECT().DefaultCallback(ctx, testMyListen).Return(nil)
 		// Run
 		deliverable, err := a.PostOutbox(ctx, testMyListen, outboxIRI, mustSerialize(testMyListen))
@@ -876,7 +876,7 @@ func TestPostOutbox(t *testing.T) {
 			db.EXPECT().SetOutbox(ctx, testOrderedCollectionWithBothNewIds).Return(nil),
 			db.EXPECT().Unlock(ctx, outboxIRI),
 		)
-		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, nil)
+		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, nil, nil)
 		sp.EXPECT().DefaultCallback(ctx, testMyListen).Return(nil)
 		// Run
 		deliverable, err := a.PostOutbox(ctx, testMyListen, outboxIRI, mustSerialize(testMyListen))
@@ -905,7 +905,7 @@ func TestPostOutbox(t *testing.T) {
 				pass = true
 				return nil
 			},
-		})
+		}, nil)
 		// Run
 		deliverable, err := a.PostOutbox(ctx, testMyListen, outboxIRI, mustSerialize(testMyListen))
 		// Verify
@@ -934,7 +934,7 @@ func TestPostOutbox(t *testing.T) {
 				pass = true
 				return nil
 			},
-		})
+		}, nil)
 		// Run
 		deliverable, err := a.PostOutbox(ctx, testMyCreate, outboxIRI, mustSerialize(testMyCreate))
 		// Verify
@@ -963,7 +963,7 @@ func TestPostOutbox(t *testing.T) {
 				pass = true
 				return nil
 			},
-		}, nil)
+		}, nil, nil)
 		db.EXPECT().Lock(ctx, mustParse(testNoteId1))
 		db.EXPECT().Create(ctx, testMyNote)
 		db.EXPECT().Unlock(ctx, mustParse(testNoteId1))

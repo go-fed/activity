@@ -186,6 +186,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
 		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(ctx, true, nil)
+		delegate.EXPECT().PostOutboxRequestBodyHook(ctx, req, toDeserializedForm(testCreateNoId)).Return(ctx, nil)
 		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			withNewId(activity)
 			return nil
@@ -213,6 +214,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testMyNote))
 		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(ctx, true, nil)
+		delegate.EXPECT().PostOutboxRequestBodyHook(ctx, req, toDeserializedForm(testMyNote)).Return(ctx, nil)
 		delegate.EXPECT().WrapInCreate(ctx, toDeserializedForm(testMyNote), mustParse(testMyOutboxIRI)).DoAndReturn(func(c context.Context, t vocab.Type, u *url.URL) (vocab.ActivityStreamsCreate, error) {
 			return wrappedInCreate(t), nil
 		})
@@ -241,6 +243,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
 		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(ctx, true, nil)
+		delegate.EXPECT().PostOutboxRequestBodyHook(ctx, req, toDeserializedForm(testCreateNoId)).Return(ctx, nil)
 		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			withNewId(activity)
 			return nil
@@ -266,6 +269,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
 		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(ctx, true, nil)
+		delegate.EXPECT().PostOutboxRequestBodyHook(ctx, req, toDeserializedForm(testCreateNoId)).Return(ctx, nil)
 		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			withNewId(activity)
 			return nil
@@ -428,6 +432,7 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxRequest(testCreate))
 		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(ctx, true, nil)
+		delegate.EXPECT().PostInboxRequestBodyHook(ctx, req, toDeserializedForm(testCreate)).Return(ctx, nil)
 		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).DoAndReturn(func(ctx context.Context, resp http.ResponseWriter, activity Activity) (bool, error) {
 			resp.WriteHeader(http.StatusForbidden)
 			return false, nil
@@ -447,6 +452,7 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxRequest(testCreate))
 		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(ctx, true, nil)
+		delegate.EXPECT().PostInboxRequestBodyHook(ctx, req, toDeserializedForm(testCreate)).Return(ctx, nil)
 		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(true, nil)
 		delegate.EXPECT().PostInbox(ctx, mustParse(testMyInboxIRI), toDeserializedForm(testCreate)).Return(nil)
 		delegate.EXPECT().InboxForwarding(ctx, mustParse(testMyInboxIRI), toDeserializedForm(testCreate)).Return(nil)
@@ -465,6 +471,7 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxRequest(testCreate))
 		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(ctx, true, nil)
+		delegate.EXPECT().PostInboxRequestBodyHook(ctx, req, toDeserializedForm(testCreate)).Return(ctx, nil)
 		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(true, nil)
 		delegate.EXPECT().PostInbox(ctx, mustParse(testMyInboxIRI), toDeserializedForm(testCreate)).Return(ErrObjectRequired)
 		// Run the test
@@ -482,6 +489,7 @@ func TestBaseActorFederatingProtocol(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxRequest(testCreate))
 		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(ctx, true, nil)
+		delegate.EXPECT().PostInboxRequestBodyHook(ctx, req, toDeserializedForm(testCreate)).Return(ctx, nil)
 		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(true, nil)
 		delegate.EXPECT().PostInbox(ctx, mustParse(testMyInboxIRI), toDeserializedForm(testCreate)).Return(ErrTargetRequired)
 		// Run the test
@@ -677,6 +685,7 @@ func TestBaseActor(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostInboxRequest(testCreate))
 		delegate.EXPECT().AuthenticatePostInbox(ctx, resp, req).Return(ctx, true, nil)
+		delegate.EXPECT().PostInboxRequestBodyHook(ctx, req, toDeserializedForm(testCreate)).Return(ctx, nil)
 		delegate.EXPECT().AuthorizePostInbox(ctx, resp, toDeserializedForm(testCreate)).Return(true, nil)
 		delegate.EXPECT().PostInbox(ctx, mustParse(testMyInboxIRI), toDeserializedForm(testCreate)).Return(nil)
 		delegate.EXPECT().InboxForwarding(ctx, mustParse(testMyInboxIRI), toDeserializedForm(testCreate)).Return(nil)
@@ -695,6 +704,7 @@ func TestBaseActor(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
 		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(ctx, true, nil)
+		delegate.EXPECT().PostOutboxRequestBodyHook(ctx, req, toDeserializedForm(testCreateNoId)).Return(ctx, nil)
 		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			withNewId(activity)
 			return nil
@@ -722,6 +732,7 @@ func TestBaseActor(t *testing.T) {
 		resp := httptest.NewRecorder()
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
 		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(ctx, true, nil)
+		delegate.EXPECT().PostOutboxRequestBodyHook(ctx, req, toDeserializedForm(testCreateNoId)).Return(ctx, nil)
 		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			withNewId(activity)
 			return nil
