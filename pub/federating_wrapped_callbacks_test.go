@@ -1,70 +1,339 @@
 package pub
 
 import (
+	"context"
+	"net/url"
 	"testing"
+
+	"github.com/go-fed/activity/streams/vocab"
+	"github.com/go-fed/activity/streams"
+	"github.com/golang/mock/gomock"
 )
 
 // TestFederatedCallbacks tests the overriding functionality.
 func TestFederatedCallbacks(t *testing.T) {
 	t.Run("ReturnsOtherCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsListen) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsListen) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find extra function")
+		}
+
 	})
 	t.Run("OverridesCreate", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsCreate) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsCreate) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find overridden function")
+		}
 	})
 	t.Run("OverridesUpdate", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsUpdate) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsUpdate) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find overridden function")
+		}
 	})
 	t.Run("OverridesDelete", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsDelete) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsDelete) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find overridden function")
+		}
 	})
 	t.Run("OverridesFollow", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsFollow) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsFollow) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find overridden function")
+		}
 	})
 	t.Run("OverridesAccept", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsAccept) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsAccept) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find overridden function")
+		}
 	})
 	t.Run("OverridesReject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsReject) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsReject) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find overridden function")
+		}
 	})
 	t.Run("OverridesAdd", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsAdd) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsAdd) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find overridden function")
+		}
 	})
 	t.Run("OverridesRemove", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsRemove) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsRemove) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find overridden function")
+		}
 	})
 	t.Run("OverridesLike", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsLike) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsLike) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find overridden function")
+		}
 	})
 	t.Run("OverridesAnnounce", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsAnnounce) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsAnnounce) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find overridden function")
+		}
 	})
 	t.Run("OverridesUndo", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsUndo) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsUndo) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find overridden function")
+		}
 	})
 	t.Run("OverridesBlock", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ok := false
+		o := func(context.Context, vocab.ActivityStreamsBlock) error {
+			ok = true
+			return nil
+		}
+		var w FederatingWrappedCallbacks
+		for _, f := range w.callbacks([]interface{}{o}) {
+			if fn, ok := f.(func(context.Context, vocab.ActivityStreamsBlock) error); ok {
+				fn(nil, nil)
+			}
+		}
+		if !ok {
+			t.Fatalf("could not find overridden function")
+		}
 	})
 }
 
 func TestFederatedCreate(t *testing.T) {
+	newCreateFn := func() vocab.ActivityStreamsCreate {
+		c := streams.NewActivityStreamsCreate()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		c.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		c.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(testFederatedNote)
+		c.SetActivityStreamsObject(op)
+		return c
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (w FederatingWrappedCallbacks, mockDB *MockDatabase, mockTp *MockTransport) {
+		mockDB = NewMockDatabase(ctl)
+		mockTp = NewMockTransport(ctl)
+		w.db = mockDB
+		w.newTransport = func(c context.Context, a *url.URL, s string) (Transport, error) {
+			return mockTp, nil
+		}
+		return
+	}
 	t.Run("ErrorIfNoObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		c := newCreateFn()
+		c.SetActivityStreamsObject(nil)
+		var w FederatingWrappedCallbacks
+		err := w.create(ctx, c)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfObjectLengthZero", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		c := newCreateFn()
+		c.GetActivityStreamsObject().Remove(0)
+		var w FederatingWrappedCallbacks
+		err := w.create(ctx, c)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("CreatesFederatedObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB, _ := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Create(ctx, testFederatedNote)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		c := newCreateFn()
+		err := w.create(ctx, c)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("CreatesAllFederatedObjects", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB, _ := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Create(ctx, testFederatedNote)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId2))
+		mockDB.EXPECT().Create(ctx, testFederatedNote2)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId2))
+		c := newCreateFn()
+		c.GetActivityStreamsObject().AppendActivityStreamsNote(testFederatedNote2)
+		err := w.create(ctx, c)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("DereferencesIRIObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB, mockTp := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Create(ctx, toDeserializedForm(testFederatedNote))
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		mockTp.EXPECT().Dereference(ctx, mustParse(testNoteId1)).Return(
+			mustSerializeToBytes(testFederatedNote), nil)
+		c := newCreateFn()
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendIRI(mustParse(testNoteId1))
+		c.SetActivityStreamsObject(op)
+		err := w.create(ctx, c)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("CallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB, _ := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Create(ctx, testFederatedNote)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		c := newCreateFn()
+		var gotc context.Context
+		var got vocab.ActivityStreamsCreate
+		w.Create =func(ctx context.Context, v vocab.ActivityStreamsCreate) error {
+			gotc = ctx
+			got = v
+			return nil
+		}
+		err := w.create(ctx, c)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+		assertEqual(t, ctx, gotc)
+		assertEqual(t, c, got)
 	})
 }
 

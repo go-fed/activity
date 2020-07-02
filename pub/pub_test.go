@@ -76,8 +76,10 @@ func assertNotEqual(t *testing.T, a, b interface{}) {
 var (
 	// testErr is a test error.
 	testErr = errors.New("test error")
-	// testNote is a test Note from a federated peer.
+	// testFederatedNote is a test Note from a federated peer.
 	testFederatedNote vocab.ActivityStreamsNote
+	// testFederatedNote2 is a test Note from a federated peer.
+	testFederatedNote2 vocab.ActivityStreamsNote
 	// testMyNote is a test Note owned by this server.
 	testMyNote vocab.ActivityStreamsNote
 	// testMyNoteNoId is a test Note owned by this server.
@@ -150,6 +152,19 @@ func setupData() {
 		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testNoteId1))
 		testFederatedNote.SetJSONLDId(id)
+	}()
+	// testFederatedNote2
+	func() {
+		testFederatedNote2 = streams.NewActivityStreamsNote()
+		name := streams.NewActivityStreamsNameProperty()
+		name.AppendXMLSchemaString("A second federated note")
+		testFederatedNote2.SetActivityStreamsName(name)
+		content := streams.NewActivityStreamsContentProperty()
+		content.AppendXMLSchemaString("This is a simple second note being federated.")
+		testFederatedNote2.SetActivityStreamsContent(content)
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testNoteId2))
+		testFederatedNote2.SetJSONLDId(id)
 	}()
 	// testMyNote
 	func() {
