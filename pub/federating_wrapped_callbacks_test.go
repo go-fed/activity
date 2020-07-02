@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/go-fed/activity/streams/vocab"
 	"github.com/go-fed/activity/streams"
+	"github.com/go-fed/activity/streams/vocab"
 	"github.com/golang/mock/gomock"
 )
 
@@ -323,7 +323,7 @@ func TestFederatedCreate(t *testing.T) {
 		c := newCreateFn()
 		var gotc context.Context
 		var got vocab.ActivityStreamsCreate
-		w.Create =func(ctx context.Context, v vocab.ActivityStreamsCreate) error {
+		w.Create = func(ctx context.Context, v vocab.ActivityStreamsCreate) error {
 			gotc = ctx
 			got = v
 			return nil
@@ -413,32 +413,187 @@ func TestFederatedFollow(t *testing.T) {
 }
 
 func TestFederatedAccept(t *testing.T) {
+	newAcceptFn := func() vocab.ActivityStreamsAccept {
+		c := streams.NewActivityStreamsAccept()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI2))
+		c.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		c.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsFollow(testFollow)
+		c.SetActivityStreamsObject(op)
+		return c
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (w FederatingWrappedCallbacks, mockDB *MockDatabase, mockTp *MockTransport) {
+		mockDB = NewMockDatabase(ctl)
+		mockTp = NewMockTransport(ctl)
+		w.inboxIRI = mustParse(testMyInboxIRI)
+		w.db = mockDB
+		w.newTransport = func(c context.Context, a *url.URL, s string) (Transport, error) {
+			return mockTp, nil
+		}
+		return
+	}
 	t.Run("DoesNothingIfNoObjects", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		a := newAcceptFn()
+		a.SetActivityStreamsObject(nil)
+		var w FederatingWrappedCallbacks
+		err := w.accept(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("DereferencesObjectIRI", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB, mockTp := setupFn(ctl)
+		followers := streams.NewActivityStreamsCollection()
+		expectFollowers := streams.NewActivityStreamsCollection()
+		expectItems := streams.NewActivityStreamsItemsProperty()
+		expectItems.AppendIRI(mustParse(testFederatedActorIRI))
+		expectFollowers.SetActivityStreamsItems(expectItems)
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().ActorForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testFederatedActorIRI2), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActivityIRI)).Return(
+			mustSerializeToBytes(testFollow), nil)
+		mockDB.EXPECT().Lock(ctx, mustParse(testFederatedActivityIRI))
+		mockDB.EXPECT().Get(ctx, mustParse(testFederatedActivityIRI)).Return(
+			testFollow, nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testFederatedActivityIRI))
+		mockDB.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDB.EXPECT().Following(ctx, mustParse(testFederatedActorIRI2)).Return(
+			followers, nil)
+		mockDB.EXPECT().Update(ctx, expectFollowers)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+		a := newAcceptFn()
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendIRI(mustParse(testFederatedActivityIRI))
+		a.SetActivityStreamsObject(op)
+		err := w.accept(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("IgnoresNonFollowObjects", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB, _ := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().ActorForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testFederatedActorIRI2), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		a := newAcceptFn()
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsListen(testListen)
+		a.SetActivityStreamsObject(op)
+		err := w.accept(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("IgnoresFollowObjectsNotContainingMe", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB, _ := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().ActorForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testFederatedActorIRI3), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		a := newAcceptFn()
+		err := w.accept(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
-	t.Run("VerifiesFollowExistsAndIsWellFormatted", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+	t.Run("ErrorIfPeerLiedAboutOurFollowId", func(t *testing.T) {
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB, _ := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().ActorForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testFederatedActorIRI2), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().Lock(ctx, mustParse(testFederatedActivityIRI))
+		mockDB.EXPECT().Get(ctx, mustParse(testFederatedActivityIRI)).Return(
+			testListen, nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testFederatedActivityIRI))
+		a := newAcceptFn()
+		err := w.accept(ctx, a)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("UpdatesFollowingCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB, _ := setupFn(ctl)
+		followers := streams.NewActivityStreamsCollection()
+		expectFollowers := streams.NewActivityStreamsCollection()
+		expectItems := streams.NewActivityStreamsItemsProperty()
+		expectItems.AppendIRI(mustParse(testFederatedActorIRI))
+		expectFollowers.SetActivityStreamsItems(expectItems)
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().ActorForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testFederatedActorIRI2), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().Lock(ctx, mustParse(testFederatedActivityIRI))
+		mockDB.EXPECT().Get(ctx, mustParse(testFederatedActivityIRI)).Return(
+			testFollow, nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testFederatedActivityIRI))
+		mockDB.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDB.EXPECT().Following(ctx, mustParse(testFederatedActorIRI2)).Return(
+			followers, nil)
+		mockDB.EXPECT().Update(ctx, expectFollowers)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+		a := newAcceptFn()
+		err := w.accept(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("CallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		a := newAcceptFn()
+		a.SetActivityStreamsObject(nil)
+		var w FederatingWrappedCallbacks
+		var gotc context.Context
+		var got vocab.ActivityStreamsAccept
+		w.Accept = func(ctx context.Context, v vocab.ActivityStreamsAccept) error {
+			gotc = ctx
+			got = v
+			return nil
+		}
+		err := w.accept(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+		assertEqual(t, ctx, gotc)
+		assertEqual(t, a, got)
 	})
 }
 
 func TestFederatedReject(t *testing.T) {
+	ctx := context.Background()
 	t.Run("CallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		r := streams.NewActivityStreamsReject()
+		var w FederatingWrappedCallbacks
+		var gotc context.Context
+		var got vocab.ActivityStreamsReject
+		w.Reject = func(ctx context.Context, v vocab.ActivityStreamsReject) error {
+			gotc = ctx
+			got = v
+			return nil
+		}
+		err := w.reject(ctx, r)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+		assertEqual(t, ctx, gotc)
+		assertEqual(t, r, got)
 	})
 }
 

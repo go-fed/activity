@@ -134,6 +134,8 @@ var (
 	testOrderedCollectionOfActors vocab.ActivityStreamsOrderedCollectionPage
 	// testNestedInReplyTo is an Activity with an 'object' with an 'inReplyTo'
 	testNestedInReplyTo vocab.ActivityStreamsListen
+	// testFollow is a test Follow Activity.
+	testFollow vocab.ActivityStreamsFollow
 )
 
 // The test data cannot be created at init time since that is when the hooks of
@@ -392,6 +394,19 @@ func setupData() {
 		// Listen
 		op.AppendActivityStreamsNote(note)
 		testNestedInReplyTo.SetActivityStreamsObject(op)
+	}()
+	// testFollow
+	func() {
+		testFollow = streams.NewActivityStreamsFollow()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		testFollow.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI2))
+		testFollow.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendIRI(mustParse(testFederatedActorIRI))
+		testFollow.SetActivityStreamsObject(op)
 	}()
 }
 
