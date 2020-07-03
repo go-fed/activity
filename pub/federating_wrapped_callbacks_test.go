@@ -338,26 +338,116 @@ func TestFederatedCreate(t *testing.T) {
 }
 
 func TestFederatedUpdate(t *testing.T) {
+	newUpdateFn := func() vocab.ActivityStreamsUpdate {
+		u := streams.NewActivityStreamsUpdate()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testNewActivityIRI))
+		u.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		u.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(testFederatedNote)
+		u.SetActivityStreamsObject(op)
+		return u
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (w FederatingWrappedCallbacks, mockDB *MockDatabase) {
+		mockDB = NewMockDatabase(ctl)
+		w.db = mockDB
+		return
+	}
 	t.Run("ErrorIfNoObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		u := newUpdateFn()
+		u.SetActivityStreamsObject(nil)
+		var w FederatingWrappedCallbacks
+		err := w.update(ctx, u)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfObjectLengthZero", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		u := newUpdateFn()
+		u.GetActivityStreamsObject().Remove(0)
+		var w FederatingWrappedCallbacks
+		err := w.update(ctx, u)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfOriginMismatchesObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		u := newUpdateFn()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		u.SetJSONLDId(id)
+		var w FederatingWrappedCallbacks
+		err := w.update(ctx, u)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("UpdatesFederatedObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Update(ctx, testFederatedNote)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		u := newUpdateFn()
+		err := w.update(ctx, u)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("UpdatesAllFederatedObjects", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Update(ctx, testFederatedNote)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId2))
+		mockDB.EXPECT().Update(ctx, testFederatedNote2)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId2))
+		u := newUpdateFn()
+		u.GetActivityStreamsObject().AppendActivityStreamsNote(testFederatedNote2)
+		err := w.update(ctx, u)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("ErrorIfObjectIsIRI", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		u := newUpdateFn()
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendIRI(mustParse(testNoteId1))
+		u.SetActivityStreamsObject(op)
+		var w FederatingWrappedCallbacks
+		err := w.update(ctx, u)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("CallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Update(ctx, testFederatedNote)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		u := newUpdateFn()
+		var gotc context.Context
+		var got vocab.ActivityStreamsUpdate
+		w.Update = func(ctx context.Context, v vocab.ActivityStreamsUpdate) error {
+			gotc = ctx
+			got = v
+			return nil
+		}
+		err := w.update(ctx, u)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+		assertEqual(t, ctx, gotc)
+		assertEqual(t, u, got)
 	})
 }
 
