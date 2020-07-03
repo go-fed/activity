@@ -452,23 +452,105 @@ func TestFederatedUpdate(t *testing.T) {
 }
 
 func TestFederatedDelete(t *testing.T) {
+	newDeleteFn := func() vocab.ActivityStreamsDelete {
+		d := streams.NewActivityStreamsDelete()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testNewActivityIRI))
+		d.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		d.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendIRI(mustParse(testNoteId1))
+		d.SetActivityStreamsObject(op)
+		return d
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (w FederatingWrappedCallbacks, mockDB *MockDatabase) {
+		mockDB = NewMockDatabase(ctl)
+		w.db = mockDB
+		return
+	}
 	t.Run("ErrorIfNoObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		d := newDeleteFn()
+		d.SetActivityStreamsObject(nil)
+		var w FederatingWrappedCallbacks
+		err := w.deleteFn(ctx, d)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfObjectLengthZero", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		d := newDeleteFn()
+		d.GetActivityStreamsObject().Remove(0)
+		var w FederatingWrappedCallbacks
+		err := w.deleteFn(ctx, d)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfOriginMismatchesObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		d := newDeleteFn()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		d.SetJSONLDId(id)
+		var w FederatingWrappedCallbacks
+		err := w.deleteFn(ctx, d)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("DeletesFederatedObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Delete(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		d := newDeleteFn()
+		err := w.deleteFn(ctx, d)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("DeletesAllFederatedObjects", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Delete(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId2))
+		mockDB.EXPECT().Delete(ctx, mustParse(testNoteId2))
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId2))
+		d := newDeleteFn()
+		d.GetActivityStreamsObject().AppendIRI(mustParse(testNoteId2))
+		err := w.deleteFn(ctx, d)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("CallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Delete(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		d := newDeleteFn()
+		var gotc context.Context
+		var got vocab.ActivityStreamsDelete
+		w.Delete = func(ctx context.Context, v vocab.ActivityStreamsDelete) error {
+			gotc = ctx
+			got = v
+			return nil
+		}
+		err := w.deleteFn(ctx, d)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+		assertEqual(t, ctx, gotc)
+		assertEqual(t, d, got)
 	})
 }
 
