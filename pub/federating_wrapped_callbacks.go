@@ -443,6 +443,10 @@ func (w FederatingWrappedCallbacks) follow(c context.Context, a vocab.ActivitySt
 				return err
 			}
 			items := followers.GetActivityStreamsItems()
+			if items == nil {
+				items = streams.NewActivityStreamsItemsProperty()
+				followers.SetActivityStreamsItems(items)
+			}
 			for _, elem := range recipients {
 				items.PrependIRI(elem)
 			}

@@ -555,32 +555,179 @@ func TestFederatedDelete(t *testing.T) {
 }
 
 func TestFederatedFollow(t *testing.T) {
+	newFollowFn := func() vocab.ActivityStreamsFollow {
+		f := streams.NewActivityStreamsFollow()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testNewActivityIRI))
+		f.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		f.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendIRI(mustParse(testFederatedActorIRI2))
+		f.SetActivityStreamsObject(op)
+		return f
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (w FederatingWrappedCallbacks, mockDB *MockDatabase) {
+		mockDB = NewMockDatabase(ctl)
+		w.db = mockDB
+		w.inboxIRI = mustParse(testMyInboxIRI)
+		return
+	}
 	t.Run("ErrorIfNoObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		f := newFollowFn()
+		f.SetActivityStreamsObject(nil)
+		var w FederatingWrappedCallbacks
+		err := w.follow(ctx, f)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfObjectLengthZero", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		f := newFollowFn()
+		f.GetActivityStreamsObject().Remove(0)
+		var w FederatingWrappedCallbacks
+		err := w.follow(ctx, f)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("OnFollowNothingDoesNothing", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		w.OnFollow = OnFollowDoNothing
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().ActorForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testFederatedActorIRI2), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		f := newFollowFn()
+		err := w.follow(ctx, f)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("OnFollowAutomaticallyAcceptUpdatesFollowers", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		w.OnFollow = OnFollowAutomaticallyAccept
+		w.addNewIds = func(c context.Context, activity Activity) error {
+			return nil
+		}
+		w.deliver = func(c context.Context, outboxIRI *url.URL, activity Activity) error {
+			return nil
+		}
+		followers := streams.NewActivityStreamsCollection()
+		expectFollowers := streams.NewActivityStreamsCollection()
+		expectItems := streams.NewActivityStreamsItemsProperty()
+		expectItems.AppendIRI(mustParse(testFederatedActorIRI))
+		expectFollowers.SetActivityStreamsItems(expectItems)
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().ActorForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testFederatedActorIRI2), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDB.EXPECT().Followers(ctx, mustParse(testFederatedActorIRI2)).Return(
+			followers, nil)
+		mockDB.EXPECT().Update(ctx, expectFollowers)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().OutboxForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testMyOutboxIRI), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		f := newFollowFn()
+		err := w.follow(ctx, f)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("OnFollowAutomaticallyAcceptDelivers", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		w.OnFollow = OnFollowAutomaticallyAccept
+		w.addNewIds = func(c context.Context, activity Activity) error {
+			return nil
+		}
+		w.deliver = func(c context.Context, outboxIRI *url.URL, activity Activity) error {
+			if !streams.IsOrExtendsActivityStreamsAccept(activity) {
+				t.Fatalf("expected Accept, got %T", activity)
+			}
+			return nil
+		}
+		followers := streams.NewActivityStreamsCollection()
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().ActorForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testFederatedActorIRI2), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDB.EXPECT().Followers(ctx, mustParse(testFederatedActorIRI2)).Return(
+			followers, nil)
+		mockDB.EXPECT().Update(ctx, gomock.Any())
+		mockDB.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().OutboxForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testMyOutboxIRI), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		f := newFollowFn()
+		err := w.follow(ctx, f)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("OnFollowAutomaticallyRejectDelivers", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		w.OnFollow = OnFollowAutomaticallyReject
+		w.addNewIds = func(c context.Context, activity Activity) error {
+			return nil
+		}
+		w.deliver = func(c context.Context, outboxIRI *url.URL, activity Activity) error {
+			if !streams.IsOrExtendsActivityStreamsReject(activity) {
+				t.Fatalf("expected Reject, got %T", activity)
+			}
+			return nil
+		}
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().ActorForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testFederatedActorIRI2), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().OutboxForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testMyOutboxIRI), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		f := newFollowFn()
+		err := w.follow(ctx, f)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
-	t.Run("OnFollowNothingCallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
-	})
-	t.Run("OnFollowAutomaticallyAcceptCallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
-	})
-	t.Run("OnFollowAutomaticallyRejectCallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+	t.Run("CallsCustomCallback", func(t *testing.T) {
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		w.OnFollow = OnFollowDoNothing
+		mockDB.EXPECT().Lock(ctx, mustParse(testMyInboxIRI))
+		mockDB.EXPECT().ActorForInbox(ctx, mustParse(testMyInboxIRI)).Return(
+			mustParse(testFederatedActorIRI2), nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testMyInboxIRI))
+		f := newFollowFn()
+		var gotc context.Context
+		var got vocab.ActivityStreamsFollow
+		w.Follow = func(ctx context.Context, v vocab.ActivityStreamsFollow) error {
+			gotc = ctx
+			got = v
+			return nil
+		}
+		err := w.follow(ctx, f)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+		assertEqual(t, ctx, gotc)
+		assertEqual(t, f, got)
 	})
 }
 
