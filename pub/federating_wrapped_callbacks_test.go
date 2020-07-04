@@ -1495,20 +1495,168 @@ func TestFederatedLike(t *testing.T) {
 }
 
 func TestFederatedAnnounce(t *testing.T) {
+	newAnnounceFn := func() vocab.ActivityStreamsAnnounce {
+		a := streams.NewActivityStreamsAnnounce()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		a.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		a.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(testFederatedNote)
+		a.SetActivityStreamsObject(op)
+		return a
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (w FederatingWrappedCallbacks, mockDB *MockDatabase) {
+		mockDB = NewMockDatabase(ctl)
+		w.db = mockDB
+		return
+	}
+	t.Run("DoesNothingWhenNoObjects", func(t *testing.T) {
+		a := newAnnounceFn()
+		a.SetActivityStreamsObject(nil)
+		var w FederatingWrappedCallbacks
+		err := w.announce(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+	})
 	t.Run("SkipsUnownedObjects", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Owns(ctx, mustParse(testNoteId1)).Return(
+			false, nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		a := newAnnounceFn()
+		err := w.announce(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("AddsToNewSharesCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		note := streams.NewActivityStreamsNote()
+		expectNote := streams.NewActivityStreamsNote()
+		expectShares := streams.NewActivityStreamsSharesProperty()
+		expectCol := streams.NewActivityStreamsCollection()
+		expectItems := streams.NewActivityStreamsItemsProperty()
+		expectItems.AppendIRI(mustParse(testFederatedActivityIRI))
+		expectCol.SetActivityStreamsItems(expectItems)
+		expectShares.SetActivityStreamsCollection(expectCol)
+		expectNote.SetActivityStreamsShares(expectShares)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Owns(ctx, mustParse(testNoteId1)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testNoteId1)).Return(
+			note, nil)
+		mockDB.EXPECT().Update(ctx, expectNote).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		a := newAnnounceFn()
+		err := w.announce(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("AddsToExistingSharesCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		note := streams.NewActivityStreamsNote()
+		shares := streams.NewActivityStreamsSharesProperty()
+		col := streams.NewActivityStreamsCollection()
+		items := streams.NewActivityStreamsItemsProperty()
+		items.AppendIRI(mustParse(testFederatedActivityIRI2))
+		col.SetActivityStreamsItems(items)
+		shares.SetActivityStreamsCollection(col)
+		note.SetActivityStreamsShares(shares)
+		expectNote := streams.NewActivityStreamsNote()
+		expectShares := streams.NewActivityStreamsSharesProperty()
+		expectCol := streams.NewActivityStreamsCollection()
+		expectItems := streams.NewActivityStreamsItemsProperty()
+		expectItems.AppendIRI(mustParse(testFederatedActivityIRI))
+		expectItems.AppendIRI(mustParse(testFederatedActivityIRI2))
+		expectCol.SetActivityStreamsItems(expectItems)
+		expectShares.SetActivityStreamsCollection(expectCol)
+		expectNote.SetActivityStreamsShares(expectShares)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Owns(ctx, mustParse(testNoteId1)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testNoteId1)).Return(
+			note, nil)
+		mockDB.EXPECT().Update(ctx, expectNote).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		a := newAnnounceFn()
+		err := w.announce(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("AddsToExistingSharesOrderedCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		note := streams.NewActivityStreamsNote()
+		shares := streams.NewActivityStreamsSharesProperty()
+		col := streams.NewActivityStreamsOrderedCollection()
+		items := streams.NewActivityStreamsOrderedItemsProperty()
+		items.AppendIRI(mustParse(testFederatedActivityIRI2))
+		col.SetActivityStreamsOrderedItems(items)
+		shares.SetActivityStreamsOrderedCollection(col)
+		note.SetActivityStreamsShares(shares)
+		expectNote := streams.NewActivityStreamsNote()
+		expectShares := streams.NewActivityStreamsSharesProperty()
+		expectCol := streams.NewActivityStreamsOrderedCollection()
+		expectItems := streams.NewActivityStreamsOrderedItemsProperty()
+		expectItems.AppendIRI(mustParse(testFederatedActivityIRI))
+		expectItems.AppendIRI(mustParse(testFederatedActivityIRI2))
+		expectCol.SetActivityStreamsOrderedItems(expectItems)
+		expectShares.SetActivityStreamsOrderedCollection(expectCol)
+		expectNote.SetActivityStreamsShares(expectShares)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Owns(ctx, mustParse(testNoteId1)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testNoteId1)).Return(
+			note, nil)
+		mockDB.EXPECT().Update(ctx, expectNote).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		a := newAnnounceFn()
+		err := w.announce(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("CallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		note := streams.NewActivityStreamsNote()
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Owns(ctx, mustParse(testNoteId1)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testNoteId1)).Return(
+			note, nil)
+		mockDB.EXPECT().Update(ctx, gomock.Any()).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		var gotc context.Context
+		var got vocab.ActivityStreamsAnnounce
+		w.Announce = func(ctx context.Context, v vocab.ActivityStreamsAnnounce) error {
+			gotc = ctx
+			got = v
+			return nil
+		}
+		a := newAnnounceFn()
+		err := w.announce(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+		assertEqual(t, ctx, gotc)
+		assertEqual(t, a, got)
 	})
 }
 

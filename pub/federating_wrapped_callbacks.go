@@ -865,9 +865,11 @@ func (w FederatingWrappedCallbacks) announce(c context.Context, a vocab.Activity
 		}
 		return nil
 	}
-	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
-		if err := loopFn(iter); err != nil {
-			return err
+	if op != nil {
+		for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+			if err := loopFn(iter); err != nil {
+				return err
+			}
 		}
 	}
 	if w.Announce != nil {
