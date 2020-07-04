@@ -1782,13 +1782,53 @@ func TestFederatedUndo(t *testing.T) {
 }
 
 func TestFederatedBlock(t *testing.T) {
+	newBlockFn := func() vocab.ActivityStreamsBlock {
+		b := streams.NewActivityStreamsBlock()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		b.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		b.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendIRI(mustParse(testFederatedActorIRI2))
+		b.SetActivityStreamsObject(op)
+		return b
+	}
+	ctx := context.Background()
 	t.Run("ErrorIfNoObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		b := newBlockFn()
+		b.SetActivityStreamsObject(nil)
+		var w FederatingWrappedCallbacks
+		err := w.block(ctx, b)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfObjectLengthZero", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		b := newBlockFn()
+		b.GetActivityStreamsObject().Remove(0)
+		var w FederatingWrappedCallbacks
+		err := w.block(ctx, b)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("CallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		var w FederatingWrappedCallbacks
+		var gotc context.Context
+		var got vocab.ActivityStreamsBlock
+		w.Block = func(ctx context.Context, v vocab.ActivityStreamsBlock) error {
+			gotc = ctx
+			got = v
+			return nil
+		}
+		b := newBlockFn()
+		err := w.block(ctx, b)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+		assertEqual(t, ctx, gotc)
+		assertEqual(t, b, got)
 	})
 }
