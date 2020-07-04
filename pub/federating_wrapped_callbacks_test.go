@@ -1661,17 +1661,123 @@ func TestFederatedAnnounce(t *testing.T) {
 }
 
 func TestFederatedUndo(t *testing.T) {
+	newUndoFn := func() vocab.ActivityStreamsUndo {
+		u := streams.NewActivityStreamsUndo()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI2))
+		u.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		u.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsListen(testListen)
+		u.SetActivityStreamsObject(op)
+		return u
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (w FederatingWrappedCallbacks, mockTp *MockTransport) {
+		mockTp = NewMockTransport(ctl)
+		w.inboxIRI = mustParse(testMyInboxIRI)
+		w.newTransport = func(c context.Context, a *url.URL, s string) (Transport, error) {
+			return mockTp, nil
+		}
+		return
+	}
 	t.Run("ErrorIfNoObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		u := newUndoFn()
+		u.SetActivityStreamsObject(nil)
+		var w FederatingWrappedCallbacks
+		err := w.undo(ctx, u)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfObjectLengthZero", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		u := newUndoFn()
+		u.GetActivityStreamsObject().Remove(0)
+		var w FederatingWrappedCallbacks
+		err := w.undo(ctx, u)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfActorMismatch", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockTp := setupFn(ctl)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActivityIRI)).Return(
+			mustSerializeToBytes(testListen), nil)
+		u := newUndoFn()
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI2))
+		u.SetActivityStreamsActor(actor)
+		err := w.undo(ctx, u)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
+	})
+	t.Run("ErrorIfActorMismatchWhenDereferencingIRI", func(t *testing.T) {
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockTp := setupFn(ctl)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActivityIRI)).Return(
+			mustSerializeToBytes(testFollow), nil)
+		u := newUndoFn()
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendIRI(mustParse(testFederatedActivityIRI))
+		u.SetActivityStreamsObject(op)
+		err := w.undo(ctx, u)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
+	})
+	t.Run("DereferencesWhenUndoValue", func(t *testing.T) {
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockTp := setupFn(ctl)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActivityIRI)).Return(
+			mustSerializeToBytes(testListen), nil)
+		u := newUndoFn()
+		err := w.undo(ctx, u)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+	})
+	t.Run("DereferencesWhenUndoIRI", func(t *testing.T) {
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockTp := setupFn(ctl)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActivityIRI)).Return(
+			mustSerializeToBytes(testListen), nil)
+		u := newUndoFn()
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendIRI(mustParse(testFederatedActivityIRI))
+		u.SetActivityStreamsObject(op)
+		err := w.undo(ctx, u)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("CallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockTp := setupFn(ctl)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActivityIRI)).Return(
+			mustSerializeToBytes(testListen), nil)
+		var gotc context.Context
+		var got vocab.ActivityStreamsUndo
+		w.Undo = func(ctx context.Context, v vocab.ActivityStreamsUndo) error {
+			gotc = ctx
+			got = v
+			return nil
+		}
+		u := newUndoFn()
+		err := w.undo(ctx, u)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+		assertEqual(t, ctx, gotc)
+		assertEqual(t, u, got)
 	})
 }
 

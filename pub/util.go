@@ -759,27 +759,27 @@ func mustHaveActivityActorsMatchObjectActors(c context.Context,
 		activityActorMap[id.String()] = true
 	}
 	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
-		t := iter.GetType()
-		if t == nil && iter.IsIRI() {
-			// Attempt to dereference the IRI instead
-			tport, err := newTransport(c, boxIRI, goFedUserAgent())
-			if err != nil {
-				return err
-			}
-			b, err := tport.Dereference(c, iter.GetIRI())
-			if err != nil {
-				return err
-			}
-			var m map[string]interface{}
-			if err = json.Unmarshal(b, &m); err != nil {
-				return err
-			}
-			t, err = streams.ToType(c, m)
-			if err != nil {
-				return err
-			}
-		} else {
-			return fmt.Errorf("cannot verify actors: object is neither a value nor IRI")
+		iri, err := ToId(iter)
+		if err != nil {
+			return err
+		}
+		// Attempt to dereference the IRI, regardless whether it is a
+		// type or IRI
+		tport, err := newTransport(c, boxIRI, goFedUserAgent())
+		if err != nil {
+			return err
+		}
+		b, err := tport.Dereference(c, iri)
+		if err != nil {
+			return err
+		}
+		var m map[string]interface{}
+		if err = json.Unmarshal(b, &m); err != nil {
+			return err
+		}
+		t, err := streams.ToType(c, m)
+		if err != nil {
+			return err
 		}
 		ac, ok := t.(actorer)
 		if !ok {
