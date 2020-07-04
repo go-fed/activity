@@ -1105,29 +1105,214 @@ func TestFederatedAdd(t *testing.T) {
 }
 
 func TestFederatedRemove(t *testing.T) {
+	newRemoveFn := func() vocab.ActivityStreamsRemove {
+		r := streams.NewActivityStreamsRemove()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		r.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		r.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(testFederatedNote)
+		r.SetActivityStreamsObject(op)
+		tp := streams.NewActivityStreamsTargetProperty()
+		tp.AppendIRI(mustParse(testAudienceIRI))
+		r.SetActivityStreamsTarget(tp)
+		return r
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (w FederatingWrappedCallbacks, mockDB *MockDatabase) {
+		mockDB = NewMockDatabase(ctl)
+		w.db = mockDB
+		return
+	}
 	t.Run("ErrorIfNoObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		r := newRemoveFn()
+		r.SetActivityStreamsObject(nil)
+		var w FederatingWrappedCallbacks
+		err := w.remove(ctx, r)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfObjectLengthZero", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		r := newRemoveFn()
+		r.GetActivityStreamsObject().Remove(0)
+		var w FederatingWrappedCallbacks
+		err := w.remove(ctx, r)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfNoTarget", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		r := newRemoveFn()
+		r.SetActivityStreamsTarget(nil)
+		var w FederatingWrappedCallbacks
+		err := w.remove(ctx, r)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfTargetLengthZero", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		r := newRemoveFn()
+		r.GetActivityStreamsTarget().Remove(0)
+		var w FederatingWrappedCallbacks
+		err := w.remove(ctx, r)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("RemovesAllObjectIdsFromCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		col1 := streams.NewActivityStreamsCollection()
+		items := streams.NewActivityStreamsItemsProperty()
+		items.AppendIRI(mustParse(testAudienceIRI))
+		items.AppendIRI(mustParse(testAudienceIRI2))
+		items.AppendIRI(mustParse(testNoteId1))
+		items.AppendIRI(mustParse(testNoteId2))
+		col1.SetActivityStreamsItems(items)
+		expectCol1 := streams.NewActivityStreamsCollection()
+		items1 := streams.NewActivityStreamsItemsProperty()
+		items1.AppendIRI(mustParse(testAudienceIRI))
+		items1.AppendIRI(mustParse(testAudienceIRI2))
+		expectCol1.SetActivityStreamsItems(items1)
+		mockDB.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDB.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(
+			col1, nil)
+		mockDB.EXPECT().Update(ctx, expectCol1).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
+		r := newRemoveFn()
+		r.GetActivityStreamsObject().AppendActivityStreamsNote(testFederatedNote2)
+		err := w.remove(ctx, r)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("RemovesAllObjectIdsFromOrderedCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		col1 := streams.NewActivityStreamsOrderedCollection()
+		items := streams.NewActivityStreamsOrderedItemsProperty()
+		items.AppendIRI(mustParse(testAudienceIRI))
+		items.AppendIRI(mustParse(testAudienceIRI2))
+		items.AppendIRI(mustParse(testNoteId1))
+		items.AppendIRI(mustParse(testNoteId2))
+		col1.SetActivityStreamsOrderedItems(items)
+		expectCol1 := streams.NewActivityStreamsOrderedCollection()
+		items1 := streams.NewActivityStreamsOrderedItemsProperty()
+		items1.AppendIRI(mustParse(testAudienceIRI))
+		items1.AppendIRI(mustParse(testAudienceIRI2))
+		expectCol1.SetActivityStreamsOrderedItems(items1)
+		mockDB.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDB.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(
+			col1, nil)
+		mockDB.EXPECT().Update(ctx, expectCol1).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
+		r := newRemoveFn()
+		r.GetActivityStreamsObject().AppendActivityStreamsNote(testFederatedNote2)
+		err := w.remove(ctx, r)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+	})
+	t.Run("RemovesAllObjectIdsFromEachTarget", func(t *testing.T) {
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		col1 := streams.NewActivityStreamsCollection()
+		items := streams.NewActivityStreamsItemsProperty()
+		items.AppendIRI(mustParse(testFederatedActorIRI3))
+		items.AppendIRI(mustParse(testFederatedActorIRI4))
+		items.AppendIRI(mustParse(testNoteId1))
+		col1.SetActivityStreamsItems(items)
+		expectCol1 := streams.NewActivityStreamsCollection()
+		items1 := streams.NewActivityStreamsItemsProperty()
+		items1.AppendIRI(mustParse(testFederatedActorIRI3))
+		items1.AppendIRI(mustParse(testFederatedActorIRI4))
+		expectCol1.SetActivityStreamsItems(items1)
+		col2 := streams.NewActivityStreamsCollection()
+		items0 := streams.NewActivityStreamsItemsProperty()
+		items0.AppendIRI(mustParse(testFederatedActorIRI))
+		items0.AppendIRI(mustParse(testNoteId1))
+		items0.AppendIRI(mustParse(testFederatedActorIRI2))
+		col2.SetActivityStreamsItems(items0)
+		expectCol2 := streams.NewActivityStreamsCollection()
+		items2 := streams.NewActivityStreamsItemsProperty()
+		items2.AppendIRI(mustParse(testFederatedActorIRI))
+		items2.AppendIRI(mustParse(testFederatedActorIRI2))
+		expectCol2.SetActivityStreamsItems(items2)
+		mockDB.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDB.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(
+			col1, nil)
+		mockDB.EXPECT().Update(ctx, expectCol1).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
+		mockDB.EXPECT().Lock(ctx, mustParse(testAudienceIRI2))
+		mockDB.EXPECT().Owns(ctx, mustParse(testAudienceIRI2)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testAudienceIRI2)).Return(
+			col2, nil)
+		mockDB.EXPECT().Update(ctx, expectCol2).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testAudienceIRI2))
+		r := newRemoveFn()
+		r.GetActivityStreamsTarget().AppendIRI(mustParse(testAudienceIRI2))
+		err := w.remove(ctx, r)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("ReturnsErrorIfTargetIsNotCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		notCol := streams.NewActivityStreamsNote()
+		mockDB.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDB.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(
+			notCol, nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
+		r := newRemoveFn()
+		err := w.remove(ctx, r)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("CallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		col1 := streams.NewActivityStreamsCollection()
+		mockDB.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDB.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(
+			col1, nil)
+		mockDB.EXPECT().Update(ctx, gomock.Any()).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
+		var gotc context.Context
+		var got vocab.ActivityStreamsRemove
+		w.Remove = func(ctx context.Context, v vocab.ActivityStreamsRemove) error {
+			gotc = ctx
+			got = v
+			return nil
+		}
+		r := newRemoveFn()
+		err := w.remove(ctx, r)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+		assertEqual(t, ctx, gotc)
+		assertEqual(t, r, got)
 	})
 }
 
