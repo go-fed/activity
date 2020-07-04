@@ -917,29 +917,190 @@ func TestFederatedReject(t *testing.T) {
 }
 
 func TestFederatedAdd(t *testing.T) {
+	newAddFn := func() vocab.ActivityStreamsAdd {
+		a := streams.NewActivityStreamsAdd()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		a.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		a.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(testFederatedNote)
+		a.SetActivityStreamsObject(op)
+		tp := streams.NewActivityStreamsTargetProperty()
+		tp.AppendIRI(mustParse(testAudienceIRI))
+		a.SetActivityStreamsTarget(tp)
+		return a
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (w FederatingWrappedCallbacks, mockDB *MockDatabase) {
+		mockDB = NewMockDatabase(ctl)
+		w.db = mockDB
+		return
+	}
 	t.Run("ErrorIfNoObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		a := newAddFn()
+		a.SetActivityStreamsObject(nil)
+		var w FederatingWrappedCallbacks
+		err := w.add(ctx, a)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfObjectLengthZero", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		a := newAddFn()
+		a.GetActivityStreamsObject().Remove(0)
+		var w FederatingWrappedCallbacks
+		err := w.add(ctx, a)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfNoTarget", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		a := newAddFn()
+		a.SetActivityStreamsTarget(nil)
+		var w FederatingWrappedCallbacks
+		err := w.add(ctx, a)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfTargetLengthZero", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		a := newAddFn()
+		a.GetActivityStreamsTarget().Remove(0)
+		var w FederatingWrappedCallbacks
+		err := w.add(ctx, a)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("AddsAllObjectIdsToCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		col1 := streams.NewActivityStreamsCollection()
+		expectCol1 := streams.NewActivityStreamsCollection()
+		items1 := streams.NewActivityStreamsItemsProperty()
+		items1.AppendIRI(mustParse(testNoteId1))
+		items1.AppendIRI(mustParse(testNoteId2))
+		expectCol1.SetActivityStreamsItems(items1)
+		mockDB.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDB.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(
+			col1, nil)
+		mockDB.EXPECT().Update(ctx, expectCol1).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
+		a := newAddFn()
+		a.GetActivityStreamsObject().AppendActivityStreamsNote(testFederatedNote2)
+		err := w.add(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("AddsAllObjectIdsToOrderedCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		col1 := streams.NewActivityStreamsOrderedCollection()
+		expectCol1 := streams.NewActivityStreamsOrderedCollection()
+		items1 := streams.NewActivityStreamsOrderedItemsProperty()
+		items1.AppendIRI(mustParse(testNoteId1))
+		items1.AppendIRI(mustParse(testNoteId2))
+		expectCol1.SetActivityStreamsOrderedItems(items1)
+		mockDB.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDB.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(
+			col1, nil)
+		mockDB.EXPECT().Update(ctx, expectCol1).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
+		a := newAddFn()
+		a.GetActivityStreamsObject().AppendActivityStreamsNote(testFederatedNote2)
+		err := w.add(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+	})
+	t.Run("AddsAllObjectIdsToEachTarget", func(t *testing.T) {
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		col1 := streams.NewActivityStreamsCollection()
+		expectCol1 := streams.NewActivityStreamsCollection()
+		items1 := streams.NewActivityStreamsItemsProperty()
+		items1.AppendIRI(mustParse(testNoteId1))
+		expectCol1.SetActivityStreamsItems(items1)
+		col2 := streams.NewActivityStreamsCollection()
+		expectCol2 := streams.NewActivityStreamsCollection()
+		items2 := streams.NewActivityStreamsItemsProperty()
+		items2.AppendIRI(mustParse(testNoteId1))
+		expectCol2.SetActivityStreamsItems(items2)
+		mockDB.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDB.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(
+			col1, nil)
+		mockDB.EXPECT().Update(ctx, expectCol1).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
+		mockDB.EXPECT().Lock(ctx, mustParse(testAudienceIRI2))
+		mockDB.EXPECT().Owns(ctx, mustParse(testAudienceIRI2)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testAudienceIRI2)).Return(
+			col2, nil)
+		mockDB.EXPECT().Update(ctx, expectCol2).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testAudienceIRI2))
+		a := newAddFn()
+		a.GetActivityStreamsTarget().AppendIRI(mustParse(testAudienceIRI2))
+		err := w.add(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("ReturnsErrorIfTargetIsNotCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		notCol := streams.NewActivityStreamsNote()
+		mockDB.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDB.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(
+			notCol, nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
+		a := newAddFn()
+		err := w.add(ctx, a)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("CallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		col1 := streams.NewActivityStreamsCollection()
+		mockDB.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDB.EXPECT().Owns(ctx, mustParse(testAudienceIRI)).Return(
+			true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testAudienceIRI)).Return(
+			col1, nil)
+		mockDB.EXPECT().Update(ctx, gomock.Any()).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
+		var gotc context.Context
+		var got vocab.ActivityStreamsAdd
+		w.Add = func(ctx context.Context, v vocab.ActivityStreamsAdd) error {
+			gotc = ctx
+			got = v
+			return nil
+		}
+		a := newAddFn()
+		err := w.add(ctx, a)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+		assertEqual(t, ctx, gotc)
+		assertEqual(t, a, got)
 	})
 }
 
