@@ -1317,26 +1317,180 @@ func TestFederatedRemove(t *testing.T) {
 }
 
 func TestFederatedLike(t *testing.T) {
+	newLikeFn := func() vocab.ActivityStreamsLike {
+		l := streams.NewActivityStreamsLike()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		l.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI))
+		l.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(testFederatedNote)
+		l.SetActivityStreamsObject(op)
+		return l
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (w FederatingWrappedCallbacks, mockDB *MockDatabase) {
+		mockDB = NewMockDatabase(ctl)
+		w.db = mockDB
+		return
+	}
 	t.Run("ErrorIfNoObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		l := newLikeFn()
+		l.SetActivityStreamsObject(nil)
+		var w FederatingWrappedCallbacks
+		err := w.like(ctx, l)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("ErrorIfObjectLengthZero", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		l := newLikeFn()
+		l.GetActivityStreamsObject().Remove(0)
+		var w FederatingWrappedCallbacks
+		err := w.like(ctx, l)
+		if err == nil {
+			t.Fatalf("expected error, got none")
+		}
 	})
 	t.Run("SkipsUnownedObjects", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Owns(ctx, mustParse(testNoteId1)).Return(false, nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		l := newLikeFn()
+		err := w.like(ctx, l)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("AddsToNewLikesCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		note := streams.NewActivityStreamsNote()
+		expectNote := streams.NewActivityStreamsNote()
+		expectLikes := streams.NewActivityStreamsLikesProperty()
+		expectCol := streams.NewActivityStreamsCollection()
+		expectItems := streams.NewActivityStreamsItemsProperty()
+		expectItems.AppendIRI(mustParse(testFederatedActivityIRI))
+		expectCol.SetActivityStreamsItems(expectItems)
+		expectLikes.SetActivityStreamsCollection(expectCol)
+		expectNote.SetActivityStreamsLikes(expectLikes)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Owns(ctx, mustParse(testNoteId1)).Return(true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testNoteId1)).Return(
+			note, nil)
+		mockDB.EXPECT().Update(ctx, expectNote).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		l := newLikeFn()
+		err := w.like(ctx, l)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("AddsToExistingLikesCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		note := streams.NewActivityStreamsNote()
+		likes := streams.NewActivityStreamsLikesProperty()
+		col := streams.NewActivityStreamsCollection()
+		items := streams.NewActivityStreamsItemsProperty()
+		items.AppendIRI(mustParse(testFederatedActivityIRI2))
+		col.SetActivityStreamsItems(items)
+		likes.SetActivityStreamsCollection(col)
+		note.SetActivityStreamsLikes(likes)
+		expectNote := streams.NewActivityStreamsNote()
+		expectLikes := streams.NewActivityStreamsLikesProperty()
+		expectCol := streams.NewActivityStreamsCollection()
+		expectItems := streams.NewActivityStreamsItemsProperty()
+		expectItems.AppendIRI(mustParse(testFederatedActivityIRI))
+		expectItems.AppendIRI(mustParse(testFederatedActivityIRI2))
+		expectCol.SetActivityStreamsItems(expectItems)
+		expectLikes.SetActivityStreamsCollection(expectCol)
+		expectNote.SetActivityStreamsLikes(expectLikes)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Owns(ctx, mustParse(testNoteId1)).Return(true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testNoteId1)).Return(
+			note, nil)
+		mockDB.EXPECT().Update(ctx, expectNote).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		l := newLikeFn()
+		err := w.like(ctx, l)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("AddsToExistingLikesOrderedCollection", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		note := streams.NewActivityStreamsNote()
+		likes := streams.NewActivityStreamsLikesProperty()
+		col := streams.NewActivityStreamsOrderedCollection()
+		items := streams.NewActivityStreamsOrderedItemsProperty()
+		items.AppendIRI(mustParse(testFederatedActivityIRI2))
+		col.SetActivityStreamsOrderedItems(items)
+		likes.SetActivityStreamsOrderedCollection(col)
+		note.SetActivityStreamsLikes(likes)
+		expectNote := streams.NewActivityStreamsNote()
+		expectLikes := streams.NewActivityStreamsLikesProperty()
+		expectCol := streams.NewActivityStreamsOrderedCollection()
+		expectItems := streams.NewActivityStreamsOrderedItemsProperty()
+		expectItems.AppendIRI(mustParse(testFederatedActivityIRI))
+		expectItems.AppendIRI(mustParse(testFederatedActivityIRI2))
+		expectCol.SetActivityStreamsOrderedItems(expectItems)
+		expectLikes.SetActivityStreamsOrderedCollection(expectCol)
+		expectNote.SetActivityStreamsLikes(expectLikes)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Owns(ctx, mustParse(testNoteId1)).Return(true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testNoteId1)).Return(
+			note, nil)
+		mockDB.EXPECT().Update(ctx, expectNote).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		l := newLikeFn()
+		err := w.like(ctx, l)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
 	})
 	t.Run("CallsCustomCallback", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		w, mockDB := setupFn(ctl)
+		note := streams.NewActivityStreamsNote()
+		expectNote := streams.NewActivityStreamsNote()
+		expectLikes := streams.NewActivityStreamsLikesProperty()
+		expectCol := streams.NewActivityStreamsCollection()
+		expectItems := streams.NewActivityStreamsItemsProperty()
+		expectItems.AppendIRI(mustParse(testFederatedActivityIRI))
+		expectCol.SetActivityStreamsItems(expectItems)
+		expectLikes.SetActivityStreamsCollection(expectCol)
+		expectNote.SetActivityStreamsLikes(expectLikes)
+		mockDB.EXPECT().Lock(ctx, mustParse(testNoteId1))
+		mockDB.EXPECT().Owns(ctx, mustParse(testNoteId1)).Return(true, nil)
+		mockDB.EXPECT().Get(ctx, mustParse(testNoteId1)).Return(
+			note, nil)
+		mockDB.EXPECT().Update(ctx, expectNote).Return(nil)
+		mockDB.EXPECT().Unlock(ctx, mustParse(testNoteId1))
+		var gotc context.Context
+		var got vocab.ActivityStreamsLike
+		w.Like = func(ctx context.Context, v vocab.ActivityStreamsLike) error {
+			gotc = ctx
+			got = v
+			return nil
+		}
+		l := newLikeFn()
+		err := w.like(ctx, l)
+		if err != nil {
+			t.Fatalf("got error %s", err)
+		}
+		assertEqual(t, ctx, gotc)
+		assertEqual(t, l, got)
 	})
 }
 
