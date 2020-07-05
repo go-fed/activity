@@ -108,13 +108,13 @@ type Database interface {
 	//
 	// The library makes this call only after acquiring a lock first.
 	SetOutbox(c context.Context, outbox vocab.ActivityStreamsOrderedCollectionPage) error
-	// NewId creates a new IRI id for the provided activity or object. The
+	// NewID creates a new IRI id for the provided activity or object. The
 	// implementation does not need to set the 'id' property and simply
 	// needs to determine the value.
 	//
 	// The go-fed library will handle setting the 'id' property on the
 	// activity or object provided with the value returned.
-	NewId(c context.Context, t vocab.Type) (id *url.URL, err error)
+	NewID(c context.Context, t vocab.Type) (id *url.URL, err error)
 	// Followers obtains the Followers Collection for an actor with the
 	// given id.
 	//
