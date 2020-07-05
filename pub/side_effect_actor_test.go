@@ -1700,7 +1700,7 @@ func TestWrapInCreate(t *testing.T) {
 		// Run & Verify
 		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
 		assertEqual(t, err, nil)
-		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 	t.Run("CreateHasTo", func(t *testing.T) {
 		// Setup
@@ -1721,7 +1721,7 @@ func TestWrapInCreate(t *testing.T) {
 		// Run & Verify
 		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
 		assertEqual(t, err, nil)
-		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 	t.Run("CreateHasCc", func(t *testing.T) {
 		// Setup
@@ -1742,7 +1742,7 @@ func TestWrapInCreate(t *testing.T) {
 		// Run & Verify
 		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
 		assertEqual(t, err, nil)
-		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 	t.Run("CreateHasBto", func(t *testing.T) {
 		// Setup
@@ -1763,7 +1763,7 @@ func TestWrapInCreate(t *testing.T) {
 		// Run & Verify
 		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
 		assertEqual(t, err, nil)
-		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 	t.Run("CreateHasBcc", func(t *testing.T) {
 		// Setup
@@ -1784,7 +1784,7 @@ func TestWrapInCreate(t *testing.T) {
 		// Run & Verify
 		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
 		assertEqual(t, err, nil)
-		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 	t.Run("CreateHasAudience", func(t *testing.T) {
 		// Setup
@@ -1805,7 +1805,7 @@ func TestWrapInCreate(t *testing.T) {
 		// Run & Verify
 		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
 		assertEqual(t, err, nil)
-		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 	t.Run("CreateHasPublished", func(t *testing.T) {
 		// Setup
@@ -1825,6 +1825,6 @@ func TestWrapInCreate(t *testing.T) {
 		// Run & Verify
 		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
 		assertEqual(t, err, nil)
-		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 }
