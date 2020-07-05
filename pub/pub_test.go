@@ -144,6 +144,8 @@ var (
 	testNestedInReplyTo vocab.ActivityStreamsListen
 	// testFollow is a test Follow Activity.
 	testFollow vocab.ActivityStreamsFollow
+	// testTombstone is a test Tombsone.
+	testTombstone vocab.ActivityStreamsTombstone
 )
 
 // The test data cannot be created at init time since that is when the hooks of
@@ -448,6 +450,13 @@ func setupData() {
 		op := streams.NewActivityStreamsObjectProperty()
 		op.AppendIRI(mustParse(testFederatedActorIRI))
 		testFollow.SetActivityStreamsObject(op)
+	}()
+	// testTombstone
+	func() {
+		testTombstone = streams.NewActivityStreamsTombstone()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		testTombstone.SetJSONLDId(id)
 	}()
 }
 
