@@ -4249,6 +4249,55 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-published"
         },
         {
+          "id": "https://www.w3.org/TR/activitypub/#source-property",
+          "type": [
+            "rdf:Property",
+            "owl:ObjectProperty",
+            "owl:FunctionalProperty"
+          ],
+          "example": {
+            "id": "https://www.w3.org/TR/activitypub/#source-property",
+            "type": "http://schema.org/CreativeWork",
+            "mainEntity": {
+              "@context": ["https://www.w3.org/ns/activitystreams", {"@language": "en"}],
+              "type": "Note",
+              "id": "http://postparty.example/p/2415",
+              "content": "<p>I <em>really</em> like strawberries!</p>",
+              "source": {
+                "content": "I *really* like strawberries!",
+                "mediaType": "text/markdown"}
+            },
+            "name": "Example 8"
+          },
+          "notes": "The source property is intended to convey some sort of source from which the content markup was derived, as a form of provenance, or to support future editing by clients.",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": {
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "name": "Object"
+            }
+          },
+          "isDefinedBy": "https://www.w3.org/TR/activitypub/#source-property",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+                "name": "Object"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link",
+                "name": "Link"
+              }
+            ]
+          },
+          "name": "source",
+          "url": "https://www.w3.org/TR/activitypub/#source-property"
+        },
+        {
           "id": "https://www.w3.org/ns/activitystreams#startTime",
           "type": [
             "rdf:Property",
