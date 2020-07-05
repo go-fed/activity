@@ -117,14 +117,6 @@ func dedupeOrderedItems(oc orderedItemser) error {
 }
 
 const (
-	// jsonLDContext is the key for the JSON-LD specification's context
-	// value. It contains the definitions of the types contained within the
-	// rest of the payload. Important for linked-data representations, but
-	// only applicable to go-fed at code-generation time.
-	jsonLDContext = "@context"
-)
-
-const (
 	// The Location header
 	locationHeader = "Location"
 	// Contains the ActivityStreams Content-Type value.
