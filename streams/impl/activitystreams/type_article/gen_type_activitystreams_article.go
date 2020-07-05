@@ -44,6 +44,7 @@ type ActivityStreamsArticle struct {
 	ActivityStreamsPublished    vocab.ActivityStreamsPublishedProperty
 	ActivityStreamsReplies      vocab.ActivityStreamsRepliesProperty
 	ActivityStreamsShares       vocab.ActivityStreamsSharesProperty
+	ActivityStreamsSource       vocab.ActivityStreamsSourceProperty
 	ActivityStreamsStartTime    vocab.ActivityStreamsStartTimeProperty
 	ActivityStreamsSummary      vocab.ActivityStreamsSummaryProperty
 	ActivityStreamsTag          vocab.ActivityStreamsTagProperty
@@ -249,6 +250,11 @@ func DeserializeArticle(m map[string]interface{}, aliasMap map[string]string) (*
 	} else if p != nil {
 		this.ActivityStreamsShares = p
 	}
+	if p, err := mgr.DeserializeSourcePropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.ActivityStreamsSource = p
+	}
 	if p, err := mgr.DeserializeStartTimePropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -342,6 +348,8 @@ func DeserializeArticle(m map[string]interface{}, aliasMap map[string]string) (*
 		} else if k == "replies" {
 			continue
 		} else if k == "shares" {
+			continue
+		} else if k == "source" {
 			continue
 		} else if k == "startTime" {
 			continue
@@ -531,6 +539,12 @@ func (this ActivityStreamsArticle) GetActivityStreamsShares() vocab.ActivityStre
 	return this.ActivityStreamsShares
 }
 
+// GetActivityStreamsSource returns the "source" property if it exists, and nil
+// otherwise.
+func (this ActivityStreamsArticle) GetActivityStreamsSource() vocab.ActivityStreamsSourceProperty {
+	return this.ActivityStreamsSource
+}
+
 // GetActivityStreamsStartTime returns the "startTime" property if it exists, and
 // nil otherwise.
 func (this ActivityStreamsArticle) GetActivityStreamsStartTime() vocab.ActivityStreamsStartTimeProperty {
@@ -626,6 +640,7 @@ func (this ActivityStreamsArticle) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.ActivityStreamsPublished, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsReplies, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsShares, m)
+	m = this.helperJSONLDContext(this.ActivityStreamsSource, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsStartTime, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsSummary, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsTag, m)
@@ -991,6 +1006,20 @@ func (this ActivityStreamsArticle) LessThan(o vocab.ActivityStreamsArticle) bool
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "source"
+	if lhs, rhs := this.ActivityStreamsSource, o.GetActivityStreamsSource(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "startTime"
 	if lhs, rhs := this.ActivityStreamsStartTime, o.GetActivityStreamsStartTime(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -1312,6 +1341,14 @@ func (this ActivityStreamsArticle) Serialize() (map[string]interface{}, error) {
 			m[this.ActivityStreamsShares.Name()] = i
 		}
 	}
+	// Maybe serialize property "source"
+	if this.ActivityStreamsSource != nil {
+		if i, err := this.ActivityStreamsSource.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.ActivityStreamsSource.Name()] = i
+		}
+	}
 	// Maybe serialize property "startTime"
 	if this.ActivityStreamsStartTime != nil {
 		if i, err := this.ActivityStreamsStartTime.Serialize(); err != nil {
@@ -1500,6 +1537,11 @@ func (this *ActivityStreamsArticle) SetActivityStreamsReplies(i vocab.ActivitySt
 // SetActivityStreamsShares sets the "shares" property.
 func (this *ActivityStreamsArticle) SetActivityStreamsShares(i vocab.ActivityStreamsSharesProperty) {
 	this.ActivityStreamsShares = i
+}
+
+// SetActivityStreamsSource sets the "source" property.
+func (this *ActivityStreamsArticle) SetActivityStreamsSource(i vocab.ActivityStreamsSourceProperty) {
+	this.ActivityStreamsSource = i
 }
 
 // SetActivityStreamsStartTime sets the "startTime" property.

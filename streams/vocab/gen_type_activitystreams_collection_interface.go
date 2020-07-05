@@ -107,6 +107,9 @@ type ActivityStreamsCollection interface {
 	// GetActivityStreamsShares returns the "shares" property if it exists,
 	// and nil otherwise.
 	GetActivityStreamsShares() ActivityStreamsSharesProperty
+	// GetActivityStreamsSource returns the "source" property if it exists,
+	// and nil otherwise.
+	GetActivityStreamsSource() ActivityStreamsSourceProperty
 	// GetActivityStreamsStartTime returns the "startTime" property if it
 	// exists, and nil otherwise.
 	GetActivityStreamsStartTime() ActivityStreamsStartTimeProperty
@@ -212,6 +215,8 @@ type ActivityStreamsCollection interface {
 	SetActivityStreamsReplies(i ActivityStreamsRepliesProperty)
 	// SetActivityStreamsShares sets the "shares" property.
 	SetActivityStreamsShares(i ActivityStreamsSharesProperty)
+	// SetActivityStreamsSource sets the "source" property.
+	SetActivityStreamsSource(i ActivityStreamsSourceProperty)
 	// SetActivityStreamsStartTime sets the "startTime" property.
 	SetActivityStreamsStartTime(i ActivityStreamsStartTimeProperty)
 	// SetActivityStreamsSummary sets the "summary" property.

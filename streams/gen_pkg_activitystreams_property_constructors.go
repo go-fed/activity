@@ -60,6 +60,7 @@ import (
 	propertyreplies "github.com/go-fed/activity/streams/impl/activitystreams/property_replies"
 	propertyresult "github.com/go-fed/activity/streams/impl/activitystreams/property_result"
 	propertyshares "github.com/go-fed/activity/streams/impl/activitystreams/property_shares"
+	propertysource "github.com/go-fed/activity/streams/impl/activitystreams/property_source"
 	propertystartindex "github.com/go-fed/activity/streams/impl/activitystreams/property_startindex"
 	propertystarttime "github.com/go-fed/activity/streams/impl/activitystreams/property_starttime"
 	propertystreams "github.com/go-fed/activity/streams/impl/activitystreams/property_streams"
@@ -416,6 +417,12 @@ func NewActivityStreamsResultProperty() vocab.ActivityStreamsResultProperty {
 // ActivityStreamsSharesProperty
 func NewActivityStreamsSharesProperty() vocab.ActivityStreamsSharesProperty {
 	return propertyshares.NewActivityStreamsSharesProperty()
+}
+
+// NewActivityStreamsActivityStreamsSourceProperty creates a new
+// ActivityStreamsSourceProperty
+func NewActivityStreamsSourceProperty() vocab.ActivityStreamsSourceProperty {
+	return propertysource.NewActivityStreamsSourceProperty()
 }
 
 // NewActivityStreamsActivityStreamsStartIndexProperty creates a new

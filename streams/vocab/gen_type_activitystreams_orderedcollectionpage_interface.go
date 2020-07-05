@@ -117,6 +117,9 @@ type ActivityStreamsOrderedCollectionPage interface {
 	// GetActivityStreamsShares returns the "shares" property if it exists,
 	// and nil otherwise.
 	GetActivityStreamsShares() ActivityStreamsSharesProperty
+	// GetActivityStreamsSource returns the "source" property if it exists,
+	// and nil otherwise.
+	GetActivityStreamsSource() ActivityStreamsSourceProperty
 	// GetActivityStreamsStartIndex returns the "startIndex" property if it
 	// exists, and nil otherwise.
 	GetActivityStreamsStartIndex() ActivityStreamsStartIndexProperty
@@ -231,6 +234,8 @@ type ActivityStreamsOrderedCollectionPage interface {
 	SetActivityStreamsReplies(i ActivityStreamsRepliesProperty)
 	// SetActivityStreamsShares sets the "shares" property.
 	SetActivityStreamsShares(i ActivityStreamsSharesProperty)
+	// SetActivityStreamsSource sets the "source" property.
+	SetActivityStreamsSource(i ActivityStreamsSourceProperty)
 	// SetActivityStreamsStartIndex sets the "startIndex" property.
 	SetActivityStreamsStartIndex(i ActivityStreamsStartIndexProperty)
 	// SetActivityStreamsStartTime sets the "startTime" property.

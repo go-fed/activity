@@ -128,6 +128,10 @@ type privateManager interface {
 	// method for the "ActivityStreamsSharesProperty" non-functional
 	// property in the vocabulary "ActivityStreams"
 	DeserializeSharesPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsSharesProperty, error)
+	// DeserializeSourcePropertyActivityStreams returns the deserialization
+	// method for the "ActivityStreamsSourceProperty" non-functional
+	// property in the vocabulary "ActivityStreams"
+	DeserializeSourcePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsSourceProperty, error)
 	// DeserializeStartTimePropertyActivityStreams returns the deserialization
 	// method for the "ActivityStreamsStartTimeProperty" non-functional
 	// property in the vocabulary "ActivityStreams"

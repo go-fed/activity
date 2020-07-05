@@ -377,6 +377,9 @@ var TootSignatureAlgorithmPropertyName string = "signatureAlgorithm"
 // TootSignatureValuePropertyName is the string literal of the name for the signatureValue property in the Toot vocabulary.
 var TootSignatureValuePropertyName string = "signatureValue"
 
+// ActivityStreamsSourcePropertyName is the string literal of the name for the source property in the ActivityStreams vocabulary.
+var ActivityStreamsSourcePropertyName string = "source"
+
 // ActivityStreamsStartIndexPropertyName is the string literal of the name for the startIndex property in the ActivityStreams vocabulary.
 var ActivityStreamsStartIndexPropertyName string = "startIndex"
 

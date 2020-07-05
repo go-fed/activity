@@ -62,6 +62,7 @@ type ActivityStreamsOrderedCollectionPage struct {
 	ActivityStreamsPublished    vocab.ActivityStreamsPublishedProperty
 	ActivityStreamsReplies      vocab.ActivityStreamsRepliesProperty
 	ActivityStreamsShares       vocab.ActivityStreamsSharesProperty
+	ActivityStreamsSource       vocab.ActivityStreamsSourceProperty
 	ActivityStreamsStartIndex   vocab.ActivityStreamsStartIndexProperty
 	ActivityStreamsStartTime    vocab.ActivityStreamsStartTimeProperty
 	ActivityStreamsSummary      vocab.ActivityStreamsSummaryProperty
@@ -284,6 +285,11 @@ func DeserializeOrderedCollectionPage(m map[string]interface{}, aliasMap map[str
 	} else if p != nil {
 		this.ActivityStreamsShares = p
 	}
+	if p, err := mgr.DeserializeSourcePropertyActivityStreams()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.ActivityStreamsSource = p
+	}
 	if p, err := mgr.DeserializeStartIndexPropertyActivityStreams()(m, aliasMap); err != nil {
 		return nil, err
 	} else if p != nil {
@@ -401,6 +407,8 @@ func DeserializeOrderedCollectionPage(m map[string]interface{}, aliasMap map[str
 		} else if k == "replies" {
 			continue
 		} else if k == "shares" {
+			continue
+		} else if k == "source" {
 			continue
 		} else if k == "startIndex" {
 			continue
@@ -657,6 +665,12 @@ func (this ActivityStreamsOrderedCollectionPage) GetActivityStreamsShares() voca
 	return this.ActivityStreamsShares
 }
 
+// GetActivityStreamsSource returns the "source" property if it exists, and nil
+// otherwise.
+func (this ActivityStreamsOrderedCollectionPage) GetActivityStreamsSource() vocab.ActivityStreamsSourceProperty {
+	return this.ActivityStreamsSource
+}
+
 // GetActivityStreamsStartIndex returns the "startIndex" property if it exists,
 // and nil otherwise.
 func (this ActivityStreamsOrderedCollectionPage) GetActivityStreamsStartIndex() vocab.ActivityStreamsStartIndexProperty {
@@ -773,6 +787,7 @@ func (this ActivityStreamsOrderedCollectionPage) JSONLDContext() map[string]stri
 	m = this.helperJSONLDContext(this.ActivityStreamsPublished, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsReplies, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsShares, m)
+	m = this.helperJSONLDContext(this.ActivityStreamsSource, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsStartIndex, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsStartTime, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsSummary, m)
@@ -1238,6 +1253,20 @@ func (this ActivityStreamsOrderedCollectionPage) LessThan(o vocab.ActivityStream
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "source"
+	if lhs, rhs := this.ActivityStreamsSource, o.GetActivityStreamsSource(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// Compare property "startIndex"
 	if lhs, rhs := this.ActivityStreamsStartIndex, o.GetActivityStreamsStartIndex(); lhs != nil && rhs != nil {
 		if lhs.LessThan(rhs) {
@@ -1643,6 +1672,14 @@ func (this ActivityStreamsOrderedCollectionPage) Serialize() (map[string]interfa
 			m[this.ActivityStreamsShares.Name()] = i
 		}
 	}
+	// Maybe serialize property "source"
+	if this.ActivityStreamsSource != nil {
+		if i, err := this.ActivityStreamsSource.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.ActivityStreamsSource.Name()] = i
+		}
+	}
 	// Maybe serialize property "startIndex"
 	if this.ActivityStreamsStartIndex != nil {
 		if i, err := this.ActivityStreamsStartIndex.Serialize(); err != nil {
@@ -1882,6 +1919,11 @@ func (this *ActivityStreamsOrderedCollectionPage) SetActivityStreamsReplies(i vo
 // SetActivityStreamsShares sets the "shares" property.
 func (this *ActivityStreamsOrderedCollectionPage) SetActivityStreamsShares(i vocab.ActivityStreamsSharesProperty) {
 	this.ActivityStreamsShares = i
+}
+
+// SetActivityStreamsSource sets the "source" property.
+func (this *ActivityStreamsOrderedCollectionPage) SetActivityStreamsSource(i vocab.ActivityStreamsSourceProperty) {
+	this.ActivityStreamsSource = i
 }
 
 // SetActivityStreamsStartIndex sets the "startIndex" property.

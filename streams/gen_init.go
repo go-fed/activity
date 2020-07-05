@@ -60,6 +60,7 @@ import (
 	propertyreplies "github.com/go-fed/activity/streams/impl/activitystreams/property_replies"
 	propertyresult "github.com/go-fed/activity/streams/impl/activitystreams/property_result"
 	propertyshares "github.com/go-fed/activity/streams/impl/activitystreams/property_shares"
+	propertysource "github.com/go-fed/activity/streams/impl/activitystreams/property_source"
 	propertystartindex "github.com/go-fed/activity/streams/impl/activitystreams/property_startindex"
 	propertystarttime "github.com/go-fed/activity/streams/impl/activitystreams/property_starttime"
 	propertystreams "github.com/go-fed/activity/streams/impl/activitystreams/property_streams"
@@ -211,6 +212,7 @@ func init() {
 	propertyreplies.SetManager(mgr)
 	propertyresult.SetManager(mgr)
 	propertyshares.SetManager(mgr)
+	propertysource.SetManager(mgr)
 	propertystartindex.SetManager(mgr)
 	propertystarttime.SetManager(mgr)
 	propertystreams.SetManager(mgr)

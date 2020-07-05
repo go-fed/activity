@@ -120,6 +120,10 @@ type privateManager interface {
 	// method for the "TootSignatureValueProperty" non-functional property
 	// in the vocabulary "Toot"
 	DeserializeSignatureValuePropertyToot() func(map[string]interface{}, map[string]string) (vocab.TootSignatureValueProperty, error)
+	// DeserializeSourcePropertyActivityStreams returns the deserialization
+	// method for the "ActivityStreamsSourceProperty" non-functional
+	// property in the vocabulary "ActivityStreams"
+	DeserializeSourcePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsSourceProperty, error)
 	// DeserializeStartTimePropertyActivityStreams returns the deserialization
 	// method for the "ActivityStreamsStartTimeProperty" non-functional
 	// property in the vocabulary "ActivityStreams"

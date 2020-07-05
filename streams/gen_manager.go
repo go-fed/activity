@@ -60,6 +60,7 @@ import (
 	propertyreplies "github.com/go-fed/activity/streams/impl/activitystreams/property_replies"
 	propertyresult "github.com/go-fed/activity/streams/impl/activitystreams/property_result"
 	propertyshares "github.com/go-fed/activity/streams/impl/activitystreams/property_shares"
+	propertysource "github.com/go-fed/activity/streams/impl/activitystreams/property_source"
 	propertystartindex "github.com/go-fed/activity/streams/impl/activitystreams/property_startindex"
 	propertystarttime "github.com/go-fed/activity/streams/impl/activitystreams/property_starttime"
 	propertystreams "github.com/go-fed/activity/streams/impl/activitystreams/property_streams"
@@ -1632,6 +1633,19 @@ func (this Manager) DeserializeSignatureAlgorithmPropertyToot() func(map[string]
 func (this Manager) DeserializeSignatureValuePropertyToot() func(map[string]interface{}, map[string]string) (vocab.TootSignatureValueProperty, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.TootSignatureValueProperty, error) {
 		i, err := propertysignaturevalue.DeserializeSignatureValueProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializeSourcePropertyActivityStreams returns the deserialization method for
+// the "ActivityStreamsSourceProperty" non-functional property in the
+// vocabulary "ActivityStreams"
+func (this Manager) DeserializeSourcePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsSourceProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsSourceProperty, error) {
+		i, err := propertysource.DeserializeSourceProperty(m, aliasMap)
 		if i == nil {
 			return nil, err
 		}
