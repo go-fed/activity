@@ -107,7 +107,7 @@ type Database interface {
 	// database entries. Separate calls to Create will do that.
 	//
 	// The library makes this call only after acquiring a lock first.
-	SetOutbox(c context.Context, inbox vocab.ActivityStreamsOrderedCollectionPage) error
+	SetOutbox(c context.Context, outbox vocab.ActivityStreamsOrderedCollectionPage) error
 	// NewID creates a new IRI id for the provided activity or object. The
 	// implementation does not need to set the 'id' property and simply
 	// needs to determine the value.
