@@ -24,6 +24,8 @@ const (
 	testFederatedActorIRI2    = "https://other.example.com/addison"
 	testFederatedActorIRI3    = "https://other.example.com/sam"
 	testFederatedActorIRI4    = "https://other.example.com/jessie"
+	testFederatedInboxIRI     = "https://other.example.com/dakota/inbox"
+	testFederatedInboxIRI2    = "https://other.example.com/addison/inbox"
 	testNoteId1               = "https://example.com/note/1"
 	testNoteId2               = "https://example.com/note/2"
 	testNewActivityIRI        = "https://example.com/new/1"
@@ -126,6 +128,12 @@ var (
 	testOrderedCollectionWithBothFederatedIds vocab.ActivityStreamsOrderedCollectionPage
 	// testPerson is a Person.
 	testPerson vocab.ActivityStreamsPerson
+	// testMyPerson is my Person.
+	testMyPerson vocab.ActivityStreamsPerson
+	// testFederatedPerson1 is a federated Person.
+	testFederatedPerson1 vocab.ActivityStreamsPerson
+	// testFederatedPerson2 is a federated Person.
+	testFederatedPerson2 vocab.ActivityStreamsPerson
 	// testService is a Service.
 	testService vocab.ActivityStreamsService
 	// testCollectionOfActors is a collection of actors.
@@ -342,6 +350,39 @@ func setupData() {
 		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testPersonIRI))
 		testPerson.SetJSONLDId(id)
+	}()
+	// testMyPerson
+	func() {
+		testMyPerson = streams.NewActivityStreamsPerson()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testPersonIRI))
+		testMyPerson.SetJSONLDId(id)
+		inbox := streams.NewActivityStreamsInboxProperty()
+		inbox.SetIRI(mustParse(testMyInboxIRI))
+		testMyPerson.SetActivityStreamsInbox(inbox)
+		outbox := streams.NewActivityStreamsOutboxProperty()
+		outbox.SetIRI(mustParse(testMyOutboxIRI))
+		testMyPerson.SetActivityStreamsOutbox(outbox)
+	}()
+	// testFederatedPerson1
+	func() {
+		testFederatedPerson1 = streams.NewActivityStreamsPerson()
+		id := streams.NewJSONLDIdProperty()
+		id.SetIRI(mustParse(testFederatedActorIRI))
+		testFederatedPerson1.SetJSONLDId(id)
+		inbox := streams.NewActivityStreamsInboxProperty()
+		inbox.SetIRI(mustParse(testFederatedInboxIRI))
+		testFederatedPerson1.SetActivityStreamsInbox(inbox)
+	}()
+	// testFederatedPerson2
+	func() {
+		testFederatedPerson2 = streams.NewActivityStreamsPerson()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActorIRI2))
+		testFederatedPerson2.SetJSONLDId(id)
+		inbox := streams.NewActivityStreamsInboxProperty()
+		inbox.SetIRI(mustParse(testFederatedInboxIRI2))
+		testFederatedPerson2.SetActivityStreamsInbox(inbox)
 	}()
 	// testService
 	func() {

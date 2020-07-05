@@ -412,16 +412,17 @@ func dedupeIRIs(recipients, ignored []*url.URL) (out []*url.URL) {
 // Note that this requirement of the specification is under "Section 6: Client
 // to Server Interactions", the Social API, and not the Federative API.
 func stripHiddenRecipients(activity Activity) {
-	bto := activity.GetActivityStreamsBto()
-	if bto != nil {
-		for i := bto.Len() - 1; i >= 0; i-- {
-			bto.Remove(i)
-		}
-	}
-	bcc := activity.GetActivityStreamsBcc()
-	if bcc != nil {
-		for i := bcc.Len() - 1; i >= 0; i-- {
-			bcc.Remove(i)
+	activity.SetActivityStreamsBto(nil)
+	activity.SetActivityStreamsBcc(nil)
+	op := activity.GetActivityStreamsObject()
+	if op != nil {
+		for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+			if v, ok := iter.GetType().(btoer); ok {
+				v.SetActivityStreamsBto(nil)
+			}
+			if v, ok := iter.GetType().(bccer); ok {
+				v.SetActivityStreamsBcc(nil)
+			}
 		}
 	}
 }
