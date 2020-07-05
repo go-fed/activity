@@ -128,6 +128,31 @@ import (
 	typeupdate "github.com/go-fed/activity/streams/impl/activitystreams/type_update"
 	typevideo "github.com/go-fed/activity/streams/impl/activitystreams/type_video"
 	typeview "github.com/go-fed/activity/streams/impl/activitystreams/type_view"
+	propertyassignedto "github.com/go-fed/activity/streams/impl/forgefed/property_assignedto"
+	propertycommitted "github.com/go-fed/activity/streams/impl/forgefed/property_committed"
+	propertycommittedby "github.com/go-fed/activity/streams/impl/forgefed/property_committedby"
+	propertydependants "github.com/go-fed/activity/streams/impl/forgefed/property_dependants"
+	propertydependedby "github.com/go-fed/activity/streams/impl/forgefed/property_dependedby"
+	propertydependencies "github.com/go-fed/activity/streams/impl/forgefed/property_dependencies"
+	propertydependson "github.com/go-fed/activity/streams/impl/forgefed/property_dependson"
+	propertydescription "github.com/go-fed/activity/streams/impl/forgefed/property_description"
+	propertyearlyitems "github.com/go-fed/activity/streams/impl/forgefed/property_earlyitems"
+	propertyfilesadded "github.com/go-fed/activity/streams/impl/forgefed/property_filesadded"
+	propertyfilesmodified "github.com/go-fed/activity/streams/impl/forgefed/property_filesmodified"
+	propertyfilesremoved "github.com/go-fed/activity/streams/impl/forgefed/property_filesremoved"
+	propertyforks "github.com/go-fed/activity/streams/impl/forgefed/property_forks"
+	propertyhash "github.com/go-fed/activity/streams/impl/forgefed/property_hash"
+	propertyisresolved "github.com/go-fed/activity/streams/impl/forgefed/property_isresolved"
+	propertyref "github.com/go-fed/activity/streams/impl/forgefed/property_ref"
+	propertyteam "github.com/go-fed/activity/streams/impl/forgefed/property_team"
+	propertyticketstrackedby "github.com/go-fed/activity/streams/impl/forgefed/property_ticketstrackedby"
+	propertytracksticketsfor "github.com/go-fed/activity/streams/impl/forgefed/property_tracksticketsfor"
+	typebranch "github.com/go-fed/activity/streams/impl/forgefed/type_branch"
+	typecommit "github.com/go-fed/activity/streams/impl/forgefed/type_commit"
+	typepush "github.com/go-fed/activity/streams/impl/forgefed/type_push"
+	typerepository "github.com/go-fed/activity/streams/impl/forgefed/type_repository"
+	typeticket "github.com/go-fed/activity/streams/impl/forgefed/type_ticket"
+	typeticketdependency "github.com/go-fed/activity/streams/impl/forgefed/type_ticketdependency"
 	propertyblurhash "github.com/go-fed/activity/streams/impl/toot/property_blurhash"
 	propertydiscoverable "github.com/go-fed/activity/streams/impl/toot/property_discoverable"
 	propertyfeatured "github.com/go-fed/activity/streams/impl/toot/property_featured"
@@ -280,6 +305,31 @@ func init() {
 	typeupdate.SetManager(mgr)
 	typevideo.SetManager(mgr)
 	typeview.SetManager(mgr)
+	propertyassignedto.SetManager(mgr)
+	propertycommitted.SetManager(mgr)
+	propertycommittedby.SetManager(mgr)
+	propertydependants.SetManager(mgr)
+	propertydependedby.SetManager(mgr)
+	propertydependencies.SetManager(mgr)
+	propertydependson.SetManager(mgr)
+	propertydescription.SetManager(mgr)
+	propertyearlyitems.SetManager(mgr)
+	propertyfilesadded.SetManager(mgr)
+	propertyfilesmodified.SetManager(mgr)
+	propertyfilesremoved.SetManager(mgr)
+	propertyforks.SetManager(mgr)
+	propertyhash.SetManager(mgr)
+	propertyisresolved.SetManager(mgr)
+	propertyref.SetManager(mgr)
+	propertyteam.SetManager(mgr)
+	propertyticketstrackedby.SetManager(mgr)
+	propertytracksticketsfor.SetManager(mgr)
+	typebranch.SetManager(mgr)
+	typecommit.SetManager(mgr)
+	typepush.SetManager(mgr)
+	typerepository.SetManager(mgr)
+	typeticket.SetManager(mgr)
+	typeticketdependency.SetManager(mgr)
 	propertyblurhash.SetManager(mgr)
 	propertydiscoverable.SetManager(mgr)
 	propertyfeatured.SetManager(mgr)
@@ -346,6 +396,12 @@ func init() {
 	typeupdate.SetTypePropertyConstructor(NewJSONLDTypeProperty)
 	typevideo.SetTypePropertyConstructor(NewJSONLDTypeProperty)
 	typeview.SetTypePropertyConstructor(NewJSONLDTypeProperty)
+	typebranch.SetTypePropertyConstructor(NewJSONLDTypeProperty)
+	typecommit.SetTypePropertyConstructor(NewJSONLDTypeProperty)
+	typepush.SetTypePropertyConstructor(NewJSONLDTypeProperty)
+	typerepository.SetTypePropertyConstructor(NewJSONLDTypeProperty)
+	typeticket.SetTypePropertyConstructor(NewJSONLDTypeProperty)
+	typeticketdependency.SetTypePropertyConstructor(NewJSONLDTypeProperty)
 	typeemoji.SetTypePropertyConstructor(NewJSONLDTypeProperty)
 	typeidentityproof.SetTypePropertyConstructor(NewJSONLDTypeProperty)
 	typepublickey.SetTypePropertyConstructor(NewJSONLDTypeProperty)

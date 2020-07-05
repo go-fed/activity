@@ -29,11 +29,17 @@ var ActivityStreamsAudioName string = "Audio"
 // ActivityStreamsBlockName is the string literal of the name for the Block type in the ActivityStreams vocabulary.
 var ActivityStreamsBlockName string = "Block"
 
+// ForgeFedBranchName is the string literal of the name for the Branch type in the ForgeFed vocabulary.
+var ForgeFedBranchName string = "Branch"
+
 // ActivityStreamsCollectionName is the string literal of the name for the Collection type in the ActivityStreams vocabulary.
 var ActivityStreamsCollectionName string = "Collection"
 
 // ActivityStreamsCollectionPageName is the string literal of the name for the CollectionPage type in the ActivityStreams vocabulary.
 var ActivityStreamsCollectionPageName string = "CollectionPage"
+
+// ForgeFedCommitName is the string literal of the name for the Commit type in the ForgeFed vocabulary.
+var ForgeFedCommitName string = "Commit"
 
 // ActivityStreamsCreateName is the string literal of the name for the Create type in the ActivityStreams vocabulary.
 var ActivityStreamsCreateName string = "Create"
@@ -131,6 +137,9 @@ var ActivityStreamsProfileName string = "Profile"
 // W3IDSecurityV1PublicKeyName is the string literal of the name for the PublicKey type in the W3IDSecurityV1 vocabulary.
 var W3IDSecurityV1PublicKeyName string = "PublicKey"
 
+// ForgeFedPushName is the string literal of the name for the Push type in the ForgeFed vocabulary.
+var ForgeFedPushName string = "Push"
+
 // ActivityStreamsQuestionName is the string literal of the name for the Question type in the ActivityStreams vocabulary.
 var ActivityStreamsQuestionName string = "Question"
 
@@ -146,6 +155,9 @@ var ActivityStreamsRelationshipName string = "Relationship"
 // ActivityStreamsRemoveName is the string literal of the name for the Remove type in the ActivityStreams vocabulary.
 var ActivityStreamsRemoveName string = "Remove"
 
+// ForgeFedRepositoryName is the string literal of the name for the Repository type in the ForgeFed vocabulary.
+var ForgeFedRepositoryName string = "Repository"
+
 // ActivityStreamsServiceName is the string literal of the name for the Service type in the ActivityStreams vocabulary.
 var ActivityStreamsServiceName string = "Service"
 
@@ -154,6 +166,12 @@ var ActivityStreamsTentativeAcceptName string = "TentativeAccept"
 
 // ActivityStreamsTentativeRejectName is the string literal of the name for the TentativeReject type in the ActivityStreams vocabulary.
 var ActivityStreamsTentativeRejectName string = "TentativeReject"
+
+// ForgeFedTicketName is the string literal of the name for the Ticket type in the ForgeFed vocabulary.
+var ForgeFedTicketName string = "Ticket"
+
+// ForgeFedTicketDependencyName is the string literal of the name for the TicketDependency type in the ForgeFed vocabulary.
+var ForgeFedTicketDependencyName string = "TicketDependency"
 
 // ActivityStreamsTombstoneName is the string literal of the name for the Tombstone type in the ActivityStreams vocabulary.
 var ActivityStreamsTombstoneName string = "Tombstone"
@@ -185,6 +203,9 @@ var ActivityStreamsAltitudePropertyName string = "altitude"
 // ActivityStreamsAnyOfPropertyName is the string literal of the name for the anyOf property in the ActivityStreams vocabulary.
 var ActivityStreamsAnyOfPropertyName string = "anyOf"
 
+// ForgeFedAssignedToPropertyName is the string literal of the name for the assignedTo property in the ForgeFed vocabulary.
+var ForgeFedAssignedToPropertyName string = "assignedTo"
+
 // ActivityStreamsAttachmentPropertyName is the string literal of the name for the attachment property in the ActivityStreams vocabulary.
 var ActivityStreamsAttachmentPropertyName string = "attachment"
 
@@ -209,6 +230,12 @@ var ActivityStreamsCcPropertyName string = "cc"
 // ActivityStreamsClosedPropertyName is the string literal of the name for the closed property in the ActivityStreams vocabulary.
 var ActivityStreamsClosedPropertyName string = "closed"
 
+// ForgeFedCommittedPropertyName is the string literal of the name for the committed property in the ForgeFed vocabulary.
+var ForgeFedCommittedPropertyName string = "committed"
+
+// ForgeFedCommittedByPropertyName is the string literal of the name for the committedBy property in the ForgeFed vocabulary.
+var ForgeFedCommittedByPropertyName string = "committedBy"
+
 // ActivityStreamsContentPropertyName is the string literal of the name for the content property in the ActivityStreams vocabulary.
 var ActivityStreamsContentPropertyName string = "content"
 
@@ -224,8 +251,23 @@ var ActivityStreamsCurrentPropertyName string = "current"
 // ActivityStreamsDeletedPropertyName is the string literal of the name for the deleted property in the ActivityStreams vocabulary.
 var ActivityStreamsDeletedPropertyName string = "deleted"
 
+// ForgeFedDependantsPropertyName is the string literal of the name for the dependants property in the ForgeFed vocabulary.
+var ForgeFedDependantsPropertyName string = "dependants"
+
+// ForgeFedDependedByPropertyName is the string literal of the name for the dependedBy property in the ForgeFed vocabulary.
+var ForgeFedDependedByPropertyName string = "dependedBy"
+
+// ForgeFedDependenciesPropertyName is the string literal of the name for the dependencies property in the ForgeFed vocabulary.
+var ForgeFedDependenciesPropertyName string = "dependencies"
+
+// ForgeFedDependsOnPropertyName is the string literal of the name for the dependsOn property in the ForgeFed vocabulary.
+var ForgeFedDependsOnPropertyName string = "dependsOn"
+
 // ActivityStreamsDescribesPropertyName is the string literal of the name for the describes property in the ActivityStreams vocabulary.
 var ActivityStreamsDescribesPropertyName string = "describes"
+
+// ForgeFedDescriptionPropertyName is the string literal of the name for the description property in the ForgeFed vocabulary.
+var ForgeFedDescriptionPropertyName string = "description"
 
 // TootDiscoverablePropertyName is the string literal of the name for the discoverable property in the Toot vocabulary.
 var TootDiscoverablePropertyName string = "discoverable"
@@ -233,11 +275,23 @@ var TootDiscoverablePropertyName string = "discoverable"
 // ActivityStreamsDurationPropertyName is the string literal of the name for the duration property in the ActivityStreams vocabulary.
 var ActivityStreamsDurationPropertyName string = "duration"
 
+// ForgeFedEarlyItemsPropertyName is the string literal of the name for the earlyItems property in the ForgeFed vocabulary.
+var ForgeFedEarlyItemsPropertyName string = "earlyItems"
+
 // ActivityStreamsEndTimePropertyName is the string literal of the name for the endTime property in the ActivityStreams vocabulary.
 var ActivityStreamsEndTimePropertyName string = "endTime"
 
 // TootFeaturedPropertyName is the string literal of the name for the featured property in the Toot vocabulary.
 var TootFeaturedPropertyName string = "featured"
+
+// ForgeFedFilesAddedPropertyName is the string literal of the name for the filesAdded property in the ForgeFed vocabulary.
+var ForgeFedFilesAddedPropertyName string = "filesAdded"
+
+// ForgeFedFilesModifiedPropertyName is the string literal of the name for the filesModified property in the ForgeFed vocabulary.
+var ForgeFedFilesModifiedPropertyName string = "filesModified"
+
+// ForgeFedFilesRemovedPropertyName is the string literal of the name for the filesRemoved property in the ForgeFed vocabulary.
+var ForgeFedFilesRemovedPropertyName string = "filesRemoved"
 
 // ActivityStreamsFirstPropertyName is the string literal of the name for the first property in the ActivityStreams vocabulary.
 var ActivityStreamsFirstPropertyName string = "first"
@@ -248,11 +302,17 @@ var ActivityStreamsFollowersPropertyName string = "followers"
 // ActivityStreamsFollowingPropertyName is the string literal of the name for the following property in the ActivityStreams vocabulary.
 var ActivityStreamsFollowingPropertyName string = "following"
 
+// ForgeFedForksPropertyName is the string literal of the name for the forks property in the ForgeFed vocabulary.
+var ForgeFedForksPropertyName string = "forks"
+
 // ActivityStreamsFormerTypePropertyName is the string literal of the name for the formerType property in the ActivityStreams vocabulary.
 var ActivityStreamsFormerTypePropertyName string = "formerType"
 
 // ActivityStreamsGeneratorPropertyName is the string literal of the name for the generator property in the ActivityStreams vocabulary.
 var ActivityStreamsGeneratorPropertyName string = "generator"
+
+// ForgeFedHashPropertyName is the string literal of the name for the hash property in the ForgeFed vocabulary.
+var ForgeFedHashPropertyName string = "hash"
 
 // ActivityStreamsHeightPropertyName is the string literal of the name for the height property in the ActivityStreams vocabulary.
 var ActivityStreamsHeightPropertyName string = "height"
@@ -277,6 +337,9 @@ var ActivityStreamsInboxPropertyName string = "inbox"
 
 // ActivityStreamsInstrumentPropertyName is the string literal of the name for the instrument property in the ActivityStreams vocabulary.
 var ActivityStreamsInstrumentPropertyName string = "instrument"
+
+// ForgeFedIsResolvedPropertyName is the string literal of the name for the isResolved property in the ForgeFed vocabulary.
+var ForgeFedIsResolvedPropertyName string = "isResolved"
 
 // ActivityStreamsItemsPropertyName is the string literal of the name for the items property in the ActivityStreams vocabulary.
 var ActivityStreamsItemsPropertyName string = "items"
@@ -356,6 +419,9 @@ var ActivityStreamsPublishedPropertyName string = "published"
 // ActivityStreamsRadiusPropertyName is the string literal of the name for the radius property in the ActivityStreams vocabulary.
 var ActivityStreamsRadiusPropertyName string = "radius"
 
+// ForgeFedRefPropertyName is the string literal of the name for the ref property in the ForgeFed vocabulary.
+var ForgeFedRefPropertyName string = "ref"
+
 // ActivityStreamsRelPropertyName is the string literal of the name for the rel property in the ActivityStreams vocabulary.
 var ActivityStreamsRelPropertyName string = "rel"
 
@@ -404,11 +470,20 @@ var ActivityStreamsTagPropertyName string = "tag"
 // ActivityStreamsTargetPropertyName is the string literal of the name for the target property in the ActivityStreams vocabulary.
 var ActivityStreamsTargetPropertyName string = "target"
 
+// ForgeFedTeamPropertyName is the string literal of the name for the team property in the ForgeFed vocabulary.
+var ForgeFedTeamPropertyName string = "team"
+
+// ForgeFedTicketsTrackedByPropertyName is the string literal of the name for the ticketsTrackedBy property in the ForgeFed vocabulary.
+var ForgeFedTicketsTrackedByPropertyName string = "ticketsTrackedBy"
+
 // ActivityStreamsToPropertyName is the string literal of the name for the to property in the ActivityStreams vocabulary.
 var ActivityStreamsToPropertyName string = "to"
 
 // ActivityStreamsTotalItemsPropertyName is the string literal of the name for the totalItems property in the ActivityStreams vocabulary.
 var ActivityStreamsTotalItemsPropertyName string = "totalItems"
+
+// ForgeFedTracksTicketsForPropertyName is the string literal of the name for the tracksTicketsFor property in the ForgeFed vocabulary.
+var ForgeFedTracksTicketsForPropertyName string = "tracksTicketsFor"
 
 // ActivityStreamsUnitsPropertyName is the string literal of the name for the units property in the ActivityStreams vocabulary.
 var ActivityStreamsUnitsPropertyName string = "units"

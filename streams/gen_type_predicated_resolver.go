@@ -47,9 +47,13 @@ func NewTypePredicatedResolver(delegate Resolver, predicate interface{}) (*TypeP
 		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsBlock) (bool, error):
 		// Do nothing, this predicate has a correct signature.
+	case func(context.Context, vocab.ForgeFedBranch) (bool, error):
+		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsCollection) (bool, error):
 		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsCollectionPage) (bool, error):
+		// Do nothing, this predicate has a correct signature.
+	case func(context.Context, vocab.ForgeFedCommit) (bool, error):
 		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsCreate) (bool, error):
 		// Do nothing, this predicate has a correct signature.
@@ -115,6 +119,8 @@ func NewTypePredicatedResolver(delegate Resolver, predicate interface{}) (*TypeP
 		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.W3IDSecurityV1PublicKey) (bool, error):
 		// Do nothing, this predicate has a correct signature.
+	case func(context.Context, vocab.ForgeFedPush) (bool, error):
+		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsQuestion) (bool, error):
 		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsRead) (bool, error):
@@ -125,11 +131,17 @@ func NewTypePredicatedResolver(delegate Resolver, predicate interface{}) (*TypeP
 		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsRemove) (bool, error):
 		// Do nothing, this predicate has a correct signature.
+	case func(context.Context, vocab.ForgeFedRepository) (bool, error):
+		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsService) (bool, error):
 		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsTentativeAccept) (bool, error):
 		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsTentativeReject) (bool, error):
+		// Do nothing, this predicate has a correct signature.
+	case func(context.Context, vocab.ForgeFedTicket) (bool, error):
+		// Do nothing, this predicate has a correct signature.
+	case func(context.Context, vocab.ForgeFedTicketDependency) (bool, error):
 		// Do nothing, this predicate has a correct signature.
 	case func(context.Context, vocab.ActivityStreamsTombstone) (bool, error):
 		// Do nothing, this predicate has a correct signature.
@@ -261,6 +273,17 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
+	} else if o.VocabularyURI() == "https://forgefed.peers.community/ns" && o.GetTypeName() == "Branch" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ForgeFedBranch) (bool, error)); ok {
+			if v, ok := o.(vocab.ForgeFedBranch); ok {
+				predicatePasses, err = fn(ctx, v)
+			} else {
+				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
+				return false, errCannotTypeAssertType
+			}
+		} else {
+			return false, ErrPredicateUnmatched
+		}
 	} else if o.VocabularyURI() == "https://www.w3.org/ns/activitystreams" && o.GetTypeName() == "Collection" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsCollection) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsCollection); ok {
@@ -275,6 +298,17 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 	} else if o.VocabularyURI() == "https://www.w3.org/ns/activitystreams" && o.GetTypeName() == "CollectionPage" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsCollectionPage) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsCollectionPage); ok {
+				predicatePasses, err = fn(ctx, v)
+			} else {
+				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
+				return false, errCannotTypeAssertType
+			}
+		} else {
+			return false, ErrPredicateUnmatched
+		}
+	} else if o.VocabularyURI() == "https://forgefed.peers.community/ns" && o.GetTypeName() == "Commit" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ForgeFedCommit) (bool, error)); ok {
+			if v, ok := o.(vocab.ForgeFedCommit); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
@@ -635,6 +669,17 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
+	} else if o.VocabularyURI() == "https://forgefed.peers.community/ns" && o.GetTypeName() == "Push" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ForgeFedPush) (bool, error)); ok {
+			if v, ok := o.(vocab.ForgeFedPush); ok {
+				predicatePasses, err = fn(ctx, v)
+			} else {
+				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
+				return false, errCannotTypeAssertType
+			}
+		} else {
+			return false, ErrPredicateUnmatched
+		}
 	} else if o.VocabularyURI() == "https://www.w3.org/ns/activitystreams" && o.GetTypeName() == "Question" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsQuestion) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsQuestion); ok {
@@ -690,6 +735,17 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 		} else {
 			return false, ErrPredicateUnmatched
 		}
+	} else if o.VocabularyURI() == "https://forgefed.peers.community/ns" && o.GetTypeName() == "Repository" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ForgeFedRepository) (bool, error)); ok {
+			if v, ok := o.(vocab.ForgeFedRepository); ok {
+				predicatePasses, err = fn(ctx, v)
+			} else {
+				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
+				return false, errCannotTypeAssertType
+			}
+		} else {
+			return false, ErrPredicateUnmatched
+		}
 	} else if o.VocabularyURI() == "https://www.w3.org/ns/activitystreams" && o.GetTypeName() == "Service" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsService) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsService); ok {
@@ -715,6 +771,28 @@ func (this TypePredicatedResolver) Apply(ctx context.Context, o ActivityStreamsI
 	} else if o.VocabularyURI() == "https://www.w3.org/ns/activitystreams" && o.GetTypeName() == "TentativeReject" {
 		if fn, ok := this.predicate.(func(context.Context, vocab.ActivityStreamsTentativeReject) (bool, error)); ok {
 			if v, ok := o.(vocab.ActivityStreamsTentativeReject); ok {
+				predicatePasses, err = fn(ctx, v)
+			} else {
+				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
+				return false, errCannotTypeAssertType
+			}
+		} else {
+			return false, ErrPredicateUnmatched
+		}
+	} else if o.VocabularyURI() == "https://forgefed.peers.community/ns" && o.GetTypeName() == "Ticket" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ForgeFedTicket) (bool, error)); ok {
+			if v, ok := o.(vocab.ForgeFedTicket); ok {
+				predicatePasses, err = fn(ctx, v)
+			} else {
+				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
+				return false, errCannotTypeAssertType
+			}
+		} else {
+			return false, ErrPredicateUnmatched
+		}
+	} else if o.VocabularyURI() == "https://forgefed.peers.community/ns" && o.GetTypeName() == "TicketDependency" {
+		if fn, ok := this.predicate.(func(context.Context, vocab.ForgeFedTicketDependency) (bool, error)); ok {
+			if v, ok := o.(vocab.ForgeFedTicketDependency); ok {
 				predicatePasses, err = fn(ctx, v)
 			} else {
 				// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
