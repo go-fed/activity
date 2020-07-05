@@ -187,7 +187,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
 		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(ctx, true, nil)
 		delegate.EXPECT().PostOutboxRequestBodyHook(ctx, req, toDeserializedForm(testCreateNoId)).Return(ctx, nil)
-		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
+		delegate.EXPECT().AddNewIDs(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			withNewId(activity)
 			return nil
 		})
@@ -218,7 +218,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		delegate.EXPECT().WrapInCreate(ctx, toDeserializedForm(testMyNote), mustParse(testMyOutboxIRI)).DoAndReturn(func(c context.Context, t vocab.Type, u *url.URL) (vocab.ActivityStreamsCreate, error) {
 			return wrappedInCreate(t), nil
 		})
-		delegate.EXPECT().AddNewIds(ctx, wrappedInCreate(toDeserializedForm(testMyNote))).DoAndReturn(func(c context.Context, activity Activity) error {
+		delegate.EXPECT().AddNewIDs(ctx, wrappedInCreate(toDeserializedForm(testMyNote))).DoAndReturn(func(c context.Context, activity Activity) error {
 			withNewId(activity)
 			return nil
 		})
@@ -244,7 +244,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
 		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(ctx, true, nil)
 		delegate.EXPECT().PostOutboxRequestBodyHook(ctx, req, toDeserializedForm(testCreateNoId)).Return(ctx, nil)
-		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
+		delegate.EXPECT().AddNewIDs(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			withNewId(activity)
 			return nil
 		})
@@ -270,7 +270,7 @@ func TestBaseActorSocialProtocol(t *testing.T) {
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
 		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(ctx, true, nil)
 		delegate.EXPECT().PostOutboxRequestBodyHook(ctx, req, toDeserializedForm(testCreateNoId)).Return(ctx, nil)
-		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
+		delegate.EXPECT().AddNewIDs(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			withNewId(activity)
 			return nil
 		})
@@ -705,7 +705,7 @@ func TestBaseActor(t *testing.T) {
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
 		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(ctx, true, nil)
 		delegate.EXPECT().PostOutboxRequestBodyHook(ctx, req, toDeserializedForm(testCreateNoId)).Return(ctx, nil)
-		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
+		delegate.EXPECT().AddNewIDs(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			withNewId(activity)
 			return nil
 		})
@@ -733,7 +733,7 @@ func TestBaseActor(t *testing.T) {
 		req := toAPRequest(toPostOutboxRequest(testCreateNoId))
 		delegate.EXPECT().AuthenticatePostOutbox(ctx, resp, req).Return(ctx, true, nil)
 		delegate.EXPECT().PostOutboxRequestBodyHook(ctx, req, toDeserializedForm(testCreateNoId)).Return(ctx, nil)
-		delegate.EXPECT().AddNewIds(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
+		delegate.EXPECT().AddNewIDs(ctx, toDeserializedForm(testCreateNoId)).DoAndReturn(func(c context.Context, activity Activity) error {
 			withNewId(activity)
 			return nil
 		})

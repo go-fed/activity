@@ -268,19 +268,19 @@ func (mr *MockDatabaseMockRecorder) SetOutbox(c, outbox interface{}) *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetOutbox", reflect.TypeOf((*MockDatabase)(nil).SetOutbox), c, outbox)
 }
 
-// NewId mocks base method
-func (m *MockDatabase) NewId(c context.Context, t vocab.Type) (*url.URL, error) {
+// NewID mocks base method
+func (m *MockDatabase) NewID(c context.Context, t vocab.Type) (*url.URL, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewId", c, t)
+	ret := m.ctrl.Call(m, "NewID", c, t)
 	ret0, _ := ret[0].(*url.URL)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// NewId indicates an expected call of NewId
-func (mr *MockDatabaseMockRecorder) NewId(c, t interface{}) *gomock.Call {
+// NewID indicates an expected call of NewID
+func (mr *MockDatabaseMockRecorder) NewID(c, t interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewId", reflect.TypeOf((*MockDatabase)(nil).NewId), c, t)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewID", reflect.TypeOf((*MockDatabase)(nil).NewID), c, t)
 }
 
 // Followers mocks base method

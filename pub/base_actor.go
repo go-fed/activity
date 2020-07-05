@@ -432,7 +432,7 @@ func (b *baseActor) deliver(c context.Context, outbox *url.URL, asValue vocab.Ty
 		return
 	}
 	// Delegate generating new IDs for the activity and all new objects.
-	if err = b.delegate.AddNewIds(c, activity); err != nil {
+	if err = b.delegate.AddNewIDs(c, activity); err != nil {
 		return
 	}
 	// Post the activity to the actor's outbox and trigger side effects for

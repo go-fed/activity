@@ -981,9 +981,9 @@ func TestPostOutbox(t *testing.T) {
 	})
 }
 
-// TestAddNewIds ensures that new 'id' properties are set on an activity and all
+// TestAddNewIDs ensures that new 'id' properties are set on an activity and all
 // of its 'object' property values if it is a Create activity.
-func TestAddNewIds(t *testing.T) {
+func TestAddNewIDs(t *testing.T) {
 	ctx := context.Background()
 	setupFn := func(ctl *gomock.Controller) (c *MockCommonBehavior, fp *MockFederatingProtocol, sp *MockSocialProtocol, db *MockDatabase, cl *MockClock, a DelegateActor) {
 		setupData()
@@ -1006,9 +1006,9 @@ func TestAddNewIds(t *testing.T) {
 		ctl := gomock.NewController(t)
 		defer ctl.Finish()
 		_, _, _, db, _, a := setupFn(ctl)
-		db.EXPECT().NewId(ctx, testMyListenNoId).Return(mustParse(testNewActivityIRI2), nil)
+		db.EXPECT().NewID(ctx, testMyListenNoId).Return(mustParse(testNewActivityIRI2), nil)
 		// Run
-		err := a.AddNewIds(ctx, testMyListenNoId)
+		err := a.AddNewIDs(ctx, testMyListenNoId)
 		// Verify
 		assertEqual(t, err, nil)
 		resultId := testMyListenNoId.GetJSONLDId()
@@ -1020,9 +1020,9 @@ func TestAddNewIds(t *testing.T) {
 		ctl := gomock.NewController(t)
 		defer ctl.Finish()
 		_, _, _, db, _, a := setupFn(ctl)
-		db.EXPECT().NewId(ctx, testMyListen).Return(mustParse(testNewActivityIRI2), nil)
+		db.EXPECT().NewID(ctx, testMyListen).Return(mustParse(testNewActivityIRI2), nil)
 		// Run
-		err := a.AddNewIds(ctx, testMyListen)
+		err := a.AddNewIDs(ctx, testMyListen)
 		// Verify
 		assertEqual(t, err, nil)
 		resultId := testMyListen.GetJSONLDId()
@@ -1034,10 +1034,10 @@ func TestAddNewIds(t *testing.T) {
 		ctl := gomock.NewController(t)
 		defer ctl.Finish()
 		_, _, _, db, _, a := setupFn(ctl)
-		db.EXPECT().NewId(ctx, testMyCreate).Return(mustParse(testNewActivityIRI2), nil)
-		db.EXPECT().NewId(ctx, testMyNote).Return(mustParse(testNewActivityIRI3), nil)
+		db.EXPECT().NewID(ctx, testMyCreate).Return(mustParse(testNewActivityIRI2), nil)
+		db.EXPECT().NewID(ctx, testMyNote).Return(mustParse(testNewActivityIRI3), nil)
 		// Run
-		err := a.AddNewIds(ctx, testMyCreate)
+		err := a.AddNewIDs(ctx, testMyCreate)
 		// Verify
 		assertEqual(t, err, nil)
 		op := testMyCreate.GetActivityStreamsObject()
@@ -1054,9 +1054,9 @@ func TestAddNewIds(t *testing.T) {
 		ctl := gomock.NewController(t)
 		defer ctl.Finish()
 		_, _, _, db, _, a := setupFn(ctl)
-		db.EXPECT().NewId(ctx, testMyListenNoId).Return(mustParse(testNewActivityIRI2), nil)
+		db.EXPECT().NewID(ctx, testMyListenNoId).Return(mustParse(testNewActivityIRI2), nil)
 		// Run
-		err := a.AddNewIds(ctx, testMyListenNoId)
+		err := a.AddNewIDs(ctx, testMyListenNoId)
 		// Verify
 		assertEqual(t, err, nil)
 		op := testMyListenNoId.GetActivityStreamsObject()

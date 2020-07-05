@@ -166,13 +166,13 @@ type DelegateActor interface {
 	// values that are simply not present, the 'rawJSON' map is ONLY needed
 	// for this narrow and specific use case.
 	PostOutbox(c context.Context, a Activity, outboxIRI *url.URL, rawJSON map[string]interface{}) (deliverable bool, e error)
-	// AddNewIds sets new URL ids on the activity. It also does so for all
+	// AddNewIDs sets new URL ids on the activity. It also does so for all
 	// 'object' properties if the Activity is a Create type.
 	//
 	// Only called if the Social API is enabled.
 	//
 	// If an error is returned, it is returned to the caller of PostOutbox.
-	AddNewIds(c context.Context, a Activity) error
+	AddNewIDs(c context.Context, a Activity) error
 	// Deliver sends a federated message. Called only if federation is
 	// enabled.
 	//

@@ -119,7 +119,7 @@ func (a *sideEffectActor) PostInbox(c context.Context, inboxIRI *url.URL, activi
 		wrapped.inboxIRI = inboxIRI
 		wrapped.newTransport = a.common.NewTransport
 		wrapped.deliver = a.Deliver
-		wrapped.addNewIds = a.AddNewIds
+		wrapped.addNewIds = a.AddNewIDs
 		res, err := streams.NewTypeResolver(wrapped.callbacks(other)...)
 		if err != nil {
 			return err
@@ -360,10 +360,10 @@ func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outbo
 	return
 }
 
-// AddNewIds creates new 'id' entries on an activity and its objects if it is a
+// AddNewIDs creates new 'id' entries on an activity and its objects if it is a
 // Create activity.
-func (a *sideEffectActor) AddNewIds(c context.Context, activity Activity) error {
-	id, err := a.db.NewId(c, activity)
+func (a *sideEffectActor) AddNewIDs(c context.Context, activity Activity) error {
+	id, err := a.db.NewID(c, activity)
 	if err != nil {
 		return err
 	}
@@ -381,7 +381,7 @@ func (a *sideEffectActor) AddNewIds(c context.Context, activity Activity) error 
 				if t == nil {
 					return fmt.Errorf("cannot add new id for object in Create: object is not embedded as a value literal")
 				}
-				id, err = a.db.NewId(c, t)
+				id, err = a.db.NewID(c, t)
 				if err != nil {
 					return err
 				}
