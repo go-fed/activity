@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"testing"
+	"time"
 
 	"github.com/go-fed/activity/streams"
 	"github.com/go-fed/activity/streams/vocab"
@@ -1654,28 +1655,176 @@ func TestDeliver(t *testing.T) {
 // TestWrapInCreate ensures an object received by the Social Protocol is
 // properly wrapped in a Create Activity.
 func TestWrapInCreate(t *testing.T) {
+	baseNoteFn := func() (vocab.ActivityStreamsNote, vocab.ActivityStreamsCreate) {
+		n := streams.NewActivityStreamsNote()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testNoteId1))
+		n.SetJSONLDId(id)
+		cr := streams.NewActivityStreamsCreate()
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(n)
+		cr.SetActivityStreamsObject(op)
+		actorProp := streams.NewActivityStreamsActorProperty()
+		actorProp.AppendIRI(mustParse(testPersonIRI))
+		cr.SetActivityStreamsActor(actorProp)
+		return n, cr
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (c *MockCommonBehavior, fp *MockFederatingProtocol, sp *MockSocialProtocol, db *MockDatabase, cl *MockClock, a DelegateActor) {
+		setupData()
+		c = NewMockCommonBehavior(ctl)
+		fp = NewMockFederatingProtocol(ctl)
+		sp = NewMockSocialProtocol(ctl)
+		db = NewMockDatabase(ctl)
+		cl = NewMockClock(ctl)
+		a = &sideEffectActor{
+			common: c,
+			s2s:    fp,
+			c2s:    sp,
+			db:     db,
+			clock:  cl,
+		}
+		return
+	}
+	t.Run("CreateHasObjectAndActor", func(t *testing.T) {
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
+	})
 	t.Run("CreateHasTo", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		to := streams.NewActivityStreamsToProperty()
+		to.AppendIRI(mustParse(testFederatedActorIRI))
+		to.AppendIRI(mustParse(testFederatedActorIRI2))
+		n.SetActivityStreamsTo(to)
+		expect.SetActivityStreamsTo(to)
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
 	})
 	t.Run("CreateHasCc", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		cc := streams.NewActivityStreamsCcProperty()
+		cc.AppendIRI(mustParse(testFederatedActorIRI))
+		cc.AppendIRI(mustParse(testFederatedActorIRI2))
+		n.SetActivityStreamsCc(cc)
+		expect.SetActivityStreamsCc(cc)
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
 	})
 	t.Run("CreateHasBto", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		bto := streams.NewActivityStreamsBtoProperty()
+		bto.AppendIRI(mustParse(testFederatedActorIRI))
+		bto.AppendIRI(mustParse(testFederatedActorIRI2))
+		n.SetActivityStreamsBto(bto)
+		expect.SetActivityStreamsBto(bto)
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
 	})
 	t.Run("CreateHasBcc", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		bcc := streams.NewActivityStreamsBccProperty()
+		bcc.AppendIRI(mustParse(testFederatedActorIRI))
+		bcc.AppendIRI(mustParse(testFederatedActorIRI2))
+		n.SetActivityStreamsBcc(bcc)
+		expect.SetActivityStreamsBcc(bcc)
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
 	})
 	t.Run("CreateHasAudience", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		aud := streams.NewActivityStreamsAudienceProperty()
+		aud.AppendIRI(mustParse(testFederatedActorIRI))
+		aud.AppendIRI(mustParse(testFederatedActorIRI2))
+		n.SetActivityStreamsAudience(aud)
+		expect.SetActivityStreamsAudience(aud)
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
 	})
 	t.Run("CreateHasPublished", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
-	})
-	t.Run("CreateHasActor", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
-	})
-	t.Run("CreateHasObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		pub := streams.NewActivityStreamsPublishedProperty()
+		pub.Set(time.Now())
+		n.SetActivityStreamsPublished(pub)
+		expect.SetActivityStreamsPublished(pub)
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertEqual(t, string(mustSerializeToBytes(got)), string(mustSerializeToBytes(expect)))
 	})
 }
