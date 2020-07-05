@@ -2,11 +2,15 @@ package pub
 
 import (
 	"context"
-	"github.com/go-fed/activity/streams/vocab"
-	"github.com/golang/mock/gomock"
+	"fmt"
 	"net/http/httptest"
 	"net/url"
 	"testing"
+	"time"
+
+	"github.com/go-fed/activity/streams"
+	"github.com/go-fed/activity/streams/vocab"
+	"github.com/golang/mock/gomock"
 )
 
 // TestPassThroughMethods tests the methods that pass-through to other
@@ -217,7 +221,7 @@ func TestPostInbox(t *testing.T) {
 			db.EXPECT().SetInbox(ctx, testOrderedCollectionWithFederatedId).Return(nil),
 			db.EXPECT().Unlock(ctx, inboxIRI),
 		)
-		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, nil)
+		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, nil, nil)
 		fp.EXPECT().DefaultCallback(ctx, testListen).Return(nil)
 		// Run
 		err := a.PostInbox(ctx, inboxIRI, testListen)
@@ -253,7 +257,7 @@ func TestPostInbox(t *testing.T) {
 			db.EXPECT().SetInbox(ctx, testOrderedCollectionWithBothFederatedIds).Return(nil),
 			db.EXPECT().Unlock(ctx, inboxIRI),
 		)
-		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, nil)
+		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, nil, nil)
 		fp.EXPECT().DefaultCallback(ctx, testListen).Return(nil)
 		// Run
 		err := a.PostInbox(ctx, inboxIRI, testListen)
@@ -279,7 +283,7 @@ func TestPostInbox(t *testing.T) {
 				pass = true
 				return nil
 			},
-		})
+		}, nil)
 		// Run
 		err := a.PostInbox(ctx, inboxIRI, testListen)
 		// Verify
@@ -305,7 +309,7 @@ func TestPostInbox(t *testing.T) {
 				pass = true
 				return nil
 			},
-		})
+		}, nil)
 		// Run
 		err := a.PostInbox(ctx, inboxIRI, testCreate)
 		// Verify
@@ -331,7 +335,7 @@ func TestPostInbox(t *testing.T) {
 				pass = true
 				return nil
 			},
-		}, nil)
+		}, nil, nil)
 		db.EXPECT().Lock(ctx, mustParse(testNoteId1))
 		db.EXPECT().Create(ctx, testFederatedNote)
 		db.EXPECT().Unlock(ctx, mustParse(testNoteId1))
@@ -853,7 +857,7 @@ func TestPostOutbox(t *testing.T) {
 			db.EXPECT().SetOutbox(ctx, testOrderedCollectionWithNewId).Return(nil),
 			db.EXPECT().Unlock(ctx, outboxIRI),
 		)
-		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, nil)
+		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, nil, nil)
 		sp.EXPECT().DefaultCallback(ctx, testMyListen).Return(nil)
 		// Run
 		deliverable, err := a.PostOutbox(ctx, testMyListen, outboxIRI, mustSerialize(testMyListen))
@@ -876,7 +880,7 @@ func TestPostOutbox(t *testing.T) {
 			db.EXPECT().SetOutbox(ctx, testOrderedCollectionWithBothNewIds).Return(nil),
 			db.EXPECT().Unlock(ctx, outboxIRI),
 		)
-		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, nil)
+		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, nil, nil)
 		sp.EXPECT().DefaultCallback(ctx, testMyListen).Return(nil)
 		// Run
 		deliverable, err := a.PostOutbox(ctx, testMyListen, outboxIRI, mustSerialize(testMyListen))
@@ -905,7 +909,7 @@ func TestPostOutbox(t *testing.T) {
 				pass = true
 				return nil
 			},
-		})
+		}, nil)
 		// Run
 		deliverable, err := a.PostOutbox(ctx, testMyListen, outboxIRI, mustSerialize(testMyListen))
 		// Verify
@@ -934,7 +938,7 @@ func TestPostOutbox(t *testing.T) {
 				pass = true
 				return nil
 			},
-		})
+		}, nil)
 		// Run
 		deliverable, err := a.PostOutbox(ctx, testMyCreate, outboxIRI, mustSerialize(testMyCreate))
 		// Verify
@@ -963,7 +967,7 @@ func TestPostOutbox(t *testing.T) {
 				pass = true
 				return nil
 			},
-		}, nil)
+		}, nil, nil)
 		db.EXPECT().Lock(ctx, mustParse(testNoteId1))
 		db.EXPECT().Create(ctx, testMyNote)
 		db.EXPECT().Unlock(ctx, mustParse(testNoteId1))
@@ -1068,78 +1072,759 @@ func TestAddNewIds(t *testing.T) {
 // TestDeliver ensures federated delivery of an activity happens correctly to
 // the ActivityPub specification.
 func TestDeliver(t *testing.T) {
+	baseActivityFn := func() vocab.ActivityStreamsCreate {
+		act := streams.NewActivityStreamsCreate()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testNewActivityIRI))
+		act.SetJSONLDId(id)
+		op := streams.NewActivityStreamsObjectProperty()
+		note := streams.NewActivityStreamsNote()
+		op.AppendActivityStreamsNote(note)
+		act.SetActivityStreamsObject(op)
+		return act
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (c *MockCommonBehavior, fp *MockFederatingProtocol, sp *MockSocialProtocol, db *MockDatabase, cl *MockClock, a DelegateActor) {
+		setupData()
+		c = NewMockCommonBehavior(ctl)
+		fp = NewMockFederatingProtocol(ctl)
+		sp = NewMockSocialProtocol(ctl)
+		db = NewMockDatabase(ctl)
+		cl = NewMockClock(ctl)
+		a = &sideEffectActor{
+			common: c,
+			s2s:    fp,
+			c2s:    sp,
+			db:     db,
+			clock:  cl,
+		}
+		return
+	}
 	t.Run("SendToRecipientsInTo", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		to := streams.NewActivityStreamsToProperty()
+		to.AppendIRI(mustParse(testFederatedActorIRI))
+		to.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsTo(to)
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI),
+			mustParse(testFederatedInboxIRI2),
+		}
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
+			mustSerializeToBytes(testFederatedPerson1), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(act), expectRecip)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
 	})
 	t.Run("SendToRecipientsInBto", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		bto := streams.NewActivityStreamsBtoProperty()
+		bto.AppendIRI(mustParse(testFederatedActorIRI))
+		bto.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsBto(bto)
+		expectAct := baseActivityFn() // Ensure Bto is stripped
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI),
+			mustParse(testFederatedInboxIRI2),
+		}
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
+			mustSerializeToBytes(testFederatedPerson1), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(expectAct), expectRecip)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
 	})
 	t.Run("SendToRecipientsInCc", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		cc := streams.NewActivityStreamsCcProperty()
+		cc.AppendIRI(mustParse(testFederatedActorIRI))
+		cc.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsCc(cc)
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI),
+			mustParse(testFederatedInboxIRI2),
+		}
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
+			mustSerializeToBytes(testFederatedPerson1), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(act), expectRecip)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
 	})
 	t.Run("SendToRecipientsInBcc", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		bcc := streams.NewActivityStreamsBccProperty()
+		bcc.AppendIRI(mustParse(testFederatedActorIRI))
+		bcc.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsBcc(bcc)
+		expectAct := baseActivityFn() // Ensure Bcc is stripped
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI),
+			mustParse(testFederatedInboxIRI2),
+		}
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
+			mustSerializeToBytes(testFederatedPerson1), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(expectAct), expectRecip)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
 	})
 	t.Run("SendToRecipientsInAudience", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		aud := streams.NewActivityStreamsAudienceProperty()
+		aud.AppendIRI(mustParse(testFederatedActorIRI))
+		aud.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsAudience(aud)
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI),
+			mustParse(testFederatedInboxIRI2),
+		}
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
+			mustSerializeToBytes(testFederatedPerson1), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(act), expectRecip)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
 	})
 	t.Run("DoesNotSendToPublicIRI", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		to := streams.NewActivityStreamsToProperty()
+		to.AppendIRI(mustParse(testFederatedActorIRI))
+		to.AppendIRI(mustParse(testFederatedActorIRI2))
+		to.AppendIRI(mustParse(PublicActivityPubIRI))
+		act.SetActivityStreamsTo(to)
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI),
+			mustParse(testFederatedInboxIRI2),
+		}
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
+			mustSerializeToBytes(testFederatedPerson1), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(act), expectRecip)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
 	})
 	t.Run("RecursivelyResolveCollectionActors", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		to := streams.NewActivityStreamsToProperty()
+		to.AppendIRI(mustParse(testAudienceIRI))
+		act.SetActivityStreamsTo(to)
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI),
+			mustParse(testFederatedInboxIRI2),
+		}
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(2)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testAudienceIRI)).Return(
+			mustSerializeToBytes(testCollectionOfActors), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
+			mustSerializeToBytes(testFederatedPerson1), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(act), expectRecip)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
 	})
 	t.Run("RecursivelyResolveOrderedCollectionActors", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		to := streams.NewActivityStreamsToProperty()
+		to.AppendIRI(mustParse(testAudienceIRI))
+		act.SetActivityStreamsTo(to)
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI),
+			mustParse(testFederatedInboxIRI2),
+		}
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(2)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testAudienceIRI)).Return(
+			mustSerializeToBytes(testOrderedCollectionOfActors), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI3)).Return(
+			mustSerializeToBytes(testFederatedPerson1), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI4)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(act), expectRecip)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
 	})
 	t.Run("DoesNotRecursivelyResolveCollectionActorsIfExceedingMaxDepth", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
-	})
-	t.Run("DoesNotSendIfMoreThanOneAttributedTo", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
-	})
-	t.Run("DoesNotSendIfThisActorIsNotInAttributedTo", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		to := streams.NewActivityStreamsToProperty()
+		to.AppendIRI(mustParse(testAudienceIRI))
+		act.SetActivityStreamsTo(to)
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testAudienceIRI)).Return(
+			mustSerializeToBytes(testCollectionOfActors), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(act), nil)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
 	})
 	t.Run("DedupesRecipients", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		to := streams.NewActivityStreamsToProperty()
+		to.AppendIRI(mustParse(testFederatedActorIRI))
+		to.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsTo(to)
+		bto := streams.NewActivityStreamsBtoProperty()
+		bto.AppendIRI(mustParse(testFederatedActorIRI))
+		bto.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsBto(bto)
+		cc := streams.NewActivityStreamsCcProperty()
+		cc.AppendIRI(mustParse(testFederatedActorIRI))
+		cc.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsCc(cc)
+		bcc := streams.NewActivityStreamsBccProperty()
+		bcc.AppendIRI(mustParse(testFederatedActorIRI))
+		bcc.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsBcc(bcc)
+		expectAct := baseActivityFn() // Ensure Bcc & Bto are stripped
+		expectAct.SetActivityStreamsTo(to)
+		expectAct.SetActivityStreamsCc(cc)
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI),
+			mustParse(testFederatedInboxIRI2),
+		}
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
+			mustSerializeToBytes(testFederatedPerson1), nil).Times(4)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil).Times(4)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(expectAct), expectRecip)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
 	})
-	t.Run("StripsBto", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+	t.Run("StripsBtoOnObject", func(t *testing.T) {
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		bto := streams.NewActivityStreamsBtoProperty()
+		bto.AppendIRI(mustParse(testFederatedActorIRI))
+		bto.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsBto(bto)
+		act.GetActivityStreamsObject().At(0).GetActivityStreamsNote().SetActivityStreamsBto(bto)
+		expectAct := baseActivityFn() // Ensure Bto is stripped
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI),
+			mustParse(testFederatedInboxIRI2),
+		}
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
+			mustSerializeToBytes(testFederatedPerson1), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(expectAct), expectRecip)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
 	})
-	t.Run("StripsBcc", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+	t.Run("StripsBccOnObject", func(t *testing.T) {
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		bcc := streams.NewActivityStreamsBccProperty()
+		bcc.AppendIRI(mustParse(testFederatedActorIRI))
+		bcc.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsBcc(bcc)
+		act.GetActivityStreamsObject().At(0).GetActivityStreamsNote().SetActivityStreamsBcc(bcc)
+		expectAct := baseActivityFn() // Ensure Bto is stripped
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI),
+			mustParse(testFederatedInboxIRI2),
+		}
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
+			mustSerializeToBytes(testFederatedPerson1), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(expectAct), expectRecip)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
 	})
-	t.Run("ReturnsErrorIfAnyTransportRequestsFail", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+	t.Run("DoesNotReturnErrorIfDereferenceRecipientFails", func(t *testing.T) {
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		to := streams.NewActivityStreamsToProperty()
+		to.AppendIRI(mustParse(testFederatedActorIRI))
+		to.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsTo(to)
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI2),
+		}
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
+			[]byte{}, fmt.Errorf("test error"))
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(act), expectRecip)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, nil)
+	})
+	t.Run("ReturnsErrorIfBatchDeliverFails", func(t *testing.T) {
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		c, mockFp, _, mockDb, _, a := setupFn(ctl)
+		mockTp := NewMockTransport(ctl)
+		act := baseActivityFn()
+		to := streams.NewActivityStreamsToProperty()
+		to.AppendIRI(mustParse(testFederatedActorIRI))
+		to.AppendIRI(mustParse(testFederatedActorIRI2))
+		act.SetActivityStreamsTo(to)
+		expectRecip := []*url.URL{
+			mustParse(testFederatedInboxIRI),
+			mustParse(testFederatedInboxIRI2),
+		}
+		expectErr := fmt.Errorf("test error")
+		// Mock
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
+			mustSerializeToBytes(testFederatedPerson1), nil)
+		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
+			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().Lock(ctx, mustParse(testPersonIRI))
+		mockDb.EXPECT().Get(ctx, mustParse(testPersonIRI)).Return(
+			testMyPerson, nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testPersonIRI))
+		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
+			mockTp, nil)
+		mockTp.EXPECT().BatchDeliver(ctx, mustSerializeToBytes(act), expectRecip).Return(
+			expectErr)
+		// Run & Verify
+		err := a.Deliver(ctx, mustParse(testMyOutboxIRI), act)
+		assertEqual(t, err, expectErr)
 	})
 }
 
 // TestWrapInCreate ensures an object received by the Social Protocol is
 // properly wrapped in a Create Activity.
 func TestWrapInCreate(t *testing.T) {
+	baseNoteFn := func() (vocab.ActivityStreamsNote, vocab.ActivityStreamsCreate) {
+		n := streams.NewActivityStreamsNote()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testNoteId1))
+		n.SetJSONLDId(id)
+		cr := streams.NewActivityStreamsCreate()
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendActivityStreamsNote(n)
+		cr.SetActivityStreamsObject(op)
+		actorProp := streams.NewActivityStreamsActorProperty()
+		actorProp.AppendIRI(mustParse(testPersonIRI))
+		cr.SetActivityStreamsActor(actorProp)
+		return n, cr
+	}
+	ctx := context.Background()
+	setupFn := func(ctl *gomock.Controller) (c *MockCommonBehavior, fp *MockFederatingProtocol, sp *MockSocialProtocol, db *MockDatabase, cl *MockClock, a DelegateActor) {
+		setupData()
+		c = NewMockCommonBehavior(ctl)
+		fp = NewMockFederatingProtocol(ctl)
+		sp = NewMockSocialProtocol(ctl)
+		db = NewMockDatabase(ctl)
+		cl = NewMockClock(ctl)
+		a = &sideEffectActor{
+			common: c,
+			s2s:    fp,
+			c2s:    sp,
+			db:     db,
+			clock:  cl,
+		}
+		return
+	}
+	t.Run("CreateHasObjectAndActor", func(t *testing.T) {
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
+	})
 	t.Run("CreateHasTo", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		to := streams.NewActivityStreamsToProperty()
+		to.AppendIRI(mustParse(testFederatedActorIRI))
+		to.AppendIRI(mustParse(testFederatedActorIRI2))
+		n.SetActivityStreamsTo(to)
+		expect.SetActivityStreamsTo(to)
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 	t.Run("CreateHasCc", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		cc := streams.NewActivityStreamsCcProperty()
+		cc.AppendIRI(mustParse(testFederatedActorIRI))
+		cc.AppendIRI(mustParse(testFederatedActorIRI2))
+		n.SetActivityStreamsCc(cc)
+		expect.SetActivityStreamsCc(cc)
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 	t.Run("CreateHasBto", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		bto := streams.NewActivityStreamsBtoProperty()
+		bto.AppendIRI(mustParse(testFederatedActorIRI))
+		bto.AppendIRI(mustParse(testFederatedActorIRI2))
+		n.SetActivityStreamsBto(bto)
+		expect.SetActivityStreamsBto(bto)
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 	t.Run("CreateHasBcc", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		bcc := streams.NewActivityStreamsBccProperty()
+		bcc.AppendIRI(mustParse(testFederatedActorIRI))
+		bcc.AppendIRI(mustParse(testFederatedActorIRI2))
+		n.SetActivityStreamsBcc(bcc)
+		expect.SetActivityStreamsBcc(bcc)
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 	t.Run("CreateHasAudience", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		aud := streams.NewActivityStreamsAudienceProperty()
+		aud.AppendIRI(mustParse(testFederatedActorIRI))
+		aud.AppendIRI(mustParse(testFederatedActorIRI2))
+		n.SetActivityStreamsAudience(aud)
+		expect.SetActivityStreamsAudience(aud)
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 	t.Run("CreateHasPublished", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
-	})
-	t.Run("CreateHasActor", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
-	})
-	t.Run("CreateHasObject", func(t *testing.T) {
-		t.Errorf("Not yet implemented.")
+		// Setup
+		ctl := gomock.NewController(t)
+		defer ctl.Finish()
+		_, _, _, mockDb, _, a := setupFn(ctl)
+		n, expect := baseNoteFn()
+		pub := streams.NewActivityStreamsPublishedProperty()
+		pub.Set(time.Now())
+		n.SetActivityStreamsPublished(pub)
+		expect.SetActivityStreamsPublished(pub)
+		// Mock
+		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
+		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
+			mustParse(testPersonIRI), nil)
+		mockDb.EXPECT().Unlock(ctx, mustParse(testMyOutboxIRI))
+		// Run & Verify
+		got, err := a.WrapInCreate(ctx, n, mustParse(testMyOutboxIRI))
+		assertEqual(t, err, nil)
+		assertByteEqual(t, mustSerializeToBytes(got), mustSerializeToBytes(expect))
 	})
 }

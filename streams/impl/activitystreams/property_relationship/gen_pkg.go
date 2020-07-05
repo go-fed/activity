@@ -69,6 +69,9 @@ type privateManager interface {
 	// for the "ActivityStreamsDocument" non-functional property in the
 	// vocabulary "ActivityStreams"
 	DeserializeDocumentActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsDocument, error)
+	// DeserializeEmojiToot returns the deserialization method for the
+	// "TootEmoji" non-functional property in the vocabulary "Toot"
+	DeserializeEmojiToot() func(map[string]interface{}, map[string]string) (vocab.TootEmoji, error)
 	// DeserializeEventActivityStreams returns the deserialization method for
 	// the "ActivityStreamsEvent" non-functional property in the
 	// vocabulary "ActivityStreams"
@@ -85,6 +88,9 @@ type privateManager interface {
 	// the "ActivityStreamsGroup" non-functional property in the
 	// vocabulary "ActivityStreams"
 	DeserializeGroupActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsGroup, error)
+	// DeserializeIdentityProofToot returns the deserialization method for the
+	// "TootIdentityProof" non-functional property in the vocabulary "Toot"
+	DeserializeIdentityProofToot() func(map[string]interface{}, map[string]string) (vocab.TootIdentityProof, error)
 	// DeserializeIgnoreActivityStreams returns the deserialization method for
 	// the "ActivityStreamsIgnore" non-functional property in the
 	// vocabulary "ActivityStreams"

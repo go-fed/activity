@@ -32,6 +32,10 @@ type privateManager interface {
 	// method for the "ActivityStreamsBccProperty" non-functional property
 	// in the vocabulary "ActivityStreams"
 	DeserializeBccPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsBccProperty, error)
+	// DeserializeBlurhashPropertyToot returns the deserialization method for
+	// the "TootBlurhashProperty" non-functional property in the
+	// vocabulary "Toot"
+	DeserializeBlurhashPropertyToot() func(map[string]interface{}, map[string]string) (vocab.TootBlurhashProperty, error)
 	// DeserializeBtoPropertyActivityStreams returns the deserialization
 	// method for the "ActivityStreamsBtoProperty" non-functional property
 	// in the vocabulary "ActivityStreams"

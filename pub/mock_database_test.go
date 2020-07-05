@@ -240,32 +240,32 @@ func (mr *MockDatabaseMockRecorder) Delete(c, id interface{}) *gomock.Call {
 }
 
 // GetOutbox mocks base method
-func (m *MockDatabase) GetOutbox(c context.Context, inboxIRI *url.URL) (vocab.ActivityStreamsOrderedCollectionPage, error) {
+func (m *MockDatabase) GetOutbox(c context.Context, outboxIRI *url.URL) (vocab.ActivityStreamsOrderedCollectionPage, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetOutbox", c, inboxIRI)
+	ret := m.ctrl.Call(m, "GetOutbox", c, outboxIRI)
 	ret0, _ := ret[0].(vocab.ActivityStreamsOrderedCollectionPage)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetOutbox indicates an expected call of GetOutbox
-func (mr *MockDatabaseMockRecorder) GetOutbox(c, inboxIRI interface{}) *gomock.Call {
+func (mr *MockDatabaseMockRecorder) GetOutbox(c, outboxIRI interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOutbox", reflect.TypeOf((*MockDatabase)(nil).GetOutbox), c, inboxIRI)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOutbox", reflect.TypeOf((*MockDatabase)(nil).GetOutbox), c, outboxIRI)
 }
 
 // SetOutbox mocks base method
-func (m *MockDatabase) SetOutbox(c context.Context, inbox vocab.ActivityStreamsOrderedCollectionPage) error {
+func (m *MockDatabase) SetOutbox(c context.Context, outbox vocab.ActivityStreamsOrderedCollectionPage) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetOutbox", c, inbox)
+	ret := m.ctrl.Call(m, "SetOutbox", c, outbox)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetOutbox indicates an expected call of SetOutbox
-func (mr *MockDatabaseMockRecorder) SetOutbox(c, inbox interface{}) *gomock.Call {
+func (mr *MockDatabaseMockRecorder) SetOutbox(c, outbox interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetOutbox", reflect.TypeOf((*MockDatabase)(nil).SetOutbox), c, inbox)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetOutbox", reflect.TypeOf((*MockDatabase)(nil).SetOutbox), c, outbox)
 }
 
 // NewId mocks base method

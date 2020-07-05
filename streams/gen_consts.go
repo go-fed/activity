@@ -47,6 +47,9 @@ var ActivityStreamsDislikeName string = "Dislike"
 // ActivityStreamsDocumentName is the string literal of the name for the Document type in the ActivityStreams vocabulary.
 var ActivityStreamsDocumentName string = "Document"
 
+// TootEmojiName is the string literal of the name for the Emoji type in the Toot vocabulary.
+var TootEmojiName string = "Emoji"
+
 // ActivityStreamsEventName is the string literal of the name for the Event type in the ActivityStreams vocabulary.
 var ActivityStreamsEventName string = "Event"
 
@@ -58,6 +61,9 @@ var ActivityStreamsFollowName string = "Follow"
 
 // ActivityStreamsGroupName is the string literal of the name for the Group type in the ActivityStreams vocabulary.
 var ActivityStreamsGroupName string = "Group"
+
+// TootIdentityProofName is the string literal of the name for the IdentityProof type in the Toot vocabulary.
+var TootIdentityProofName string = "IdentityProof"
 
 // ActivityStreamsIgnoreName is the string literal of the name for the Ignore type in the ActivityStreams vocabulary.
 var ActivityStreamsIgnoreName string = "Ignore"
@@ -191,6 +197,9 @@ var ActivityStreamsAudiencePropertyName string = "audience"
 // ActivityStreamsBccPropertyName is the string literal of the name for the bcc property in the ActivityStreams vocabulary.
 var ActivityStreamsBccPropertyName string = "bcc"
 
+// TootBlurhashPropertyName is the string literal of the name for the blurhash property in the Toot vocabulary.
+var TootBlurhashPropertyName string = "blurhash"
+
 // ActivityStreamsBtoPropertyName is the string literal of the name for the bto property in the ActivityStreams vocabulary.
 var ActivityStreamsBtoPropertyName string = "bto"
 
@@ -218,11 +227,17 @@ var ActivityStreamsDeletedPropertyName string = "deleted"
 // ActivityStreamsDescribesPropertyName is the string literal of the name for the describes property in the ActivityStreams vocabulary.
 var ActivityStreamsDescribesPropertyName string = "describes"
 
+// TootDiscoverablePropertyName is the string literal of the name for the discoverable property in the Toot vocabulary.
+var TootDiscoverablePropertyName string = "discoverable"
+
 // ActivityStreamsDurationPropertyName is the string literal of the name for the duration property in the ActivityStreams vocabulary.
 var ActivityStreamsDurationPropertyName string = "duration"
 
 // ActivityStreamsEndTimePropertyName is the string literal of the name for the endTime property in the ActivityStreams vocabulary.
 var ActivityStreamsEndTimePropertyName string = "endTime"
+
+// TootFeaturedPropertyName is the string literal of the name for the featured property in the Toot vocabulary.
+var TootFeaturedPropertyName string = "featured"
 
 // ActivityStreamsFirstPropertyName is the string literal of the name for the first property in the ActivityStreams vocabulary.
 var ActivityStreamsFirstPropertyName string = "first"
@@ -356,6 +371,12 @@ var ActivityStreamsResultPropertyName string = "result"
 // ActivityStreamsSharesPropertyName is the string literal of the name for the shares property in the ActivityStreams vocabulary.
 var ActivityStreamsSharesPropertyName string = "shares"
 
+// TootSignatureAlgorithmPropertyName is the string literal of the name for the signatureAlgorithm property in the Toot vocabulary.
+var TootSignatureAlgorithmPropertyName string = "signatureAlgorithm"
+
+// TootSignatureValuePropertyName is the string literal of the name for the signatureValue property in the Toot vocabulary.
+var TootSignatureValuePropertyName string = "signatureValue"
+
 // ActivityStreamsStartIndexPropertyName is the string literal of the name for the startIndex property in the ActivityStreams vocabulary.
 var ActivityStreamsStartIndexPropertyName string = "startIndex"
 
@@ -394,6 +415,9 @@ var ActivityStreamsUpdatedPropertyName string = "updated"
 
 // ActivityStreamsUrlPropertyName is the string literal of the name for the url property in the ActivityStreams vocabulary.
 var ActivityStreamsUrlPropertyName string = "url"
+
+// TootVotersCountPropertyName is the string literal of the name for the votersCount property in the Toot vocabulary.
+var TootVotersCountPropertyName string = "votersCount"
 
 // ActivityStreamsWidthPropertyName is the string literal of the name for the width property in the ActivityStreams vocabulary.
 var ActivityStreamsWidthPropertyName string = "width"

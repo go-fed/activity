@@ -101,7 +101,7 @@ type Database interface {
 	// at the specified IRI, for prepending new items.
 	//
 	// The library makes this call only after acquiring a lock first.
-	GetOutbox(c context.Context, inboxIRI *url.URL) (inbox vocab.ActivityStreamsOrderedCollectionPage, err error)
+	GetOutbox(c context.Context, outboxIRI *url.URL) (inbox vocab.ActivityStreamsOrderedCollectionPage, err error)
 	// SetOutbox saves the outbox value given from GetOutbox, with new items
 	// prepended. Note that the new items must not be added as independent
 	// database entries. Separate calls to Create will do that.

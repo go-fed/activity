@@ -24,6 +24,8 @@ const (
 	testFederatedActorIRI2    = "https://other.example.com/addison"
 	testFederatedActorIRI3    = "https://other.example.com/sam"
 	testFederatedActorIRI4    = "https://other.example.com/jessie"
+	testFederatedInboxIRI     = "https://other.example.com/dakota/inbox"
+	testFederatedInboxIRI2    = "https://other.example.com/addison/inbox"
 	testNoteId1               = "https://example.com/note/1"
 	testNoteId2               = "https://example.com/note/2"
 	testNewActivityIRI        = "https://example.com/new/1"
@@ -76,8 +78,10 @@ func assertNotEqual(t *testing.T, a, b interface{}) {
 var (
 	// testErr is a test error.
 	testErr = errors.New("test error")
-	// testNote is a test Note from a federated peer.
+	// testFederatedNote is a test Note from a federated peer.
 	testFederatedNote vocab.ActivityStreamsNote
+	// testFederatedNote2 is a test Note from a federated peer.
+	testFederatedNote2 vocab.ActivityStreamsNote
 	// testMyNote is a test Note owned by this server.
 	testMyNote vocab.ActivityStreamsNote
 	// testMyNoteNoId is a test Note owned by this server.
@@ -124,6 +128,12 @@ var (
 	testOrderedCollectionWithBothFederatedIds vocab.ActivityStreamsOrderedCollectionPage
 	// testPerson is a Person.
 	testPerson vocab.ActivityStreamsPerson
+	// testMyPerson is my Person.
+	testMyPerson vocab.ActivityStreamsPerson
+	// testFederatedPerson1 is a federated Person.
+	testFederatedPerson1 vocab.ActivityStreamsPerson
+	// testFederatedPerson2 is a federated Person.
+	testFederatedPerson2 vocab.ActivityStreamsPerson
 	// testService is a Service.
 	testService vocab.ActivityStreamsService
 	// testCollectionOfActors is a collection of actors.
@@ -132,6 +142,10 @@ var (
 	testOrderedCollectionOfActors vocab.ActivityStreamsOrderedCollectionPage
 	// testNestedInReplyTo is an Activity with an 'object' with an 'inReplyTo'
 	testNestedInReplyTo vocab.ActivityStreamsListen
+	// testFollow is a test Follow Activity.
+	testFollow vocab.ActivityStreamsFollow
+	// testTombstone is a test Tombsone.
+	testTombstone vocab.ActivityStreamsTombstone
 )
 
 // The test data cannot be created at init time since that is when the hooks of
@@ -150,6 +164,19 @@ func setupData() {
 		id := streams.NewJSONLDIdProperty()
 		id.Set(mustParse(testNoteId1))
 		testFederatedNote.SetJSONLDId(id)
+	}()
+	// testFederatedNote2
+	func() {
+		testFederatedNote2 = streams.NewActivityStreamsNote()
+		name := streams.NewActivityStreamsNameProperty()
+		name.AppendXMLSchemaString("A second federated note")
+		testFederatedNote2.SetActivityStreamsName(name)
+		content := streams.NewActivityStreamsContentProperty()
+		content.AppendXMLSchemaString("This is a simple second note being federated.")
+		testFederatedNote2.SetActivityStreamsContent(content)
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testNoteId2))
+		testFederatedNote2.SetJSONLDId(id)
 	}()
 	// testMyNote
 	func() {
@@ -326,6 +353,39 @@ func setupData() {
 		id.Set(mustParse(testPersonIRI))
 		testPerson.SetJSONLDId(id)
 	}()
+	// testMyPerson
+	func() {
+		testMyPerson = streams.NewActivityStreamsPerson()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testPersonIRI))
+		testMyPerson.SetJSONLDId(id)
+		inbox := streams.NewActivityStreamsInboxProperty()
+		inbox.SetIRI(mustParse(testMyInboxIRI))
+		testMyPerson.SetActivityStreamsInbox(inbox)
+		outbox := streams.NewActivityStreamsOutboxProperty()
+		outbox.SetIRI(mustParse(testMyOutboxIRI))
+		testMyPerson.SetActivityStreamsOutbox(outbox)
+	}()
+	// testFederatedPerson1
+	func() {
+		testFederatedPerson1 = streams.NewActivityStreamsPerson()
+		id := streams.NewJSONLDIdProperty()
+		id.SetIRI(mustParse(testFederatedActorIRI))
+		testFederatedPerson1.SetJSONLDId(id)
+		inbox := streams.NewActivityStreamsInboxProperty()
+		inbox.SetIRI(mustParse(testFederatedInboxIRI))
+		testFederatedPerson1.SetActivityStreamsInbox(inbox)
+	}()
+	// testFederatedPerson2
+	func() {
+		testFederatedPerson2 = streams.NewActivityStreamsPerson()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActorIRI2))
+		testFederatedPerson2.SetJSONLDId(id)
+		inbox := streams.NewActivityStreamsInboxProperty()
+		inbox.SetIRI(mustParse(testFederatedInboxIRI2))
+		testFederatedPerson2.SetActivityStreamsInbox(inbox)
+	}()
 	// testService
 	func() {
 		testService = streams.NewActivityStreamsService()
@@ -377,6 +437,26 @@ func setupData() {
 		// Listen
 		op.AppendActivityStreamsNote(note)
 		testNestedInReplyTo.SetActivityStreamsObject(op)
+	}()
+	// testFollow
+	func() {
+		testFollow = streams.NewActivityStreamsFollow()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		testFollow.SetJSONLDId(id)
+		actor := streams.NewActivityStreamsActorProperty()
+		actor.AppendIRI(mustParse(testFederatedActorIRI2))
+		testFollow.SetActivityStreamsActor(actor)
+		op := streams.NewActivityStreamsObjectProperty()
+		op.AppendIRI(mustParse(testFederatedActorIRI))
+		testFollow.SetActivityStreamsObject(op)
+	}()
+	// testTombstone
+	func() {
+		testTombstone = streams.NewActivityStreamsTombstone()
+		id := streams.NewJSONLDIdProperty()
+		id.Set(mustParse(testFederatedActivityIRI))
+		testTombstone.SetJSONLDId(id)
 	}()
 }
 

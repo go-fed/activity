@@ -104,3 +104,31 @@ This tool relies on built-in knowledge of several ontologies:
 It does not have complete knowledge of these schemas, so if an error is
 encountered during the code generation process with a new extension, please
 [file an issue](https://github.com/go-fed/activity/issues).
+
+## Non-Standard Behaviors
+
+ActivityPub has a requirement where properties in a base type are not inherited
+by deriving types. This concept is one reason why the ActivityStreams vocabulary
+cannot be mapped into a traditional object-oriented programming language. It
+also means that we need an RDF/OWL/JSON-LD concept to encapsulate this detail.
+Unfortunately, no standards body provides an RDF definition of this meaning, so
+the `astool` uses the JSON-LD reserved notation `@wtf_without_property` to
+trigger code generation that results in this behavior.
+
+It is the hope of this author that the prefix `@wtf` would never be used by the
+JSON-LD authors and would never have a chance to become a de-facto standard due
+to the implied profanity. Furthermore, its use should be extremely limited.
+Therefore, the use of this non-standard keyworld only for the `astool` and in
+limited applications should never collide with anything else.
+
+This notation is used in two places:
+
+* [Intransitive Activity](https://www.w3.org/TR/activitystreams-vocabulary/#dfn-intransitiveactivity)
+does not have the `object` property, so this is a spec-compliant use.
+* `OrderedCollection` so that it does not have both `items` and `orderedItems`
+properties. This is an opinion: `items` for `Collection` and `orderedItems` for
+`OrderedCollection`.
+
+## References
+
+* [JSON-LD Specification](https://json-ld.org/spec/latest/json-ld/)

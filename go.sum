@@ -1,9 +1,5 @@
 github.com/dave/jennifer v1.3.0 h1:p3tl41zjjCZTNBytMwrUuiAnherNUZktlhPTKoF/sEk=
 github.com/dave/jennifer v1.3.0/go.mod h1:fIb+770HOpJ2fmN9EPPKOqm1vMGhB+TwXKMZhrIygKg=
-github.com/go-fed/activity v0.4.0 h1:1YOYLMT+x2hx+AtQZNQHOGBXWnn2CF/10jGxTjaOEsw=
-github.com/go-fed/activity v0.4.0/go.mod h1:QeFu271luhA2o47U3/DR6iWtxiB9Fw2dKGbvL8edM9E=
-github.com/go-fed/httpsig v0.1.0 h1:6F2OxRVnNTN4OPN+Mc2jxs2WEay9/qiHT/jphlvAwIY=
-github.com/go-fed/httpsig v0.1.0/go.mod h1:T56HUNYZUQ1AGUzhAYPugZfp36sKApVnGBgKlIY+aIE=
 github.com/go-fed/httpsig v0.1.1-0.20190914113940-c2de3672e5b5 h1:WLvFZqoXnuVTBKA6U/1FnEHNQ0Rq0QM0rGhY8Tx6R1g=
 github.com/go-fed/httpsig v0.1.1-0.20190914113940-c2de3672e5b5/go.mod h1:T56HUNYZUQ1AGUzhAYPugZfp36sKApVnGBgKlIY+aIE=
 github.com/go-test/deep v1.0.1 h1:UQhStjbkDClarlmv0am7OXXO4/GaPdCGiUiMTvi28sg=
@@ -14,4 +10,3 @@ golang.org/x/crypto v0.0.0-20180527072434-ab813273cd59 h1:hk3yo72LXLapY9EXVttc3Z
 golang.org/x/crypto v0.0.0-20180527072434-ab813273cd59/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
 golang.org/x/sys v0.0.0-20180525142821-c11f84a56e43 h1:PvnWIWTbA7gsEBkKjt0HV9hckYfcqYv8s/ju7ArZ0do=
 golang.org/x/sys v0.0.0-20180525142821-c11f84a56e43/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
-golang.org/x/time v0.0.0-20180412165947-fbb02b2291d2/go.mod h1:tRJNPiyCQ0inRvYxbN9jk5I+vvW/OXSQhTDSoE431IQ=

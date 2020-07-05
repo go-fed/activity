@@ -234,11 +234,14 @@ func (w SocialWrappedCallbacks) create(c context.Context, a vocab.ActivityStream
 			}
 		}
 	}
-	// Put all missing object attributedTo IRIs onto the actor property.
-	for _, attributedToMap := range objectAttributedToIds {
-		for k, v := range attributedToMap {
-			if _, ok := createActorIds[k]; !ok {
-				actors.AppendIRI(v)
+	// Put all missing object attributedTo IRIs onto the actor property
+	// if there is one.
+	if actors != nil {
+		for _, attributedToMap := range objectAttributedToIds {
+			for k, v := range attributedToMap {
+				if _, ok := createActorIds[k]; !ok {
+					actors.AppendIRI(v)
+				}
 			}
 		}
 	}
@@ -458,7 +461,7 @@ func (w SocialWrappedCallbacks) like(c context.Context, a vocab.ActivityStreamsL
 		return err
 	}
 	// WARNING: Unlock not deferred.
-	actorIRI, err := w.db.ActorForInbox(c, w.outboxIRI)
+	actorIRI, err := w.db.ActorForOutbox(c, w.outboxIRI)
 	if err != nil {
 		w.db.Unlock(c, w.outboxIRI)
 		return err

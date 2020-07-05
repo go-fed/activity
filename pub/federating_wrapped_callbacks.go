@@ -443,6 +443,10 @@ func (w FederatingWrappedCallbacks) follow(c context.Context, a vocab.ActivitySt
 				return err
 			}
 			items := followers.GetActivityStreamsItems()
+			if items == nil {
+				items = streams.NewActivityStreamsItemsProperty()
+				followers.SetActivityStreamsItems(items)
+			}
 			for _, elem := range recipients {
 				items.PrependIRI(elem)
 			}
@@ -552,8 +556,8 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 		if maybeMyFollowIRI != nil {
 			// Verify our Follow request exists and the peer didn't
 			// fabricate it.
-			actors := a.GetActivityStreamsActor()
-			if actors == nil || actors.Len() == 0 {
+			activityActors := a.GetActivityStreamsActor()
+			if activityActors == nil || activityActors.Len() == 0 {
 				return fmt.Errorf("an Accept with a Follow has no actors")
 			}
 			// This may be a duplicate check if we dereferenced the
@@ -596,7 +600,7 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 				}
 				// Build map of original Accept actors
 				acceptActors := make(map[string]bool)
-				for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
+				for iter := activityActors.Begin(); iter != activityActors.End(); iter = iter.Next() {
 					id, err := ToId(iter)
 					if err != nil {
 						return err
@@ -635,7 +639,11 @@ func (w FederatingWrappedCallbacks) accept(c context.Context, a vocab.ActivitySt
 				return err
 			}
 			items := following.GetActivityStreamsItems()
-			for iter := actors.Begin(); iter != actors.End(); iter = iter.Next() {
+			if items == nil {
+				items = streams.NewActivityStreamsItemsProperty()
+				following.SetActivityStreamsItems(items)
+			}
+			for iter := activityActors.Begin(); iter != activityActors.End(); iter = iter.Next() {
 				id, err := ToId(iter)
 				if err != nil {
 					w.db.Unlock(c, actorIRI)
@@ -857,9 +865,11 @@ func (w FederatingWrappedCallbacks) announce(c context.Context, a vocab.Activity
 		}
 		return nil
 	}
-	for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
-		if err := loopFn(iter); err != nil {
-			return err
+	if op != nil {
+		for iter := op.Begin(); iter != op.End(); iter = iter.Next() {
+			if err := loopFn(iter); err != nil {
+				return err
+			}
 		}
 	}
 	if w.Announce != nil {

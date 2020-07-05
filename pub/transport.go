@@ -137,10 +137,7 @@ func (h HttpSigTransport) Dereference(c context.Context, iri *url.URL) ([]byte, 
 
 // Deliver sends a POST request with an HTTP Signature.
 func (h HttpSigTransport) Deliver(c context.Context, b []byte, to *url.URL) error {
-	byteCopy := make([]byte, len(b))
-	copy(byteCopy, b)
-	buf := bytes.NewBuffer(byteCopy)
-	req, err := http.NewRequest("POST", to.String(), buf)
+	req, err := http.NewRequest("POST", to.String(), bytes.NewReader(b))
 	if err != nil {
 		return err
 	}

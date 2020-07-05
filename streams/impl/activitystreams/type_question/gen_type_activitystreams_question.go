@@ -77,6 +77,7 @@ type ActivityStreamsQuestion struct {
 	JSONLDType                  vocab.JSONLDTypeProperty
 	ActivityStreamsUpdated      vocab.ActivityStreamsUpdatedProperty
 	ActivityStreamsUrl          vocab.ActivityStreamsUrlProperty
+	TootVotersCount             vocab.TootVotersCountProperty
 	alias                       string
 	unknown                     map[string]interface{}
 }
@@ -325,6 +326,11 @@ func DeserializeQuestion(m map[string]interface{}, aliasMap map[string]string) (
 	} else if p != nil {
 		this.ActivityStreamsUrl = p
 	}
+	if p, err := mgr.DeserializeVotersCountPropertyToot()(m, aliasMap); err != nil {
+		return nil, err
+	} else if p != nil {
+		this.TootVotersCount = p
+	}
 	// End: Known property deserialization
 
 	// Begin: Unknown deserialization
@@ -413,6 +419,8 @@ func DeserializeQuestion(m map[string]interface{}, aliasMap map[string]string) (
 		} else if k == "updated" {
 			continue
 		} else if k == "url" {
+			continue
+		} else if k == "votersCount" {
 			continue
 		} // End: Code that ensures a property name is unknown
 
@@ -693,6 +701,12 @@ func (this ActivityStreamsQuestion) GetJSONLDType() vocab.JSONLDTypeProperty {
 	return this.JSONLDType
 }
 
+// GetTootVotersCount returns the "votersCount" property if it exists, and nil
+// otherwise.
+func (this ActivityStreamsQuestion) GetTootVotersCount() vocab.TootVotersCountProperty {
+	return this.TootVotersCount
+}
+
 // GetTypeName returns the name of this type.
 func (this ActivityStreamsQuestion) GetTypeName() string {
 	return "Question"
@@ -757,6 +771,7 @@ func (this ActivityStreamsQuestion) JSONLDContext() map[string]string {
 	m = this.helperJSONLDContext(this.JSONLDType, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsUpdated, m)
 	m = this.helperJSONLDContext(this.ActivityStreamsUrl, m)
+	m = this.helperJSONLDContext(this.TootVotersCount, m)
 
 	return m
 }
@@ -1311,6 +1326,20 @@ func (this ActivityStreamsQuestion) LessThan(o vocab.ActivityStreamsQuestion) bo
 		// Anything else is greater than nil
 		return false
 	} // Else: Both are nil
+	// Compare property "votersCount"
+	if lhs, rhs := this.TootVotersCount, o.GetTootVotersCount(); lhs != nil && rhs != nil {
+		if lhs.LessThan(rhs) {
+			return true
+		} else if rhs.LessThan(lhs) {
+			return false
+		}
+	} else if lhs == nil && rhs != nil {
+		// Nil is less than anything else
+		return true
+	} else if rhs != nil && rhs == nil {
+		// Anything else is greater than nil
+		return false
+	} // Else: Both are nil
 	// End: Compare known properties
 
 	// Begin: Compare unknown properties (only by number of them)
@@ -1646,6 +1675,14 @@ func (this ActivityStreamsQuestion) Serialize() (map[string]interface{}, error) 
 			m[this.ActivityStreamsUrl.Name()] = i
 		}
 	}
+	// Maybe serialize property "votersCount"
+	if this.TootVotersCount != nil {
+		if i, err := this.TootVotersCount.Serialize(); err != nil {
+			return nil, err
+		} else if i != nil {
+			m[this.TootVotersCount.Name()] = i
+		}
+	}
 	// End: Serialize known properties
 
 	// Begin: Serialize unknown properties
@@ -1853,6 +1890,11 @@ func (this *ActivityStreamsQuestion) SetJSONLDId(i vocab.JSONLDIdProperty) {
 // SetJSONLDType sets the "type" property.
 func (this *ActivityStreamsQuestion) SetJSONLDType(i vocab.JSONLDTypeProperty) {
 	this.JSONLDType = i
+}
+
+// SetTootVotersCount sets the "votersCount" property.
+func (this *ActivityStreamsQuestion) SetTootVotersCount(i vocab.TootVotersCountProperty) {
+	this.TootVotersCount = i
 }
 
 // VocabularyURI returns the vocabulary's URI as a string.

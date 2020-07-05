@@ -58,6 +58,8 @@ func NewTypeResolver(callbacks ...interface{}) (*TypeResolver, error) {
 			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsDocument) error:
 			// Do nothing, this callback has a correct signature.
+		case func(context.Context, vocab.TootEmoji) error:
+			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsEvent) error:
 			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsFlag) error:
@@ -65,6 +67,8 @@ func NewTypeResolver(callbacks ...interface{}) (*TypeResolver, error) {
 		case func(context.Context, vocab.ActivityStreamsFollow) error:
 			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsGroup) error:
+			// Do nothing, this callback has a correct signature.
+		case func(context.Context, vocab.TootIdentityProof) error:
 			// Do nothing, this callback has a correct signature.
 		case func(context.Context, vocab.ActivityStreamsIgnore) error:
 			// Do nothing, this callback has a correct signature.
@@ -288,6 +292,15 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 					return errCannotTypeAssertType
 				}
 			}
+		} else if o.VocabularyURI() == "http://joinmastodon.org/ns" && o.GetTypeName() == "Emoji" {
+			if fn, ok := i.(func(context.Context, vocab.TootEmoji) error); ok {
+				if v, ok := o.(vocab.TootEmoji); ok {
+					return fn(ctx, v)
+				} else {
+					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
+					return errCannotTypeAssertType
+				}
+			}
 		} else if o.VocabularyURI() == "https://www.w3.org/ns/activitystreams" && o.GetTypeName() == "Event" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsEvent) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsEvent); ok {
@@ -318,6 +331,15 @@ func (this TypeResolver) Resolve(ctx context.Context, o ActivityStreamsInterface
 		} else if o.VocabularyURI() == "https://www.w3.org/ns/activitystreams" && o.GetTypeName() == "Group" {
 			if fn, ok := i.(func(context.Context, vocab.ActivityStreamsGroup) error); ok {
 				if v, ok := o.(vocab.ActivityStreamsGroup); ok {
+					return fn(ctx, v)
+				} else {
+					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.
+					return errCannotTypeAssertType
+				}
+			}
+		} else if o.VocabularyURI() == "http://joinmastodon.org/ns" && o.GetTypeName() == "IdentityProof" {
+			if fn, ok := i.(func(context.Context, vocab.TootIdentityProof) error); ok {
+				if v, ok := o.(vocab.TootIdentityProof); ok {
 					return fn(ctx, v)
 				} else {
 					// This occurs when the value is either not a go-fed type and is improperly satisfying various interfaces, or there is a bug in the go-fed generated code.

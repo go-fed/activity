@@ -110,6 +110,9 @@ type ActivityStreamsAudio interface {
 	// GetJSONLDType returns the "type" property if it exists, and nil
 	// otherwise.
 	GetJSONLDType() JSONLDTypeProperty
+	// GetTootBlurhash returns the "blurhash" property if it exists, and nil
+	// otherwise.
+	GetTootBlurhash() TootBlurhashProperty
 	// GetTypeName returns the name of this type.
 	GetTypeName() string
 	// GetUnknownProperties returns the unknown properties for the Audio type.
@@ -196,6 +199,8 @@ type ActivityStreamsAudio interface {
 	SetJSONLDId(i JSONLDIdProperty)
 	// SetJSONLDType sets the "type" property.
 	SetJSONLDType(i JSONLDTypeProperty)
+	// SetTootBlurhash sets the "blurhash" property.
+	SetTootBlurhash(i TootBlurhashProperty)
 	// VocabularyURI returns the vocabulary's URI as a string.
 	VocabularyURI() string
 }
