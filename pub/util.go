@@ -978,20 +978,10 @@ func remove(c context.Context,
 // and recursively on every 'object' property value.
 func clearSensitiveFields(obj vocab.Type) {
 	if t, ok := obj.(btoer); ok {
-		bto := t.GetActivityStreamsBto()
-		if bto != nil {
-			for bto.Len() > 0 {
-				bto.Remove(0)
-			}
-		}
+		t.SetActivityStreamsBto(nil)
 	}
 	if t, ok := obj.(bccer); ok {
-		bcc := t.GetActivityStreamsBcc()
-		if bcc != nil {
-			for bcc.Len() > 0 {
-				bcc.Remove(0)
-			}
-		}
+		t.SetActivityStreamsBcc(nil)
 	}
 	if t, ok := obj.(objecter); ok {
 		op := t.GetActivityStreamsObject()
