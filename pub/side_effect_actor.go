@@ -110,7 +110,7 @@ func (a *sideEffectActor) PostInbox(c context.Context, inboxIRI *url.URL, activi
 		return err
 	}
 	if isNew {
-		wrapped, other, err := a.s2s.Callbacks(c)
+		wrapped, other, err := a.s2s.FederatingCallbacks(c)
 		if err != nil {
 			return err
 		}
@@ -327,7 +327,7 @@ func (a *sideEffectActor) PostOutbox(c context.Context, activity Activity, outbo
 	if a.c2s != nil {
 		var wrapped SocialWrappedCallbacks
 		var other []interface{}
-		wrapped, other, err = a.c2s.Callbacks(c)
+		wrapped, other, err = a.c2s.SocialCallbacks(c)
 		if err != nil {
 			return
 		}

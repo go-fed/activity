@@ -51,8 +51,8 @@ type SocialProtocol interface {
 	// authenticated must be true and error nil. The request will continue
 	// to be processed.
 	AuthenticatePostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (out context.Context, authenticated bool, err error)
-	// Callbacks returns the application logic that handles ActivityStreams
-	// received from C2S clients.
+	// SocialCallbacks returns the application logic that handles
+	// ActivityStreams received from C2S clients.
 	//
 	// Note that certain types of callbacks will be 'wrapped' with default
 	// behaviors supported natively by the library. Other callbacks
@@ -70,7 +70,7 @@ type SocialProtocol interface {
 	//
 	// Applications are not expected to handle every single ActivityStreams
 	// type and extension. The unhandled ones are passed to DefaultCallback.
-	Callbacks(c context.Context) (wrapped SocialWrappedCallbacks, other []interface{}, err error)
+	SocialCallbacks(c context.Context) (wrapped SocialWrappedCallbacks, other []interface{}, err error)
 	// DefaultCallback is called for types that go-fed can deserialize but
 	// are not handled by the application's callbacks returned in the
 	// Callbacks method.

@@ -221,7 +221,7 @@ func TestPostInbox(t *testing.T) {
 			db.EXPECT().SetInbox(ctx, testOrderedCollectionWithFederatedId).Return(nil),
 			db.EXPECT().Unlock(ctx, inboxIRI),
 		)
-		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, nil, nil)
+		fp.EXPECT().FederatingCallbacks(ctx).Return(FederatingWrappedCallbacks{}, nil, nil)
 		fp.EXPECT().DefaultCallback(ctx, testListen).Return(nil)
 		// Run
 		err := a.PostInbox(ctx, inboxIRI, testListen)
@@ -257,7 +257,7 @@ func TestPostInbox(t *testing.T) {
 			db.EXPECT().SetInbox(ctx, testOrderedCollectionWithBothFederatedIds).Return(nil),
 			db.EXPECT().Unlock(ctx, inboxIRI),
 		)
-		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, nil, nil)
+		fp.EXPECT().FederatingCallbacks(ctx).Return(FederatingWrappedCallbacks{}, nil, nil)
 		fp.EXPECT().DefaultCallback(ctx, testListen).Return(nil)
 		// Run
 		err := a.PostInbox(ctx, inboxIRI, testListen)
@@ -278,7 +278,7 @@ func TestPostInbox(t *testing.T) {
 			db.EXPECT().Unlock(ctx, inboxIRI),
 		)
 		pass := false
-		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, []interface{}{
+		fp.EXPECT().FederatingCallbacks(ctx).Return(FederatingWrappedCallbacks{}, []interface{}{
 			func(c context.Context, a vocab.ActivityStreamsListen) error {
 				pass = true
 				return nil
@@ -304,7 +304,7 @@ func TestPostInbox(t *testing.T) {
 			db.EXPECT().Unlock(ctx, inboxIRI),
 		)
 		pass := false
-		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{}, []interface{}{
+		fp.EXPECT().FederatingCallbacks(ctx).Return(FederatingWrappedCallbacks{}, []interface{}{
 			func(c context.Context, a vocab.ActivityStreamsCreate) error {
 				pass = true
 				return nil
@@ -330,7 +330,7 @@ func TestPostInbox(t *testing.T) {
 			db.EXPECT().Unlock(ctx, inboxIRI),
 		)
 		pass := false
-		fp.EXPECT().Callbacks(ctx).Return(FederatingWrappedCallbacks{
+		fp.EXPECT().FederatingCallbacks(ctx).Return(FederatingWrappedCallbacks{
 			Create: func(c context.Context, a vocab.ActivityStreamsCreate) error {
 				pass = true
 				return nil
@@ -857,7 +857,7 @@ func TestPostOutbox(t *testing.T) {
 			db.EXPECT().SetOutbox(ctx, testOrderedCollectionWithNewId).Return(nil),
 			db.EXPECT().Unlock(ctx, outboxIRI),
 		)
-		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, nil, nil)
+		sp.EXPECT().SocialCallbacks(ctx).Return(SocialWrappedCallbacks{}, nil, nil)
 		sp.EXPECT().DefaultCallback(ctx, testMyListen).Return(nil)
 		// Run
 		deliverable, err := a.PostOutbox(ctx, testMyListen, outboxIRI, mustSerialize(testMyListen))
@@ -880,7 +880,7 @@ func TestPostOutbox(t *testing.T) {
 			db.EXPECT().SetOutbox(ctx, testOrderedCollectionWithBothNewIds).Return(nil),
 			db.EXPECT().Unlock(ctx, outboxIRI),
 		)
-		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, nil, nil)
+		sp.EXPECT().SocialCallbacks(ctx).Return(SocialWrappedCallbacks{}, nil, nil)
 		sp.EXPECT().DefaultCallback(ctx, testMyListen).Return(nil)
 		// Run
 		deliverable, err := a.PostOutbox(ctx, testMyListen, outboxIRI, mustSerialize(testMyListen))
@@ -904,7 +904,7 @@ func TestPostOutbox(t *testing.T) {
 			db.EXPECT().Unlock(ctx, outboxIRI),
 		)
 		pass := false
-		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, []interface{}{
+		sp.EXPECT().SocialCallbacks(ctx).Return(SocialWrappedCallbacks{}, []interface{}{
 			func(c context.Context, a vocab.ActivityStreamsListen) error {
 				pass = true
 				return nil
@@ -933,7 +933,7 @@ func TestPostOutbox(t *testing.T) {
 			db.EXPECT().Unlock(ctx, outboxIRI),
 		)
 		pass := false
-		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{}, []interface{}{
+		sp.EXPECT().SocialCallbacks(ctx).Return(SocialWrappedCallbacks{}, []interface{}{
 			func(c context.Context, a vocab.ActivityStreamsCreate) error {
 				pass = true
 				return nil
@@ -962,7 +962,7 @@ func TestPostOutbox(t *testing.T) {
 			db.EXPECT().Unlock(ctx, outboxIRI),
 		)
 		pass := false
-		sp.EXPECT().Callbacks(ctx).Return(SocialWrappedCallbacks{
+		sp.EXPECT().SocialCallbacks(ctx).Return(SocialWrappedCallbacks{
 			Create: func(c context.Context, a vocab.ActivityStreamsCreate) error {
 				pass = true
 				return nil

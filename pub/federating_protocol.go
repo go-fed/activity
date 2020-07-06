@@ -65,8 +65,8 @@ type FederatingProtocol interface {
 	// blocked must be false and error nil. The request will continue
 	// to be processed.
 	Blocked(c context.Context, actorIRIs []*url.URL) (blocked bool, err error)
-	// Callbacks returns the application logic that handles ActivityStreams
-	// received from federating peers.
+	// FederatingCallbacks returns the application logic that handles
+	// ActivityStreams received from federating peers.
 	//
 	// Note that certain types of callbacks will be 'wrapped' with default
 	// behaviors supported natively by the library. Other callbacks
@@ -84,7 +84,7 @@ type FederatingProtocol interface {
 	//
 	// Applications are not expected to handle every single ActivityStreams
 	// type and extension. The unhandled ones are passed to DefaultCallback.
-	Callbacks(c context.Context) (wrapped FederatingWrappedCallbacks, other []interface{}, err error)
+	FederatingCallbacks(c context.Context) (wrapped FederatingWrappedCallbacks, other []interface{}, err error)
 	// DefaultCallback is called for types that go-fed can deserialize but
 	// are not handled by the application's callbacks returned in the
 	// Callbacks method.
