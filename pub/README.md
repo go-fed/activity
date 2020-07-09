@@ -2,10 +2,10 @@
 
 Implements the Social and Federating Protocols in the ActivityPub specification.
 
-## Preview Release
+## Reference & Tutorial
 
-v1.0.0 still has a lot of unit tests that need to be written. Please run
-`go test -v` to see the latest state of unit testing.
+The [go-fed website](https://go-fed.org/) contains tutorials and reference
+materials, in addition to the rest of this README.
 
 ## How To Use
 
@@ -13,35 +13,57 @@ v1.0.0 still has a lot of unit tests that need to be written. Please run
 go get github.com/go-fed/activity
 ```
 
-The root of all ActivityPub behavior is the `Actor`:
+The root of all ActivityPub behavior is the `Actor`, which requires you to
+implement a few interfaces:
 
 ```golang
-// Only support Social protocol
+import (
+  "github.com/go-fed/activity/pub"
+)
+
+type myActivityPubApp struct { /* ... */ }
+type myAppsDatabase struct { /* ... */ }
+type myAppsClock struct { /* ... */ }
+
+var (
+  // Your app will implement pub.CommonBehavior, and either
+  // pub.SocialProtocol, pub.FederatingProtocol, or both.
+  myApp = &myActivityPubApp{}
+  myCommonBehavior pub.CommonBehavior = myApp
+  mySocialProtocol pub.SocialProtocol = myApp
+  myFederatingProtocol pub.FederatingProtocol = myApp
+  // Your app's database implementation.
+  myDatabase pub.Database = &myAppsDatabase{}
+  // Your app's clock.
+  myClock pub.Clock = &myAppsClock{}
+)
+
+// Only support the C2S Social protocol
 actor := pub.NewSocialActor(
-  myAppsCommonBehavior,
-  myAppsSocialProtocol,
-  myAppsDatabase,
-  myAppsClock)
+  myCommonBehavior,
+  mySocialProtocol,
+  myDatabase,
+  myClock)
 // OR
 //
-// Only support Federating protocol
+// Only support S2S Federating protocol
 actor = pub.NewFederatingActor(
-  myAppsCommonBehavior,
-  myAppsFederatingProtocol,
-  myAppsDatabase,
-  myAppsClock)
+  myCommonBehavior,
+  myFederatingProtocol,
+  myDatabase,
+  myClock)
 // OR
 //
-// Support both Social and Federating protocol.
+// Support both C2S Social and S2S Federating protocol.
 actor = pub.NewActor(
-  myAppsCommonBehavior,
-  myAppsSocialProtocol,
-  myAppsFederatingProtocol,
-  myAppsDatabase,
-  myAppsClock)
+  myCommonBehavior,
+  mySocialProtocol,
+  myFederatingProtocol,
+  myDatabase,
+  myClock)
 ```
 
-Next, hook the `Actor` into the HTTP server:
+Next, hook the `Actor` into your web server:
 
 ```golang
 // The application's actor
@@ -93,10 +115,7 @@ server.Handler = serveMux
 To serve ActivityStreams data:
 
 ```golang
-myHander := pub.NewActivityStreamsHandler(
-  myAppsAuthenticateFunc,
-  myAppsDatabase,
-  myAppsClock)
+myHander := pub.NewActivityStreamsHandler(myDatabase, myClock)
 var activityStreamsHandler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {
   c := context.Background()
   // Populate c with request-specific information
@@ -239,7 +258,7 @@ interface can be used to obtain an `Actor`:
 ```golang
 // Use custom ActivityPub implementation
 actor = pub.NewCustomActor(
-  myAppsDelegateActor,
+  myDelegateActor,
   isSocialProtocolEnabled,
   isFederatedProtocolEnabled,
   myAppsClock)

@@ -2,6 +2,11 @@
 
 ActivityStreams vocabularies automatically code-generated with `astool`.
 
+## Reference & Tutorial
+
+The [go-fed website](https://go-fed.org/) contains tutorials and reference
+materials, in addition to the rest of this README.
+
 ## How To Use
 
 ```

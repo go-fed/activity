@@ -52,9 +52,8 @@ tool is `activitystreams.jsonld` which contains the OWL2 definition of the
 ActivityStreams specification. To generate the code, in your `$GOPATH` do:
 
 ```
-mkdir tmp
-cd tmp
-astool -spec activitystreams.jsonld
+cd $GOPATH/github.com/go-fed/activity/astool
+go generate
 ```
 
 This will automatically generate a number of files containing the functions,
