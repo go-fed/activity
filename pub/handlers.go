@@ -3,10 +3,14 @@ package pub
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
-	"github.com/go-fed/activity/streams"
 	"net/http"
+
+	"github.com/go-fed/activity/streams"
 )
+
+var ErrNotFound = errors.New("go-fed/activity: ActivityStreams data not found")
 
 // HandlerFunc determines whether an incoming HTTP request is an ActivityStreams
 // GET request, and if so attempts to serve ActivityStreams data.
@@ -49,6 +53,9 @@ func NewActivityStreamsHandler(db Database, clock Clock) HandlerFunc {
 //
 // Specifying the "scheme" allows for retrieving ActivityStreams content with
 // identifiers such as HTTP, HTTPS, or other protocol schemes.
+//
+// Returns ErrNotFound when the database does not retrieve any data and no
+// errors occurred during retrieval.
 func NewActivityStreamsHandlerScheme(db Database, clock Clock, scheme string) HandlerFunc {
 	return func(c context.Context, w http.ResponseWriter, r *http.Request) (isASRequest bool, err error) {
 		// Do nothing if it is not an ActivityPub GET request
@@ -71,7 +78,10 @@ func NewActivityStreamsHandlerScheme(db Database, clock Clock, scheme string) Ha
 		db.Unlock(c, id)
 		// Unlock must have been called by this point and in every
 		// branch above
-		//
+		if t == nil {
+			err = ErrNotFound
+			return
+		}
 		// Remove sensitive fields.
 		clearSensitiveFields(t)
 		// Serialize the fetched value.
