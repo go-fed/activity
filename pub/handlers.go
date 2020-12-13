@@ -32,14 +32,31 @@ type HandlerFunc func(c context.Context, w http.ResponseWriter, r *http.Request)
 // Strips retrieved ActivityStreams values of sensitive fields ('bto' and 'bcc')
 // before responding with them. Sets the appropriate HTTP status code for
 // Tombstone Activities as well.
+//
+// Defaults to supporting content to be retrieved by HTTPS only.
 func NewActivityStreamsHandler(db Database, clock Clock) HandlerFunc {
+	return NewActivityStreamsHandlerScheme(db, clock, "https")
+}
+
+// NewActivityStreamsHandlerScheme creates a HandlerFunc to serve
+// ActivityStreams requests which are coming from other clients or servers that
+// wish to obtain an ActivityStreams representation of data provided by the
+// specified protocol scheme.
+//
+// Strips retrieved ActivityStreams values of sensitive fields ('bto' and 'bcc')
+// before responding with them. Sets the appropriate HTTP status code for
+// Tombstone Activities as well.
+//
+// Specifying the "scheme" allows for retrieving ActivityStreams content with
+// identifiers such as HTTP, HTTPS, or other protocol schemes.
+func NewActivityStreamsHandlerScheme(db Database, clock Clock, scheme string) HandlerFunc {
 	return func(c context.Context, w http.ResponseWriter, r *http.Request) (isASRequest bool, err error) {
 		// Do nothing if it is not an ActivityPub GET request
 		if !isActivityPubGet(r) {
 			return
 		}
 		isASRequest = true
-		id := requestId(r)
+		id := requestId(r, scheme)
 		// Lock and obtain a copy of the requested ActivityStreams value
 		err = db.Lock(c, id)
 		if err != nil {

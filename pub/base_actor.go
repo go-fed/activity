@@ -162,7 +162,19 @@ func NewCustomActor(delegate DelegateActor,
 // PostInbox implements the generic algorithm for handling a POST request to an
 // actor's inbox independent on an application. It relies on a delegate to
 // implement application specific functionality.
+//
+// Only supports serving data with identifiers having the HTTPS scheme.
 func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error) {
+	return b.PostInboxScheme(c, w, r, "https")
+}
+
+// PostInbox implements the generic algorithm for handling a POST request to an
+// actor's inbox independent on an application. It relies on a delegate to
+// implement application specific functionality.
+//
+// Specifying the "scheme" allows for retrieving ActivityStreams content with
+// identifiers such as HTTP, HTTPS, or other protocol schemes.
+func (b *baseActor) PostInboxScheme(c context.Context, w http.ResponseWriter, r *http.Request, scheme string) (bool, error) {
 	// Do nothing if it is not an ActivityPub POST request.
 	if !isActivityPubPost(r) {
 		return false, nil
@@ -222,7 +234,7 @@ func (b *baseActor) PostInbox(c context.Context, w http.ResponseWriter, r *http.
 	// Post the activity to the actor's inbox and trigger side effects for
 	// that particular Activity type. It is up to the delegate to resolve
 	// the given map.
-	inboxId := requestId(r)
+	inboxId := requestId(r, scheme)
 	err = b.delegate.PostInbox(c, inboxId, activity)
 	if err != nil {
 		// Special case: We know it is a bad request if the object or
@@ -298,7 +310,19 @@ func (b *baseActor) GetInbox(c context.Context, w http.ResponseWriter, r *http.R
 // PostOutbox implements the generic algorithm for handling a POST request to an
 // actor's outbox independent on an application. It relies on a delegate to
 // implement application specific functionality.
+//
+// Only supports serving data with identifiers having the HTTPS scheme.
 func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error) {
+	return b.PostOutboxScheme(c, w, r, "https")
+}
+
+// PostOutbox implements the generic algorithm for handling a POST request to an
+// actor's outbox independent on an application. It relies on a delegate to
+// implement application specific functionality.
+//
+// Specifying the "scheme" allows for retrieving ActivityStreams content with
+// identifiers such as HTTP, HTTPS, or other protocol schemes.
+func (b *baseActor) PostOutboxScheme(c context.Context, w http.ResponseWriter, r *http.Request, scheme string) (bool, error) {
 	// Do nothing if it is not an ActivityPub POST request.
 	if !isActivityPubPost(r) {
 		return false, nil
@@ -343,7 +367,7 @@ func (b *baseActor) PostOutbox(c context.Context, w http.ResponseWriter, r *http
 	}
 	// The HTTP request steps are complete, complete the rest of the outbox
 	// and delivery process.
-	outboxId := requestId(r)
+	outboxId := requestId(r, scheme)
 	activity, err := b.deliver(c, outboxId, asValue, m)
 	// Special case: We know it is a bad request if the object or
 	// target properties needed to be populated, but weren't.

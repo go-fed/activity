@@ -987,9 +987,9 @@ func clearSensitiveFields(obj vocab.Type) {
 
 // requestId forms an ActivityPub id based on the HTTP request. Always assumes
 // that the id is HTTPS.
-func requestId(r *http.Request) *url.URL {
+func requestId(r *http.Request, scheme string) *url.URL {
 	id := r.URL
 	id.Host = r.Host
-	id.Scheme = "https"
+	id.Scheme = scheme
 	return id
 }
