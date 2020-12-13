@@ -41,7 +41,14 @@ type Actor interface {
 	// If the Federated Protocol is not enabled, writes the
 	// http.StatusMethodNotAllowed status code in the response. No side
 	// effects occur.
+	//
+	// The request and data of your application will be interpreted as
+	// having an HTTPS protocol scheme.
 	PostInbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
+	// PostInboxScheme is similar to PostInbox, except clients are able to
+	// specify which protocol scheme to handle the incoming request and the
+	// data stored within the application (HTTP, HTTPS, etc).
+	PostInboxScheme(c context.Context, w http.ResponseWriter, r *http.Request, scheme string) (bool, error)
 	// GetInbox returns true if the request was handled as an ActivityPub
 	// GET to an actor's inbox. If false, the request was not an ActivityPub
 	// request and may still be handled by the caller in another way, such
@@ -76,7 +83,13 @@ type Actor interface {
 	// If the Social and Federated Protocol are both enabled, it will handle
 	// the side effects of receiving an ActivityStream Activity, and then
 	// federate the Activity to peers.
+	//
+	// The request will be interpreted as having an HTTPS scheme.
 	PostOutbox(c context.Context, w http.ResponseWriter, r *http.Request) (bool, error)
+	// PostOutboxScheme is similar to PostOutbox, except clients are able to
+	// specify which protocol scheme to handle the incoming request and the
+	// data stored within the application (HTTP, HTTPS, etc).
+	PostOutboxScheme(c context.Context, w http.ResponseWriter, r *http.Request, scheme string) (bool, error)
 	// GetOutbox returns true if the request was handled as an ActivityPub
 	// GET to an actor's outbox. If false, the request was not an
 	// ActivityPub request.
