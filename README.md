@@ -1,5 +1,11 @@
 # activity
 
+> Complete ActivityStreams-based ontologies plus middleware handlers implementing ActivityPub
+
+[![Build Status][Build-Status-Image]][Build-Status-Url] [![Go Reference][Go-Reference-Image]][Go-Reference-Url]
+[![Go Report Card][Go-Report-Card-Image]][Go-Report-Card-Url] [![License][License-Image]][License-Url]
+[![OpenCollective][OpenCollective-Image]][OpenCollective-Url]
+
 `go get github.com/go-fed/activity`
 
 This repository contains two libraries and a tool:
@@ -89,3 +95,14 @@ libraries.
 
 Thanks to those who have been early adopters with v0 and/or provided early
 feedback.
+
+[Build-Status-Image]: https://travis-ci.org/go-fed/activity.svg?branch=master
+[Build-Status-Url]: https://travis-ci.org/go-fed/activity
+[Go-Reference-Image]: https://pkg.go.dev/badge/github.com/go-fed/activity
+[Go-Reference-Url]: https://pkg.go.dev/github.com/go-fed/activity
+[Go-Report-Card-Image]: https://goreportcard.com/badge/github.com/go-fed/activity
+[Go-Report-Card-Url]: https://goreportcard.com/report/github.com/go-fed/activity
+[License-Image]: https://img.shields.io/github/license/go-fed/activity
+[License-Url]: https://opensource.org/licenses/BSD-3-Clause
+[OpenCollective-Image]: https://img.shields.io/opencollective/backers/go-fed-activitypub-labs
+[OpenCollective-Url]: https://opencollective.com/go-fed-activitypub-labs
