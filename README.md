@@ -4,7 +4,7 @@
 
 [![Build Status][Build-Status-Image]][Build-Status-Url] [![Go Reference][Go-Reference-Image]][Go-Reference-Url]
 [![Go Report Card][Go-Report-Card-Image]][Go-Report-Card-Url] [![License][License-Image]][License-Url]
-[![OpenCollective][OpenCollective-Image]][OpenCollective-Url]
+[![Chat][Chat-Image]][Chat-Url] [![OpenCollective][OpenCollective-Image]][OpenCollective-Url]
 
 `go get github.com/go-fed/activity`
 
@@ -104,5 +104,7 @@ feedback.
 [Go-Report-Card-Url]: https://goreportcard.com/report/github.com/go-fed/activity
 [License-Image]: https://img.shields.io/github/license/go-fed/activity?color=blue
 [License-Url]: https://opensource.org/licenses/BSD-3-Clause
+[Chat-Image]: https://img.shields.io/matrix/go-fed:feneas.org?server_fqdn=matrix.org
+[Chat-Url]: https://matrix.to/#/!BLOSvIyKTDLIVjRKSc:feneas.org?via=feneas.org&via=matrix.org
 [OpenCollective-Image]: https://img.shields.io/opencollective/backers/go-fed-activitypub-labs
 [OpenCollective-Url]: https://opencollective.com/go-fed-activitypub-labs
