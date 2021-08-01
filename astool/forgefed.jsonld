@@ -40,14 +40,14 @@
               "https://www.w3.org/ns/activitystreams",
               "https://forgefed.peers.community/ns"
             ],
-            "id": "https://example.dev/aviva/outbox/reBGo",
+            "id": "https://example.org/aviva/outbox/reBGo",
             "type": "Push",
-            "actor": "https://example.dev/aviva",
+            "actor": "https://example.org/aviva",
             "to": [
-              "https://example.dev/aviva/followers",
-              "https://example.dev/aviva/myproject",
-              "https://example.dev/aviva/myproject/team",
-              "https://example.dev/aviva/myproject/followers"
+              "https://example.org/aviva/followers",
+              "https://example.org/aviva/myproject",
+              "https://example.org/aviva/myproject/team",
+              "https://example.org/aviva/myproject/followers"
             ],
             "summary": "<p>Aviva pushed a commit to myproject</p>",
             "object": {
@@ -55,18 +55,18 @@
               "totalItems": 1,
               "items": [
                 {
-                  "id": "https://example.dev/aviva/myproject/commits/d96596230322716bd6f87a232a648ca9822a1c20",
+                  "id": "https://example.org/aviva/myproject/commits/d96596230322716bd6f87a232a648ca9822a1c20",
                   "type": "Commit",
-                  "attributedTo": "https://example.dev/aviva",
-                  "context": "https://example.dev/aviva/myproject",
+                  "attributedTo": "https://example.org/aviva",
+                  "context": "https://example.org/aviva/myproject",
                   "hash": "d96596230322716bd6f87a232a648ca9822a1c20",
                   "created": "2019-11-03T13:43:59Z",
                   "summary": "Provide hints in sign-up form fields"
                 }
               ]
             },
-            "target": "https://example.dev/aviva/myproject/branches/master",
-            "context": "https://example.dev/aviva/myproject"
+            "target": "https://example.org/aviva/myproject/branches/master",
+            "context": "https://example.org/aviva/myproject"
           }
         }
       ],
@@ -127,10 +127,10 @@
               "https://www.w3.org/ns/activitystreams",
               "https://forgefed.peers.community/ns"
             ],
-            "id": "https://example.dev/luke/myrepo/branches/master",
+            "id": "https://example.org/luke/myrepo/branches/master",
             "type": "Branch",
             "name": "master",
-            "context": "https://example.dev/luke/myrepo",
+            "context": "https://example.org/luke/myrepo",
             "ref": "refs/heads/master"
           }
         }
@@ -155,11 +155,11 @@
               "https://www.w3.org/ns/activitystreams",
               "https://forgefed.peers.community/ns"
             ],
-            "id": "https://example.dev/alice/myrepo/commits/109ec9a09c7df7fec775d2ba0b9d466e5643ec8c",
+            "id": "https://example.org/alice/myrepo/commits/109ec9a09c7df7fec775d2ba0b9d466e5643ec8c",
             "type": "Commit",
-            "context": "https://example.dev/alice/myrepo",
-            "attributedTo": "https://example.dev/bob",
-            "committedBy": "https://example.dev/alice",
+            "context": "https://example.org/alice/myrepo",
+            "attributedTo": "https://example.org/bob",
+            "committedBy": "https://example.org/alice",
             "hash": "109ec9a09c7df7fec775d2ba0b9d466e5643ec8c",
             "summary": "Add an installation script, fixes issue #89",
             "description": {
@@ -195,13 +195,13 @@
               "Relationship",
               "TicketDependency"
             ],
-            "id": "https://example.dev/ticket-deps/2342593",
-            "attributedTo": "https://example.dev/alice",
+            "id": "https://example.org/ticket-deps/2342593",
+            "attributedTo": "https://example.org/alice",
             "summary": "Alice's ticket depends on Bob's ticket",
             "published": "2019-07-11T12:34:56Z",
-            "subject": "https://example.dev/alice/myproj/issues/42",
+            "subject": "https://example.org/alice/myproj/issues/42",
             "relationship": "dependsOn",
-            "object": "https://dev.community/bob/coolproj/issues/85"
+            "object": "https://example.com/bob/coolproj/issues/85"
           }
         }
       ],
@@ -226,9 +226,9 @@
               "https://forgefed.peers.community/ns"
             ],
             "type": "Ticket",
-            "id": "https://example.dev/alice/myrepo/issues/42",
-            "context": "https://example.dev/alice/myrepo",
-            "attributedTo": "https://dev.community/bob",
+            "id": "https://example.org/alice/myrepo/issues/42",
+            "context": "https://example.org/alice/myrepo",
+            "attributedTo": "https://example.com/bob",
             "summary": "Nothing works!",
             "content": "<p>Please fix. <i>Everything</i> is broken!</p>",
             "mediaType": "text/html",
@@ -236,7 +236,7 @@
               "content": "Please fix. *Everything* is broken!",
               "mediaType": "text/markdown; variant=CommonMark"
             },
-            "assignedTo": "https://example.dev/alice",
+            "assignedTo": "https://example.org/alice",
             "isResolved": false
           }
         }
@@ -480,10 +480,10 @@
               "https://www.w3.org/ns/activitystreams",
               "https://forgefed.peers.community/ns"
             ],
-            "id": "https://example.dev/alice/myrepo/commits/109ec9a09c7df7fec775d2ba0b9d466e5643ec8c",
+            "id": "https://example.org/alice/myrepo/commits/109ec9a09c7df7fec775d2ba0b9d466e5643ec8c",
             "type": "Commit",
-            "context": "https://example.dev/alice/myrepo",
-            "attributedTo": "https://example.dev/bob",
+            "context": "https://example.org/alice/myrepo",
+            "attributedTo": "https://example.org/bob",
             "hash": "109ec9a09c7df7fec775d2ba0b9d466e5643ec8c",
             "created": "2019-07-11T12:34:56Z",
             "summary": "Add an installation script, fixes issue #89",
@@ -671,10 +671,10 @@
               "https://www.w3.org/ns/activitystreams",
               "https://forgefed.peers.community/ns"
             ],
-            "id": "https://example.dev/luke/myrepo/branches/master",
+            "id": "https://example.org/luke/myrepo/branches/master",
             "type": "Branch",
             "name": "master",
-            "context": "https://example.dev/luke/myrepo",
+            "context": "https://example.org/luke/myrepo",
             "ref": "refs/heads/master"
           }
         }
