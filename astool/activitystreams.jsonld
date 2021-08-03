@@ -5399,6 +5399,51 @@
           },
           "name": "preferredUsername",
           "url": "https://www.w3.org/TR/activitypub/#preferredUsername"
+        },
+        {
+          "id": "https://www.w3.org/TR/activitypub/#manuallyApprovesFollowers",
+          "type": [
+            "rdf:Property",
+            "owl:FunctionalProperty"
+          ],
+          "notes": "Indicates that the actor manually approves Follow activities and that an automatic Accept should not be expected.",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": [
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Application",
+                "name": "Application"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Group",
+                "name": "Group"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Organization",
+                "name": "Organization"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Person",
+                "name": "Person"
+              },
+              {
+                "type": "owl:Class",
+                "url": "https://www.w3.org/ns/activitystreams#Service",
+                "name": "Service"
+              }
+            ]
+          },
+          "isDefinedBy": "https://www.w3.org/TR/activitypub/#manuallyApprovesFollowers",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": "xsd:boolean"
+          },
+          "name": "manuallyApprovesFollowers",
+          "url": "https://www.w3.org/TR/activitypub/#manuallyApprovesFollowers"
         }
       ]
     }
