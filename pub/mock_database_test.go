@@ -6,138 +6,37 @@ package pub
 
 import (
 	context "context"
-	vocab "github.com/go-fed/activity/streams/vocab"
-	gomock "github.com/golang/mock/gomock"
 	url "net/url"
 	reflect "reflect"
+
+	vocab "github.com/go-fed/activity/streams/vocab"
+	gomock "github.com/golang/mock/gomock"
 )
 
-// MockDatabase is a mock of Database interface
+// MockDatabase is a mock of Database interface.
 type MockDatabase struct {
 	ctrl     *gomock.Controller
 	recorder *MockDatabaseMockRecorder
 }
 
-// MockDatabaseMockRecorder is the mock recorder for MockDatabase
+// MockDatabaseMockRecorder is the mock recorder for MockDatabase.
 type MockDatabaseMockRecorder struct {
 	mock *MockDatabase
 }
 
-// NewMockDatabase creates a new mock instance
+// NewMockDatabase creates a new mock instance.
 func NewMockDatabase(ctrl *gomock.Controller) *MockDatabase {
 	mock := &MockDatabase{ctrl: ctrl}
 	mock.recorder = &MockDatabaseMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockDatabase) EXPECT() *MockDatabaseMockRecorder {
 	return m.recorder
 }
 
-// Lock mocks base method
-func (m *MockDatabase) Lock(c context.Context, id *url.URL) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Lock", c, id)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Lock indicates an expected call of Lock
-func (mr *MockDatabaseMockRecorder) Lock(c, id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Lock", reflect.TypeOf((*MockDatabase)(nil).Lock), c, id)
-}
-
-// Unlock mocks base method
-func (m *MockDatabase) Unlock(c context.Context, id *url.URL) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Unlock", c, id)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Unlock indicates an expected call of Unlock
-func (mr *MockDatabaseMockRecorder) Unlock(c, id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unlock", reflect.TypeOf((*MockDatabase)(nil).Unlock), c, id)
-}
-
-// InboxContains mocks base method
-func (m *MockDatabase) InboxContains(c context.Context, inbox, id *url.URL) (bool, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "InboxContains", c, inbox, id)
-	ret0, _ := ret[0].(bool)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// InboxContains indicates an expected call of InboxContains
-func (mr *MockDatabaseMockRecorder) InboxContains(c, inbox, id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InboxContains", reflect.TypeOf((*MockDatabase)(nil).InboxContains), c, inbox, id)
-}
-
-// GetInbox mocks base method
-func (m *MockDatabase) GetInbox(c context.Context, inboxIRI *url.URL) (vocab.ActivityStreamsOrderedCollectionPage, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetInbox", c, inboxIRI)
-	ret0, _ := ret[0].(vocab.ActivityStreamsOrderedCollectionPage)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetInbox indicates an expected call of GetInbox
-func (mr *MockDatabaseMockRecorder) GetInbox(c, inboxIRI interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInbox", reflect.TypeOf((*MockDatabase)(nil).GetInbox), c, inboxIRI)
-}
-
-// SetInbox mocks base method
-func (m *MockDatabase) SetInbox(c context.Context, inbox vocab.ActivityStreamsOrderedCollectionPage) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetInbox", c, inbox)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// SetInbox indicates an expected call of SetInbox
-func (mr *MockDatabaseMockRecorder) SetInbox(c, inbox interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetInbox", reflect.TypeOf((*MockDatabase)(nil).SetInbox), c, inbox)
-}
-
-// Owns mocks base method
-func (m *MockDatabase) Owns(c context.Context, id *url.URL) (bool, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Owns", c, id)
-	ret0, _ := ret[0].(bool)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Owns indicates an expected call of Owns
-func (mr *MockDatabaseMockRecorder) Owns(c, id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Owns", reflect.TypeOf((*MockDatabase)(nil).Owns), c, id)
-}
-
-// ActorForOutbox mocks base method
-func (m *MockDatabase) ActorForOutbox(c context.Context, outboxIRI *url.URL) (*url.URL, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ActorForOutbox", c, outboxIRI)
-	ret0, _ := ret[0].(*url.URL)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// ActorForOutbox indicates an expected call of ActorForOutbox
-func (mr *MockDatabaseMockRecorder) ActorForOutbox(c, outboxIRI interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActorForOutbox", reflect.TypeOf((*MockDatabase)(nil).ActorForOutbox), c, outboxIRI)
-}
-
-// ActorForInbox mocks base method
+// ActorForInbox mocks base method.
 func (m *MockDatabase) ActorForInbox(c context.Context, inboxIRI *url.URL) (*url.URL, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ActorForInbox", c, inboxIRI)
@@ -146,28 +45,56 @@ func (m *MockDatabase) ActorForInbox(c context.Context, inboxIRI *url.URL) (*url
 	return ret0, ret1
 }
 
-// ActorForInbox indicates an expected call of ActorForInbox
+// ActorForInbox indicates an expected call of ActorForInbox.
 func (mr *MockDatabaseMockRecorder) ActorForInbox(c, inboxIRI interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActorForInbox", reflect.TypeOf((*MockDatabase)(nil).ActorForInbox), c, inboxIRI)
 }
 
-// OutboxForInbox mocks base method
-func (m *MockDatabase) OutboxForInbox(c context.Context, inboxIRI *url.URL) (*url.URL, error) {
+// ActorForOutbox mocks base method.
+func (m *MockDatabase) ActorForOutbox(c context.Context, outboxIRI *url.URL) (*url.URL, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "OutboxForInbox", c, inboxIRI)
+	ret := m.ctrl.Call(m, "ActorForOutbox", c, outboxIRI)
 	ret0, _ := ret[0].(*url.URL)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// OutboxForInbox indicates an expected call of OutboxForInbox
-func (mr *MockDatabaseMockRecorder) OutboxForInbox(c, inboxIRI interface{}) *gomock.Call {
+// ActorForOutbox indicates an expected call of ActorForOutbox.
+func (mr *MockDatabaseMockRecorder) ActorForOutbox(c, outboxIRI interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OutboxForInbox", reflect.TypeOf((*MockDatabase)(nil).OutboxForInbox), c, inboxIRI)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActorForOutbox", reflect.TypeOf((*MockDatabase)(nil).ActorForOutbox), c, outboxIRI)
 }
 
-// Exists mocks base method
+// Create mocks base method.
+func (m *MockDatabase) Create(c context.Context, asType vocab.Type) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Create", c, asType)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Create indicates an expected call of Create.
+func (mr *MockDatabaseMockRecorder) Create(c, asType interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockDatabase)(nil).Create), c, asType)
+}
+
+// Delete mocks base method.
+func (m *MockDatabase) Delete(c context.Context, id *url.URL) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delete", c, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockDatabaseMockRecorder) Delete(c, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockDatabase)(nil).Delete), c, id)
+}
+
+// Exists mocks base method.
 func (m *MockDatabase) Exists(c context.Context, id *url.URL) (bool, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Exists", c, id)
@@ -176,114 +103,13 @@ func (m *MockDatabase) Exists(c context.Context, id *url.URL) (bool, error) {
 	return ret0, ret1
 }
 
-// Exists indicates an expected call of Exists
+// Exists indicates an expected call of Exists.
 func (mr *MockDatabaseMockRecorder) Exists(c, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Exists", reflect.TypeOf((*MockDatabase)(nil).Exists), c, id)
 }
 
-// Get mocks base method
-func (m *MockDatabase) Get(c context.Context, id *url.URL) (vocab.Type, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", c, id)
-	ret0, _ := ret[0].(vocab.Type)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Get indicates an expected call of Get
-func (mr *MockDatabaseMockRecorder) Get(c, id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockDatabase)(nil).Get), c, id)
-}
-
-// Create mocks base method
-func (m *MockDatabase) Create(c context.Context, asType vocab.Type) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", c, asType)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Create indicates an expected call of Create
-func (mr *MockDatabaseMockRecorder) Create(c, asType interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockDatabase)(nil).Create), c, asType)
-}
-
-// Update mocks base method
-func (m *MockDatabase) Update(c context.Context, asType vocab.Type) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", c, asType)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Update indicates an expected call of Update
-func (mr *MockDatabaseMockRecorder) Update(c, asType interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockDatabase)(nil).Update), c, asType)
-}
-
-// Delete mocks base method
-func (m *MockDatabase) Delete(c context.Context, id *url.URL) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", c, id)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Delete indicates an expected call of Delete
-func (mr *MockDatabaseMockRecorder) Delete(c, id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockDatabase)(nil).Delete), c, id)
-}
-
-// GetOutbox mocks base method
-func (m *MockDatabase) GetOutbox(c context.Context, outboxIRI *url.URL) (vocab.ActivityStreamsOrderedCollectionPage, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetOutbox", c, outboxIRI)
-	ret0, _ := ret[0].(vocab.ActivityStreamsOrderedCollectionPage)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetOutbox indicates an expected call of GetOutbox
-func (mr *MockDatabaseMockRecorder) GetOutbox(c, outboxIRI interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOutbox", reflect.TypeOf((*MockDatabase)(nil).GetOutbox), c, outboxIRI)
-}
-
-// SetOutbox mocks base method
-func (m *MockDatabase) SetOutbox(c context.Context, outbox vocab.ActivityStreamsOrderedCollectionPage) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetOutbox", c, outbox)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// SetOutbox indicates an expected call of SetOutbox
-func (mr *MockDatabaseMockRecorder) SetOutbox(c, outbox interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetOutbox", reflect.TypeOf((*MockDatabase)(nil).SetOutbox), c, outbox)
-}
-
-// NewID mocks base method
-func (m *MockDatabase) NewID(c context.Context, t vocab.Type) (*url.URL, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewID", c, t)
-	ret0, _ := ret[0].(*url.URL)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// NewID indicates an expected call of NewID
-func (mr *MockDatabaseMockRecorder) NewID(c, t interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewID", reflect.TypeOf((*MockDatabase)(nil).NewID), c, t)
-}
-
-// Followers mocks base method
+// Followers mocks base method.
 func (m *MockDatabase) Followers(c context.Context, actorIRI *url.URL) (vocab.ActivityStreamsCollection, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Followers", c, actorIRI)
@@ -292,13 +118,13 @@ func (m *MockDatabase) Followers(c context.Context, actorIRI *url.URL) (vocab.Ac
 	return ret0, ret1
 }
 
-// Followers indicates an expected call of Followers
+// Followers indicates an expected call of Followers.
 func (mr *MockDatabaseMockRecorder) Followers(c, actorIRI interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Followers", reflect.TypeOf((*MockDatabase)(nil).Followers), c, actorIRI)
 }
 
-// Following mocks base method
+// Following mocks base method.
 func (m *MockDatabase) Following(c context.Context, actorIRI *url.URL) (vocab.ActivityStreamsCollection, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Following", c, actorIRI)
@@ -307,13 +133,88 @@ func (m *MockDatabase) Following(c context.Context, actorIRI *url.URL) (vocab.Ac
 	return ret0, ret1
 }
 
-// Following indicates an expected call of Following
+// Following indicates an expected call of Following.
 func (mr *MockDatabaseMockRecorder) Following(c, actorIRI interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Following", reflect.TypeOf((*MockDatabase)(nil).Following), c, actorIRI)
 }
 
-// Liked mocks base method
+// Get mocks base method.
+func (m *MockDatabase) Get(c context.Context, id *url.URL) (vocab.Type, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Get", c, id)
+	ret0, _ := ret[0].(vocab.Type)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Get indicates an expected call of Get.
+func (mr *MockDatabaseMockRecorder) Get(c, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockDatabase)(nil).Get), c, id)
+}
+
+// GetInbox mocks base method.
+func (m *MockDatabase) GetInbox(c context.Context, inboxIRI *url.URL) (vocab.ActivityStreamsOrderedCollectionPage, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetInbox", c, inboxIRI)
+	ret0, _ := ret[0].(vocab.ActivityStreamsOrderedCollectionPage)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetInbox indicates an expected call of GetInbox.
+func (mr *MockDatabaseMockRecorder) GetInbox(c, inboxIRI interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInbox", reflect.TypeOf((*MockDatabase)(nil).GetInbox), c, inboxIRI)
+}
+
+// GetOutbox mocks base method.
+func (m *MockDatabase) GetOutbox(c context.Context, outboxIRI *url.URL) (vocab.ActivityStreamsOrderedCollectionPage, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetOutbox", c, outboxIRI)
+	ret0, _ := ret[0].(vocab.ActivityStreamsOrderedCollectionPage)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetOutbox indicates an expected call of GetOutbox.
+func (mr *MockDatabaseMockRecorder) GetOutbox(c, outboxIRI interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOutbox", reflect.TypeOf((*MockDatabase)(nil).GetOutbox), c, outboxIRI)
+}
+
+// InboxContains mocks base method.
+func (m *MockDatabase) InboxContains(c context.Context, inbox, id *url.URL) (bool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "InboxContains", c, inbox, id)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// InboxContains indicates an expected call of InboxContains.
+func (mr *MockDatabaseMockRecorder) InboxContains(c, inbox, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InboxContains", reflect.TypeOf((*MockDatabase)(nil).InboxContains), c, inbox, id)
+}
+
+// InboxForActor mocks base method.
+func (m *MockDatabase) InboxForActor(c context.Context, actorIRI *url.URL) (*url.URL, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "InboxForActor", c, actorIRI)
+	ret0, _ := ret[0].(*url.URL)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// InboxForActor indicates an expected call of InboxForActor.
+func (mr *MockDatabaseMockRecorder) InboxForActor(c, actorIRI interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InboxForActor", reflect.TypeOf((*MockDatabase)(nil).InboxForActor), c, actorIRI)
+}
+
+// Liked mocks base method.
 func (m *MockDatabase) Liked(c context.Context, actorIRI *url.URL) (vocab.ActivityStreamsCollection, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Liked", c, actorIRI)
@@ -322,8 +223,123 @@ func (m *MockDatabase) Liked(c context.Context, actorIRI *url.URL) (vocab.Activi
 	return ret0, ret1
 }
 
-// Liked indicates an expected call of Liked
+// Liked indicates an expected call of Liked.
 func (mr *MockDatabaseMockRecorder) Liked(c, actorIRI interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Liked", reflect.TypeOf((*MockDatabase)(nil).Liked), c, actorIRI)
+}
+
+// Lock mocks base method.
+func (m *MockDatabase) Lock(c context.Context, id *url.URL) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Lock", c, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Lock indicates an expected call of Lock.
+func (mr *MockDatabaseMockRecorder) Lock(c, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Lock", reflect.TypeOf((*MockDatabase)(nil).Lock), c, id)
+}
+
+// NewID mocks base method.
+func (m *MockDatabase) NewID(c context.Context, t vocab.Type) (*url.URL, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "NewID", c, t)
+	ret0, _ := ret[0].(*url.URL)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// NewID indicates an expected call of NewID.
+func (mr *MockDatabaseMockRecorder) NewID(c, t interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewID", reflect.TypeOf((*MockDatabase)(nil).NewID), c, t)
+}
+
+// OutboxForInbox mocks base method.
+func (m *MockDatabase) OutboxForInbox(c context.Context, inboxIRI *url.URL) (*url.URL, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "OutboxForInbox", c, inboxIRI)
+	ret0, _ := ret[0].(*url.URL)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// OutboxForInbox indicates an expected call of OutboxForInbox.
+func (mr *MockDatabaseMockRecorder) OutboxForInbox(c, inboxIRI interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OutboxForInbox", reflect.TypeOf((*MockDatabase)(nil).OutboxForInbox), c, inboxIRI)
+}
+
+// Owns mocks base method.
+func (m *MockDatabase) Owns(c context.Context, id *url.URL) (bool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Owns", c, id)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Owns indicates an expected call of Owns.
+func (mr *MockDatabaseMockRecorder) Owns(c, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Owns", reflect.TypeOf((*MockDatabase)(nil).Owns), c, id)
+}
+
+// SetInbox mocks base method.
+func (m *MockDatabase) SetInbox(c context.Context, inbox vocab.ActivityStreamsOrderedCollectionPage) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SetInbox", c, inbox)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// SetInbox indicates an expected call of SetInbox.
+func (mr *MockDatabaseMockRecorder) SetInbox(c, inbox interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetInbox", reflect.TypeOf((*MockDatabase)(nil).SetInbox), c, inbox)
+}
+
+// SetOutbox mocks base method.
+func (m *MockDatabase) SetOutbox(c context.Context, outbox vocab.ActivityStreamsOrderedCollectionPage) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SetOutbox", c, outbox)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// SetOutbox indicates an expected call of SetOutbox.
+func (mr *MockDatabaseMockRecorder) SetOutbox(c, outbox interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetOutbox", reflect.TypeOf((*MockDatabase)(nil).SetOutbox), c, outbox)
+}
+
+// Unlock mocks base method.
+func (m *MockDatabase) Unlock(c context.Context, id *url.URL) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Unlock", c, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Unlock indicates an expected call of Unlock.
+func (mr *MockDatabaseMockRecorder) Unlock(c, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unlock", reflect.TypeOf((*MockDatabase)(nil).Unlock), c, id)
+}
+
+// Update mocks base method.
+func (m *MockDatabase) Update(c context.Context, asType vocab.Type) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", c, asType)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockDatabaseMockRecorder) Update(c, asType interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockDatabase)(nil).Update), c, asType)
 }
