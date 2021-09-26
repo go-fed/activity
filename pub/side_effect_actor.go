@@ -4,10 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/go-fed/activity/streams"
-	"github.com/go-fed/activity/streams/vocab"
 	"net/http"
 	"net/url"
+
+	"github.com/go-fed/activity/streams"
+	"github.com/go-fed/activity/streams/vocab"
 )
 
 // sideEffectActor must satisfy the DelegateActor interface.
@@ -676,18 +677,64 @@ func (a *sideEffectActor) prepare(c context.Context, outboxIRI *url.URL, activit
 	//    server MAY deliver that object to all known sharedInbox endpoints
 	//    on the network.
 	r = filterURLs(r, IsPublic)
+
+	// first check if the implemented database logic can return any inboxes
+	// from our list of actor IRIs.
+	foundInboxesFromDB := []*url.URL{}
+	foundActorsFromDB := []*url.URL{}
+	for _, actorIRI := range r {
+		// BEGIN LOCK
+		err = a.db.Lock(c, actorIRI)
+		if err != nil {
+			return
+		}
+
+		inbox, err := a.db.InboxForActor(c, actorIRI)
+		if err != nil {
+			// bail on error
+			a.db.Unlock(c, actorIRI)
+			return nil, err
+		}
+		if inbox != nil {
+			// we have a hit
+			foundInboxesFromDB = append(foundInboxesFromDB, inbox)
+			foundActorsFromDB = append(foundActorsFromDB, actorIRI)
+		}
+
+		// END LOCK
+		a.db.Unlock(c, actorIRI)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	// for every actor we found an inbox for in the db, we should
+	// remove it from the list of actors we still need to dereference
+	for _, actorIRI := range foundActorsFromDB {
+		r = removeOne(r, actorIRI)
+	}
+
+	// look for any actors' inboxes that weren't already discovered above;
+	// find these by making dereference calls to remote instances
 	t, err := a.common.NewTransport(c, outboxIRI, goFedUserAgent())
 	if err != nil {
 		return nil, err
 	}
-	receiverActors, err := a.resolveInboxes(c, t, r, 0, a.s2s.MaxDeliveryRecursionDepth(c))
+	foundActorsFromRemote, err := a.resolveActors(c, t, r, 0, a.s2s.MaxDeliveryRecursionDepth(c))
 	if err != nil {
 		return nil, err
 	}
-	targets, err := getInboxes(receiverActors)
+	foundInboxesFromRemote, err := getInboxes(foundActorsFromRemote)
 	if err != nil {
 		return nil, err
 	}
+
+	// combine this list of dereferenced inbox IRIs with the inboxes we already
+	// found in the db, to make a complete list of target IRIs
+	targets := []*url.URL{}
+	targets = append(targets, foundInboxesFromDB...)
+	targets = append(targets, foundInboxesFromRemote...)
+
 	// Get inboxes of sender.
 	err = a.db.Lock(c, outboxIRI)
 	if err != nil {
@@ -723,7 +770,7 @@ func (a *sideEffectActor) prepare(c context.Context, outboxIRI *url.URL, activit
 	return r, nil
 }
 
-// resolveInboxes takes a list of Actor id URIs and returns them as concrete
+// resolveActors takes a list of Actor id URIs and returns them as concrete
 // instances of actorObject. It attempts to apply recursively when it encounters
 // a target that is a Collection or OrderedCollection.
 //
@@ -733,7 +780,7 @@ func (a *sideEffectActor) prepare(c context.Context, outboxIRI *url.URL, activit
 // dereference the collection, WITH the user's credentials.
 //
 // Note that this also applies to CollectionPage and OrderedCollectionPage.
-func (a *sideEffectActor) resolveInboxes(c context.Context, t Transport, r []*url.URL, depth, maxDepth int) (actors []vocab.Type, err error) {
+func (a *sideEffectActor) resolveActors(c context.Context, t Transport, r []*url.URL, depth, maxDepth int) (actors []vocab.Type, err error) {
 	if maxDepth > 0 && depth >= maxDepth {
 		return
 	}
@@ -748,7 +795,7 @@ func (a *sideEffectActor) resolveInboxes(c context.Context, t Transport, r []*ur
 			continue
 		}
 		var recurActors []vocab.Type
-		recurActors, err = a.resolveInboxes(c, t, more, depth+1, maxDepth)
+		recurActors, err = a.resolveActors(c, t, more, depth+1, maxDepth)
 		if err != nil {
 			return
 		}
