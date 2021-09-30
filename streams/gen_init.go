@@ -60,6 +60,7 @@ import (
 	propertyrelationship "github.com/go-fed/activity/streams/impl/activitystreams/property_relationship"
 	propertyreplies "github.com/go-fed/activity/streams/impl/activitystreams/property_replies"
 	propertyresult "github.com/go-fed/activity/streams/impl/activitystreams/property_result"
+	propertysensitive "github.com/go-fed/activity/streams/impl/activitystreams/property_sensitive"
 	propertyshares "github.com/go-fed/activity/streams/impl/activitystreams/property_shares"
 	propertysource "github.com/go-fed/activity/streams/impl/activitystreams/property_source"
 	propertystartindex "github.com/go-fed/activity/streams/impl/activitystreams/property_startindex"
@@ -238,6 +239,7 @@ func init() {
 	propertyrelationship.SetManager(mgr)
 	propertyreplies.SetManager(mgr)
 	propertyresult.SetManager(mgr)
+	propertysensitive.SetManager(mgr)
 	propertyshares.SetManager(mgr)
 	propertysource.SetManager(mgr)
 	propertystartindex.SetManager(mgr)

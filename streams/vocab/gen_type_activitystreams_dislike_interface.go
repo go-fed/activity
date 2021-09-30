@@ -93,6 +93,9 @@ type ActivityStreamsDislike interface {
 	// GetActivityStreamsResult returns the "result" property if it exists,
 	// and nil otherwise.
 	GetActivityStreamsResult() ActivityStreamsResultProperty
+	// GetActivityStreamsSensitive returns the "sensitive" property if it
+	// exists, and nil otherwise.
+	GetActivityStreamsSensitive() ActivityStreamsSensitiveProperty
 	// GetActivityStreamsShares returns the "shares" property if it exists,
 	// and nil otherwise.
 	GetActivityStreamsShares() ActivityStreamsSharesProperty
@@ -211,6 +214,8 @@ type ActivityStreamsDislike interface {
 	SetActivityStreamsReplies(i ActivityStreamsRepliesProperty)
 	// SetActivityStreamsResult sets the "result" property.
 	SetActivityStreamsResult(i ActivityStreamsResultProperty)
+	// SetActivityStreamsSensitive sets the "sensitive" property.
+	SetActivityStreamsSensitive(i ActivityStreamsSensitiveProperty)
 	// SetActivityStreamsShares sets the "shares" property.
 	SetActivityStreamsShares(i ActivityStreamsSharesProperty)
 	// SetActivityStreamsSource sets the "source" property.

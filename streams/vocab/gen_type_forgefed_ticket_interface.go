@@ -96,6 +96,9 @@ type ForgeFedTicket interface {
 	// GetActivityStreamsReplies returns the "replies" property if it exists,
 	// and nil otherwise.
 	GetActivityStreamsReplies() ActivityStreamsRepliesProperty
+	// GetActivityStreamsSensitive returns the "sensitive" property if it
+	// exists, and nil otherwise.
+	GetActivityStreamsSensitive() ActivityStreamsSensitiveProperty
 	// GetActivityStreamsShares returns the "shares" property if it exists,
 	// and nil otherwise.
 	GetActivityStreamsShares() ActivityStreamsSharesProperty
@@ -220,6 +223,8 @@ type ForgeFedTicket interface {
 	SetActivityStreamsPublished(i ActivityStreamsPublishedProperty)
 	// SetActivityStreamsReplies sets the "replies" property.
 	SetActivityStreamsReplies(i ActivityStreamsRepliesProperty)
+	// SetActivityStreamsSensitive sets the "sensitive" property.
+	SetActivityStreamsSensitive(i ActivityStreamsSensitiveProperty)
 	// SetActivityStreamsShares sets the "shares" property.
 	SetActivityStreamsShares(i ActivityStreamsSharesProperty)
 	// SetActivityStreamsSource sets the "source" property.

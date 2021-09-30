@@ -60,6 +60,7 @@ import (
 	propertyrelationship "github.com/go-fed/activity/streams/impl/activitystreams/property_relationship"
 	propertyreplies "github.com/go-fed/activity/streams/impl/activitystreams/property_replies"
 	propertyresult "github.com/go-fed/activity/streams/impl/activitystreams/property_result"
+	propertysensitive "github.com/go-fed/activity/streams/impl/activitystreams/property_sensitive"
 	propertyshares "github.com/go-fed/activity/streams/impl/activitystreams/property_shares"
 	propertysource "github.com/go-fed/activity/streams/impl/activitystreams/property_source"
 	propertystartindex "github.com/go-fed/activity/streams/impl/activitystreams/property_startindex"
@@ -1874,6 +1875,19 @@ func (this Manager) DeserializeRepositoryForgeFed() func(map[string]interface{},
 func (this Manager) DeserializeResultPropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsResultProperty, error) {
 	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsResultProperty, error) {
 		i, err := propertyresult.DeserializeResultProperty(m, aliasMap)
+		if i == nil {
+			return nil, err
+		}
+		return i, err
+	}
+}
+
+// DeserializeSensitivePropertyActivityStreams returns the deserialization method
+// for the "ActivityStreamsSensitiveProperty" non-functional property in the
+// vocabulary "ActivityStreams"
+func (this Manager) DeserializeSensitivePropertyActivityStreams() func(map[string]interface{}, map[string]string) (vocab.ActivityStreamsSensitiveProperty, error) {
+	return func(m map[string]interface{}, aliasMap map[string]string) (vocab.ActivityStreamsSensitiveProperty, error) {
+		i, err := propertysensitive.DeserializeSensitiveProperty(m, aliasMap)
 		if i == nil {
 			return nil, err
 		}
