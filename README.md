@@ -96,8 +96,8 @@ libraries.
 Thanks to those who have been early adopters with v0 and/or provided early
 feedback.
 
-[Build-Status-Image]: https://travis-ci.org/go-fed/activity.svg?branch=master
-[Build-Status-Url]: https://travis-ci.org/go-fed/activity
+[Build-Status-Image]: https://github.com/go-fed/activity/workflows/build/badge.svg
+[Build-Status-Url]: https://github.com/go-fed/activity/actions
 [Go-Reference-Image]: https://pkg.go.dev/badge/github.com/go-fed/activity
 [Go-Reference-Url]: https://pkg.go.dev/github.com/go-fed/activity
 [Go-Report-Card-Image]: https://goreportcard.com/badge/github.com/go-fed/activity
