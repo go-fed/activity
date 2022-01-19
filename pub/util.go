@@ -399,6 +399,16 @@ func dedupeIRIs(recipients, ignored []*url.URL) (out []*url.URL) {
 	return
 }
 
+// removeOne removes any occurrences of entry from a slice of entries.
+func removeOne(entries []*url.URL, entry *url.URL) (out []*url.URL) {
+	for _, e := range entries {
+		if e.String() != entry.String() {
+			out = append(out, e)
+		}
+	}
+	return out
+}
+
 // stripHiddenRecipients removes "bto" and "bcc" from the activity.
 //
 // Note that this requirement of the specification is under "Section 6: Client

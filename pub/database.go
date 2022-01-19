@@ -58,6 +58,13 @@ type Database interface {
 	//
 	// The library makes this call only after acquiring a lock first.
 	OutboxForInbox(c context.Context, inboxIRI *url.URL) (outboxIRI *url.URL, err error)
+	// InboxForActor fetches the inbox corresponding to the given actorIRI.
+	//
+	// It is acceptable to just return nil for the inboxIRI. In this case, the library will
+	// attempt to resolve the inbox of the actor by remote dereferencing instead.
+	//
+	// The library makes this call only after acquiring a lock first.
+	InboxForActor(c context.Context, actorIRI *url.URL) (inboxIRI *url.URL, err error)
 	// Exists returns true if the database has an entry for the specified
 	// id. It may not be owned by this application instance.
 	//
