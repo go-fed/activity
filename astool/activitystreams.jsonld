@@ -4871,6 +4871,29 @@
           "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-deleted"
         },
         {
+          "id": "https://www.w3.org/ns/activitystreams#sensitive",
+          "type": [
+            "rdf:Property",
+            "owl:ObjectProperty"
+          ],
+          "notes": "Indicates that some users may wish to apply discretion about viewing this object's content, whether due to nudity, violence, or any other likely aspects that viewers may be sensitive to.",
+          "domain": {
+            "type": "owl:Class",
+            "unionOf": {
+              "type": "owl:Class",
+              "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object",
+              "name": "Object"
+            }
+          },
+          "isDefinedBy": "https://www.w3.org/TR/activitystreams-vocabulary/#sensitive",
+          "range": {
+            "type": "owl:Class",
+            "unionOf": "xsd:boolean"
+          },
+          "name": "sensitive",
+          "url": "https://www.w3.org/TR/activitystreams-vocabulary/#sensitive"
+        },
+        {
           "id": "https://www.w3.org/TR/activitypub/#inbox",
           "type": [
             "rdf:Property",
