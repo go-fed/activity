@@ -199,19 +199,19 @@ func (mr *MockDatabaseMockRecorder) InboxContains(c, inbox, id interface{}) *gom
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InboxContains", reflect.TypeOf((*MockDatabase)(nil).InboxContains), c, inbox, id)
 }
 
-// InboxForActor mocks base method.
-func (m *MockDatabase) InboxForActor(c context.Context, actorIRI *url.URL) (*url.URL, error) {
+// InboxesForIRI mocks base method.
+func (m *MockDatabase) InboxesForIRI(c context.Context, iri *url.URL) ([]*url.URL, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "InboxForActor", c, actorIRI)
-	ret0, _ := ret[0].(*url.URL)
+	ret := m.ctrl.Call(m, "InboxesForIRI", c, iri)
+	ret0, _ := ret[0].([]*url.URL)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// InboxForActor indicates an expected call of InboxForActor.
-func (mr *MockDatabaseMockRecorder) InboxForActor(c, actorIRI interface{}) *gomock.Call {
+// InboxesForIRI indicates an expected call of InboxesForIRI.
+func (mr *MockDatabaseMockRecorder) InboxesForIRI(c, iri interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InboxForActor", reflect.TypeOf((*MockDatabase)(nil).InboxForActor), c, actorIRI)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InboxesForIRI", reflect.TypeOf((*MockDatabase)(nil).InboxesForIRI), c, iri)
 }
 
 // Liked mocks base method.
