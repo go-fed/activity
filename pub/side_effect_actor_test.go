@@ -1123,6 +1123,17 @@ func TestDeliver(t *testing.T) {
 			mustSerializeToBytes(testFederatedPerson1), nil)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
 			mustSerializeToBytes(testFederatedPerson2), nil)
+
+		// Inbox for first recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
@@ -1162,6 +1173,17 @@ func TestDeliver(t *testing.T) {
 			mustSerializeToBytes(testFederatedPerson1), nil)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
 			mustSerializeToBytes(testFederatedPerson2), nil)
+
+		// Inbox for first recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
@@ -1200,6 +1222,17 @@ func TestDeliver(t *testing.T) {
 			mustSerializeToBytes(testFederatedPerson1), nil)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
 			mustSerializeToBytes(testFederatedPerson2), nil)
+
+		// Inbox for first recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
@@ -1239,6 +1272,17 @@ func TestDeliver(t *testing.T) {
 			mustSerializeToBytes(testFederatedPerson1), nil)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
 			mustSerializeToBytes(testFederatedPerson2), nil)
+
+		// Inbox for first recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
@@ -1277,6 +1321,17 @@ func TestDeliver(t *testing.T) {
 			mustSerializeToBytes(testFederatedPerson1), nil)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
 			mustSerializeToBytes(testFederatedPerson2), nil)
+
+		// Inbox for first recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
@@ -1316,6 +1371,17 @@ func TestDeliver(t *testing.T) {
 			mustSerializeToBytes(testFederatedPerson1), nil)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
 			mustSerializeToBytes(testFederatedPerson2), nil)
+
+		// Inbox for first recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
@@ -1355,6 +1421,9 @@ func TestDeliver(t *testing.T) {
 			mustSerializeToBytes(testFederatedPerson1), nil)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
 			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testAudienceIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
@@ -1394,6 +1463,9 @@ func TestDeliver(t *testing.T) {
 			mustSerializeToBytes(testFederatedPerson1), nil)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI4)).Return(
 			mustSerializeToBytes(testFederatedPerson2), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testAudienceIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
@@ -1425,6 +1497,9 @@ func TestDeliver(t *testing.T) {
 		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testAudienceIRI)).Return(
 			mustSerializeToBytes(testCollectionOfActors), nil)
+		mockDb.EXPECT().Lock(ctx, mustParse(testAudienceIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testAudienceIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testAudienceIRI))
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
@@ -1478,6 +1553,47 @@ func TestDeliver(t *testing.T) {
 			mustSerializeToBytes(testFederatedPerson1), nil).Times(4)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
 			mustSerializeToBytes(testFederatedPerson2), nil).Times(4)
+
+		// Inbox for first to
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second to
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
+		// Inbox for first bto
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second bto
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
+		// Inbox for first cc
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second cc
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
+		// Inbox for first bcc
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second bcc
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
@@ -1518,6 +1634,17 @@ func TestDeliver(t *testing.T) {
 			mustSerializeToBytes(testFederatedPerson1), nil)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
 			mustSerializeToBytes(testFederatedPerson2), nil)
+
+		// Inbox for first recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
@@ -1554,6 +1681,17 @@ func TestDeliver(t *testing.T) {
 		c.EXPECT().NewTransport(ctx, mustParse(testMyOutboxIRI), goFedUserAgent()).Return(
 			mockTp, nil)
 		mockFp.EXPECT().MaxDeliveryRecursionDepth(ctx).Return(1)
+
+		// Inbox for first recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI)).Return(
 			mustSerializeToBytes(testFederatedPerson1), nil)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
@@ -1595,6 +1733,17 @@ func TestDeliver(t *testing.T) {
 			[]byte{}, fmt.Errorf("test error"))
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
 			mustSerializeToBytes(testFederatedPerson2), nil)
+
+		// Inbox for first recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
@@ -1634,6 +1783,17 @@ func TestDeliver(t *testing.T) {
 			mustSerializeToBytes(testFederatedPerson1), nil)
 		mockTp.EXPECT().Dereference(ctx, mustParse(testFederatedActorIRI2)).Return(
 			mustSerializeToBytes(testFederatedPerson2), nil)
+
+		// Inbox for first recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI))
+
+		// Inbox for second recipient
+		mockDb.EXPECT().Lock(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().InboxForActor(ctx, mustParse(testFederatedActorIRI2))
+		mockDb.EXPECT().Unlock(ctx, mustParse(testFederatedActorIRI2))
+
 		mockDb.EXPECT().Lock(ctx, mustParse(testMyOutboxIRI))
 		mockDb.EXPECT().ActorForOutbox(ctx, mustParse(testMyOutboxIRI)).Return(
 			mustParse(testPersonIRI), nil)
