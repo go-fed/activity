@@ -65,6 +65,7 @@ func TestHttpSigTransportDereference(t *testing.T) {
 		expectReq.Header.Add(acceptHeader, acceptHeaderValue)
 		expectReq.Header.Add("Accept-Charset", "utf-8")
 		expectReq.Header.Add("Date", nowDateHeader())
+		expectReq.Header.Add("Host", "example.com")
 		expectReq.Header.Add("User-Agent", fmt.Sprintf("%s %s", testAppAgent, goFedUserAgent()))
 		respR := httptest.NewRecorder()
 		respR.Write(testRespBody)
