@@ -2,6 +2,7 @@ package streams
 
 import (
 	"github.com/go-fed/activity/streams/vocab"
+	"sort"
 )
 
 const (
@@ -49,8 +50,19 @@ func Serialize(a vocab.Type) (m map[string]interface{}, e error) {
 		contextValue = arr
 	}
 	// TODO: Update the context instead if it already exists
+	if arr, isArray := contextValue.([]interface{}); isArray {
+		sort.Slice(arr, func(i, j int) bool {
+			iStr, iIsStr := arr[i].(string)
+			jStr, jIsStr := arr[j].(string)
+			if iIsStr && jIsStr {
+				return iStr < jStr
+			}
+			// TODO Handle ordering of objects in context
+			return false
+		})
+		contextValue = arr
+	}
 	m[jsonLDContext] = contextValue
-	// TODO: Sort the context based on arbitrary order.
 	// Delete any existing `@context` in child maps.
 	var cleanFnRecur func(map[string]interface{})
 	cleanFnRecur = func(r map[string]interface{}) {
